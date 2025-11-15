@@ -1,24 +1,25 @@
-# Testing with Karma and Jasmine
+<!-- ia-translate: true -->
+# Testando com Karma e Jasmine
 
-While [Vitest](https://vitest.dev) is the default test runner for new Angular projects, [Karma](https://karma-runner.github.io) is still a supported and widely used test runner. This guide provides instructions for testing your Angular application using the Karma test runner with the [Jasmine](https://jasmine.github.io) testing framework.
+Embora [Vitest](https://vitest.dev) seja o test runner padrão para novos projetos Angular, [Karma](https://karma-runner.github.io) ainda é um test runner suportado e amplamente usado. Este guia fornece instruções para testar sua aplicação Angular usando o test runner Karma com o framework de teste [Jasmine](https://jasmine.github.io).
 
-## Setting Up Karma and Jasmine
+## Configurando Karma e Jasmine
 
-You can set up Karma and Jasmine for a new project or add it to an existing one.
+Você pode configurar Karma e Jasmine para um novo projeto ou adicioná-lo a um existente.
 
-### For New Projects
+### Para Novos Projetos
 
-To create a new project with Karma and Jasmine pre-configured, run the `ng new` command with the `--test-runner=karma` option:
+Para criar um novo projeto com Karma e Jasmine pré-configurados, execute o comando `ng new` com a opção `--test-runner=karma`:
 
 ```shell
 ng new my-karma-app --test-runner=karma
 ```
 
-### For Existing Projects
+### Para Projetos Existentes
 
-To add Karma and Jasmine to an existing project, follow these steps:
+Para adicionar Karma e Jasmine a um projeto existente, siga estes passos:
 
-1.  **Install the necessary packages:**
+1.  **Instale os pacotes necessários:**
 
     <docs-code-multifile>
       <docs-code header="pnpm" language="shell">
@@ -32,9 +33,9 @@ To add Karma and Jasmine to an existing project, follow these steps:
       </docs-code>
     </docs-code-multifile>
 
-2.  **Configure the test runner in `angular.json`:**
+2.  **Configure o test runner em `angular.json`:**
 
-    In your `angular.json` file, find the `test` target and set the `runner` option to `karma`:
+    No seu arquivo `angular.json`, encontre o target `test` e defina a opção `runner` como `karma`:
 
     ```json
     {
@@ -56,9 +57,9 @@ To add Karma and Jasmine to an existing project, follow these steps:
     }
     ```
 
-3.  **Update `tsconfig.spec.json` for Jasmine types:**
+3.  **Atualize `tsconfig.spec.json` para tipos Jasmine:**
 
-    To ensure TypeScript recognizes global testing functions like `describe` and `it`, add `"jasmine"` to the `types` array in your `tsconfig.spec.json`:
+    Para garantir que o TypeScript reconheça funções de teste globais como `describe` e `it`, adicione `"jasmine"` ao array `types` em seu `tsconfig.spec.json`:
 
     ```json
     {
@@ -73,17 +74,17 @@ To add Karma and Jasmine to an existing project, follow these steps:
     }
     ```
 
-## Running Tests
+## Executando Testes
 
-Once your project is configured, run the tests using the [`ng test`](cli/test) command:
+Depois que seu projeto estiver configurado, execute os testes usando o comando [`ng test`](cli/test):
 
 ```shell
 ng test
 ```
 
-The `ng test` command builds the application in _watch mode_ and launches the [Karma test runner](https://karma-runner.github.io).
+O comando `ng test` builda a aplicação no modo _watch_ e lança o [test runner Karma](https://karma-runner.github.io).
 
-The console output looks like below:
+A saída do console parece com o seguinte:
 
 ```shell
 
@@ -96,21 +97,21 @@ TOTAL: 3 SUCCESS
 
 ```
 
-The test output is displayed in the browser using [Karma Jasmine HTML Reporter](https://github.com/dfederm/karma-jasmine-html-reporter).
+A saída do teste é exibida no browser usando [Karma Jasmine HTML Reporter](https://github.com/dfederm/karma-jasmine-html-reporter).
 
-<img alt="Jasmine HTML Reporter in the browser" src="assets/images/guide/testing/initial-jasmine-html-reporter.png">
+<img alt="Jasmine HTML Reporter no browser" src="assets/images/guide/testing/initial-jasmine-html-reporter.png">
 
-Click on a test row to re-run just that test or click on a description to re-run the tests in the selected test group ("test suite").
+Clique em uma linha de teste para executar novamente apenas aquele teste ou clique em uma descrição para executar novamente os testes no grupo de teste selecionado ("test suite").
 
-Meanwhile, the `ng test` command is watching for changes. To see this in action, make a small change to a source file and save. The tests run again, the browser refreshes, and the new test results appear.
+Enquanto isso, o comando `ng test` está observando mudanças. Para ver isso em ação, faça uma pequena alteração em um arquivo fonte e salve. Os testes executam novamente, o browser atualiza, e os novos resultados do teste aparecem.
 
-## Configuration
+## Configuração
 
-The Angular CLI takes care of Jasmine and Karma configuration for you. It constructs the full configuration in memory, based on options specified in the `angular.json` file.
+O Angular CLI cuida da configuração do Jasmine e Karma para você. Ele constrói a configuração completa na memória, baseada em opções especificadas no arquivo `angular.json`.
 
-### Customizing Karma Configuration
+### Personalizando Configuração do Karma
 
-If you want to customize Karma, you can create a `karma.conf.js` by running the following command:
+Se você quiser personalizar o Karma, pode criar um `karma.conf.js` executando o seguinte comando:
 
 ```shell
 
@@ -118,11 +119,11 @@ ng generate config karma
 
 ```
 
-HELPFUL: Read more about Karma configuration in the [Karma configuration guide](http://karma-runner.github.io/6.4/config/configuration-file.html).
+HELPFUL: Leia mais sobre configuração do Karma no [guia de configuração do Karma](http://karma-runner.github.io/6.4/config/configuration-file.html).
 
-### Setting the Test Runner in `angular.json`
+### Definindo o Test Runner em `angular.json`
 
-To explicitly set Karma as the test runner for your project, locate the `test` target in your `angular.json` file and set the `runner` option to `karma`:
+Para definir explicitamente o Karma como test runner para seu projeto, localize o target `test` em seu arquivo `angular.json` e defina a opção `runner` como `karma`:
 
 ```json
 {
@@ -144,11 +145,11 @@ To explicitly set Karma as the test runner for your project, locate the `test` t
 }
 ```
 
-## Code coverage enforcement
+## Aplicação de cobertura de código
 
-To enforce a minimum code coverage level, you can use the `check` property in the `coverageReporter` section of your `karma.conf.js` file.
+Para aplicar um nível mínimo de cobertura de código, você pode usar a propriedade `check` na seção `coverageReporter` do seu arquivo `karma.conf.js`.
 
-For example, to require a minimum of 80% coverage:
+Por exemplo, para requerer um mínimo de 80% de cobertura:
 
 ```javascript
 coverageReporter: {
@@ -169,14 +170,14 @@ coverageReporter: {
 }
 ```
 
-This will cause the test run to fail if the specified coverage thresholds are not met.
+Isso fará com que a execução do teste falhe se os limites de cobertura especificados não forem atingidos.
 
-## Testing in continuous integration
+## Testando em integração contínua
 
-To run your Karma tests in a CI environment, use the following command:
+Para executar seus testes Karma em um ambiente CI, use o seguinte comando:
 
 ```shell
 ng test --no-watch --no-progress --browsers=ChromeHeadless
 ```
 
-NOTE: The `--no-watch` and `--no-progress` flags are crucial for Karma in CI environments to ensure tests run once and exit cleanly. The `--browsers=ChromeHeadless` flag is also essential for running tests in a browser environment without a graphical interface.
+NOTE: As flags `--no-watch` e `--no-progress` são cruciais para o Karma em ambientes CI para garantir que os testes executem uma vez e saiam de forma limpa. A flag `--browsers=ChromeHeadless` também é essencial para executar testes em um ambiente de browser sem uma interface gráfica.

@@ -1,4 +1,5 @@
-# Example Angular Internationalization application
+<!-- ia-translate: true -->
+# Exemplo de aplicação de Internacionalização no Angular
 
 <!-- ## Explore the translated example application -->
 
@@ -6,9 +7,9 @@
 <!-- TODO: link to GitHub -->
 <!-- <docs-code live path="adev/src/content/examples/i18n" title="live example"/> -->
 
-## `fr-CA` and `en-US` example
+## Exemplo de `fr-CA` e `en-US`
 
-The following tabs display the example application and the associated translation files.
+As seguintes abas exibem a aplicação de exemplo e os arquivos de tradução associados.
 
 <docs-code-multifile>
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html"/>
