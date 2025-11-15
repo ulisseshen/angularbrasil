@@ -1,75 +1,76 @@
-# Router reference
+<!-- ia-translate: true -->
+# Referência do Router
 
-The following sections highlight some core router concepts and terminology.
+As seções a seguir destacam alguns conceitos e terminologias centrais do router.
 
-## Router events
+## Eventos do Router
 
-During each navigation, the `Router` emits navigation events through the `Router.events` property.
-These events are shown in the following table.
+Durante cada navegação, o `Router` emite eventos de navegação através da propriedade `Router.events`.
+Estes eventos são mostrados na tabela a seguir.
 
-| Router event                                              | Details                                                                                                                                                                |
+| Evento do Router                                          | Detalhes                                                                                                                                                                |
 | :-------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)           | Triggered when navigation starts.                                                                                                                                      |
-| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Triggered before the `Router` lazy loads a route configuration.                                                                                                        |
-| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Triggered after a route has been lazy loaded.                                                                                                                          |
-| [`RoutesRecognized`](api/router/RoutesRecognized)         | Triggered when the Router parses the URL and the routes are recognized.                                                                                                |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Triggered when the Router begins the Guards phase of routing.                                                                                                          |
-| [`ChildActivationStart`](api/router/ChildActivationStart) | Triggered when the Router begins activating a route's children.                                                                                                        |
-| [`ActivationStart`](api/router/ActivationStart)           | Triggered when the Router begins activating a route.                                                                                                                   |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Triggered when the Router finishes the Guards phase of routing successfully.                                                                                           |
-| [`ResolveStart`](api/router/ResolveStart)                 | Triggered when the Router begins the Resolve phase of routing.                                                                                                         |
-| [`ResolveEnd`](api/router/ResolveEnd)                     | Triggered when the Router finishes the Resolve phase of routing successfully.                                                                                          |
-| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Triggered when the Router finishes activating a route's children.                                                                                                      |
-| [`ActivationEnd`](api/router/ActivationEnd)               | Triggered when the Router finishes activating a route.                                                                                                                 |
-| [`NavigationEnd`](api/router/NavigationEnd)               | Triggered when navigation ends successfully.                                                                                                                           |
-| [`NavigationCancel`](api/router/NavigationCancel)         | Triggered when navigation is canceled. This can happen when a Route Guard returns false during navigation, or redirects by returning a `UrlTree` or `RedirectCommand`. |
-| [`NavigationError`](api/router/NavigationError)           | Triggered when navigation fails due to an unexpected error.                                                                                                            |
-| [`Scroll`](api/router/Scroll)                             | Represents a scrolling event.                                                                                                                                          |
+| [`NavigationStart`](api/router/NavigationStart)           | Acionado quando a navegação começa.                                                                                                                                      |
+| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Acionado antes do `Router` fazer lazy load de uma configuração de rota.                                                                                                        |
+| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Acionado após uma rota ter sido carregada com lazy loading.                                                                                                                          |
+| [`RoutesRecognized`](api/router/RoutesRecognized)         | Acionado quando o Router analisa a URL e as rotas são reconhecidas.                                                                                                |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Acionado quando o Router inicia a fase de Guards do routing.                                                                                                          |
+| [`ChildActivationStart`](api/router/ChildActivationStart) | Acionado quando o Router inicia a ativação dos filhos de uma rota.                                                                                                        |
+| [`ActivationStart`](api/router/ActivationStart)           | Acionado quando o Router inicia a ativação de uma rota.                                                                                                                   |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Acionado quando o Router finaliza a fase de Guards do routing com sucesso.                                                                                           |
+| [`ResolveStart`](api/router/ResolveStart)                 | Acionado quando o Router inicia a fase de Resolve do routing.                                                                                                         |
+| [`ResolveEnd`](api/router/ResolveEnd)                     | Acionado quando o Router finaliza a fase de Resolve do routing com sucesso.                                                                                          |
+| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Acionado quando o Router finaliza a ativação dos filhos de uma rota.                                                                                                      |
+| [`ActivationEnd`](api/router/ActivationEnd)               | Acionado quando o Router finaliza a ativação de uma rota.                                                                                                                 |
+| [`NavigationEnd`](api/router/NavigationEnd)               | Acionado quando a navegação termina com sucesso.                                                                                                                           |
+| [`NavigationCancel`](api/router/NavigationCancel)         | Acionado quando a navegação é cancelada. Isso pode acontecer quando um Route Guard retorna false durante a navegação, ou redireciona retornando um `UrlTree` ou `RedirectCommand`. |
+| [`NavigationError`](api/router/NavigationError)           | Acionado quando a navegação falha devido a um erro inesperado.                                                                                                            |
+| [`Scroll`](api/router/Scroll)                             | Representa um evento de scroll.                                                                                                                                          |
 
-When you enable the `withDebugTracing` feature, Angular logs these events to the console.
+Quando você habilita a feature `withDebugTracing`, o Angular registra esses eventos no console.
 
-## Router terminology
+## Terminologia do Router
 
-Here are the key `Router` terms and their meanings:
+Aqui estão os termos-chave do `Router` e seus significados:
 
-| Router part           | Details                                                                                                                                                                                                                                   |
+| Parte do Router       | Detalhes                                                                                                                                                                                                                                   |
 | :-------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Router`              | Displays the application component for the active URL. Manages navigation from one component to the next.                                                                                                                                 |
-| `provideRouter`       | provides the necessary service providers for navigating through application views.                                                                                                                                                        |
-| `RouterModule`        | A separate NgModule that provides the necessary service providers and directives for navigating through application views.                                                                                                                |
-| `Routes`              | Defines an array of Routes, each mapping a URL path to a component.                                                                                                                                                                       |
-| `Route`               | Defines how the router should navigate to a component based on a URL pattern. Most routes consist of a path and a component type.                                                                                                         |
-| `RouterOutlet`        | The directive \(`<router-outlet>`\) that marks where the router displays a view.                                                                                                                                                          |
-| `RouterLink`          | The directive for binding a clickable HTML element to a route. Clicking an element with a `routerLink` directive that's bound to a _string_ or a _link parameters array_ triggers a navigation.                                           |
-| `RouterLinkActive`    | The directive for adding/removing classes from an HTML element when an associated `routerLink` contained on or inside the element becomes active/inactive. It can also set the `aria-current` of an active link for better accessibility. |
-| `ActivatedRoute`      | A service that's provided to each route component that contains route specific information such as route parameters, static data, resolve data, global query parameters, and the global fragment.                                         |
-| `RouterState`         | The current state of the router including a tree of the currently activated routes together with convenience methods for traversing the route tree.                                                                                       |
-| Link parameters array | An array that the router interprets as a routing instruction. You can bind that array to a `RouterLink` or pass the array as an argument to the `Router.navigate` method.                                                                 |
-| Routing component     | An Angular component with a `RouterOutlet` that displays views based on router navigations.                                                                                                                                               |
+| `Router`              | Exibe o component da aplicação para a URL ativa. Gerencia a navegação de um component para o próximo.                                                                                                                                 |
+| `provideRouter`       | Fornece os service providers necessários para navegar através de views da aplicação.                                                                                                                                                        |
+| `RouterModule`        | Um NgModule separado que fornece os service providers e directives necessários para navegar através de views da aplicação.                                                                                                                |
+| `Routes`              | Define um array de Routes, cada uma mapeando um caminho de URL para um component.                                                                                                                                                                       |
+| `Route`               | Define como o router deve navegar para um component baseado em um padrão de URL. A maioria das rotas consiste de um caminho e um tipo de component.                                                                                                         |
+| `RouterOutlet`        | A directive \(`<router-outlet>`\) que marca onde o router exibe uma view.                                                                                                                                                          |
+| `RouterLink`          | A directive para vincular um elemento HTML clicável a uma rota. Clicar em um elemento com uma directive `routerLink` vinculada a uma _string_ ou a um _array de parâmetros de link_ aciona uma navegação.                                           |
+| `RouterLinkActive`    | A directive para adicionar/remover classes de um elemento HTML quando um `routerLink` associado contido no elemento ou dentro dele se torna ativo/inativo. Também pode definir o `aria-current` de um link ativo para melhor acessibilidade. |
+| `ActivatedRoute`      | Um service fornecido para cada route component que contém informações específicas da rota como parâmetros de rota, dados estáticos, dados de resolve, parâmetros de query globais e o fragmento global.                                         |
+| `RouterState`         | O estado atual do router incluindo uma árvore das rotas atualmente ativadas junto com métodos convenientes para percorrer a árvore de rotas.                                                                                       |
+| Array de parâmetros de link | Um array que o router interpreta como uma instrução de routing. Você pode vincular esse array a um `RouterLink` ou passar o array como argumento para o método `Router.navigate`.                                                                 |
+| Routing component     | Um component Angular com um `RouterOutlet` que exibe views baseado em navegações do router.                                                                                                                                               |
 
 ## `<base href>`
 
-The router uses the browser's [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state') for navigation.
-`pushState` lets you customize in-application URL paths; for example, `localhost:4200/crisis-center`.
-The in-application URLs can be indistinguishable from server URLs.
+O router usa o [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state') do navegador para navegação.
+`pushState` permite personalizar caminhos de URL dentro da aplicação; por exemplo, `localhost:4200/crisis-center`.
+As URLs dentro da aplicação podem ser indistinguíveis de URLs do servidor.
 
-Modern HTML5 browsers were the first to support `pushState` which is why many people refer to these URLs as "HTML5 style" URLs.
+Os navegadores HTML5 modernos foram os primeiros a suportar `pushState`, razão pela qual muitas pessoas se referem a essas URLs como URLs "estilo HTML5".
 
-HELPFUL: HTML5 style navigation is the router default.
-In the [LocationStrategy and browser URL styles](common-router-tasks#locationstrategy-and-browser-url-styles) section, learn why HTML5 style is preferable, how to adjust its behavior, and how to switch to the older hash \(`#`\) style, if necessary.
+DICA: A navegação estilo HTML5 é o padrão do router.
+Na seção [LocationStrategy e estilos de URL do browser](common-router-tasks#locationstrategy-and-browser-url-styles), saiba por que o estilo HTML5 é preferível, como ajustar seu comportamento e como mudar para o estilo hash \(`#`\) mais antigo, se necessário.
 
-You must add a [`<base href>` element](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') to the application's `index.html` for `pushState` routing to work.
-The browser uses the `<base href>` value to prefix relative URLs when referencing CSS files, scripts, and images.
+Você deve adicionar um [elemento `<base href>`](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') ao `index.html` da aplicação para que o routing `pushState` funcione.
+O navegador usa o valor `<base href>` para prefixar URLs relativas ao referenciar arquivos CSS, scripts e imagens.
 
-Add the `<base>` element just after the `<head>` tag.
-If the `app` folder is the application root, as it is for this application, set the `href` value in `index.html` as shown here.
+Adicione o elemento `<base>` logo após a tag `<head>`.
+Se a pasta `app` é a raiz da aplicação, como é para esta aplicação, defina o valor `href` em `index.html` como mostrado aqui.
 
 <docs-code header="src/index.html (base-href)" path="adev/src/content/examples/router/src/index.html" visibleRegion="base-href"/>
 
-### HTML5 URLs and the `<base href>`
+### URLs HTML5 e o `<base href>`
 
-The guidelines that follow will refer to different parts of a URL.
-This diagram outlines what those parts refer to:
+As diretrizes a seguir farão referência a diferentes partes de uma URL.
+Este diagrama descreve a que essas partes se referem:
 
 <docs-code hideCopy language="text">
 foo://example.com:8042/over/there?name=ferret#nose
@@ -78,36 +79,36 @@ foo://example.com:8042/over/there?name=ferret#nose
 scheme    authority      path        query   fragment
 </docs-code>
 
-While the router uses the [HTML5 pushState](https://developer.mozilla.org/docs/Web/API/History_API#Adding_and_modifying_history_entries 'Browser history push-state') style by default, you must configure that strategy with a `<base href>`.
+Embora o router use o estilo [HTML5 pushState](https://developer.mozilla.org/docs/Web/API/History_API#Adding_and_modifying_history_entries 'Browser history push-state') por padrão, você deve configurar essa strategy com um `<base href>`.
 
-The preferred way to configure the strategy is to add a [`<base href>` element](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') tag in the `<head>` of the `index.html`.
+A forma preferida de configurar a strategy é adicionar uma [tag `<base href>`](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') no `<head>` do `index.html`.
 
 ```angular-html
 <base href="/">
 ```
 
-Without that tag, the browser might not be able to load resources \(images, CSS, scripts\) when "deep linking" into the application.
+Sem essa tag, o navegador pode não conseguir carregar recursos \(imagens, CSS, scripts\) ao fazer "deep linking" na aplicação.
 
-Some developers might not be able to add the `<base>` element, perhaps because they don't have access to `<head>` or the `index.html`.
+Alguns desenvolvedores podem não conseguir adicionar o elemento `<base>`, talvez porque não tenham acesso ao `<head>` ou ao `index.html`.
 
-Those developers can still use HTML5 URLs by taking the following two steps:
+Esses desenvolvedores ainda podem usar URLs HTML5 seguindo os dois passos a seguir:
 
-1. Provide the router with an appropriate `APP_BASE_HREF` value.
-1. Use root URLs \(URLs with an `authority`\) for all web resources: CSS, images, scripts, and template HTML files.
-   - The `<base href>` `path` should end with a "/", as browsers ignore characters in the `path` that follow the right-most "`/`"
-   - If the `<base href>` includes a `query` part, the `query` is only used if the `path` of a link in the page is empty and has no `query`.
-     This means that a `query` in the `<base href>` is only included when using `HashLocationStrategy`.
+1. Fornecer ao router um valor `APP_BASE_HREF` apropriado.
+1. Usar URLs raiz \(URLs com uma `authority`\) para todos os recursos web: CSS, imagens, scripts e arquivos HTML de template.
+   - O `path` do `<base href>` deve terminar com "/", pois os navegadores ignoram caracteres no `path` que seguem o "`/`" mais à direita
+   - Se o `<base href>` incluir uma parte `query`, a `query` só é usada se o `path` de um link na página estiver vazio e não tiver `query`.
+     Isso significa que uma `query` no `<base href>` só é incluída ao usar `HashLocationStrategy`.
 
-   - If a link in the page is a root URL \(has an `authority`\), the `<base href>` is not used.
-     In this way, an `APP_BASE_HREF` with an authority will cause all links created by Angular to ignore the `<base href>` value.
+   - Se um link na página for uma URL raiz \(tem uma `authority`\), o `<base href>` não é usado.
+     Desta forma, um `APP_BASE_HREF` com uma authority fará com que todos os links criados pelo Angular ignorem o valor `<base href>`.
 
-   - A fragment in the `<base href>` is _never_ persisted
+   - Um fragment no `<base href>` _nunca_ é persistido
 
-For more complete information on how `<base href>` is used to construct target URIs, see the [RFC](https://tools.ietf.org/html/rfc3986#section-5.2.2) section on transforming references.
+Para informações mais completas sobre como `<base href>` é usado para construir URIs de destino, veja a seção [RFC](https://tools.ietf.org/html/rfc3986#section-5.2.2) sobre transformação de referências.
 
 ### `HashLocationStrategy`
 
-Use `HashLocationStrategy` by providing the `useHash: true` in an object as the second argument of the `RouterModule.forRoot()` in the `AppModule`.
+Use `HashLocationStrategy` fornecendo `useHash: true` em um objeto como segundo argumento do `RouterModule.forRoot()` no `AppModule`.
 
 ```ts
 providers: [
@@ -115,4 +116,4 @@ providers: [
 ]
 ```
 
-When using `RouterModule.forRoot`, this is configured with the `useHash: true` in the second argument: `RouterModule.forRoot(routes, {useHash: true})`.
+Ao usar `RouterModule.forRoot`, isso é configurado com `useHash: true` no segundo argumento: `RouterModule.forRoot(routes, {useHash: true})`.
