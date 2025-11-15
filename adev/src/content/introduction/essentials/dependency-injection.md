@@ -1,19 +1,20 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Dependency Injection" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
-Reuse code and control behaviors across your application and tests.
+Reutilize código e controle comportamentos em sua aplicação e testes.
 </docs-decorative-header>
 
-When you need to share logic between components, Angular leverages the design pattern of [dependency injection](guide/di) that allows you to create a “service” which allows you to inject code into components while managing it from a single source of truth.
+Quando você precisa compartilhar lógica entre components, o Angular aproveita o padrão de design de [dependency injection](guide/di) que permite criar um "service" que possibilita injetar código em components enquanto o gerencia a partir de uma única fonte de verdade.
 
-## What are services?
+## O que são services?
 
-Services are reusable pieces of code that can be injected.
+Services são pedaços de código reutilizáveis que podem ser injetados.
 
-Similar to defining a component, services are comprised of the following:
+Semelhante à definição de um component, services são compostos pelo seguinte:
 
-- A **TypeScript decorator** that declares the class as an Angular service via `@Injectable` and allows you to define what part of the application can access the service via the `providedIn` property (which is typically `'root'`) to allow a service to be accessed anywhere within the application.
-- A **TypeScript class** that defines the desired code that will be accessible when the service is injected
+- Um **decorator TypeScript** que declara a classe como um service do Angular via `@Injectable` e permite definir que parte da aplicação pode acessar o service através da propriedade `providedIn` (que normalmente é `'root'`) para permitir que um service seja acessado em qualquer lugar dentro da aplicação.
+- Uma **classe TypeScript** que define o código desejado que estará acessível quando o service for injetado
 
-Here is an example of a `Calculator` service.
+Aqui está um exemplo de um service `Calculator`.
 
 ```angular-ts
 import {Injectable} from '@angular/core';
@@ -26,14 +27,14 @@ export class Calculator {
 }
 ```
 
-## How to use a service
+## Como usar um service
 
-When you want to use a service in a component, you need to:
+Quando você quer usar um service em um component, você precisa:
 
-1. Import the service
-2. Declare a class field where the service is injected. Assign the class field to the result of the call of the built-in function `inject` which creates the service
+1. Importar o service
+2. Declarar um campo de classe onde o service é injetado. Atribua o campo de classe ao resultado da chamada da função integrada `inject` que cria o service
 
-Here’s what it might look like in the `Receipt` component:
+Aqui está como poderia ser no component `Receipt`:
 
 ```angular-ts
 import { Component, inject } from '@angular/core';
@@ -50,11 +51,11 @@ export class Receipt {
 }
 ```
 
-In this example, the `Calculator` is being used by calling the Angular function `inject` and passing in the service to it.
+Neste exemplo, o `Calculator` está sendo usado chamando a função `inject` do Angular e passando o service para ela.
 
-## Next Step
+## Próximo Passo
 
 <docs-pill-row>
-  <docs-pill title="Next Steps After Essentials" href="essentials/next-steps" />
-  <docs-pill title="In-depth dependency injection guide" href="guide/di" />
+  <docs-pill title="Próximos Passos Após Essenciais" href="essentials/next-steps" />
+  <docs-pill title="Guia detalhado de dependency injection" href="guide/di" />
 </docs-pill-row>
