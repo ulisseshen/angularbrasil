@@ -1,51 +1,72 @@
 # Angular Documentation Translation Plans
 
-This folder contains the complete translation plan for translating all Angular documentation to Brazilian Portuguese (pt-BR).
+This folder contains translation plans for completing the Angular documentation translation to Brazilian Portuguese (pt-BR).
 
-## 📚 Overview
+## 📚 Current Status
 
-- **Total Files to Translate**: 339 markdown files (337 docs + 2 READMEs)
-- **Total Estimated Words**: ~275,000 words
-- **Translation Phases**: 31 phases (Phase 0-30)
+- **Total Documentation Files**: 339
+- **Already Translated**: 269 (79.4%)
+- **Remaining to Translate**: 70 files
 - **Translation Agent**: [.claude/agents/translate-to-pt-br.md](../.claude/agents/translate-to-pt-br.md)
 
-## 🎯 Getting Started
+## 🎯 Active Translation Plans
+
+The following 5 phases cover all remaining untranslated files:
+
+### Phase New-01: Guide - Animations, Forms, and HTTP (12 files)
+**File**: [phase-new-01-guide-animations-forms-http.md](phase-new-01-guide-animations-forms-http.md)
+**Priority**: High
+**Content**:
+- Animations (3): CSS, enter/leave, migration
+- Forms (3): overview, reactive forms, validation
+- HTTP (3): setup, security, testing
+- Other (3): routing tasks, performance, tailwind
+
+### Phase New-02: Guide - i18n and Testing (15 files)
+**File**: [phase-new-02-guide-i18n-testing.md](phase-new-02-guide-i18n-testing.md)
+**Priority**: High
+**Content**:
+- i18n (8): overview, add package, locale, format, prepare, manage, merge, example
+- Testing (7): component harnesses, utility APIs, karma, vitest migration
+
+### Phase New-03: Reference - Error Documentation (14 files)
+**File**: [phase-new-03-reference-errors.md](phase-new-03-reference-errors.md)
+**Priority**: High
+**Content**:
+- Runtime errors: NG0401, NG0501, NG0507, NG0602, NG0750, NG0751, NG0955, NG0956
+- Compiler errors: NG01101, NG01203, NG02200, NG02800, NG02802, NG05000
+
+### Phase New-04: Reference - Migrations, Configs, and Concepts (11 files)
+**File**: [phase-new-04-reference-migrations-configs.md](phase-new-04-reference-migrations-configs.md)
+**Priority**: Medium
+**Content**:
+- Migrations (8): overview, control flow, signals, outputs, inject, standalone, lazy loading
+- Configs (2): compiler options, file structure
+- Concepts (1): overview
+
+### Phase New-05: Tools, Ecosystem, Examples, and Reference (18 files)
+**File**: [phase-new-05-tools-ecosystem-examples.md](phase-new-05-tools-ecosystem-examples.md)
+**Priority**: Medium
+**Content**:
+- CLI tools (8): setup, serve, builder, environments, schematics, template typecheck
+- Libraries (2): creating libraries, package format
+- Ecosystem (3): web workers, custom build, service workers
+- Examples (2): i18n, service worker readmes
+- Reference (3): CLI reference, press kit, license, versions
+
+## 🚀 How to Use the Translation Agent
 
 ### Step 1: Read the Translation Agent Guide
-Before starting any translation, familiarize yourself with the translation guidelines:
+Before translating, familiarize yourself with the guidelines:
 - **File**: [.claude/agents/translate-to-pt-br.md](../.claude/agents/translate-to-pt-br.md)
 - **Key Requirement**: Every translated file MUST start with `<!-- ia-translate: true -->`
 - **Important**: Learn which technical terms to keep in English vs translate to Portuguese
 
 ### Step 2: Choose a Phase to Work On
-Start with **Phase 0** (most important!) or choose any phase based on priority:
+Start with high-priority phases (New-01, New-02, New-03) as they contain frequently accessed documentation.
 
-#### 🌟 **PHASE 0** (Repository Docs) - DO THIS FIRST! ⭐
-The most visible files - what people see when they visit the repo:
-0. **[Phase 0: Repository README & Docs](phase-00-repository-docs.md) - 2 files** ⭐ **START HERE FIRST!**
-
-#### 🔴 **Critical Priority** (Phases 1-8) - Documentation Introduction & Tutorials
-Best for beginners and essential for users getting started with Angular:
-1. [Phase 1: Introduction - Core Concepts](phase-01-introduction-core.md) - 5 files
-2. [Phase 2: Introduction - Advanced Essentials](phase-02-introduction-advanced.md) - 4 files
-3. [Phase 3: Tutorials - Learn Angular 1-5](phase-03-tutorials-learn-angular-1.md) - 10 files
-4. [Phase 4: Tutorials - Learn Angular 8-15](phase-04-tutorials-learn-angular-2.md) - 10 files
-5. [Phase 5: Tutorials - Learn Angular 18-25](phase-05-tutorials-learn-angular-3.md) - 10 files
-6. [Phase 6: Tutorials - First App 1-10](phase-06-tutorials-first-app-1.md) - 10 files
-7. [Phase 7: Tutorials - First App & Signals](phase-07-tutorials-first-app-signals.md) - 10 files
-8. [Phase 8: Tutorials - Signals & Deferrable Views](phase-08-tutorials-signals-deferrable.md) - 8 files
-
-#### 🟡 **High Priority** (Phases 9-20) - Guide Documentation
-Core Angular concepts and features:
-- Phases 9-20: [See full list in translation-plan.md](translation-plan.md#high-priority-phases-9-20---guide-documentation)
-
-#### 🟢 **Medium Priority** (Phases 21-30) - Reference & Tools
-API reference, error messages, CLI, and ecosystem:
-- Phases 21-30: [See full list in translation-plan.md](translation-plan.md#medium-priority-phases-21-30---reference-tools--ecosystem)
-
-### Step 3: Translate Files in Your Chosen Phase
-
-For each file:
+### Step 3: Translate Files
+For each file in your chosen phase:
 
 1. **Read** the original English file in `adev/src/content/`
 2. **Translate** following the agent guidelines
@@ -53,121 +74,95 @@ For each file:
 4. **Verify** your translation:
    - [ ] Marker is first line
    - [ ] Code blocks unchanged
-   - [ ] Technical jargon follows guidelines
-   - [ ] Links intact
+   - [ ] Technical jargon follows guidelines (see agent file)
+   - [ ] Links and markdown formatting intact
    - [ ] Portuguese flows naturally
 5. **Save** the translated file
 6. **Commit & Push**:
    ```bash
    git add adev/src/content/[path-to-file]
-   git commit -m "docs(pt-br): translate [filename] to Brazilian Portuguese"
-   git push origin claude/create-translation-plan-01XgFntJfGVpnv8kDnf3eggF
+   git commit -m "docs(pt-br): translate [filename] to Brazilian Portuguese
+
+   Co-authored-by: Ulisses, Mago do Flutter <ulisseshen@gmail.com>"
+   git push
    ```
-7. **Mark complete** by changing `- [ ]` to `- [✅]` in the phase plan file
-
-### Step 4: Track Your Progress
-
-Each phase file has:
-- Individual checkboxes for each file
-- Progress counter (e.g., "0/10 (0%)")
-- Phase completion checklist
-
-Update the checkboxes as you complete files!
-
-## 📁 Files in This Folder
-
-- **[translation-plan.md](translation-plan.md)**: Master plan with overview and summary of all phases
-- **[README.md](README.md)**: This file - your guide to the translation process
-- **phase-01-*.md through phase-30-*.md**: Individual phase plans with file-by-file checklists
+7. **Mark complete** by checking `- [ ]` to `- [x]` in the phase plan file
 
 ## 🔑 Key Translation Rules
 
 ### ✅ DO:
 - Add `<!-- ia-translate: true -->` as the FIRST line of EVERY file
-- Keep technical jargon in English (component, service, directive, etc.)
+- Keep technical jargon in English (component, service, directive, pipe, etc.)
 - Translate explanatory text to natural Brazilian Portuguese
 - Preserve all code blocks exactly as they are
 - Maintain all links and markdown formatting
 - Use "você" (informal) instead of formal pronouns
-- Commit and push after each file translation
+- Include co-author in commit message
 
 ### ❌ DON'T:
 - Translate code examples
 - Translate technical terms commonly used in English by Brazilian developers
 - Skip the `<!-- ia-translate: true -->` marker
-- Batch multiple files in one commit
 - Change file structure or paths
+- Translate framework/library names (Angular, TypeScript, RxJS, etc.)
 
 ## 📊 Progress Tracking
 
-You can track overall progress in [translation-plan.md](translation-plan.md):
+Each phase file includes:
+- Individual checkboxes for each file
+- Progress counter (e.g., "0/12 files")
+- Estimated completion time
+- Topic summaries
 
-| Category | Files | Progress |
-|----------|-------|----------|
-| Introduction | 9 | 0% |
-| Tutorials | 58 | 0% |
-| Guide | 129 | 0% |
-| Reference | 86 | 0% |
-| Tools | 23 | 0% |
-| Ecosystem | 13 | 0% |
-| Best Practices | 9 | 0% |
-| AI | 4 | 0% |
-| Other | 6 | 0% |
+Update checkboxes as you complete files to track progress!
 
-## 💡 Tips for Success
+## 📁 Folder Structure
 
-1. **Start Small**: Begin with Phase 1 (only 5 files) to get comfortable
-2. **Use the Agent**: Always refer to `.claude/agents/translate-to-pt-br.md`
-3. **One File at a Time**: Complete, commit, and push each file individually
-4. **Check the Marker**: Never forget `<!-- ia-translate: true -->` as the first line!
-5. **Natural Portuguese**: Make sure the text sounds natural to Brazilian developers
-6. **Ask for Help**: If unsure about a term, check existing translations or ask the community
-
-## 🤝 Contributing
-
-When translating:
-1. Choose a phase that hasn't been started
-2. Mark files as you complete them in the phase plan
-3. Follow the commit message format: `docs(pt-br): translate [filename] to Brazilian Portuguese`
-4. Push after each file to track progress
-
-## 📝 Example Workflow
-
-```bash
-# 1. Read the translation agent
-cat .claude/agents/translate-to-pt-br.md
-
-# 2. Open a phase plan
-cat plan/phase-01-introduction-core.md
-
-# 3. Translate first file
-# Edit: adev/src/content/introduction/what-is-angular.md
-# Add: <!-- ia-translate: true --> as first line
-# Translate content following agent guidelines
-
-# 4. Commit and push
-git add adev/src/content/introduction/what-is-angular.md
-git commit -m "docs(pt-br): translate what-is-angular to Brazilian Portuguese"
-git push origin claude/create-translation-plan-01XgFntJfGVpnv8kDnf3eggF
-
-# 5. Update phase plan
-# Change [ ] to [✅] for completed file in plan/phase-01-introduction-core.md
-git add plan/phase-01-introduction-core.md
-git commit -m "docs: update phase 1 progress"
-git push origin claude/create-translation-plan-01XgFntJfGVpnv8kDnf3eggF
+```
+plan/
+├── README.md (this file)
+├── phase-new-01-guide-animations-forms-http.md
+├── phase-new-02-guide-i18n-testing.md
+├── phase-new-03-reference-errors.md
+├── phase-new-04-reference-migrations-configs.md
+├── phase-new-05-tools-ecosystem-examples.md
+└── completed/
+    ├── translation-plan.md (original master plan)
+    └── phase-00 through phase-44 (47 completed plan files)
 ```
 
-## 🎉 Ready to Start?
+## 💡 Translation Tips
 
-**IMPORTANT**: Begin with **[Phase 0: Repository README & Docs](phase-00-repository-docs.md)** ⭐
+1. **Use the Agent**: Always refer to `.claude/agents/translate-to-pt-br.md` for guidelines
+2. **One File at a Time**: Complete, commit, and push each file individually
+3. **Check the Marker**: Never forget `<!-- ia-translate: true -->` as the first line!
+4. **Natural Portuguese**: Make sure the text sounds natural to Brazilian developers
+5. **Technical Accuracy**: Don't oversimplify technical concepts
+6. **Code Preservation**: Never translate code blocks, CLI commands, or API names
 
-This translates the main README.md that everyone sees first when visiting the repository!
+## 📝 Commit Message Format
 
-After Phase 0, continue to **[Phase 1: Introduction - Core Concepts](phase-01-introduction-core.md)**
+Always use this format:
+
+```bash
+git commit -m "docs(pt-br): translate <section>/<file> to Brazilian Portuguese
+
+Co-authored-by: Ulisses, Mago do Flutter <ulisseshen@gmail.com>"
+```
+
+## 🎉 Getting Started
+
+**Recommended starting order:**
+1. **Phase New-01** - Common features developers use daily
+2. **Phase New-02** - i18n (ironic!) and testing
+3. **Phase New-03** - Error documentation (high traffic when troubleshooting)
+4. **Phase New-04** - Migrations and configs
+5. **Phase New-05** - Tools and ecosystem
 
 Good luck with your translation! 🇧🇷
 
 ---
 
 **Last Updated**: 2025-11-15
-**Status**: Ready to Begin
+**Status**: 70 files remaining to translate
+**Previous Work**: 269 files already translated (see TRANSLATION_FINDINGS.md in repo root)
