@@ -1,29 +1,28 @@
-<!-- ia-translate: true -->
 # Angular package format
 
-Este documento descreve o Angular Package Format \(APF\).
-APF é uma especificação específica do Angular para a estrutura e formato de packages npm que é usado por todos os packages Angular de primeira parte \(`@angular/core`, `@angular/material`, etc.\) e pela maioria das bibliotecas Angular de terceiros.
+This document describes the Angular Package Format \(APF\).
+APF is an Angular specific specification for the structure and format of npm packages that is used by all first-party Angular packages \(`@angular/core`, `@angular/material`, etc.\) and most third-party Angular libraries.
 
-APF permite que um package funcione perfeitamente na maioria dos cenários comuns que usam Angular.
-Packages que usam APF são compatíveis com as ferramentas oferecidas pela equipe Angular, bem como com o ecossistema JavaScript mais amplo.
-É recomendado que desenvolvedores de bibliotecas de terceiros sigam o mesmo formato de package npm.
+APF enables a package to work seamlessly under most common scenarios that use Angular.
+Packages that use APF are compatible with the tooling offered by the Angular team as well as wider JavaScript ecosystem.
+It is recommended that third-party library developers follow the same npm package format.
 
-HELPFUL: APF é versionado junto com o restante do Angular, e cada versão principal melhora o formato do package.
-Você pode encontrar as versões da especificação anteriores à v13 neste [google doc](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview).
+HELPFUL: APF is versioned along with the rest of Angular, and every major version improves the package format.
+You can find the versions of the specification prior to v13 in this [google doc](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview).
 
-## Por que especificar um formato de package?
+## Why specify a package format?
 
-No cenário JavaScript de hoje, desenvolvedores consomem packages de muitas maneiras diferentes, usando muitas toolchains diferentes \(webpack, Rollup, esbuild, etc.\).
-Essas ferramentas podem entender e exigir diferentes inputs - algumas ferramentas podem ser capazes de processar a versão mais recente da linguagem ES, enquanto outras podem se beneficiar de consumir diretamente uma versão ES mais antiga.
+In today's JavaScript landscape, developers consume packages in many different ways, using many different toolchains \(webpack, Rollup, esbuild, etc.\).
+These tools may understand and require different inputs - some tools may be able to process the latest ES language version, while others may benefit from directly consuming an older ES version.
 
-O formato de distribuição Angular suporta todas as ferramentas de desenvolvimento e workflows comumente usados, e adiciona ênfase em otimizações que resultam em um tamanho de payload de aplicação menor ou em um ciclo de iteração de desenvolvimento mais rápido \(tempo de build\).
+The Angular distribution format supports all of the commonly used development tools and workflows, and adds emphasis on optimizations that result either in smaller application payload size or faster development iteration cycle \(build time\).
 
-Desenvolvedores podem confiar no Angular CLI e no [ng-packagr](https://github.com/ng-packagr/ng-packagr) \(uma ferramenta de build que o Angular CLI usa\) para produzir packages no formato Angular package.
-Veja o guia [Creating Libraries](tools/libraries/creating-libraries) para mais detalhes.
+Developers can rely on Angular CLI and [ng-packagr](https://github.com/ng-packagr/ng-packagr) \(a build tool Angular CLI uses\) to produce packages in the Angular package format.
+See the [Creating Libraries](tools/libraries/creating-libraries) guide for more details.
 
-## Layout de arquivos
+## File layout
 
-O exemplo a seguir mostra uma versão simplificada do layout de arquivos do package `@angular/core`, com uma explicação para cada arquivo no package.
+The following example shows a simplified version of the `@angular/core` package's file layout, with an explanation for each file in the package.
 
 ```markdown
 node_modules/@angular/core
@@ -39,29 +38,29 @@ node_modules/@angular/core
 │   ├── testing.d.ts
 ```
 
-Esta tabela descreve o layout de arquivos em `node_modules/@angular/core` anotado para descrever o propósito dos arquivos e diretórios:
+This table describes the file layout under `node_modules/@angular/core` annotated to describe the purpose of files and directories:
 
-| Arquivos                                                                                                                                                     | Propósito                                                                                                                                                                                        |
+| Files                                                                                                                                                     | Purpose                                                                                                                                                                                                        |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `README.md`                                                                                                                                               | README do package, usado pela interface web do npmjs.                                                                                                                                                          |
-| `package.json`                                                                                                                                            | `package.json` principal, descrevendo o package em si, bem como todos os entrypoints disponíveis e formatos de código. Este arquivo contém o mapeamento "exports" usado por runtimes e ferramentas para realizar a resolução de módulos. |
-| `fesm2022/` <br /> &nbsp;&nbsp;─ `core.mjs` <br /> &nbsp;&nbsp;─ `core.mjs.map` <br /> &nbsp;&nbsp;─ `testing.mjs` <br /> &nbsp;&nbsp;─ `testing.mjs.map` | Código para todos os entrypoints em formato ES2022 achatado \(FESM\), junto com source maps.                                                                                                                          |
-| `types/` <br /> &nbsp;&nbsp;─ `core.d.ts` <br /> &nbsp;&nbsp;─ `testing.d.ts`                                                                             | Definições de tipo TypeScript empacotadas para todos os entrypoints públicos.                                                                                                                                |
+| `README.md`                                                                                                                                               | Package README, used by npmjs web UI.                                                                                                                                                                          |
+| `package.json`                                                                                                                                            | Primary `package.json`, describing the package itself as well as all available entrypoints and code formats. This file contains the "exports" mapping used by runtimes and tools to perform module resolution. |
+| `fesm2022/` <br /> &nbsp;&nbsp;─ `core.mjs` <br /> &nbsp;&nbsp;─ `core.mjs.map` <br /> &nbsp;&nbsp;─ `testing.mjs` <br /> &nbsp;&nbsp;─ `testing.mjs.map` | Code for all entrypoints in flattened \(FESM\) ES2022 format, along with source maps.                                                                                                                          |
+| `types/` <br /> &nbsp;&nbsp;─ `core.d.ts` <br /> &nbsp;&nbsp;─ `testing.d.ts`                                                                             | Bundled TypeScript type definitions for all public entrypoints.                                                                                                                                                |
 
 ## `package.json`
 
-O `package.json` principal contém metadados importantes do package, incluindo o seguinte:
+The primary `package.json` contains important package metadata, including the following:
 
-- Ele [declara](#esm-declaration) que o package está no formato EcmaScript Module \(ESM\)
-- Ele contém um campo `"exports"` que define os formatos de código-fonte disponíveis de todos os entrypoints
-- Ele contém [chaves](#legacy-resolution-keys) que definem os formatos de código-fonte disponíveis do entrypoint principal `@angular/core`, para ferramentas que não entendem `"exports"`.
-  Essas chaves são consideradas obsoletas e podem ser removidas à medida que o suporte para `"exports"` se dissemina pelo ecossistema.
+- It [declares](#esm-declaration) the package to be in EcmaScript Module \(ESM\) format
+- It contains an `"exports"` field which defines the available source code formats of all entrypoints
+- It contains [keys](#legacy-resolution-keys) which define the available source code formats of the primary `@angular/core` entrypoint, for tools which do not understand `"exports"`.
+  These keys are considered deprecated, and could be removed as the support for `"exports"` rolls out across the ecosystem.
 
-- Ele declara se o package contém [efeitos colaterais](#side-effects)
+- It declares whether the package contains [side effects](#side-effects)
 
-### Declaração ESM
+### ESM declaration
 
-O `package.json` de nível superior contém a chave:
+The top-level `package.json` contains the key:
 
 ```js
 {
@@ -69,11 +68,11 @@ O `package.json` de nível superior contém a chave:
 }
 ```
 
-Isso informa aos resolvedores que o código dentro do package está usando EcmaScript Modules em oposição a módulos CommonJS.
+This informs resolvers that code within the package is using EcmaScript Modules as opposed to CommonJS modules.
 
 ### `"exports"`
 
-O campo `"exports"` tem a seguinte estrutura:
+The `"exports"` field has the following structure:
 
 ```js
 "exports": {
@@ -94,24 +93,24 @@ O campo `"exports"` tem a seguinte estrutura:
 }
 ```
 
-De interesse principal são as chaves `"."` e `"./testing"`, que definem os formatos de código disponíveis para o entrypoint principal `@angular/core` e o entrypoint secundário `@angular/core/testing`, respectivamente.
-Para cada entrypoint, os formatos disponíveis são:
+Of primary interest are the `"."` and the `"./testing"` keys, which define the available code formats for the `@angular/core` primary entrypoint and the `@angular/core/testing` secondary entrypoint, respectively.
+For each entrypoint, the available formats are:
 
-| Formatos                   | Detalhes                                                                 |
+| Formats                   | Details                                                                 |
 | :------------------------ | :---------------------------------------------------------------------- |
-| Typings \(arquivos `.d.ts`\) | Arquivos `.d.ts` são usados pelo TypeScript ao depender de um package específico. |
-| `default`                 | Código ES2022 achatado em uma única fonte.                             |
+| Typings \(`.d.ts` files\) | `.d.ts` files are used by TypeScript when depending on a given package. |
+| `default`                 | ES2022 code flattened into a single source.                             |
 
-Ferramentas que estão cientes dessas chaves podem selecionar preferencialmente um formato de código desejável de `"exports"`.
+Tooling that is aware of these keys may preferentially select a desirable code format from `"exports"`.
 
-Bibliotecas podem querer expor arquivos estáticos adicionais que não são capturados pelas exports dos entry-points baseados em JavaScript, como mixins Sass ou CSS pré-compilado.
+Libraries may want to expose additional static files which are not captured by the exports of the JavaScript-based entry-points such as Sass mixins or pre-compiled CSS.
 
-Para mais informações, veja [Managing assets in a library](tools/libraries/creating-libraries#managing-assets-in-a-library).
+For more information, see [Managing assets in a library](tools/libraries/creating-libraries#managing-assets-in-a-library).
 
-### Chaves de resolução legadas
+### Legacy resolution keys
 
-Além de `"exports"`, o `package.json` de nível superior também define chaves de resolução de módulo legadas para resolvedores que não suportam `"exports"`.
-Para `@angular/core` estas são:
+In addition to `"exports"`, the top-level `package.json` also defines legacy module resolution keys for resolvers that don't support `"exports"`.
+For `@angular/core` these are:
 
 ```js
 {
@@ -120,11 +119,11 @@ Para `@angular/core` estas são:
 }
 ```
 
-Como mostrado no trecho de código anterior, um resolvedor de módulo pode usar essas chaves para carregar um formato de código específico.
+As shown in the preceding code snippet, a module resolver can use these keys to load a specific code format.
 
-### Efeitos colaterais
+### Side effects
 
-A última função do `package.json` é declarar se o package tem [efeitos colaterais](#sideeffects-flag).
+The last function of `package.json` is to declare whether the package has [side effects](#sideeffects-flag).
 
 ```js
 {
@@ -132,42 +131,42 @@ A última função do `package.json` é declarar se o package tem [efeitos colat
 }
 ```
 
-A maioria dos packages Angular não deve depender de efeitos colaterais de nível superior e, portanto, deve incluir esta declaração.
+Most Angular packages should not depend on top-level side effects, and thus should include this declaration.
 
-## Entrypoints e divisão de código
+## Entrypoints and code splitting
 
-Packages no Angular Package Format contêm um entrypoint principal e zero ou mais entrypoints secundários \(por exemplo, `@angular/common/http`\).
-Entrypoints servem várias funções.
+Packages in the Angular Package Format contain one primary entrypoint and zero or more secondary entrypoints \(for example, `@angular/common/http`\).
+Entrypoints serve several functions.
 
-1. Eles definem os especificadores de módulo dos quais os usuários importam código \(por exemplo, `@angular/core` e `@angular/core/testing`\).
+1. They define the module specifiers from which users import code \(for example, `@angular/core` and `@angular/core/testing`\).
 
-   Os usuários normalmente percebem esses entrypoints como grupos distintos de símbolos, com propósitos ou capacidades diferentes.
+   Users typically perceive these entrypoints as distinct groups of symbols, with different purposes or capability.
 
-   Entrypoints específicos podem ser usados apenas para propósitos especiais, como testes.
-   Tais APIs podem ser separadas do entrypoint principal para reduzir a chance de serem usadas acidentalmente ou incorretamente.
+   Specific entrypoints might only be used for special purposes, such as testing.
+   Such APIs can be separated out from the primary entrypoint to reduce the chance of them being used accidentally or incorrectly.
 
-1. Eles definem a granularidade com a qual o código pode ser carregado de forma lazy.
+1. They define the granularity at which code can be lazily loaded.
 
-   Muitas ferramentas de build modernas são capazes apenas de "divisão de código" \(também conhecido como lazy loading\) no nível de ES Module.
-   O Angular Package Format usa principalmente um único ES Module "achatado" por entry point. Isso significa que a maioria das ferramentas de build não consegue dividir código com um único entry point em múltiplos chunks de saída.
+   Many modern build tools are only capable of "code splitting" \(aka lazy loading\) at the ES Module level.
+   The Angular Package Format uses primarily a single "flat" ES Module per entry point. This means that most build tooling is not able to split code with a single entry point into multiple output chunks.
 
-A regra geral para packages APF é usar entrypoints para os menores conjuntos de código logicamente conectados possível.
-Por exemplo, o package Angular Material publica cada componente lógico ou conjunto de componentes como um entrypoint separado - um para Button, um para Tabs, etc.
-Isso permite que cada componente Material seja carregado de forma lazy separadamente, se desejado.
+The general rule for APF packages is to use entrypoints for the smallest sets of logically connected code possible.
+For example, the Angular Material package publishes each logical component or set of components as a separate entrypoint - one for Button, one for Tabs, etc.
+This allows each Material component to be lazily loaded separately, if desired.
 
-Nem todas as bibliotecas requerem tal granularidade.
-A maioria das bibliotecas com um único propósito lógico deve ser publicada como um único entrypoint.
-`@angular/core`, por exemplo, usa um único entrypoint para o runtime, porque o runtime Angular geralmente é usado como uma única entidade.
+Not all libraries require such granularity.
+Most libraries with a single logical purpose should be published as a single entrypoint.
+`@angular/core` for example uses a single entrypoint for the runtime, because the Angular runtime is generally used as a single entity.
 
-### Resolução de entry points secundários
+### Resolution of secondary entry points
 
-Entry points secundários podem ser resolvidos via o campo `"exports"` do `package.json` para o package.
+Secondary entrypoints can be resolved via the `"exports"` field of the `package.json` for the package.
 
 ## README.md
 
-O arquivo README no formato Markdown que é usado para exibir a descrição de um package no npm e no GitHub.
+The README file in the Markdown format that is used to display description of a package on npm and GitHub.
 
-Exemplo de conteúdo README do package @angular/core:
+Example README content of @angular/core package:
 
 ```html
 
@@ -180,12 +179,12 @@ License: MIT
 
 ```
 
-## Compilação parcial
+## Partial compilation
 
-Bibliotecas no Angular Package Format devem ser publicadas no modo "compilação parcial".
-Este é um modo de compilação para `ngc` que produz código Angular compilado que não está vinculado a uma versão específica do runtime Angular, em contraste com a compilação completa usada para aplicações, onde as versões do compilador e do runtime Angular devem corresponder exatamente.
+Libraries in the Angular Package Format must be published in "partial compilation" mode.
+This is a compilation mode for `ngc` which produces compiled Angular code that is not tied to a specific Angular runtime version, in contrast to the full compilation used for applications, where the Angular compiler and runtime versions must match exactly.
 
-Para compilar parcialmente código Angular, use a flag `compilationMode` na propriedade `angularCompilerOptions` do seu `tsconfig.json`:
+To partially compile Angular code, use the `compilationMode` flag in the `angularCompilerOptions` property of your `tsconfig.json`:
 
 ```js
 {
@@ -196,28 +195,28 @@ Para compilar parcialmente código Angular, use a flag `compilationMode` na prop
 }
 ```
 
-O código de biblioteca parcialmente compilado é então convertido em código totalmente compilado durante o processo de build da aplicação pelo Angular CLI.
+Partially compiled library code is then converted to fully compiled code during the application build process by the Angular CLI.
 
-Se o seu pipeline de build não usa o Angular CLI, então consulte o guia [Consuming partial ivy code outside the Angular CLI](tools/libraries/creating-libraries#consuming-partial-ivy-code-outside-the-angular-cli).
+If your build pipeline does not use the Angular CLI then refer to the [Consuming partial ivy code outside the Angular CLI](tools/libraries/creating-libraries#consuming-partial-ivy-code-outside-the-angular-cli) guide.
 
-## Otimizações
+## Optimizations
 
-### Achatamento de módulos ES
+### Flattening of ES modules
 
-O Angular Package Format especifica que o código seja publicado no formato de módulo ES "achatado".
-Isso reduz significativamente o tempo de build de aplicações Angular, bem como o tempo de download e análise do bundle final da aplicação.
-Por favor, confira o excelente post ["The cost of small modules"](https://nolanlawson.com/2016/08/15/the-cost-of-small-modules) de Nolan Lawson.
+The Angular Package Format specifies that code be published in "flattened" ES module format.
+This significantly reduces the build time of Angular applications as well as download and parse time of the final application bundle.
+Please check out the excellent post ["The cost of small modules"](https://nolanlawson.com/2016/08/15/the-cost-of-small-modules) by Nolan Lawson.
 
-O compilador Angular pode gerar arquivos de índice de módulo ES. Ferramentas como Rollup podem usar esses arquivos para gerar módulos achatados em um formato de arquivo _Flattened ES Module_ (FESM).
+The Angular compiler can generate index ES module files. Tools like Rollup can use these files to generate flattened modules in a _Flattened ES Module_ (FESM) file format.
 
-FESM é um formato de arquivo criado achatando todos os ES Modules acessíveis de um entrypoint em um único ES Module.
-É formado seguindo todos os imports de um package e copiando esse código em um único arquivo, preservando todos os exports ES públicos e removendo todos os imports privados.
+FESM is a file format created by flattening all ES Modules accessible from an entrypoint into a single ES Module.
+It's formed by following all imports from a package and copying that code into a single file while preserving all public ES exports and removing all private imports.
 
-O nome abreviado, FESM, pronunciado _fé-som_, pode ser seguido por um número como FESM2020.
-O número refere-se ao nível de linguagem do JavaScript dentro do módulo.
-Consequentemente, um arquivo FESM2022 seria ESM+ES2022 e incluiria declarações import/export e código-fonte ES2022.
+The abbreviated name, FESM, pronounced _phe-som_, can be followed by a number such as FESM2020.
+The number refers to the language level of the JavaScript inside the module.
+Accordingly a FESM2022 file would be ESM+ES2022 and include import/export statements and ES2022 source code.
 
-Para gerar um arquivo de índice de módulo ES achatado, use as seguintes opções de configuração no seu arquivo tsconfig.json:
+To generate a flattened ES Module index file, use the following configuration options in your tsconfig.json file:
 
 ```js
 {
@@ -235,138 +234,138 @@ Para gerar um arquivo de índice de módulo ES achatado, use as seguintes opçõ
 }
 ```
 
-Uma vez que o arquivo de índice \(por exemplo, `my-ui-lib.js`\) é gerado pelo ngc, bundlers e otimizadores como Rollup podem ser usados para produzir o arquivo ESM achatado.
+Once the index file \(for example, `my-ui-lib.js`\) is generated by ngc, bundlers and optimizers like Rollup can be used to produce the flattened ESM file.
 
-### Flag "sideEffects"
+### "sideEffects" flag
 
-Por padrão, EcmaScript Modules têm efeitos colaterais: importar de um módulo garante que qualquer código no nível superior desse módulo deve ser executado.
-Isso geralmente é indesejável, pois a maioria do código com efeitos colaterais em módulos típicos não é verdadeiramente com efeitos colaterais, mas afeta apenas símbolos específicos.
-Se esses símbolos não forem importados e usados, muitas vezes é desejável removê-los em um processo de otimização conhecido como tree-shaking, e o código com efeitos colaterais pode impedir isso.
+By default, EcmaScript Modules are side-effectful: importing from a module ensures that any code at the top level of that module should run.
+This is often undesirable, as most side-effectful code in typical modules is not truly side-effectful, but instead only affects specific symbols.
+If those symbols are not imported and used, it's often desirable to remove them in an optimization process known as tree-shaking, and the side-effectful code can prevent this.
 
-Ferramentas de build como webpack suportam uma flag que permite que packages declarem que não dependem de código com efeitos colaterais no nível superior de seus módulos, dando às ferramentas mais liberdade para fazer tree-shaking do código do package.
-O resultado final dessas otimizações deve ser um tamanho de bundle menor e melhor distribuição de código em chunks de bundle após a divisão de código.
-Esta otimização pode quebrar seu código se ele contiver efeitos colaterais não-locais - isso, no entanto, não é comum em aplicações Angular e geralmente é um sinal de design ruim.
-A recomendação é que todos os packages reivindiquem o status livre de efeitos colaterais definindo a propriedade `sideEffects` como `false`, e que os desenvolvedores sigam o [Angular Style Guide](/style-guide) que naturalmente resulta em código sem efeitos colaterais não-locais.
+Build tools such as webpack support a flag which allows packages to declare that they do not depend on side-effectful code at the top level of their modules, giving the tools more freedom to tree-shake code from the package.
+The end result of these optimizations should be smaller bundle size and better code distribution in bundle chunks after code-splitting.
+This optimization can break your code if it contains non-local side-effects - this is however not common in Angular applications and it's usually a sign of bad design.
+The recommendation is for all packages to claim the side-effect free status by setting the `sideEffects` property to `false`, and that developers follow the [Angular Style Guide](/style-guide) which naturally results in code without non-local side-effects.
 
-Mais informações: [documentação do webpack sobre efeitos colaterais](https://github.com/webpack/webpack/tree/master/examples/side-effects)
+More info: [webpack docs on side effects](https://github.com/webpack/webpack/tree/master/examples/side-effects)
 
-### Nível de linguagem ES2022
+### ES2022 language level
 
-ES2022 é agora o nível de linguagem padrão que é consumido pelo Angular CLI e outras ferramentas.
-O Angular CLI faz o down-level do bundle para um nível de linguagem que é suportado por todos os navegadores alvo no momento do build da aplicação.
+ES2022 Language level is now the default language level that is consumed by Angular CLI and other tooling.
+The Angular CLI down-levels the bundle to a language level that is supported by all targeted browsers at application build time.
 
-### Empacotamento de d.ts / achatamento de definição de tipo
+### d.ts bundling / type definition flattening
 
-A partir do APF v8, é recomendado empacotar definições TypeScript.
-O empacotamento de definições de tipo pode acelerar significativamente as compilações para os usuários, especialmente se houver muitos arquivos-fonte `.ts` individuais em sua biblioteca.
+As of APF v8, it is recommended to bundle TypeScript definitions.
+Bundling of type definitions can significantly speed up compilations for users, especially if there are many individual `.ts` source files in your library.
 
-Angular usa [`rollup-plugin-dts`](https://github.com/Swatinem/rollup-plugin-dts) para achatar arquivos `.d.ts` (usando `rollup`, semelhante a como os arquivos FESM são criados).
+Angular uses [`rollup-plugin-dts`](https://github.com/Swatinem/rollup-plugin-dts) to flatten `.d.ts` files (using `rollup`, similar to how FESM files are created).
 
-Usar rollup para empacotamento de `.d.ts` é benéfico, pois suporta divisão de código entre entry-points.
-Por exemplo, considere que você tem múltiplos entrypoints dependendo do mesmo tipo compartilhado, um arquivo `.d.ts` compartilhado seria criado junto com os arquivos `.d.ts` achatados maiores.
-Isso é desejável e evita duplicação de tipos.
+Using rollup for `.d.ts` bundling is beneficial as it supports code splitting between entry-points.
+For example, consider you have multiple entrypoints relying on the same shared type, a shared `.d.ts` file would be created along with the larger flattened `.d.ts` files.
+This is desirable and avoids duplication of types.
 
 ### Tslib
 
-A partir do APF v10, é recomendado adicionar tslib como uma dependência direta do seu entry-point principal.
-Isso ocorre porque a versão do tslib está vinculada à versão do TypeScript usada para compilar sua biblioteca.
+As of APF v10, it is recommended to add tslib as a direct dependency of your primary entry-point.
+This is because the tslib version is tied to the TypeScript version used to compile your library.
 
-## Exemplos
+## Examples
 
 <docs-pill-row>
   <docs-pill href="https://unpkg.com/browse/@angular/core@17.0.0/" title="@angular/core package"/>
   <docs-pill href="https://unpkg.com/browse/@angular/material@17.0.0/" title="@angular/material package"/>
 </docs-pill-row>
 
-## Definição de termos
+## Definition of terms
 
-Os termos a seguir são usados intencionalmente ao longo deste documento.
-Nesta seção estão as definições de todos eles para fornecer clareza adicional.
+The following terms are used throughout this document intentionally.
+In this section are the definitions of all of them to provide additional clarity.
 
 ### Package
 
-O menor conjunto de arquivos que são publicados no NPM e instalados juntos, por exemplo `@angular/core`.
-Este package inclui um manifesto chamado package.json, código-fonte compilado, arquivos de definição typescript, source maps, metadados, etc.
-O package é instalado com `npm install @angular/core`.
+The smallest set of files that are published to NPM and installed together, for example `@angular/core`.
+This package includes a manifest called package.json, compiled source code, typescript definition files, source maps, metadata, etc.
+The package is installed with `npm install @angular/core`.
 
 ### Symbol
 
-Uma classe, função, constante ou variável contida em um módulo e opcionalmente tornada visível ao mundo externo via export de módulo.
+A class, function, constant, or variable contained in a module and optionally made visible to the external world via a module export.
 
 ### Module
 
-Abreviação de ECMAScript Modules.
-Um arquivo contendo declarações que importam e exportam símbolos.
-Isso é idêntico à definição de módulos na especificação ECMAScript.
+Short for ECMAScript Modules.
+A file containing statements that import and export symbols.
+This is identical to the definition of modules in the ECMAScript spec.
 
 ### ESM
 
-Abreviação de ECMAScript Modules \(veja acima\).
+Short for ECMAScript Modules \(see above\).
 
 ### FESM
 
-Abreviação de Flattened ES Modules e consiste em um formato de arquivo criado achatando todos os ES Modules acessíveis de um entry point em um único ES Module.
+Short for Flattened ES Modules and consists of a file format created by flattening all ES Modules accessible from an entry point into a single ES Module.
 
 ### Module ID
 
-O identificador de um módulo usado nas declarações import \(por exemplo, `@angular/core`\).
-O ID geralmente mapeia diretamente para um caminho no sistema de arquivos, mas isso nem sempre é o caso devido a várias estratégias de resolução de módulo.
+The identifier of a module used in the import statements \(for example, `@angular/core`\).
+The ID often maps directly to a path on the filesystem, but this is not always the case due to various module resolution strategies.
 
 ### Module specifier
 
-Um identificador de módulo \(veja acima\).
+A module identifier \(see above\).
 
-### Estratégia de resolução de módulo
+### Module resolution strategy
 
-Algoritmo usado para converter Module IDs em caminhos no sistema de arquivos.
-Node.js tem um que é bem especificado e amplamente usado, TypeScript suporta várias estratégias de resolução de módulo, [Closure Compiler](https://developers.google.com/closure/compiler) tem ainda outra estratégia.
+Algorithm used to convert Module IDs to paths on the filesystem.
+Node.js has one that is well specified and widely used, TypeScript supports several module resolution strategies, [Closure Compiler](https://developers.google.com/closure/compiler) has yet another strategy.
 
-### Formato de módulo
+### Module format
 
-Especificação da sintaxe do módulo que cobre no mínimo a sintaxe para importação e exportação de um arquivo.
-Formatos de módulo comuns são CommonJS \(CJS, normalmente usado para aplicações Node.js\) ou ECMAScript Modules \(ESM\).
-O formato do módulo indica apenas o empacotamento dos módulos individuais, mas não os recursos da linguagem JavaScript usados para compor o conteúdo do módulo.
-Por causa disso, a equipe Angular frequentemente usa o especificador de nível de linguagem como sufixo para o formato do módulo, \(por exemplo, ESM+ES2022 especifica que o módulo está em formato ESM e contém código ES2022\).
+Specification of the module syntax that covers at minimum the syntax for the importing and exporting from a file.
+Common module formats are CommonJS \(CJS, typically used for Node.js applications\) or ECMAScript Modules \(ESM\).
+The module format indicates only the packaging of the individual modules, but not the JavaScript language features used to make up the module content.
+Because of this, the Angular team often uses the language level specifier as a suffix to the module format, \(for example, ESM+ES2022 specifies that the module is in ESM format and contains ES2022 code\).
 
 ### Bundle
 
-Um artefato na forma de um único arquivo JS, produzido por uma ferramenta de build \(por exemplo, [webpack](https://webpack.js.org) ou [Rollup](https://rollupjs.org)\) que contém símbolos originários de um ou mais módulos.
-Bundles são uma solução específica do navegador que reduz a carga de rede que seria causada se os navegadores começassem a baixar centenas, senão dezenas de milhares de arquivos.
-Node.js normalmente não usa bundles.
-Formatos de bundle comuns são UMD e System.register.
+An artifact in the form of a single JS file, produced by a build tool \(for example, [webpack](https://webpack.js.org) or [Rollup](https://rollupjs.org)\) that contains symbols originating in one or more modules.
+Bundles are a browser-specific workaround that reduce network strain that would be caused if browsers were to start downloading hundreds if not tens of thousands of files.
+Node.js typically doesn't use bundles.
+Common bundle formats are UMD and System.register.
 
-### Nível de linguagem
+### Language level
 
-A linguagem do código \(ES2022\).
-Independente do formato do módulo.
+The language of the code \(ES2022\).
+Independent of the module format.
 
 ### Entry point
 
-Um módulo destinado a ser importado pelo usuário.
-Ele é referenciado por um module ID único e exporta a API pública referenciada por esse module ID.
-Um exemplo é `@angular/core` ou `@angular/core/testing`.
-Ambos os entry points existem no package `@angular/core`, mas eles exportam símbolos diferentes.
-Um package pode ter muitos entry points.
+A module intended to be imported by the user.
+It is referenced by a unique module ID and exports the public API referenced by that module ID.
+An example is `@angular/core` or `@angular/core/testing`.
+Both entry points exist in the `@angular/core` package, but they export different symbols.
+A package can have many entry points.
 
 ### Deep import
 
-Um processo de recuperação de símbolos de módulos que não são Entry Points.
-Esses module IDs geralmente são considerados APIs privadas que podem mudar durante o tempo de vida do projeto ou enquanto o bundle para o package específico está sendo criado.
+A process of retrieving symbols from modules that are not Entry Points.
+These module IDs are usually considered to be private APIs that can change over the lifetime of the project or while the bundle for the given package is being created.
 
 ### Top-Level import
 
-Um import proveniente de um entry point.
-Os top-level imports disponíveis são o que define a API pública e são expostos em módulos "@angular/name", como `@angular/core` ou `@angular/common`.
+An import coming from an entry point.
+The available top-level imports are what define the public API and are exposed in "@angular/name" modules, such as `@angular/core` or `@angular/common`.
 
 ### Tree-shaking
 
-O processo de identificar e remover código não usado por uma aplicação - também conhecido como eliminação de código morto.
-Esta é uma otimização global realizada no nível da aplicação usando ferramentas como [Rollup](https://rollupjs.org), [Closure Compiler](https://developers.google.com/closure/compiler), ou [Terser](https://github.com/terser/terser).
+The process of identifying and removing code not used by an application - also known as dead code elimination.
+This is a global optimization performed at the application level using tools like [Rollup](https://rollupjs.org), [Closure Compiler](https://developers.google.com/closure/compiler), or [Terser](https://github.com/terser/terser).
 
-### Compilador AOT
+### AOT compiler
 
-O Ahead of Time Compiler para Angular.
+The Ahead of Time Compiler for Angular.
 
-### Definições de tipo achatadas
+### Flattened type definitions
 
-As definições TypeScript empacotadas geradas a partir do [API Extractor](https://api-extractor.com).
+The bundled TypeScript definitions generated from [API Extractor](https://api-extractor.com).
