@@ -1,234 +1,235 @@
-# Angular compiler options
+<!-- ia-translate: true -->
+# Opções do compilador Angular
 
-When you use [ahead-of-time compilation (AOT)](tools/cli/aot-compiler), you can control how your application is compiled by specifying Angular compiler options in the [TypeScript configuration file](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+Quando você usa [compilação ahead-of-time (AOT)](tools/cli/aot-compiler), você pode controlar como sua aplicação é compilada especificando opções do compilador Angular no [arquivo de configuração do TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
-The Angular options object, `angularCompilerOptions`, is a sibling to the `compilerOptions` object that supplies standard options to the TypeScript compiler.
+O objeto de opções do Angular, `angularCompilerOptions`, é um irmão do objeto `compilerOptions` que fornece opções padrão para o compilador TypeScript.
 
 <docs-code header="tsconfig.json" path="adev/src/content/examples/angular-compiler-options/tsconfig.json" visibleRegion="angular-compiler-options"/>
 
-## Configuration inheritance with `extends`
+## Herança de configuração com `extends`
 
-Like the TypeScript compiler, the Angular AOT compiler also supports `extends` in the `angularCompilerOptions` section of the TypeScript configuration file.
-The `extends` property is at the top level, parallel to `compilerOptions` and `angularCompilerOptions`.
+Assim como o compilador TypeScript, o compilador AOT do Angular também suporta `extends` na seção `angularCompilerOptions` do arquivo de configuração do TypeScript.
+A propriedade `extends` está no nível superior, paralela a `compilerOptions` e `angularCompilerOptions`.
 
-A TypeScript configuration can inherit settings from another file using the `extends` property.
-The configuration options from the base file are loaded first, then overridden by those in the inheriting configuration file.
+Uma configuração TypeScript pode herdar configurações de outro arquivo usando a propriedade `extends`.
+As opções de configuração do arquivo base são carregadas primeiro, depois substituídas pelas do arquivo de configuração herdeiro.
 
-For example:
+Por exemplo:
 
 <docs-code header="tsconfig.app.json" path="adev/src/content/examples/angular-compiler-options/tsconfig.app.json" visibleRegion="angular-compiler-options-app"/>
 
-For more information, see the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+Para mais informações, veja o [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
-## Template options
+## Opções de template
 
-The following options are available for configuring the Angular AOT compiler.
+As seguintes opções estão disponíveis para configurar o compilador AOT do Angular.
 
 ### `annotationsAs`
 
-Modifies how Angular-specific annotations are emitted to improve tree-shaking.
-Non-Angular annotations are not affected.
-One of `static fields` or `decorators`. The default value is `static fields`.
+Modifica como anotações específicas do Angular são emitidas para melhorar o tree-shaking.
+Anotações não-Angular não são afetadas.
+Um de `static fields` ou `decorators`. O valor padrão é `static fields`.
 
-- By default, the compiler replaces decorators with a static field in the class, which allows advanced tree-shakers like [Closure compiler](https://github.com/google/closure-compiler) to remove unused classes
-- The `decorators` value leaves the decorators in place, which makes compilation faster.
-  TypeScript emits calls to the `__decorate` helper.
-  Use `--emitDecoratorMetadata` for runtime reflection.
+- Por padrão, o compilador substitui decorators por um campo estático na classe, o que permite que tree-shakers avançados como o [Closure compiler](https://github.com/google/closure-compiler) removam classes não utilizadas
+- O valor `decorators` deixa os decorators no lugar, o que torna a compilação mais rápida.
+  TypeScript emite chamadas para o helper `__decorate`.
+  Use `--emitDecoratorMetadata` para reflexão em runtime.
 
-  HELPFUL: That the resulting code cannot tree-shake properly.
+  HELPFUL: O código resultante não pode fazer tree-shake adequadamente.
 
 ### `annotateForClosureCompiler`
 
 <!-- vale Angular.Angular_Spelling = NO -->
 
-When `true`, use [Tsickle](https://github.com/angular/tsickle) to annotate the emitted JavaScript with [JSDoc](https://jsdoc.app) comments needed by the [Closure Compiler](https://github.com/google/closure-compiler).
-Default is `false`.
+Quando `true`, usa [Tsickle](https://github.com/angular/tsickle) para anotar o JavaScript emitido com comentários [JSDoc](https://jsdoc.app) necessários para o [Closure Compiler](https://github.com/google/closure-compiler).
+O padrão é `false`.
 
 <!-- vale Angular.Angular_Spelling = YES -->
 
 ### `compilationMode`
 
-Specifies the compilation mode to use.
-The following modes are available:
+Especifica o modo de compilação a ser usado.
+Os seguintes modos estão disponíveis:
 
-| Modes       | Details                                                                                             |
-| :---------- | :-------------------------------------------------------------------------------------------------- |
-| `'full'`    | Generates fully AOT-compiled code according to the version of Angular that is currently being used. |
-| `'partial'` | Generates code in a stable, but intermediate form suitable for a published library.                 |
+| Modos       | Detalhes                                                                                                      |
+| :---------- | :------------------------------------------------------------------------------------------------------------ |
+| `'full'`    | Gera código totalmente compilado em AOT de acordo com a versão do Angular que está sendo usada atualmente.   |
+| `'partial'` | Gera código em uma forma estável, mas intermediária, adequada para uma biblioteca publicada.                  |
 
-The default value is `'full'`.
+O valor padrão é `'full'`.
 
-For most applications, `'full'` is the correct compilation mode.
+Para a maioria das aplicações, `'full'` é o modo de compilação correto.
 
-Use `'partial'` for independently published libraries, such as NPM packages.
-`'partial'` compilations output a stable, intermediate format which better supports usage by applications built at different Angular versions from the library.
-Libraries built at "HEAD" alongside their applications and using the same version of Angular such as in a mono-repository can use `'full'` since there is no risk of version skew.
+Use `'partial'` para bibliotecas publicadas independentemente, como pacotes NPM.
+Compilações `'partial'` produzem um formato intermediário estável que suporta melhor o uso por aplicações construídas em diferentes versões do Angular da biblioteca.
+Bibliotecas construídas em "HEAD" junto com suas aplicações e usando a mesma versão do Angular, como em um mono-repositório, podem usar `'full'` já que não há risco de incompatibilidade de versão.
 
 ### `disableExpressionLowering`
 
-When `true`, the default, transforms code that is or could be used in an annotation, to allow it to be imported from template factory modules.
-See [metadata rewriting](tools/cli/aot-compiler#metadata-rewriting) for more information.
+Quando `true`, o padrão, transforma código que é ou poderia ser usado em uma anotação, para permitir que seja importado de módulos factory de template.
+Veja [reescrita de metadata](tools/cli/aot-compiler#metadata-rewriting) para mais informações.
 
-When `false`, disables this rewriting, requiring the rewriting to be done manually.
+Quando `false`, desabilita esta reescrita, exigindo que a reescrita seja feita manualmente.
 
 ### `disableTypeScriptVersionCheck`
 
-When `true`, the compiler does not look at the TypeScript version and does not report an error when an unsupported version of TypeScript is used.
-Not recommended, as unsupported versions of TypeScript might have undefined behavior.
-Default is `false`.
+Quando `true`, o compilador não verifica a versão do TypeScript e não reporta um erro quando uma versão não suportada do TypeScript é usada.
+Não recomendado, pois versões não suportadas do TypeScript podem ter comportamento indefinido.
+O padrão é `false`.
 
 ### `enableI18nLegacyMessageIdFormat`
 
-Instructs the Angular template compiler to create legacy ids for messages that are tagged in templates by the `i18n` attribute.
-See [Mark text for translations][GuideI18nCommonPrepareMarkTextInComponentTemplate] for more information about marking messages for localization.
+Instrui o compilador de template Angular a criar ids legados para mensagens que são marcadas em templates pelo atributo `i18n`.
+Veja [Marcar texto para traduções][GuideI18nCommonPrepareMarkTextInComponentTemplate] para mais informações sobre marcar mensagens para localização.
 
-Set this option to `false` unless your project relies upon translations that were created earlier using legacy IDs.
-Default is `true`.
+Defina esta opção como `false` a menos que seu projeto dependa de traduções que foram criadas anteriormente usando ids legados.
+O padrão é `true`.
 
-The pre-Ivy message extraction tooling created a variety of legacy formats for extracted message IDs.
-These message formats have some issues, such as whitespace handling and reliance upon information inside the original HTML of a template.
+A ferramenta de extração de mensagens pré-Ivy criou uma variedade de formatos legados para ids de mensagens extraídas.
+Esses formatos de mensagem têm alguns problemas, como tratamento de espaços em branco e dependência de informações dentro do HTML original de um template.
 
-The new message format is more resilient to whitespace changes, is the same across all translation file formats, and can be created directly from calls to `$localize`.
-This allows `$localize` messages in application code to use the same ID as identical `i18n` messages in component templates.
+O novo formato de mensagem é mais resiliente a mudanças de espaços em branco, é o mesmo em todos os formatos de arquivo de tradução e pode ser criado diretamente de chamadas para `$localize`.
+Isso permite que mensagens `$localize` no código da aplicação usem o mesmo ID que mensagens `i18n` idênticas em templates de components.
 
 ### `enableResourceInlining`
 
-When `true`, replaces the `templateUrl` and `styleUrls` properties in all `@Component` decorators with inline content in the `template` and `styles` properties.
+Quando `true`, substitui as propriedades `templateUrl` e `styleUrls` em todos os decorators `@Component` por conteúdo inline nas propriedades `template` e `styles`.
 
-When enabled, the `.js` output of `ngc` does not include any lazy-loaded template or style URLs.
+Quando habilitado, a saída `.js` do `ngc` não inclui nenhuma URL de template ou estilo carregada com lazy loading.
 
-For library projects created with the Angular CLI, the development configuration default is `true`.
+Para projetos de biblioteca criados com o Angular CLI, o padrão da configuração de desenvolvimento é `true`.
 
 ### `enableLegacyTemplate`
 
-When `true`, enables the deprecated `<template>` element in place of `<ng-template>`.
-Default is `false`.
-Might be required by some third-party Angular libraries.
+Quando `true`, habilita o elemento `<template>` obsoleto no lugar de `<ng-template>`.
+O padrão é `false`.
+Pode ser necessário para algumas bibliotecas Angular de terceiros.
 
 ### `flatModuleId`
 
-The module ID to use for importing a flat module \(when `flatModuleOutFile` is `true`\).
-References created by the template compiler use this module name when importing symbols from the flat module.
-Ignored if `flatModuleOutFile` is `false`.
+O ID do módulo a ser usado para importar um módulo flat \(quando `flatModuleOutFile` é `true`\).
+Referências criadas pelo compilador de template usam este nome de módulo ao importar símbolos do módulo flat.
+Ignorado se `flatModuleOutFile` é `false`.
 
 ### `flatModuleOutFile`
 
-When `true`, generates a flat module index of the given filename and the corresponding flat module metadata.
-Use to create flat modules that are packaged similarly to `@angular/core` and `@angular/common`.
-When this option is used, the `package.json` for the library should refer to the created flat module index instead of the library index file.
+Quando `true`, gera um índice de módulo flat com o nome de arquivo fornecido e os metadados de módulo flat correspondentes.
+Use para criar módulos flat que são empacotados de forma similar a `@angular/core` e `@angular/common`.
+Quando esta opção é usada, o `package.json` da biblioteca deve referenciar o índice de módulo flat criado em vez do arquivo de índice da biblioteca.
 
-Produces only one `.metadata.json` file, which contains all the metadata necessary for symbols exported from the library index.
-In the created `.ngfactory.js` files, the flat module index is used to import symbols. Symbols that include both the public API from the library index and shrouded internal symbols.
+Produz apenas um arquivo `.metadata.json`, que contém todos os metadados necessários para símbolos exportados do índice da biblioteca.
+Nos arquivos `.ngfactory.js` criados, o índice de módulo flat é usado para importar símbolos. Símbolos que incluem tanto a API pública do índice da biblioteca quanto símbolos internos ocultos.
 
-By default, the `.ts` file supplied in the `files` field is assumed to be the library index.
-If more than one `.ts` file is specified, `libraryIndex` is used to select the file to use.
-If more than one `.ts` file is supplied without a `libraryIndex`, an error is produced.
+Por padrão, o arquivo `.ts` fornecido no campo `files` é assumido como o índice da biblioteca.
+Se mais de um arquivo `.ts` for especificado, `libraryIndex` é usado para selecionar o arquivo a ser usado.
+Se mais de um arquivo `.ts` for fornecido sem um `libraryIndex`, um erro é produzido.
 
-A flat module index `.d.ts` and `.js` is created with the given `flatModuleOutFile` name in the same location as the library index `.d.ts` file.
+Um índice de módulo flat `.d.ts` e `.js` é criado com o nome `flatModuleOutFile` fornecido no mesmo local que o arquivo `.d.ts` do índice da biblioteca.
 
-For example, if a library uses the `public_api.ts` file as the library index of the module, the `tsconfig.json` `files` field would be `["public_api.ts"]`.
-The `flatModuleOutFile` option could then be set, for example, to `"index.js"`, which produces `index.d.ts` and `index.metadata.json` files.
-The `module` field of the library's `package.json` would be `"index.js"` and the `typings` field would be `"index.d.ts"`.
+Por exemplo, se uma biblioteca usa o arquivo `public_api.ts` como índice da biblioteca do módulo, o campo `files` do `tsconfig.json` seria `["public_api.ts"]`.
+A opção `flatModuleOutFile` poderia então ser definida, por exemplo, como `"index.js"`, que produz os arquivos `index.d.ts` e `index.metadata.json`.
+O campo `module` do `package.json` da biblioteca seria `"index.js"` e o campo `typings` seria `"index.d.ts"`.
 
 ### `fullTemplateTypeCheck`
 
-When `true`, the recommended value, enables the [binding expression validation](tools/cli/aot-compiler#binding-expression-validation) phase of the template compiler. This phase uses TypeScript to verify binding expressions.
-For more information, see [Template type checking](tools/cli/template-typecheck).
+Quando `true`, o valor recomendado, habilita a fase de [validação de expressões de binding](tools/cli/aot-compiler#binding-expression-validation) do compilador de template. Esta fase usa TypeScript para verificar expressões de binding.
+Para mais informações, veja [Verificação de tipo de template](tools/cli/template-typecheck).
 
-Default is `false`, but when you use the Angular CLI command `ng new --strict`, it is set to `true` in the new project's configuration.
+O padrão é `false`, mas quando você usa o comando Angular CLI `ng new --strict`, é definido como `true` na configuração do novo projeto.
 
-IMPORTANT: The `fullTemplateTypeCheck` option has been deprecated in Angular 13 in favor of the `strictTemplates` family of compiler options.
+IMPORTANT: A opção `fullTemplateTypeCheck` foi descontinuada no Angular 13 em favor da família de opções de compilador `strictTemplates`.
 
 ### `generateCodeForLibraries`
 
-When `true`, creates factory files \(`.ngfactory.js` and `.ngstyle.js`\) for `.d.ts` files with a corresponding `.metadata.json` file. The default value is `true`.
+Quando `true`, cria arquivos factory \(`.ngfactory.js` e `.ngstyle.js`\) para arquivos `.d.ts` com um arquivo `.metadata.json` correspondente. O valor padrão é `true`.
 
-When `false`, factory files are created only for `.ts` files.
-Do this when using factory summaries.
+Quando `false`, arquivos factory são criados apenas para arquivos `.ts`.
+Faça isso ao usar resumos de factory.
 
 ### `preserveWhitespaces`
 
-When `false`, the default, removes blank text nodes from compiled templates, which results in smaller emitted template factory modules.
-Set to `true` to preserve blank text nodes.
+Quando `false`, o padrão, remove nós de texto em branco de templates compilados, o que resulta em módulos factory de template emitidos menores.
+Defina como `true` para preservar nós de texto em branco.
 
-HELPFUL: When using hydration, it is recommended that you use `preserveWhitespaces: false`, which is the default value. If you choose to enable preserving whitespaces by adding `preserveWhitespaces: true` to your tsconfig, it is possible you may encounter issues with hydration. This is not yet a fully supported configuration. Ensure this is also consistently set between the server and client tsconfig files. See the [hydration guide](guide/hydration#preserve-whitespaces) for more details.
+HELPFUL: Ao usar hydration, é recomendado que você use `preserveWhitespaces: false`, que é o valor padrão. Se você optar por habilitar a preservação de espaços em branco adicionando `preserveWhitespaces: true` ao seu tsconfig, é possível que você encontre problemas com hydration. Esta ainda não é uma configuração totalmente suportada. Certifique-se de que isso também está definido consistentemente entre os arquivos tsconfig do servidor e do cliente. Veja o [guia de hydration](guide/hydration#preserve-whitespaces) para mais detalhes.
 
 ### `skipMetadataEmit`
 
-When `true`, does not produce `.metadata.json` files.
-Default is `false`.
+Quando `true`, não produz arquivos `.metadata.json`.
+O padrão é `false`.
 
-The `.metadata.json` files contain information needed by the template compiler from a `.ts` file that is not included in the `.d.ts` file produced by the TypeScript compiler.
-This information includes, for example, the content of annotations, such as a component's template, which TypeScript emits to the `.js` file but not to the `.d.ts` file.
+Os arquivos `.metadata.json` contêm informações necessárias pelo compilador de template de um arquivo `.ts` que não estão incluídas no arquivo `.d.ts` produzido pelo compilador TypeScript.
+Essas informações incluem, por exemplo, o conteúdo de anotações, como o template de um component, que TypeScript emite para o arquivo `.js` mas não para o arquivo `.d.ts`.
 
-You can set to `true` when using factory summaries, because the factory summaries include a copy of the information that is in the `.metadata.json` file.
+Você pode definir como `true` ao usar resumos de factory, porque os resumos de factory incluem uma cópia das informações que estão no arquivo `.metadata.json`.
 
-Set to `true` if you are using TypeScript's `--outFile` option, because the metadata files are not valid for this style of TypeScript output.
-The Angular community does not recommend using `--outFile` with Angular.
-Use a bundler, such as [webpack](https://webpack.js.org), instead.
+Defina como `true` se você estiver usando a opção `--outFile` do TypeScript, porque os arquivos de metadados não são válidos para este estilo de saída do TypeScript.
+A comunidade Angular não recomenda usar `--outFile` com Angular.
+Use um bundler, como [webpack](https://webpack.js.org), em vez disso.
 
 ### `skipTemplateCodegen`
 
-When `true`, does not emit `.ngfactory.js` and `.ngstyle.js` files.
-This turns off most of the template compiler and disables the reporting of template diagnostics.
+Quando `true`, não emite arquivos `.ngfactory.js` e `.ngstyle.js`.
+Isso desliga a maior parte do compilador de template e desabilita o relatório de diagnósticos de template.
 
-Can be used to instruct the template compiler to produce `.metadata.json` files for distribution with an `npm` package. This avoids the production of `.ngfactory.js` and `.ngstyle.js` files that cannot be distributed to `npm`.
+Pode ser usado para instruir o compilador de template a produzir arquivos `.metadata.json` para distribuição com um pacote `npm`. Isso evita a produção de arquivos `.ngfactory.js` e `.ngstyle.js` que não podem ser distribuídos para `npm`.
 
-For library projects created with the Angular CLI, the development configuration default is `true`.
+Para projetos de biblioteca criados com o Angular CLI, o padrão da configuração de desenvolvimento é `true`.
 
 ### `strictMetadataEmit`
 
-When `true`, reports an error to the `.metadata.json` file if `"skipMetadataEmit"` is `false`.
-Default is `false`.
-Use only when `"skipMetadataEmit"` is `false` and `"skipTemplateCodegen"` is `true`.
+Quando `true`, reporta um erro para o arquivo `.metadata.json` se `"skipMetadataEmit"` é `false`.
+O padrão é `false`.
+Use apenas quando `"skipMetadataEmit"` é `false` e `"skipTemplateCodegen"` é `true`.
 
-This option is intended to verify the `.metadata.json` files emitted for bundling with an `npm` package.
-The validation is strict and can emit errors for metadata that would never produce an error when used by the template compiler.
-You can choose to suppress the error emitted by this option for an exported symbol by including `@dynamic` in the comment documenting the symbol.
+Esta opção destina-se a verificar os arquivos `.metadata.json` emitidos para empacotamento com um pacote `npm`.
+A validação é estrita e pode emitir erros para metadados que nunca produziriam um erro quando usados pelo compilador de template.
+Você pode optar por suprimir o erro emitido por esta opção para um símbolo exportado incluindo `@dynamic` no comentário que documenta o símbolo.
 
-It is valid for `.metadata.json` files to contain errors.
-The template compiler reports these errors if the metadata is used to determine the contents of an annotation.
-The metadata collector cannot predict the symbols that are designed for use in an annotation. It preemptively includes error nodes in the metadata for the exported symbols.
-The template compiler can then use the error nodes to report an error if these symbols are used.
+É válido para arquivos `.metadata.json` conterem erros.
+O compilador de template reporta esses erros se os metadados são usados para determinar o conteúdo de uma anotação.
+O coletor de metadados não pode prever os símbolos que são projetados para uso em uma anotação. Ele inclui preventivamente nós de erro nos metadados para os símbolos exportados.
+O compilador de template pode então usar os nós de erro para reportar um erro se esses símbolos forem usados.
 
-If the client of a library intends to use a symbol in an annotation, the template compiler does not normally report this. It gets reported after the client actually uses the symbol.
-This option allows detection of these errors during the build phase of the library and is used, for example, in producing Angular libraries themselves.
+Se o cliente de uma biblioteca pretende usar um símbolo em uma anotação, o compilador de template normalmente não reporta isso. É reportado depois que o cliente realmente usa o símbolo.
+Esta opção permite a detecção desses erros durante a fase de build da biblioteca e é usada, por exemplo, na produção das próprias bibliotecas Angular.
 
-For library projects created with the Angular CLI, the development configuration default is `true`.
+Para projetos de biblioteca criados com o Angular CLI, o padrão da configuração de desenvolvimento é `true`.
 
 ### `strictInjectionParameters`
 
-When `true`, reports an error for a supplied parameter whose injection type cannot be determined.
-When `false`, constructor parameters of classes marked with `@Injectable` whose type cannot be resolved produce a warning.
-The recommended value is `true`, but the default value is `false`.
+Quando `true`, reporta um erro para um parâmetro fornecido cujo tipo de injeção não pode ser determinado.
+Quando `false`, parâmetros de constructor de classes marcadas com `@Injectable` cujo tipo não pode ser resolvido produzem um aviso.
+O valor recomendado é `true`, mas o valor padrão é `false`.
 
-When you use the Angular CLI command `ng new --strict`, it is set to `true` in the created project's configuration.
+Quando você usa o comando Angular CLI `ng new --strict`, é definido como `true` na configuração do projeto criado.
 
 ### `strictTemplates`
 
-When `true`, enables [strict template type checking](tools/cli/template-typecheck#strict-mode).
+Quando `true`, habilita [verificação de tipo de template estrita](tools/cli/template-typecheck#strict-mode).
 
-The strictness flags that this option enables allow you to turn on and off specific types of strict template type checking.
-See [troubleshooting template errors](tools/cli/template-typecheck#troubleshooting-template-errors).
+As flags de rigor que esta opção habilita permitem que você ative e desative tipos específicos de verificação de tipo de template estrita.
+Veja [solucionando erros de template](tools/cli/template-typecheck#troubleshooting-template-errors).
 
-When you use the Angular CLI command `ng new --strict`, it is set to `true` in the new project's configuration.
+Quando você usa o comando Angular CLI `ng new --strict`, é definido como `true` na configuração do novo projeto.
 
 ### `strictStandalone`
 
-When `true`, reports an error if a component, directive, or pipe is not standalone.
+Quando `true`, reporta um erro se um component, diretiva ou pipe não é standalone.
 
 ### `trace`
 
-When `true`, prints extra information while compiling templates.
-Default is `false`.
+Quando `true`, imprime informações extras ao compilar templates.
+O padrão é `false`.
 
-## Command line options
+## Opções de linha de comando
 
-Most of the time, you interact with the Angular Compiler indirectly using [Angular CLI](reference/configs/angular-compiler-options). When debugging certain issues, you might find it useful to invoke the Angular Compiler directly.
-You can use the `ngc` command provided by the `@angular/compiler-cli` npm package to call the compiler from the command line.
+Na maioria das vezes, você interage com o compilador Angular indiretamente usando [Angular CLI](reference/configs/angular-compiler-options). Ao debugar certos problemas, você pode achar útil invocar o compilador Angular diretamente.
+Você pode usar o comando `ngc` fornecido pelo pacote npm `@angular/compiler-cli` para chamar o compilador da linha de comando.
 
-The `ngc` command is a wrapper around TypeScript's `tsc` compiler command. The Angular Compiler is primarily configured through `tsconfig.json` while Angular CLI is primarily configured through `angular.json`.
+O comando `ngc` é um wrapper em torno do comando compilador `tsc` do TypeScript. O compilador Angular é configurado principalmente através do `tsconfig.json` enquanto o Angular CLI é configurado principalmente através do `angular.json`.
 
-Besides the configuration file, you can also use [`tsc` command line options](https://www.typescriptlang.org/docs/handbook/compiler-options.html) to configure `ngc`.
+Além do arquivo de configuração, você também pode usar [opções de linha de comando do `tsc`](https://www.typescriptlang.org/docs/handbook/compiler-options.html) para configurar o `ngc`.
 
 [GuideI18nCommonPrepareMarkTextInComponentTemplate]: guide/i18n/prepare#mark-text-in-component-template 'Mark text in component template - Prepare component for translation | Angular'

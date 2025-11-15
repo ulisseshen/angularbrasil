@@ -1,10 +1,11 @@
-# Migration to Control Flow syntax
+<!-- ia-translate: true -->
+# Migração para a sintaxe de Control Flow
 
-[Control flow syntax](guide/templates/control-flow) is available from Angular v17. The new syntax is baked into the template, so you don't need to import `CommonModule` anymore.
+A [sintaxe de Control Flow](guide/templates/control-flow) está disponível a partir do Angular v17. A nova sintaxe é integrada ao template, então você não precisa mais importar o `CommonModule`.
 
-This schematic migrates all existing code in your application to use new Control Flow Syntax.
+Este schematic migra todo o código existente em sua aplicação para usar a nova sintaxe de Control Flow.
 
-Run the schematic using the following command:
+Execute o schematic usando o seguinte comando:
 
 <docs-code language="shell">
 
