@@ -1,10 +1,11 @@
-# Clean up unused imports
+<!-- ia-translate: true -->
+# Limpeza de imports não utilizados
 
-As of version 19, Angular reports when a component's `imports` array contains symbols that aren't used in its template.
+A partir da versão 19, o Angular reporta quando o array `imports` de um component contém símbolos que não são usados em seu template.
 
-Running this schematic will clean up all unused imports within the project.
+Executar este schematic fará a limpeza de todos os imports não utilizados dentro do projeto.
 
-Run the schematic using the following command:
+Execute o schematic usando o seguinte comando:
 
 <docs-code language="shell">
 
@@ -12,7 +13,7 @@ ng generate @angular/core:cleanup-unused-imports
 
 </docs-code>
 
-#### Before
+#### Antes
 
 <docs-code language="typescript">
 import { Component } from '@angular/core';
@@ -25,7 +26,7 @@ imports: [UnusedDirective],
 export class MyComp {}
 </docs-code>
 
-#### After
+#### Depois
 
 <docs-code language="typescript">
 import { Component } from '@angular/core';
