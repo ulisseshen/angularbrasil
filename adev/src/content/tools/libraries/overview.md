@@ -1,34 +1,35 @@
-# Overview of Angular libraries
+<!-- ia-translate: true -->
+# Visão Geral de libraries do Angular
 
-Many applications need to solve the same general problems, such as presenting a unified user interface, presenting data, and allowing data entry.
-Developers can create general solutions for particular domains that can be adapted for re-use in different applications.
-Such a solution can be built as Angular _libraries_ and these libraries can be published and shared as _npm packages_.
+Muitas aplicações precisam resolver os mesmos problemas gerais, como apresentar uma interface de usuário unificada, apresentar dados e permitir a entrada de dados.
+Desenvolvedores podem criar soluções gerais para domínios específicos que podem ser adaptadas para reutilização em diferentes aplicações.
+Essa solução pode ser construída como _libraries_ do Angular e essas libraries podem ser publicadas e compartilhadas como _pacotes npm_.
 
-An Angular library is an Angular project that differs from an application in that it cannot run on its own.
-A library must be imported and used in an application.
+Uma library do Angular é um projeto Angular que difere de uma aplicação por não poder ser executada sozinha.
+Uma library deve ser importada e usada em uma aplicação.
 
-Libraries extend Angular's base features.
-For example, to add [reactive forms](guide/forms/reactive-forms) to an application, add the library package using `ng add @angular/forms`, then import the `ReactiveFormsModule` from the `@angular/forms` library in your application code.
-Similarly, adding the [service worker](ecosystem/service-workers) library to an Angular application is one of the steps for turning an application into a [Progressive Web App](https://developers.google.com/web/progressive-web-apps) \(PWA\).
-[Angular Material](https://material.angular.dev) is an example of a large, general-purpose library that provides sophisticated, reusable, and adaptable UI components.
+Libraries estendem os recursos base do Angular.
+Por exemplo, para adicionar [reactive forms](guide/forms/reactive-forms) a uma aplicação, adicione o pacote da library usando `ng add @angular/forms`, depois importe o `ReactiveFormsModule` da library `@angular/forms` no código da sua aplicação.
+Da mesma forma, adicionar a library de [service worker](ecosystem/service-workers) a uma aplicação Angular é uma das etapas para transformar uma aplicação em uma [Progressive Web App](https://developers.google.com/web/progressive-web-apps) \(PWA\).
+[Angular Material](https://material.angular.dev) é um exemplo de uma library grande e de uso geral que fornece components de UI sofisticados, reutilizáveis e adaptáveis.
 
-Any application developer can use these and other libraries that have been published as npm packages by the Angular team or by third parties.
-See [Using Published Libraries](tools/libraries/using-libraries).
+Qualquer desenvolvedor de aplicações pode usar essas e outras libraries que foram publicadas como pacotes npm pela equipe do Angular ou por terceiros.
+Veja [Usando Libraries Publicadas](tools/libraries/using-libraries).
 
-HELPFUL: Libraries are intended to be used by Angular applications. To add Angular features to non-Angular web applications, use [Angular custom elements](guide/elements).
+HELPFUL: Libraries são destinadas a serem usadas por aplicações Angular. Para adicionar recursos do Angular a aplicações web não-Angular, use [Angular custom elements](guide/elements).
 
-## Creating libraries
+## Criando libraries
 
-If you have developed features that are suitable for reuse, you can create your own libraries.
-These libraries can be used locally in your workspace, or you can publish them as [npm packages](reference/configs/npm-packages) to share with other projects or other Angular developers.
-These packages can be published to the npm registry, a private npm Enterprise registry, or a private package management system that supports npm packages.
-See [Creating Libraries](tools/libraries/creating-libraries).
+Se você desenvolveu recursos adequados para reutilização, pode criar suas próprias libraries.
+Essas libraries podem ser usadas localmente no seu workspace, ou você pode publicá-las como [pacotes npm](reference/configs/npm-packages) para compartilhar com outros projetos ou outros desenvolvedores Angular.
+Esses pacotes podem ser publicados no registro npm, em um registro npm Enterprise privado ou em um sistema de gerenciamento de pacotes privado que suporte pacotes npm.
+Veja [Criando Libraries](tools/libraries/creating-libraries).
 
-Deciding to package features as a library is an architectural decision. It is comparable to deciding whether a feature is a component or a service, or deciding on the scope of a component.
+Decidir empacotar recursos como uma library é uma decisão arquitetural. É comparável a decidir se um recurso é um component ou um service, ou decidir o escopo de um component.
 
-Packaging features as a library forces the artifacts in the library to be decoupled from the application's business logic.
-This can help to avoid various bad practices or architecture mistakes that can make it difficult to decouple and reuse code in the future.
+Empacotar recursos como uma library força os artefatos na library a serem desacoplados da lógica de negócios da aplicação.
+Isso pode ajudar a evitar várias práticas ruins ou erros de arquitetura que podem dificultar o desacoplamento e a reutilização de código no futuro.
 
-Putting code into a separate library is more complex than simply putting everything in one application.
-It requires more of an investment in time and thought for managing, maintaining, and updating the library.
-This complexity can pay off when the library is being used in multiple applications.
+Colocar código em uma library separada é mais complexo do que simplesmente colocar tudo em uma aplicação.
+Requer mais investimento em tempo e pensamento para gerenciar, manter e atualizar a library.
+Essa complexidade pode valer a pena quando a library está sendo usada em múltiplas aplicações.
