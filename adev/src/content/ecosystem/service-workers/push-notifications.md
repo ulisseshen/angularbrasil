@@ -1,27 +1,28 @@
+<!-- ia-translate: true -->
 # Push notifications
 
-Push notifications are a compelling way to engage users.
-Through the power of service workers, notifications can be delivered to a device even when your application is not in focus.
+Push notifications são uma maneira convincente de engajar usuários.
+Através do poder dos service workers, notificações podem ser entregues a um dispositivo mesmo quando sua aplicação não está em foco.
 
-The Angular service worker enables the display of push notifications and the handling of notification click events.
+O Angular service worker habilita a exibição de push notifications e o tratamento de eventos de clique em notificações.
 
-HELPFUL: When using the Angular service worker, push notification interactions are handled using the `SwPush` service.
-To learn more about the browser APIs involved see [Push API](https://developer.mozilla.org/docs/Web/API/Push_API) and [Using the Notifications API](https://developer.mozilla.org/docs/Web/API/Notifications_API/Using_the_Notifications_API).
+HELPFUL: Ao usar o Angular service worker, interações de push notification são tratadas usando o serviço `SwPush`.
+Para saber mais sobre as APIs do navegador envolvidas, consulte [Push API](https://developer.mozilla.org/docs/Web/API/Push_API) e [Using the Notifications API](https://developer.mozilla.org/docs/Web/API/Notifications_API/Using_the_Notifications_API).
 
-## Notification payload
+## Payload de notificação
 
-Invoke push notifications by pushing a message with a valid payload.
-See `SwPush` for guidance.
+Invoque push notifications enviando uma mensagem com um payload válido.
+Consulte `SwPush` para orientação.
 
-HELPFUL: In Chrome, you can test push notifications without a backend.
-Open Devtools -> Application -> Service Workers and use the `Push` input to send a JSON notification payload.
+HELPFUL: No Chrome, você pode testar push notifications sem um backend.
+Abra Devtools -> Application -> Service Workers e use o input `Push` para enviar um payload de notificação JSON.
 
-## Notification click handling
+## Tratamento de clique em notificações
 
-The default behavior for the `notificationclick` event is to close the notification and notify `SwPush.notificationClicks`.
+O comportamento padrão para o evento `notificationclick` é fechar a notificação e notificar `SwPush.notificationClicks`.
 
-You can specify an additional operation to be executed on `notificationclick` by adding an `onActionClick` property to the `data` object, and providing a `default` entry.
-This is especially useful for when there are no open clients when a notification is clicked.
+Você pode especificar uma operação adicional a ser executada em `notificationclick` adicionando uma propriedade `onActionClick` ao objeto `data`, e fornecendo uma entrada `default`.
+Isso é especialmente útil para quando não há clientes abertos quando uma notificação é clicada.
 
 ```json
 {
@@ -36,27 +37,27 @@ This is especially useful for when there are no open clients when a notification
 }
 ```
 
-### Operations
+### Operações
 
-The Angular service worker supports the following operations:
+O Angular service worker suporta as seguintes operações:
 
-| Operations                  | Details                                                                                                                                          |
-| :-------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `openWindow`                | Opens a new tab at the specified URL.                                                                                                            |
-| `focusLastFocusedOrOpen`    | Focuses the last focused client. If there is no client open, then it opens a new tab at the specified URL.                                       |
-| `navigateLastFocusedOrOpen` | Focuses the last focused client and navigates it to the specified URL. If there is no client open, then it opens a new tab at the specified URL. |
-| `sendRequest`               | Send a simple GET request to the specified URL.                                                                                                  |
+| Operações                   | Detalhes                                                                                                                                             |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `openWindow`                | Abre uma nova aba na URL especificada.                                                                                                               |
+| `focusLastFocusedOrOpen`    | Foca no último cliente focado. Se não houver cliente aberto, então abre uma nova aba na URL especificada.                                            |
+| `navigateLastFocusedOrOpen` | Foca no último cliente focado e navega para a URL especificada. Se não houver cliente aberto, então abre uma nova aba na URL especificada.           |
+| `sendRequest`               | Envia uma requisição GET simples para a URL especificada.                                                                                            |
 
-IMPORTANT: URLs are resolved relative to the service worker's registration scope.<br />If an `onActionClick` item does not define a `url`, then the service worker's registration scope is used.
+IMPORTANT: URLs são resolvidas relativamente ao escopo de registro do service worker.<br />Se um item `onActionClick` não definir uma `url`, então o escopo de registro do service worker é usado.
 
 ### Actions
 
-Actions offer a way to customize how the user can interact with a notification.
+Actions oferecem uma maneira de customizar como o usuário pode interagir com uma notificação.
 
-Using the `actions` property, you can define a set of available actions.
-Each action is represented as an action button that the user can click to interact with the notification.
+Usando a propriedade `actions`, você pode definir um conjunto de ações disponíveis.
+Cada ação é representada como um botão de ação que o usuário pode clicar para interagir com a notificação.
 
-In addition, using the `onActionClick` property on the `data` object, you can tie each action to an operation to be performed when the corresponding action button is clicked:
+Além disso, usando a propriedade `onActionClick` no objeto `data`, você pode vincular cada ação a uma operação a ser executada quando o botão de ação correspondente for clicado:
 
 ```json
 {
@@ -82,13 +83,13 @@ In addition, using the `onActionClick` property on the `data` object, you can ti
 }
 ```
 
-IMPORTANT: If an action does not have a corresponding `onActionClick` entry, then the notification is closed and `SwPush.notificationClicks` is notified on existing clients.
+IMPORTANT: Se uma ação não tiver uma entrada `onActionClick` correspondente, então a notificação é fechada e `SwPush.notificationClicks` é notificado em clientes existentes.
 
-## More on Angular service workers
+## Mais sobre Angular service workers
 
-You might also be interested in the following:
+Você também pode estar interessado no seguinte:
 
 <docs-pill-row>
-  <docs-pill href="ecosystem/service-workers/communications" title="Communicating with the Service Worker"/>
+  <docs-pill href="ecosystem/service-workers/communications" title="Comunicando com o Service Worker"/>
   <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
 </docs-pill-row>
