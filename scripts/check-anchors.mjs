@@ -21,6 +21,13 @@ function generateAnchorId(text) {
     .trim();
 }
 
+// Extract custom ID from heading text if present
+function extractCustomId(text) {
+  const customIdRegex = /{#\s*([\w-]+)\s*}/;
+  const match = customIdRegex.exec(text);
+  return match ? match[1] : null;
+}
+
 // Extract headings from markdown content
 function extractHeadings(content) {
   const headings = [];
@@ -30,9 +37,12 @@ function extractHeadings(content) {
   let match;
   while ((match = mdHeadingRegex.exec(content)) !== null) {
     const headingText = match[1].trim();
+    const customId = extractCustomId(headingText);
+    const id = customId || generateAnchorId(headingText);
+
     headings.push({
       text: headingText,
-      id: generateAnchorId(headingText),
+      id: id,
       line: content.substring(0, match.index).split('\n').length,
     });
   }
@@ -41,9 +51,12 @@ function extractHeadings(content) {
   const docsStepRegex = /<docs-step\s+title="([^"]+)"/g;
   while ((match = docsStepRegex.exec(content)) !== null) {
     const headingText = match[1].trim();
+    const customId = extractCustomId(headingText);
+    const id = customId || generateAnchorId(headingText);
+
     headings.push({
       text: headingText,
-      id: generateAnchorId(headingText),
+      id: id,
       line: content.substring(0, match.index).split('\n').length,
     });
   }
