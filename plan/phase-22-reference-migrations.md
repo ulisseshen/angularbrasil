@@ -10,19 +10,22 @@ Use: `.claude/agents/translate-to-pt-br.md`
 
 ## ✅ Files to Translate
 
-- [ ] `adev/src/content/reference/migrations/dynamic-queries.md`
-- [ ] `adev/src/content/reference/migrations/initial-navigation.md`
-- [ ] `adev/src/content/reference/migrations/lazy-routes.md`
-- [ ] `adev/src/content/reference/migrations/renderer-to-renderer2.md`
-- [ ] `adev/src/content/reference/migrations/router-default-url-tree.md`
-- [ ] `adev/src/content/reference/migrations/route-resetconfig.md`
-- [ ] `adev/src/content/reference/migrations/route-guards.md`
-- [ ] `adev/src/content/reference/migrations/router-prefer-standalone.md`
-- [ ] `adev/src/content/reference/migrations/template-var-assignment.md`
-- [ ] `adev/src/content/reference/migrations/wait-for-async.md`
-- [ ] `adev/src/content/reference/configs/angular-compiler-options.md`
-- [ ] `adev/src/content/reference/configs/file-structure.md`
+### Migrations (8 files)
+- [✅] `adev/src/content/reference/migrations/overview.md`
+- [✅] `adev/src/content/reference/migrations/control-flow.md`
+- [✅] `adev/src/content/reference/migrations/signal-inputs.md`
+- [✅] `adev/src/content/reference/migrations/signal-queries.md`
+- [✅] `adev/src/content/reference/migrations/outputs.md`
+- [✅] `adev/src/content/reference/migrations/inject-function.md`
+- [✅] `adev/src/content/reference/migrations/common-to-standalone.md`
+- [✅] `adev/src/content/reference/migrations/route-lazy-loading.md`
 
-## 📊 Progress: 0/12 (0%)
+### Configs (4 files)
+- [✅] `adev/src/content/reference/configs/angular-compiler-options.md`
+- [✅] `adev/src/content/reference/configs/file-structure.md`
+- [✅] `adev/src/content/reference/configs/npm-packages.md`
+- [✅] `adev/src/content/reference/configs/workspace-config.md`
+
+## 📊 Progress: 12/12 (100%) 🎉
 
 ## 🎯 Next: `plan/phase-23-reference-configs-errors.md`
