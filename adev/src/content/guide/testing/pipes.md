@@ -1,28 +1,29 @@
-# Testing Pipes
+<!-- ia-translate: true -->
+# Testes de Pipes
 
-You can test [pipes](guide/templates/pipes) without the Angular testing utilities.
+Você pode testar [pipes](guide/templates/pipes) sem os utilitários de teste do Angular.
 
-## Testing the `TitleCasePipe`
+## Testes do `TitleCasePipe`
 
-A pipe class has one method, `transform`, that manipulates the input value into a transformed output value.
-The `transform` implementation rarely interacts with the DOM.
-Most pipes have no dependence on Angular other than the `@Pipe` metadata and an interface.
+Uma classe pipe tem um método, `transform`, que manipula o valor de entrada em um valor de saída transformado.
+A implementação `transform` raramente interage com o DOM.
+A maioria dos pipes não tem dependência do Angular além da metadata `@Pipe` e uma interface.
 
-Consider a `TitleCasePipe` that capitalizes the first letter of each word.
-Here's an implementation with a regular expression.
+Considere um `TitleCasePipe` que capitaliza a primeira letra de cada palavra.
+Aqui está uma implementação com uma expressão regular.
 
 <docs-code header="app/shared/title-case.pipe.ts" path="adev/src/content/examples/testing/src/app/shared/title-case.pipe.ts"/>
 
-Anything that uses a regular expression is worth testing thoroughly.
-Use simple Jasmine to explore the expected cases and the edge cases.
+Qualquer coisa que use uma expressão regular vale a pena testar completamente.
+Use Jasmine simples para explorar os casos esperados e os casos extremos.
 
 <docs-code header="app/shared/title-case.pipe.spec.ts" path="adev/src/content/examples/testing/src/app/shared/title-case.pipe.spec.ts" visibleRegion="excerpt"/>
 
-## Writing DOM tests to support a pipe test
+## Escrevendo testes DOM para suportar um teste de pipe
 
-These are tests of the pipe _in isolation_.
-They can't tell if the `TitleCasePipe` is working properly as applied in the application components.
+Estes são testes do pipe _isoladamente_.
+Eles não podem dizer se o `TitleCasePipe` está funcionando corretamente quando aplicado nos components da aplicação.
 
-Consider adding component tests such as this one:
+Considere adicionar testes de component como este:
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (pipe test)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="title-case-pipe"/>

@@ -1,101 +1,102 @@
-# Testing services
+<!-- ia-translate: true -->
+# Testes de services
 
-To check that your services are working as you intend, you can write tests specifically for them.
+Para verificar se seus services estão funcionando conforme você pretende, você pode escrever testes especificamente para eles.
 
-Services are often the smoothest files to unit test.
-Here are some synchronous and asynchronous unit tests of the `ValueService` written without assistance from Angular testing utilities.
+Services são frequentemente os arquivos mais suaves para fazer unit test.
+Aqui estão alguns unit tests síncronos e assíncronos do `ValueService` escritos sem assistência dos utilitários de teste do Angular.
 
 <docs-code header="app/demo/demo.spec.ts" path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="ValueService"/>
 
-## Testing services with the `TestBed`
+## Testes de services com o `TestBed`
 
-Your application relies on Angular [dependency injection (DI)](guide/di) to create services.
-When a service has a dependent service, DI finds or creates that dependent service.
-And if that dependent service has its own dependencies, DI finds-or-creates them as well.
+Sua aplicação depende da [injeção de dependência (DI)](guide/di) do Angular para criar services.
+Quando um service tem um service dependente, DI encontra ou cria aquele service dependente.
+E se aquele service dependente tem suas próprias dependências, DI as encontra ou cria também.
 
-As a service _consumer_, you don't worry about any of this.
-You don't worry about the order of constructor arguments or how they're created.
+Como um _consumidor_ de service, você não se preocupa com nada disso.
+Você não se preocupa com a ordem dos argumentos do constructor ou como eles são criados.
 
-As a service _tester_, you must at least think about the first level of service dependencies but you _can_ let Angular DI do the service creation and deal with constructor argument order when you use the `TestBed` testing utility to provide and create services.
+Como um _testador_ de service, você deve pelo menos pensar sobre o primeiro nível de dependências de service, mas você _pode_ deixar o DI do Angular fazer a criação do service e lidar com a ordem dos argumentos do constructor quando você usa o utilitário de teste `TestBed` para fornecer e criar services.
 
-## Angular `TestBed`
+## `TestBed` do Angular
 
-The `TestBed` is the most important of the Angular testing utilities.
-The `TestBed` creates a dynamically-constructed Angular _test_ module that emulates an Angular [@NgModule](guide/ngmodules).
+O `TestBed` é o mais importante dos utilitários de teste do Angular.
+O `TestBed` cria um module _test_ do Angular construído dinamicamente que emula um [@NgModule](guide/ngmodules) do Angular.
 
-The `TestBed.configureTestingModule()` method takes a metadata object that can have most of the properties of an [@NgModule](guide/ngmodules).
+O método `TestBed.configureTestingModule()` recebe um objeto de metadata que pode ter a maioria das propriedades de um [@NgModule](guide/ngmodules).
 
-To test a service, you set the `providers` metadata property with an array of the services that you'll test or mock.
+Para testar um service, você define a propriedade de metadata `providers` com um array dos services que você vai testar ou simular.
 
 <docs-code header="app/demo/demo.testbed.spec.ts (provide ValueService in beforeEach)" path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="value-service-before-each"/>
 
-Then inject it inside a test by calling `TestBed.inject()` with the service class as the argument.
+Então injete-o dentro de um teste chamando `TestBed.inject()` com a classe do service como argumento.
 
-HELPFUL: `TestBed.get()` was deprecated as of Angular version 9.
-To help minimize breaking changes, Angular introduces a new function called `TestBed.inject()`, which you should use instead.
+ÚTIL: `TestBed.get()` foi depreciado a partir do Angular versão 9.
+Para ajudar a minimizar mudanças breaking, o Angular introduz uma nova função chamada `TestBed.inject()`, que você deve usar em vez disso.
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="value-service-inject-it"/>
 
-Or inside the `beforeEach()` if you prefer to inject the service as part of your setup.
+Ou dentro do `beforeEach()` se você preferir injetar o service como parte de sua configuração.
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="value-service-inject-before-each"> </docs-code>
 
-When testing a service with a dependency, provide the mock in the `providers` array.
+Ao testar um service com uma dependência, forneça o mock no array `providers`.
 
-In the following example, the mock is a spy object.
+No exemplo seguinte, o mock é um objeto spy.
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="master-service-before-each"/>
 
-The test consumes that spy in the same way it did earlier.
+O teste consome aquele spy da mesma maneira que fez anteriormente.
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="master-service-it"/>
 
-## Testing without `beforeEach()`
+## Testes sem `beforeEach()`
 
-Most test suites in this guide call `beforeEach()` to set the preconditions for each `it()` test and rely on the `TestBed` to create classes and inject services.
+A maioria dos conjuntos de testes neste guia chama `beforeEach()` para definir as pré-condições para cada teste `it()` e depende do `TestBed` para criar classes e injetar services.
 
-There's another school of testing that never calls `beforeEach()` and prefers to create classes explicitly rather than use the `TestBed`.
+Há outra escola de testes que nunca chama `beforeEach()` e prefere criar classes explicitamente em vez de usar o `TestBed`.
 
-Here's how you might rewrite one of the `MasterService` tests in that style.
+Aqui está como você pode reescrever um dos testes `MasterService` nesse estilo.
 
-Begin by putting re-usable, preparatory code in a _setup_ function instead of `beforeEach()`.
+Comece colocando código preparatório reutilizável em uma função _setup_ em vez de `beforeEach()`.
 
 <docs-code header="app/demo/demo.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="no-before-each-setup"/>
 
-The `setup()` function returns an object literal with the variables, such as `masterService`, that a test might reference.
-You don't define _semi-global_ variables \(for example, `let masterService: MasterService`\) in the body of the `describe()`.
+A função `setup()` retorna um objeto literal com as variáveis, como `masterService`, que um teste pode referenciar.
+Você não define variáveis _semi-globais_ \(por exemplo, `let masterService: MasterService`\) no corpo do `describe()`.
 
-Then each test invokes `setup()` in its first line, before continuing with steps that manipulate the test subject and assert expectations.
+Então cada teste invoca `setup()` em sua primeira linha, antes de continuar com passos que manipulam o subject do teste e afirmam expectations.
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="no-before-each-test"/>
 
-Notice how the test uses [_destructuring assignment_](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) to extract the setup variables that it needs.
+Observe como o teste usa [_destructuring assignment_](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) para extrair as variáveis de setup que ele precisa.
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="no-before-each-setup-call"/>
 
-Many developers feel this approach is cleaner and more explicit than the traditional `beforeEach()` style.
+Muitos desenvolvedores sentem que esta abordagem é mais limpa e mais explícita do que o estilo tradicional `beforeEach()`.
 
-Although this testing guide follows the traditional style and the default [CLI schematics](https://github.com/angular/angular-cli) generate test files with `beforeEach()` and `TestBed`, feel free to adopt _this alternative approach_ in your own projects.
+Embora este guia de testes siga o estilo tradicional e os [schematics CLI](https://github.com/angular/angular-cli) padrão gerem arquivos de teste com `beforeEach()` e `TestBed`, sinta-se livre para adotar _esta abordagem alternativa_ em seus próprios projetos.
 
-## Testing HTTP services
+## Testes de services HTTP
 
-Data services that make HTTP calls to remote servers typically inject and delegate to the Angular [`HttpClient`](guide/http/testing) service for XHR calls.
+Services de dados que fazem chamadas HTTP para servidores remotos normalmente injetam e delegam ao service [`HttpClient`](guide/http/testing) do Angular para chamadas XHR.
 
-You can test a data service with an injected `HttpClient` spy as you would test any service with a dependency.
+Você pode testar um service de dados com um spy `HttpClient` injetado como você testaria qualquer service com uma dependência.
 
 <docs-code header="app/model/hero.service.spec.ts (tests with spies)" path="adev/src/content/examples/testing/src/app/model/hero.service.spec.ts" visibleRegion="test-with-spies"/>
 
-IMPORTANT: The `HeroService` methods return `Observables`.
-You must _subscribe_ to an observable to \(a\) cause it to execute and \(b\) assert that the method succeeds or fails.
+IMPORTANTE: Os métodos `HeroService` retornam `Observables`.
+Você deve _se inscrever_ em um observable para \(a\) fazer com que ele execute e \(b\) afirmar que o método teve sucesso ou falhou.
 
-The `subscribe()` method takes a success \(`next`\) and fail \(`error`\) callback.
-Make sure you provide _both_ callbacks so that you capture errors.
-Neglecting to do so produces an asynchronous uncaught observable error that the test runner will likely attribute to a completely different test.
+O método `subscribe()` recebe um callback de sucesso \(`next`\) e falha \(`error`\).
+Certifique-se de fornecer _ambos_ os callbacks para que você capture erros.
+Negligenciar isso produz um erro de observable assíncrono não capturado que o test runner provavelmente atribuirá a um teste completamente diferente.
 
 ## `HttpClientTestingModule`
 
-Extended interactions between a data service and the `HttpClient` can be complex and difficult to mock with spies.
+Interações estendidas entre um service de dados e o `HttpClient` podem ser complexas e difíceis de simular com spies.
 
-The `HttpClientTestingModule` can make these testing scenarios more manageable.
+O `HttpClientTestingModule` pode tornar esses cenários de teste mais gerenciáveis.
 
-While the _code sample_ accompanying this guide demonstrates `HttpClientTestingModule`, this page defers to the [Http guide](guide/http/testing), which covers testing with the `HttpClientTestingModule` in detail.
+Embora o _código de exemplo_ que acompanha este guia demonstre `HttpClientTestingModule`, esta página adia para o [guia Http](guide/http/testing), que cobre testes com o `HttpClientTestingModule` em detalhes.
