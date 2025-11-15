@@ -1,21 +1,22 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Angular Aria">
 </docs-decorative-header>
 
-## What is Angular Aria?
+## O que é Angular Aria?
 
-Building accessible components seems straightforward, but implementing them according to the W3 Accessibility Guidelines requires significant effort and accessibility expertise.
+Construir componentes acessíveis parece direto, mas implementá-los de acordo com as Diretrizes de Acessibilidade do W3 requer esforço significativo e expertise em acessibilidade.
 
-Angular Aria is a collection of headless, accessible directives that implement common WAI-ARIA patterns. The directives handle keyboard interactions, ARIA attributes, focus management, and screen reader support. All you have to do is provide the HTML structure, CSS styling, and business logic!
+Angular Aria é uma coleção de directives acessíveis e headless que implementam padrões WAI-ARIA comuns. As directives lidam com interações de teclado, atributos ARIA, gerenciamento de foco e suporte para leitores de tela. Tudo que você precisa fazer é fornecer a estrutura HTML, estilização CSS e lógica de negócio!
 
-## Installation
+## Instalação
 
 <docs-code language="shell">
   ng add @angular/aria
 </docs-code>
 
-## Showcase / Demonstration
+## Demonstração / Showcase
 
-For example, let's take a toolbar menu. While it may appear to be a "simple" row of buttons tied with specific logic, keyboard navigation and screen readers add a lot of unexpected complexity to those unfamiliar with accessibility.
+Por exemplo, vamos pegar um menu de toolbar. Embora possa parecer uma "simples" linha de botões vinculados com lógica específica, navegação por teclado e leitores de tela adicionam muita complexidade inesperada para aqueles não familiarizados com acessibilidade.
 
 ```
 <!------------------------------------->
@@ -23,69 +24,69 @@ For example, let's take a toolbar menu. While it may appear to be a "simple" row
 <!------------------------------------->
 ```
 
-In this one scenario, developers need to consider:
+Neste único cenário, desenvolvedores precisam considerar:
 
-- **Keyboard navigation**. Users need to open the menu with Enter or Space, navigate options with arrow keys, select with Enter, and close with Escape.
-- **Screen readers** need to announce the menu's state, the number of options, and which option has focus.
-- **Focus management** needs to move logically between the trigger and menu items.
-- **Right-to-left languages** require the ability to navigate in reverse.
+- **Navegação por teclado**. Usuários precisam abrir o menu com Enter ou Espaço, navegar pelas opções com as setas, selecionar com Enter e fechar com Escape.
+- **Leitores de tela** precisam anunciar o estado do menu, o número de opções e qual opção tem foco.
+- **Gerenciamento de foco** precisa mover logicamente entre o trigger e os itens do menu.
+- **Idiomas da direita para a esquerda** requerem a capacidade de navegar em ordem reversa.
 
-## What's included?
+## O que está incluído?
 
-Angular Aria includes directives for common interactive patterns:
+Angular Aria inclui directives para padrões interativos comuns:
 
-| Component                               | Description                                                            |
-| --------------------------------------- | ---------------------------------------------------------------------- |
-| [Accordion](guide/aria/accordion)       | Collapsible content panels that can expand individually or exclusively |
-| [Autocomplete](guide/aria/autocomplete) | Text input with filtered suggestions that appear as users type         |
-| [Combobox](guide/aria/combobox)         | Primitive directive that coordinates a text input with a popup         |
-| [Grid](guide/aria/grid)                 | Two-dimensional data display with cell-by-cell keyboard navigation     |
-| [Listbox](guide/aria/listbox)           | Single or multi-select option lists with keyboard navigation           |
-| [Menu](guide/aria/menu)                 | Dropdown menus with nested submenus and keyboard shortcuts             |
-| [Multiselect](guide/aria/multiselect)   | Multiple-selection dropdown pattern with compact display               |
-| [Select](guide/aria/select)             | Single-selection dropdown pattern with keyboard navigation             |
-| [Tabs](guide/aria/tabs)                 | Tabbed interfaces with automatic or manual activation modes            |
-| [Toolbar](guide/aria/toolbar)           | Grouped sets of controls with logical keyboard navigation              |
-| [Tree](guide/aria/tree)                 | Hierarchical lists with expand/collapse functionality                  |
+| Component                               | Description                                                        |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| [Accordion](guide/aria/accordion)       | Painéis de conteúdo recolhíveis que podem expandir individualmente ou exclusivamente |
+| [Autocomplete](guide/aria/autocomplete) | Input de texto com sugestões filtradas que aparecem conforme os usuários digitam |
+| [Combobox](guide/aria/combobox)         | Directive primitiva que coordena um input de texto com um popup    |
+| [Grid](guide/aria/grid)                 | Exibição de dados bidimensional com navegação por teclado célula por célula |
+| [Listbox](guide/aria/listbox)           | Listas de opções de seleção única ou múltipla com navegação por teclado |
+| [Menu](guide/aria/menu)                 | Menus dropdown com submenus aninhados e atalhos de teclado         |
+| [Multiselect](guide/aria/multiselect)   | Padrão de dropdown de seleção múltipla com exibição compacta       |
+| [Select](guide/aria/select)             | Padrão de dropdown de seleção única com navegação por teclado      |
+| [Tabs](guide/aria/tabs)                 | Interfaces com abas com modos de ativação automática ou manual     |
+| [Toolbar](guide/aria/toolbar)           | Conjuntos agrupados de controles com navegação por teclado lógica  |
+| [Tree](guide/aria/tree)                 | Listas hierárquicas com funcionalidade de expandir/recolher        |
 
-Each component includes comprehensive documentation, working examples, and API references.
+Cada componente inclui documentação abrangente, exemplos funcionais e referências de API.
 
-## When to use Angular Aria
+## Quando usar Angular Aria
 
-Angular Aria works well when you need accessible interactive components that are WCAG compliant with custom styling. Examples include:
+Angular Aria funciona bem quando você precisa de componentes interativos acessíveis que sejam compatíveis com WCAG com estilização personalizada. Exemplos incluem:
 
-- **Building a design system** - Your team maintains a component library with specific visual standards that need accessible implementations
-- **Enterprise component libraries** - You're creating reusable components for multiple applications within an organization
-- **Custom brand requirements** - The interface needs to match precise design specifications that pre-styled component libraries cannot easily accommodate
+- **Construindo um design system** - Sua equipe mantém uma biblioteca de componentes com padrões visuais específicos que precisam de implementações acessíveis
+- **Bibliotecas de componentes empresariais** - Você está criando componentes reutilizáveis para múltiplas aplicações dentro de uma organização
+- **Requisitos de marca personalizados** - A interface precisa corresponder a especificações de design precisas que bibliotecas de componentes pré-estilizadas não podem acomodar facilmente
 
-## When not to use Angular Aria
+## Quando não usar Angular Aria
 
-Angular Aria might not fit every scenario:
+Angular Aria pode não se encaixar em todos os cenários:
 
-- **Pre-styled components** - If you need components that look complete without custom styling, use Angular Material instead
-- **Simple forms** - Native HTML form controls like <button> and <input type="radio"> provide built-in accessibility for straightforward use cases
-- **Rapid prototyping** - When validating concepts quickly, pre-styled component libraries reduce initial development time
+- **Componentes pré-estilizados** - Se você precisa de componentes que pareçam completos sem estilização personalizada, use Angular Material em vez disso
+- **Formulários simples** - Controles de formulário HTML nativos como <button> e <input type="radio"> fornecem acessibilidade integrada para casos de uso diretos
+- **Prototipagem rápida** - Ao validar conceitos rapidamente, bibliotecas de componentes pré-estilizadas reduzem o tempo de desenvolvimento inicial
 
-## Next steps
+## Próximos passos
 
-Explore the component guides to find the pattern that fits your needs:
+Explore os guias de componentes para encontrar o padrão que se encaixa nas suas necessidades:
 
-**Search and selection**
+**Busca e seleção**
 
-- Autocomplete - Search and filter options as users type
-- Listbox - Select one or multiple items from a list
-- Select - Choose one option from a list of options
-- Multiselect - Choose one option from a list of options
+- Autocomplete - Busque e filtre opções conforme os usuários digitam
+- Listbox - Selecione um ou múltiplos itens de uma lista
+- Select - Escolha uma opção de uma lista de opções
+- Multiselect - Escolha múltiplas opções de uma lista de opções
 
-**Navigation and call to actions**
+**Navegação e chamadas para ação**
 
-- Menu - Action menus with optional nested submenus
-- Tabs - Switch between related content panels
-- Toolbar - Group related controls and actions
+- Menu - Menus de ação com submenus aninhados opcionais
+- Tabs - Alterne entre painéis de conteúdo relacionados
+- Toolbar - Agrupe controles e ações relacionados
 
-**Content organization**
+**Organização de conteúdo**
 
-- Accordion - Show and hide sections of content
-- Tree - Display hierarchical data structures
-  Data display
-- Grid - Navigate and interact with tabular data
+- Accordion - Mostre e oculte seções de conteúdo
+- Tree - Exiba estruturas de dados hierárquicas
+  Exibição de dados
+- Grid - Navegue e interaja com dados tabulares

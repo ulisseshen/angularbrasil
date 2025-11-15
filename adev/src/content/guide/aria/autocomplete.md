@@ -1,9 +1,10 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Autocomplete">
 </docs-decorative-header>
 
-## Overview
+## Visão Geral
 
-An accessible input field that filters and suggests options as users type, helping them find and select values from a list.
+Um campo de input acessível que filtra e sugere opções conforme os usuários digitam, ajudando-os a encontrar e selecionar valores de uma lista.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts">
   <docs-code header="app.component.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts"/>
@@ -11,54 +12,54 @@ An accessible input field that filters and suggests options as users type, helpi
   <docs-code header="app.component.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso
 
-Autocomplete works best when users need to select from a large set of options where typing is faster than scrolling. Consider using autocomplete when:
+Autocomplete funciona melhor quando os usuários precisam selecionar de um grande conjunto de opções onde digitar é mais rápido do que rolar a página. Considere usar autocomplete quando:
 
-- **The option list is long** (more than 20 items) - Typing narrows down choices faster than scrolling through a dropdown
-- **Users know what they're looking for** - They can type part of the expected value (like a state name, product, or username)
-- **Options follow predictable patterns** - Users can guess partial matches (like country codes, email domains, or categories)
-- **Speed matters** - Forms benefit from quick selection without extensive navigation
+- **A lista de opções é longa** (mais de 20 itens) - Digitar reduz as escolhas mais rápido do que rolar por um dropdown
+- **Os usuários sabem o que estão procurando** - Eles podem digitar parte do valor esperado (como nome de estado, produto ou nome de usuário)
+- **As opções seguem padrões previsíveis** - Os usuários podem adivinhar correspondências parciais (como códigos de país, domínios de email ou categorias)
+- **Velocidade importa** - Formulários se beneficiam de seleção rápida sem navegação extensa
 
-Avoid autocomplete when:
+Evite autocomplete quando:
 
-- The list has fewer than 10 options - A regular dropdown or radio group provides better visibility
-- Users need to browse options - If discovery is important, show all options upfront
-- Options are unfamiliar - Users can't type what they don't know exists in the list
+- A lista tem menos de 10 opções - Um dropdown regular ou grupo de radio buttons fornece melhor visibilidade
+- Os usuários precisam navegar pelas opções - Se a descoberta é importante, mostre todas as opções antecipadamente
+- As opções são desconhecidas - Os usuários não podem digitar o que não sabem que existe na lista
 
-## Features
+## Recursos
 
-Angular's autocomplete provides a fully accessible combobox implementation with:
+O autocomplete do Angular fornece uma implementação de combobox totalmente acessível com:
 
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter, close with Escape
-- **Screen Reader Support** - Built-in ARIA attributes for assistive technologies
-- **Three Filter Modes** - Choose between auto-select, manual selection, or highlighting behavior
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Popover API Integration** - Leverages the native HTML Popover API for optimal positioning
-- **Bidirectional Text Support** - Automatically handles right-to-left (RTL) languages
+- **Navegação por Teclado** - Navegue pelas opções com as setas, selecione com Enter, feche com Escape
+- **Suporte para Leitores de Tela** - Atributos ARIA integrados para tecnologias assistivas
+- **Três Modos de Filtro** - Escolha entre seleção automática, seleção manual ou comportamento de destaque
+- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
+- **Integração com Popover API** - Aproveita a Popover API nativa do HTML para posicionamento ideal
+- **Suporte para Texto Bidirecional** - Lida automaticamente com idiomas da direita para a esquerda (RTL)
 
-## Examples
+## Exemplos
 
-### Auto-select mode
+### Modo de seleção automática
 
-Users typing partial text expect immediate confirmation that their input matches an available option. Auto-select mode updates the input value to match the first filtered option as users type, reducing the number of keystrokes needed and providing instant feedback that their search is on the right track.
+Usuários digitando texto parcial esperam confirmação imediata de que sua entrada corresponde a uma opção disponível. O modo de seleção automática atualiza o valor do input para corresponder à primeira opção filtrada conforme os usuários digitam, reduzindo o número de teclas pressionadas necessárias e fornecendo feedback instantâneo de que sua busca está no caminho certo.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts">
   <docs-code header="app.component.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts" visibleLines="[1,7,33,40]"/>
   <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.html"/>
 </docs-code-multifile>
 
-### Manual selection mode
+### Modo de seleção manual
 
-Manual selection mode keeps the typed text unchanged while users navigate the suggestion list, preventing confusion from automatic updates. The input only changes when users explicitly confirm their choice with Enter or a click.
+O modo de seleção manual mantém o texto digitado inalterado enquanto os usuários navegam pela lista de sugestões, evitando confusão com atualizações automáticas. O input só muda quando os usuários confirmam explicitamente sua escolha com Enter ou um clique.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.component.ts">
   <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.component.html" visibleLines="[1]"/>
 </docs-code-multifile>
 
-### Highlight mode
+### Modo de destaque
 
-Highlight mode allows the user to navigate options with arrow keys without changing the input value as they browse until they explicitly select a new option with Enter or click.
+O modo de destaque permite que o usuário navegue pelas opções com as setas sem alterar o valor do input conforme navegam até que selecionem explicitamente uma nova opção com Enter ou clique.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.component.ts">
   <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.component.html" visibleLines="[1]"/>
@@ -72,47 +73,47 @@ TBD
 
 ### Combobox Directive
 
-The `ngCombobox` directive provides the container for autocomplete functionality.
+A directive `ngCombobox` fornece o container para a funcionalidade de autocomplete.
 
 #### Inputs
 
-| Property     | Type                                           | Default    | Description                                       |
-| ------------ | ---------------------------------------------- | ---------- | ------------------------------------------------- |
-| `filterMode` | `'auto-select'` \| `'manual'` \| `'highlight'` | `'manual'` | Controls selection behavior                       |
-| `disabled`   | `boolean`                                      | `false`    | Disables the combobox                             |
-| `firstMatch` | `string`                                       | -          | The value of the first matching item in the popup |
+| Property     | Type                                           | Default    | Description                                              |
+| ------------ | ---------------------------------------------- | ---------- | -------------------------------------------------------- |
+| `filterMode` | `'auto-select'` \| `'manual'` \| `'highlight'` | `'manual'` | Controla o comportamento de seleção                      |
+| `disabled`   | `boolean`                                      | `false`    | Desabilita o combobox                                    |
+| `firstMatch` | `string`                                       | -          | O valor do primeiro item correspondente no popup         |
 
 #### Outputs
 
-| Property   | Type              | Description                                           |
-| ---------- | ----------------- | ----------------------------------------------------- |
-| `expanded` | `Signal<boolean>` | Signal indicating whether the popup is currently open |
+| Property   | Type              | Description                                          |
+| ---------- | ----------------- | ---------------------------------------------------- |
+| `expanded` | `Signal<boolean>` | Signal indicando se o popup está atualmente aberto   |
 
 ### ComboboxInput Directive
 
-The `ngComboboxInput` directive connects an input element to the combobox.
+A directive `ngComboboxInput` conecta um elemento input ao combobox.
 
 #### Model
 
-| Property | Type     | Description                                                  |
-| -------- | -------- | ------------------------------------------------------------ |
-| `value`  | `string` | Two-way bindable string value of the input using `[(value)]` |
+| Property | Type     | Description                                                              |
+| -------- | -------- | ------------------------------------------------------------------------ |
+| `value`  | `string` | Valor string bidirecional vinculável do input usando `[(value)]`         |
 
 ### ComboboxPopupContainer Directive
 
-The `ngComboboxPopupContainer` directive wraps the popup content and manages its display.
+A directive `ngComboboxPopupContainer` envolve o conteúdo do popup e gerencia sua exibição.
 
-Must be used with `<ng-template>` inside a popover element.
+Deve ser usado com `<ng-template>` dentro de um elemento popover.
 
-### Related components
+### Componentes relacionados
 
-Autocomplete uses [Listbox](https://angular.dev/api/aria/listbox/Listbox) and [Option](https://angular.dev/api/aria/listbox/Option) directives to render the suggestion list. See the [Listbox documentation](https://angular.dev/guide/aria/listbox) for additional customization options.
+Autocomplete usa as directives [Listbox](https://angular.dev/api/aria/listbox/Listbox) e [Option](https://angular.dev/api/aria/listbox/Option) para renderizar a lista de sugestões. Veja a [documentação do Listbox](https://angular.dev/guide/aria/listbox) para opções adicionais de personalização.
 
-## Styling
+## Estilização
 
-The autocomplete components don't include default styles. This allows full customization to match your design system. Apply styles through standard CSS classes or style bindings.
+Os componentes de autocomplete não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
 
-### Styling the input
+### Estilizando o input
 
 ```css
 input[ngComboboxInput] {
@@ -127,7 +128,7 @@ input[ngComboboxInput]:focus {
 }
 ```
 
-### Styling the popup
+### Estilizando o popup
 
 ```css
 [popover] {
@@ -138,6 +139,6 @@ input[ngComboboxInput]:focus {
 }
 ```
 
-### Styling options
+### Estilizando opções
 
-Options use the listbox styling. See the [Listbox styling guide](https://angular.dev/guide/aria/listbox#styling) for detailed customization patterns.
+As opções usam a estilização do listbox. Veja o [guia de estilização do Listbox](https://angular.dev/guide/aria/listbox#styling) para padrões detalhados de personalização.

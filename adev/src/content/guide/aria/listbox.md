@@ -1,9 +1,10 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Listbox">
 </docs-decorative-header>
 
-## Overview
+## Visão Geral
 
-A directive that displays a list of options for users to select from, supporting keyboard navigation, single or multiple selection, and screen reader support.
+Uma directive que exibe uma lista de opções para os usuários selecionarem, com suporte para navegação por teclado, seleção única ou múltipla, e suporte para leitores de tela.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts"/>
@@ -11,65 +12,65 @@ A directive that displays a list of options for users to select from, supporting
   <docs-code header="app.css" path="adev/src/content/examples/aria/listbox/src/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso
 
-Listbox is a foundational directive used by the [Select](guide/aria/select), [Multiselect](guide/aria/multiselect), and [Autocomplete](guide/aria/autocomplete) patterns. For most dropdown needs, use those documented patterns instead.
+Listbox é uma directive fundamental usada pelos padrões [Select](guide/aria/select), [Multiselect](guide/aria/multiselect) e [Autocomplete](guide/aria/autocomplete). Para a maioria das necessidades de dropdown, use esses padrões documentados.
 
-Consider using listbox directly when:
+Considere usar listbox diretamente quando:
 
-- **Building custom selection components** - Creating specialized interfaces with specific behavior
-- **Visible selection lists** - Displaying selectable items directly on the page (not in dropdowns)
-- **Custom integration patterns** - Integrating with unique popup or layout requirements
+- **Construindo componentes de seleção personalizados** - Criando interfaces especializadas com comportamento específico
+- **Listas de seleção visíveis** - Exibindo itens selecionáveis diretamente na página (não em dropdowns)
+- **Padrões de integração personalizados** - Integrando com requisitos únicos de popup ou layout
 
-Avoid listbox when:
+Evite listbox quando:
 
-- **Navigation menus are needed** - Use the [Menu](guide/aria/menu) directive for actions and commands
+- **Menus de navegação são necessários** - Use a directive [Menu](guide/aria/menu) para ações e comandos
 
-## Features
+## Recursos
 
-Angular's listbox provides a fully accessible list implementation with:
+O listbox do Angular fornece uma implementação de lista totalmente acessível com:
 
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter or Space
-- **Screen Reader Support** - Built-in ARIA attributes including role="listbox"
-- **Single or Multiple Selection** - `multi` attribute controls selection mode
-- **Horizontal or Vertical** - `orientation` attribute for layout direction
-- **Type-ahead Search** - Type characters to jump to matching options
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **Navegação por Teclado** - Navegue pelas opções com as setas, selecione com Enter ou Espaço
+- **Suporte para Leitores de Tela** - Atributos ARIA integrados incluindo role="listbox"
+- **Seleção Única ou Múltipla** - Atributo `multi` controla o modo de seleção
+- **Horizontal ou Vertical** - Atributo `orientation` para direção do layout
+- **Busca por Digitação** - Digite caracteres para pular para opções correspondentes
+- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
 
-## Examples
+## Exemplos
 
-### Basic listbox
+### Listbox básico
 
-Applications sometimes need selectable lists visible directly on the page rather than hidden in a dropdown. A standalone listbox provides keyboard navigation and selection for these visible list interfaces.
+Aplicações às vezes precisam de listas selecionáveis visíveis diretamente na página em vez de ocultas em um dropdown. Um listbox independente fornece navegação por teclado e seleção para essas interfaces de lista visíveis.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/basic/app/app.html" />
 </docs-code-multifile>
 
-The `values` model signal provides two-way binding to the selected items. With `selectionMode="explicit"`, users press Space or Enter to select options. For dropdown patterns that combine listbox with combobox and overlay positioning, see the [Select](guide/aria/select) pattern.
+O signal model `values` fornece vinculação bidirecional aos itens selecionados. Com `selectionMode="explicit"`, os usuários pressionam Espaço ou Enter para selecionar opções. Para padrões de dropdown que combinam listbox com combobox e posicionamento de overlay, veja o padrão [Select](guide/aria/select).
 
-### Horizontal listbox
+### Listbox horizontal
 
-Lists sometimes work better horizontally, such as toolbar-like interfaces or tab-style selections. The `orientation` attribute changes both the layout and keyboard navigation direction.
+Listas às vezes funcionam melhor horizontalmente, como interfaces estilo toolbar ou seleções estilo aba. O atributo `orientation` muda tanto o layout quanto a direção da navegação por teclado.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/horizontal/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/horizontal/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/horizontal/app/app.html" />
 </docs-code-multifile>
 
-With `orientation="horizontal"`, left and right arrow keys navigate between options instead of up and down. The listbox automatically handles right-to-left (RTL) languages by reversing navigation direction.
+Com `orientation="horizontal"`, as setas esquerda e direita navegam entre as opções em vez de cima e baixo. O listbox automaticamente lida com idiomas da direita para a esquerda (RTL) invertendo a direção de navegação.
 
-### Selection modes
+### Modos de seleção
 
-Listbox supports two selection modes that control when items become selected. Choose the mode that matches your interface's interaction pattern.
+Listbox suporta dois modos de seleção que controlam quando os itens são selecionados. Escolha o modo que corresponde ao padrão de interação da sua interface.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/modes/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/modes/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/app.html" />
 </docs-code-multifile>
 
-The `'follow'` mode automatically selects the focused item, providing faster interaction when selection changes frequently. The `'explicit'` mode requires Space or Enter to confirm selection, preventing accidental changes while navigating. Dropdown patterns typically use `'follow'` mode for single selection.
+O modo `'follow'` seleciona automaticamente o item focado, fornecendo interação mais rápida quando a seleção muda frequentemente. O modo `'explicit'` requer Espaço ou Enter para confirmar a seleção, prevenindo mudanças acidentais durante a navegação. Padrões de dropdown tipicamente usam o modo `'follow'` para seleção única.
 
 ## Showcase
 
@@ -79,79 +80,79 @@ TBD
 
 ### Listbox Directive
 
-The `ngListbox` directive creates an accessible list of selectable options.
+A directive `ngListbox` cria uma lista acessível de opções selecionáveis.
 
 #### Inputs
 
 | Property         | Type                               | Default      | Description                                  |
 | ---------------- | ---------------------------------- | ------------ | -------------------------------------------- |
-| `id`             | `string`                           | auto         | Unique identifier for the listbox            |
-| `multi`          | `boolean`                          | `false`      | Enables multiple selection                   |
-| `orientation`    | `'vertical'` \| `'horizontal'`     | `'vertical'` | Layout direction of the list                 |
-| `wrap`           | `boolean`                          | `true`       | Whether focus wraps at list edges            |
-| `selectionMode`  | `'follow'` \| `'explicit'`         | `'follow'`   | How selection is triggered                   |
-| `focusMode`      | `'roving'` \| `'activedescendant'` | `'roving'`   | Focus management strategy                    |
-| `softDisabled`   | `boolean`                          | `true`       | Whether disabled items are focusable         |
-| `disabled`       | `boolean`                          | `false`      | Disables the entire listbox                  |
-| `readonly`       | `boolean`                          | `false`      | Makes listbox readonly                       |
-| `typeaheadDelay` | `number`                           | `500`        | Milliseconds before type-ahead search resets |
+| `id`             | `string`                           | auto         | Identificador único para o listbox           |
+| `multi`          | `boolean`                          | `false`      | Habilita seleção múltipla                    |
+| `orientation`    | `'vertical'` \| `'horizontal'`     | `'vertical'` | Direção do layout da lista                   |
+| `wrap`           | `boolean`                          | `true`       | Se o foco retorna ao início nas bordas da lista |
+| `selectionMode`  | `'follow'` \| `'explicit'`         | `'follow'`   | Como a seleção é acionada                    |
+| `focusMode`      | `'roving'` \| `'activedescendant'` | `'roving'`   | Estratégia de gerenciamento de foco          |
+| `softDisabled`   | `boolean`                          | `true`       | Se itens desabilitados são focáveis          |
+| `disabled`       | `boolean`                          | `false`      | Desabilita o listbox inteiro                 |
+| `readonly`       | `boolean`                          | `false`      | Torna o listbox somente leitura              |
+| `typeaheadDelay` | `number`                           | `500`        | Milissegundos antes da busca por digitação reiniciar |
 
 #### Model
 
-| Property | Type  | Description                               |
-| -------- | ----- | ----------------------------------------- |
-| `values` | `V[]` | Two-way bindable array of selected values |
+| Property | Type  | Description                                      |
+| -------- | ----- | ------------------------------------------------ |
+| `values` | `V[]` | Array bidirecional vinculável de valores selecionados |
 
 #### Signals
 
 | Property | Type          | Description                           |
 | -------- | ------------- | ------------------------------------- |
-| `values` | `Signal<V[]>` | Currently selected values as a signal |
+| `values` | `Signal<V[]>` | Valores atualmente selecionados como signal |
 
 #### Methods
 
 | Method                     | Parameters                        | Description                                |
 | -------------------------- | --------------------------------- | ------------------------------------------ |
-| `scrollActiveItemIntoView` | `options?: ScrollIntoViewOptions` | Scrolls the active item into view          |
-| `gotoFirst`                | none                              | Navigates to the first item in the listbox |
+| `scrollActiveItemIntoView` | `options?: ScrollIntoViewOptions` | Rola o item ativo para a visualização      |
+| `gotoFirst`                | none                              | Navega para o primeiro item no listbox     |
 
 ### Option Directive
 
-The `ngOption` directive marks an item within a listbox.
+A directive `ngOption` marca um item dentro de um listbox.
 
 #### Inputs
 
-| Property   | Type      | Default | Description                                      |
-| ---------- | --------- | ------- | ------------------------------------------------ |
-| `id`       | `string`  | auto    | Unique identifier for the option                 |
-| `value`    | `V`       | -       | The value associated with this option (required) |
-| `label`    | `string`  | -       | Optional label for screen readers                |
-| `disabled` | `boolean` | `false` | Whether this option is disabled                  |
+| Property   | Type      | Default | Description                                         |
+| ---------- | --------- | ------- | --------------------------------------------------- |
+| `id`       | `string`  | auto    | Identificador único para a opção                    |
+| `value`    | `V`       | -       | O valor associado a esta opção (obrigatório)        |
+| `label`    | `string`  | -       | Rótulo opcional para leitores de tela               |
+| `disabled` | `boolean` | `false` | Se esta opção está desabilitada                     |
 
 #### Signals
 
 | Property   | Type              | Description                     |
 | ---------- | ----------------- | ------------------------------- |
-| `selected` | `Signal<boolean>` | Whether this option is selected |
-| `active`   | `Signal<boolean>` | Whether this option has focus   |
+| `selected` | `Signal<boolean>` | Se esta opção está selecionada  |
+| `active`   | `Signal<boolean>` | Se esta opção tem foco          |
 
-### Related patterns
+### Padrões relacionados
 
-Listbox is used by these documented dropdown patterns:
+Listbox é usado por estes padrões documentados de dropdown:
 
-- **[Select](guide/aria/select)** - Single-selection dropdown pattern using readonly combobox + listbox
-- **[Multiselect](guide/aria/multiselect)** - Multiple-selection dropdown pattern using readonly combobox + listbox with `multi`
-- **[Autocomplete](guide/aria/autocomplete)** - Filterable dropdown pattern using combobox + listbox
+- **[Select](guide/aria/select)** - Padrão de dropdown de seleção única usando combobox somente leitura + listbox
+- **[Multiselect](guide/aria/multiselect)** - Padrão de dropdown de seleção múltipla usando combobox somente leitura + listbox com `multi`
+- **[Autocomplete](guide/aria/autocomplete)** - Padrão de dropdown filtrável usando combobox + listbox
 
-For complete dropdown patterns with trigger, popup, and overlay positioning, see those pattern guides instead of using listbox alone.
+Para padrões completos de dropdown com trigger, popup e posicionamento de overlay, veja esses guias de padrões em vez de usar listbox sozinho.
 
-## Styling
+## Estilização
 
-The listbox directives don't include default styles. This allows full customization to match your design system. Apply styles through standard CSS classes or style bindings.
+As directives de listbox não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
 
-### Styling the listbox
+### Estilizando o listbox
 
-The `ngListbox` directive automatically adds the `ngListbox` attribute to its host element, allowing you to target it with attribute selectors. The `ngOption` directive similarly adds the `ngOption` attribute to each option element.
+A directive `ngListbox` adiciona automaticamente o atributo `ngListbox` ao seu elemento host, permitindo que você o alveje com seletores de atributo. A directive `ngOption` adiciona similarmente o atributo `ngOption` a cada elemento de opção.
 
 ```css
 [ngListbox] {
@@ -173,7 +174,7 @@ The `ngListbox` directive automatically adds the `ngListbox` attribute to its ho
 }
 ```
 
-### Styling options
+### Estilizando opções
 
 ```css
 [ngOption] {
@@ -199,7 +200,7 @@ The `ngListbox` directive automatically adds the `ngListbox` attribute to its ho
 }
 ```
 
-### Styling focus
+### Estilizando foco
 
 ```css
 [ngOption][data-active="true"] {

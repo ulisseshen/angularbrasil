@@ -1,9 +1,10 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Select">
 </docs-decorative-header>
 
-## Overview
+## Visão Geral
 
-A pattern that combines readonly combobox with listbox to create single-selection dropdowns with keyboard navigation and screen reader support.
+Um padrão que combina combobox somente leitura com listbox para criar dropdowns de seleção única com navegação por teclado e suporte para leitores de tela.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/app/app.ts"/>
@@ -11,80 +12,80 @@ A pattern that combines readonly combobox with listbox to create single-selectio
   <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso
 
-The select pattern works best when users need to choose a single value from a familiar set of options.
+O padrão select funciona melhor quando os usuários precisam escolher um único valor de um conjunto familiar de opções.
 
-Consider using this pattern when:
+Considere usar este padrão quando:
 
-- **The option list is fixed** (fewer than 20 items) - Users can scan and choose without filtering
-- **Options are familiar** - Users recognize the choices without needing to search
-- **Forms need standard fields** - Country, state, category, or status selection
-- **Settings and configuration** - Dropdown menus for preferences or options
-- **Clear option labels** - Each choice has a distinct, scannable name
+- **A lista de opções é fixa** (menos de 20 itens) - Os usuários podem escanear e escolher sem filtragem
+- **As opções são familiares** - Os usuários reconhecem as escolhas sem precisar buscar
+- **Formulários precisam de campos padrão** - Seleção de país, estado, categoria ou status
+- **Configurações e ajustes** - Menus dropdown para preferências ou opções
+- **Rótulos de opção claros** - Cada escolha tem um nome distinto e escaneável
 
-Avoid this pattern when:
+Evite este padrão quando:
 
-- **The list has more than 20 items** - Use the [Autocomplete pattern](guide/aria/autocomplete) for better filtering
-- **Users need to search options** - [Autocomplete](guide/aria/autocomplete) provides text input and filtering
-- **Multiple selection is needed** - Use the [Multiselect pattern](guide/aria/multiselect) instead
-- **Very few options exist (2-3)** - Radio buttons provide better visibility of all choices
+- **A lista tem mais de 20 itens** - Use o [padrão Autocomplete](guide/aria/autocomplete) para melhor filtragem
+- **Usuários precisam buscar opções** - [Autocomplete](guide/aria/autocomplete) fornece entrada de texto e filtragem
+- **Seleção múltipla é necessária** - Use o [padrão Multiselect](guide/aria/multiselect) em vez disso
+- **Existem poucas opções (2-3)** - Radio buttons fornecem melhor visibilidade de todas as escolhas
 
-## Features
+## Recursos
 
-The select pattern combines [Combobox](guide/aria/combobox) and [Listbox](guide/aria/listbox) directives to provide a fully accessible dropdown with:
+O padrão select combina as directives [Combobox](guide/aria/combobox) e [Listbox](guide/aria/listbox) para fornecer um dropdown totalmente acessível com:
 
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter, close with Escape
-- **Screen Reader Support** - Built-in ARIA attributes for assistive technologies
-- **Custom Display** - Show selected values with icons, formatting, or rich content
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Smart Positioning** - CDK Overlay handles viewport edges and scrolling
-- **Bidirectional Text Support** - Automatically handles right-to-left (RTL) languages
+- **Navegação por Teclado** - Navegue pelas opções com as setas, selecione com Enter, feche com Escape
+- **Suporte para Leitores de Tela** - Atributos ARIA integrados para tecnologias assistivas
+- **Exibição Personalizada** - Mostre valores selecionados com ícones, formatação ou conteúdo rico
+- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
+- **Posicionamento Inteligente** - CDK Overlay lida com bordas do viewport e rolagem
+- **Suporte para Texto Bidirecional** - Lida automaticamente com idiomas da direita para a esquerda (RTL)
 
-## Examples
+## Exemplos
 
-### Basic select
+### Select básico
 
-Users need a standard dropdown to choose from a list of values. A readonly combobox paired with a listbox provides the familiar select experience with full accessibility support.
+Usuários precisam de um dropdown padrão para escolher de uma lista de valores. Um combobox somente leitura pareado com um listbox fornece a experiência familiar de select com suporte completo de acessibilidade.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/basic/app/app.html"/>
 </docs-code-multifile>
 
-The `readonly` attribute on `ngCombobox` prevents text input while preserving keyboard navigation. Users interact with the dropdown using arrow keys and Enter, just like a native select element.
+O atributo `readonly` em `ngCombobox` previne entrada de texto enquanto preserva a navegação por teclado. Os usuários interagem com o dropdown usando setas e Enter, assim como um elemento select nativo.
 
-### Select with custom display
+### Select com exibição personalizada
 
-Options often need visual indicators like icons or badges to help users identify choices quickly. Custom templates within options allow rich formatting while maintaining accessibility.
+Opções frequentemente precisam de indicadores visuais como ícones ou badges para ajudar os usuários a identificar escolhas rapidamente. Templates personalizados dentro das opções permitem formatação rica enquanto mantêm a acessibilidade.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/app/app.html" />
 </docs-code-multifile>
 
-Each option displays an icon alongside the label. The selected value updates to show the chosen option's icon and text, providing clear visual feedback.
+Cada opção exibe um ícone ao lado do rótulo. O valor selecionado atualiza para mostrar o ícone e texto da opção escolhida, fornecendo feedback visual claro.
 
-### Select with object values
+### Select com valores de objeto
 
-Forms often work with complex data structures where the displayed label differs from the stored value. Separating the option's value from its display label accommodates this pattern.
+Formulários frequentemente trabalham com estruturas de dados complexas onde o rótulo exibido difere do valor armazenado. Separar o valor da opção de seu rótulo de exibição acomoda este padrão.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/objects/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/objects/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/objects/app/app.html" />
 </docs-code-multifile>
 
-The `value` property on each option holds the object or identifier, while the `label` property provides the display text. This separation keeps form data clean while showing user-friendly text.
+A propriedade `value` em cada opção mantém o objeto ou identificador, enquanto a propriedade `label` fornece o texto de exibição. Esta separação mantém os dados do formulário limpos enquanto mostra texto amigável ao usuário.
 
-### Disabled select
+### Select desabilitado
 
-Selects can be disabled to prevent user interaction when certain form conditions aren't met. The disabled state provides visual feedback and prevents keyboard interaction.
+Selects podem ser desabilitados para prevenir interação do usuário quando certas condições do formulário não são atendidas. O estado desabilitado fornece feedback visual e previne interação por teclado.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/disabled/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/disabled/app/app.html" />
 </docs-code-multifile>
 
-When disabled, the select shows a disabled visual state and blocks all user interaction. Screen readers announce the disabled state to assistive technology users.
+Quando desabilitado, o select mostra um estado visual desabilitado e bloqueia toda interação do usuário. Leitores de tela anunciam o estado desabilitado para usuários de tecnologia assistiva.
 
 ## Showcase
 
@@ -92,42 +93,42 @@ TBD
 
 ## APIs
 
-The select pattern uses the following directives from Angular's Aria library. See the full API documentation in the linked guides.
+O padrão select usa as seguintes directives da biblioteca Aria do Angular. Veja a documentação completa da API nos guias linkados.
 
 ### Combobox Directives
 
-The select pattern uses `ngCombobox` with the `readonly` attribute to prevent text input while preserving keyboard navigation.
+O padrão select usa `ngCombobox` com o atributo `readonly` para prevenir entrada de texto enquanto preserva a navegação por teclado.
 
 #### Inputs
 
-| Property   | Type      | Default | Description                               |
-| ---------- | --------- | ------- | ----------------------------------------- |
-| `readonly` | `boolean` | `false` | Set to `true` to create dropdown behavior |
-| `disabled` | `boolean` | `false` | Disables the entire select                |
+| Property   | Type      | Default | Description                                      |
+| ---------- | --------- | ------- | ------------------------------------------------ |
+| `readonly` | `boolean` | `false` | Defina como `true` para criar comportamento de dropdown |
+| `disabled` | `boolean` | `false` | Desabilita o select inteiro                      |
 
-See the [Combobox API documentation](guide/aria/combobox#apis) for complete details on all available inputs and signals.
+Veja a [documentação da API do Combobox](guide/aria/combobox#apis) para detalhes completos sobre todos os inputs e signals disponíveis.
 
 ### Listbox Directives
 
-The select pattern uses `ngListbox` for the dropdown list and `ngOption` for each selectable item.
+O padrão select usa `ngListbox` para a lista dropdown e `ngOption` para cada item selecionável.
 
 #### Model
 
-| Property | Type    | Description                                                                  |
-| -------- | ------- | ---------------------------------------------------------------------------- |
-| `values` | `any[]` | Two-way bindable array of selected values (contains single value for select) |
+| Property | Type    | Description                                                             |
+| -------- | ------- | ----------------------------------------------------------------------- |
+| `values` | `any[]` | Array bidirecional vinculável de valores selecionados (contém um único valor para select) |
 
-See the [Listbox API documentation](guide/aria/listbox#apis) for complete details on listbox configuration, selection modes, and option properties.
+Veja a [documentação da API do Listbox](guide/aria/listbox#apis) para detalhes completos sobre configuração do listbox, modos de seleção e propriedades das opções.
 
-### Positioning
+### Posicionamento
 
-The select pattern integrates with [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) for smart positioning. Use `cdkConnectedOverlay` to handle viewport edges and scrolling automatically.
+O padrão select integra com [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamento inteligente. Use `cdkConnectedOverlay` para lidar com bordas do viewport e rolagem automaticamente.
 
-## Styling
+## Estilização
 
-The directives used in the select pattern don't include default styles. This allows full customization to match your design system. Apply styles through standard CSS classes or style bindings.
+As directives usadas no padrão select não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
 
-### Styling the select trigger
+### Estilizando o trigger do select
 
 ```css
 .select-trigger {
@@ -152,7 +153,7 @@ The directives used in the select pattern don't include default styles. This all
 }
 ```
 
-### Styling the dropdown
+### Estilizando o dropdown
 
 ```css
 .select-popup {
@@ -165,6 +166,6 @@ The directives used in the select pattern don't include default styles. This all
 }
 ```
 
-### Styling options
+### Estilizando opções
 
-Options use the listbox styling. See the [Listbox styling guide](guide/aria/listbox#styling) for detailed customization patterns including hover states, selection indicators, and disabled styles.
+As opções usam a estilização do listbox. Veja o [guia de estilização do Listbox](guide/aria/listbox#styling) para padrões detalhados de personalização incluindo estados de hover, indicadores de seleção e estilos desabilitados.

@@ -1,27 +1,29 @@
-# Phase 18: Guide - ARIA & Accessibility (High Priority)
+# Phase 18: Guide - ARIA & Accessibility (High Priority) ✅
 
 ## 📋 Phase Information
-- **Total Files**: 11
+- **Total Files**: 12
 - **Estimated Words**: ~8,000
 - **Priority**: 🟡 High
+- **Status**: ✅ Completed
 
 ## 🤖 Translation Agent
 Use: `.claude/agents/translate-to-pt-br.md`
 
-## ✅ Files to Translate
+## ✅ Files Translated
 
-- [ ] `adev/src/content/guide/aria/a11y-keyboard.md`
-- [ ] `adev/src/content/guide/aria/a11y-landmarks.md`
-- [ ] `adev/src/content/guide/aria/a11y-roles.md`
-- [ ] `adev/src/content/guide/aria/overview.md`
-- [ ] `adev/src/content/guide/aria/aria-in-templates.md`
-- [ ] `adev/src/content/guide/aria/color-contrast.md`
-- [ ] `adev/src/content/guide/aria/dynamic-content.md`
-- [ ] `adev/src/content/guide/aria/keyboard-navigation.md`
-- [ ] `adev/src/content/guide/aria/testing-accessibility.md`
-- [ ] `adev/src/content/guide/aria/ux-patterns.md`
-- [ ] `adev/src/content/guide/aria/wcag.md`
+- [x] `adev/src/content/guide/aria/accordion.md`
+- [x] `adev/src/content/guide/aria/autocomplete.md`
+- [x] `adev/src/content/guide/aria/combobox.md`
+- [x] `adev/src/content/guide/aria/grid.md`
+- [x] `adev/src/content/guide/aria/listbox.md`
+- [x] `adev/src/content/guide/aria/menu.md`
+- [x] `adev/src/content/guide/aria/multiselect.md`
+- [x] `adev/src/content/guide/aria/overview.md`
+- [x] `adev/src/content/guide/aria/select.md`
+- [x] `adev/src/content/guide/aria/tabs.md`
+- [x] `adev/src/content/guide/aria/toolbar.md`
+- [x] `adev/src/content/guide/aria/tree.md`
 
-## 📊 Progress: 0/11 (0%)
+## 📊 Progress: 12/12 (100%) 🎉
 
 ## 🎯 Next: `plan/phase-19-guide-signals-ngmodules.md`
