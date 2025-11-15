@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Configuração do workspace Angular {#alternate-build-configurations}
+# Configuração do workspace Angular
 
 O arquivo `angular.json` no nível raiz de um workspace Angular fornece padrões de configuração para todo o workspace e específicos de projeto. Estes são usados pelas ferramentas de build e desenvolvimento fornecidas pelo Angular CLI.
 Os valores de caminho fornecidos na configuração são relativos ao diretório raiz do workspace.
@@ -162,7 +162,7 @@ Por exemplo, para configurar um build com otimizações desabilitadas:
 }
 ```
 
-### Configurações alternativas de build
+### Configurações alternativas de build {#alternate-build-configurations}
 
 O Angular CLI vem com duas configurações de build: `production` e `development`.
 Por padrão, o comando `ng build` usa a configuração `production`, que aplica várias otimizações de build, incluindo:
