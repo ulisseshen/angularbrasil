@@ -3,8 +3,8 @@
 # Tutorial de documentação embarcada do Angular
 
 - [Arquivos do tutorial](#arquivos-do-tutorial)
-- [Estrutura de diretórios dos tutorials](#estrutura-de-diretórios-dos-tutorials)
-- [Diretórios de tutorials reservados](#diretórios-de-tutorials-reservados)
+- [Estrutura de diretórios dos tutorials](#tutorial-directory-structure)
+- [Diretórios de tutorials reservados](#reserved-tutorial-directories)
 
 ## Arquivos do tutorial
 
@@ -37,7 +37,7 @@ O código-fonte do tutorial inclui cada arquivo no diretório do tutorial, excet
 
 O código-fonte do tutorial tem precedência sobre o arquivo do projeto [`common`](#common), então se um arquivo existir tanto em [`common`](#common) quanto no diretório do tutorial, contendo o mesmo caminho relativo, o arquivo do tutorial irá sobrescrever o arquivo [`common`](#common).
 
-## Estrutura de diretórios dos tutorials {#estrutura-de-diretórios-dos-tutorials}
+## Estrutura de diretórios dos tutorials {#tutorial-directory-structure}
 
 Um tutorial é composto de uma introdução e passos. Tanto a introdução quanto cada passo contém seu próprio conteúdo, configuração e código-fonte.
 
@@ -64,7 +64,7 @@ Cada diretório de passo deve começar com um número seguido por um hífen, dep
 - O hífen é um delimitador :).
 - O pathname obtido do nome do diretório define a URL do passo.
 
-## Diretórios de tutorials reservados {#diretórios-de-tutorials-reservados}
+## Diretórios de tutorials reservados {#reserved-tutorial-directories}
 
 ### `common`
 
