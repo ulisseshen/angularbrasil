@@ -1,13 +1,14 @@
-# Runtime performance optimization
+<!-- ia-translate: true -->
+# Otimização de performance em runtime
 
-Fast rendering is critical for Angular and we've built the framework with a lot of optimizations in mind to help you develop performant apps. To better understand the performance of your app we offer [Angular DevTools](tools/devtools) and a [video guide](https://www.youtube.com/watch?v=FjyX_hkscII) on how to use Chrome DevTools for profiling. In this section we cover the most common performance optimization techniques.
+A renderização rápida é crítica para o Angular e construímos o framework com muitas otimizações em mente para ajudar você a desenvolver aplicações performáticas. Para entender melhor a performance da sua aplicação, oferecemos o [Angular DevTools](tools/devtools) e um [guia em vídeo](https://www.youtube.com/watch?v=FjyX_hkscII) sobre como usar o Chrome DevTools para profiling. Nesta seção, cobrimos as técnicas de otimização de performance mais comuns.
 
-**Change detection** is the process through which Angular checks to see whether your application state has changed, and if any DOM needs to be updated. At a high level, Angular walks your components from top to bottom, looking for changes. Angular runs its change detection mechanism periodically so that changes to the data model are reflected in an application’s view. Change detection can be triggered either manually or through an asynchronous event (for example, a user interaction or an XMLHttpRequest completion).
+**Change detection** é o processo através do qual o Angular verifica se o estado da sua aplicação mudou e se algum DOM precisa ser atualizado. Em alto nível, o Angular percorre seus components de cima para baixo, procurando por mudanças. O Angular executa seu mecanismo de change detection periodicamente para que as mudanças no modelo de dados sejam refletidas na view da aplicação. A change detection pode ser disparada manualmente ou através de um evento assíncrono (por exemplo, uma interação do usuário ou a conclusão de um XMLHttpRequest).
 
-Change detection is highly optimized and performant, but it can still cause slowdowns if the application runs it too frequently.
+A change detection é altamente otimizada e performática, mas ainda pode causar lentidão se a aplicação a executar com muita frequência.
 
-In this guide, you’ll learn how to control and optimize the change detection mechanism by skipping parts of your application and running change detection only when necessary.
+Neste guia, você aprenderá como controlar e otimizar o mecanismo de change detection pulando partes da sua aplicação e executando change detection apenas quando necessário.
 
-Watch this video if you prefer to learn more about performance optimizations in a media format:
+Assista a este vídeo se você preferir aprender mais sobre otimizações de performance em formato de mídia:
 
 <docs-video src="https://www.youtube.com/embed/f8sA-i6gkGQ"/>

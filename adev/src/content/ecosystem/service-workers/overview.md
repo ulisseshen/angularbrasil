@@ -1,110 +1,111 @@
-# Angular service worker overview
+<!-- ia-translate: true -->
+# Visão geral do Angular service worker
 
-IMPORTANT: The Angular Service Worker is a basic caching utility for simple offline support with a limited featureset. We will not be accepting any new features other than security fixes. For more advanced caching and offline capabilities, we recommend exploring native browser APIs directly.
+IMPORTANT: O Angular Service Worker é um utilitário básico de cache para suporte offline simples com um conjunto de recursos limitado. Não aceitaremos novos recursos além de correções de segurança. Para recursos de cache e offline mais avançados, recomendamos explorar as APIs nativas do navegador diretamente.
 
-Service workers augment the traditional web deployment model and empower applications to deliver a user experience with the reliability and performance on par with code that is written to run on your operating system and hardware.
-Adding a service worker to an Angular application is one of the steps for turning an application into a [Progressive Web App](https://web.dev/progressive-web-apps/) (also known as a PWA).
+Service workers aumentam o modelo de implantação web tradicional e capacitam aplicações a entregar uma experiência de usuário com confiabilidade e desempenho no nível de código escrito para rodar em seu sistema operacional e hardware.
+Adicionar um service worker a uma aplicação Angular é um dos passos para transformar uma aplicação em uma [Progressive Web App](https://web.dev/progressive-web-apps/) (também conhecida como PWA).
 
-At its simplest, a service worker is a script that runs in the web browser and manages caching for an application.
+Em sua forma mais simples, um service worker é um script que roda no navegador web e gerencia cache para uma aplicação.
 
-Service workers function as a network proxy.
-They intercept all outgoing HTTP requests made by the application and can choose how to respond to them.
-For example, they can query a local cache and deliver a cached response if one is available.
-Proxying isn't limited to requests made through programmatic APIs, such as `fetch`; it also includes resources referenced in HTML and even the initial request to `index.html`.
-Service worker-based caching is thus completely programmable and doesn't rely on server-specified caching headers.
+Service workers funcionam como um proxy de rede.
+Eles interceptam todas as requisições HTTP de saída feitas pela aplicação e podem escolher como responder a elas.
+Por exemplo, eles podem consultar um cache local e entregar uma resposta em cache se uma estiver disponível.
+O proxy não está limitado a requisições feitas através de APIs programáticas, como `fetch`; ele também inclui recursos referenciados no HTML e até mesmo a requisição inicial para `index.html`.
+O cache baseado em service worker é, portanto, completamente programável e não depende de cabeçalhos de cache especificados pelo servidor.
 
-Unlike the other scripts that make up an application, such as the Angular application bundle, the service worker is preserved after the user closes the tab.
-The next time that browser loads the application, the service worker loads first, and can intercept every request for resources to load the application.
-If the service worker is designed to do so, it can _completely satisfy the loading of the application, without the need for the network_.
+Ao contrário dos outros scripts que compõem uma aplicação, como o bundle da aplicação Angular, o service worker é preservado depois que o usuário fecha a aba.
+Na próxima vez que o navegador carregar a aplicação, o service worker carrega primeiro, e pode interceptar cada requisição de recursos para carregar a aplicação.
+Se o service worker for projetado para fazer isso, ele pode _satisfazer completamente o carregamento da aplicação, sem a necessidade da rede_.
 
-Even across a fast reliable network, round-trip delays can introduce significant latency when loading the application.
-Using a service worker to reduce dependency on the network can significantly improve the user experience.
+Mesmo em uma rede rápida e confiável, atrasos de ida e volta podem introduzir latência significativa ao carregar a aplicação.
+Usar um service worker para reduzir a dependência da rede pode melhorar significativamente a experiência do usuário.
 
-## Service workers in Angular
+## Service workers no Angular
 
-Angular applications, as single-page applications, are in a prime position to benefit from the advantages of service workers. Angular ships with a service worker implementation. Angular developers can take advantage of this service worker and benefit from the increased reliability and performance it provides, without needing to code against low-level APIs.
+Aplicações Angular, como aplicações de página única, estão em uma posição privilegiada para se beneficiar das vantagens dos service workers. Angular já vem com uma implementação de service worker. Desenvolvedores Angular podem aproveitar este service worker e se beneficiar da maior confiabilidade e desempenho que ele fornece, sem precisar programar contra APIs de baixo nível.
 
-Angular's service worker is designed to optimize the end user experience of using an application over a slow or unreliable network connection, while also minimizing the risks of serving outdated content.
+O service worker do Angular foi projetado para otimizar a experiência do usuário final ao usar uma aplicação em uma conexão de rede lenta ou não confiável, ao mesmo tempo minimizando os riscos de servir conteúdo desatualizado.
 
-To achieve this, the Angular service worker follows these guidelines:
+Para alcançar isso, o Angular service worker segue estas diretrizes:
 
-- Caching an application is like installing a native application.
-  The application is cached as one unit, and all files update together.
+- Fazer cache de uma aplicação é como instalar uma aplicação nativa.
+  A aplicação é armazenada em cache como uma unidade, e todos os arquivos são atualizados juntos.
 
-- A running application continues to run with the same version of all files.
-  It does not suddenly start receiving cached files from a newer version, which are likely incompatible.
+- Uma aplicação em execução continua a executar com a mesma versão de todos os arquivos.
+  Ela não começa repentinamente a receber arquivos em cache de uma versão mais nova, que provavelmente são incompatíveis.
 
-- When users refresh the application, they see the latest fully cached version.
-  New tabs load the latest cached code.
+- Quando os usuários atualizam a aplicação, eles veem a versão mais recente totalmente em cache.
+  Novas abas carregam o código mais recente em cache.
 
-- Updates happen in the background, relatively quickly after changes are published.
-  The previous version of the application is served until an update is installed and ready.
+- Atualizações acontecem em segundo plano, relativamente rápido após as mudanças serem publicadas.
+  A versão anterior da aplicação é servida até que uma atualização seja instalada e esteja pronta.
 
-- The service worker conserves bandwidth when possible.
-  Resources are only downloaded if they've changed.
+- O service worker conserva largura de banda quando possível.
+  Recursos são baixados apenas se foram alterados.
 
-To support these behaviors, the Angular service worker loads a _manifest_ file from the server.
-The file, called `ngsw.json` (not to be confused with the [web app manifest](https://developer.mozilla.org/docs/Web/Manifest)), describes the resources to cache and includes hashes of every file's contents.
-When an update to the application is deployed, the contents of the manifest change, informing the service worker that a new version of the application should be downloaded and cached.
-This manifest is generated from a CLI-generated configuration file called `ngsw-config.json`.
+Para suportar estes comportamentos, o Angular service worker carrega um arquivo _manifest_ do servidor.
+O arquivo, chamado `ngsw.json` (não deve ser confundido com o [web app manifest](https://developer.mozilla.org/docs/Web/Manifest)), descreve os recursos para fazer cache e inclui hashes do conteúdo de cada arquivo.
+Quando uma atualização para a aplicação é implantada, o conteúdo do manifest muda, informando ao service worker que uma nova versão da aplicação deve ser baixada e armazenada em cache.
+Este manifest é gerado a partir de um arquivo de configuração gerado pelo CLI chamado `ngsw-config.json`.
 
-Installing the Angular service worker is as straightforward as [running an Angular CLI command](ecosystem/service-workers/getting-started#adding-a-service-worker-to-your-project).
-In addition to registering the Angular service worker with the browser, this also makes a few services available for injection which interact with the service worker and can be used to control it.
-For example, an application can ask to be notified when a new update becomes available, or an application can ask the service worker to check the server for available updates.
+Instalar o Angular service worker é tão simples quanto [executar um comando do Angular CLI](ecosystem/service-workers/getting-started#adding-a-service-worker-to-your-project).
+Além de registrar o Angular service worker com o navegador, isso também torna alguns serviços disponíveis para injeção que interagem com o service worker e podem ser usados para controlá-lo.
+Por exemplo, uma aplicação pode pedir para ser notificada quando uma nova atualização se torna disponível, ou uma aplicação pode pedir ao service worker para verificar o servidor por atualizações disponíveis.
 
-## Before you start
+## Antes de começar
 
-To make use of all the features of Angular service workers, use the latest versions of Angular and the [Angular CLI](tools/cli).
+Para fazer uso de todos os recursos dos Angular service workers, use as versões mais recentes do Angular e do [Angular CLI](tools/cli).
 
-For service workers to be registered, the application must be accessed over HTTPS, not HTTP.
-Browsers ignore service workers on pages that are served over an insecure connection.
-The reason is that service workers are quite powerful, so extra care is needed to ensure the service worker script has not been tampered with.
+Para que os service workers sejam registrados, a aplicação deve ser acessada via HTTPS, não HTTP.
+Navegadores ignoram service workers em páginas que são servidas através de uma conexão insegura.
+A razão é que service workers são bastante poderosos, então cuidado extra é necessário para garantir que o script do service worker não foi adulterado.
 
-There is one exception to this rule: to make local development more straightforward, browsers do _not_ require a secure connection when accessing an application on `localhost`.
+Há uma exceção a esta regra: para tornar o desenvolvimento local mais direto, navegadores _não_ requerem uma conexão segura ao acessar uma aplicação em `localhost`.
 
-### Browser support
+### Suporte de navegadores
 
-To benefit from the Angular service worker, your application must run in a web browser that supports service workers in general.
-Currently, service workers are supported in the latest versions of Chrome, Firefox, Edge, Safari, Opera, UC Browser (Android version) and Samsung Internet.
-Browsers like IE and Opera Mini do not support service workers.
+Para se beneficiar do Angular service worker, sua aplicação deve rodar em um navegador web que suporte service workers em geral.
+Atualmente, service workers são suportados nas versões mais recentes do Chrome, Firefox, Edge, Safari, Opera, UC Browser (versão Android) e Samsung Internet.
+Navegadores como IE e Opera Mini não suportam service workers.
 
-If the user is accessing your application with a browser that does not support service workers, the service worker is not registered and related behavior such as offline cache management and push notifications does not happen.
-More specifically:
+Se o usuário estiver acessando sua aplicação com um navegador que não suporta service workers, o service worker não é registrado e comportamentos relacionados como gerenciamento de cache offline e push notifications não acontecem.
+Mais especificamente:
 
-- The browser does not download the service worker script and the `ngsw.json` manifest file
-- Active attempts to interact with the service worker, such as calling `SwUpdate.checkForUpdate()`, return rejected promises
-- The observable events of related services, such as `SwUpdate.available`, are not triggered
+- O navegador não baixa o script do service worker e o arquivo manifest `ngsw.json`
+- Tentativas ativas de interagir com o service worker, como chamar `SwUpdate.checkForUpdate()`, retornam promises rejeitadas
+- Os eventos observáveis de serviços relacionados, como `SwUpdate.available`, não são acionados
 
-It is highly recommended that you ensure that your application works even without service worker support in the browser.
-Although an unsupported browser ignores service worker caching, it still reports errors if the application attempts to interact with the service worker.
-For example, calling `SwUpdate.checkForUpdate()` returns rejected promises.
-To avoid such an error, check whether the Angular service worker is enabled using `SwUpdate.isEnabled`.
+É altamente recomendado que você garanta que sua aplicação funcione mesmo sem suporte ao service worker no navegador.
+Embora um navegador sem suporte ignore o cache do service worker, ele ainda reporta erros se a aplicação tentar interagir com o service worker.
+Por exemplo, chamar `SwUpdate.checkForUpdate()` retorna promises rejeitadas.
+Para evitar tal erro, verifique se o Angular service worker está habilitado usando `SwUpdate.isEnabled`.
 
-To learn more about other browsers that are service worker ready, see the [Can I Use](https://caniuse.com/#feat=serviceworkers) page and [MDN docs](https://developer.mozilla.org/docs/Web/API/Service_Worker_API).
+Para saber mais sobre outros navegadores que estão prontos para service worker, consulte a página [Can I Use](https://caniuse.com/#feat=serviceworkers) e [documentação MDN](https://developer.mozilla.org/docs/Web/API/Service_Worker_API).
 
-## Related resources
+## Recursos relacionados
 
-The rest of the articles in this section specifically address the Angular implementation of service workers.
+O restante dos artigos nesta seção abordam especificamente a implementação Angular de service workers.
 
 <docs-pill-row>
-  <docs-pill href="ecosystem/service-workers/config" title="Configuration file"/>
-  <docs-pill href="ecosystem/service-workers/communications" title="Communicating with the Service Worker"/>
+  <docs-pill href="ecosystem/service-workers/config" title="Arquivo de configuração"/>
+  <docs-pill href="ecosystem/service-workers/communications" title="Comunicando com o Service Worker"/>
   <docs-pill href="ecosystem/service-workers/push-notifications" title="Push notifications"/>
   <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
   <docs-pill href="ecosystem/service-workers/app-shell" title="App shell pattern"/>
 </docs-pill-row>
 
-For more information about service workers in general, see [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers).
+Para mais informações sobre service workers em geral, consulte [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers).
 
-For more information about browser support, see the [browser support](https://developers.google.com/web/fundamentals/primers/service-workers/#browser_support) section of [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers), Jake Archibald's [Is Serviceworker ready?](https://jakearchibald.github.io/isserviceworkerready), and [Can I Use](https://caniuse.com/serviceworkers).
+Para mais informações sobre suporte de navegadores, consulte a seção [browser support](https://developers.google.com/web/fundamentals/primers/service-workers/#browser_support) de [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers), [Is Serviceworker ready?](https://jakearchibald.github.io/isserviceworkerready) de Jake Archibald, e [Can I Use](https://caniuse.com/serviceworkers).
 
-For additional recommendations and examples, see:
+Para recomendações adicionais e exemplos, consulte:
 
 <docs-pill-row>
   <docs-pill href="https://web.dev/precaching-with-the-angular-service-worker" title="Precaching with Angular Service Worker"/>
   <docs-pill href="https://web.dev/creating-pwa-with-angular-cli" title="Creating a PWA with Angular CLI"/>
 </docs-pill-row>
 
-## Next step
+## Próximo passo
 
-To begin using Angular service workers, see [Getting Started with service workers](ecosystem/service-workers/getting-started).
+Para começar a usar Angular service workers, consulte [Começando com service workers](ecosystem/service-workers/getting-started).

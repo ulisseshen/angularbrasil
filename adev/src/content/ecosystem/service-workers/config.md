@@ -1,67 +1,68 @@
-# Service Worker configuration file
+<!-- ia-translate: true -->
+# Arquivo de configuração do Service Worker
 
-This topic describes the properties of the service worker configuration file.
+Este tópico descreve as propriedades do arquivo de configuração do service worker.
 
-## Modifying the configuration
+## Modificando a configuração
 
-The `ngsw-config.json` JSON configuration file specifies which files and data URLs the Angular service worker should cache and how it should update the cached files and data.
-The [Angular CLI](tools/cli) processes this configuration file during `ng build`.
+O arquivo de configuração JSON `ngsw-config.json` especifica quais arquivos e URLs de dados o Angular service worker deve armazenar em cache e como ele deve atualizar os arquivos e dados em cache.
+O [Angular CLI](tools/cli) processa este arquivo de configuração durante `ng build`.
 
-All file paths must begin with `/`, which corresponds to the deployment directory — usually `dist/<project-name>` in CLI projects.
+Todos os caminhos de arquivo devem começar com `/`, que corresponde ao diretório de deployment — geralmente `dist/<project-name>` em projetos CLI.
 
-Unless otherwise commented, patterns use a **limited\*** glob format that internally will be converted into regex:
+A menos que comentado de outra forma, os padrões usam um formato glob **limitado\*** que internamente será convertido em regex:
 
-| Glob formats | Details                                                                                                |
-| :----------- | :----------------------------------------------------------------------------------------------------- |
-| `**`         | Matches 0 or more path segments                                                                        |
-| `*`          | Matches 0 or more characters excluding `/`                                                             |
-| `?`          | Matches exactly one character excluding `/`                                                            |
-| `!` prefix   | Marks the pattern as being negative, meaning that only files that don't match the pattern are included |
+| Formatos glob | Detalhes                                                                                                                             |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------- |
+| `**`          | Corresponde a 0 ou mais segmentos de caminho                                                                                         |
+| `*`           | Corresponde a 0 ou mais caracteres excluindo `/`                                                                                     |
+| `?`           | Corresponde exatamente a um caractere excluindo `/`                                                                                  |
+| prefixo `!`   | Marca o padrão como sendo negativo, o que significa que apenas arquivos que não correspondem ao padrão são incluídos                |
 
-<docs-callout important title="Special characters need to be escaped">
-Pay attention that some characters with a special meaning in a regular expression are not escaped and also the pattern is not wrapped in `^`/`$` in the internal glob to regex conversion.
+<docs-callout important title="Caracteres especiais precisam ser escapados">
+Preste atenção que alguns caracteres com significado especial em uma expressão regular não são escapados e também o padrão não é envolvido em `^`/`$` na conversão interna de glob para regex.
 
-`$` is a special character in regex that matches the end of the string and will not be automatically escaped when converting the glob pattern to a regular expression.
+`$` é um caractere especial em regex que corresponde ao final da string e não será automaticamente escapado ao converter o padrão glob para uma expressão regular.
 
-If you want to literally match the `$` character, you have to escape it yourself (with `\\$`). For example, the glob pattern `/foo/bar/$value` results in an unmatchable expression, because it is impossible to have a string that has any characters after it has ended.
+Se você quiser corresponder literalmente ao caractere `$`, você tem que escapá-lo você mesmo (com `\\$`). Por exemplo, o padrão glob `/foo/bar/$value` resulta em uma expressão incompatível, porque é impossível ter uma string que tenha quaisquer caracteres depois que ela terminou.
 
-The pattern will not be automatically wrapped in `^` and `$` when converting it to a regular expression. Therefore, the patterns will partially match the request URLs.
+O padrão não será automaticamente envolvido em `^` e `$` ao convertê-lo para uma expressão regular. Portanto, os padrões corresponderão parcialmente às URLs de requisição.
 
-If you want your patterns to match the beginning and/or end of URLs, you can add `^`/`$` yourself. For example, the glob pattern `/foo/bar/*.js` will match both `.js` and `.json` files. If you want to only match `.js` files, use `/foo/bar/*.js$`.
+Se você quiser que seus padrões correspondam ao início e/ou final de URLs, você pode adicionar `^`/`$` você mesmo. Por exemplo, o padrão glob `/foo/bar/*.js` corresponderá a arquivos `.js` e `.json`. Se você quiser corresponder apenas a arquivos `.js`, use `/foo/bar/*.js$`.
 </docs-callout>
 
-Example patterns:
+Exemplos de padrões:
 
-| Patterns     | Details                               |
-| :----------- | :------------------------------------ |
-| `/**/*.html` | Specifies all HTML files              |
-| `/*.html`    | Specifies only HTML files in the root |
-| `!/**/*.map` | Exclude all sourcemaps                |
+| Padrões      | Detalhes                               |
+| :----------- | :------------------------------------- |
+| `/**/*.html` | Especifica todos os arquivos HTML      |
+| `/*.html`    | Especifica apenas arquivos HTML na raiz|
+| `!/**/*.map` | Exclui todos os sourcemaps             |
 
-## Service worker configuration properties
+## Propriedades de configuração do service worker
 
-The following sections describe each property of the configuration file.
+As seções a seguir descrevem cada propriedade do arquivo de configuração.
 
 ### `appData`
 
-This section enables you to pass any data you want that describes this particular version of the application.
-The `SwUpdate` service includes that data in the update notifications.
-Many applications use this section to provide additional information for the display of UI popups, notifying users of the available update.
+Esta seção permite que você passe quaisquer dados que descrever esta versão específica da aplicação.
+O service `SwUpdate` inclui esses dados nas notificações de atualização.
+Muitas aplicações usam esta seção para fornecer informações adicionais para a exibição de popups de UI, notificando os usuários da atualização disponível.
 
 ### `index`
 
-Specifies the file that serves as the index page to satisfy navigation requests.
-Usually this is `/index.html`.
+Especifica o arquivo que serve como página de índice para satisfazer requisições de navegação.
+Geralmente é `/index.html`.
 
 ### `assetGroups`
 
-_Assets_ are resources that are part of the application version that update along with the application.
-They can include resources loaded from the page's origin as well as third-party resources loaded from CDNs and other external URLs.
-As not all such external URLs might be known at build time, URL patterns can be matched.
+_Assets_ são recursos que fazem parte da versão da aplicação que são atualizados junto com a aplicação.
+Eles podem incluir recursos carregados da origem da página, bem como recursos de terceiros carregados de CDNs e outras URLs externas.
+Como nem todas essas URLs externas podem ser conhecidas em tempo de build, padrões de URL podem ser correspondidos.
 
-HELPFUL: For the service worker to handle resources that are loaded from different origins, make sure that [CORS](https://developer.mozilla.org/docs/Web/HTTP/CORS) is correctly configured on each origin's server.
+ÚTIL: Para que o service worker manipule recursos que são carregados de diferentes origens, certifique-se de que [CORS](https://developer.mozilla.org/docs/Web/HTTP/CORS) esteja configurado corretamente no servidor de cada origem.
 
-This field contains an array of asset groups, each of which defines a set of asset resources and the policy by which they are cached.
+Este campo contém um array de grupos de assets, cada um dos quais define um conjunto de recursos de assets e a política pela qual eles são armazenados em cache.
 
 ```ts
 {
@@ -76,16 +77,16 @@ This field contains an array of asset groups, each of which defines a set of ass
 }
 ```
 
-HELPFUL: When the ServiceWorker handles a request, it checks asset groups in the order in which they appear in `ngsw-config.json`.
-The first asset group that matches the requested resource handles the request.
+ÚTIL: Quando o ServiceWorker manipula uma requisição, ele verifica os grupos de assets na ordem em que aparecem em `ngsw-config.json`.
+O primeiro grupo de assets que corresponde ao recurso solicitado manipula a requisição.
 
-It is recommended that you put the more specific asset groups higher in the list.
-For example, an asset group that matches `/foo.js` should appear before one that matches `*.js`.
+É recomendado que você coloque os grupos de assets mais específicos no topo da lista.
+Por exemplo, um grupo de assets que corresponde a `/foo.js` deve aparecer antes de um que corresponde a `*.js`.
 
-Each asset group specifies both a group of resources and a policy that governs them.
-This policy determines when the resources are fetched and what happens when changes are detected.
+Cada grupo de assets especifica tanto um grupo de recursos quanto uma política que os governa.
+Esta política determina quando os recursos são buscados e o que acontece quando mudanças são detectadas.
 
-Asset groups follow the Typescript interface shown here:
+Grupos de assets seguem a interface TypeScript mostrada aqui:
 
 ```ts
 interface AssetGroup {
@@ -102,63 +103,63 @@ interface AssetGroup {
 }
 ```
 
-Each `AssetGroup` is defined by the following asset group properties.
+Cada `AssetGroup` é definido pelas seguintes propriedades de grupo de assets.
 
 #### `name`
 
-A `name` is mandatory.
-It identifies this particular group of assets between versions of the configuration.
+Um `name` é obrigatório.
+Ele identifica este grupo específico de assets entre versões da configuração.
 
 #### `installMode`
 
-The `installMode` determines how these resources are initially cached.
-The `installMode` can be either of two values:
+O `installMode` determina como esses recursos são inicialmente armazenados em cache.
+O `installMode` pode ter um de dois valores:
 
-| Values     | Details                                                                                                                                                                                                                                                                                                                                                                                       |
-| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prefetch` | Tells the Angular service worker to fetch every single listed resource while it's caching the current version of the application. This is bandwidth-intensive but ensures resources are available whenever they're requested, even if the browser is currently offline.                                                                                                                       |
-| `lazy`     | Does not cache any of the resources up front. Instead, the Angular service worker only caches resources for which it receives requests. This is an on-demand caching mode. Resources that are never requested are not cached. This is useful for things like images at different resolutions, so the service worker only caches the correct assets for the particular screen and orientation. |
+| Valores    | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                  |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prefetch` | Instrui o Angular service worker a buscar cada recurso listado enquanto está armazenando em cache a versão atual da aplicação. Isso consome muita banda, mas garante que os recursos estejam disponíveis sempre que forem solicitados, mesmo se o browser estiver offline no momento.                                                                                                                    |
+| `lazy`     | Não armazena em cache nenhum dos recursos antecipadamente. Em vez disso, o Angular service worker armazena em cache apenas os recursos para os quais recebe requisições. Este é um modo de cache sob demanda. Recursos que nunca são solicitados não são armazenados em cache. Isso é útil para coisas como imagens em diferentes resoluções, para que o service worker armazene em cache apenas os assets corretos para a tela e orientação específicas. |
 
-Defaults to `prefetch`.
+Padrão para `prefetch`.
 
 #### `updateMode`
 
-For resources already in the cache, the `updateMode` determines the caching behavior when a new version of the application is discovered.
-Any resources in the group that have changed since the previous version are updated in accordance with `updateMode`.
+Para recursos já no cache, o `updateMode` determina o comportamento de caching quando uma nova versão da aplicação é descoberta.
+Quaisquer recursos no grupo que mudaram desde a versão anterior são atualizados de acordo com `updateMode`.
 
-| Values     | Details                                                                                                                                                                                                                                  |
-| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prefetch` | Tells the service worker to download and cache the changed resources immediately.                                                                                                                                                        |
-| `lazy`     | Tells the service worker to not cache those resources. Instead, it treats them as unrequested and waits until they're requested again before updating them. An `updateMode` of `lazy` is only valid if the `installMode` is also `lazy`. |
+| Valores    | Detalhes                                                                                                                                                                                                                              |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `prefetch` | Instrui o service worker a baixar e armazenar em cache os recursos alterados imediatamente.                                                                                                                                           |
+| `lazy`     | Instrui o service worker a não armazenar em cache esses recursos. Em vez disso, ele os trata como não solicitados e aguarda até que sejam solicitados novamente antes de atualizá-los. Um `updateMode` de `lazy` é válido apenas se o `installMode` também for `lazy`. |
 
-Defaults to the value `installMode` is set to.
+Padrão para o valor ao qual `installMode` está definido.
 
 #### `resources`
 
-This section describes the resources to cache, broken up into the following groups:
+Esta seção descreve os recursos a armazenar em cache, divididos nos seguintes grupos:
 
-| Resource groups | Details                                                                                                                                                                                                                                                                                                                                                                                                       |
-| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `files`         | Lists patterns that match files in the distribution directory. These can be single files or glob-like patterns that match a number of files.                                                                                                                                                                                                                                                                  |
-| `urls`          | Includes both URLs and URL patterns that are matched at runtime. These resources are not fetched directly and do not have content hashes, but they are cached according to their HTTP headers. This is most useful for CDNs such as the Google Fonts service. <br /> _(Negative glob patterns are not supported and `?` will be matched literally; that is, it will not match any character other than `?`.)_ |
+| Grupos de recursos | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `files`            | Lista padrões que correspondem a arquivos no diretório de distribuição. Estes podem ser arquivos únicos ou padrões semelhantes a glob que correspondem a vários arquivos.                                                                                                                                                                                                                                                  |
+| `urls`             | Inclui URLs e padrões de URL que são correspondidos em tempo de execução. Esses recursos não são buscados diretamente e não têm hashes de conteúdo, mas são armazenados em cache de acordo com seus cabeçalhos HTTP. Isso é mais útil para CDNs como o serviço Google Fonts. <br /> _(Padrões glob negativos não são suportados e `?` será correspondido literalmente; ou seja, não corresponderá a nenhum caractere além de `?`.)_ |
 
 #### `cacheQueryOptions`
 
-These options are used to modify the matching behavior of requests.
-They are passed to the browsers `Cache#match` function.
-See [MDN](https://developer.mozilla.org/docs/Web/API/Cache/match) for details.
-Currently, only the following options are supported:
+Essas opções são usadas para modificar o comportamento de correspondência de requisições.
+Elas são passadas para a função `Cache#match` do browser.
+Veja [MDN](https://developer.mozilla.org/docs/Web/API/Cache/match) para detalhes.
+Atualmente, apenas as seguintes opções são suportadas:
 
-| Options        | Details                                       |
-| :------------- | :-------------------------------------------- |
-| `ignoreSearch` | Ignore query parameters. Defaults to `false`. |
+| Opções         | Detalhes                                         |
+| :------------- | :----------------------------------------------- |
+| `ignoreSearch` | Ignorar parâmetros de query. Padrão para `false`.|
 
 ### `dataGroups`
 
-Unlike asset resources, data requests are not versioned along with the application.
-They're cached according to manually-configured policies that are more useful for situations such as API requests and other data dependencies.
+Ao contrário de recursos de assets, requisições de dados não têm versão junto com a aplicação.
+Eles são armazenados em cache de acordo com políticas configuradas manualmente que são mais úteis para situações como requisições de API e outras dependências de dados.
 
-This field contains an array of data groups, each of which defines a set of data resources and the policy by which they are cached.
+Este campo contém um array de grupos de dados, cada um dos quais define um conjunto de recursos de dados e a política pela qual eles são armazenados em cache.
 
 ```json
 {
@@ -173,13 +174,13 @@ This field contains an array of data groups, each of which defines a set of data
 }
 ```
 
-HELPFUL: When the ServiceWorker handles a request, it checks data groups in the order in which they appear in `ngsw-config.json`.
-The first data group that matches the requested resource handles the request.
+ÚTIL: Quando o ServiceWorker manipula uma requisição, ele verifica os grupos de dados na ordem em que aparecem em `ngsw-config.json`.
+O primeiro grupo de dados que corresponde ao recurso solicitado manipula a requisição.
 
-It is recommended that you put the more specific data groups higher in the list.
-For example, a data group that matches `/api/foo.json` should appear before one that matches `/api/*.json`.
+É recomendado que você coloque os grupos de dados mais específicos no topo da lista.
+Por exemplo, um grupo de dados que corresponde a `/api/foo.json` deve aparecer antes de um que corresponde a `/api/*.json`.
 
-Data groups follow this Typescript interface:
+Grupos de dados seguem esta interface TypeScript:
 
 ```ts
 export interface DataGroup {
@@ -199,174 +200,174 @@ export interface DataGroup {
 }
 ```
 
-Each `DataGroup` is defined by the following data group properties.
+Cada `DataGroup` é definido pelas seguintes propriedades de grupo de dados.
 
 #### `name`
 
-Similar to `assetGroups`, every data group has a `name` which uniquely identifies it.
+Semelhante a `assetGroups`, cada grupo de dados tem um `name` que o identifica exclusivamente.
 
 #### `urls`
 
-A list of URL patterns.
-URLs that match these patterns are cached according to this data group's policy.
-Only non-mutating requests (GET and HEAD) are cached.
+Uma lista de padrões de URL.
+URLs que correspondem a esses padrões são armazenadas em cache de acordo com a política deste grupo de dados.
+Apenas requisições não-mutantes (GET e HEAD) são armazenadas em cache.
 
-- Negative glob patterns are not supported
-- `?` is matched literally; that is, it matches _only_ the character `?`
+- Padrões glob negativos não são suportados
+- `?` é correspondido literalmente; ou seja, corresponde _apenas_ ao caractere `?`
 
 #### `version`
 
-Occasionally APIs change formats in a way that is not backward-compatible.
-A new version of the application might not be compatible with the old API format and thus might not be compatible with existing cached resources from that API.
+Ocasionalmente as APIs mudam formatos de uma maneira que não é retrocompatível.
+Uma nova versão da aplicação pode não ser compatível com o formato de API antigo e, portanto, pode não ser compatível com recursos em cache existentes dessa API.
 
-`version` provides a mechanism to indicate that the resources being cached have been updated in a backwards-incompatible way, and that the old cache entries —those from previous versions— should be discarded.
+`version` fornece um mecanismo para indicar que os recursos sendo armazenados em cache foram atualizados de maneira incompatível com versões anteriores, e que as entradas de cache antigas — aquelas de versões anteriores — devem ser descartadas.
 
-`version` is an integer field and defaults to `1`.
+`version` é um campo inteiro e o padrão é `1`.
 
 #### `cacheConfig`
 
-The following properties define the policy by which matching requests are cached.
+As seguintes propriedades definem a política pela qual requisições correspondentes são armazenadas em cache.
 
 ##### `maxSize`
 
-The maximum number of entries, or responses, in the cache.
+O número máximo de entradas, ou respostas, no cache.
 
-CRITICAL: Open-ended caches can grow in unbounded ways and eventually exceed storage quotas, resulting in eviction.
+CRÍTICO: Caches sem limites podem crescer de maneiras ilimitadas e eventualmente exceder quotas de armazenamento, resultando em remoção.
 
 ##### `maxAge`
 
-The `maxAge` parameter indicates how long responses are allowed to remain in the cache before being considered invalid and evicted. `maxAge` is a duration string, using the following unit suffixes:
+O parâmetro `maxAge` indica quanto tempo as respostas têm permissão para permanecer no cache antes de serem consideradas inválidas e removidas. `maxAge` é uma string de duração, usando os seguintes sufixos de unidade:
 
-| Suffixes | Details      |
-| :------- | :----------- |
-| `d`      | Days         |
-| `h`      | Hours        |
-| `m`      | Minutes      |
-| `s`      | Seconds      |
-| `u`      | Milliseconds |
+| Sufixos | Detalhes     |
+| :------ | :----------- |
+| `d`     | Dias         |
+| `h`     | Horas        |
+| `m`     | Minutos      |
+| `s`     | Segundos     |
+| `u`     | Milissegundos|
 
-For example, the string `3d12h` caches content for up to three and a half days.
+Por exemplo, a string `3d12h` armazena em cache o conteúdo por até três dias e meio.
 
 ##### `timeout`
 
-This duration string specifies the network timeout.
-The network timeout is how long the Angular service worker waits for the network to respond before using a cached response, if configured to do so.
-`timeout` is a duration string, using the following unit suffixes:
+Esta string de duração especifica o timeout de rede.
+O timeout de rede é quanto tempo o Angular service worker aguarda a rede responder antes de usar uma resposta em cache, se configurado para fazê-lo.
+`timeout` é uma string de duração, usando os seguintes sufixos de unidade:
 
-| Suffixes | Details      |
-| :------- | :----------- |
-| `d`      | Days         |
-| `h`      | Hours        |
-| `m`      | Minutes      |
-| `s`      | Seconds      |
-| `u`      | Milliseconds |
+| Sufixos | Detalhes     |
+| :------ | :----------- |
+| `d`     | Dias         |
+| `h`     | Horas        |
+| `m`     | Minutos      |
+| `s`     | Segundos     |
+| `u`     | Milissegundos|
 
-For example, the string `5s30u` translates to five seconds and 30 milliseconds of network timeout.
+Por exemplo, a string `5s30u` se traduz em cinco segundos e 30 milissegundos de timeout de rede.
 
 ##### `refreshAhead`
 
-This duration string specifies the time ahead of the expiration of a cached resource when the Angular service worker should proactively attempt to refresh the resource from the network.
-The `refreshAhead` duration is an optional configuration that determines how much time before the expiration of a cached response the service worker should initiate a request to refresh the resource from the network.
+Esta string de duração especifica o tempo antes da expiração de um recurso em cache quando o Angular service worker deve tentar proativamente atualizar o recurso da rede.
+A duração `refreshAhead` é uma configuração opcional que determina quanto tempo antes da expiração de uma resposta em cache o service worker deve iniciar uma requisição para atualizar o recurso da rede.
 
-| Suffixes | Details      |
-| :------- | :----------- |
-| `d`      | Days         |
-| `h`      | Hours        |
-| `m`      | Minutes      |
-| `s`      | Seconds      |
-| `u`      | Milliseconds |
+| Sufixos | Detalhes     |
+| :------ | :----------- |
+| `d`     | Dias         |
+| `h`     | Horas        |
+| `m`     | Minutos      |
+| `s`     | Segundos     |
+| `u`     | Milissegundos|
 
-For example, the string `1h30m` translates to one hour and 30 minutes ahead of the expiration time.
+Por exemplo, a string `1h30m` se traduz em uma hora e 30 minutos antes do tempo de expiração.
 
 ##### `strategy`
 
-The Angular service worker can use either of two caching strategies for data resources.
+O Angular service worker pode usar uma de duas estratégias de cache para recursos de dados.
 
-| Caching strategies | Details                                                                                                                                                                                                                                                                                                                                                   |
-| :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `performance`      | The default, optimizes for responses that are as fast as possible. If a resource exists in the cache, the cached version is used, and no network request is made. This allows for some staleness, depending on the `maxAge`, in exchange for better performance. This is suitable for resources that don't change often; for example, user avatar images. |
-| `freshness`        | Optimizes for currency of data, preferentially fetching requested data from the network. Only if the network times out, according to `timeout`, does the request fall back to the cache. This is useful for resources that change frequently; for example, account balances.                                                                              |
+| Estratégias de cache | Detalhes                                                                                                                                                                                                                                                                                                                                                            |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `performance`        | O padrão, otimiza para respostas o mais rápido possível. Se um recurso existe no cache, a versão em cache é usada, e nenhuma requisição de rede é feita. Isso permite alguma desatualização, dependendo do `maxAge`, em troca de melhor performance. Isso é adequado para recursos que não mudam com frequência; por exemplo, imagens de avatar de usuário. |
+| `freshness`          | Otimiza para atualização dos dados, preferencialmente buscando dados solicitados da rede. Apenas se a rede atingir o timeout, de acordo com `timeout`, a requisição recorre ao cache. Isso é útil para recursos que mudam com frequência; por exemplo, saldos de contas.                                                                                     |
 
-HELPFUL: You can also emulate a third strategy, [staleWhileRevalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate), which returns cached data if it is available, but also fetches fresh data from the network in the background for next time.
-To use this strategy set `strategy` to `freshness` and `timeout` to `0u` in `cacheConfig`.
+ÚTIL: Você também pode emular uma terceira estratégia, [staleWhileRevalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate), que retorna dados em cache se estiverem disponíveis, mas também busca dados atualizados da rede em segundo plano para a próxima vez.
+Para usar esta estratégia, defina `strategy` como `freshness` e `timeout` como `0u` em `cacheConfig`.
 
-This essentially does the following:
+Isso essencialmente faz o seguinte:
 
-1. Try to fetch from the network first.
-2. If the network request does not complete immediately, that is after a timeout of 0&nbsp;ms, ignore the cache age and fall back to the cached value.
-3. Once the network request completes, update the cache for future requests.
-4. If the resource does not exist in the cache, wait for the network request anyway.
+1. Tenta buscar da rede primeiro.
+2. Se a requisição de rede não for concluída imediatamente, ou seja, após um timeout de 0&nbsp;ms, ignora a idade do cache e recorre ao valor em cache.
+3. Quando a requisição de rede for concluída, atualiza o cache para requisições futuras.
+4. Se o recurso não existir no cache, aguarda a requisição de rede de qualquer forma.
 
 ##### `cacheOpaqueResponses`
 
-Whether the Angular service worker should cache opaque responses or not.
+Se o Angular service worker deve armazenar em cache respostas opacas ou não.
 
-If not specified, the default value depends on the data group's configured strategy:
+Se não especificado, o valor padrão depende da estratégia configurada do grupo de dados:
 
-| Strategies                             | Details                                                                                                                                                                                                                                                                                                                     |
-| :------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Groups with the `freshness` strategy   | The default value is `true` and the service worker caches opaque responses. These groups will request the data every time and only fall back to the cached response when offline or on a slow network. Therefore, it doesn't matter if the service worker caches an error response.                                         |
-| Groups with the `performance` strategy | The default value is `false` and the service worker doesn't cache opaque responses. These groups would continue to return a cached response until `maxAge` expires, even if the error was due to a temporary network or server issue. Therefore, it would be problematic for the service worker to cache an error response. |
+| Estratégias                                | Detalhes                                                                                                                                                                                                                                                                                                                                |
+| :----------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Grupos com a estratégia `freshness`       | O valor padrão é `true` e o service worker armazena em cache respostas opacas. Esses grupos solicitarão os dados toda vez e apenas recorrerão à resposta em cache quando offline ou em uma rede lenta. Portanto, não importa se o service worker armazenar em cache uma resposta de erro.                                              |
+| Grupos com a estratégia `performance`     | O valor padrão é `false` e o service worker não armazena em cache respostas opacas. Esses grupos continuariam a retornar uma resposta em cache até `maxAge` expirar, mesmo se o erro fosse devido a um problema temporário de rede ou servidor. Portanto, seria problemático para o service worker armazenar em cache uma resposta de erro. |
 
-<docs-callout title="Comment on opaque responses">
+<docs-callout title="Comentário sobre respostas opacas">
 
-In case you are not familiar, an [opaque response](https://fetch.spec.whatwg.org#concept-filtered-response-opaque) is a special type of response returned when requesting a resource that is on a different origin which doesn't return CORS headers.
-One of the characteristics of an opaque response is that the service worker is not allowed to read its status, meaning it can't check if the request was successful or not.
-See [Introduction to `fetch()`](https://developers.google.com/web/updates/2015/03/introduction-to-fetch#response_types) for more details.
+Caso você não esteja familiarizado, uma [resposta opaca](https://fetch.spec.whatwg.org#concept-filtered-response-opaque) é um tipo especial de resposta retornada ao solicitar um recurso que está em uma origem diferente que não retorna cabeçalhos CORS.
+Uma das características de uma resposta opaca é que o service worker não tem permissão para ler seu status, o que significa que não pode verificar se a requisição foi bem-sucedida ou não.
+Veja [Introdução a `fetch()`](https://developers.google.com/web/updates/2015/03/introduction-to-fetch#response_types) para mais detalhes.
 
-If you are not able to implement CORS — for example, if you don't control the origin — prefer using the `freshness` strategy for resources that result in opaque responses.
+Se você não conseguir implementar CORS — por exemplo, se você não controla a origem — prefira usar a estratégia `freshness` para recursos que resultam em respostas opacas.
 
 </docs-callout>
 
 #### `cacheQueryOptions`
 
-See [assetGroups](#assetgroups) for details.
+Veja [assetGroups](#assetgroups) para detalhes.
 
 ### `navigationUrls`
 
-This optional section enables you to specify a custom list of URLs that will be redirected to the index file.
+Esta seção opcional permite que você especifique uma lista personalizada de URLs que serão redirecionadas para o arquivo de índice.
 
-#### Handling navigation requests
+#### Manipulando requisições de navegação
 
-The ServiceWorker redirects navigation requests that don't match any `asset` or `data` group to the specified [index file](#index).
-A request is considered to be a navigation request if:
+O ServiceWorker redireciona requisições de navegação que não correspondem a nenhum grupo `asset` ou `data` para o [arquivo de índice](#index) especificado.
+Uma requisição é considerada uma requisição de navegação se:
 
-- Its [method](https://developer.mozilla.org/docs/Web/API/Request/method) is `GET`
-- Its [mode](https://developer.mozilla.org/docs/Web/API/Request/mode) is `navigation`
-- It accepts a `text/html` response as determined by the value of the `Accept` header
-- Its URL matches the following criteria:
-  - The URL must not contain a file extension (that is, a `.`) in the last path segment
-  - The URL must not contain `__`
+- Seu [method](https://developer.mozilla.org/docs/Web/API/Request/method) é `GET`
+- Seu [mode](https://developer.mozilla.org/docs/Web/API/Request/mode) é `navigation`
+- Ela aceita uma resposta `text/html` conforme determinado pelo valor do cabeçalho `Accept`
+- Sua URL corresponde aos seguintes critérios:
+  - A URL não deve conter uma extensão de arquivo (ou seja, um `.`) no último segmento de caminho
+  - A URL não deve conter `__`
 
-HELPFUL: To configure whether navigation requests are sent through to the network or not, see the [navigationRequestStrategy](#navigationrequeststrategy) section and [applicationMaxAge](#applicationmaxage) sections.
+ÚTIL: Para configurar se requisições de navegação são enviadas para a rede ou não, veja as seções [navigationRequestStrategy](#navigationrequeststrategy) e [applicationMaxAge](#applicationmaxage).
 
-#### Matching navigation request URLs
+#### Correspondendo URLs de requisição de navegação
 
-While these default criteria are fine in most cases, it is sometimes desirable to configure different rules.
-For example, you might want to ignore specific routes, such as those that are not part of the Angular app, and pass them through to the server.
+Embora esses critérios padrão sejam adequados na maioria dos casos, às vezes é desejável configurar regras diferentes.
+Por exemplo, você pode querer ignorar rotas específicas, como aquelas que não fazem parte da aplicação Angular, e passá-las para o servidor.
 
-This field contains an array of URLs and [glob-like](#modifying-the-configuration) URL patterns that are matched at runtime.
-It can contain both negative patterns (that is, patterns starting with `!`) and non-negative patterns and URLs.
+Este campo contém um array de URLs e padrões de URL [semelhantes a glob](#modifying-the-configuration) que são correspondidos em tempo de execução.
+Ele pode conter tanto padrões negativos (ou seja, padrões começando com `!`) quanto padrões e URLs não-negativos.
 
-Only requests whose URLs match _any_ of the non-negative URLs/patterns and _none_ of the negative ones are considered navigation requests.
-The URL query is ignored when matching.
+Apenas requisições cujas URLs correspondem a _qualquer_ uma das URLs/padrões não-negativos e _nenhum_ dos negativos são consideradas requisições de navegação.
+A query da URL é ignorada ao fazer a correspondência.
 
-If the field is omitted, it defaults to:
+Se o campo for omitido, ele assume o seguinte padrão:
 
 <docs-code language="typescript">
 
 [
-'/**', // Include all URLs.
-'!/**/*.*', // Exclude URLs to files (containing a file extension in the last segment).
-'!/**/*__*', // Exclude URLs containing `__` in the last segment.
-'!/**/*__*/**', // Exclude URLs containing `__` in any other segment.
+'/**', // Inclui todas as URLs.
+'!/**/*.*', // Exclui URLs para arquivos (contendo uma extensão de arquivo no último segmento).
+'!/**/*__*', // Exclui URLs contendo `__` no último segmento.
+'!/**/*__*/**', // Exclui URLs contendo `__` em qualquer outro segmento.
 ]
 
 </docs-code>
 
 ### `navigationRequestStrategy`
 
-This optional property enables you to configure how the service worker handles navigation requests:
+Esta propriedade opcional permite que você configure como o service worker manipula requisições de navegação:
 
 <docs-code language="json">
 
@@ -376,13 +377,13 @@ This optional property enables you to configure how the service worker handles n
 
 </docs-code>
 
-| Possible values | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `'performance'` | The default setting. Serves the specified [index file](#index), which is typically cached.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `'freshness'`   | Passes the requests through to the network and falls back to the `performance` behavior when offline. This value is useful when the server redirects the navigation requests elsewhere using a `3xx` HTTP redirect status code. Reasons for using this value include: <ul> <li> Redirecting to an authentication website when authentication is not handled by the application </li> <li> Redirecting specific URLs to avoid breaking existing links/bookmarks after a website redesign </li> <li> Redirecting to a different website, such as a server-status page, while a page is temporarily down </li> </ul> |
+| Valores possíveis | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `'performance'`   | A configuração padrão. Serve o [arquivo de índice](#index) especificado, que normalmente está em cache.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `'freshness'`     | Passa as requisições para a rede e recorre ao comportamento `performance` quando offline. Este valor é útil quando o servidor redireciona as requisições de navegação para outro lugar usando um código de status de redirecionamento HTTP `3xx`. Razões para usar este valor incluem: <ul> <li> Redirecionar para um site de autenticação quando a autenticação não é manipulada pela aplicação </li> <li> Redirecionar URLs específicas para evitar quebrar links/favoritos existentes após um redesign do site </li> <li> Redirecionar para um site diferente, como uma página de status do servidor, enquanto uma página está temporariamente fora do ar </li> </ul> |
 
-IMPORTANT: The `freshness` strategy usually results in more requests sent to the server, which can increase response latency. It is recommended that you use the default performance strategy whenever possible.
+IMPORTANTE: A estratégia `freshness` geralmente resulta em mais requisições enviadas ao servidor, o que pode aumentar a latência de resposta. É recomendado que você use a estratégia de performance padrão sempre que possível.
 
 ### `applicationMaxAge`
 
-This optional property enables you to configure how long the service worker will cache any requests. Within the `maxAge`, files will be served from cache. Beyond it, all requests will only be served from the network, including asset and data requests.
+Esta propriedade opcional permite que você configure quanto tempo o service worker armazenará em cache quaisquer requisições. Dentro do `maxAge`, os arquivos serão servidos do cache. Além disso, todas as requisições serão servidas apenas da rede, incluindo requisições de assets e dados.
