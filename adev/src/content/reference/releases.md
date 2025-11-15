@@ -1,170 +1,170 @@
-# Angular versioning and releases
+<!-- ia-translate: true -->
+# Versionamento e lançamentos do Angular
 
-We recognize that you need stability from the Angular framework.
-Stability ensures that reusable components and libraries, tutorials, tools, and learned practices don't become obsolete unexpectedly.
-Stability is essential for the ecosystem around Angular to thrive.
+Reconhecemos que você precisa de estabilidade do framework Angular.
+A estabilidade garante que components e bibliotecas reutilizáveis, tutoriais, ferramentas e práticas aprendidas não se tornem obsoletos inesperadamente.
+A estabilidade é essencial para que o ecossistema em torno do Angular prospere.
 
-We also share with you the need for Angular to keep evolving.
-We strive to ensure that the foundation on top of which you are building is continuously improving and enabling you to stay up-to-date with the rest of the web ecosystem and your user needs.
+Também compartilhamos com você a necessidade de que o Angular continue evoluindo.
+Nos esforçamos para garantir que a fundação sobre a qual você está construindo esteja continuamente melhorando e permitindo que você se mantenha atualizado com o resto do ecossistema web e as necessidades de seus usuários.
 
-This document contains the practices that we follow to provide you with a leading-edge application development platform, balanced with stability.
-We strive to ensure that future changes are always introduced in a predictable way.
-We want everyone who depends on Angular to know when and how new features are added, and to be well-prepared when obsolete ones are removed.
+Este documento contém as práticas que seguimos para fornecer a você uma plataforma de desenvolvimento de aplicações de ponta, equilibrada com estabilidade.
+Nos esforçamos para garantir que mudanças futuras sejam sempre introduzidas de forma previsível.
+Queremos que todos que dependem do Angular saibam quando e como novas funcionalidades são adicionadas, e estejam bem preparados quando funcionalidades obsoletas forem removidas.
 
-Sometimes _breaking changes_, such as the removal of APIs or features, are necessary to innovate and stay current with evolving best practices, changing dependencies, or shifts in the web platform. These breaking changes go through a deprecation process explained in our [deprecation policy](#deprecation-policy).
+Às vezes _mudanças que quebram compatibilidade_ (breaking changes), como a remoção de APIs ou funcionalidades, são necessárias para inovar e se manter atualizado com as práticas recomendadas em evolução, dependências em mudança ou mudanças na plataforma web. Essas breaking changes passam por um processo de depreciação explicado em nossa [política de depreciação](#deprecation-policy).
 
-To make these transitions as straightforward as possible, the Angular team makes these commitments:
+Para tornar essas transições o mais simples possível, o time do Angular faz esses compromissos:
 
-- We work hard to minimize the number of breaking changes and to provide migration tools when possible
-- We follow the deprecation policy described here, so you have time to update your applications to the latest APIs and best practices
+- Trabalhamos duro para minimizar o número de breaking changes e fornecer ferramentas de migração quando possível
+- Seguimos a política de depreciação descrita aqui, para que você tenha tempo de atualizar suas aplicações para as APIs e boas práticas mais recentes
 
-HELPFUL: The practices described in this document apply to Angular 2.0 and later.
-If you are currently using AngularJS, see [Upgrading from AngularJS](https://angular.io/guide/upgrade 'Upgrading from Angular JS').
-_AngularJS_ is the name for all v1.x versions of Angular.
+HELPFUL: As práticas descritas neste documento se aplicam ao Angular 2.0 e posteriores.
+Se você está atualmente usando AngularJS, veja [Atualizando do AngularJS](https://angular.io/guide/upgrade 'Upgrading from Angular JS').
+_AngularJS_ é o nome para todas as versões v1.x do Angular.
 
-## Angular versioning
+## Versionamento do Angular
 
-Angular version numbers indicate the level of changes that are introduced by the release.
-This use of [semantic versioning](https://semver.org/ 'Semantic Versioning Specification') helps you understand the potential impact of updating to a new version.
+Os números de versão do Angular indicam o nível de mudanças que são introduzidas pelo lançamento.
+Este uso de [versionamento semântico](https://semver.org/ 'Semantic Versioning Specification') ajuda você a entender o impacto potencial de atualizar para uma nova versão.
 
-Angular version numbers have three parts: `major.minor.patch`.
-For example, version 7.2.11 indicates major version 7, minor version 2, and patch level 11.
+Os números de versão do Angular têm três partes: `major.minor.patch`.
+Por exemplo, a versão 7.2.11 indica versão major 7, versão minor 2 e nível de patch 11.
 
-The version number is incremented based on the level of change included in the release.
+O número de versão é incrementado com base no nível de mudança incluído no lançamento.
 
-| Level of change | Details                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Major release   | Contains significant new features, some but minimal developer assistance is expected during the update. When updating to a new major release, you might need to run update scripts, refactor code, run additional tests, and learn new APIs.                                                                                                                                                                                      |
-| Minor release   | Contains new smaller features. Minor releases are fully backward-compatible; no developer assistance is expected during update, but you can optionally modify your applications and libraries to begin using new APIs, features, and capabilities that were added in the release. We update peer dependencies in minor versions by expanding the supported versions, but we do not require projects to update these dependencies. |
-| Patch release   | Low risk, bug fix release. No developer assistance is expected during update.                                                                                                                                                                                                                                                                                                                                                     |
+| Nível de mudança | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lançamento major | Contém novas funcionalidades significativas, alguma assistência mínima do desenvolvedor é esperada durante a atualização. Ao atualizar para um novo lançamento major, você pode precisar executar scripts de atualização, refatorar código, executar testes adicionais e aprender novas APIs.                                                                                                                                      |
+| Lançamento minor | Contém novas funcionalidades menores. Lançamentos minor são totalmente compatíveis com versões anteriores; nenhuma assistência do desenvolvedor é esperada durante a atualização, mas você pode opcionalmente modificar suas aplicações e bibliotecas para começar a usar novas APIs, funcionalidades e capacidades que foram adicionadas no lançamento. Atualizamos dependências de peer em versões minor expandindo as versões suportadas, mas não exigimos que projetos atualizem essas dependências. |
+| Lançamento patch | Lançamento de correção de bugs de baixo risco. Nenhuma assistência do desenvolvedor é esperada durante a atualização.                                                                                                                                                                                                                                                                                                              |
 
-HELPFUL: As of Angular version 7, the major versions of Angular core and the CLI are aligned.
-This means that in order to use the CLI as you develop an Angular app, the version of `@angular/core` and the CLI need to be the same.
+HELPFUL: A partir da versão 7 do Angular, as versões major do núcleo do Angular e do CLI estão alinhadas.
+Isso significa que para usar o CLI enquanto você desenvolve uma aplicação Angular, a versão de `@angular/core` e do CLI precisam ser a mesma.
 
-### Preview releases
+### Lançamentos de preview
 
-We let you preview what's coming by providing "Next" and Release Candidates \(`rc`\) pre-releases for each major and minor release:
+Permitimos que você visualize o que está por vir fornecendo pré-lançamentos "Next" e Release Candidates \(`rc`\) para cada lançamento major e minor:
 
-| Pre-release type  | Details                                                                                                                                                                      |
-| :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Next              | The release that is under active development and testing. The next release is indicated by a release tag appended with the `-next` identifier, such as `8.1.0-next.0`.       |
-| Release candidate | A release that is feature complete and in final testing. A release candidate is indicated by a release tag appended with the `-rc` identifier, such as version `8.1.0-rc.0`. |
+| Tipo de pré-lançamento | Detalhes                                                                                                                                                                         |
+| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Next                   | O lançamento que está sob desenvolvimento ativo e testes. O próximo lançamento é indicado por uma tag de lançamento anexada com o identificador `-next`, como `8.1.0-next.0`.    |
+| Release candidate      | Um lançamento que está completo em funcionalidades e em testes finais. Um release candidate é indicado por uma tag de lançamento anexada com o identificador `-rc`, como versão `8.1.0-rc.0`. |
 
-The latest `next` or `rc` pre-release version of the documentation is available at [next.angular.dev](https://next.angular.dev).
+A versão de pré-lançamento `next` ou `rc` mais recente da documentação está disponível em [next.angular.dev](https://next.angular.dev).
 
-## Release frequency
+## Frequência de lançamentos
 
-We work toward a regular schedule of releases, so that you can plan and coordinate your updates with the continuing evolution of Angular.
+Trabalhamos em direção a um cronograma regular de lançamentos, para que você possa planejar e coordenar suas atualizações com a evolução contínua do Angular.
 
-HELPFUL: Dates are offered as general guidance and are subject to change.
+HELPFUL: As datas são oferecidas como orientação geral e estão sujeitas a mudanças.
 
-In general, expect the following release cycle:
+Em geral, espere o seguinte ciclo de lançamento:
 
-- A major release every 6 months
-- 1-3 minor releases for each major release
-- A patch release and pre-release \(`next` or `rc`\) build almost every week
+- Um lançamento major a cada 6 meses
+- 1-3 lançamentos minor para cada lançamento major
+- Um lançamento patch e build de pré-lançamento \(`next` ou `rc`\) quase toda semana
 
-This cadence of releases gives eager developers access to new features as soon as they are fully developed and pass through our code review and integration testing processes, while maintaining the stability and reliability of the platform for production users that prefer to receive features after they have been validated by Google and other developers that use the pre-release builds.
+Essa cadência de lançamentos dá aos desenvolvedores ansiosos acesso a novas funcionalidades assim que elas são totalmente desenvolvidas e passam por nossos processos de revisão de código e testes de integração, enquanto mantém a estabilidade e confiabilidade da plataforma para usuários de produção que preferem receber funcionalidades depois que elas foram validadas pelo Google e outros desenvolvedores que usam os builds de pré-lançamento.
 
-## Support policy and schedule
+## Política e cronograma de suporte
 
-HELPFUL: Approximate dates are offered as general guidance and are subject to change.
+HELPFUL: Datas aproximadas são oferecidas como orientação geral e estão sujeitas a mudanças.
 
-### Release schedule
+### Cronograma de lançamentos
 
-| Version | Date               |
-| :------ | :----------------- |
-| v20.1   | Week of 2025-07-07 |
-| v20.2   | Week of 2025-08-18 |
-| v21.0   | Week of 2025-11-17 |
+| Versão | Data               |
+| :----- | :----------------- |
+| v20.1  | Semana de 2025-07-07 |
+| v20.2  | Semana de 2025-08-18 |
+| v21.0  | Semana de 2025-11-17 |
 
-### Support window
+### Janela de suporte
 
-All major releases are typically supported for 18 months.
+Todos os lançamentos major são tipicamente suportados por 18 meses.
 
-| Support stage     | Support Timing | Details                                                             |
-| :---------------- | :------------- | :------------------------------------------------------------------ |
-| Active            | 6 months       | Regularly-scheduled updates and patches are released                |
-| Long-term \(LTS\) | 12 months      | Only [critical fixes and security patches](#lts-fixes) are released |
+| Estágio de suporte     | Tempo de suporte | Detalhes                                                                               |
+| :--------------------- | :--------------- | :------------------------------------------------------------------------------------- |
+| Ativo                  | 6 meses          | Atualizações e patches regularmente agendados são lançados                             |
+| Longo prazo \(LTS\)    | 12 meses         | Apenas [correções críticas e patches de segurança](#lts-fixes) são lançados           |
 
-### Actively supported versions
+### Versões ativamente suportadas
 
-The following table provides the status for Angular versions under support.
+A tabela a seguir fornece o status das versões do Angular sob suporte.
 
-| Version | Status | Released   | Active ends | LTS ends   |
-| :------ | :----- | :--------- | :---------- | :--------- |
-| ^20.0.0 | Active | 2025-05-28 | 2025-11-21  | 2026-11-21 |
-| ^19.0.0 | LTS    | 2024-11-19 | 2025-05-28  | 2026-05-19 |
-| ^18.0.0 | LTS    | 2024-05-22 | 2024-11-19  | 2025-11-21 |
+| Versão  | Status | Lançado    | Ativo termina | LTS termina |
+| :------ | :----- | :--------- | :------------ | :---------- |
+| ^20.0.0 | Ativo  | 2025-05-28 | 2025-11-21    | 2026-11-21  |
+| ^19.0.0 | LTS    | 2024-11-19 | 2025-05-28    | 2026-05-19  |
+| ^18.0.0 | LTS    | 2024-05-22 | 2024-11-19    | 2025-11-21  |
 
-Angular versions v2 to v17 are no longer supported.
+As versões do Angular v2 a v17 não são mais suportadas.
 
-### LTS fixes
+### Correções LTS
 
-As a general rule, a fix is considered for an LTS version if it resolves one of:
+Como regra geral, uma correção é considerada para uma versão LTS se ela resolve um dos seguintes:
 
-- A newly identified security vulnerability,
-- A regression, since the start of LTS, caused by a 3rd party change, such as a new browser version.
+- Uma vulnerabilidade de segurança recém-identificada,
+- Uma regressão, desde o início do LTS, causada por uma mudança de terceiros, como uma nova versão de navegador.
 
-## Deprecation policy
+## Política de depreciação
 
-When the Angular team intends to remove an API or feature, it will be marked as _deprecated_. This occurs when an API is obsolete, superseded by another API, or otherwise discontinued. Deprecated API remain available through their deprecated phase, which lasts a minimum two major versions (approximately one year).
+Quando o time do Angular pretende remover uma API ou funcionalidade, ela será marcada como _depreciada_. Isso ocorre quando uma API é obsoleta, substituída por outra API ou descontinuada de outra forma. APIs depreciadas permanecem disponíveis durante sua fase de depreciação, que dura no mínimo duas versões major (aproximadamente um ano).
 
-To help ensure that you have sufficient time and a clear path to update, this is our deprecation policy:
+Para ajudar a garantir que você tenha tempo suficiente e um caminho claro para atualizar, esta é nossa política de depreciação:
 
-| Deprecation stages | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Announcement       | We announce deprecated APIs and features in the [change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log'). Deprecated APIs appear in the [documentation](api?status=deprecated) with ~~strikethrough~~. When we announce a deprecation, we also announce a recommended update path. Additionally, all deprecated APIs are annotated with `@deprecated` in the corresponding documentation, which enables text editors and IDEs to provide hints if your project depends on them. |
-| Deprecation period | When an API or a feature is deprecated, it is still present in at least the next two major releases (period of at least 12 months). After that, deprecated APIs and features are candidates for removal. A deprecation can be announced in any release, but the removal of a deprecated API or feature happens only in major release. Until a deprecated API or feature is removed, it is maintained according to the LTS support policy, meaning that only critical and security issues are fixed.                 |
-| npm dependencies   | We only make npm dependency updates that require changes to your applications in a major release. In minor releases, we update peer dependencies by expanding the supported versions, but we do not require projects to update these dependencies until a future major version. This means that during minor Angular releases, npm dependency updates within Angular applications and libraries are optional.                                                                                                       |
+| Estágios de depreciação | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Anúncio                 | Anunciamos APIs e funcionalidades depreciadas no [change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log'). APIs depreciadas aparecem na [documentação](api?status=deprecated) com ~~tachado~~. Quando anunciamos uma depreciação, também anunciamos um caminho de atualização recomendado. Adicionalmente, todas as APIs depreciadas são anotadas com `@deprecated` na documentação correspondente, o que permite que editores de texto e IDEs forneçam dicas se seu projeto depende delas. |
+| Período de depreciação  | Quando uma API ou funcionalidade é depreciada, ela ainda está presente em pelo menos os próximos dois lançamentos major (período de pelo menos 12 meses). Depois disso, APIs e funcionalidades depreciadas são candidatas para remoção. Uma depreciação pode ser anunciada em qualquer lançamento, mas a remoção de uma API ou funcionalidade depreciada acontece apenas em lançamento major. Até que uma API ou funcionalidade depreciada seja removida, ela é mantida de acordo com a política de suporte LTS, o que significa que apenas problemas críticos e de segurança são corrigidos. |
+| Dependências npm        | Fazemos apenas atualizações de dependências npm que exigem mudanças em suas aplicações em um lançamento major. Em lançamentos minor, atualizamos dependências de peer expandindo as versões suportadas, mas não exigimos que projetos atualizem essas dependências até uma versão major futura. Isso significa que durante lançamentos minor do Angular, atualizações de dependências npm dentro de aplicações e bibliotecas Angular são opcionais.                                                                       |
 
-## Compatibility policy
+## Política de compatibilidade
 
-Angular is a collection of many packages, subprojects, and tools.
-To prevent accidental use of private APIs and so that you can clearly understand what is covered by the practices described here — we document what is and is not considered our public API surface.
-For details, see [Supported Public API Surface of Angular](https://github.com/angular/angular/blob/main/contributing-docs/public-api-surface.md 'Supported Public API Surface of Angular').
+O Angular é uma coleção de muitos pacotes, subprojetos e ferramentas.
+Para prevenir o uso acidental de APIs privadas e para que você possa entender claramente o que é coberto pelas práticas descritas aqui — documentamos o que é e o que não é considerado nossa superfície de API pública.
+Para detalhes, veja [Superfície de API Pública Suportada do Angular](https://github.com/angular/angular/blob/main/contributing-docs/public-api-surface.md 'Supported Public API Surface of Angular').
 
-To guarantee backward compatibility of Angular we run a series of checks before we merge any change:
+Para garantir compatibilidade retroativa do Angular, executamos uma série de verificações antes de fazer merge de qualquer mudança:
 
-- Unit tests and integration tests
-- Comparing the type definitions of the public API surface before and after the change
-- Running the tests of all the applications at Google that depend on Angular
+- Testes unitários e testes de integração
+- Comparar as definições de tipo da superfície de API pública antes e depois da mudança
+- Executar os testes de todas as aplicações no Google que dependem do Angular
 
-Any changes to the public API surface are made in accordance with the versioning, support, and depreciation policies previously described. In exceptional cases, such as critical security patches, fixes may introduce backwards incompatible changes. Such exceptional cases are accompanied by explicit notice on the framework's official communication channels.
+Quaisquer mudanças na superfície de API pública são feitas de acordo com as políticas de versionamento, suporte e depreciação descritas anteriormente. Em casos excepcionais, como patches críticos de segurança, correções podem introduzir mudanças incompatíveis com versões anteriores. Tais casos excepcionais são acompanhados por aviso explícito nos canais de comunicação oficiais do framework.
 
-## Breaking change policy and update paths
+## Política de breaking change e caminhos de atualização
 
-Breaking change requires you to do work because the state after it is not backward compatible with the state before it. You can find the rare exceptions from this rule in the [Compatibility policy](#compatibility-policy). Examples of breaking changes are the removal of public APIs or other changes of the type definition of Angular, changing the timing of calls, or updating to a new version of a dependency of Angular, which includes breaking changes itself.
+Breaking change requer que você faça trabalho porque o estado após ela não é compatível com o estado antes dela. Você pode encontrar as raras exceções a esta regra na [Política de compatibilidade](#compatibility-policy). Exemplos de breaking changes são a remoção de APIs públicas ou outras mudanças da definição de tipo do Angular, mudança no timing de chamadas, ou atualização para uma nova versão de uma dependência do Angular, que inclui breaking changes em si.
 
-To support you in case of breaking changes in Angular:
+Para dar suporte a você em caso de breaking changes no Angular:
 
-- We follow our [deprecation policy](#deprecation-policy) before we remove a public API
-- Support update automation via the `ng update` command. It provides code transformations which we often have tested ahead of time over hundreds of thousands of projects at Google
-- Step by step instructions how to update from one major version to another at the ["Angular Update Guide"](update-guide)
+- Seguimos nossa [política de depreciação](#deprecation-policy) antes de remover uma API pública
+- Suportamos automação de atualização via comando `ng update`. Ele fornece transformações de código que muitas vezes testamos antecipadamente em centenas de milhares de projetos no Google
+- Instruções passo a passo de como atualizar de uma versão major para outra no ["Guia de Atualização do Angular"](update-guide)
 
-You can `ng update` to any version of Angular, provided that the following criteria are met:
+Você pode usar `ng update` para qualquer versão do Angular, desde que os seguintes critérios sejam atendidos:
 
-- The version you want to update _to_ is supported.
-- The version you want to update _from_ is within one major version of the version you want to
-  upgrade to.
+- A versão para a qual você quer atualizar é suportada.
+- A versão da qual você quer atualizar está dentro de uma versão major da versão para a qual você quer atualizar.
 
-For example, you can update from version 11 to version 12, provided that version 12 is still supported.
-If you want to update across multiple major versions, perform each update one major version at a time.
-For example, to update from version 10 to version 12:
+Por exemplo, você pode atualizar da versão 11 para a versão 12, desde que a versão 12 ainda seja suportada.
+Se você quiser atualizar através de múltiplas versões major, execute cada atualização uma versão major por vez.
+Por exemplo, para atualizar da versão 10 para a versão 12:
 
-1. Update from version 10 to version 11.
-1. Update from version 11 to version 12.
+1. Atualize da versão 10 para a versão 11.
+1. Atualize da versão 11 para a versão 12.
 
 ## Developer Preview
 
-Occasionally we introduce new APIs under the label of "Developer Preview". These are APIs that are fully functional and polished, but that we are not ready to stabilize under our normal deprecation policy.
+Ocasionalmente introduzimos novas APIs sob o rótulo de "Developer Preview". Essas são APIs que são totalmente funcionais e polidas, mas que não estamos prontos para estabilizar sob nossa política normal de depreciação.
 
-This may be because we want to gather feedback from real applications before stabilization, or because the associated documentation or migration tooling is not fully complete. Feedback can be provided via a [GitHub issue](https://github.com/angular/angular/issues), where developers can share their experiences, report bugs, or suggest improvements to help refine the feature.
+Isso pode ser porque queremos coletar feedback de aplicações reais antes da estabilização, ou porque a documentação associada ou ferramentas de migração não estão totalmente completas. Feedback pode ser fornecido via [issue no GitHub](https://github.com/angular/angular/issues), onde desenvolvedores podem compartilhar suas experiências, reportar bugs ou sugerir melhorias para ajudar a refinar a funcionalidade.
 
-The policies and practices that are described in this document do not apply to APIs marked as Developer Preview. Such APIs can change at any time, even in new patch versions of the framework. Teams should decide for themselves whether the benefits of using Developer Preview APIs are worth the risk of breaking changes outside of our normal use of semantic versioning.
+As políticas e práticas descritas neste documento não se aplicam a APIs marcadas como Developer Preview. Tais APIs podem mudar a qualquer momento, mesmo em novas versões patch do framework. Times devem decidir por si mesmos se os benefícios de usar APIs Developer Preview valem o risco de breaking changes fora de nosso uso normal de versionamento semântico.
 
 ## Experimental
 
-These APIs might not become stable at all or have significant changes before becoming stable.
+Essas APIs podem não se tornar estáveis de forma alguma ou ter mudanças significativas antes de se tornarem estáveis.
 
-The policies and practices that are described in this document do not apply to APIs marked as experimental. Such APIs can change at any time, even in new patch versions of the framework. Teams should decide for themselves whether the benefits of using experimental APIs are worth the risk of breaking changes outside of our normal use of semantic versioning.
+As políticas e práticas descritas neste documento não se aplicam a APIs marcadas como experimental. Tais APIs podem mudar a qualquer momento, mesmo em novas versões patch do framework. Times devem decidir por si mesmos se os benefícios de usar APIs experimentais valem o risco de breaking changes fora de nosso uso normal de versionamento semântico.
