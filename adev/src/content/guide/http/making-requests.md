@@ -1,16 +1,17 @@
-# Making HTTP requests
+<!-- ia-translate: true -->
+# Fazendo requisições HTTP
 
-`HttpClient` has methods corresponding to the different HTTP verbs used to make requests, both to load data and to apply mutations on the server. Each method returns an [RxJS `Observable`](https://rxjs.dev/guide/observable) which, when subscribed, sends the request and then emits the results when the server responds.
+`HttpClient` tem métodos correspondentes aos diferentes verbos HTTP usados para fazer requisições, tanto para carregar dados quanto para aplicar mutações no servidor. Cada método retorna um [RxJS `Observable`](https://rxjs.dev/guide/observable) que, quando inscrito, envia a requisição e então emite os resultados quando o servidor responde.
 
-NOTE: `Observable`s created by `HttpClient` may be subscribed any number of times and will make a new backend request for each subscription.
+NOTE: `Observable`s criados por `HttpClient` podem ser inscritos qualquer número de vezes e farão uma nova requisição backend para cada inscrição.
 
-Through an options object passed to the request method, various properties of the request and the returned response type can be adjusted.
+Através de um objeto de opções passado para o método de requisição, várias propriedades da requisição e o tipo de resposta retornado podem ser ajustados.
 
-## Fetching JSON data
+## Buscando dados JSON
 
-Fetching data from a backend often requires making a GET request using the [`HttpClient.get()`](api/common/http/HttpClient#get) method. This method takes two arguments: the string endpoint URL from which to fetch, and an _optional options_ object to configure the request.
+Buscar dados de um backend frequentemente requer fazer uma requisição GET usando o método [`HttpClient.get()`](api/common/http/HttpClient#get). Este método recebe dois argumentos: a string da URL do endpoint do qual buscar, e um _objeto de opções opcional_ para configurar a requisição.
 
-For example, to fetch configuration data from a hypothetical API using the `HttpClient.get()` method:
+Por exemplo, para buscar dados de configuração de uma API hipotética usando o método `HttpClient.get()`:
 
 ```ts
 http.get<Config>('/api/config').subscribe(config => {
@@ -18,24 +19,24 @@ http.get<Config>('/api/config').subscribe(config => {
 });
 ```
 
-Note the generic type argument which specifies that the data returned by the server will be of type `Config`. This argument is optional, and if you omit it then the returned data will have type `Object`.
+Note o argumento de tipo genérico que especifica que os dados retornados pelo servidor serão do tipo `Config`. Este argumento é opcional, e se você omiti-lo então os dados retornados terão o tipo `Object`.
 
-TIP: When dealing with data of uncertain structure and potential `undefined` or `null` values, consider using the `unknown` type instead of `Object` as the response type.
+TIP: Ao lidar com dados de estrutura incerta e valores potenciais `undefined` ou `null`, considere usar o tipo `unknown` em vez de `Object` como o tipo de resposta.
 
-CRITICAL: The generic type of request methods is a type **assertion** about the data returned by the server. `HttpClient` does not verify that the actual return data matches this type.
+CRITICAL: O tipo genérico dos métodos de requisição é uma **asserção** de tipo sobre os dados retornados pelo servidor. `HttpClient` não verifica se os dados de retorno reais correspondem a este tipo.
 
-## Fetching other types of data
+## Buscando outros tipos de dados
 
-By default, `HttpClient` assumes that servers will return JSON data. When interacting with a non-JSON API, you can tell `HttpClient` what response type to expect and return when making the request. This is done with the `responseType` option.
+Por padrão, `HttpClient` assume que os servidores retornarão dados JSON. Ao interagir com uma API não-JSON, você pode dizer ao `HttpClient` que tipo de resposta esperar e retornar ao fazer a requisição. Isso é feito com a opção `responseType`.
 
-| **`responseType` value** | **Returned response type**                                                                                                                |
+| **Valor de `responseType`** | **Tipo de resposta retornado**                                                                                                                |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `'json'` (default)       | JSON data of the given generic type                                                                                                       |
-| `'text'`                 | string data                                                                                                                               |
-| `'arraybuffer'`          | [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) containing the raw response bytes |
-| `'blob'`                 | [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob) instance                                                                        |
+| `'json'` (padrão)       | Dados JSON do tipo genérico dado                                                                                                       |
+| `'text'`                 | Dados string                                                                                                                               |
+| `'arraybuffer'`          | [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) contendo os bytes brutos da resposta |
+| `'blob'`                 | Instância [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob)                                                                        |
 
-For example, you can ask `HttpClient` to download the raw bytes of a `.jpeg` image into an `ArrayBuffer`:
+Por exemplo, você pode pedir ao `HttpClient` para baixar os bytes brutos de uma imagem `.jpeg` em um `ArrayBuffer`:
 
 ```ts
 http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe(buffer => {
@@ -43,17 +44,17 @@ http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe(buffer => {
 });
 ```
 
-<docs-callout important title="Literal value for `responseType`">
-Because the value of `responseType` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="Valor literal para `responseType`">
+Como o valor de `responseType` afeta o tipo retornado por `HttpClient`, ele deve ter um tipo literal e não um tipo `string`.
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `responseType: 'text' as const`.
+Isso acontece automaticamente se o objeto de opções passado para o método de requisição for um objeto literal, mas se você estiver extraindo as opções de requisição para uma variável ou método auxiliar, pode precisar especificá-lo explicitamente como um literal, como `responseType: 'text' as const`.
 </docs-callout>
 
-## Mutating server state
+## Mutando o estado do servidor
 
-Server APIs which perform mutations often require making POST requests with a request body specifying the new state or the change to be made.
+APIs de servidor que realizam mutações frequentemente requerem fazer requisições POST com um corpo de requisição especificando o novo estado ou a mudança a ser feita.
 
-The [`HttpClient.post()`](api/common/http/HttpClient#post) method behaves similarly to `get()`, and accepts an additional `body` argument before its options:
+O método [`HttpClient.post()`](api/common/http/HttpClient#post) se comporta de forma semelhante a `get()`, e aceita um argumento `body` adicional antes de suas opções:
 
 ```ts
 http.post<Config>('/api/config', newConfig).subscribe(config => {
@@ -61,24 +62,24 @@ http.post<Config>('/api/config', newConfig).subscribe(config => {
 });
 ```
 
-Many different types of values can be provided as the request's `body`, and `HttpClient` will serialize them accordingly:
+Muitos tipos diferentes de valores podem ser fornecidos como o `body` da requisição, e `HttpClient` os serializará adequadamente:
 
-| **`body` type**                                                                                                               | **Serialized as**                                    |
+| **Tipo de `body`**                                                                                                               | **Serializado como**                                    |
 | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| string                                                                                                                        | Plain text                                           |
-| number, boolean, array, or plain object                                                                                       | JSON                                                 |
-| [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)                       | raw data from the buffer                             |
-| [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob)                                                                     | raw data with the `Blob`'s content type              |
-| [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData)                                                             | `multipart/form-data` encoded data                   |
-| [`HttpParams`](api/common/http/HttpParams) or [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams) | `application/x-www-form-urlencoded` formatted string |
+| string                                                                                                                        | Texto simples                                           |
+| number, boolean, array ou plain object                                                                                       | JSON                                                 |
+| [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)                       | dados brutos do buffer                             |
+| [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob)                                                                     | dados brutos com o content type do `Blob`              |
+| [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData)                                                             | dados codificados como `multipart/form-data`                   |
+| [`HttpParams`](api/common/http/HttpParams) ou [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams) | string formatada como `application/x-www-form-urlencoded` |
 
-IMPORTANT: Remember to `.subscribe()` to mutation request `Observable`s in order to actually fire the request.
+IMPORTANT: Lembre-se de fazer `.subscribe()` nos `Observable`s de requisição de mutação para realmente disparar a requisição.
 
-## Setting URL parameters
+## Definindo parâmetros de URL
 
-Specify request parameters that should be included in the request URL using the `params` option.
+Especifique parâmetros de requisição que devem ser incluídos na URL da requisição usando a opção `params`.
 
-Passing an object literal is the simplest way of configuring URL parameters:
+Passar um objeto literal é a maneira mais simples de configurar parâmetros de URL:
 
 ```ts
 http.get('/api/config', {
@@ -88,9 +89,9 @@ http.get('/api/config', {
 });
 ```
 
-Alternatively, pass an instance of `HttpParams` if you need more control over the construction or serialization of the parameters.
+Alternativamente, passe uma instância de `HttpParams` se você precisar de mais controle sobre a construção ou serialização dos parâmetros.
 
-IMPORTANT: Instances of `HttpParams` are _immutable_ and cannot be directly changed. Instead, mutation methods such as `append()` return a new instance of `HttpParams` with the mutation applied.
+IMPORTANT: Instâncias de `HttpParams` são _imutáveis_ e não podem ser alteradas diretamente. Em vez disso, métodos de mutação como `append()` retornam uma nova instância de `HttpParams` com a mutação aplicada.
 
 ```ts
 const baseParams = new HttpParams().set('filter', 'all');
@@ -102,13 +103,13 @@ http.get('/api/config', {
 });
 ```
 
-You can instantiate `HttpParams` with a custom `HttpParameterCodec` that determines how `HttpClient` will encode the parameters into the URL.
+Você pode instanciar `HttpParams` com um `HttpParameterCodec` personalizado que determina como `HttpClient` codificará os parâmetros na URL.
 
-### Custom parameter encoding
+### Codificação de parâmetros personalizada
 
-By default, `HttpParams` uses the built-in [`HttpUrlEncodingCodec`](api/common/http/HttpUrlEncodingCodec) to encode and decode parameter keys and values.
+Por padrão, `HttpParams` usa o [`HttpUrlEncodingCodec`](api/common/http/HttpUrlEncodingCodec) embutido para codificar e decodificar chaves e valores de parâmetros.
 
-You can provide your own implementation of [`HttpParameterCodec`](api/common/http/HttpParameterCodec) to customize how encoding and decoding are applied.
+Você pode fornecer sua própria implementação de [`HttpParameterCodec`](api/common/http/HttpParameterCodec) para personalizar como a codificação e decodificação são aplicadas.
 
 ```ts
 import { HttpClient, HttpParams, HttpParameterCodec } from '@angular/common/http';
@@ -147,11 +148,11 @@ export class ApiService {
 }
 ```
 
-## Setting request headers
+## Definindo headers de requisição
 
-Specify request headers that should be included in the request using the `headers` option.
+Especifique headers de requisição que devem ser incluídos na requisição usando a opção `headers`.
 
-Passing an object literal is the simplest way of configuring request headers:
+Passar um objeto literal é a maneira mais simples de configurar headers de requisição:
 
 ```ts
 http.get('/api/config', {
@@ -163,9 +164,9 @@ http.get('/api/config', {
 });
 ```
 
-Alternatively, pass an instance of `HttpHeaders` if you need more control over the construction of headers
+Alternativamente, passe uma instância de `HttpHeaders` se você precisar de mais controle sobre a construção de headers
 
-IMPORTANT: Instances of `HttpHeaders` are _immutable_ and cannot be directly changed. Instead, mutation methods such as `append()` return a new instance of `HttpHeaders` with the mutation applied.
+IMPORTANT: Instâncias de `HttpHeaders` são _imutáveis_ e não podem ser alteradas diretamente. Em vez disso, métodos de mutação como `append()` retornam uma nova instância de `HttpHeaders` com a mutação aplicada.
 
 ```ts
 const baseHeaders = new HttpHeaders().set('X-Debug-Level', 'minimal');
@@ -177,11 +178,11 @@ http.get<Config>('/api/config', {
 });
 ```
 
-## Interacting with the server response events
+## Interagindo com os eventos de resposta do servidor
 
-For convenience, `HttpClient` by default returns an `Observable` of the data returned by the server (the response body). Occasionally it's desirable to examine the actual response, for example to retrieve specific response headers.
+Por conveniência, `HttpClient` por padrão retorna um `Observable` dos dados retornados pelo servidor (o corpo da resposta). Ocasionalmente é desejável examinar a resposta real, por exemplo para recuperar headers de resposta específicos.
 
-To access the entire response, set the `observe` option to `'response'`:
+Para acessar a resposta inteira, defina a opção `observe` como `'response'`:
 
 ```ts
 http.get<Config>('/api/config', {observe: 'response'}).subscribe(res => {
@@ -190,21 +191,21 @@ http.get<Config>('/api/config', {observe: 'response'}).subscribe(res => {
 });
 ```
 
-<docs-callout important title="Literal value for `observe`">
-Because the value of `observe` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="Valor literal para `observe`">
+Como o valor de `observe` afeta o tipo retornado por `HttpClient`, ele deve ter um tipo literal e não um tipo `string`.
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `observe: 'response' as const`.
+Isso acontece automaticamente se o objeto de opções passado para o método de requisição for um objeto literal, mas se você estiver extraindo as opções de requisição para uma variável ou método auxiliar, pode precisar especificá-lo explicitamente como um literal, como `observe: 'response' as const`.
 </docs-callout>
 
-## Receiving raw progress events
+## Recebendo eventos de progresso brutos
 
-In addition to the response body or response object, `HttpClient` can also return a stream of raw _events_ corresponding to specific moments in the request lifecycle. These events include when the request is sent, when the response header is returned, and when the body is complete. These events can also include _progress events_ which report upload and download status for large request or response bodies.
+Além do corpo da resposta ou objeto de resposta, `HttpClient` também pode retornar um fluxo de _eventos_ brutos correspondentes a momentos específicos no ciclo de vida da requisição. Esses eventos incluem quando a requisição é enviada, quando o header da resposta é retornado e quando o corpo está completo. Esses eventos também podem incluir _eventos de progresso_ que relatam o status de upload e download para corpos de requisição ou resposta grandes.
 
-Progress events are disabled by default (as they have a performance cost) but can be enabled with the `reportProgress` option.
+Eventos de progresso são desabilitados por padrão (pois têm um custo de desempenho) mas podem ser habilitados com a opção `reportProgress`.
 
-NOTE: The optional `fetch` implementation of `HttpClient` does not report _upload_ progress events.
+NOTE: A implementação `fetch` opcional de `HttpClient` não relata eventos de progresso de _upload_.
 
-To observe the event stream, set the `observe` option to `'events'`:
+Para observar o fluxo de eventos, defina a opção `observe` como `'events'`:
 
 ```ts
 http.post('/api/upload', myData, {
@@ -222,44 +223,44 @@ http.post('/api/upload', myData, {
 });
 ```
 
-<docs-callout important title="Literal value for `observe`">
-Because the value of `observe` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="Valor literal para `observe`">
+Como o valor de `observe` afeta o tipo retornado por `HttpClient`, ele deve ter um tipo literal e não um tipo `string`.
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `observe: 'events' as const`.
+Isso acontece automaticamente se o objeto de opções passado para o método de requisição for um objeto literal, mas se você estiver extraindo as opções de requisição para uma variável ou método auxiliar, pode precisar especificá-lo explicitamente como um literal, como `observe: 'events' as const`.
 </docs-callout>
 
-Each `HttpEvent` reported in the event stream has a `type` which distinguishes what the event represents:
+Cada `HttpEvent` relatado no fluxo de eventos tem um `type` que distingue o que o evento representa:
 
-| **`type` value**                 | **Event meaning**                                                                  |
+| **Valor de `type`**                 | **Significado do evento**                                                                  |
 | -------------------------------- | ---------------------------------------------------------------------------------- |
-| `HttpEventType.Sent`             | The request has been dispatched to the server                                      |
-| `HttpEventType.UploadProgress`   | An `HttpUploadProgressEvent` reporting progress on uploading the request body      |
-| `HttpEventType.ResponseHeader`   | The head of the response has been received, including status and headers           |
-| `HttpEventType.DownloadProgress` | An `HttpDownloadProgressEvent` reporting progress on downloading the response body |
-| `HttpEventType.Response`         | The entire response has been received, including the response body                 |
-| `HttpEventType.User`             | A custom event from an Http interceptor.                                           |
+| `HttpEventType.Sent`             | A requisição foi despachada para o servidor                                      |
+| `HttpEventType.UploadProgress`   | Um `HttpUploadProgressEvent` relatando progresso no upload do corpo da requisição      |
+| `HttpEventType.ResponseHeader`   | O cabeçalho da resposta foi recebido, incluindo status e headers           |
+| `HttpEventType.DownloadProgress` | Um `HttpDownloadProgressEvent` relatando progresso no download do corpo da resposta |
+| `HttpEventType.Response`         | A resposta inteira foi recebida, incluindo o corpo da resposta                 |
+| `HttpEventType.User`             | Um evento personalizado de um interceptor HTTP.                                           |
 
-## Handling request failure
+## Lidando com falha de requisição
 
-There are three ways an HTTP request can fail:
+Existem três maneiras de uma requisição HTTP falhar:
 
-- A network or connection error can prevent the request from reaching the backend server.
-- A request didn't respond in time when the timeout option was set.
-- The backend can receive the request but fail to process it, and return an error response.
+- Um erro de rede ou conexão pode impedir que a requisição alcance o servidor backend.
+- Uma requisição não respondeu a tempo quando a opção de timeout foi definida.
+- O backend pode receber a requisição mas falhar ao processá-la, e retornar uma resposta de erro.
 
-`HttpClient` captures all of the above kinds of errors in an `HttpErrorResponse` which it returns through the `Observable`'s error channel. Network and timeout errors have a `status` code of `0` and an `error` which is an instance of [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Backend errors have the failing `status` code returned by the backend, and the error response as the `error`. Inspect the response to identify the error's cause and the appropriate action to handle the error.
+`HttpClient` captura todos os tipos de erros acima em um `HttpErrorResponse` que ele retorna através do canal de erro do `Observable`. Erros de rede e timeout têm um código de `status` de `0` e um `error` que é uma instância de [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Erros de backend têm o código de `status` de falha retornado pelo backend, e a resposta de erro como o `error`. Inspecione a resposta para identificar a causa do erro e a ação apropriada para lidar com o erro.
 
-The [RxJS library](https://rxjs.dev/) offers several operators which can be useful for error handling.
+A [biblioteca RxJS](https://rxjs.dev/) oferece vários operadores que podem ser úteis para tratamento de erros.
 
-You can use the `catchError` operator to transform an error response into a value for the UI. This value can tell the UI to display an error page or value, and capture the error's cause if necessary.
+Você pode usar o operador `catchError` para transformar uma resposta de erro em um valor para a UI. Este valor pode dizer à UI para exibir uma página ou valor de erro, e capturar a causa do erro se necessário.
 
-Sometimes transient errors such as network interruptions can cause a request to fail unexpectedly, and simply retrying the request will allow it to succeed. RxJS provides several _retry_ operators which automatically re-subscribe to a failed `Observable` under certain conditions. For example, the `retry()` operator will automatically attempt to re-subscribe a specified number of times.
+Às vezes erros transitórios como interrupções de rede podem causar uma falha inesperada na requisição, e simplesmente tentar novamente a requisição permitirá que ela seja bem-sucedida. RxJS fornece vários operadores de _retry_ que automaticamente re-inscrevem em um `Observable` que falhou sob certas condições. Por exemplo, o operador `retry()` tentará automaticamente re-inscrever um número especificado de vezes.
 
 ### Timeouts
 
-To set a timeout for a request, you can set the `timeout` option to a number of milliseconds along other request options. If the backend request does not complete within the specified time, the request will be aborted and an error will be emitted.
+Para definir um timeout para uma requisição, você pode definir a opção `timeout` para um número de milissegundos junto com outras opções de requisição. Se a requisição backend não for concluída dentro do tempo especificado, a requisição será abortada e um erro será emitido.
 
-NOTE: The timeout will only apply to the backend HTTP request itself. It is not a timeout for the entire request handling chain. Therefore, this option is not affected by any delay introduced by interceptors.
+NOTE: O timeout só se aplicará à requisição HTTP backend em si. Não é um timeout para toda a cadeia de processamento de requisição. Portanto, esta opção não é afetada por qualquer atraso introduzido por interceptors.
 
 ```ts
 http.get('/api/config', {
@@ -274,17 +275,17 @@ http.get('/api/config', {
 });
 ```
 
-## Advanced fetch options
+## Opções avançadas de fetch
 
-When using the `withFetch()` provider, Angular's `HttpClient` provides access to advanced fetch API options that can improve performance and user experience. These options are only available when using the fetch backend.
+Ao usar o provider `withFetch()`, o `HttpClient` do Angular fornece acesso a opções avançadas da API fetch que podem melhorar o desempenho e a experiência do usuário. Essas opções estão disponíveis apenas ao usar o backend fetch.
 
-### Fetch options
+### Opções de Fetch
 
-The following options provide fine-grained control over request behavior when using the fetch backend.
+As seguintes opções fornecem controle refinado sobre o comportamento da requisição ao usar o backend fetch.
 
-#### Keep-alive connections
+#### Conexões keep-alive
 
-The `keepalive` option allows a request to outlive the page that initiated it. This is particularly useful for analytics or logging requests that need to complete even if the user navigates away from the page.
+A opção `keepalive` permite que uma requisição sobreviva à página que a iniciou. Isso é particularmente útil para requisições de analytics ou logging que precisam ser concluídas mesmo se o usuário navegar para longe da página.
 
 ```ts
 http.post('/api/analytics', analyticsData, {
@@ -292,9 +293,9 @@ http.post('/api/analytics', analyticsData, {
 }).subscribe();
 ```
 
-#### HTTP caching control
+#### Controle de cache HTTP
 
-The `cache` option controls how the request interacts with the browser's HTTP cache, which can significantly improve performance for repeated requests.
+A opção `cache` controla como a requisição interage com o cache HTTP do navegador, o que pode melhorar significativamente o desempenho para requisições repetidas.
 
 ```ts
 //  Use cached response regardless of freshness
@@ -319,9 +320,9 @@ http.get('/api/static-data', {
 });
 ```
 
-#### Request priority for Core Web Vitals
+#### Prioridade de requisição para Core Web Vitals
 
-The `priority` option allows you to indicate the relative importance of a request, helping browsers optimize resource loading for better Core Web Vitals scores.
+A opção `priority` permite que você indique a importância relativa de uma requisição, ajudando os navegadores a otimizar o carregamento de recursos para melhores pontuações de Core Web Vitals.
 
 ```ts
 // High priority for critical resources
@@ -346,17 +347,17 @@ http.get('/api/settings', {
 });
 ```
 
-Available `priority` values:
+Valores de `priority` disponíveis:
 
-- `'high'`: High priority, loaded early (e.g., critical user data, above-the-fold content)
-- `'low'`: Low priority, loaded when resources are available (e.g., analytics, prefetch data)
-- `'auto'`: Browser determines priority based on request context (default)
+- `'high'`: Alta prioridade, carregado cedo (ex: dados críticos do usuário, conteúdo above-the-fold)
+- `'low'`: Baixa prioridade, carregado quando recursos estão disponíveis (ex: analytics, dados de prefetch)
+- `'auto'`: Navegador determina prioridade com base no contexto da requisição (padrão)
 
-TIP: Use `priority: 'high'` for requests that affect Largest Contentful Paint (LCP) and `priority: 'low'` for requests that don't impact initial user experience.
+TIP: Use `priority: 'high'` para requisições que afetam o Largest Contentful Paint (LCP) e `priority: 'low'` para requisições que não impactam a experiência inicial do usuário.
 
-#### Request mode
+#### Modo de requisição
 
-The `mode` option controls how the request handles cross-origin requests and determines the response type.
+A opção `mode` controla como a requisição lida com requisições cross-origin e determina o tipo de resposta.
 
 ```ts
 // Same-origin requests only
@@ -381,17 +382,17 @@ http.get('https://external-api.com/public-data', {
 });
 ```
 
-Available `mode` values:
+Valores de `mode` disponíveis:
 
-- `'same-origin'`: Only allow same-origin requests, fail for cross-origin requests
-- `'cors'`: Allow cross-origin requests with CORS (default)
-- `'no-cors'`: Allow simple cross-origin requests without CORS, response is opaque
+- `'same-origin'`: Permitir apenas requisições same-origin, falhar para requisições cross-origin
+- `'cors'`: Permitir requisições cross-origin com CORS (padrão)
+- `'no-cors'`: Permitir requisições cross-origin simples sem CORS, resposta é opaca
 
-TIP: Use `mode: 'same-origin'` for sensitive requests that should never go cross-origin.
+TIP: Use `mode: 'same-origin'` para requisições sensíveis que nunca devem ir cross-origin.
 
-#### Redirect handling
+#### Tratamento de redirecionamento
 
-The `redirect` option specifies how to handle redirect responses from the server.
+A opção `redirect` especifica como lidar com respostas de redirecionamento do servidor.
 
 ```ts
 // Follow redirects automatically (default behavior)
@@ -421,17 +422,17 @@ http.get('/api/resource', {
 });
 ```
 
-Available `redirect` values:
+Valores de `redirect` disponíveis:
 
-- `'follow'`: Automatically follow redirects (default)
-- `'error'`: Treat redirects as errors
-- `'manual'`: Don't follow redirects automatically, return redirect response
+- `'follow'`: Seguir redirecionamentos automaticamente (padrão)
+- `'error'`: Tratar redirecionamentos como erros
+- `'manual'`: Não seguir redirecionamentos automaticamente, retornar resposta de redirecionamento
 
-TIP: Use `redirect: 'manual'` when you need to handle redirects with custom logic.
+TIP: Use `redirect: 'manual'` quando você precisar lidar com redirecionamentos com lógica personalizada.
 
-#### Credentials handling
+#### Tratamento de credenciais
 
-The `credentials` option controls whether cookies, authorization headers, and other credentials are sent with cross-origin requests. This is particularly important for authentication scenarios.
+A opção `credentials` controla se cookies, headers de autorização e outras credenciais são enviados com requisições cross-origin. Isso é particularmente importante para cenários de autenticação.
 
 ```ts
 // Include credentials for cross-origin requests
@@ -471,19 +472,19 @@ http.get('https://api.example.com/data', {
 });
 ```
 
-IMPORTANT: The `withCredentials` option takes precedence over the `credentials` option. If both are specified, `withCredentials: true` will always result in `credentials: 'include'`, regardless of the explicit `credentials` value.
+IMPORTANT: A opção `withCredentials` tem precedência sobre a opção `credentials`. Se ambas forem especificadas, `withCredentials: true` sempre resultará em `credentials: 'include'`, independentemente do valor explícito de `credentials`.
 
-Available `credentials` values:
+Valores de `credentials` disponíveis:
 
-- `'omit'`: Never send credentials
-- `'same-origin'`: Send credentials only for same-origin requests (default)
-- `'include'`: Always send credentials, even for cross-origin requests
+- `'omit'`: Nunca enviar credenciais
+- `'same-origin'`: Enviar credenciais apenas para requisições same-origin (padrão)
+- `'include'`: Sempre enviar credenciais, mesmo para requisições cross-origin
 
-TIP: Use `credentials: 'include'` when you need to send authentication cookies or headers to a different domain that supports CORS. Avoid mixing `credentials` and `withCredentials` options to prevent confusion.
+TIP: Use `credentials: 'include'` quando você precisar enviar cookies ou headers de autenticação para um domínio diferente que suporta CORS. Evite misturar opções `credentials` e `withCredentials` para evitar confusão.
 
 #### Referrer
 
-The `referrer` option allows you to control what referrer information is sent with the request. This is important for privacy and security considerations.
+A opção `referrer` permite que você controle quais informações de referrer são enviadas com a requisição. Isso é importante para considerações de privacidade e segurança.
 
 ```ts
 // Send a specific referrer URL
@@ -501,17 +502,17 @@ http.get('/api/analytics', {
 });
 ```
 
-The `referrer` option accepts:
+A opção `referrer` aceita:
 
-- A valid URL string: Sets the specific referrer URL to send
-- An empty string `''`: Sends no referrer information
-- `'about:client'`: Uses the default referrer (current page URL)
+- Uma string de URL válida: Define a URL de referrer específica a enviar
+- Uma string vazia `''`: Não envia informações de referrer
+- `'about:client'`: Usa o referrer padrão (URL da página atual)
 
-TIP: Use `referrer: ''` for sensitive requests where you don't want to leak the referring page URL.
+TIP: Use `referrer: ''` para requisições sensíveis onde você não quer vazar a URL da página referenciadora.
 
-#### Referrer policy
+#### Política de referrer
 
-The `referrerPolicy` option controls how much referrer information , the URL of the page making the request is sent along with an HTTP request. This setting affects both privacy and analytics, allowing you to balance data visibility with security considerations.
+A opção `referrerPolicy` controla quanta informação de referrer, a URL da página fazendo a requisição é enviada junto com uma requisição HTTP. Esta configuração afeta tanto privacidade quanto analytics, permitindo que você equilibre visibilidade de dados com considerações de segurança.
 
 ```ts
 // Send no referrer information regardless of the current page
@@ -525,22 +526,22 @@ http.get('/api/analytics', {
 }).subscribe();
 ```
 
-The `referrerPolicy` option accepts:
+A opção `referrerPolicy` aceita:
 
-- `'no-referrer'` Never send the `Referer` header.
-- `'no-referrer-when-downgrade'` Sends the referrer for same-origin and secure (HTTPS→HTTPS) requests, but omits it when navigating from a secure to a less secure origin (HTTPS→HTTP).
-- `'origin'` Sends only the origin (scheme, host, port) of the referrer, omitting path and query information.
-- `'origin-when-cross-origin'` Sends the full URL for same-origin requests, but only the origin for cross-origin requests.
-- `'same-origin'` Sends the full URL for same-origin requests and no referrer for cross-origin requests.
-- `'strict-origin'` Sends only the origin, and only if the protocol security level is not downgraded (e.g., HTTPS→HTTPS). Omits the referrer on downgrade.
-- `'strict-origin-when-cross-origin'` Default browser behavior. Sends the full URL for same-origin requests, the origin for cross-origin requests when not downgraded, and omits the referrer on downgrade.
-- `'unsafe-url'`Always sends the full URL (including path and query). This can expose sensitive data and should be used with caution.
+- `'no-referrer'` Nunca enviar o header `Referer`.
+- `'no-referrer-when-downgrade'` Envia o referrer para requisições same-origin e seguras (HTTPS→HTTPS), mas omite ao navegar de uma origem segura para uma menos segura (HTTPS→HTTP).
+- `'origin'` Envia apenas a origem (scheme, host, port) do referrer, omitindo informações de path e query.
+- `'origin-when-cross-origin'` Envia a URL completa para requisições same-origin, mas apenas a origem para requisições cross-origin.
+- `'same-origin'` Envia a URL completa para requisições same-origin e nenhum referrer para requisições cross-origin.
+- `'strict-origin'` Envia apenas a origem, e apenas se o nível de segurança do protocolo não for rebaixado (ex: HTTPS→HTTPS). Omite o referrer no rebaixamento.
+- `'strict-origin-when-cross-origin'` Comportamento padrão do navegador. Envia a URL completa para requisições same-origin, a origem para requisições cross-origin quando não rebaixado, e omite o referrer no rebaixamento.
+- `'unsafe-url'` Sempre envia a URL completa (incluindo path e query). Isso pode expor dados sensíveis e deve ser usado com cautela.
 
-TIP: Prefer conservative values such as `'no-referrer'`, `'origin'`, or `'strict-origin-when-cross-origin'` for privacy-sensitive requests.
+TIP: Prefira valores conservadores como `'no-referrer'`, `'origin'` ou `'strict-origin-when-cross-origin'` para requisições sensíveis à privacidade.
 
-#### Integrity
+#### Integridade
 
-The `integrity` option allows you to verify that the response hasn't been tampered with by providing a cryptographic hash of the expected content. This is particularly useful for loading scripts or other resources from CDNs.
+A opção `integrity` permite que você verifique que a resposta não foi adulterada fornecendo um hash criptográfico do conteúdo esperado. Isso é particularmente útil para carregar scripts ou outros recursos de CDNs.
 
 ```ts
 // Verify response integrity with SHA-256 hash
@@ -552,29 +553,29 @@ http.get('/api/script.js', {
 });
 ```
 
-IMPORTANT: The `integrity` option requires an exact match between the response content and the provided hash. If the content doesn't match, the request will fail with a network error.
+IMPORTANT: A opção `integrity` requer uma correspondência exata entre o conteúdo da resposta e o hash fornecido. Se o conteúdo não corresponder, a requisição falhará com um erro de rede.
 
-TIP: Use subresource integrity when loading critical resources from external sources to ensure they haven't been modified. Generate hashes using tools like `openssl`.
+TIP: Use integridade de subrecurso ao carregar recursos críticos de fontes externas para garantir que não foram modificados. Gere hashes usando ferramentas como `openssl`.
 
-## Http `Observable`s
+## `Observable`s HTTP
 
-Each request method on `HttpClient` constructs and returns an `Observable` of the requested response type. Understanding how these `Observable`s work is important when using `HttpClient`.
+Cada método de requisição em `HttpClient` constrói e retorna um `Observable` do tipo de resposta solicitado. Entender como esses `Observable`s funcionam é importante ao usar `HttpClient`.
 
-`HttpClient` produces what RxJS calls "cold" `Observable`s, meaning that no actual request happens until the `Observable` is subscribed. Only then is the request actually dispatched to the server. Subscribing to the same `Observable` multiple times will trigger multiple backend requests. Each subscription is independent.
+`HttpClient` produz o que RxJS chama de `Observable`s "frios", o que significa que nenhuma requisição real acontece até que o `Observable` seja inscrito. Somente então a requisição é realmente despachada para o servidor. Inscrever-se no mesmo `Observable` várias vezes acionará múltiplas requisições backend. Cada inscrição é independente.
 
-TIP: You can think of `HttpClient` `Observable`s as _blueprints_ for actual server requests.
+TIP: Você pode pensar nos `Observable`s de `HttpClient` como _blueprints_ para requisições de servidor reais.
 
-Once subscribed, unsubscribing will abort the in-progress request. This is very useful if the `Observable` is subscribed via the `async` pipe, as it will automatically cancel the request if the user navigates away from the current page. Additionally, if you use the `Observable` with an RxJS combinator like `switchMap`, this cancellation will clean up any stale requests.
+Uma vez inscrito, cancelar a inscrição abortará a requisição em andamento. Isso é muito útil se o `Observable` for inscrito via pipe `async`, pois automaticamente cancelará a requisição se o usuário navegar para longe da página atual. Além disso, se você usar o `Observable` com um combinador RxJS como `switchMap`, esse cancelamento limpará quaisquer requisições obsoletas.
 
-Once the response returns, `Observable`s from `HttpClient` usually complete (although interceptors can influence this).
+Uma vez que a resposta retorna, `Observable`s de `HttpClient` geralmente completam (embora interceptors possam influenciar isso).
 
-Because of the automatic completion, there is usually no risk of memory leaks if `HttpClient` subscriptions are not cleaned up. However, as with any async operation, we strongly recommend that you clean up subscriptions when the component using them is destroyed, as the subscription callback may otherwise run and encounter errors when it attempts to interact with the destroyed component.
+Por causa da conclusão automática, geralmente não há risco de vazamentos de memória se inscrições de `HttpClient` não forem limpas. No entanto, como com qualquer operação assíncrona, recomendamos fortemente que você limpe inscrições quando o component que as usa for destruído, pois o callback de inscrição pode de outra forma executar e encontrar erros quando tentar interagir com o component destruído.
 
-TIP: Using the `async` pipe or the `toSignal` operation to subscribe to `Observable`s ensures that subscriptions are disposed properly.
+TIP: Usar o pipe `async` ou a operação `toSignal` para se inscrever em `Observable`s garante que inscrições sejam descartadas adequadamente.
 
-## Best practices
+## Melhores práticas
 
-While `HttpClient` can be injected and used directly from components, generally we recommend you create reusable, injectable services which isolate and encapsulate data access logic. For example, this `UserService` encapsulates the logic to request data for a user by their id:
+Embora `HttpClient` possa ser injetado e usado diretamente de components, geralmente recomendamos que você crie services reutilizáveis e injetáveis que isolam e encapsulam lógica de acesso a dados. Por exemplo, este `UserService` encapsula a lógica para solicitar dados para um usuário por seu id:
 
 ```ts
 @Injectable({providedIn: 'root'})
@@ -587,7 +588,7 @@ export class UserService {
 }
 ```
 
-Within a component, you can combine `@if` with the `async` pipe to render the UI for the data only after it's finished loading:
+Dentro de um component, você pode combinar `@if` com o pipe `async` para renderizar a UI para os dados apenas depois que terminar de carregar:
 
 ```angular-ts
 import { AsyncPipe } from '@angular/common';
