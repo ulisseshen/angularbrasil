@@ -10,7 +10,7 @@ Esta primeira lição serve como ponto de partida a partir do qual cada lição 
 
 A aplicação atualizada que você terá após esta lição confirma que você e seu IDE estão prontos para começar a criar uma aplicação Angular.
 
-NOTA: Se você estiver trabalhando com o editor incorporado, pule para o [passo quatro](#criar-hello-world).
+NOTA: Se você estiver trabalhando com o editor incorporado, pule para o [passo quatro](#create-hello-world).
 Ao trabalhar no playground do navegador, você não precisa executar `ng serve` para rodar a aplicação. Outros comandos como `ng generate` podem ser feitos na janela do console à sua direita.
 
 <docs-workflow>
@@ -81,7 +81,7 @@ No painel **Explorer** do seu IDE:
 Depois de revisar os arquivos que compõem um projeto de aplicação Angular, continue para o próximo passo.
 </docs-step>
 
-<docs-step title="Criar `Hello World`">
+<docs-step title="Criar `Hello World` {#create-hello-world}">
 Neste passo, você atualiza os arquivos do projeto Angular para mudar o conteúdo exibido.
 
 No seu IDE:
