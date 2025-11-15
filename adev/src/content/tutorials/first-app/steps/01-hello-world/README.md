@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Hello world
 
 Esta primeira lição serve como ponto de partida a partir do qual cada lição neste tutorial adiciona novos recursos para construir uma aplicação Angular completa. Nesta lição, vamos atualizar a aplicação para exibir o famoso texto, "Hello World".
@@ -9,7 +10,7 @@ Esta primeira lição serve como ponto de partida a partir do qual cada lição 
 
 A aplicação atualizada que você terá após esta lição confirma que você e seu IDE estão prontos para começar a criar uma aplicação Angular.
 
-NOTA: Se você estiver trabalhando com o editor incorporado, pule para o [passo quatro](#create-hello-world).
+NOTA: Se você estiver trabalhando com o editor incorporado, pule para o [passo quatro](#criar-hello-world).
 Ao trabalhar no playground do navegador, você não precisa executar `ng serve` para rodar a aplicação. Outros comandos como `ng generate` podem ser feitos na janela do console à sua direita.
 
 <docs-workflow>
