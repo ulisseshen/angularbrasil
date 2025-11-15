@@ -1,62 +1,63 @@
-# Adding harness support for additional testing environments
+<!-- ia-translate: true -->
+# Adicionando suporte de harness para ambientes de teste adicionais
 
-## Before you start
+## Antes de começar
 
-TIP: This guide assumes you've already read the [component harnesses overview guide](guide/testing/component-harnesses-overview). Read that first if you're new to using component harnesses.
+TIP: Este guia assume que você já leu o [guia de visão geral de component harnesses](guide/testing/component-harnesses-overview). Leia-o primeiro se você é novo em usar component harnesses.
 
-### When does adding support for a test environment make sense?
+### Quando adicionar suporte para um ambiente de teste faz sentido?
 
-To use component harnesses in the following environments, you can use Angular CDK's two built-in environments:
+Para usar component harnesses nos seguintes ambientes, você pode usar os dois ambientes integrados do Angular CDK:
 
-- Unit tests
-- WebDriver end-to-end tests
+- Testes unitários
+- Testes end-to-end WebDriver
 
-To use a supported testing environment, read the [Creating harnesses for your components guide](guide/testing/creating-component-harnesses).
+Para usar um ambiente de teste suportado, leia o [guia Criando harnesses para seus components](guide/testing/creating-component-harnesses).
 
-Otherwise, to add support for other environments, you need to define how to interact with a DOM element and how DOM interactions work in your environment. Continue reading to learn more.
+Caso contrário, para adicionar suporte para outros ambientes, você precisa definir como interagir com um elemento DOM e como as interações DOM funcionam em seu ambiente. Continue lendo para saber mais.
 
-### CDK Installation
+### Instalação do CDK
 
-The [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) is a set of behavior primitives for building components. To use the component harnesses, first install `@angular/cdk` from npm. You can do this from your terminal using the Angular CLI:
+O [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) é um conjunto de primitivas de comportamento para construir components. Para usar os component harnesses, primeiro instale `@angular/cdk` do npm. Você pode fazer isso do seu terminal usando o Angular CLI:
 
 <docs-code language="shell">
   ng add @angular/cdk
 </docs-code>
 
-## Creating a `TestElement` implementation
+## Criando uma implementação de `TestElement`
 
-Every test environment must define a `TestElement` implementation. The `TestElement` interface serves as an environment-agnostic representation of a DOM element. It enables harnesses to interact with DOM elements regardless of the underlying environment. Because some environments don't support interacting with DOM elements synchronously (e.g. WebDriver), all `TestElement` methods are asynchronous, returning a `Promise` with the result of the operation.
+Cada ambiente de teste deve definir uma implementação de `TestElement`. A interface `TestElement` serve como uma representação agnóstica de ambiente de um elemento DOM. Ela permite que harnesses interajam com elementos DOM independentemente do ambiente subjacente. Como alguns ambientes não suportam interagir com elementos DOM de forma síncrona (por exemplo, WebDriver), todos os métodos `TestElement` são assíncronos, retornando uma `Promise` com o resultado da operação.
 
-`TestElement` offers a number of methods to interact with the underlying DOM such as `blur()`, `click()`, `getAttribute()`, and more. See the [TestElement API reference page](/api/cdk/testing/TestElement) for the full list of methods.
+`TestElement` oferece vários métodos para interagir com o DOM subjacente, como `blur()`, `click()`, `getAttribute()`, e mais. Veja a [página de referência da API TestElement](/api/cdk/testing/TestElement) para a lista completa de métodos.
 
-The `TestElement` interface consists largely of methods that resemble methods available on `HTMLElement`. Similar methods exist in most test environments, which makes implementing the methods fairly straightforward. However, one important difference to note when implementing the `sendKeys` method, is that the key codes in the `TestKey` enum likely differ from the key codes used in the test environment. Environment authors should maintain a mapping from `TestKey` codes to the codes used in the particular testing environment.
+A interface `TestElement` consiste principalmente de métodos que se assemelham a métodos disponíveis em `HTMLElement`. Métodos similares existem na maioria dos ambientes de teste, o que torna a implementação dos métodos bastante direta. No entanto, uma diferença importante a ser notada ao implementar o método `sendKeys`, é que os códigos de tecla no enum `TestKey` provavelmente diferem dos códigos de tecla usados no ambiente de teste. Autores de ambientes devem manter um mapeamento dos códigos `TestKey` para os códigos usados no ambiente de teste particular.
 
-The [UnitTestElement](/api/cdk/testing/testbed/UnitTestElement) and [SeleniumWebDriverElement](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverElement) implementations in Angular CDK serve as good examples of implementations of this interface.
+As implementações [UnitTestElement](/api/cdk/testing/testbed/UnitTestElement) e [SeleniumWebDriverElement](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverElement) no Angular CDK servem como bons exemplos de implementações desta interface.
 
-## Creating a `HarnessEnvironment` implementation
+## Criando uma implementação de `HarnessEnvironment`
 
-Test authors use `HarnessEnvironment` to create component harness instances for use in tests. `HarnessEnvironment` is an abstract class that must be extended to create a concrete subclass for the new environment. When supporting a new test environment, create a `HarnessEnvironment` subclass that adds concrete implementations for all abstract members.
+Autores de teste usam `HarnessEnvironment` para criar instâncias de component harness para uso em testes. `HarnessEnvironment` é uma classe abstrata que deve ser estendida para criar uma subclasse concreta para o novo ambiente. Ao suportar um novo ambiente de teste, crie uma subclasse `HarnessEnvironment` que adicione implementações concretas para todos os membros abstratos.
 
-`HarnessEnvironment` has a generic type parameter: `HarnessEnvironment<E>`. This parameter, `E`, represents the raw element type of the environment. For example, this parameter is Element for unit test environments.
+`HarnessEnvironment` tem um parâmetro de tipo genérico: `HarnessEnvironment<E>`. Este parâmetro, `E`, representa o tipo de elemento bruto do ambiente. Por exemplo, este parâmetro é Element para ambientes de teste unitário.
 
-The following are the abstract methods that must be implemented:
+Os seguintes são os métodos abstratos que devem ser implementados:
 
-| Method                                                       | Description                                                                                                                                                          |
-| :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `abstract getDocumentRoot(): E`                              | Gets the root element for the environment (e.g. `document.body`).                                                                                                    |
-| `abstract createTestElement(element: E): TestElement`        | Creates a `TestElement` for the given raw element.                                                                                                                   |
-| `abstract createEnvironment(element: E): HarnessEnvironment` | Creates a `HarnessEnvironment` rooted at the given raw element.                                                                                                      |
-| `abstract getAllRawElements(selector: string): Promise<E[]>` | Gets all of the raw elements under the root element of the environment matching the given selector.                                                                  |
-| `abstract forceStabilize(): Promise<void>`                   | Gets a `Promise` that resolves when the `NgZone` is stable. Additionally, if applicable, tells `NgZone` to stabilize (e.g. calling `flush()` in a `fakeAsync` test). |
-| `abstract waitForTasksOutsideAngular(): Promise<void>`       | Gets a `Promise` that resolves when the parent zone of `NgZone` is stable.                                                                                           |
+| Método                                                       | Descrição                                                                                                                                                                        |
+| :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `abstract getDocumentRoot(): E`                              | Obtém o elemento raiz para o ambiente (por exemplo, `document.body`).                                                                                                            |
+| `abstract createTestElement(element: E): TestElement`        | Cria um `TestElement` para o elemento bruto fornecido.                                                                                                                           |
+| `abstract createEnvironment(element: E): HarnessEnvironment` | Cria um `HarnessEnvironment` enraizado no elemento bruto fornecido.                                                                                                              |
+| `abstract getAllRawElements(selector: string): Promise<E[]>` | Obtém todos os elementos brutos sob o elemento raiz do ambiente que correspondem ao seletor fornecido.                                                                           |
+| `abstract forceStabilize(): Promise<void>`                   | Obtém uma `Promise` que resolve quando a `NgZone` está estável. Além disso, se aplicável, informa `NgZone` para estabilizar (por exemplo, chamar `flush()` em um teste `fakeAsync`). |
+| `abstract waitForTasksOutsideAngular(): Promise<void>`       | Obtém uma `Promise` que resolve quando a zone pai de `NgZone` está estável.                                                                                                      |
 
-In addition to implementing the missing methods, this class should provide a way for test authors to get `ComponentHarness` instances. You should define a protected constructor and provide a static method called `loader` that returns a `HarnessLoader` instance. This allows test authors to write code like: `SomeHarnessEnvironment.loader().getHarness(...)`. Depending on the needs of the particular environment, the class may provide several different static methods or require arguments to be passed. (e.g. the `loader` method on `TestbedHarnessEnvironment` takes a `ComponentFixture`, and the class provides additional static methods called `documentRootLoader` and `harnessForFixture`).
+Além de implementar os métodos faltantes, esta classe deve fornecer uma maneira para autores de teste obterem instâncias de `ComponentHarness`. Você deve definir um construtor protegido e fornecer um método estático chamado `loader` que retorna uma instância de `HarnessLoader`. Isso permite que autores de teste escrevam código como: `SomeHarnessEnvironment.loader().getHarness(...)`. Dependendo das necessidades do ambiente particular, a classe pode fornecer vários métodos estáticos diferentes ou requerer que argumentos sejam passados. (por exemplo, o método `loader` em `TestbedHarnessEnvironment` recebe um `ComponentFixture`, e a classe fornece métodos estáticos adicionais chamados `documentRootLoader` e `harnessForFixture`).
 
-The [`TestbedHarnessEnvironment`](/api/cdk/testing/testbed/TestbedHarnessEnvironment) and [SeleniumWebDriverHarnessEnvironment](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverHarnessEnvironment) implementations in Angular CDK serve as good examples of implementations of this interface.
+As implementações [`TestbedHarnessEnvironment`](/api/cdk/testing/testbed/TestbedHarnessEnvironment) e [SeleniumWebDriverHarnessEnvironment](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverHarnessEnvironment) no Angular CDK servem como bons exemplos de implementações desta interface.
 
-## Handling auto change detection
+## Lidando com detecção automática de mudanças
 
-In order to support the `manualChangeDetection` and parallel APIs, your environment should install a handler for the auto change detection status.
+Para suportar as APIs `manualChangeDetection` e parallel, seu ambiente deve instalar um handler para o status de detecção automática de mudanças.
 
-When your environment wants to start handling the auto change detection status it can call `handleAutoChangeDetectionStatus(handler)`. The handler function will receive a `AutoChangeDetectionStatus` which has two properties `isDisabled` and `onDetectChangesNow()`. See the [AutoChangeDetectionStatus API reference page](/api/cdk/testing/AutoChangeDetectionStatus) for more information.
-If your environment wants to stop handling auto change detection status it can call `stopHandlingAutoChangeDetectionStatus()`.
+Quando seu ambiente quiser começar a lidar com o status de detecção automática de mudanças, ele pode chamar `handleAutoChangeDetectionStatus(handler)`. A função handler receberá um `AutoChangeDetectionStatus` que tem duas propriedades `isDisabled` e `onDetectChangesNow()`. Veja a [página de referência da API AutoChangeDetectionStatus](/api/cdk/testing/AutoChangeDetectionStatus) para mais informações.
+Se seu ambiente quiser parar de lidar com o status de detecção automática de mudanças, ele pode chamar `stopHandlingAutoChangeDetectionStatus()`.
