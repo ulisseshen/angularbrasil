@@ -12,25 +12,41 @@ import {join, relative} from 'path';
 
 // Generate anchor ID from heading text (following common markdown conventions)
 function generateAnchorId(text) {
+  // Remove custom ID syntax first
+  text = text.replace(/{#\s*[\w-]+\s*}/g, '');
+
   return text
     .toLowerCase()
     .replace(/`/g, '') // Remove backticks
     .replace(/[^\w\s-]/g, '') // Remove special chars except spaces and hyphens
     .replace(/\s+/g, '-') // Replace spaces with hyphens
     .replace(/-+/g, '-') // Collapse multiple hyphens
+    .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
     .trim();
 }
 
 // Extract custom ID from heading text if present
+// Returns null if not present or if invalid
 function extractCustomId(text) {
   const customIdRegex = /{#\s*([\w-]+)\s*}/;
   const match = customIdRegex.exec(text);
   return match ? match[1] : null;
 }
 
+// Check if text contains non-ASCII characters (Portuguese, etc.)
+function hasNonAsciiChars(text) {
+  return /[^\x00-\x7F]/.test(text);
+}
+
+// Validate that a custom ID only contains allowed characters
+function isValidCustomId(id) {
+  return /^[\w-]+$/.test(id);
+}
+
 // Extract headings from markdown content
 function extractHeadings(content) {
   const headings = [];
+  const warnings = [];
 
   // Match markdown headings (## Heading)
   const mdHeadingRegex = /^#{1,6}\s+(.+)$/gm;
@@ -38,12 +54,40 @@ function extractHeadings(content) {
   while ((match = mdHeadingRegex.exec(content)) !== null) {
     const headingText = match[1].trim();
     const customId = extractCustomId(headingText);
-    const id = customId || generateAnchorId(headingText);
+    const line = content.substring(0, match.index).split('\n').length;
+
+    // Remove custom ID syntax from text for auto-generation
+    const textWithoutCustomId = headingText.replace(/{#\s*[\w-]+\s*}/g, '').trim();
+    const autoId = generateAnchorId(textWithoutCustomId);
+    const id = customId || autoId;
+
+    // Validate: if heading has non-ASCII chars, it should have a custom ID
+    if (hasNonAsciiChars(textWithoutCustomId) && !customId) {
+      warnings.push({
+        line: line,
+        text: headingText,
+        message: 'Portuguese/non-ASCII heading without custom English ID',
+        suggestedId: autoId,
+      });
+    }
+
+    // Validate: auto-generated ID should only have valid characters
+    if (!customId && !isValidCustomId(autoId)) {
+      warnings.push({
+        line: line,
+        text: headingText,
+        message:
+          'Auto-generated ID contains invalid characters (likely from special chars in heading)',
+        generatedId: autoId,
+      });
+    }
 
     headings.push({
       text: headingText,
       id: id,
-      line: content.substring(0, match.index).split('\n').length,
+      line: line,
+      hasCustomId: !!customId,
+      warning: warnings.length > 0 ? warnings[warnings.length - 1] : null,
     });
   }
 
@@ -52,29 +96,41 @@ function extractHeadings(content) {
   while ((match = docsStepRegex.exec(content)) !== null) {
     const headingText = match[1].trim();
     const customId = extractCustomId(headingText);
-    const id = customId || generateAnchorId(headingText);
+    const line = content.substring(0, match.index).split('\n').length;
+
+    const textWithoutCustomId = headingText.replace(/{#\s*[\w-]+\s*}/g, '').trim();
+    const autoId = generateAnchorId(textWithoutCustomId);
+    const id = customId || autoId;
 
     headings.push({
       text: headingText,
       id: id,
-      line: content.substring(0, match.index).split('\n').length,
+      line: line,
+      hasCustomId: !!customId,
+      warning: null,
     });
   }
 
-  return headings;
+  return {headings, warnings};
 }
 
 // Extract internal anchor links from markdown content
 function extractAnchorLinks(content) {
   const links = [];
 
-  // Match [text](#anchor) pattern
-  const anchorRegex = /\[([^\]]+)\]\(#([^)]+)\)/g;
+  // Match [text](#anchor) or [text](#anchor 'title') pattern
+  const anchorRegex = /\[([^\]]+)\]\(#([^\s)'"]+)(?:\s+['"][^'"]*['"])?\)/g;
   let match;
   while ((match = anchorRegex.exec(content)) !== null) {
     const linkText = match[1];
-    const anchor = match[2];
+    let anchor = match[2];
     const line = content.substring(0, match.index).split('\n').length;
+
+    // Remove any trailing quotes or whitespace
+    anchor = anchor.trim().replace(/['"]$/, '');
+
+    // Skip empty anchors
+    if (!anchor) continue;
 
     links.push({
       text: linkText,
@@ -91,7 +147,7 @@ function checkMarkdownFile(filePath, baseDir) {
   const content = readFileSync(filePath, 'utf8');
   const relativePath = relative(baseDir, filePath);
 
-  const headings = extractHeadings(content);
+  const {headings, warnings} = extractHeadings(content);
   const links = extractAnchorLinks(content);
 
   const validIds = new Set(headings.map((h) => h.id));
@@ -109,7 +165,7 @@ function checkMarkdownFile(filePath, baseDir) {
     }
   }
 
-  return errors;
+  return {errors, warnings, relativePath};
 }
 
 // Recursively find all markdown files
@@ -138,6 +194,7 @@ function main() {
   const baseDir = process.cwd();
   const searchDir = process.argv[2] || 'adev/src/content';
   const fullSearchDir = join(baseDir, searchDir);
+  const showWarnings = process.argv.includes('--warnings');
 
   console.log(`Checking anchor links in ${searchDir}...\n`);
 
@@ -145,13 +202,14 @@ function main() {
   console.log(`Found ${markdownFiles.length} markdown files\n`);
 
   let totalErrors = 0;
+  let totalWarnings = 0;
 
   for (const file of markdownFiles) {
-    const errors = checkMarkdownFile(file, baseDir);
+    const {errors, warnings, relativePath} = checkMarkdownFile(file, baseDir);
 
     if (errors.length > 0) {
       totalErrors += errors.length;
-      console.log(`\n❌ ${relative(baseDir, file)}`);
+      console.log(`\n❌ ${relativePath}`);
 
       for (const error of errors) {
         console.log(`   Line ${error.line}: Invalid anchor "#${error.anchor}"`);
@@ -171,13 +229,43 @@ function main() {
         console.log('');
       }
     }
+
+    if (showWarnings && warnings.length > 0) {
+      totalWarnings += warnings.length;
+      if (errors.length === 0) {
+        console.log(`\n⚠️  ${relativePath}`);
+      }
+
+      for (const warning of warnings) {
+        console.log(`   Line ${warning.line}: ${warning.message}`);
+        console.log(`   Heading: "${warning.text}"`);
+        if (warning.suggestedId) {
+          console.log(`   Auto-generated ID would be: #${warning.suggestedId}`);
+        }
+        if (warning.generatedId) {
+          console.log(`   Invalid auto-generated ID: #${warning.generatedId}`);
+        }
+        console.log('');
+      }
+    }
   }
 
-  if (totalErrors === 0) {
+  console.log('');
+
+  if (totalErrors === 0 && (!showWarnings || totalWarnings === 0)) {
     console.log('✅ All anchor links are valid!');
   } else {
-    console.log(`\n❌ Found ${totalErrors} invalid anchor link(s)\n`);
-    process.exit(1);
+    if (totalErrors > 0) {
+      console.log(`❌ Found ${totalErrors} invalid anchor link(s)`);
+    }
+    if (showWarnings && totalWarnings > 0) {
+      console.log(`⚠️  Found ${totalWarnings} warning(s) (potential future issues)`);
+    }
+    console.log('');
+
+    if (totalErrors > 0) {
+      process.exit(1);
+    }
   }
 }
 
