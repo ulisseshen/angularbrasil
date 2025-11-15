@@ -1,10 +1,9 @@
-# Component host elements
+<!-- ia-translate: true -->
+# Elementos host de components
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
-Angular creates an instance of a component for every HTML element that matches the component's
-selector. The DOM element that matches a component's selector is that component's **host element**.
-The contents of a component's template are rendered inside its host element.
+O Angular cria uma instância de um component para cada elemento HTML que corresponde ao seletor do component. O elemento DOM que corresponde ao seletor de um component é o **elemento host** daquele component. O conteúdo do template de um component é renderizado dentro de seu elemento host.
 
 ```angular-ts
 // Component source
@@ -33,13 +32,11 @@ export class ProfilePhoto {}
 <button>Upload a new profile photo</button>
 ```
 
-In the above example, `<profile-photo>` is the host element of the `ProfilePhoto` component.
+No exemplo acima, `<profile-photo>` é o elemento host do component `ProfilePhoto`.
 
-## Binding to the host element
+## Binding ao elemento host
 
-A component can bind properties, attributes, styles and events to its host element. This behaves
-identically to bindings on elements inside the component's template, but instead defined with
-the `host` property in the `@Component` decorator:
+Um component pode vincular propriedades, atributos, estilos e eventos ao seu elemento host. Isso se comporta de forma idêntica aos bindings em elementos dentro do template do component, mas em vez disso é definido com a propriedade `host` no decorator `@Component`:
 
 ```angular-ts
 @Component({
@@ -64,12 +61,11 @@ export class CustomSlider {
 }
 ```
 
-## The `@HostBinding` and `@HostListener` decorators
+## Os decorators `@HostBinding` e `@HostListener`
 
-You can alternatively bind to the host element by applying the `@HostBinding` and `@HostListener`
-decorator to class members.
+Você pode alternativamente vincular ao elemento host aplicando os decorators `@HostBinding` e `@HostListener` aos membros da classe.
 
-`@HostBinding` lets you bind host properties and attributes to properties and getters:
+`@HostBinding` permite vincular propriedades e atributos do host a propriedades e getters:
 
 ```ts
 @Component({
@@ -88,8 +84,7 @@ export class CustomSlider {
 }
 ```
 
-`@HostListener` lets you bind event listeners to the host element. The decorator accepts an event
-name and an optional array of arguments:
+`@HostListener` permite vincular event listeners ao elemento host. O decorator aceita um nome de evento e um array opcional de argumentos:
 
 ```ts
 export class CustomSlider {
@@ -100,15 +95,13 @@ export class CustomSlider {
 }
 ```
 
-<docs-callout critical title="Prefer using the `host` property over the decorators">
-  **Always prefer using the `host` property over `@HostBinding` and `@HostListener`.** These
-decorators exist exclusively for backwards compatibility.
+<docs-callout critical title="Prefira usar a propriedade `host` em vez dos decorators">
+  **Sempre prefira usar a propriedade `host` em vez de `@HostBinding` e `@HostListener`.** Esses decorators existem exclusivamente para compatibilidade com versões anteriores.
 </docs-callout>
 
-## Binding collisions
+## Colisões de binding
 
-When you use a component in a template, you can add bindings to that component instance's element.
-The component may _also_ define host bindings for the same properties or attributes.
+Quando você usa um component em um template, você pode adicionar bindings ao elemento daquela instância do component. O component também pode definir bindings de host para as mesmas propriedades ou atributos.
 
 ```angular-ts
 @Component({
@@ -125,16 +118,15 @@ export class ProfilePhoto { /* ... */ }
 <profile-photo role="group" [id]="otherId" />
 ```
 
-In cases like this, the following rules determine which value wins:
+Em casos como esse, as seguintes regras determinam qual valor vence:
 
-- If both values are static, the instance binding wins.
-- If one value is static and the other dynamic, the dynamic value wins.
-- If both values are dynamic, the component's host binding wins.
+- Se ambos os valores forem estáticos, o binding da instância vence.
+- Se um valor for estático e o outro dinâmico, o valor dinâmico vence.
+- Se ambos os valores forem dinâmicos, o binding de host do component vence.
 
-## Styling with CSS custom properties
+## Estilização com propriedades personalizadas CSS
 
-Developers often rely on [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties) to enable a flexible configuration of their component's styles.
-You can set such custom properties on a host element with a [style binding][style binding](guide/templates/binding#css-style-properties).
+Desenvolvedores frequentemente dependem de [Propriedades Personalizadas CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties) para permitir uma configuração flexível dos estilos de seus components. Você pode definir tais propriedades personalizadas em um elemento host com um [binding de estilo](guide/templates/binding#css-style-properties).
 
 ```angular-ts
 @Component({
@@ -148,11 +140,11 @@ export class MyComponent {
 }
 ```
 
-In this example, the `--my-background` CSS custom property is bound to the `color` signal. The value of the custom property will automatically update whenever the `color` signal changes. This will affect the current component and all its children that rely on this custom property.
+Neste exemplo, a propriedade personalizada CSS `--my-background` está vinculada ao signal `color`. O valor da propriedade personalizada será atualizado automaticamente sempre que o signal `color` mudar. Isso afetará o component atual e todos os seus filhos que dependem desta propriedade personalizada.
 
-### Setting custom properties on children compoents
+### Definindo propriedades personalizadas em components filhos
 
-Alternatively, it is also possible to set css custom properties on the host element of children components with a [style binding](guide/templates/binding#css-style-properties).
+Alternativamente, também é possível definir propriedades personalizadas css no elemento host de components filhos com um [binding de estilo](guide/templates/binding#css-style-properties).
 
 ```angular-ts
 @Component({

@@ -1,11 +1,12 @@
-# Deferrable views tutorial
+<!-- ia-translate: true -->
+# Tutorial de deferrable views
 
-This interactive tutorial consists of lessons that introduce the Angular deferrable views concepts.
+Este tutorial interativo consiste em lições que introduzem os conceitos de deferrable views do Angular.
 
-## How to use this tutorial
+## Como usar este tutorial
 
-Each step represents a concept in Angular deferrable views. You can do one, or all of them.
+Cada etapa representa um conceito em deferrable views do Angular. Você pode fazer uma ou todas elas.
 
-If you get stuck, click "Reveal answer" at the top.
+Se você ficar preso, clique em "Reveal answer" no topo.
 
-Alright, let's [get started](/tutorials/deferrable-views/1-what-are-deferrable-views).
+Tudo bem, vamos [começar](/tutorials/deferrable-views/1-what-are-deferrable-views).

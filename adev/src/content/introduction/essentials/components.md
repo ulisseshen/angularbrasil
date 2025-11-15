@@ -1,19 +1,20 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Components" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
-The fundamental building block for creating applications in Angular.
+O bloco de construção fundamental para criar aplicações em Angular.
 </docs-decorative-header>
 
-Components are the main building blocks of Angular applications. Each component represents a part of a larger web page. Organizing an application into components helps provide structure to your project, clearly separating code into specific parts that are easy to maintain and grow over time.
+Components são os principais blocos de construção de aplicações Angular. Cada component representa uma parte de uma página web maior. Organizar uma aplicação em components ajuda a fornecer estrutura ao seu projeto, separando claramente o código em partes específicas que são fáceis de manter e expandir ao longo do tempo.
 
-## Defining a component
+## Definindo um component
 
-Every component has a few main parts:
+Todo component tem algumas partes principais:
 
-1. A `@Component`[decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) that contains some configuration used by Angular.
-2. An HTML template that controls what renders into the DOM.
-3. A [CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) that defines how the component is used in HTML.
-4. A TypeScript class with behaviors, such as handling user input or making requests to a server.
+1. Um [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) `@Component` que contém algumas configurações usadas pelo Angular.
+2. Um template HTML que controla o que é renderizado no DOM.
+3. Um [seletor CSS](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) que define como o component é usado no HTML.
+4. Uma classe TypeScript com comportamentos, como lidar com entrada do usuário ou fazer requisições para um servidor.
 
-Here is a simplified example of a `UserProfile` component.
+Aqui está um exemplo simplificado de um component `UserProfile`.
 
 ```angular-ts
 // user-profile.ts
@@ -27,7 +28,7 @@ Here is a simplified example of a `UserProfile` component.
 export class UserProfile { /* Your component code goes here */ }
 ```
 
-The `@Component` decorator also optionally accepts a `styles` property for any CSS you want to apply to your template:
+O decorator `@Component` também aceita opcionalmente uma propriedade `styles` para qualquer CSS que você queira aplicar ao seu template:
 
 ```angular-ts
 // user-profile.ts
@@ -42,9 +43,9 @@ The `@Component` decorator also optionally accepts a `styles` property for any C
 export class UserProfile { /* Your component code goes here */ }
 ```
 
-### Separating HTML and CSS into separate files
+### Separando HTML e CSS em arquivos separados
 
-You can define a component's HTML and CSS in separate files using `templateUrl` and `styleUrl`:
+Você pode definir o HTML e CSS de um component em arquivos separados usando `templateUrl` e `styleUrl`:
 
 ```angular-ts
 // user-profile.ts
@@ -71,9 +72,9 @@ h1 {
 }
 ```
 
-## Using components
+## Usando components
 
-You build an application by composing multiple components together. For example, if you are building a user profile page, you might break the page up into several components like this:
+Você constrói uma aplicação compondo múltiplos components juntos. Por exemplo, se você está construindo uma página de perfil de usuário, você pode dividir a página em vários components assim:
 
 ```mermaid
 flowchart TD
@@ -84,15 +85,15 @@ flowchart TD
     D[UserAddress]
 ```
 
-Here, the `UserProfile` component uses several other components to produce the final page.
+Aqui, o component `UserProfile` usa vários outros components para produzir a página final.
 
-To import and use a component, you need to:
+Para importar e usar um component, você precisa:
 
-1. In your component's TypeScript file, add an `import` statement for the component you want to use.
-2. In your `@Component` decorator, add an entry to the `imports` array for the component you want to use.
-3. In your component's template, add an element that matches the selector of the component you want to use.
+1. No arquivo TypeScript do seu component, adicione uma declaração `import` para o component que você quer usar.
+2. No seu decorator `@Component`, adicione uma entrada no array `imports` para o component que você quer usar.
+3. No template do seu component, adicione um elemento que corresponda ao seletor do component que você quer usar.
 
-Here's an example of a `UserProfile` component importing a `ProfilePhoto` component:
+Aqui está um exemplo de um component `UserProfile` importando um component `ProfilePhoto`:
 
 ```angular-ts
 // user-profile.ts
@@ -112,13 +113,13 @@ export class UserProfile {
 }
 ```
 
-TIP: Want to know more about Angular components? See the [In-depth Components guide](guide/components) for the full details.
+DICA: Quer saber mais sobre components do Angular? Veja o [guia detalhado de Components](guide/components) para todos os detalhes.
 
-## Next Step
+## Próximo Passo
 
-Now that you know how components work in Angular, it's time to learn how we add and manage dynamic data in our application.
+Agora que você sabe como components funcionam no Angular, é hora de aprender como adicionamos e gerenciamos dados dinâmicos na nossa aplicação.
 
 <docs-pill-row>
-  <docs-pill title="Reactivity with signals" href="essentials/signals" />
-  <docs-pill title="In-depth components guide" href="guide/components" />
+  <docs-pill title="Reatividade com signals" href="essentials/signals" />
+  <docs-pill title="Guia detalhado de components" href="guide/components" />
 </docs-pill-row>

@@ -1,12 +1,13 @@
-# Want to dive deeper into signals?
+<!-- ia-translate: true -->
+# Quer se aprofundar em signals?
 
-You can also learn more about signals with the following resources:
+Você também pode aprender mais sobre signals com os seguintes recursos:
 
 <docs-card-container>
-  <docs-card title="Angular Signals Guide" href="guide/signals">
-  The official guide for Angular Signals.
+  <docs-card title="Guia de Angular Signals" href="guide/signals">
+  O guia oficial para Angular Signals.
   </docs-card>
-  <docs-card title="Angular's Roadmap" href="roadmap">
-  Read about Angular's open source roadmap including current, future and accomplished projects.
+  <docs-card title="Roadmap do Angular" href="roadmap">
+  Leia sobre o roadmap open source do Angular, incluindo projetos atuais, futuros e realizados.
   </docs-card>
 </docs-card-container>

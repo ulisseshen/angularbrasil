@@ -1,28 +1,29 @@
-# Formatting data with pipes
+<!-- ia-translate: true -->
+# Formatando dados com pipes
 
-You can take your use of pipes even further by configuring them. Pipes can be configured by passing options to them.
+Você pode levar seu uso de pipes ainda mais longe configurando-os. Pipes podem ser configurados passando opções para eles.
 
-Note: Learn more about [formatting data with pipes in the in-depth guide](/guide/templates/pipes).
+Nota: Saiba mais sobre [formatação de dados com pipes no guia detalhado](/guide/templates/pipes).
 
-In this activity, you will work with some pipes and pipe parameters.
+Nesta atividade, você trabalhará com alguns pipes e parâmetros de pipe.
 
 <hr>
 
-To pass parameters to a pipe, use the `:` syntax followed by the parameter value. Here's an example:
+Para passar parâmetros para um pipe, use a sintaxe `:` seguida pelo valor do parâmetro. Aqui está um exemplo:
 
 ```ts
 template: `{{ date | date:'medium' }}`;
 ```
 
-The output is `Jun 15, 2015, 9:43:11 PM`.
+A saída é `Jun 15, 2015, 9:43:11 PM`.
 
-Time to customize some pipe output:
+Hora de personalizar a saída de alguns pipes:
 
 <docs-workflow>
 
-<docs-step title="Format a number with `DecimalPipe`">
+<docs-step title="Formatar um número com `DecimalPipe`">
 
-In `app.ts`, update the template to include parameter for the `decimal` pipe.
+Em `app.ts`, atualize o template para incluir o parâmetro para o pipe `decimal`.
 
 <docs-code language="ts" highlight="[3]">
 template: `
@@ -31,13 +32,13 @@ template: `
 `
 </docs-code>
 
-NOTE: What's that format? The parameter for the `DecimalPipe` is called `digitsInfo`, this parameter uses the format: `{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}`
+NOTA: O que é esse formato? O parâmetro para o `DecimalPipe` é chamado `digitsInfo`, este parâmetro usa o formato: `{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}`
 
 </docs-step>
 
-<docs-step title="Format a date with `DatePipe`">
+<docs-step title="Formatar uma data com `DatePipe`">
 
-Now, update the template to use the `date` pipe.
+Agora, atualize o template para usar o pipe `date`.
 
 <docs-code language="ts" highlight="[3]">
 template: `
@@ -46,13 +47,13 @@ template: `
 `
 </docs-code>
 
-For extra fun, try some different parameters for `date`. More information can be found in the [Angular docs](guide/templates/pipes).
+Para diversão extra, experimente alguns parâmetros diferentes para `date`. Mais informações podem ser encontradas na [documentação do Angular](guide/templates/pipes).
 
 </docs-step>
 
-<docs-step title="Format a currency with `CurrencyPipe`">
+<docs-step title="Formatar uma moeda com `CurrencyPipe`">
 
-For your last task, update the template to use the `currency` pipe.
+Para sua última tarefa, atualize o template para usar o pipe `currency`.
 
 <docs-code language="ts" highlight="[3]">
 template: `
@@ -61,14 +62,14 @@ template: `
 `
 </docs-code>
 
-You can also try different parameters for `currency`. More information can be found in the [Angular docs](guide/templates/pipes).
+Você também pode experimentar parâmetros diferentes para `currency`. Mais informações podem ser encontradas na [documentação do Angular](guide/templates/pipes).
 
 </docs-step>
 
 </docs-workflow>
 
-Great work with pipes. You've made some great progress so far.
+Ótimo trabalho com pipes. Você fez um grande progresso até agora.
 
-There are even more built-in pipes that you can use in your applications. You can find the list in the [Angular documentation](guide/templates/pipes).
+Existem ainda mais pipes integrados que você pode usar em suas aplicações. Você pode encontrar a lista na [documentação do Angular](guide/templates/pipes).
 
-In the case that the built-in pipes don't cover your needs, you can also create a custom pipe. Check out the next lesson to find out more.
+No caso de os pipes integrados não cobrirem suas necessidades, você também pode criar um pipe personalizado. Confira a próxima lição para descobrir mais.

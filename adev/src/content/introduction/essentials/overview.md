@@ -1,27 +1,28 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Essentials" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
-A short introduction to some of Angular's main concepts.
+Uma breve introdução a alguns dos principais conceitos do Angular.
 </docs-decorative-header>
 
-## Interested in Angular?
+## Interessado em Angular?
 
-Welcome! This _Essentials_ guide explains some of Angular's main concepts, helping you understand what it's like to use the framework. This guide focuses on just a few building blocks as a short introduction. If you're looking for deep, comprehensive documentation, you can navigate to specific _In-depth Guides_ from the [documentation landing page](overview).
+Bem-vindo! Este guia _Essentials_ explica alguns dos principais conceitos do Angular, ajudando você a entender como é usar o framework. Este guia foca em apenas alguns blocos de construção como uma breve introdução. Se você está procurando documentação profunda e abrangente, você pode navegar para _Guias Detalhados_ específicos a partir da [página inicial da documentação](overview).
 
-If you prefer to immediately start writing some code, you can [skip straight to the hands-on tutorial](tutorials/learn-angular).
+Se você prefere começar a escrever código imediatamente, você pode [pular direto para o tutorial prático](tutorials/learn-angular).
 
-### Before you start
+### Antes de começar
 
-This site expects that you're familiar with HTML, CSS and TypeScript. If you are totally new to web development, you should seek out some more introductory content before coming back here.
+Este site espera que você esteja familiarizado com HTML, CSS e TypeScript. Se você é totalmente novo em desenvolvimento web, você deve procurar algum conteúdo mais introdutório antes de voltar aqui.
 
-In particular, you should be familiar with the following concepts:
+Em particular, você deve estar familiarizado com os seguintes conceitos:
 
-- [JavaScript Classes](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes)
-- [TypeScript fundamentals](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-- [TypeScript Decorators](https://www.typescriptlang.org/docs/handbook/decorators.html)
+- [Classes JavaScript](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes)
+- [Fundamentos de TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+- [Decorators TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html)
 
-## Next Step
+## Próximo Passo
 
-Ready to jump in? It's time to learn about components in Angular!
+Pronto para mergulhar? É hora de aprender sobre components no Angular!
 
 <docs-pill-row>
-  <docs-pill title="Composing with Components" href="essentials/components" />
+  <docs-pill title="Compondo com Components" href="essentials/components" />
 </docs-pill-row>

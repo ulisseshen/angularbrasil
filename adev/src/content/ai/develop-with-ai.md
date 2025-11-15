@@ -1,26 +1,27 @@
-# LLM prompts and AI IDE setup
+<!-- ia-translate: true -->
+# Prompts de LLM e configuração de IDE com IA
 
-Generating code with large language models (LLMs) is a rapidly growing area of interest for developers. While LLMs are often capable of generating working code it can be a challenge to generate code for consistently evolving frameworks like Angular.
+Gerar código com modelos de linguagem grandes (LLMs) é uma área de interesse em rápido crescimento para desenvolvedores. Embora os LLMs frequentemente sejam capazes de gerar código funcional, pode ser um desafio gerar código para frameworks em constante evolução como Angular.
 
-Advanced instructions and prompting are an emerging standard for supporting modern code generation with domain specific details. This section contains curated content and resources to support more accurate code generation for Angular and LLMs.
+Instruções avançadas e prompting são um padrão emergente para suportar geração de código moderna com detalhes específicos de domínio. Esta seção contém conteúdo e recursos selecionados para suportar geração de código mais precisa para Angular e LLMs.
 
-## Custom Prompts and System Instructions
+## Prompts Customizados e Instruções de Sistema
 
-Improve your experience generating code with LLMs by using one of the following custom, domain specific files.
+Melhore sua experiência gerando código com LLMs usando um dos seguintes arquivos customizados e específicos de domínio.
 
-NOTE: These files will be updated on a regular basis staying up to date with Angular's conventions.
+NOTE: Esses arquivos serão atualizados regularmente, mantendo-se atualizados com as convenções do Angular.
 
-Here is a set of instructions to help LLMs generate correct code that follows Angular best practices. This file can be included as system instructions to your AI tooling or included along with your prompt as context.
+Aqui está um conjunto de instruções para ajudar LLMs a gerar código correto que segue as boas práticas do Angular. Este arquivo pode ser incluído como instruções de sistema para suas ferramentas de IA ou incluído junto com seu prompt como contexto.
 
 <docs-code language="md" path="packages/core/resources/best-practices.md" class="compact"/>
 
-<a download href="/assets/context/best-practices.md" target="_blank">Click here to download the best-practices.md file.</a>
+<a download href="/assets/context/best-practices.md" target="_blank">Clique aqui para baixar o arquivo best-practices.md.</a>
 
-## Rules Files
+## Arquivos de Regras
 
-Several editors, such as <a href="https://studio.firebase.google.com?utm_source=adev&utm_medium=website&utm_campaign=BUILD_WITH_AI_ANGULAR&utm_term=angular_devrel&utm_content=build_with_ai_angular_firebase_studio">Firebase Studio</a> have rules files useful for providing critical context to LLMs.
+Vários editores, como <a href="https://studio.firebase.google.com?utm_source=adev&utm_medium=website&utm_campaign=BUILD_WITH_AI_ANGULAR&utm_term=angular_devrel&utm_content=build_with_ai_angular_firebase_studio">Firebase Studio</a> possuem arquivos de regras úteis para fornecer contexto crítico aos LLMs.
 
-| Environment/IDE      | Rules File                                                                                                             | Installation Instructions                                                                                                                                       |
+| Ambiente/IDE         | Arquivo de Regras                                                                                                      | Instruções de Instalação                                                                                                                                        |
 | :------------------- | :--------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Firebase Studio      | <a download href="/assets/context/airules.md" target="_blank">airules.md</a>                                           | <a href="https://firebase.google.com/docs/studio/set-up-gemini#custom-instructions">Configure `airules.md`</a>                                                  |
 | Copilot powered IDEs | <a download="copilot-instructions.md" href="/assets/context/guidelines.md" target="_blank">copilot-instructions.md</a> | <a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions" target="_blank">Configure `.github/copilot-instructions.md`</a> |
@@ -29,21 +30,21 @@ Several editors, such as <a href="https://studio.firebase.google.com?utm_source=
 | VS Code              | <a download=".instructions.md" href="/assets/context/guidelines.md" target="_blank">.instructions.md</a>               | <a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions" target="_blank">Configure `.instructions.md`</a>                |
 | Windsurf             | <a download href="/assets/context/guidelines.md" target="_blank">guidelines.md</a>                                     | <a href="https://docs.windsurf.com/windsurf/cascade/memories#rules" target="_blank">Configure `guidelines.md`</a>                                               |
 
-## Angular CLI MCP Server setup
+## Configuração do Angular CLI MCP Server
 
-The Angular CLI includes an experimental [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) that allows AI assistants in your development environment to interact with the Angular CLI.
+O Angular CLI inclui um [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) experimental que permite que assistentes de IA em seu ambiente de desenvolvimento interajam com o Angular CLI.
 
-[**Learn how to set up the Angular CLI MCP Server**](/ai/mcp)
+[**Aprenda a configurar o Angular CLI MCP Server**](/ai/mcp)
 
-## Providing Context with `llms.txt`
+## Fornecendo Contexto com `llms.txt`
 
-`llms.txt` is a proposed standard for websites designed to help LLMs better understand and process their content. The Angular team has developed two versions of this file to help LLMs and tools that use LLMs for code generation to create better modern Angular code.
+`llms.txt` é um padrão proposto para sites projetado para ajudar LLMs a entender e processar melhor seu conteúdo. A equipe Angular desenvolveu duas versões deste arquivo para ajudar LLMs e ferramentas que usam LLMs para geração de código a criar código Angular moderno melhor.
 
-- <a href="/llms.txt" target="_blank">llms.txt</a> - an index file providing links to key files and resources.
-- <a href="/assets/context/llms-full.txt" target="_blank">llms-full.txt</a> - a more robust compiled set of resources describing how Angular works and how to build Angular applications.
+- <a href="/llms.txt" target="_blank">llms.txt</a> - um arquivo de índice fornecendo links para arquivos e recursos-chave.
+- <a href="/assets/context/llms-full.txt" target="_blank">llms-full.txt</a> - um conjunto compilado mais robusto de recursos descrevendo como Angular funciona e como construir aplicações Angular.
 
-Be sure [to check out the overview page](/ai) for more information on how to integrate AI into your Angular applications.
+Certifique-se de [conferir a página de visão geral](/ai) para mais informações sobre como integrar IA em suas aplicações Angular.
 
 ## Web Codegen Scorer
 
-The Angular team developed and open-sourced the [Web Codegen Scorer](https://github.com/angular/web-codegen-scorer), a tool to evaluate and score the quality of AI generated web code. You can use this tool to make evidence-based decisions relating to AI-generated code, such as fine-tuning prompts to improve the accuracy of LLM-generated code for Angular. These prompts can be included as system instructions for your AI tooling or as context with your prompt. You can also use this tool to compare the quality of code produced by different models and monitor quality over time as models and agents evolve.
+A equipe Angular desenvolveu e disponibilizou como open-source o [Web Codegen Scorer](https://github.com/angular/web-codegen-scorer), uma ferramenta para avaliar e pontuar a qualidade do código web gerado por IA. Você pode usar esta ferramenta para tomar decisões baseadas em evidências relacionadas a código gerado por IA, como ajustar prompts para melhorar a precisão do código gerado por LLM para Angular. Esses prompts podem ser incluídos como instruções de sistema para suas ferramentas de IA ou como contexto com seu prompt. Você também pode usar esta ferramenta para comparar a qualidade do código produzido por diferentes modelos e monitorar a qualidade ao longo do tempo à medida que modelos e agentes evoluem.

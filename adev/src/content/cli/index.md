@@ -1,12 +1,13 @@
-# CLI Overview and Command Reference
+<!-- ia-translate: true -->
+# Visão Geral do CLI e Referência de Comandos
 
-The Angular CLI is a command-line interface tool that you use to initialize, develop, scaffold, and maintain Angular applications directly from a command shell.
+O Angular CLI é uma ferramenta de interface de linha de comando que você usa para inicializar, desenvolver, estruturar e manter aplicações Angular diretamente de um shell de comando.
 
-## Installing Angular CLI
+## Instalando o Angular CLI
 
-Major versions of Angular CLI follow the supported major version of Angular, but minor versions can be released separately.
+Versões principais do Angular CLI seguem a versão principal suportada do Angular, mas versões menores podem ser lançadas separadamente.
 
-Install the CLI using the `npm` package manager:
+Instale o CLI usando o gerenciador de pacotes `npm`:
 
 <code-example format="shell" language="shell">
 
@@ -14,13 +15,13 @@ npm install -g @angular/cli<aio-angular-dist-tag class="pln"></aio-angular-dist-
 
 </code-example>
 
-For details about changes between versions, and information about updating from previous releases, see the Releases tab on GitHub: https://github.com/angular/angular-cli/releases
+Para detalhes sobre mudanças entre versões e informações sobre atualização de lançamentos anteriores, veja a aba Releases no GitHub: https://github.com/angular/angular-cli/releases
 
-## Basic workflow
+## Fluxo de trabalho básico
 
-Invoke the tool on the command line through the `ng` executable.
-Online help is available on the command line.
-Enter the following to list commands or options for a given command \(such as [new](cli/new)\) with a short description.
+Invoque a ferramenta na linha de comando através do executável `ng`.
+Ajuda online está disponível na linha de comando.
+Digite o seguinte para listar comandos ou opções para um determinado comando \(como [new](cli/new)\) com uma breve descrição.
 
 <code-example format="shell" language="shell">
 
@@ -29,7 +30,7 @@ ng new --help
 
 </code-example>
 
-To create, build, and serve a new, basic Angular project on a development server, go to the parent directory of your new workspace use the following commands:
+Para criar, construir e servir um novo projeto Angular básico em um servidor de desenvolvimento, vá para o diretório pai do seu novo workspace e use os seguintes comandos:
 
 <code-example format="shell" language="shell">
 
@@ -39,63 +40,63 @@ ng serve
 
 </code-example>
 
-In your browser, open http://localhost:4200/ to see the new application run.
-When you use the [ng serve](cli/serve) command to build an application and serve it locally, the server automatically rebuilds the application and reloads the page when you change any of the source files.
+No seu navegador, abra http://localhost:4200/ para ver a nova aplicação executar.
+Quando você usa o comando [ng serve](cli/serve) para construir uma aplicação e servi-la localmente, o servidor automaticamente reconstrói a aplicação e recarrega a página quando você altera qualquer um dos arquivos fonte.
 
 <div class="docs-alert docs-alert-helpful">
 
-When you run `ng new my-first-project` a new folder, named `my-first-project`, will be created in the current working directory.
-Since you want to be able to create files inside that folder, make sure you have sufficient rights in the current working directory before running the command.
+Quando você executa `ng new my-first-project`, uma nova pasta, chamada `my-first-project`, será criada no diretório de trabalho atual.
+Como você quer ser capaz de criar arquivos dentro dessa pasta, certifique-se de que você tem direitos suficientes no diretório de trabalho atual antes de executar o comando.
 
-If the current working directory is not the right place for your project, you can change to a more appropriate directory by running `cd <path-to-other-directory>`.
+Se o diretório de trabalho atual não é o lugar certo para seu projeto, você pode mudar para um diretório mais apropriado executando `cd <caminho-para-outro-diretorio>`.
 
 </div>
 
-## Workspaces and project files
+## Workspaces e arquivos de projeto
 
-The [ng new](cli/new) command creates an _Angular workspace_ folder and generates a new application skeleton.
-A workspace can contain multiple applications and libraries.
-The initial application created by the [ng new](cli/new) command is at the top level of the workspace.
-When you generate an additional application or library in a workspace, it goes into a `projects/` subfolder.
+O comando [ng new](cli/new) cria uma pasta de _workspace Angular_ e gera um novo esqueleto de aplicação.
+Um workspace pode conter múltiplas aplicações e bibliotecas.
+A aplicação inicial criada pelo comando [ng new](cli/new) está no nível superior do workspace.
+Quando você gera uma aplicação ou biblioteca adicional em um workspace, ela vai para uma subpasta `projects/`.
 
-A newly generated application contains the source files for a root module, with a root component and template.
-Each application has a `src` folder that contains the logic, data, and assets.
+Uma aplicação recém-gerada contém os arquivos fonte para um módulo raiz, com um component raiz e template.
+Cada aplicação tem uma pasta `src` que contém a lógica, dados e assets.
 
-You can edit the generated files directly, or add to and modify them using CLI commands.
-Use the [ng generate](cli/generate) command to add new files for additional components and services, and code for new pipes, directives, and so on.
-Commands such as [add](cli/add) and [generate](cli/generate), which create or operate on applications and libraries, must be executed from within a workspace or project folder.
+Você pode editar os arquivos gerados diretamente, ou adicionar e modificá-los usando comandos CLI.
+Use o comando [ng generate](cli/generate) para adicionar novos arquivos para components e services adicionais, e código para novos pipes, directives e assim por diante.
+Comandos como [add](cli/add) e [generate](cli/generate), que criam ou operam em aplicações e bibliotecas, devem ser executados de dentro de uma pasta de workspace ou projeto.
 
-- See more about the [Workspace file structure](guide/file-structure).
+- Veja mais sobre a [estrutura de arquivos do Workspace](guide/file-structure).
 
-### Workspace and project configuration
+### Configuração de workspace e projeto
 
-A single workspace configuration file, `angular.json`, is created at the top level of the workspace.
-This is where you can set per-project defaults for CLI command options, and specify configurations to use when the CLI builds a project for different targets.
+Um único arquivo de configuração de workspace, `angular.json`, é criado no nível superior do workspace.
+É aqui que você pode definir padrões por projeto para opções de comando CLI e especificar configurações a serem usadas quando o CLI constrói um projeto para diferentes targets.
 
-The [ng config](cli/config) command lets you set and retrieve configuration values from the command line, or you can edit the `angular.json` file directly.
+O comando [ng config](cli/config) permite que você defina e recupere valores de configuração da linha de comando, ou você pode editar o arquivo `angular.json` diretamente.
 
 <div class="alert is-helpful">
 
 **NOTE**: <br />
-Option names in the configuration file must use [camelCase](guide/glossary#case-types), while option names supplied to commands must be dash-case.
+Nomes de opções no arquivo de configuração devem usar [camelCase](guide/glossary#case-types), enquanto nomes de opções fornecidos aos comandos devem ser dash-case.
 
 </div>
 
-- See more about [Workspace Configuration](guide/workspace-config).
+- Veja mais sobre [Configuração de Workspace](guide/workspace-config).
 
-## CLI command-language syntax
+## Sintaxe de linguagem de comando do CLI
 
-Command syntax is shown as follows:
+A sintaxe de comando é mostrada da seguinte forma:
 
 `ng` _<command-name>_ _<required-arg>_ [*optional-arg*] `[options]`
 
-- Most commands, and some options, have aliases.
-  Aliases are shown in the syntax statement for each command.
+- A maioria dos comandos, e algumas opções, têm aliases.
+  Aliases são mostrados na declaração de sintaxe para cada comando.
 
-- Option names are prefixed with a double dash \(`--`\) characters.
-  Option aliases are prefixed with a single dash \(`-`\) character.
-  Arguments are not prefixed.
-  For example:
+- Nomes de opções são prefixados com caracteres de traço duplo \(`--`\).
+  Aliases de opções são prefixados com um caractere de traço simples \(`-`\).
+  Argumentos não são prefixados.
+  Por exemplo:
 
   <code-example format="shell" language="shell">
 
@@ -103,29 +104,29 @@ Command syntax is shown as follows:
 
   </code-example>
 
-- Typically, the name of a generated artifact can be given as an argument to the command or specified with the `--name` option.
+- Tipicamente, o nome de um artefato gerado pode ser fornecido como argumento para o comando ou especificado com a opção `--name`.
 
-- Arguments and option names must be given in [dash-case](guide/glossary#case-types).
-  For example: `--my-option-name`
+- Argumentos e nomes de opções devem ser fornecidos em [dash-case](guide/glossary#case-types).
+  Por exemplo: `--my-option-name`
 
-### Boolean options
+### Opções booleanas
 
-Boolean options have two forms: `--this-option` sets the flag to `true`, `--no-this-option` sets it to `false`.
-If neither option is supplied, the flag remains in its default state, as listed in the reference documentation.
+Opções booleanas têm duas formas: `--this-option` define a flag como `true`, `--no-this-option` define como `false`.
+Se nenhuma opção for fornecida, a flag permanece em seu estado padrão, conforme listado na documentação de referência.
 
-### Array options
+### Opções de array
 
-Array options can be provided in two forms: `--option value1 value2` or `--option value1 --option value2`.
+Opções de array podem ser fornecidas de duas formas: `--option value1 value2` ou `--option value1 --option value2`.
 
-### Relative paths
+### Caminhos relativos
 
-Options that specify files can be given as absolute paths, or as paths relative to the current working directory, which is generally either the workspace or project root.
+Opções que especificam arquivos podem ser fornecidas como caminhos absolutos, ou como caminhos relativos ao diretório de trabalho atual, que geralmente é a raiz do workspace ou projeto.
 
 ### Schematics
 
-The [ng generate](cli/generate) and [ng add](cli/add) commands take, as an argument, the artifact or library to be generated or added to the current project.
-In addition to any general options, each artifact or library defines its own options in a _schematic_.
-Schematic options are supplied to the command in the same format as immediate command options.
+Os comandos [ng generate](cli/generate) e [ng add](cli/add) recebem, como argumento, o artefato ou biblioteca a ser gerado ou adicionado ao projeto atual.
+Além de quaisquer opções gerais, cada artefato ou biblioteca define suas próprias opções em um _schematic_.
+Opções de schematic são fornecidas ao comando no mesmo formato que opções de comando imediatas.
 
 <!-- links -->
 

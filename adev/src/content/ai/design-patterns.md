@@ -1,20 +1,21 @@
-# Design patterns for AI SDKs and signal APIs
+<!-- ia-translate: true -->
+# Padrões de design para SDKs de IA e APIs de signal
 
-Interacting with AI and Large Language Model (LLM) APIs introduces unique challenges, such as managing asynchronous operations, handling streaming data, and designing a responsive user experience for potentially slow or unreliable network requests. Angular [signals](guide/signals) and the [`resource`](guide/signals/resource) API provide powerful tools to solve these problems elegantly.
+Interagir com IA e APIs de Modelos de Linguagem Grandes (LLM) introduz desafios únicos, como gerenciar operações assíncronas, lidar com dados de streaming e projetar uma experiência de usuário responsiva para requisições de rede potencialmente lentas ou não confiáveis. Os [signals](guide/signals) do Angular e a API [`resource`](guide/signals/resource) fornecem ferramentas poderosas para resolver esses problemas de forma elegante.
 
-## Triggering requests with signals
+## Disparando requisições com signals
 
-A common pattern when working with user-provided prompts is to separate the user's live input from the submitted value that triggers the API call.
+Um padrão comum ao trabalhar com prompts fornecidos pelo usuário é separar a entrada ao vivo do usuário do valor submetido que dispara a chamada da API.
 
-1. Store the user's raw input in one signal as they type
-2. When the user submits (e.g., by clicking a button), update a second signal with contents of the first signal.
-3. Use the second signal in the **`params`** field of your `resource`.
+1. Armazene a entrada bruta do usuário em um signal enquanto ele digita
+2. Quando o usuário submete (por exemplo, clicando em um botão), atualize um segundo signal com o conteúdo do primeiro signal.
+3. Use o segundo signal no campo **`params`** do seu `resource`.
 
-This setup ensures the resource's **`loader`** function only runs when the user explicitly submits their prompt, not on every keystroke. You can use additional signal parameters, like a `sessionId` or `userId` (which can be useful for creating persistent LLM sessions), in the `loader` field. This way, the request always uses these parameters' current values without re-triggering the asynchronous function defined in the `loader` field.
+Essa configuração garante que a função **`loader`** do resource só seja executada quando o usuário submeter explicitamente seu prompt, não a cada tecla pressionada. Você pode usar parâmetros de signal adicionais, como um `sessionId` ou `userId` (que pode ser útil para criar sessões LLM persistentes), no campo `loader`. Dessa forma, a requisição sempre usa os valores atuais desses parâmetros sem re-disparar a função assíncrona definida no campo `loader`.
 
-Many AI SDKs provide helper methods for making API calls. For example, the Genkit client library exposes a `runFlow` method for calling Genkit flows, which you can call from a resource's `loader`. For other APIs, you can use the [`httpResource`](guide/signals/resource#reactive-data-fetching-with-httpresource).
+Muitos SDKs de IA fornecem métodos auxiliares para fazer chamadas de API. Por exemplo, a biblioteca cliente Genkit expõe um método `runFlow` para chamar flows Genkit, que você pode chamar de um `loader` de resource. Para outras APIs, você pode usar o [`httpResource`](guide/signals/resource#reactive-data-fetching-with-httpresource).
 
-The following example shows a `resource` that fetches parts of an AI-generated story. The `loader` is triggered only when the `storyInput` signal changes.
+O exemplo a seguir mostra um `resource` que busca partes de uma história gerada por IA. O `loader` é disparado apenas quando o signal `storyInput` muda.
 
 ```ts
 // A resource that fetches three parts of an AI generated story
@@ -35,16 +36,16 @@ storyResource = resource({
 });
 ```
 
-## Preparing LLM data for templates
+## Preparando dados do LLM para templates
 
-You can configure LLM APIs to return structured data. Strongly typing your `resource` to match the expected output from the LLM provides better type safety and editor autocompletion.
+Você pode configurar APIs de LLM para retornar dados estruturados. Tipar fortemente seu `resource` para corresponder à saída esperada do LLM fornece melhor segurança de tipo e autocompletar do editor.
 
-To manage state derived from a resource, use a `computed` signal or `linkedSignal`. Because `linkedSignal` [provides access to prior values](guide/signals/linked-signal), it can serve a variety of AI-related use cases, including
+Para gerenciar estado derivado de um resource, use um signal `computed` ou `linkedSignal`. Como `linkedSignal` [fornece acesso a valores anteriores](guide/signals/linked-signal), ele pode servir uma variedade de casos de uso relacionados a IA, incluindo
 
-- building a chat history
-- preserving or customizing data that templates display while LLMs generate content
+- construir um histórico de chat
+- preservar ou customizar dados que os templates exibem enquanto LLMs geram conteúdo
 
-In the example below, `storyParts` is a `linkedSignal` that appends the latest story parts returned from `storyResource` to the existing array of story parts.
+No exemplo abaixo, `storyParts` é um `linkedSignal` que anexa as últimas partes da história retornadas de `storyResource` ao array existente de partes da história.
 
 ```ts
 storyParts = linkedSignal<string[], string[]>({
@@ -60,16 +61,16 @@ storyParts = linkedSignal<string[], string[]>({
 });
 ```
 
-## Performance and user experience
+## Performance e experiência do usuário
 
-LLM APIs may be slower and more error-prone than conventional, more deterministic APIs. You can use several Angular features to build a performant and user-friendly interface.
+APIs de LLM podem ser mais lentas e mais propensas a erros do que APIs convencionais e mais determinísticas. Você pode usar vários recursos do Angular para construir uma interface performática e amigável ao usuário.
 
-- **Scoped Loading:** place the `resource` in the component that directly uses the data. This helps limit change detection cycles (especially in zoneless applications) and prevents blocking other parts of your application. If data needs to be shared across multiple components, provide the `resource` from a service.
-- **SSR and Hydration:** use Server-Side Rendering (SSR) with incremental hydration to render the initial page content quickly. You can show a placeholder for the AI-generated content and defer fetching the data until the component hydrates on the client.
-- **Loading State:** use the `resource` `LOADING` [status](guide/signals/resource#resource-status) to show an indicator, like a spinner, while the request is in flight. This status covers both initial loads and reloads.
-- **Error Handling and Retries:** use the `resource` [**`reload()`**](guide/signals/resource#reloading) method as a simple way for users to retry failed requests, may be more prevalent when relying on AI generated content.
+- **Scoped Loading:** coloque o `resource` no component que usa diretamente os dados. Isso ajuda a limitar ciclos de change detection (especialmente em aplicações zoneless) e previne bloquear outras partes da sua aplicação. Se os dados precisam ser compartilhados entre múltiplos components, forneça o `resource` de um service.
+- **SSR e Hydration:** use Server-Side Rendering (SSR) com incremental hydration para renderizar o conteúdo inicial da página rapidamente. Você pode mostrar um placeholder para o conteúdo gerado por IA e adiar a busca dos dados até que o component seja hidratado no cliente.
+- **Loading State:** use o [status](guide/signals/resource#resource-status) `LOADING` do `resource` para mostrar um indicador, como um spinner, enquanto a requisição está em andamento. Este status cobre tanto carregamentos iniciais quanto recarregamentos.
+- **Error Handling e Retries:** use o método [**`reload()`**](guide/signals/resource#reloading) do `resource` como uma maneira simples para usuários tentarem novamente requisições que falharam, que podem ser mais prevalentes ao depender de conteúdo gerado por IA.
 
-The following example demonstrates how to create a responsive UI to dynamically display an AI generated image with loading and retry functionality.
+O exemplo a seguir demonstra como criar uma UI responsiva para exibir dinamicamente uma imagem gerada por IA com funcionalidade de carregamento e retry.
 
 ```angular-html
 <!-- Display a loading spinner while the LLM generates the image -->
@@ -89,9 +90,9 @@ The following example demonstrates how to create a responsive UI to dynamically 
 }
 ```
 
-## AI patterns in action: streaming chat responses
+## Padrões de IA em ação: streaming de respostas de chat
 
-Interfaces often display partial results from LLM-based APIs incrementally as response data arrives. Angular's resource API provides the ability to stream responses to support this type of pattern. The `stream` property of `resource` accepts an asynchronous function you can use to apply updates to a signal value over time. The signal being updated represents the data being streamed.
+Interfaces frequentemente exibem resultados parciais de APIs baseadas em LLM de forma incremental à medida que os dados de resposta chegam. A API resource do Angular fornece a capacidade de fazer streaming de respostas para suportar este tipo de padrão. A propriedade `stream` de `resource` aceita uma função assíncrona que você pode usar para aplicar atualizações a um valor de signal ao longo do tempo. O signal sendo atualizado representa os dados sendo transmitidos.
 
 ```ts
 characters = resource({
@@ -121,7 +122,7 @@ characters = resource({
 });
 ```
 
-The `characters` member is updated asynchronously and can be displayed in the template.
+O membro `characters` é atualizado de forma assíncrona e pode ser exibido no template.
 
 ```angular-html
 @if (characters.isLoading()) {
@@ -133,7 +134,7 @@ The `characters` member is updated asynchronously and can be displayed in the te
 }
 ```
 
-On the server side, in `server.ts` for example, the defined endpoint sends the data to be streamed to the client. The following code uses Gemini with the Genkit framework but this technique is applicable to other APIs that support streaming responses from LLMs:
+No lado do servidor, em `server.ts` por exemplo, o endpoint definido envia os dados a serem transmitidos para o cliente. O código a seguir usa Gemini com o framework Genkit, mas esta técnica é aplicável a outras APIs que suportam respostas de streaming de LLMs:
 
 ```ts
 import { startFlowServer } from '@genkit-ai/express';

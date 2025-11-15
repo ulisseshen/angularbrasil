@@ -1,15 +1,16 @@
-# Query child elements with signal queries
+<!-- ia-translate: true -->
+# Consulte elementos filhos com signal queries
 
-Now that you've learned [how to use signals with directives](/tutorials/signals/8-using-signals-with-directives), let's explore signal-based query APIs. These provide a reactive way to access and interact with child components and directives. Both components and directives can perform queries while also being queried themselves. Unlike the traditional ViewChild, signal queries automatically update and provide type-safe access to child components and directives.
+Agora que você aprendeu [como usar signals com directives](/tutorials/signals/8-using-signals-with-directives), vamos explorar APIs de query baseadas em signal. Elas fornecem uma maneira reativa de acessar e interagir com components e directives filhos. Tanto components quanto directives podem realizar queries, ao mesmo tempo que também podem ser consultados. Ao contrário do ViewChild tradicional, signal queries atualizam automaticamente e fornecem acesso type-safe a components e directives filhos.
 
-In this activity, you'll add viewChild queries to interact with child components programmatically.
+Nesta atividade, você adicionará viewChild queries para interagir com components filhos programaticamente.
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add viewChild import">
-First, add the `viewChild` import to access child components in `app.ts`.
+<docs-step title="Adicione o import viewChild">
+Primeiro, adicione o import `viewChild` para acessar components filhos em `app.ts`.
 
 ```ts
 import {Component, signal, computed, viewChild, ChangeDetectionStrategy} from '@angular/core';
@@ -17,8 +18,8 @@ import {Component, signal, computed, viewChild, ChangeDetectionStrategy} from '@
 
 </docs-step>
 
-<docs-step title="Create viewChild queries">
-Add viewChild queries to the App component to access child components.
+<docs-step title="Crie viewChild queries">
+Adicione viewChild queries ao component App para acessar components filhos.
 
 ```ts
 // Query APIs to access child components
@@ -26,11 +27,11 @@ firstProduct = viewChild(ProductCard);
 cartSummary = viewChild(CartSummary);
 ```
 
-These queries create signals that reference child component instances.
+Essas queries criam signals que referenciam instâncias de component filho.
 </docs-step>
 
-<docs-step title="Implement parent methods">
-Use the viewChild queries to call methods on child components in `app.ts`:
+<docs-step title="Implemente métodos do pai">
+Use as viewChild queries para chamar métodos em components filhos em `app.ts`:
 
 ```ts
 showFirstProductDetails() {
@@ -50,17 +51,17 @@ initiateCheckout() {
 
 </docs-step>
 
-<docs-step title="Test the interactions">
-The control buttons should now work:
+<docs-step title="Teste as interações">
+Os botões de controle devem funcionar agora:
 
-- **"Show First Product Details"** - Calls `highlight()` on the ProductCard
-- **"Initiate Checkout"** - Calls `initiateCheckout()` on the CartSummary
+- **"Show First Product Details"** - Chama `highlight()` no ProductCard
+- **"Initiate Checkout"** - Chama `initiateCheckout()` no CartSummary
 
-Click the buttons to see how viewChild queries enable parent components to control child behavior.
+Clique nos botões para ver como viewChild queries permitem que components pai controlem o comportamento dos filhos.
 </docs-step>
 
 </docs-workflow>
 
-Perfect! You've learned how to use signal-based query APIs for child component interaction:
+Perfeito! Você aprendeu como usar APIs de query baseadas em signal para interação com components filhos:
 
-In the next lesson, you'll learn about [how to react to signal changes with effect](/tutorials/signals/10-reacting-to-signal-changes-with-effect)!
+Na próxima lição, você aprenderá sobre [como reagir a mudanças de signal com effect](/tutorials/signals/10-reacting-to-signal-changes-with-effect)!

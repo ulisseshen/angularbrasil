@@ -10,18 +10,18 @@ Use: `.claude/agents/translate-to-pt-br.md`
 
 ## ✅ Files to Translate
 
-- [ ] `adev/src/content/guide/components/anatomy-of-components.md`
-- [ ] `adev/src/content/guide/components/authoring-outputs.md`
-- [ ] `adev/src/content/guide/components/class-based-outputs.md`
-- [ ] `adev/src/content/guide/components/content-projection.md`
-- [ ] `adev/src/content/guide/components/dom-apis.md`
-- [ ] `adev/src/content/guide/components/host-elements.md`
-- [ ] `adev/src/content/guide/components/inheritance.md`
-- [ ] `adev/src/content/guide/components/inputs.md`
-- [ ] `adev/src/content/guide/components/lifecycle.md`
-- [ ] `adev/src/content/guide/components/output-fn.md`
-- [ ] `adev/src/content/guide/components/outputs.md`
+- [x] `adev/src/content/guide/components/anatomy-of-components.md`
+- [ ] `adev/src/content/guide/components/authoring-outputs.md` (file não existe)
+- [ ] `adev/src/content/guide/components/class-based-outputs.md` (file não existe)
+- [x] `adev/src/content/guide/components/content-projection.md`
+- [x] `adev/src/content/guide/components/dom-apis.md`
+- [x] `adev/src/content/guide/components/host-elements.md`
+- [x] `adev/src/content/guide/components/inheritance.md`
+- [x] `adev/src/content/guide/components/inputs.md`
+- [x] `adev/src/content/guide/components/lifecycle.md`
+- [ ] `adev/src/content/guide/components/output-fn.md` (file não existe)
+- [x] `adev/src/content/guide/components/outputs.md`
 
-## 📊 Progress: 0/11 (0%)
+## 📊 Progress: 8/8 (100%) ✅
 
 ## 🎯 Next: `plan/phase-10-guide-components-templates.md`
