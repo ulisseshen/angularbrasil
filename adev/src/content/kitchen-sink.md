@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 <docs-decorative-header title="Kitchen sink" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 Esta é uma lista visual de todos os components customizados e estilos para Angular.dev.
 </docs-decorative-header>
@@ -43,13 +44,13 @@ Prepare-se para:
 
 ### Atributos de `<docs-card>`
 
-| Atributos               | Detalhes                                                          |
-| :---------------------- | :---------------------------------------------------------------- |
-| `<docs-card-container>` | Todos os cards devem estar aninhados dentro de um container       |
-| `title`                 | Título do card                                                    |
-| conteúdo do corpo       | Qualquer coisa entre `<docs-card>` e `</docs-card>`               |
-| `link`                  | (Opcional) Texto do link Call to Action                           |
-| `href`                  | (Opcional) Href do link Call to Action                            |
+| Atributos               | Detalhes                                                    |
+| :---------------------- | :---------------------------------------------------------- |
+| `<docs-card-container>` | Todos os cards devem estar aninhados dentro de um container |
+| `title`                 | Título do card                                              |
+| conteúdo do corpo       | Qualquer coisa entre `<docs-card>` e `</docs-card>`         |
+| `link`                  | (Opcional) Texto do link Call to Action                     |
+| `href`                  | (Opcional) Href do link Call to Action                      |
 
 ## Callouts
 
@@ -67,10 +68,10 @@ Prepare-se para:
 
 ### Atributos de `<docs-callout>`
 
-| Atributos                                        | Detalhes                                                   |
-| :----------------------------------------------- | :--------------------------------------------------------- |
-| `title`                                          | Título do callout                                          |
-| conteúdo do corpo                                | Qualquer coisa entre `<docs-callout>` e `</docs-callout>` |
+| Atributos                                       | Detalhes                                                             |
+| :---------------------------------------------- | :------------------------------------------------------------------- |
+| `title`                                         | Título do callout                                                    |
+| conteúdo do corpo                               | Qualquer coisa entre `<docs-callout>` e `</docs-callout>`            |
 | `helpful` (padrão) \| `critical` \| `important` | (Opcional) Adiciona estilos e ícones baseados no nível de severidade |
 
 ## Pills
@@ -88,11 +89,11 @@ Linhas de pills são úteis como uma espécie de navegação com links para recu
 
 ### Atributos de `<docs-pill>`
 
-| Atributos        | Detalhes                                            |
-| :--------------- | :-------------------------------------------------- |
+| Atributos        | Detalhes                                                    |
+| :--------------- | :---------------------------------------------------------- |
 | `<docs-pill-row` | Todas as pills devem estar aninhadas dentro de uma pill row |
-| `title`          | Texto da pill                                       |
-| `href`           | Href da pill                                        |
+| `title`          | Texto da pill                                               |
+| `href`           | Href da pill                                                |
 
 Pills também podem ser usadas inline sozinhas, mas ainda não construímos isso.
 
@@ -164,19 +165,19 @@ Também temos estilização para o terminal, apenas defina a linguagem como `she
 
 #### Atributos de `<docs-code>`
 
-| Atributos       | Tipo                 | Detalhes                                                |
-| :-------------- | :------------------- | :------------------------------------------------------ |
-| code            | `string`             | Qualquer coisa entre as tags é tratada como código      |
+| Atributos       | Tipo                 | Detalhes                                                     |
+| :-------------- | :------------------- | :----------------------------------------------------------- |
+| code            | `string`             | Qualquer coisa entre as tags é tratada como código           |
 | `path`          | `string`             | Caminho para o exemplo de código (raiz: `content/examples/`) |
-| `header`        | `string`             | Título do exemplo (padrão: `file-name`)                 |
-| `language`      | `string`             | linguagem do código                                      |
-| `linenums`      | `boolean`            | (False) exibe números de linha                           |
-| `highlight`     | `string of number[]` | linhas destacadas                                        |
-| `diff`          | `string`             | caminho para código alterado                             |
-| `visibleLines`  | `string of number[]` | intervalo de linhas para modo de colapso                 |
-| `visibleRegion` | `string`             | **DEPRECIADO** PARA `visibleLines`                       |
-| `preview`       | `boolean`            | (False) exibir preview                                   |
-| `hideCode`      | `boolean`            | (False) Se deve colapsar o exemplo de código por padrão. |
+| `header`        | `string`             | Título do exemplo (padrão: `file-name`)                      |
+| `language`      | `string`             | linguagem do código                                          |
+| `linenums`      | `boolean`            | (False) exibe números de linha                               |
+| `highlight`     | `string of number[]` | linhas destacadas                                            |
+| `diff`          | `string`             | caminho para código alterado                                 |
+| `visibleLines`  | `string of number[]` | intervalo de linhas para modo de colapso                     |
+| `visibleRegion` | `string`             | **DEPRECIADO** PARA `visibleLines`                           |
+| `preview`       | `boolean`            | (False) exibir preview                                       |
+| `hideCode`      | `boolean`            | (False) Se deve colapsar o exemplo de código por padrão.     |
 
 ### Exemplos de múltiplos arquivos
 
@@ -200,12 +201,12 @@ Você pode criar exemplos de múltiplos arquivos envolvendo os exemplos dentro d
 
 #### Atributos de `<docs-code-multifile>`
 
-| Atributos           | Tipo      | Detalhes                                                |
-| :------------------ | :-------- | :------------------------------------------------------ |
-| conteúdo do corpo   | `string`  | abas aninhadas de exemplos `docs-code`                  |
-| `path`              | `string`  | Caminho para exemplo de código para preview e link externo |
-| `preview`           | `boolean` | (False) exibir preview                                   |
-| `hideCode`          | `boolean` | (False) Se deve colapsar o exemplo de código por padrão. |
+| Atributos         | Tipo      | Detalhes                                                   |
+| :---------------- | :-------- | :--------------------------------------------------------- |
+| conteúdo do corpo | `string`  | abas aninhadas de exemplos `docs-code`                     |
+| `path`            | `string`  | Caminho para exemplo de código para preview e link externo |
+| `preview`         | `boolean` | (False) exibir preview                                     |
+| `hideCode`        | `boolean` | (False) Se deve colapsar o exemplo de código por padrão.   |
 
 ### Adicionando `preview` ao seu exemplo de código
 
@@ -247,11 +248,11 @@ Estilize passos numerados usando `<docs-step>`. A numeração é criada usando C
 
 ### Atributos de `<docs-workflow>` e `<docs-step>`
 
-| Atributos          | Detalhes                                          |
-| :----------------- | :------------------------------------------------ |
-| `<docs-workflow>`  | Todos os passos devem estar aninhados dentro de um workflow |
-| `title`            | Título do passo                                   |
-| conteúdo do corpo  | Qualquer coisa entre `<docs-step>` e `</docs-step>` |
+| Atributos         | Detalhes                                                    |
+| :---------------- | :---------------------------------------------------------- |
+| `<docs-workflow>` | Todos os passos devem estar aninhados dentro de um workflow |
+| `title`           | Título do passo                                             |
+| conteúdo do corpo | Qualquer coisa entre `<docs-step>` e `</docs-step>`         |
 
 Passos devem começar em uma nova linha e podem conter `docs-code`s e outros elementos e estilos aninhados.
 
@@ -355,7 +356,7 @@ Escreva diagramas e gráficos usando [Mermaid](http://mermaid.js.org/) definindo
       "Rats" : 15
 ```
 
-## Divisor de Linha Horizontal
+## Divisor de Linha Horizontal {#horizontal-line-divider}
 
 Isso pode ser usado para separar seções de página, como estamos prestes a fazer abaixo. Esses estilos serão adicionados por padrão, nada customizado necessário.
 
