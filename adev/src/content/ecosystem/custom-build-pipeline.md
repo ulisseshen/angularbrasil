@@ -1,33 +1,34 @@
-# Custom build pipeline
+<!-- ia-translate: true -->
+# Pipeline de build personalizado
 
-When building an Angular app we strongly recommend you to use the Angular CLI to leverage its structure-dependent update functionality and build system abstraction. This way your projects benefit from the latest security, performance, and API improvements and transparent build improvements.
+Ao construir uma aplicação Angular, recomendamos fortemente que você use o Angular CLI para aproveitar sua funcionalidade de atualização dependente de estrutura e abstração do sistema de build. Dessa forma, seus projetos se beneficiam das melhorias mais recentes de segurança, desempenho e API e melhorias transparentes de build.
 
-This page explores the **rare use cases** when you need a custom build pipeline that does not use the Angular CLI. All listed tools below are open source build plugins that are maintained by members of the Angular community. To learn more about their support model and maintenance status look at their documentation and GitHub repository URLs.
+Esta página explora os **casos de uso raros** quando você precisa de um pipeline de build personalizado que não usa o Angular CLI. Todas as ferramentas listadas abaixo são plugins de build de código aberto que são mantidos por membros da comunidade Angular. Para saber mais sobre seu modelo de suporte e status de manutenção, consulte sua documentação e URLs de repositório GitHub.
 
-## When should you use a custom build pipeline?
+## Quando você deve usar um pipeline de build personalizado?
 
-There are some niche use cases when you may want to maintain a custom build pipeline. For example:
+Existem alguns casos de uso de nicho quando você pode querer manter um pipeline de build personalizado. Por exemplo:
 
-- You have an existing app using a different toolchain and you’d like to add Angular to it
-- You’re strongly coupled to [module federation](https://module-federation.io/) and unable to adopt bundler-agnostic [native federation](https://www.npmjs.com/package/@angular-architects/native-federation)
-- You’d like to create an short-lived experiment using your favorite build tool
+- Você tem uma aplicação existente usando uma toolchain diferente e gostaria de adicionar Angular a ela
+- Você está fortemente acoplado a [module federation](https://module-federation.io/) e incapaz de adotar [native federation](https://www.npmjs.com/package/@angular-architects/native-federation) agnóstico de bundler
+- Você gostaria de criar um experimento de curta duração usando sua ferramenta de build favorita
 
-## What are the options?
+## Quais são as opções?
 
-Currently, there are two well supported community tools that enable you to create a custom build pipeline with a [Vite plugin](https://www.npmjs.com/package/@analogjs/vite-plugin-angular) and [Rspack plugin](https://www.npmjs.com/package/@nx/angular-rspack). Both of them use underlying abstractions that power the Angular CLI. They allow you to create a flexible build pipeline and require manual maintenance and no automated update experience.
+Atualmente, existem duas ferramentas comunitárias bem suportadas que permitem criar um pipeline de build personalizado com um [plugin Vite](https://www.npmjs.com/package/@analogjs/vite-plugin-angular) e [plugin Rspack](https://www.npmjs.com/package/@nx/angular-rspack). Ambos usam abstrações subjacentes que alimentam o Angular CLI. Eles permitem que você crie um pipeline de build flexível e requerem manutenção manual e nenhuma experiência de atualização automatizada.
 
 ### Rspack
 
-Rspack is a Rust-based bundler that aims to provide compatibility with the webpack plugin ecosystem.
+Rspack é um bundler baseado em Rust que visa fornecer compatibilidade com o ecossistema de plugins webpack.
 
-If your project is tightly coupled to the webpack ecosystem, heavily relying on a custom webpack configuration you can leverage Rspack to improve your build times.
+Se seu projeto está fortemente acoplado ao ecossistema webpack, dependendo muito de uma configuração webpack personalizada, você pode aproveitar o Rspack para melhorar seus tempos de build.
 
-You can find more about Angular Rspack on the project’s [documentation website](https://nx.dev/recipes/angular/rspack/introduction).
+Você pode encontrar mais sobre Angular Rspack no [site de documentação](https://nx.dev/recipes/angular/rspack/introduction) do projeto.
 
 ### Vite
 
-Vite is a frontend build tool that aims to provide a faster and leaner development experience for modern web projects. Vite is also extensible through its plugin system that allows ecosystems to build integrations with Vite, such as Vitest for unit and browser testing, Storybook for authoring components in isolation, and more. The Angular CLI also uses Vite as its development server.
+Vite é uma ferramenta de build frontend que visa fornecer uma experiência de desenvolvimento mais rápida e enxuta para projetos web modernos. Vite também é extensível através de seu sistema de plugins que permite que ecossistemas construam integrações com Vite, como Vitest para testes de unidade e browser, Storybook para criar components isoladamente e mais. O Angular CLI também usa Vite como seu servidor de desenvolvimento.
 
-The [AnalogJS Vite plugin for Angular](https://www.npmjs.com/package/@analogjs/vite-plugin-angular) enables the adoption of Angular with a project or framework that uses or is built on top of Vite. This can consist of developing and building an Angular project with Vite directly, or adding Angular to an existing project or pipeline. One example is integrating Angular UI components into a documentation website using [Astro and Starlight](https://analogjs.org/docs/packages/astro-angular/overview).
+O [plugin Vite AnalogJS para Angular](https://www.npmjs.com/package/@analogjs/vite-plugin-angular) permite a adoção do Angular com um projeto ou framework que usa ou é construído em cima do Vite. Isso pode consistir em desenvolver e construir um projeto Angular com Vite diretamente, ou adicionar Angular a um projeto ou pipeline existente. Um exemplo é integrar components UI Angular em um site de documentação usando [Astro e Starlight](https://analogjs.org/docs/packages/astro-angular/overview).
 
-You can learn more about AnalogJS and how to use the plugin through its [documentation page](https://analogjs.org/docs/packages/vite-plugin-angular/overview).
+Você pode aprender mais sobre AnalogJS e como usar o plugin através de sua [página de documentação](https://analogjs.org/docs/packages/vite-plugin-angular/overview).
