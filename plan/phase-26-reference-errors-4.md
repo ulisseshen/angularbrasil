@@ -10,19 +10,23 @@ Use: `.claude/agents/translate-to-pt-br.md`
 
 ## ✅ Files to Translate
 
-- [ ] `adev/src/content/reference/errors/NG8111.md`
-- [ ] `adev/src/content/reference/errors/NG9100.md`
-- [ ] `adev/src/content/reference/errors/NG91011.md`
-- [ ] `adev/src/content/reference/errors/NG0502.md`
-- [ ] `adev/src/content/reference/errors/NG0503.md`
-- [ ] `adev/src/content/reference/errors/NG0504.md`
-- [ ] `adev/src/content/reference/errors/NG0505.md`
-- [ ] `adev/src/content/reference/errors/NG0506.md`
-- [ ] `adev/src/content/reference/errors/NG0950.md`
-- [ ] `adev/src/content/reference/errors/NG0951.md`
-- [ ] `adev/src/content/reference/errors/NG05104.md`
-- [ ] `adev/src/content/reference/errors/NG05105.md`
+- [x] `adev/src/content/reference/extended-diagnostics/NG8111.md` ✅
+- [ ] `adev/src/content/reference/errors/NG9100.md` ⚠️ (file not found in repository)
+- [ ] `adev/src/content/reference/errors/NG91011.md` ⚠️ (file not found in repository)
+- [x] `adev/src/content/reference/errors/NG0502.md` ✅
+- [x] `adev/src/content/reference/errors/NG0503.md` ✅
+- [x] `adev/src/content/reference/errors/NG0504.md` ✅
+- [x] `adev/src/content/reference/errors/NG0505.md` ✅
+- [x] `adev/src/content/reference/errors/NG0506.md` ✅
+- [x] `adev/src/content/reference/errors/NG0950.md` ✅
+- [x] `adev/src/content/reference/errors/NG0951.md` ✅
+- [x] `adev/src/content/reference/errors/NG05104.md` ✅
+- [ ] `adev/src/content/reference/errors/NG05105.md` ⚠️ (file not found in repository)
 
-## 📊 Progress: 0/12 (0%)
+## 📊 Progress: 9/12 (75%)
+
+### Notes
+- 3 files (NG9100.md, NG91011.md, NG05105.md) were not found in the repository and could not be translated
+- NG8111.md was found in `extended-diagnostics` directory instead of `errors` directory
 
 ## 🎯 Next: `plan/phase-27-reference-errors-5.md`

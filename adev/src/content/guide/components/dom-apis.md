@@ -1,10 +1,9 @@
-# Using DOM APIs
+<!-- ia-translate: true -->
+# Usando APIs DOM
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
-Angular handles most DOM creation, updates, and removals for you. However, you might rarely need to
-directly interact with a component's DOM. Components can inject ElementRef to get a reference to the
-component's host element:
+O Angular lida com a maioria das criações, atualizações e remoções do DOM para você. No entanto, você pode raramente precisar interagir diretamente com o DOM de um component. Components podem injetar ElementRef para obter uma referência ao elemento host do component:
 
 ```ts
 @Component({...})
@@ -16,11 +15,9 @@ export class ProfilePhoto {
 }
 ```
 
-The `nativeElement` property references the
-host [Element](https://developer.mozilla.org/docs/Web/API/Element) instance.
+A propriedade `nativeElement` referencia a instância [Element](https://developer.mozilla.org/docs/Web/API/Element) do host.
 
-You can use Angular's `afterEveryRender` and `afterNextRender` functions to register a **render
-callback** that runs when Angular has finished rendering the page.
+Você pode usar as funções `afterEveryRender` e `afterNextRender` do Angular para registrar um **callback de renderização** que é executado quando o Angular termina de renderizar a página.
 
 ```ts
 @Component({...})
@@ -35,51 +32,31 @@ export class ProfilePhoto {
 }
 ```
 
-`afterEveryRender` and `afterNextRender` must be called in an _injection context_, typically a
-component's constructor.
+`afterEveryRender` e `afterNextRender` devem ser chamados em um _contexto de injeção_, tipicamente no constructor de um component.
 
-**Avoid direct DOM manipulation whenever possible.** Always prefer expressing your DOM's structure
-in component templates and updating that DOM with bindings.
+**Evite manipulação direta do DOM sempre que possível.** Sempre prefira expressar a estrutura do seu DOM em templates de component e atualizar esse DOM com bindings.
 
-**Render callbacks never run during server-side rendering or build-time pre-rendering.**
+**Callbacks de renderização nunca são executados durante renderização no servidor ou pré-renderização em tempo de build.**
 
-**Never directly manipulate the DOM inside of other Angular lifecycle hooks**. Angular does not
-guarantee that a component's DOM is fully rendered at any point other than in render callbacks.
-Further, reading or modifying the DOM during other lifecycle hooks can negatively impact page
-performance by
-causing [layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing).
+**Nunca manipule diretamente o DOM dentro de outros hooks de ciclo de vida do Angular**. O Angular não garante que o DOM de um component esteja totalmente renderizado em qualquer ponto que não seja em callbacks de renderização. Além disso, ler ou modificar o DOM durante outros hooks de ciclo de vida pode impactar negativamente o desempenho da página causando [layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing).
 
-## Using a component's renderer
+## Usando o renderer de um component
 
-Components can inject an instance of `Renderer2` to perform certain DOM manipulations that are tied
-to other Angular features.
+Components podem injetar uma instância de `Renderer2` para realizar certas manipulações do DOM que estão vinculadas a outras funcionalidades do Angular.
 
-Any DOM elements created by a component's `Renderer2` participate in that
-component's [style encapsulation](guide/components/styling#style-scoping).
+Quaisquer elementos DOM criados pelo `Renderer2` de um component participam do [encapsulamento de estilo](guide/components/styling#style-scoping) daquele component.
 
-Certain `Renderer2` APIs also tie into Angular's animation system. You can use the `setProperty`
-method to update synthetic animation properties and the `listen` method to add event listeners for
-synthetic animation events. See the [Animations](guide/animations) guide for details.
+Certas APIs do `Renderer2` também se vinculam ao sistema de animação do Angular. Você pode usar o método `setProperty` para atualizar propriedades de animação sintéticas e o método `listen` para adicionar event listeners para eventos de animação sintéticos. Consulte o guia de [Animações](guide/animations) para detalhes.
 
-Aside from these two narrow use-cases, there is no difference between using `Renderer2` and native
-DOM APIs. `Renderer2` APIs do not support DOM manipulation in server-side rendering or build-time
-pre-rendering contexts.
+Além desses dois casos de uso específicos, não há diferença entre usar `Renderer2` e APIs DOM nativas. As APIs do `Renderer2` não suportam manipulação do DOM em contextos de renderização no servidor ou pré-renderização em tempo de build.
 
-## When to use DOM APIs
+## Quando usar APIs DOM
 
-While Angular handles most rendering concerns, some behaviors may still require using DOM APIs. Some
-common use cases include:
+Embora o Angular lide com a maioria das preocupações de renderização, alguns comportamentos ainda podem exigir o uso de APIs DOM. Alguns casos de uso comuns incluem:
 
-- Managing element focus
-- Measuring element geometry, such as with `getBoundingClientRect`
-- Reading an element's text content
-- Setting up native observers such
-  as [`MutationObserver`](https://developer.mozilla.org/docs/Web/API/MutationObserver),
-  [`ResizeObserver`](https://developer.mozilla.org/docs/Web/API/ResizeObserver), or
-  [`IntersectionObserver`](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API).
+- Gerenciar o foco do elemento
+- Medir a geometria do elemento, como com `getBoundingClientRect`
+- Ler o conteúdo de texto de um elemento
+- Configurar observers nativos como [`MutationObserver`](https://developer.mozilla.org/docs/Web/API/MutationObserver), [`ResizeObserver`](https://developer.mozilla.org/docs/Web/API/ResizeObserver) ou [`IntersectionObserver`](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API).
 
-Avoid inserting, removing, and modifying DOM elements. In particular, **never directly set an
-element's `innerHTML` property**, which can make your application vulnerable
-to [cross-site scripting (XSS) exploits](https://developer.mozilla.org/docs/Glossary/Cross-site_scripting).
-Angular's template bindings, including bindings for `innerHTML`, include safeguards that help
-protect against XSS attacks. See the [Security guide](best-practices/security) for details.
+Evite inserir, remover e modificar elementos DOM. Em particular, **nunca defina diretamente a propriedade `innerHTML` de um elemento**, o que pode tornar sua aplicação vulnerável a [explorações de cross-site scripting (XSS)](https://developer.mozilla.org/docs/Glossary/Cross-site_scripting). Os bindings de template do Angular, incluindo bindings para `innerHTML`, incluem proteções que ajudam a proteger contra ataques XSS. Consulte o [guia de Segurança](best-practices/security) para detalhes.

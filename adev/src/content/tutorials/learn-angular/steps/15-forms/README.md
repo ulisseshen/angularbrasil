@@ -1,20 +1,21 @@
-# Forms Overview
+<!-- ia-translate: true -->
+# Visão Geral de Forms
 
-Forms are a big part of many apps because they enable your app to accept user input. Let's learn about how forms are handled in Angular.
+Forms são uma grande parte de muitas aplicações porque permitem que sua aplicação aceite entrada do usuário. Vamos aprender sobre como forms são tratados no Angular.
 
-In Angular, there are two types of forms: template-driven and reactive. You'll learn about both over the next few activities.
+No Angular, existem dois tipos de forms: template-driven e reactive. Você aprenderá sobre ambos nas próximas atividades.
 
-Note: Learn more about [forms in Angular in the in-depth guide](/guide/forms).
+Nota: Saiba mais sobre [forms no Angular no guia detalhado](/guide/forms).
 
-In this activity, you'll learn how to set up a form using a template-driven approach.
+Nesta atividade, você aprenderá como configurar um form usando uma abordagem template-driven.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Create an input field">
+<docs-step title="Crie um campo input">
 
-In `user.ts`, update the template by adding a text input with the `id` set to `framework`, type set to `text`.
+Em `user.ts`, atualize o template adicionando um input de texto com o `id` definido como `framework`, tipo definido como `text`.
 
 ```angular-html
 <label for="framework">
@@ -25,11 +26,11 @@ In `user.ts`, update the template by adding a text input with the `id` set to `f
 
 </docs-step>
 
-<docs-step title="Import `FormsModule`">
+<docs-step title="Importe `FormsModule`">
 
-For this form to use Angular features that enable data binding to forms, you'll need to import the `FormsModule`.
+Para que este form use recursos do Angular que habilitam data binding para forms, você precisará importar o `FormsModule`.
 
-Import the `FormsModule` from `@angular/forms` and add it to the `imports` array of the `User`.
+Importe o `FormsModule` de `@angular/forms` e adicione-o ao array `imports` do `User`.
 
 <docs-code language="ts" highlight="[2, 7]">
 import {Component} from '@angular/core';
@@ -44,11 +45,11 @@ export class User {}
 
 </docs-step>
 
-<docs-step title="Add binding to the value of the input">
+<docs-step title="Adicione binding ao valor do input">
 
-The `FormsModule` has a directive called `ngModel` that binds the value of the input to a property in your class.
+O `FormsModule` tem uma directive chamada `ngModel` que vincula o valor do input a uma propriedade em sua classe.
 
-Update the input to use the `ngModel` directive, specifically with the following syntax `[(ngModel)]="favoriteFramework"` to bind to the `favoriteFramework` property.
+Atualize o input para usar a directive `ngModel`, especificamente com a seguinte sintaxe `[(ngModel)]="favoriteFramework"` para vincular à propriedade `favoriteFramework`.
 
 <docs-code language="html" highlight="[3]">
 <label for="framework">
@@ -57,14 +58,14 @@ Update the input to use the `ngModel` directive, specifically with the following
 </label>
 </docs-code>
 
-After you've made changes, try entering a value in the input field. Notice how it updates on the screen (yes, very cool).
+Depois de fazer as alterações, tente inserir um valor no campo de input. Observe como ele atualiza na tela (sim, muito legal).
 
-NOTE: The syntax `[()]` is known as "banana in a box" but it represents two-way binding: property binding and event binding. Learn more in the [Angular docs about two-way data binding](guide/templates/two-way-binding).
+NOTA: A sintaxe `[()]` é conhecida como "banana in a box" mas representa two-way binding: property binding e event binding. Saiba mais na [documentação do Angular sobre two-way data binding](guide/templates/two-way-binding).
 
 </docs-step>
 
 </docs-workflow>
 
-You've now taken an important first step towards building forms with Angular.
+Você deu um importante primeiro passo para construir forms com Angular.
 
-Nice work. Let's keep the momentum going!
+Bom trabalho. Vamos manter o momentum!

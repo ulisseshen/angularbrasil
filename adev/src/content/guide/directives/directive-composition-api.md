@@ -1,18 +1,15 @@
+<!-- ia-translate: true -->
 # Directive composition API
 
-Angular directives offer a great way to encapsulate reusable behaviors— directives can apply
-attributes, CSS classes, and event listeners to an element.
+As directives do Angular oferecem uma ótima maneira de encapsular comportamentos reutilizáveis — directives podem aplicar atributos, classes CSS e event listeners a um elemento.
 
-The _directive composition API_ lets you apply directives to a component's host element from
-_within_ the component TypeScript class.
+A _directive composition API_ permite que você aplique directives ao elemento host de um component de _dentro_ da classe TypeScript do component.
 
-## Adding directives to a component
+## Adicionando directives a um component
 
-You apply directives to a component by adding a `hostDirectives` property to a component's
-decorator. We call such directives _host directives_.
+Você aplica directives a um component adicionando uma propriedade `hostDirectives` ao decorator do component. Chamamos essas directives de _host directives_.
 
-In this example, we apply the directive `MenuBehavior` to the host element of `AdminMenu`. This
-works similarly to applying the `MenuBehavior` to the `<admin-menu>` element in a template.
+Neste exemplo, aplicamos a directive `MenuBehavior` ao elemento host de `AdminMenu`. Isso funciona de forma similar a aplicar o `MenuBehavior` ao elemento `<admin-menu>` em um template.
 
 ```typescript
 @Component({
@@ -23,23 +20,17 @@ works similarly to applying the `MenuBehavior` to the `<admin-menu>` element in 
 export class AdminMenu { }
 ```
 
-When the framework renders a component, Angular also creates an instance of each host directive. The
-directives' host bindings apply to the component's host element. By default, host directive inputs
-and outputs are not exposed as part of the component's public API. See
-[Including inputs and outputs](#including-inputs-and-outputs) below for more information.
+Quando o framework renderiza um component, o Angular também cria uma instância de cada host directive. Os host bindings das directives se aplicam ao elemento host do component. Por padrão, inputs e outputs de host directive não são expostos como parte da API pública do component. Veja [Incluindo inputs e outputs](#including-inputs-and-outputs) abaixo para mais informações.
 
-**Angular applies host directives statically at compile time.** You cannot dynamically add
-directives at runtime.
+**O Angular aplica host directives estaticamente em tempo de compilação.** Você não pode adicionar directives dinamicamente em runtime.
 
-**Directives used in `hostDirectives` may not specify `standalone: false`.**
+**Directives usadas em `hostDirectives` não podem especificar `standalone: false`.**
 
-**Angular ignores the `selector` of directives applied in the `hostDirectives` property.**
+**O Angular ignora o `selector` de directives aplicadas na propriedade `hostDirectives`.**
 
-## Including inputs and outputs
+## Incluindo inputs e outputs
 
-When you apply `hostDirectives` to your component, the inputs and outputs from the host directives
-are not included in your component's API by default. You can explicitly include inputs and outputs
-in your component's API by expanding the entry in `hostDirectives`:
+Quando você aplica `hostDirectives` ao seu component, os inputs e outputs das host directives não são incluídos na API do seu component por padrão. Você pode incluir explicitamente inputs e outputs na API do seu component expandindo a entrada em `hostDirectives`:
 
 ```typescript
 @Component({
@@ -54,16 +45,14 @@ in your component's API by expanding the entry in `hostDirectives`:
 export class AdminMenu { }
 ```
 
-By explicitly specifying the inputs and outputs, consumers of the component with `hostDirective` can
-bind them in a template:
+Ao especificar explicitamente os inputs e outputs, consumidores do component com `hostDirective` podem fazer binding deles em um template:
 
 ```angular-html
 
 <admin-menu menuId="top-menu" (menuClosed)="logMenuClosed()">
 ```
 
-Furthermore, you can alias inputs and outputs from `hostDirective` to customize the API of your
-component:
+Além disso, você pode criar alias para inputs e outputs de `hostDirective` para personalizar a API do seu component:
 
 ```typescript
 @Component({
@@ -83,18 +72,13 @@ export class AdminMenu { }
 <admin-menu id="top-menu" (closed)="logMenuClosed()">
 ```
 
-## Adding directives to another directive
+## Adicionando directives a outra directive
 
-You can also add `hostDirectives` to other directives, in addition to components. This enables the
-transitive aggregation of multiple behaviors.
+Você também pode adicionar `hostDirectives` a outras directives, além de components. Isso permite a agregação transitiva de múltiplos comportamentos.
 
-In the following example, we define two directives, `Menu` and `Tooltip`. We then compose the behavior
-of these two directives in `MenuWithTooltip`. Finally, we apply `MenuWithTooltip`
-to `SpecializedMenuWithTooltip`.
+No exemplo a seguir, definimos duas directives, `Menu` e `Tooltip`. Então, compomos o comportamento dessas duas directives em `MenuWithTooltip`. Finalmente, aplicamos `MenuWithTooltip` a `SpecializedMenuWithTooltip`.
 
-When `SpecializedMenuWithTooltip` is used in a template, it creates instances of all of `Menu`
-, `Tooltip`, and `MenuWithTooltip`. Each of these directives' host bindings apply to the host
-element of `SpecializedMenuWithTooltip`.
+Quando `SpecializedMenuWithTooltip` é usado em um template, ele cria instâncias de todos `Menu`, `Tooltip` e `MenuWithTooltip`. Os host bindings de cada uma dessas directives se aplicam ao elemento host de `SpecializedMenuWithTooltip`.
 
 ```typescript
 @Directive({...})
@@ -103,27 +87,26 @@ export class Menu { }
 @Directive({...})
 export class Tooltip { }
 
-// MenuWithTooltip can compose behaviors from multiple other directives
+// MenuWithTooltip pode compor comportamentos de múltiplas outras directives
 @Directive({
   hostDirectives: [Tooltip, Menu],
 })
 export class MenuWithTooltip { }
 
-// CustomWidget can apply the already-composed behaviors from MenuWithTooltip
+// CustomWidget pode aplicar os comportamentos já compostos de MenuWithTooltip
 @Directive({
   hostDirectives: [MenuWithTooltip],
 })
 export class SpecializedMenuWithTooltip { }
 ```
 
-## Host directive semantics
+## Semântica de host directive
 
-### Directive execution order
+### Ordem de execução de directive
 
-Host directives go through the same lifecycle as components and directives used directly in a
-template. However, host directives always execute their constructor, lifecycle hooks, and bindings _before_ the component or directive on which they are applied.
+Host directives passam pelo mesmo ciclo de vida que components e directives usadas diretamente em um template. No entanto, host directives sempre executam seu constructor, lifecycle hooks e bindings _antes_ do component ou directive no qual são aplicadas.
 
-The following example shows minimal use of a host directive:
+O exemplo a seguir mostra uso mínimo de uma host directive:
 
 ```typescript
 @Component({
@@ -134,20 +117,18 @@ The following example shows minimal use of a host directive:
 export class AdminMenu { }
 ```
 
-The order of execution here is:
+A ordem de execução aqui é:
 
-1. `MenuBehavior` instantiated
-2. `AdminMenu` instantiated
-3. `MenuBehavior` receives inputs (`ngOnInit`)
-4. `AdminMenu` receives inputs (`ngOnInit`)
-5. `MenuBehavior` applies host bindings
-6. `AdminMenu` applies host bindings
+1. `MenuBehavior` instanciada
+2. `AdminMenu` instanciado
+3. `MenuBehavior` recebe inputs (`ngOnInit`)
+4. `AdminMenu` recebe inputs (`ngOnInit`)
+5. `MenuBehavior` aplica host bindings
+6. `AdminMenu` aplica host bindings
 
-This order of operations means that components with `hostDirectives` can override any host bindings
-specified by a host directive.
+Esta ordem de operações significa que components com `hostDirectives` podem sobrescrever quaisquer host bindings especificados por uma host directive.
 
-This order of operations extends to nested chains of host directives, as shown in the following
-example.
+Esta ordem de operações se estende a cadeias aninhadas de host directives, como mostrado no exemplo a seguir.
 
 ```typescript
 @Directive({...})
@@ -164,26 +145,22 @@ export class CustomTooltip { }
 export class EvenMoreCustomTooltip { }
 ```
 
-In the example above, the order of execution is:
+No exemplo acima, a ordem de execução é:
 
-1. `Tooltip` instantiated
-2. `CustomTooltip` instantiated
-3. `EvenMoreCustomTooltip` instantiated
-4. `Tooltip` receives inputs (`ngOnInit`)
-5. `CustomTooltip` receives inputs (`ngOnInit`)
-6. `EvenMoreCustomTooltip` receives inputs (`ngOnInit`)
-7. `Tooltip` applies host bindings
-8. `CustomTooltip` applies host bindings
-9. `EvenMoreCustomTooltip` applies host bindings
+1. `Tooltip` instanciada
+2. `CustomTooltip` instanciada
+3. `EvenMoreCustomTooltip` instanciada
+4. `Tooltip` recebe inputs (`ngOnInit`)
+5. `CustomTooltip` recebe inputs (`ngOnInit`)
+6. `EvenMoreCustomTooltip` recebe inputs (`ngOnInit`)
+7. `Tooltip` aplica host bindings
+8. `CustomTooltip` aplica host bindings
+9. `EvenMoreCustomTooltip` aplica host bindings
 
 ### Dependency injection
 
-A component or directive that specifies `hostDirectives` can inject the instances of those host
-directives and vice versa.
+Um component ou directive que especifica `hostDirectives` pode injetar as instâncias dessas host directives e vice-versa.
 
-When applying host directives to a component, both the component and host directives can define
-providers.
+Ao aplicar host directives a um component, tanto o component quanto as host directives podem definir providers.
 
-If a component or directive with `hostDirectives` and those host directives both provide the same
-injection token, the providers defined by class with `hostDirectives` take precedence over providers
-defined by the host directives.
+Se um component ou directive com `hostDirectives` e essas host directives ambos fornecem o mesmo injection token, os providers definidos pela classe com `hostDirectives` têm precedência sobre os providers definidos pelas host directives.
