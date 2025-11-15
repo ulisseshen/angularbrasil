@@ -1,41 +1,42 @@
-# Angular CLI MCP Server setup
+<!-- ia-translate: true -->
+# Configuração do Angular CLI MCP Server
 
-The Angular CLI includes an experimental [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) enabling AI assistants in your development environment to interact with the Angular CLI. We've included support for CLI powered code generation, adding packages, and more.
+O Angular CLI inclui um [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) experimental que permite que assistentes de IA em seu ambiente de desenvolvimento interajam com o Angular CLI. Incluímos suporte para geração de código com CLI, adição de pacotes e muito mais.
 
-## Available Tools
+## Ferramentas Disponíveis
 
-The Angular CLI MCP server provides several tools to assist you in your development workflow. By default, the following tools are enabled:
+O Angular CLI MCP server fornece várias ferramentas para auxiliá-lo em seu fluxo de trabalho de desenvolvimento. Por padrão, as seguintes ferramentas estão habilitadas:
 
-| Name                        | Description                                                                                                                                                                                        | `local-only` | `read-only` |
-| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
-| `ai_tutor`                  | Launches an interactive AI-powered Angular tutor. Recommended to run from a new Angular project using v20 or later. [Learn more](https://github.com/angular/ai-tutor/blob/main/README.md).         |      ✅      |     ✅      |
-| `find_examples`             | Finds authoritative code examples from a curated database of official, best-practice examples, focusing on **modern, new, and recently updated** Angular features.                                 |      ✅      |     ✅      |
-| `get_best_practices`        | Retrieves the Angular Best Practices Guide. This guide is essential for ensuring that all code adheres to modern standards, including standalone components, typed forms, and modern control flow. |      ✅      |     ✅      |
-| `list_projects`             | Lists the names of all applications and libraries defined within an Angular workspace. It reads the `angular.json` configuration file to identify the projects.                                    |      ✅      |     ✅      |
-| `onpush-zoneless-migration` | Analyzes Angular code and provides a step-by-step, iterative plan to migrate it to `OnPush` change detection, a prerequisite for a zoneless application.                                           |      ✅      |     ✅      |
-| `search_documentation`      | Searches the official Angular documentation at <https://angular.dev>. This tool should be used to answer any questions about Angular, such as for APIs, tutorials, and best practices.             |      ❌      |     ✅      |
+| Nome                        | Descrição                                                                                                                                                                                                     | `local-only` | `read-only` |
+| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------: | :---------: |
+| `ai_tutor`                  | Inicia um tutor Angular interativo com IA. Recomendado executar a partir de um novo projeto Angular usando v20 ou posterior. [Saiba mais](https://github.com/angular/ai-tutor/blob/main/README.md).          |      ✅      |     ✅      |
+| `find_examples`             | Encontra exemplos de código autoritativos de um banco de dados selecionado de exemplos oficiais de boas práticas, focando em recursos Angular **modernos, novos e recentemente atualizados**.                |      ✅      |     ✅      |
+| `get_best_practices`        | Recupera o Guia de Boas Práticas do Angular. Este guia é essencial para garantir que todo código adere aos padrões modernos, incluindo standalone components, typed forms e modern control flow.             |      ✅      |     ✅      |
+| `list_projects`             | Lista os nomes de todas as aplicações e bibliotecas definidas em um workspace Angular. Lê o arquivo de configuração `angular.json` para identificar os projetos.                                             |      ✅      |     ✅      |
+| `onpush-zoneless-migration` | Analisa código Angular e fornece um plano iterativo passo a passo para migrá-lo para change detection `OnPush`, um pré-requisito para uma aplicação zoneless.                                                |      ✅      |     ✅      |
+| `search_documentation`      | Pesquisa a documentação oficial do Angular em <https://angular.dev>. Esta ferramenta deve ser usada para responder quaisquer perguntas sobre Angular, como para APIs, tutoriais e boas práticas.             |      ❌      |     ✅      |
 
-### Experimental Tools
+### Ferramentas Experimentais
 
-Some tools are provided in experimental / preview status since they are new or not fully tested. Enable them individually with the [`--experimental-tool`](#command-options) option and use them with caution.
+Algumas ferramentas são fornecidas em status experimental/preview, pois são novas ou não totalmente testadas. Habilite-as individualmente com a opção [`--experimental-tool`](#command-options) e use-as com cautela.
 
-| Name        | Description                                                                                                                                                                                            | `local-only` | `read-only` |
-| :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
-| `modernize` | Performs code migrations and provides further instructions on how to modernize Angular code to align with the latest best practices and syntax. [Learn more](https://angular.dev/reference/migrations) |      ✅      |     ❌      |
+| Nome        | Descrição                                                                                                                                                                                                       | `local-only` | `read-only` |
+| :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
+| `modernize` | Executa migrações de código e fornece instruções adicionais sobre como modernizar código Angular para alinhar com as últimas boas práticas e sintaxe. [Saiba mais](https://angular.dev/reference/migrations) |      ✅      |     ❌      |
 
-## Get Started
+## Começando
 
-To get started, run the following command in your terminal:
+Para começar, execute o seguinte comando em seu terminal:
 
 ```bash
 ng mcp
 ```
 
-When run from an interactive terminal, this command displays instructions on how to configure a host environment to use the MCP server. The following sections provide example configurations for several popular editors and tools.
+Quando executado a partir de um terminal interativo, este comando exibe instruções sobre como configurar um ambiente host para usar o MCP server. As seções a seguir fornecem exemplos de configurações para vários editores e ferramentas populares.
 
 ### Cursor
 
-Create a file named `.cursor/mcp.json` in your project's root and add the following configuration. You can also configure it globally in `~/.cursor/mcp.json`.
+Crie um arquivo chamado `.cursor/mcp.json` na raiz do seu projeto e adicione a seguinte configuração. Você também pode configurá-lo globalmente em `~/.cursor/mcp.json`.
 
 ```json
 {
@@ -50,7 +51,7 @@ Create a file named `.cursor/mcp.json` in your project's root and add the follow
 
 ### Firebase Studio
 
-Create a file named `.idx/mcp.json` in your project's root and add the following configuration:
+Crie um arquivo chamado `.idx/mcp.json` na raiz do seu projeto e adicione a seguinte configuração:
 
 ```json
 {
@@ -65,7 +66,7 @@ Create a file named `.idx/mcp.json` in your project's root and add the following
 
 ### Gemini CLI
 
-Create a file named `.gemini/settings.json` in your project's root and add the following configuration:
+Crie um arquivo chamado `.gemini/settings.json` na raiz do seu projeto e adicione a seguinte configuração:
 
 ```json
 {
@@ -80,7 +81,7 @@ Create a file named `.gemini/settings.json` in your project's root and add the f
 
 ### JetBrains IDEs
 
-In JetBrains IDEs (like IntelliJ IDEA or WebStorm), after installing the JetBrains AI Assistant plugin, go to `Settings | Tools | AI Assistant | Model Context Protocol (MCP)`. Add a new server and select `As JSON`. Paste the following configuration, which does not use a top-level property for the server list.
+Nos IDEs JetBrains (como IntelliJ IDEA ou WebStorm), após instalar o plugin JetBrains AI Assistant, vá para `Settings | Tools | AI Assistant | Model Context Protocol (MCP)`. Adicione um novo servidor e selecione `As JSON`. Cole a seguinte configuração, que não usa uma propriedade de nível superior para a lista de servidores.
 
 ```json
 {
@@ -96,7 +97,7 @@ In JetBrains IDEs (like IntelliJ IDEA or WebStorm), after installing the JetBrai
 
 ### VS Code
 
-In your project's root, create a file named `.vscode/mcp.json` and add the following configuration. Note the use of the `servers` property.
+Na raiz do seu projeto, crie um arquivo chamado `.vscode/mcp.json` e adicione a seguinte configuração. Note o uso da propriedade `servers`.
 
 ```json
 {
@@ -109,9 +110,9 @@ In your project's root, create a file named `.vscode/mcp.json` and add the follo
 }
 ```
 
-### Other IDEs
+### Outros IDEs
 
-For other IDEs, check your IDE's documentation for the proper location of the MCP configuration file (often `mcp.json`). The configuration should contain the following snippet.
+Para outros IDEs, verifique a documentação do seu IDE para a localização adequada do arquivo de configuração MCP (frequentemente `mcp.json`). A configuração deve conter o seguinte trecho.
 
 ```json
 {
@@ -124,17 +125,17 @@ For other IDEs, check your IDE's documentation for the proper location of the MC
 }
 ```
 
-## Command Options
+## Opções de Comando
 
-The `mcp` command can be configured with the following options passed as arguments in your IDE's MCP configuration:
+O comando `mcp` pode ser configurado com as seguintes opções passadas como argumentos na configuração MCP do seu IDE:
 
-| Option                        | Type      | Description                                                                                                                       | Default |
-| :---------------------------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------- | :------ |
-| `--read-only`                 | `boolean` | Only register tools that do not make changes to the project. Your editor or coding agent may still perform edits.                 | `false` |
-| `--local-only`                | `boolean` | Only register tools that do not require an internet connection. Your editor or coding agent may still send data over the network. | `false` |
-| `--experimental-tool`<br>`-E` | `string`  | Enable an [experimental tool](#experimental-tools). Separate multiple options by spaces, e.g. `-E tool_a tool_b`.                 |         |
+| Opção                         | Tipo      | Descrição                                                                                                                                                      | Padrão  |
+| :---------------------------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ |
+| `--read-only`                 | `boolean` | Registrar apenas ferramentas que não fazem alterações no projeto. Seu editor ou agente de codificação ainda pode realizar edições.                            | `false` |
+| `--local-only`                | `boolean` | Registrar apenas ferramentas que não requerem conexão com a internet. Seu editor ou agente de codificação ainda pode enviar dados pela rede.                  | `false` |
+| `--experimental-tool`<br>`-E` | `string`  | Habilitar uma [ferramenta experimental](#experimental-tools). Separe múltiplas opções por espaços, por exemplo, `-E tool_a tool_b`.                           |         |
 
-For example, to run the server in read-only mode in VS Code, you would update your `mcp.json` like this:
+Por exemplo, para executar o servidor em modo somente leitura no VS Code, você atualizaria seu `mcp.json` assim:
 
 ```json
 {
@@ -147,6 +148,6 @@ For example, to run the server in read-only mode in VS Code, you would update yo
 }
 ```
 
-## Feedback and New Ideas
+## Feedback e Novas Ideias
 
-The Angular team welcomes your feedback on the existing MCP capabilities and any ideas you have for new tools or features. Please share your thoughts by opening an issue on the [angular/angular GitHub repository](https://github.com/angular/angular/issues).
+A equipe Angular dá boas-vindas ao seu feedback sobre as capacidades MCP existentes e quaisquer ideias que você tenha para novas ferramentas ou recursos. Por favor, compartilhe seus pensamentos abrindo uma issue no [repositório GitHub angular/angular](https://github.com/angular/angular/issues).
