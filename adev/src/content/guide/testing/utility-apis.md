@@ -5,7 +5,7 @@
 Esta página descreve os recursos de teste do Angular mais úteis.
 
 As utilitários de teste do Angular incluem o `TestBed`, o `ComponentFixture` e um punhado de funções que controlam o ambiente de teste.
-As classes [`TestBed`](#testbed-class-summary) e [`ComponentFixture`](#the-componentfixture) são cobertas separadamente.
+As classes [`TestBed`](#resumo-da-classe-testbed) e [`ComponentFixture`](#the-componentfixture) são cobertas separadamente.
 
 Aqui está um resumo das funções autônomas, em ordem de utilidade provável:
 

@@ -457,7 +457,7 @@ providers: [
 ],
 ```
 
-Se você usar uma variável para passar a string de domínio para o loader, ou você não estiver usando um loader, a análise estática não será capaz de identificar o domínio, e nenhum link preconnect será gerado. Neste caso você deve adicionar manualmente um link preconnect ao head do documento, como [descrito acima](#add-resource-hints).
+Se você usar uma variável para passar a string de domínio para o loader, ou você não estiver usando um loader, a análise estática não será capaz de identificar o domínio, e nenhum link preconnect será gerado. Neste caso você deve adicionar manualmente um link preconnect ao head do documento, como [descrito acima](#advanced-sizes-values).
 
 ### Posso usar dois domínios de imagem diferentes na mesma página?
 

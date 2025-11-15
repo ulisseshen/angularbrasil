@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Opções do compiler Angular {#angular-compiler-options}
+# Opções do compiler Angular
 
 Quando você usa [compilação ahead-of-time (AOT)](tools/cli/aot-compiler), você pode controlar como sua aplicação é compilada especificando opções do compiler Angular no [arquivo de configuração TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 

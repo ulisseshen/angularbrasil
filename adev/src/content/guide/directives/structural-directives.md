@@ -124,7 +124,7 @@ export class SelectDirective {
 </docs-step>
 </docs-workflow>
 
-É isso - `SelectDirective` está pronta e funcionando. Um próximo passo poderia ser [adicionar suporte à verificação de tipo de template](#typing-the-directives-context).
+É isso - `SelectDirective` está pronta e funcionando. Um próximo passo poderia ser [adicionar suporte à verificação de tipo de template](#tipando-o-contexto-da-directive).
 
 ## Referência de sintaxe de structural directive {#structural-directive-syntax-reference}
 

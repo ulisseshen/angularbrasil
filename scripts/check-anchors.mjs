@@ -49,10 +49,11 @@ function extractHeadings(content) {
   const warnings = [];
 
   // Match markdown headings (## Heading)
-  const mdHeadingRegex = /^#{1,6}\s+(.+)$/gm;
+  const mdHeadingRegex = /^(#{1,6})\s+(.+)$/gm;
   let match;
   while ((match = mdHeadingRegex.exec(content)) !== null) {
-    const headingText = match[1].trim();
+    const depth = match[1].length; // Count the # characters
+    const headingText = match[2].trim();
     const customId = extractCustomId(headingText);
     const line = content.substring(0, match.index).split('\n').length;
 
@@ -61,8 +62,20 @@ function extractHeadings(content) {
     const autoId = generateAnchorId(textWithoutCustomId);
     const id = customId || autoId;
 
+    // CRITICAL: h1 headings don't get IDs in the HTML output (they're rendered as special headers)
+    // So custom IDs on h1 headings will not work and should be errors
+    if (depth === 1 && customId) {
+      warnings.push({
+        line: line,
+        text: headingText,
+        message: 'H1 heading has custom ID but h1 headings do not get IDs in HTML output',
+        customId: customId,
+        severity: 'error',
+      });
+    }
+
     // Validate: if heading has non-ASCII chars, it should have a custom ID
-    if (hasNonAsciiChars(textWithoutCustomId) && !customId) {
+    if (hasNonAsciiChars(textWithoutCustomId) && !customId && depth > 1) {
       warnings.push({
         line: line,
         text: headingText,
@@ -72,7 +85,7 @@ function extractHeadings(content) {
     }
 
     // Validate: auto-generated ID should only have valid characters
-    if (!customId && !isValidCustomId(autoId)) {
+    if (!customId && !isValidCustomId(autoId) && depth > 1) {
       warnings.push({
         line: line,
         text: headingText,
@@ -86,6 +99,7 @@ function extractHeadings(content) {
       text: headingText,
       id: id,
       line: line,
+      depth: depth,
       hasCustomId: !!customId,
       warning: warnings.length > 0 ? warnings[warnings.length - 1] : null,
     });
@@ -106,6 +120,7 @@ function extractHeadings(content) {
       text: headingText,
       id: id,
       line: line,
+      depth: 2, // docs-step elements are treated like h2 headings
       hasCustomId: !!customId,
       warning: null,
     });
@@ -152,7 +167,8 @@ function checkMarkdownFile(filePath, baseDir) {
   const {headings, warnings} = extractHeadings(content);
   const links = extractAnchorLinks(content);
 
-  const validIds = new Set(headings.map((h) => h.id));
+  // Only h2-h6 headings get IDs in the HTML output (h1 is rendered as special header)
+  const validIds = new Set(headings.filter((h) => h.depth > 1).map((h) => h.id));
   const errors = [];
 
   for (const link of links) {
@@ -270,12 +286,35 @@ function main() {
     }
 
     if (showWarnings && warnings.length > 0) {
-      totalWarnings += warnings.length;
-      if (errors.length === 0) {
-        console.log(`\n⚠️  ${relativePath}`);
+      // Separate errors from warnings
+      const criticalWarnings = warnings.filter((w) => w.severity === 'error');
+      const normalWarnings = warnings.filter((w) => w.severity !== 'error');
+
+      totalErrors += criticalWarnings.length;
+      totalWarnings += normalWarnings.length;
+
+      if (criticalWarnings.length > 0 || (errors.length === 0 && normalWarnings.length > 0)) {
+        const symbol = criticalWarnings.length > 0 ? '❌' : '⚠️';
+        if (errors.length === 0) {
+          console.log(`\n${symbol} ${relativePath}`);
+        }
       }
 
-      for (const warning of warnings) {
+      // Show critical warnings as errors
+      for (const warning of criticalWarnings) {
+        console.log(`   Line ${warning.line}: ${warning.message}`);
+        console.log(`   Heading: "${warning.text}"`);
+        if (warning.customId) {
+          console.log(`   Custom ID: {#${warning.customId}}`);
+          console.log(
+            `   Fix: Remove the custom ID from the h1 heading or move it to an h2-h6 heading`,
+          );
+        }
+        console.log('');
+      }
+
+      // Show normal warnings
+      for (const warning of normalWarnings) {
         console.log(`   Line ${warning.line}: ${warning.message}`);
         console.log(`   Heading: "${warning.text}"`);
         if (warning.suggestedId) {
