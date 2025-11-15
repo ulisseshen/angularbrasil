@@ -1,60 +1,61 @@
-# Add an interpolation to a component’s template
+<!-- ia-translate: true -->
+# Adicione uma interpolação ao template de um component
 
-This tutorial lesson demonstrates how to add interpolation to Angular templates in order to display dynamic data in a template.
+Esta lição do tutorial demonstra como adicionar interpolação a templates Angular para exibir dados dinâmicos em um template.
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=IFAly3Ss8dwqFx8N&amp;start=338"/>
 
-## What you'll learn
+## O que você vai aprender
 
-- Your app will display interpolated values in the `HousingLocation` template.
-- Your app will render a housing location data to the browser.
+- Sua aplicação exibirá valores interpolados no template `HousingLocation`.
+- Sua aplicação renderizará dados de localização de moradia no browser.
 
-## Conceptual preview of interpolation
+## Prévia conceitual de interpolação
 
-In this step you will display values read from `input` properties in a template using interpolation.
+Neste passo você exibirá valores lidos de propriedades `input` em um template usando interpolação.
 
-Using the `{{ expression }}` in Angular templates, you can render values from properties, `inputs`, and valid JavaScript expressions.
+Usando `{{ expression }}` em templates Angular, você pode renderizar valores de propriedades, `inputs` e expressões JavaScript válidas.
 
-For a more in depth explanation, please refer to the [Displaying values with interpolation](guide/templates/binding#render-dynamic-text-with-text-interpolation) guide.
+Para uma explicação mais detalhada, consulte o guia [Exibindo valores com interpolação](guide/templates/binding#render-dynamic-text-with-text-interpolation).
 
 <docs-workflow>
 
-<docs-step title="Update `HousingLocation` template to include interpolated values">
-This step adds new HTML structure and interpolated values in the `HousingLocation` template.
+<docs-step title="Atualize o template `HousingLocation` para incluir valores interpolados">
+Este passo adiciona nova estrutura HTML e valores interpolados no template `HousingLocation`.
 
-In the code editor:
+No editor de código:
 
-1.  Navigate to `src/app/housing-location/housing-location.ts`
-1.  In the template property of the `@Component` decorator, replace the existing HTML markup with the following code:
+1.  Navegue até `src/app/housing-location/housing-location.ts`
+1.  Na propriedade template do decorator `@Component`, substitua a marcação HTML existente pelo seguinte código:
 
-<docs-code language="angular-ts"  header="Update HousingLocation template in housing-location.ts" path="adev/src/content/tutorials/first-app/steps/08-ngFor/src/app/housing-location/housing-location.ts" visibleLines="[6,17]"/>
+<docs-code language="angular-ts"  header="Atualize o template HousingLocation em housing-location.ts" path="adev/src/content/tutorials/first-app/steps/08-ngFor/src/app/housing-location/housing-location.ts" visibleLines="[6,17]"/>
 
-In this updated template code you have used property binding to bind the `housingLocation.photo` to the `src` attribute. The `alt` attribute uses interpolation to give more context to the alt text of the image.
+Neste código de template atualizado você usou property binding para vincular o `housingLocation.photo` ao atributo `src`. O atributo `alt` usa interpolação para dar mais contexto ao texto alternativo da imagem.
 
-You use interpolation to include the values for `name`, `city` and `state` of the `housingLocation` property.
+Você usa interpolação para incluir os valores de `name`, `city` e `state` da propriedade `housingLocation`.
 
 </docs-step>
 
-<docs-step title="Confirm the changes render in the browser">
-1.  Save all changes.
-1.  Open the browser and confirm that the app renders the photo, city and state sample data.
-    <img alt="browser frame of homes-app displaying logo, filter text input box, search button and the same housing location UI card" src="assets/images/tutorials/first-app/homes-app-lesson-07-step-2.png">
+<docs-step title="Confirme que as alterações renderizam no browser">
+1.  Salve todas as alterações.
+1.  Abra o browser e confirme que a aplicação renderiza a foto, cidade e estado dos dados de exemplo.
+    <img alt="frame do browser da aplicação homes-app exibindo logo, campo de texto de filtro, botão de busca e o mesmo card de UI de localização de moradia" src="assets/images/tutorials/first-app/homes-app-lesson-07-step-2.png">
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you added a new HTML structure and used Angular template syntax to render values in the `HousingLocation` template.
+RESUMO: Nesta lição, você adicionou uma nova estrutura HTML e usou a sintaxe de template Angular para renderizar valores no template `HousingLocation`.
 
-Now, you have two important skills:
+Agora, você tem duas habilidades importantes:
 
-- passing data to components
-- Interpolating values into a template
+- passar dados para components
+- Interpolar valores em um template
 
-With these skills, your app can now share data and display dynamic values in the browser. Great work so far.
+Com essas habilidades, sua aplicação agora pode compartilhar dados e exibir valores dinâmicos no browser. Ótimo trabalho até agora.
 
-For more information about the topics covered in this lesson, visit:
+Para mais informações sobre os tópicos cobertos nesta lição, visite:
 
 <docs-pill-row>
-  <docs-pill href="guide/templates" title="Template syntax"/>
-  <docs-pill href="guide/templates/binding#render-dynamic-text-with-text-interpolation" title="Displaying values with interpolation"/>
+  <docs-pill href="guide/templates" title="Sintaxe de template"/>
+  <docs-pill href="guide/templates/binding#render-dynamic-text-with-text-interpolation" title="Exibindo valores com interpolação"/>
 </docs-pill-row>

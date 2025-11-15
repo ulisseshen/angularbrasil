@@ -1,33 +1,34 @@
-# Creating an interface
+<!-- ia-translate: true -->
+# Criando uma interface
 
-This tutorial lesson demonstrates how to create an interface and include it in a component of your app.
+Esta lição do tutorial demonstra como criar uma interface e incluí-la em um component da sua aplicação.
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=YkFSeUeV8Ixtz8pm"/>
 
-## What you'll learn
+## O que você vai aprender
 
-- Your app has a new interface that it can use as a data type.
-- Your app has an instance of the new interface with sample data.
+- Sua aplicação tem uma nova interface que ela pode usar como um tipo de dado.
+- Sua aplicação tem uma instância da nova interface com dados de exemplo.
 
-## Conceptual preview of interfaces
+## Prévia conceitual de interfaces
 
-[Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) are custom data types for your app.
+[Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) são tipos de dados customizados para sua aplicação.
 
-Angular uses TypeScript to take advantage of working in a strongly typed programming environment.
-Strong type checking reduces the likelihood of one element in your app sending incorrectly formatted data to another.
-Such type-mismatch errors are caught by the TypeScript compiler and many such errors can also be caught in your IDE.
+Angular usa TypeScript para aproveitar as vantagens de trabalhar em um ambiente de programação fortemente tipado.
+A verificação de tipo forte reduz a probabilidade de um elemento na sua aplicação enviar dados formatados incorretamente para outro.
+Tais erros de incompatibilidade de tipo são capturados pelo compilador TypeScript e muitos desses erros também podem ser capturados no seu IDE.
 
-In this lesson, you'll create an interface to define properties that represent data about a single housing location.
+Nesta lição, você criará uma interface para definir propriedades que representam dados sobre uma única localização de moradia.
 
 <docs-workflow>
 
-<docs-step title="Create a new Angular interface">
-This step creates a new interface in your app.
+<docs-step title="Crie uma nova interface Angular">
+Este passo cria uma nova interface na sua aplicação.
 
-In the **Terminal** pane of your IDE:
+No painel **Terminal** do seu IDE:
 
-1. In your project directory, navigate to the `first-app` directory.
-1. In the `first-app` directory, run this command to create the new interface.
+1. No diretório do seu projeto, navegue até o diretório `first-app`.
+1. No diretório `first-app`, execute este comando para criar a nova interface.
 
    ```shell
 
@@ -35,63 +36,63 @@ In the **Terminal** pane of your IDE:
 
    ```
 
-1. Run `ng serve` to build the app and serve it to `http://localhost:4200`.
-1. In a browser, open `http://localhost:4200` to see your app.
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. Execute `ng serve` para buildar a aplicação e servi-la em `http://localhost:4200`.
+1. Em um browser, abra `http://localhost:4200` para ver sua aplicação.
+1. Confirme que a aplicação builda sem erro.
+   Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
-<docs-step title="Add properties to the new interface">
-This step adds the properties to the interface that your app needs to represent a housing location.
+<docs-step title="Adicione propriedades à nova interface">
+Este passo adiciona as propriedades à interface que sua aplicação precisa para representar uma localização de moradia.
 
-1. In the **Terminal** pane of your IDE, start the `ng serve` command, if it isn't already running, to build the app and serve it to `http://localhost:4200`.
-1. In the **Edit** pane of your IDE, open the `src/app/housinglocation.ts` file.
-1. In `housinglocation.ts`, replace the default content with the following code to make your new interface to match this example.
+1. No painel **Terminal** do seu IDE, inicie o comando `ng serve`, se ele ainda não estiver rodando, para buildar a aplicação e servi-la em `http://localhost:4200`.
+1. No painel **Edit** do seu IDE, abra o arquivo `src/app/housinglocation.ts`.
+1. Em `housinglocation.ts`, substitua o conteúdo padrão com o seguinte código para fazer sua nova interface corresponder a este exemplo.
 
-<docs-code header="Update src/app/housinglocation.ts to match this code" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/housinglocation.ts" visibleLines="[1,10]" />
+<docs-code header="Atualize src/app/housinglocation.ts para corresponder a este código" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/housinglocation.ts" visibleLines="[1,10]" />
 
-1. Save your changes and confirm the app does not display any errors. Correct any errors before you continue to the next step.
+1. Salve suas alterações e confirme que a aplicação não exibe nenhum erro. Corrija quaisquer erros antes de continuar para o próximo passo.
 
-At this point, you've defined an interface that represents data about a housing location including an `id`, `name`, and location information.
+Neste ponto, você definiu uma interface que representa dados sobre uma localização de moradia incluindo um `id`, `name` e informações de localização.
 </docs-step>
 
-<docs-step title="Create a test house for your app">
-You have an interface, but you aren't using it yet.
+<docs-step title="Crie uma casa de teste para sua aplicação">
+Você tem uma interface, mas ainda não está usando ela.
 
-In this step, you create an instance of the interface and assign some sample data to it.
-You won't see this sample data appear in your app yet.
-There are a few more lessons to complete before that happens.
+Neste passo, você cria uma instância da interface e atribui alguns dados de exemplo a ela.
+Você ainda não verá esses dados de exemplo aparecer na sua aplicação.
+Há mais algumas lições para completar antes que isso aconteça.
 
-1. In the **Terminal** pane of your IDE, run the `ng serve` command, if it isn't already running, to build the app and serve your app to `http://localhost:4200`.
-1. In the **Edit** pane of your IDE, open `src/app/home/home.ts`.
-1. In `src/app/home/home.ts`, add this import statement after the existing `import` statements so that `Home` can use the new interface.
+1. No painel **Terminal** do seu IDE, execute o comando `ng serve`, se ele ainda não estiver rodando, para buildar a aplicação e servir sua aplicação em `http://localhost:4200`.
+1. No painel **Edit** do seu IDE, abra `src/app/home/home.ts`.
+1. Em `src/app/home/home.ts`, adicione esta declaração de import após as declarações `import` existentes para que `Home` possa usar a nova interface.
 
-<docs-code language="angular-ts" header="Import Home in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[3]"/>
+<docs-code language="angular-ts" header="Importe Home em src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[3]"/>
 
-1. In `src/app/home/home.ts`, replace the empty `export class Home {}` definition with this code to create a single instance of the new interface in the component.
+1. Em `src/app/home/home.ts`, substitua a definição vazia `export class Home {}` com este código para criar uma única instância da nova interface no component.
 
-<docs-code language="angular-ts" header="Add sample data to src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[22,35]"/>
+<docs-code language="angular-ts" header="Adicione dados de exemplo a src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[22,35]"/>
 
-1. Confirm that your `home.ts` file matches this example.
+1. Confirme que seu arquivo `home.ts` corresponde a este exemplo.
 
    <docs-code language="angular-ts" header="src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[[1,7],[9,36]]" />
 
-   By adding the `housingLocation` property of type `HousingLocation` to the `Home` class, we're able to confirm that the data matches the description of the interface. If the data didn't satisfy the description of the interface, the IDE has enough information to give us helpful errors.
+   Ao adicionar a propriedade `housingLocation` do tipo `HousingLocation` à classe `Home`, somos capazes de confirmar que os dados correspondem à descrição da interface. Se os dados não satisfizessem a descrição da interface, o IDE tem informação suficiente para nos dar erros úteis.
 
-1. Save your changes and confirm the app does not have any errors. Open the browser and confirm that your application still displays the message "housing-location works!"
+1. Salve suas alterações e confirme que a aplicação não tem nenhum erro. Abra o browser e confirme que sua aplicação ainda exibe a mensagem "housing-location works!"
 
-<img alt="browser frame of homes-app displaying logo, filter text input box and search button and the message 'housing-location works!'" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
+<img alt="frame do browser da aplicação homes-app exibindo logo, campo de texto de filtro e botão de busca e a mensagem 'housing-location works!'" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
 
-1. Correct any errors before you continue to the next step.
+1. Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you created an interface that created a new data type for your app.
-This new data type makes it possible for you to specify where `HousingLocation` data is required.
-This new data type also makes it possible for your IDE and the TypeScript compiler can ensure that `HousingLocation` data is used where it's required.
+RESUMO: Nesta lição, você criou uma interface que criou um novo tipo de dado para sua aplicação.
+Este novo tipo de dado torna possível especificar onde dados de `HousingLocation` são necessários.
+Este novo tipo de dado também torna possível que seu IDE e o compilador TypeScript possam garantir que dados de `HousingLocation` sejam usados onde são necessários.
 
-For more information about the topics covered in this lesson, visit:
+Para mais informações sobre os tópicos cobertos nesta lição, visite:
 
 <docs-pill-row>
   <docs-pill href="cli/generate/interface" title="ng generate interface"/>
