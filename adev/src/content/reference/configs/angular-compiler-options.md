@@ -1,5 +1,6 @@
 <!-- ia-translate: true -->
-# Opções do compilador Angular
+
+# Opções do compilador Angular {#angular-compiler-options}
 
 Quando você usa [compilação ahead-of-time (AOT)](tools/cli/aot-compiler), você pode controlar como sua aplicação é compilada especificando opções do compilador Angular no [arquivo de configuração do TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
@@ -7,7 +8,7 @@ O objeto de opções do Angular, `angularCompilerOptions`, é um irmão do objet
 
 <docs-code header="tsconfig.json" path="adev/src/content/examples/angular-compiler-options/tsconfig.json" visibleRegion="angular-compiler-options"/>
 
-## Herança de configuração com `extends`
+## Herança de configuração com `extends` {#configuration-inheritance-with-extends}
 
 Assim como o compilador TypeScript, o compilador AOT do Angular também suporta `extends` na seção `angularCompilerOptions` do arquivo de configuração do TypeScript.
 A propriedade `extends` está no nível superior, paralela a `compilerOptions` e `angularCompilerOptions`.
@@ -21,7 +22,7 @@ Por exemplo:
 
 Para mais informações, veja o [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
-## Opções de template
+## Opções de template {#template-options}
 
 As seguintes opções estão disponíveis para configurar o compilador AOT do Angular.
 
@@ -52,10 +53,10 @@ O padrão é `false`.
 Especifica o modo de compilação a ser usado.
 Os seguintes modos estão disponíveis:
 
-| Modos       | Detalhes                                                                                                      |
-| :---------- | :------------------------------------------------------------------------------------------------------------ |
-| `'full'`    | Gera código totalmente compilado em AOT de acordo com a versão do Angular que está sendo usada atualmente.   |
-| `'partial'` | Gera código em uma forma estável, mas intermediária, adequada para uma biblioteca publicada.                  |
+| Modos       | Detalhes                                                                                                   |
+| :---------- | :--------------------------------------------------------------------------------------------------------- |
+| `'full'`    | Gera código totalmente compilado em AOT de acordo com a versão do Angular que está sendo usada atualmente. |
+| `'partial'` | Gera código em uma forma estável, mas intermediária, adequada para uma biblioteca publicada.               |
 
 O valor padrão é `'full'`.
 
@@ -223,7 +224,7 @@ Quando `true`, reporta um erro se um component, diretiva ou pipe não é standal
 Quando `true`, imprime informações extras ao compilar templates.
 O padrão é `false`.
 
-## Opções de linha de comando
+## Opções de linha de comando {#command-line-options}
 
 Na maioria das vezes, você interage com o compilador Angular indiretamente usando [Angular CLI](reference/configs/angular-compiler-options). Ao debugar certos problemas, você pode achar útil invocar o compilador Angular diretamente.
 Você pode usar o comando `ngc` fornecido pelo pacote npm `@angular/compiler-cli` para chamar o compilador da linha de comando.
