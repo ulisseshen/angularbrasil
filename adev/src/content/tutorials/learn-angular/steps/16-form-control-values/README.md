@@ -1,18 +1,19 @@
-# Getting form control value
+<!-- ia-translate: true -->
+# Obtendo o valor do form control
 
-Now that your forms are set up with Angular, the next step is to access the values from the form controls.
+Agora que seus forms estão configurados com o Angular, o próximo passo é acessar os valores dos form controls.
 
-Note: Learn more about [adding a basic form control in the in-depth guide](/guide/forms/reactive-forms#adding-a-basic-form-control).
+Nota: Saiba mais sobre [adicionar um form control básico no guia detalhado](/guide/forms/reactive-forms#adding-a-basic-form-control).
 
-In this activity, you'll learn how to get the value from your form input.
+Nesta atividade, você aprenderá como obter o valor do seu input de form.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Show the value of the input field in the template">
+<docs-step title="Mostre o valor do campo input no template">
 
-To display the input value in a template, you can use the interpolation syntax `{{}}` just like any other class property of the component:
+Para exibir o valor do input em um template, você pode usar a sintaxe de interpolação `{{}}` assim como qualquer outra propriedade de classe do component:
 
 <docs-code language="angular-ts" highlight="[5]">
 @Component({
@@ -33,9 +34,9 @@ export class User {
 
 </docs-step>
 
-<docs-step title="Retrieve the value of an input field">
+<docs-step title="Recupere o valor de um campo input">
 
-When you need to reference the input field value in the component class, you can do so by accessing the class property with the `this` syntax.
+Quando você precisa referenciar o valor do campo input na classe do component, você pode fazer isso acessando a propriedade da classe com a sintaxe `this`.
 
 <docs-code language="angular-ts" highlight="[15]">
 ...
@@ -61,6 +62,6 @@ alert(this.favoriteFramework);
 
 </docs-workflow>
 
-Great job learning how to display the input values in your template and access them programmatically.
+Ótimo trabalho aprendendo como exibir os valores do input no seu template e acessá-los programaticamente.
 
-Time to progress onto the next way of managing forms with Angular: reactive forms. If you'd like to learn more about template-driven forms, please refer to the [Angular forms documentation](guide/forms/template-driven-forms).
+Hora de progredir para a próxima forma de gerenciar forms com Angular: reactive forms. Se você quiser aprender mais sobre template-driven forms, consulte a [documentação de forms do Angular](guide/forms/template-driven-forms).

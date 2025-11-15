@@ -1,16 +1,17 @@
-# Component input properties
+<!-- ia-translate: true -->
+# Propriedades input de components
 
-Sometimes app development requires you to send data into a component. This data can be used to customize a component or perhaps send information from a parent component to a child component.
+Às vezes, o desenvolvimento de aplicações requer que você envie dados para um component. Esses dados podem ser usados para personalizar um component ou talvez enviar informações de um component pai para um component filho.
 
-Angular uses a concept called `input`. This is similar to `props` in other frameworks. To create an `input` property, use the `input()` function.
+O Angular usa um conceito chamado `input`. Isso é similar a `props` em outros frameworks. Para criar uma propriedade `input`, use a função `input()`.
 
-Note: Learn more about [accepting data with input properties in the inputs guide](/guide/components/inputs).
+Nota: Saiba mais sobre [aceitar dados com propriedades input no guia de inputs](/guide/components/inputs).
 
-In this activity, you'll learn how to use the `input()` function to send information to components.
+Nesta atividade, você aprenderá como usar a função `input()` para enviar informações para components.
 
 <hr>
 
-To create an `input` property, add the `input()` function to initialize a property of a component class:
+Para criar uma propriedade `input`, adicione a função `input()` para inicializar uma propriedade de uma classe de component:
 
 <docs-code header="user.ts" language="ts">
 class User {
@@ -18,7 +19,7 @@ class User {
 }
 </docs-code>
 
-When you are ready to pass in a value through an `input`, values can be set in templates using the attribute syntax. Here's an example:
+Quando você estiver pronto para passar um valor através de um `input`, os valores podem ser definidos em templates usando a sintaxe de atributo. Aqui está um exemplo:
 
 <docs-code header="app.ts" language="angular-ts" highlight="[3]">
 @Component({
@@ -28,7 +29,7 @@ When you are ready to pass in a value through an `input`, values can be set in t
 export class App {}
 </docs-code>
 
-The `input` function returns an `InputSignal`. You can read the value by calling the signal.
+A função `input` retorna um `InputSignal`. Você pode ler o valor chamando o signal.
 
 <docs-code header="user.ts" language="angular-ts">
 @Component({
@@ -39,19 +40,19 @@ The `input` function returns an `InputSignal`. You can read the value by calling
 
 <docs-workflow>
 
-<docs-step title="Define an `input()` property">
-Update the code in `user.ts` to define an `input` property on the `User` called `name` and specify the `string` type. For now, don't set an initial value and invoke `input()` without arguments. Be sure to update the template to invoke and interpolate the `name` property at the end of the sentence.
+<docs-step title="Defina uma propriedade `input()`">
+Atualize o código em `user.ts` para definir uma propriedade `input` no `User` chamada `name` e especifique o tipo `string`. Por enquanto, não defina um valor inicial e invoque `input()` sem argumentos. Certifique-se de atualizar o template para invocar e interpolar a propriedade `name` no final da frase.
 </docs-step>
 
-<docs-step title="Pass a value to the `input` property">
-Update the code in `app.ts` to send in the `name` property with a value of `"Simran"`.
+<docs-step title="Passe um valor para a propriedade `input`">
+Atualize o código em `app.ts` para enviar a propriedade `name` com um valor de `"Simran"`.
 <br>
 
-When the code has been successfully updated, the app will display `The user's name is Simran`.
+Quando o código for atualizado com sucesso, a aplicação exibirá `The user's name is Simran`.
 </docs-step>
 
 </docs-workflow>
 
-While this is great, it is only one direction of the component communication. What if you want to send information and data to a parent component from a child component? Check out the next lesson to find out.
+Embora isso seja ótimo, é apenas uma direção da comunicação entre components. E se você quiser enviar informações e dados para um component pai a partir de um component filho? Confira a próxima lição para descobrir.
 
-P.S. you are doing great - keep going 🎉
+P.S. você está indo muito bem - continue assim 🎉
