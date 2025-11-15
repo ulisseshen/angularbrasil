@@ -1,56 +1,57 @@
-# Animating your Application with CSS
+<!-- ia-translate: true -->
+# Animando sua Aplicação com CSS
 
-CSS offers a robust set of tools for you to create beautiful and engaging animations within your application.
+CSS oferece um conjunto robusto de ferramentas para você criar animações bonitas e envolventes dentro de sua aplicação.
 
-## How to write animations in native CSS
+## Como escrever animações em CSS nativo
 
-If you've never written any native CSS animations, there are a number of excellent guides to get you started. Here's a few of them:
-[MDN's CSS Animations guide](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations)
-[W3Schools CSS3 Animations guide](https://www.w3schools.com/css/css3_animations.asp)
-[The Complete CSS Animations Tutorial](https://www.lambdatest.com/blog/css-animations-tutorial/)
-[CSS Animation for Beginners](https://thoughtbot.com/blog/css-animation-for-beginners)
+Se você nunca escreveu animações CSS nativas, existem vários guias excelentes para começar. Aqui estão alguns deles:
+[Guia de Animações CSS do MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations)
+[Guia de Animações CSS3 do W3Schools](https://www.w3schools.com/css/css3_animations.asp)
+[Tutorial Completo de Animações CSS](https://www.lambdatest.com/blog/css-animations-tutorial/)
+[Animação CSS para Iniciantes](https://thoughtbot.com/blog/css-animation-for-beginners)
 
-and a couple of videos:
-[Learn CSS Animation in 9 Minutes](https://www.youtube.com/watch?v=z2LQYsZhsFw)
-[Net Ninja CSS Animation Tutorial Playlist](https://www.youtube.com/watch?v=jgw82b5Y2MU&list=PL4cUxeGkcC9iGYgmEd2dm3zAKzyCGDtM5)
+e alguns vídeos:
+[Aprenda Animação CSS em 9 Minutos](https://www.youtube.com/watch?v=z2LQYsZhsFw)
+[Playlist de Tutorial de Animação CSS do Net Ninja](https://www.youtube.com/watch?v=jgw82b5Y2MU&list=PL4cUxeGkcC9iGYgmEd2dm3zAKzyCGDtM5)
 
-Check some of these various guides and tutorials out, and then come back to this guide.
+Confira alguns destes vários guias e tutoriais, e depois volte a este guia.
 
-## Creating Reusable Animations
+## Criando Animações Reutilizáveis
 
-You can create reusable animations that can be shared across your application using `@keyframes`. Define keyframe animations in a shared CSS file, and you'll be able to re-use those keyframe animations wherever you want within your application.
+Você pode criar animações reutilizáveis que podem ser compartilhadas em toda a sua aplicação usando `@keyframes`. Defina animações de keyframe em um arquivo CSS compartilhado, e você poderá reutilizar essas animações de keyframe onde quiser dentro de sua aplicação.
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-shared"/>
 
-Adding the class `animated-class` to an element would trigger the animation on that element.
+Adicionar a classe `animated-class` a um elemento acionaria a animação nesse elemento.
 
-## Animating a Transition
+## Animando uma Transição
 
-### Animating State and Styles
+### Animando Estado e Estilos
 
-You may want to animate between two different states, for example when an element is opened or closed. You can accomplish this by using CSS classes either using a keyframe animation or transition styling.
+Você pode querer animar entre dois estados diferentes, por exemplo, quando um elemento é aberto ou fechado. Você pode fazer isso usando classes CSS, seja usando uma animação de keyframe ou estilização de transition.
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-states"/>
 
-Triggering the `open` or `closed` state is done by toggling classes on the element in your component. You can find examples of how to do this in our [template guide](guide/templates/binding#css-class-and-style-property-bindings).
+Acionar o estado `open` ou `closed` é feito alternando classes no elemento em seu component. Você pode encontrar exemplos de como fazer isso em nosso [guia de template](guide/templates/binding#css-class-and-style-property-bindings).
 
-You can see similar examples in the template guide for [animating styles directly](guide/templates/binding#css-style-properties).
+Você pode ver exemplos semelhantes no guia de template para [animar estilos diretamente](guide/templates/binding#css-style-properties).
 
-### Transitions, Timing, and Easing
+### Transitions, Timing e Easing
 
-Animating often requires adjusting timing, delays and easeing behaviors. This can be done using several css properties or shorthand properties.
+Animar frequentemente requer ajustar timing, delays e comportamentos de easing. Isso pode ser feito usando várias propriedades CSS ou propriedades de atalho.
 
-Specify `animation-duration`, `animation-delay`, and `animation-timing-function` for a keyframe animation in CSS, or alternatively use the `animation` shorthand property.
+Especifique `animation-duration`, `animation-delay` e `animation-timing-function` para uma animação de keyframe em CSS, ou alternativamente use a propriedade de atalho `animation`.
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-timing"/>
 
-Similarly, you can use `transition-duration`, `transition-delay`, and `transition-timing-function` and the `transition` shorthand for animations that are not using `@keyframes`.
+Da mesma forma, você pode usar `transition-duration`, `transition-delay` e `transition-timing-function` e o atalho `transition` para animações que não estão usando `@keyframes`.
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="transition-timing"/>
 
-### Triggering an Animation
+### Acionando uma Animação
 
-Animations can be triggered by toggling CSS styles or classes. Once a class is present on an element, the animation will occur. Removing the class will revert the element back to whatever CSS is defined for that element. Here's an example:
+Animações podem ser acionadas alternando estilos ou classes CSS. Uma vez que uma classe está presente em um elemento, a animação ocorrerá. Remover a classe reverterá o elemento de volta para qualquer CSS que esteja definido para esse elemento. Aqui está um exemplo:
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts">
     <docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts" />
@@ -58,11 +59,11 @@ Animations can be triggered by toggling CSS styles or classes. Once a class is p
     <docs-code header="open-close.component.css" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.css"/>
 </docs-code-multifile>
 
-## Transition and Triggers
+## Transition e Triggers
 
-### Animating Auto Height
+### Animando Auto Height
 
-You can use css-grid to animate to auto height.
+Você pode usar css-grid para animar para altura automática.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts">
     <docs-code header="auto-height.component.ts" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts" />
@@ -70,11 +71,11 @@ You can use css-grid to animate to auto height.
     <docs-code header="auto-height.component.css" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.css"  />
 </docs-code-multifile>
 
-If you don't have to worry about supporting all browsers, you can also check out `calc-size()`, which is the true solution to animating auto height. See [MDN's docs](https://developer.mozilla.org/en-US/docs/Web/CSS/calc-size) and (this tutorial)[https://frontendmasters.com/blog/one-of-the-boss-battles-of-css-is-almost-won-transitioning-to-auto/] for more information.
+Se você não precisa se preocupar em suportar todos os browsers, você também pode conferir `calc-size()`, que é a verdadeira solução para animar altura automática. Veja [a documentação do MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/calc-size) e [este tutorial](https://frontendmasters.com/blog/one-of-the-boss-battles-of-css-is-almost-won-transitioning-to-auto/) para mais informações.
 
-### Animate entering and leaving a view
+### Animar entrada e saída de uma view
 
-You can create animations for when an item enters a view or leaves a view. Let's start by looking at how to animate an element entering a view. We'll do this with `animate.enter`, which will apply animation classes when an element enters the view.
+Você pode criar animações para quando um item entra em uma view ou sai de uma view. Vamos começar olhando como animar um elemento entrando em uma view. Vamos fazer isso com `animate.enter`, que aplicará classes de animação quando um elemento entrar na view.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts">
     <docs-code header="insert.component.ts" path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts" />
@@ -82,7 +83,7 @@ You can create animations for when an item enters a view or leaves a view. Let's
     <docs-code header="insert.component.css" path="adev/src/content/examples/animations/src/app/native-css/insert.component.css"  />
 </docs-code-multifile>
 
-Animating an element when it leaves the view is similar to animating when entering a view. Use `animate.leave` to specify which CSS classes to apply when the element leaves the view.
+Animar um elemento quando ele sai da view é semelhante a animar quando entra em uma view. Use `animate.leave` para especificar quais classes CSS aplicar quando o elemento sair da view.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts">
     <docs-code header="remove.component.ts" path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts" />
@@ -90,11 +91,11 @@ Animating an element when it leaves the view is similar to animating when enteri
     <docs-code header="remove.component.css" path="adev/src/content/examples/animations/src/app/native-css/remove.component.css"  />
 </docs-code-multifile>
 
-For more information on `animate.enter` and `animate.leave`, see the [Enter and Leave animations guide](guide/animations).
+Para mais informações sobre `animate.enter` e `animate.leave`, veja o [guia de animações Enter e Leave](guide/animations).
 
-### Animating increment and decrement
+### Animando incremento e decremento
 
-Animating on increment and decrement is a common pattern in applications. Here's an example of how you can accomplish that behavior.
+Animar no incremento e decremento é um padrão comum em aplicações. Aqui está um exemplo de como você pode realizar esse comportamento.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts">
     <docs-code header="increment-decrement.component.ts" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts" />
@@ -102,11 +103,11 @@ Animating on increment and decrement is a common pattern in applications. Here's
     <docs-code header="increment-decrement.component.css" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.css" />
 </docs-code-multifile>
 
-### Disabling an animation or all animations
+### Desabilitando uma animação ou todas as animações
 
-If you'd like to disable the animations that you've specified, you have multiple options.
+Se você quiser desabilitar as animações que especificou, você tem múltiplas opções.
 
-1. Create a custom class that forces animation and transition to `none`.
+1. Crie uma classe personalizada que force animation e transition para `none`.
 
 ```css
 .no-animation {
@@ -115,37 +116,37 @@ If you'd like to disable the animations that you've specified, you have multiple
 }
 ```
 
-Applying this class to an element prevents any animation from firing on that element. You could alternatively scope this to your entire DOM or section of your DOM to enforce this behavior. However, this prevents animation events from firing. If you are awaiting animation events for element removal, this solution won't work. A workaround is to set durations to 1 millisecond instead.
+Aplicar esta classe a um elemento impede que qualquer animação seja disparada nesse elemento. Você poderia alternativamente delimitar isso ao seu DOM inteiro ou seção do seu DOM para aplicar esse comportamento. No entanto, isso impede que eventos de animação sejam disparados. Se você está aguardando eventos de animação para remoção de elemento, essa solução não funcionará. Uma solução alternativa é definir as durações para 1 milissegundo.
 
-2. Use the [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query to ensure no animations play for users that prefer less animation.
+2. Use a media query [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) para garantir que nenhuma animação seja reproduzida para usuários que preferem menos animação.
 
-3. Prevent adding animation classes programatically
+3. Previna adicionar classes de animação programaticamente
 
-### Animation Callbacks
+### Callbacks de Animação
 
-If you have actions you would like to execute at certain points during animations, there are a number of available events you can listen to. Here's a few of them.
+Se você tem ações que gostaria de executar em certos pontos durante as animações, há vários eventos disponíveis que você pode ouvir. Aqui estão alguns deles.
 
-[`OnAnimationStart`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationstart_event)  
-[`OnAnimationEnd`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationend_event)  
-[`OnAnimationIteration`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationitration_event)  
+[`OnAnimationStart`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationstart_event)
+[`OnAnimationEnd`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationend_event)
+[`OnAnimationIteration`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationitration_event)
 [`OnAnimationCancel`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationcancel_event)
 
-[`OnTransitionStart`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionstart_event)  
-[`OnTransitionRun`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionrun_event)  
-[`OnTransitionEnd`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionend_event)  
+[`OnTransitionStart`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionstart_event)
+[`OnTransitionRun`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionrun_event)
+[`OnTransitionEnd`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionend_event)
 [`OnTransitionCancel`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitioncancel_event)
 
-The Web Animations API has a lot of additional functionality. [Take a look at the documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) to see all the available animation APIs.
+A Web Animations API tem muita funcionalidade adicional. [Dê uma olhada na documentação](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) para ver todas as APIs de animação disponíveis.
 
-NOTE: Be aware of bubbling issues with these callbacks. If you are animating children and parents, the events bubble up from children to parents. Consider stopping propagation or looking at more details within the event to determine if you're responding to the desired event target rather than an event bubbling up from a child node. You can examine the `animationname` property or the properties being transitioned to verify you have the right nodes.
+NOTA: Esteja ciente de problemas de bubbling com esses callbacks. Se você está animando filhos e pais, os eventos sobem dos filhos para os pais. Considere parar a propagação ou olhar mais detalhes dentro do evento para determinar se você está respondendo ao evento alvo desejado em vez de um evento subindo de um nó filho. Você pode examinar a propriedade `animationname` ou as propriedades sendo transicionadas para verificar se você tem os nós certos.
 
-## Complex Sequences
+## Sequências Complexas
 
-Animations are often more complicated than just a simple fade in or fade out. You may have lots of complicated sequences of animations you may want to run. Let's take a look at some of those possible scenarios.
+Animações são frequentemente mais complicadas do que apenas um simples fade in ou fade out. Você pode ter muitas sequências complicadas de animações que pode querer executar. Vamos dar uma olhada em alguns desses cenários possíveis.
 
-### Staggering animations in a list
+### Escalonando animações em uma lista
 
-One common effect is to stagger the animations of each item in a list to create a cascade effect. This can be accomplished by utilizing `animation-delay` or `transition-delay`. Here is an example of what that CSS might look like.
+Um efeito comum é escalonar as animações de cada item em uma lista para criar um efeito cascata. Isso pode ser realizado utilizando `animation-delay` ou `transition-delay`. Aqui está um exemplo de como esse CSS pode parecer.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts">
     <docs-code header="stagger.component.ts" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts" />
@@ -153,9 +154,9 @@ One common effect is to stagger the animations of each item in a list to create 
     <docs-code header="stagger.component.css" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.css" />
 </docs-code-multifile>
 
-### Parallel Animations
+### Animações Paralelas
 
-You can apply multiple animations to an element at once using the `animation` shorthand property. Each can have their own durations and delays. This allows you to compose animations together and create complicated effects.
+Você pode aplicar múltiplas animações a um elemento de uma vez usando a propriedade de atalho `animation`. Cada uma pode ter suas próprias durações e delays. Isso permite que você componha animações juntas e crie efeitos complicados.
 
 ```css
 .target-element {
@@ -163,11 +164,11 @@ You can apply multiple animations to an element at once using the `animation` sh
 }
 ```
 
-In this example, the `rotate` and `fade-in` animations fire at the same time, but have different durations.
+Neste exemplo, as animações `rotate` e `fade-in` disparam ao mesmo tempo, mas têm durações diferentes.
 
-### Animating the items of a reordering list
+### Animando os itens de uma lista reordenada
 
-Items in a `@for` loop will be removed and re-added, which will fire off animations using `@starting-styles` for entry animations. Alternatively, you can use `animate.enter` for this same behavior. Use `animate.leave` to animate elements as they are removed, as seen in the example below.
+Itens em um loop `@for` serão removidos e readicionados, o que disparará animações usando `@starting-styles` para animações de entrada. Alternativamente, você pode usar `animate.enter` para esse mesmo comportamento. Use `animate.leave` para animar elementos à medida que eles são removidos, como visto no exemplo abaixo.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts">
     <docs-code header="reorder.component.ts" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts" />
@@ -175,15 +176,15 @@ Items in a `@for` loop will be removed and re-added, which will fire off animati
     <docs-code header="reorder.component.css" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.css" />
 </docs-code-multifile>
 
-## Programmatic control of animations
+## Controle programático de animações
 
-You can retrieve animations off an element directly using [`Element.getAnimations()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAnimations). This returns an array of every [`Animation`](https://developer.mozilla.org/en-US/docs/Web/API/Animation) on that element. You can use the `Animation` API to do much more than you could with what the `AnimationPlayer` from the animations package offered. From here you can `cancel()`, `play()`, `pause()`, `reverse()` and much more. This native API should provide everything you need to control your animations.
+Você pode recuperar animações de um elemento diretamente usando [`Element.getAnimations()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAnimations). Isso retorna um array de cada [`Animation`](https://developer.mozilla.org/en-US/docs/Web/API/Animation) naquele elemento. Você pode usar a API `Animation` para fazer muito mais do que poderia com o que o `AnimationPlayer` do pacote de animations oferecia. A partir daqui você pode `cancel()`, `play()`, `pause()`, `reverse()` e muito mais. Esta API nativa deve fornecer tudo que você precisa para controlar suas animações.
 
-## More on Angular animations
+## Mais sobre animações Angular
 
-You might also be interested in the following:
+Você também pode estar interessado no seguinte:
 
 <docs-pill-row>
-  <docs-pill href="guide/animations" title="Enter and Leave animations"/>
-  <docs-pill href="guide/routing/route-transition-animations" title="Route transition animations"/>
+  <docs-pill href="guide/animations" title="Animações Enter e Leave"/>
+  <docs-pill href="guide/routing/route-transition-animations" title="Animações de transição de rota"/>
 </docs-pill-row>
