@@ -1,0 +1,105 @@
+# Completely Untranslated Files (70 total)
+# Files below do NOT have the <!-- ia-translate: true --> marker
+# and do NOT have pt-br equivalents
+
+## ECOSYSTEM (3)
+adev/src/content/ecosystem/custom-build-pipeline.md
+adev/src/content/ecosystem/service-workers/custom-service-worker-scripts.md
+adev/src/content/ecosystem/web-workers.md
+
+## EXAMPLES (2)
+adev/src/content/examples/i18n/readme.md
+adev/src/content/examples/service-worker-getting-started/src/app/readme.md
+
+## GUIDE/ANIMATIONS (3)
+adev/src/content/guide/animations/css.md
+adev/src/content/guide/animations/enter-and-leave.md
+adev/src/content/guide/animations/migration.md
+
+## GUIDE/FORMS (3)
+adev/src/content/guide/forms/form-validation.md
+adev/src/content/guide/forms/overview.md
+adev/src/content/guide/forms/reactive-forms.md
+
+## GUIDE/HTTP (3)
+adev/src/content/guide/http/security.md
+adev/src/content/guide/http/setup.md
+adev/src/content/guide/http/testing.md
+
+## GUIDE/I18N (8)
+adev/src/content/guide/i18n/add-package.md
+adev/src/content/guide/i18n/example.md
+adev/src/content/guide/i18n/format-data-locale.md
+adev/src/content/guide/i18n/locale-id.md
+adev/src/content/guide/i18n/manage-marked-text.md
+adev/src/content/guide/i18n/merge.md
+adev/src/content/guide/i18n/overview.md
+adev/src/content/guide/i18n/prepare.md
+
+## GUIDE/PERFORMANCE (1)
+adev/src/content/guide/performance/overview.md
+
+## GUIDE/ROUTING (1)
+adev/src/content/guide/routing/common-router-tasks.md
+
+## GUIDE/TESTING (7)
+adev/src/content/guide/testing/component-harnesses-overview.md
+adev/src/content/guide/testing/component-harnesses-testing-environments.md
+adev/src/content/guide/testing/creating-component-harnesses.md
+adev/src/content/guide/testing/karma.md
+adev/src/content/guide/testing/migrating-to-vitest.md
+adev/src/content/guide/testing/using-component-harnesses.md
+adev/src/content/guide/testing/utility-apis.md
+
+## REFERENCE/CONCEPTS (1)
+adev/src/content/reference/concepts/overview.md
+
+## REFERENCE/CONFIGS (2)
+adev/src/content/reference/configs/angular-compiler-options.md
+adev/src/content/reference/configs/file-structure.md
+
+## REFERENCE/ERRORS (14)
+adev/src/content/reference/errors/NG01101.md
+adev/src/content/reference/errors/NG01203.md
+adev/src/content/reference/errors/NG02200.md
+adev/src/content/reference/errors/NG02800.md
+adev/src/content/reference/errors/NG02802.md
+adev/src/content/reference/errors/NG0401.md
+adev/src/content/reference/errors/NG05000.md
+adev/src/content/reference/errors/NG0501.md
+adev/src/content/reference/errors/NG0507.md
+adev/src/content/reference/errors/NG0602.md
+adev/src/content/reference/errors/NG0750.md
+adev/src/content/reference/errors/NG0751.md
+adev/src/content/reference/errors/NG0955.md
+adev/src/content/reference/errors/NG0956.md
+
+## REFERENCE/MIGRATIONS (8)
+adev/src/content/reference/migrations/common-to-standalone.md
+adev/src/content/reference/migrations/control-flow.md
+adev/src/content/reference/migrations/inject-function.md
+adev/src/content/reference/migrations/outputs.md
+adev/src/content/reference/migrations/overview.md
+adev/src/content/reference/migrations/route-lazy-loading.md
+adev/src/content/reference/migrations/signal-inputs.md
+adev/src/content/reference/migrations/signal-queries.md
+
+## REFERENCE/OTHER (4)
+adev/src/content/reference/cli.md
+adev/src/content/reference/license.md
+adev/src/content/reference/press-kit.md
+adev/src/content/reference/versions.md
+
+## TOOLS/CLI (8)
+adev/src/content/tools/cli/cli-builder.md
+adev/src/content/tools/cli/environments.md
+adev/src/content/tools/cli/schematics-authoring.md
+adev/src/content/tools/cli/schematics-for-libraries.md
+adev/src/content/tools/cli/schematics.md
+adev/src/content/tools/cli/serve.md
+adev/src/content/tools/cli/setup-local.md
+adev/src/content/tools/cli/template-typecheck.md
+
+## TOOLS/LIBRARIES (2)
+adev/src/content/tools/libraries/angular-package-format.md
+adev/src/content/tools/libraries/creating-libraries.md
