@@ -1,17 +1,18 @@
-# Welcome to the Angular tutorial
+<!-- ia-translate: true -->
+# Bem-vindo ao tutorial do Angular
 
-This interactive tutorial will teach you the basic building blocks to start building great apps with Angular.
+Este tutorial interativo irá ensinar os blocos de construção básicos para começar a construir ótimas aplicações com Angular.
 
-## How to use this tutorial
+## Como usar este tutorial
 
-You'll need to have basic familiarity with HTML, CSS and JavaScript to understand Angular.
+Você precisará ter familiaridade básica com HTML, CSS e JavaScript para entender Angular.
 
-Each step represents a concept in Angular. You can do one, or all of them.
+Cada passo representa um conceito no Angular. Você pode fazer um, ou todos eles.
 
-If you get stuck, click "Reveal answer" at the top.
+Se você ficar travado, clique em "Revelar resposta" no topo.
 
-Alright, let's [get started](/tutorials/learn-angular/1-components-in-angular).
+Muito bem, vamos [começar](/tutorials/learn-angular/1-components-in-angular).
 
-## Using AI for Development
+## Usando AI para Desenvolvimento
 
-In case you're following this tutorial in your preferred AI powered IDE, [check out Angular prompt rules and best practices](/ai/develop-with-ai).
+Caso você esteja seguindo este tutorial no seu IDE favorito com AI, [confira as regras de prompt do Angular e boas práticas](/ai/develop-with-ai).
