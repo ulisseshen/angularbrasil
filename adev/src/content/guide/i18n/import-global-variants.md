@@ -1,6 +1,7 @@
-# Import global variants of the locale data
+<!-- ia-translate: true -->
+# Importar variantes globais dos dados de locale
 
-The [Angular CLI][CliMain] automatically includes locale data if you run the [`ng build`][CliBuild] command with the `--localize` option.
+O [Angular CLI][CliMain] automaticamente inclui dados de locale se você executar o comando [`ng build`][CliBuild] com a opção `--localize`.
 
 <!--todo: replace with docs-code -->
 
@@ -10,19 +11,19 @@ ng build --localize
 
 </docs-code>
 
-HELPFUL: The initial installation of Angular already contains locale data for English in the United States \(`en-US`\).
-The [Angular CLI][CliMain] automatically includes the locale data and sets the `LOCALE_ID` value when you use the `--localize` option with [`ng build`][CliBuild] command.
+HELPFUL: A instalação inicial do Angular já contém dados de locale para inglês nos Estados Unidos \(`en-US`\).
+O [Angular CLI][CliMain] automaticamente inclui os dados de locale e define o valor `LOCALE_ID` quando você usa a opção `--localize` com o comando [`ng build`][CliBuild].
 
-The `@angular/common` package on npm contains the locale data files.
-Global variants of the locale data are available in `@angular/common/locales/global`.
+O pacote `@angular/common` no npm contém os arquivos de dados de locale.
+Variantes globais dos dados de locale estão disponíveis em `@angular/common/locales/global`.
 
-## `import` example for French
+## Exemplo de `import` para francês
 
-For example, you could import the global variants for French \(`fr`\) in `main.ts` where you bootstrap the application.
+Por exemplo, você poderia importar as variantes globais para francês \(`fr`\) em `main.ts` onde você faz o bootstrap da aplicação.
 
 <docs-code header="src/main.ts (import locale)" path="adev/src/content/examples/i18n/src/main.ts" visibleRegion="global-locale"/>
 
-HELPFUL: In an `NgModules` application, you would import it in your `app.module`.
+HELPFUL: Em uma aplicação `NgModules`, você importaria no seu `app.module`.
 
 [CliMain]: cli 'CLI Overview and Command Reference | Angular'
 [CliBuild]: cli/build 'ng build | CLI | Angular'

@@ -1,15 +1,16 @@
-# Angular without ZoneJS (Zoneless)
+<!-- ia-translate: true -->
+# Angular sem ZoneJS (Zoneless)
 
-## Why use Zoneless?
+## Por que usar Zoneless?
 
-The main advantages to removing ZoneJS as a dependency are:
+As principais vantagens de remover ZoneJS como uma dependência são:
 
-- **Improved performance**: ZoneJS uses DOM events and async tasks as indicators of when application state _might_ have updated and subsequently triggers application synchronization to run change detection on the application's views. ZoneJS does not have any insight into whether application state actually changed and so this synchronization is triggered more frequently than necessary.
-- **Improved Core Web Vitals**: ZoneJS brings a fair amount of overhead, both in payload size and in startup time cost.
-- **Improved debugging experience**: ZoneJS makes debugging code more difficult. Stack traces are harder to understand with ZoneJS. It's also difficult to understand when code breaks as a result of being outside the Angular Zone.
-- **Better ecosystem compatibility**: ZoneJS works by patching browser APIs but does not automatically have patches for every new browser API. Some APIs cannot be patched effectively, such as `async`/`await`, and have to be downleveled to work with ZoneJS. Sometimes libraries in the ecosystem are also incompatible with the way ZoneJS patches the native APIs. Removing ZoneJS as a dependency ensures better long-term compatibility by removing a source of complexity, monkey patching, and ongoing maintenance.
+- **Desempenho melhorado**: ZoneJS usa eventos do DOM e tarefas assíncronas como indicadores de quando o estado da aplicação _pode_ ter atualizado e, subsequentemente, aciona a sincronização da aplicação para executar change detection nas views da aplicação. ZoneJS não tem nenhuma visão sobre se o estado da aplicação realmente mudou e, portanto, essa sincronização é acionada com mais frequência do que o necessário.
+- **Core Web Vitals melhorados**: ZoneJS traz uma quantidade considerável de overhead, tanto em tamanho de payload quanto em custo de tempo de inicialização.
+- **Experiência de debugging melhorada**: ZoneJS torna a depuração de código mais difícil. Stack traces são mais difíceis de entender com ZoneJS. Também é difícil entender quando o código quebra como resultado de estar fora da Angular Zone.
+- **Melhor compatibilidade com o ecossistema**: ZoneJS funciona através de patching de APIs do navegador, mas não tem automaticamente patches para cada nova API do navegador. Algumas APIs não podem ser patchadas de forma eficaz, como `async`/`await`, e precisam ser rebaixadas para funcionar com ZoneJS. Às vezes, bibliotecas no ecossistema também são incompatíveis com a forma como ZoneJS patcha as APIs nativas. Remover ZoneJS como uma dependência garante melhor compatibilidade de longo prazo removendo uma fonte de complexidade, monkey patching e manutenção contínua.
 
-## Enabling Zoneless in an application
+## Habilitando Zoneless em uma aplicação
 
 ```typescript
 // standalone bootstrap
@@ -25,68 +26,68 @@ platformBrowser().bootstrapModule(AppModule);
 export class AppModule {}
 ```
 
-## Removing ZoneJS
+## Removendo ZoneJS
 
-Zoneless applications should remove ZoneJS entirely from the build to reduce bundle size. ZoneJS is typically
-loaded via the `polyfills` option in `angular.json`, both in the `build` and `test` targets. Remove `zone.js`
-and `zone.js/testing` from both to remove it from the build. Projects which use an explicit `polyfills.ts` file
-should remove `import 'zone.js';` and `import 'zone.js/testing';` from the file.
+Aplicações zoneless devem remover ZoneJS inteiramente do build para reduzir o tamanho do bundle. ZoneJS é tipicamente
+carregado via opção `polyfills` em `angular.json`, tanto nos targets `build` quanto `test`. Remova `zone.js`
+e `zone.js/testing` de ambos para removê-lo do build. Projetos que usam um arquivo `polyfills.ts` explícito
+devem remover `import 'zone.js';` e `import 'zone.js/testing';` do arquivo.
 
-After removing ZoneJS from the build, there is no longer a need for a `zone.js` dependency either and the
-package can be removed entirely:
+Depois de remover ZoneJS do build, não há mais necessidade de uma dependência `zone.js` e o
+pacote pode ser removido inteiramente:
 
 ```shell
 npm uninstall zone.js
 ```
 
-## Requirements for Zoneless compatibility
+## Requisitos para compatibilidade Zoneless
 
-Angular relies on notifications from core APIs in order to determine when to run change detection and on which views.
-These notifications include:
+O Angular depende de notificações de APIs core para determinar quando executar change detection e em quais views.
+Essas notificações incluem:
 
-- `ChangeDetectorRef.markForCheck` (called automatically by `AsyncPipe`)
+- `ChangeDetectorRef.markForCheck` (chamado automaticamente por `AsyncPipe`)
 - `ComponentRef.setInput`
-- Updating a signal that's read in a template
-- Bound host or template listeners callbacks
-- Attaching a view that was marked dirty by one of the above
+- Atualizar um signal que é lido em um template
+- Callbacks de listeners de host ou template bound
+- Anexar uma view que foi marcada como dirty por um dos itens acima
 
-### `OnPush`-compatible components
+### Components compatíveis com `OnPush`
 
-One way to ensure that a component is using the correct notification mechanisms from above is to
-use [ChangeDetectionStrategy.OnPush](/best-practices/skipping-subtrees#using-onpush).
+Uma maneira de garantir que um component está usando os mecanismos de notificação corretos acima é
+usar [ChangeDetectionStrategy.OnPush](/best-practices/skipping-subtrees#using-onpush).
 
-The `OnPush` change detection strategy is not required, but it is a recommended step towards zoneless compatibility for application components. It is not always possible for library components to use `ChangeDetectionStrategy.OnPush`.
-When a library component is a host for user-components which might use `ChangeDetectionStrategy.Default`, it cannot use `OnPush` because that would prevent the child component from being refreshed if it is not `OnPush` compatible and relies on ZoneJS to trigger change detection. Components can use the `Default` strategy as long as they notify Angular when change detection needs to run (calling `markForCheck`, using signals, `AsyncPipe`, etc.).
-Being a host for a user component means using an API such as `ViewContainerRef.createComponent` and not just hosting a portion of a template from a user component (i.e. content projection or a using a template ref input).
+A estratégia de change detection `OnPush` não é obrigatória, mas é uma etapa recomendada em direção à compatibilidade zoneless para components de aplicação. Nem sempre é possível para components de biblioteca usar `ChangeDetectionStrategy.OnPush`.
+Quando um component de biblioteca é um host para user-components que podem usar `ChangeDetectionStrategy.Default`, ele não pode usar `OnPush` porque isso impediria que o component filho fosse atualizado se não for compatível com `OnPush` e depende de ZoneJS para acionar change detection. Components podem usar a estratégia `Default` desde que notifiquem o Angular quando change detection precisa executar (chamando `markForCheck`, usando signals, `AsyncPipe`, etc.).
+Ser um host para um user component significa usar uma API como `ViewContainerRef.createComponent` e não apenas hospedar uma parte de um template de um user component (ou seja, projeção de conteúdo ou usar um input de template ref).
 
-### Remove `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable`, `NgZone.isStable`, or `NgZone.onStable`
+### Remover `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable`, `NgZone.isStable`, ou `NgZone.onStable`
 
-Applications and libraries need to remove uses of `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable` and `NgZone.onStable`.
-These observables will never emit when an Application enables zoneless change detection.
-Similarly, `NgZone.isStable` will always be `true` and should not be used as a condition for code execution.
+Aplicações e bibliotecas precisam remover usos de `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable` e `NgZone.onStable`.
+Esses observables nunca emitirão quando uma Aplicação habilitar zoneless change detection.
+Da mesma forma, `NgZone.isStable` sempre será `true` e não deve ser usado como uma condição para execução de código.
 
-The `NgZone.onMicrotaskEmpty` and `NgZone.onStable` observables are most often used to wait for Angular to
-complete change detection before performing a task. Instead, these can be replaced by `afterNextRender`
-if they need to wait for a single change detection or `afterEveryRender` if there is some condition that might span
-several change detection rounds. In other cases, these observables were used because they happened to be
-familiar and have similar timing to what was needed. More straightforward or direct DOM APIs can be used instead,
-such as `MutationObserver` when code needs to wait for certain DOM state (rather than waiting for it indirectly
-through Angular's render hooks).
+Os observables `NgZone.onMicrotaskEmpty` e `NgZone.onStable` são mais frequentemente usados para esperar o Angular
+completar change detection antes de realizar uma tarefa. Em vez disso, eles podem ser substituídos por `afterNextRender`
+se precisarem esperar por um único change detection ou `afterEveryRender` se houver alguma condição que pode abranger
+várias rodadas de change detection. Em outros casos, esses observables foram usados porque eram
+familiares e tinham timing similar ao que era necessário. APIs DOM mais diretas ou diretas podem ser usadas em vez disso,
+como `MutationObserver` quando o código precisa esperar por certo estado do DOM (em vez de esperar por ele indiretamente
+através dos hooks de renderização do Angular).
 
-<docs-callout title="NgZone.run and NgZone.runOutsideAngular are compatible with Zoneless">
-`NgZone.run` and `NgZone.runOutsideAngular` do not need to be removed in order for code to be compatible with
-Zoneless applications. In fact, removing these calls can lead to performance regressions for libraries that
-are used in applications that still rely on ZoneJS.
+<docs-callout title="NgZone.run e NgZone.runOutsideAngular são compatíveis com Zoneless">
+`NgZone.run` e `NgZone.runOutsideAngular` não precisam ser removidos para que o código seja compatível com
+aplicações Zoneless. Na verdade, remover essas chamadas pode levar a regressões de desempenho para bibliotecas que
+são usadas em aplicações que ainda dependem de ZoneJS.
 </docs-callout>
 
-### `PendingTasks` for Server Side Rendering (SSR)
+### `PendingTasks` para Server Side Rendering (SSR)
 
-If you are using SSR with Angular, you may know that it relies on ZoneJS to help determine when the application
-is "stable" and can be serialized. If there are asynchronous tasks that should prevent serialization, an application
-not using ZoneJS must make Angular aware of these with the [PendingTasks](/api/core/PendingTasks) service. Serialization
-will wait for the first moment that all pending tasks have been removed.
+Se você está usando SSR com Angular, você pode saber que ele depende de ZoneJS para ajudar a determinar quando a aplicação
+está "estável" e pode ser serializada. Se houver tarefas assíncronas que devem prevenir serialização, uma aplicação
+que não usa ZoneJS deve tornar o Angular ciente dessas com o serviço [PendingTasks](/api/core/PendingTasks). A serialização
+aguardará o primeiro momento em que todas as tarefas pendentes foram removidas.
 
-The two most straightforward uses of pending tasks are the `run` method:
+Os dois usos mais diretos de pending tasks são o método `run`:
 
 ```typescript
 const taskService = inject(PendingTasks);
@@ -96,7 +97,7 @@ taskService.run(async () => {
 });
 ```
 
-For more complicated use-cases, you can manually add and remove a pending task:
+Para casos de uso mais complicados, você pode adicionar e remover manualmente uma pending task:
 
 ```typescript
 const taskService = inject(PendingTasks);
@@ -110,23 +111,23 @@ try {
 }
 ```
 
-In addition, the [pendingUntilEvent](/api/core/rxjs-interop/pendingUntilEvent#) helper in `rxjs-interop` ensures
-the application remains unstable until the observable emits, completes, errors, or is unsubscribed.
+Além disso, o helper [pendingUntilEvent](/api/core/rxjs-interop/pendingUntilEvent#) em `rxjs-interop` garante
+que a aplicação permaneça instável até que o observable emita, complete, dê erro ou seja unsubscribed.
 
 ```typescript
 readonly myObservableState = someObservable.pipe(pendingUntilEvent());
 ```
 
-The framework uses this service internally as well to prevent serialization until asynchronous tasks are complete. These include, but are not limited to,
-an ongoing Router navigation and an incomplete `HttpClient` request.
+O framework usa este serviço internamente também para prevenir serialização até que tarefas assíncronas estejam completas. Isso inclui, mas não se limita a,
+uma navegação de Router em andamento e uma requisição `HttpClient` incompleta.
 
-## Testing and Debugging
+## Testes e Debugging
 
-### Using Zoneless in `TestBed`
+### Usando Zoneless em `TestBed`
 
-The zoneless provider function can also be used with `TestBed` to help
-ensure the components under test are compatible with a Zoneless
-Angular application.
+A função provider zoneless também pode ser usada com `TestBed` para ajudar
+a garantir que os components sob teste sejam compatíveis com uma aplicação
+Angular Zoneless.
 
 ```typescript
 TestBed.configureTestingModule({
@@ -137,29 +138,29 @@ const fixture = TestBed.createComponent(MyComponent);
 await fixture.whenStable();
 ```
 
-To ensure tests have the most similar behavior to production code,
-avoid using `fixture.detectChanges()` when possible. This forces
-change detection to run when Angular might otherwise have not
-scheduled change detection. Tests should ensure these notifications
-are happening and allow Angular to handle when to synchronize
-state rather than manually forcing it to happen in the test.
+Para garantir que os testes tenham o comportamento mais similar ao código de produção,
+evite usar `fixture.detectChanges()` quando possível. Isso força
+change detection a executar quando o Angular de outra forma pode não ter
+agendado change detection. Os testes devem garantir que essas notificações
+estão acontecendo e permitir que o Angular controle quando sincronizar
+o estado em vez de forçá-lo manualmente a acontecer no teste.
 
-For existing test suites, using `fixture.detectChanges()` is a common pattern
-and it is likely not worth the effort of converting these to
-`await fixture.whenStable()`. `TestBed` will still enforce that the
-fixture's component is `OnPush` compatible and throws `ExpressionChangedAfterItHasBeenCheckedError`
-if it finds that template values were updated without a
-change notification (i.e. `fixture.componentInstance.someValue = 'newValue';`).
-If the component is used in production, this issue should be addressed by updating
-the component to use signals for state or call `ChangeDetectorRef.markForCheck()`.
-If the component is only used as a test wrapper and never used in an application,
-it is acceptable to use `fixture.changeDetectorRef.markForCheck()`.
+Para suites de teste existentes, usar `fixture.detectChanges()` é um padrão comum
+e provavelmente não vale o esforço de converter esses para
+`await fixture.whenStable()`. `TestBed` ainda aplicará que o
+component do fixture seja compatível com `OnPush` e lança `ExpressionChangedAfterItHasBeenCheckedError`
+se encontrar que valores de template foram atualizados sem uma
+notificação de mudança (ou seja, `fixture.componentInstance.someValue = 'newValue';`).
+Se o component é usado em produção, este problema deve ser resolvido atualizando
+o component para usar signals para estado ou chamar `ChangeDetectorRef.markForCheck()`.
+Se o component é usado apenas como um wrapper de teste e nunca usado em uma aplicação,
+é aceitável usar `fixture.changeDetectorRef.markForCheck()`.
 
-### Debug-mode check to ensure updates are detected
+### Verificação em modo debug para garantir que atualizações são detectadas
 
-Angular also provides an additional tool to help verify that an application is making
-updates to state in a zoneless-compatible way. `provideCheckNoChangesConfig({exhaustive: true, interval: <milliseconds>})`
-can be used to periodically check to ensure that no bindings have been updated
-without a notification. Angular throws `ExpressionChangedAfterItHasBeenCheckedError`
-if there is an updated binding that would not have refreshed by the zoneless change
-detection.
+O Angular também fornece uma ferramenta adicional para ajudar a verificar que uma aplicação está fazendo
+atualizações de estado de uma forma compatível com zoneless. `provideCheckNoChangesConfig({exhaustive: true, interval: <milliseconds>})`
+pode ser usado para verificar periodicamente para garantir que nenhum binding foi atualizado
+sem uma notificação. O Angular lança `ExpressionChangedAfterItHasBeenCheckedError`
+se houver um binding atualizado que não teria sido atualizado pela change
+detection zoneless.

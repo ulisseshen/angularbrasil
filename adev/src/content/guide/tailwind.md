@@ -1,30 +1,31 @@
-# Using Tailwind CSS with Angular
+<!-- ia-translate: true -->
+# Usando Tailwind CSS com Angular
 
-[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework that can be used to build modern websites without ever leaving your HTML. This guide will walk you through setting up Tailwind CSS in your Angular project.
+[Tailwind CSS](https://tailwindcss.com/) é um framework CSS utility-first que pode ser usado para construir sites modernos sem nunca sair do seu HTML. Este guia irá orientá-lo na configuração do Tailwind CSS no seu projeto Angular.
 
-## Setting up Tailwind CSS
+## Configurando Tailwind CSS
 
-### 1. Create an Angular project
+### 1. Criar um projeto Angular
 
-First, create a new Angular project if you don't have one set up already.
+Primeiro, crie um novo projeto Angular se você ainda não tem um configurado.
 
 <docs-code language="shell">
 ng new my-project
 cd my-project
 </docs-code>
 
-### 2. Install Tailwind CSS
+### 2. Instalar Tailwind CSS
 
-Next, open a terminal in your Angular project's root directory and run the following command to install Tailwind CSS and its peer dependencies:
+Em seguida, abra um terminal no diretório raiz do seu projeto Angular e execute o seguinte comando para instalar o Tailwind CSS e suas dependências peer:
 
 <docs-code language="shell">
 npm install tailwindcss @tailwindcss/postcss postcss
 </docs-code>
 
-### 3. Configure PostCSS Plugins
+### 3. Configurar PostCSS Plugins
 
-Next, add a `.postcssrc.json` file in the file root of the project.
-Add the `@tailwindcss/postcss` plugin into your PostCSS configuration.
+Em seguida, adicione um arquivo `.postcssrc.json` na raiz do projeto.
+Adicione o plugin `@tailwindcss/postcss` à sua configuração PostCSS.
 
 <docs-code language="json" header=".postcssrc.json">
 {
@@ -34,25 +35,25 @@ Add the `@tailwindcss/postcss` plugin into your PostCSS configuration.
 }
 </docs-code>
 
-### 4. Import Tailwind CSS
+### 4. Importar Tailwind CSS
 
-Add an `@import` to `./src/styles.css` that imports Tailwind CSS.
+Adicione um `@import` ao `./src/styles.css` que importa Tailwind CSS.
 
 <docs-code language="css" header="src/styles.css">
 @import "tailwindcss";
 </docs-code>
 
-If you're using SCSS, add `@use` to `./src/styles.scss`.
+Se você está usando SCSS, adicione `@use` ao `./src/styles.scss`.
 
 <docs-code language="scss" header="src/styles.scss">
 @use "tailwindcss";
 </docs-code>
 
-### 5. Start using Tailwind in your project
+### 5. Começar a usar Tailwind no seu projeto
 
-You can now start using Tailwind's utility classes in your component templates to style your application.
+Agora você pode começar a usar as classes utility do Tailwind nos seus templates de components para estilizar sua aplicação.
 
-For example, you can add the following to your `app.html` file:
+Por exemplo, você pode adicionar o seguinte ao seu arquivo `app.html`:
 
 <docs-code language="html">
 <h1 class="text-3xl font-bold underline">
@@ -60,10 +61,10 @@ For example, you can add the following to your `app.html` file:
 </h1>
 </docs-code>
 
-### 6. Start using Tailwind in your project
+### 6. Começar a usar Tailwind no seu projeto
 
-Run your build process with `ng serve` and you should see the styled heading.
+Execute seu processo de build com `ng serve` e você deve ver o heading estilizado.
 
-## Additional Resources
+## Recursos Adicionais
 
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Documentação do Tailwind CSS](https://tailwindcss.com/docs)

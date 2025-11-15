@@ -1,0 +1,24 @@
+# Files with PT-BR Equivalents - MIGRATION COMPLETED ✅
+
+## Status: All 16 files successfully migrated on 2025-11-15
+
+These files were migrated from separate pt-br/ subdirectories to in-place translations:
+
+✅ adev/src/content/guide/components/advanced-configuration.md
+✅ adev/src/content/guide/components/queries.md
+✅ adev/src/content/guide/components/selectors.md
+✅ adev/src/content/guide/di/creating-and-using-services.md
+✅ adev/src/content/guide/di/dependency-injection-context.md
+✅ adev/src/content/guide/forms/signals/models.md
+✅ adev/src/content/guide/forms/typed-forms.md
+✅ adev/src/content/guide/http/http-resource.md
+✅ adev/src/content/guide/http/overview.md
+✅ adev/src/content/guide/hydration.md
+✅ adev/src/content/guide/i18n/deploy.md
+✅ adev/src/content/guide/i18n/import-global-variants.md
+✅ adev/src/content/guide/i18n/translation-files.md
+✅ adev/src/content/guide/incremental-hydration.md
+✅ adev/src/content/guide/tailwind.md
+✅ adev/src/content/guide/zoneless.md
+
+All files now contain the <!-- ia-translate: true --> marker and follow the modern in-place translation approach.
