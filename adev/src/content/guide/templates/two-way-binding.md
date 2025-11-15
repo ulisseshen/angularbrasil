@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Two-way binding
 
-**Two way binding** is a shorthand to simultaneously bind a value into an element, while also giving that element the ability to propagate changes back through this binding.
+**Two way binding** é um atalho para simultaneamente vincular um valor a um elemento, enquanto também dá a esse elemento a capacidade de propagar mudanças de volta através desse binding.
 
-## Syntax
+## Sintaxe
 
-The syntax for two-way binding is a combination of square brackets and parentheses, `[()]`. It combines the syntax from property binding, `[]`, and the syntax from event binding, `()`. The Angular community informally refers to this syntax as "banana-in-a-box".
+A sintaxe para two-way binding é uma combinação de colchetes e parênteses, `[()]`. Ela combina a sintaxe de property binding, `[]`, e a sintaxe de event binding, `()`. A comunidade Angular informalmente se refere a essa sintaxe como "banana-in-a-box".
 
-## Two-way binding with form controls
+## Two-way binding com form controls
 
-Developers commonly use two-way binding to keep component data in sync with a form control as a user interacts with the control. For example, when a user fills out a text input, it should update the state in the component.
+Desenvolvedores comumente usam two-way binding para manter os dados do component sincronizados com um form control enquanto o usuário interage com o control. Por exemplo, quando um usuário preenche um input de texto, ele deve atualizar o estado no component.
 
-The following example dynamically updates the `firstName` attribute on the page:
+O exemplo a seguir atualiza dinamicamente o atributo `firstName` na página:
 
 ```angular-ts
 import { Component } from '@angular/core';
@@ -30,21 +31,21 @@ export class AppComponent {
 }
 ```
 
-To use two-way binding with native form controls, you need to:
+Para usar two-way binding com form controls nativos, você precisa:
 
-1. Import the `FormsModule` from `@angular/forms`
-1. Use the `ngModel` directive with the two-way binding syntax (e.g., `[(ngModel)]`)
-1. Assign it the state that you want it to update (e.g., `firstName`)
+1. Importar o `FormsModule` de `@angular/forms`
+1. Usar a directive `ngModel` com a sintaxe de two-way binding (ex., `[(ngModel)]`)
+1. Atribuí-lo ao estado que você quer atualizar (ex., `firstName`)
 
-Once that is set up, Angular will ensure that any updates in the text input will reflect correctly inside of the component state!
+Uma vez configurado, o Angular garantirá que quaisquer atualizações no input de texto sejam refletidas corretamente dentro do estado do component!
 
-Learn more about [`NgModel`](guide/directives#displaying-and-updating-properties-with-ngmodel) in the official docs.
+Saiba mais sobre [`NgModel`](guide/directives#displaying-and-updating-properties-with-ngmodel) na documentação oficial.
 
-## Two-way binding between components
+## Two-way binding entre components
 
-Leveraging two-way binding between a parent and child component requires more configuration compared to form elements.
+Aproveitar two-way binding entre um component pai e filho requer mais configuração comparado a elementos de formulário.
 
-Here is an example where the `AppComponent` is responsible for setting the initial count state, but the logic for updating and rendering the UI for the counter primarily resides inside its child `CounterComponent`.
+Aqui está um exemplo onde o `AppComponent` é responsável por definir o estado inicial do count, mas a lógica para atualizar e renderizar a UI do contador reside principalmente dentro do seu component filho `CounterComponent`.
 
 ```angular-ts
 // ./app.component.ts
@@ -87,19 +88,19 @@ export class CounterComponent {
 }
 ```
 
-### Enabling two-way binding between components
+### Habilitando two-way binding entre components
 
-If we break down the example above to its core, each two-way binding for components requires the following:
+Se quebrarmos o exemplo acima em sua essência, cada two-way binding para components requer o seguinte:
 
-The child component must contain a `model` property.
+O component filho deve conter uma propriedade `model`.
 
-Here is a simplified example:
+Aqui está um exemplo simplificado:
 
 ```angular-ts
 // './counter/counter.component.ts';
 import { Component, model } from '@angular/core';
 
-@Component({ /* Omitted for brevity */ })
+@Component({ /* Omitido para brevidade */ })
 export class CounterComponent {
   count = model<number>(0);
 
@@ -109,12 +110,12 @@ export class CounterComponent {
 }
 ```
 
-The parent component must:
+O component pai deve:
 
-1. Wrap the `model` property name in the two-way binding syntax.
-1. Assign a property or a signal to the `model` property.
+1. Envolver o nome da propriedade `model` na sintaxe de two-way binding.
+1. Atribuir uma propriedade ou um signal à propriedade `model`.
 
-Here is a simplified example:
+Aqui está um exemplo simplificado:
 
 ```angular-ts
 // ./app.component.ts
