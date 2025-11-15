@@ -1,15 +1,16 @@
-# DI in action
+<!-- ia-translate: true -->
+# DI em ação
 
-This guide explores additional features of dependency injection in Angular.
+Este guia explora recursos adicionais de dependency injection no Angular.
 
-NOTE: For comprehensive coverage of InjectionToken and custom providers, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injection-tokens).
+NOTA: Para cobertura abrangente de InjectionToken e providers customizados, veja o [guia de definição de providers de dependência](guide/di/defining-dependency-providers#injection-tokens).
 
-## Inject the component's DOM element
+## Injetar o elemento DOM do component
 
-Although developers strive to avoid it, some visual effects and third-party tools require direct DOM access.
-As a result, you might need to access a component's DOM element.
+Embora desenvolvedores se esforcem para evitar isso, alguns efeitos visuais e ferramentas de terceiros requerem acesso direto ao DOM.
+Como resultado, você pode precisar acessar o elemento DOM de um component.
 
-Angular exposes the underlying element of a `@Component` or `@Directive` via injection using the `ElementRef` injection token:
+O Angular expõe o elemento subjacente de um `@Component` ou `@Directive` via injeção usando o token de injeção `ElementRef`:
 
 <docs-code language="typescript" highlight="[7]">
 import { Directive, ElementRef } from '@angular/core';
@@ -26,21 +27,21 @@ this.element.nativeElement.style.color = 'red';
 }
 </docs-code>
 
-## Resolve circular dependencies with a forward reference
+## Resolver dependências circulares com uma referência forward
 
-The order of class declaration matters in TypeScript.
-You can't refer directly to a class until it's been defined.
+A ordem de declaração de classe importa no TypeScript.
+Você não pode se referir diretamente a uma classe até que ela tenha sido definida.
 
-This isn't usually a problem, especially if you adhere to the recommended _one class per file_ rule.
-But sometimes circular references are unavoidable.
-For example, when class 'A' refers to class 'B' and 'B' refers to 'A', one of them has to be defined first.
+Isso geralmente não é um problema, especialmente se você adere à regra recomendada de _uma classe por arquivo_.
+Mas às vezes referências circulares são inevitáveis.
+Por exemplo, quando a classe 'A' se refere à classe 'B' e 'B' se refere a 'A', uma delas tem que ser definida primeiro.
 
-The Angular `forwardRef()` function creates an _indirect_ reference that Angular can resolve later.
+A função `forwardRef()` do Angular cria uma referência _indireta_ que o Angular pode resolver posteriormente.
 
-You face a similar problem when a class makes _a reference to itself_.
-For example, in its `providers` array.
-The `providers` array is a property of the `@Component()` decorator function, which must appear before the class definition.
-You can break such circular references by using `forwardRef`.
+Você enfrenta um problema similar quando uma classe faz _uma referência a si mesma_.
+Por exemplo, no seu array `providers`.
+O array `providers` é uma propriedade da função decorator `@Component()`, que deve aparecer antes da definição da classe.
+Você pode quebrar tais referências circulares usando `forwardRef`.
 
 <docs-code header="app.component.ts" language="typescript" highlight="[4]">
 providers: [
