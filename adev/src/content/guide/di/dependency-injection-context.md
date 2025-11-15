@@ -1,26 +1,27 @@
-# Injection context
+<!-- ia-translate: true -->
+# Contexto de injeção
 
-The dependency injection (DI) system relies internally on a runtime context where the current injector is available.
+O sistema de injeção de dependência (DI) depende internamente de um contexto de tempo de execução onde o injector atual está disponível.
 
-This means that injectors can only work when code is executed in such a context.
+Isso significa que injectors podem funcionar apenas quando o código é executado em tal contexto.
 
-The injection context is available in these situations:
+O contexto de injeção está disponível nestas situações:
 
-- During construction (via the `constructor`) of a class being instantiated by the DI system, such as an `@Injectable` or `@Component`.
-- In the initializer for fields of such classes.
-- In the factory function specified for `useFactory` of a `Provider` or an `@Injectable`.
-- In the `factory` function specified for an `InjectionToken`.
-- Within a stack frame that runs in an injection context.
+- Durante a construção (via `constructor`) de uma classe sendo instanciada pelo sistema de DI, como um `@Injectable` ou `@Component`.
+- No inicializador para campos de tais classes.
+- Na factory function especificada para `useFactory` de um `Provider` ou um `@Injectable`.
+- Na factory function especificada para um `InjectionToken`.
+- Dentro de um stack frame que executa em um contexto de injeção.
 
-Knowing when you are in an injection context will allow you to use the [`inject`](api/core/inject) function to inject instances.
+Saber quando você está em um contexto de injeção permitirá que você use a função [`inject`](api/core/inject) para injetar instâncias.
 
-NOTE: For basic examples of using `inject()` in class constructors and field initializers, see the [overview guide](guide/di/overview#where-can-inject-be-used).
+NOTE: Para exemplos básicos de uso de `inject()` em construtores de classe e inicializadores de campo, veja o [guia de visão geral](guide/di/overview#where-can-inject-be-used).
 
-## Stack frame in context
+## Stack frame em contexto
 
-Some APIs are designed to be run in an injection context. This is the case, for example, with router guards. This allows the use of [`inject`](api/core/inject) within the guard function to access a service.
+Algumas APIs são projetadas para serem executadas em um contexto de injeção. Este é o caso, por exemplo, com router guards. Isso permite o uso de [`inject`](api/core/inject) dentro da função guard para acessar um service.
 
-Here is an example for `CanActivateFn`
+Aqui está um exemplo para `CanActivateFn`
 
 <docs-code language="typescript" highlight="[3]">
 const canActivateTeam: CanActivateFn =
@@ -29,10 +30,10 @@ const canActivateTeam: CanActivateFn =
     };
 </docs-code>
 
-## Run within an injection context
+## Executar dentro de um contexto de injeção
 
-When you want to run a given function in an injection context without already being in one, you can do so with `runInInjectionContext`.
-This requires access to a given injector, like the `EnvironmentInjector`, for example:
+Quando você quer executar uma determinada função em um contexto de injeção sem já estar em um, você pode fazer isso com `runInInjectionContext`.
+Isso requer acesso a um injector específico, como o `EnvironmentInjector`, por exemplo:
 
 <docs-code header="src/app/heroes/hero.service.ts" language="typescript"
            highlight="[9]">
@@ -50,11 +51,11 @@ export class HeroService {
 }
 </docs-code>
 
-Note that `inject` will return an instance only if the injector can resolve the required token.
+Note que `inject` retornará uma instância apenas se o injector puder resolver o token requerido.
 
-## Asserts the context
+## Verificando o contexto
 
-Angular provides the `assertInInjectionContext` helper function to assert that the current context is an injection context and throws a clear error if not. Pass a reference to the calling function so the error message points to the correct API entry point. This produces a clearer, more actionable message than the default generic injection error.
+O Angular fornece a função helper `assertInInjectionContext` para verificar que o contexto atual é um contexto de injeção e lança um erro claro se não for. Passe uma referência para a função chamadora para que a mensagem de erro aponte para o ponto de entrada correto da API. Isso produz uma mensagem mais clara e acionável do que o erro genérico de injeção padrão.
 
 ```ts
 import { ElementRef, assertInInjectionContext, inject } from '@angular/core';
@@ -65,7 +66,7 @@ export function injectNativeElement<T extends Element>(): T {
 }
 ```
 
-You can then call this helper **from an injection context** (constructor, field initializer, provider factory, or code executed via `runInInjectionContext`):
+Você pode então chamar este helper **de um contexto de injeção** (constructor, inicializador de campo, provider factory, ou código executado via `runInInjectionContext`):
 
 ```ts
 import { Component, inject } from '@angular/core';
@@ -81,6 +82,6 @@ export class PreviewCard {
 }
 ```
 
-## Using DI outside of a context
+## Usando DI fora de um contexto
 
-Calling [`inject`](api/core/inject) or calling `assertInInjectionContext` outside of an injection context will throw [error NG0203](/errors/NG0203).
+Chamar [`inject`](api/core/inject) ou chamar `assertInInjectionContext` fora de um contexto de injeção lançará [erro NG0203](/errors/NG0203).

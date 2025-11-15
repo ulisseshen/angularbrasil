@@ -1,38 +1,38 @@
-# Advanced component configuration
+<!-- ia-translate: true -->
+# Configuração avançada de components
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia assume que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
 ## ChangeDetectionStrategy
 
-The `@Component` decorator accepts a `changeDetection` option that controls the component's **change
-detection mode**. There are two change detection mode options.
+O decorator `@Component` aceita uma opção `changeDetection` que controla o **modo de detecção de mudanças** do component. Existem duas opções de modo de detecção de mudanças.
 
-**`ChangeDetectionStrategy.Default`** is, unsurprisingly, the default strategy. In this mode,
-Angular checks whether the component's DOM needs an update whenever any activity may have occurred
-application-wide. Activities that trigger this checking include user interaction, network response,
-timers, and more.
+**`ChangeDetectionStrategy.Default`** é, sem surpresa, a estratégia padrão. Neste modo,
+o Angular verifica se o DOM do component precisa de uma atualização sempre que qualquer atividade possa ter ocorrido
+em toda a aplicação. Atividades que acionam esta verificação incluem interação do usuário, resposta de rede,
+timers, e mais.
 
-**`ChangeDetectionStrategy.OnPush`** is an optional mode that reduces the amount of checking Angular
-needs to perform. In this mode, the framework only checks if a component's DOM needs an update when:
+**`ChangeDetectionStrategy.OnPush`** é um modo opcional que reduz a quantidade de verificações que o Angular
+precisa realizar. Neste modo, o framework verifica se o DOM de um component precisa de uma atualização apenas quando:
 
-- A component input has changes as a result of a binding in a template, or
-- An event listener in this component runs
-- The component is explicitly marked for check, via `ChangeDetectorRef.markForCheck` or something which wraps it, like `AsyncPipe`.
+- Um input do component tem mudanças como resultado de um binding em um template, ou
+- Um event listener neste component é executado
+- O component é explicitamente marcado para verificação, via `ChangeDetectorRef.markForCheck` ou algo que o envolva, como `AsyncPipe`.
 
-Additionally, when an OnPush component is checked, Angular _also_ checks all of its ancestor
-components, traversing upwards through the application tree.
+Além disso, quando um component OnPush é verificado, o Angular _também_ verifica todos os seus components
+ancestrais, percorrendo para cima através da árvore da aplicação.
 
 ## PreserveWhitespaces
 
-By default, Angular removes and collapses superfluous whitespace in templates, most commonly from
-newlines and indentation. You can change this setting by explicitly setting `preserveWhitespaces` to
-`true` in a component's metadata.
+Por padrão, o Angular remove e colapsa espaços em branco supérfluos em templates, mais comumente de
+quebras de linha e indentação. Você pode alterar esta configuração definindo explicitamente `preserveWhitespaces` como
+`true` nos metadados de um component.
 
 ## Custom element schemas
 
-By default, Angular throws an error when it encounters an unknown HTML element. You can
-disable this behavior for a component by including `CUSTOM_ELEMENTS_SCHEMA` in the `schemas`
-property in your component metadata.
+Por padrão, o Angular lança um erro quando encontra um elemento HTML desconhecido. Você pode
+desabilitar este comportamento para um component incluindo `CUSTOM_ELEMENTS_SCHEMA` na propriedade `schemas`
+nos metadados do seu component.
 
 ```angular-ts
 import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
@@ -45,4 +45,4 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 export class ComponentWithCustomElements { }
 ```
 
-Angular does not support any other schemas at this time.
+O Angular não suporta nenhum outro schema neste momento.

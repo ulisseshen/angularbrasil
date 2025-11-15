@@ -1,90 +1,91 @@
-# Work with translation files
+<!-- ia-translate: true -->
+# Trabalhar com arquivos de tradução
 
-After you prepare a component for translation, use the [`extract-i18n`][CliExtractI18n] [Angular CLI][CliMain] command to extract the marked text in the component into a _source language_ file.
+Após preparar um component para tradução, use o comando [`extract-i18n`][CliExtractI18n] do [Angular CLI][CliMain] para extrair o texto marcado no component em um arquivo de _idioma de origem_.
 
-The marked text includes text marked with `i18n`, attributes marked with `i18n-`_attribute_, and text tagged with `$localize` as described in [Prepare component for translation][GuideI18nCommonPrepare].
+O texto marcado inclui texto marcado com `i18n`, atributos marcados com `i18n-`_attribute_, e texto marcado com `$localize` conforme descrito em [Preparar component para tradução][GuideI18nCommonPrepare].
 
-Complete the following steps to create and update translation files for your project.
+Complete os seguintes passos para criar e atualizar arquivos de tradução para o seu projeto.
 
-1. [Extract the source language file][GuideI18nCommonTranslationFilesExtractTheSourceLanguageFile].
-   1. Optionally, change the location, format, and name.
-1. Copy the source language file to [create a translation file for each language][GuideI18nCommonTranslationFilesCreateATranslationFileForEachLanguage].
-1. [Translate each translation file][GuideI18nCommonTranslationFilesTranslateEachTranslationFile].
-1. Translate plurals and alternate expressions separately.
-   1. [Translate plurals][GuideI18nCommonTranslationFilesTranslatePlurals].
-   1. [Translate alternate expressions][GuideI18nCommonTranslationFilesTranslateAlternateExpressions].
-   1. [Translate nested expressions][GuideI18nCommonTranslationFilesTranslateNestedExpressions].
+1. [Extrair o arquivo de idioma de origem][GuideI18nCommonTranslationFilesExtractTheSourceLanguageFile].
+   1. Opcionalmente, altere a localização, formato e nome.
+1. Copie o arquivo de idioma de origem para [criar um arquivo de tradução para cada idioma][GuideI18nCommonTranslationFilesCreateATranslationFileForEachLanguage].
+1. [Traduza cada arquivo de tradução][GuideI18nCommonTranslationFilesTranslateEachTranslationFile].
+1. Traduza plurais e expressões alternativas separadamente.
+   1. [Traduza plurais][GuideI18nCommonTranslationFilesTranslatePlurals].
+   1. [Traduza expressões alternativas][GuideI18nCommonTranslationFilesTranslateAlternateExpressions].
+   1. [Traduza expressões aninhadas][GuideI18nCommonTranslationFilesTranslateNestedExpressions].
 
-## Extract the source language file
+## Extrair o arquivo de idioma de origem
 
-To extract the source language file, complete the following actions.
+Para extrair o arquivo de idioma de origem, complete as seguintes ações.
 
-1. Open a terminal window.
-1. Change to the root directory of your project.
-1. Run the following CLI command.
+1. Abra uma janela de terminal.
+1. Mude para o diretório raiz do seu projeto.
+1. Execute o seguinte comando CLI.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="extract-i18n-default"/>
 
-The `extract-i18n` command creates a source language file named `messages.xlf` in the root directory of your project.
-For more information about the XML Localization Interchange File Format \(XLIFF, version 1.2\), see [XLIFF][WikipediaWikiXliff].
+O comando `extract-i18n` cria um arquivo de idioma de origem chamado `messages.xlf` no diretório raiz do seu projeto.
+Para mais informações sobre o XML Localization Interchange File Format \(XLIFF, versão 1.2\), veja [XLIFF][WikipediaWikiXliff].
 
-Use the following [`extract-i18n`][CliExtractI18n] command options to change the source language file location, format, and file name.
+Use as seguintes opções do comando [`extract-i18n`][CliExtractI18n] para alterar a localização, formato e nome do arquivo de idioma de origem.
 
-| Command option  | Details                              |
-| :-------------- | :----------------------------------- |
-| `--format`      | Set the format of the output file    |
-| `--out-file`    | Set the name of the output file      |
-| `--output-path` | Set the path of the output directory |
+| Opção do comando | Detalhes                                      |
+| :--------------- | :-------------------------------------------- |
+| `--format`       | Define o formato do arquivo de saída          |
+| `--out-file`     | Define o nome do arquivo de saída             |
+| `--output-path`  | Define o caminho do diretório de saída        |
 
-### Change the source language file location
+### Alterar a localização do arquivo de idioma de origem
 
-To create a file in the `src/locale` directory, specify the output path as an option.
+Para criar um arquivo no diretório `src/locale`, especifique o caminho de saída como uma opção.
 
-#### `extract-i18n --output-path` example
+#### Exemplo de `extract-i18n --output-path`
 
-The following example specifies the output path as an option.
+O exemplo a seguir especifica o caminho de saída como uma opção.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="extract-i18n-output-path"/>
 
-### Change the source language file format
+### Alterar o formato do arquivo de idioma de origem
 
-The `extract-i18n` command creates files in the following translation formats.
+O comando `extract-i18n` cria arquivos nos seguintes formatos de tradução.
 
-| Translation format | Details                                                                                                          | File extension    |
-| :----------------- | :--------------------------------------------------------------------------------------------------------------- | :---------------- |
-| ARB                | [Application Resource Bundle][GithubGoogleAppResourceBundleWikiApplicationresourcebundlespecification]           | `.arb`            |
-| JSON               | [JavaScript Object Notation][JsonMain]                                                                           | `.json`           |
-| XLIFF 1.2          | [XML Localization Interchange File Format, version 1.2][OasisOpenDocsXliffXliffCoreXliffCoreHtml]                | `.xlf`            |
-| XLIFF 2            | [XML Localization Interchange File Format, version 2][OasisOpenDocsXliffXliffCoreV20Cos01XliffCoreV20Cose01Html] | `.xlf`            |
-| XMB                | [XML Message Bundle][UnicodeCldrDevelopmentDevelopmentProcessDesignProposalsXmb]                                 | `.xmb` \(`.xtb`\) |
+| Formato de tradução | Detalhes                                                                                                          | Extensão do arquivo |
+| :------------------ | :---------------------------------------------------------------------------------------------------------------- | :------------------ |
+| ARB                 | [Application Resource Bundle][GithubGoogleAppResourceBundleWikiApplicationresourcebundlespecification]           | `.arb`              |
+| JSON                | [JavaScript Object Notation][JsonMain]                                                                            | `.json`             |
+| XLIFF 1.2           | [XML Localization Interchange File Format, versão 1.2][OasisOpenDocsXliffXliffCoreXliffCoreHtml]                 | `.xlf`              |
+| XLIFF 2             | [XML Localization Interchange File Format, versão 2][OasisOpenDocsXliffXliffCoreV20Cos01XliffCoreV20Cose01Html]  | `.xlf`              |
+| XMB                 | [XML Message Bundle][UnicodeCldrDevelopmentDevelopmentProcessDesignProposalsXmb]                                  | `.xmb` \(`.xtb`\)   |
 
-Specify the translation format explicitly with the `--format` command option.
+Especifique o formato de tradução explicitamente com a opção de comando `--format`.
 
-HELPFUL: The XMB format generates `.xmb` source language files, but uses`.xtb` translation files.
+HELPFUL: O formato XMB gera arquivos de idioma de origem `.xmb`, mas usa arquivos de tradução `.xtb`.
 
-#### `extract-i18n --format` example
+#### Exemplo de `extract-i18n --format`
 
-The following example demonstrates several translation formats.
+O exemplo a seguir demonstra vários formatos de tradução.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="extract-i18n-formats"/>
 
-### Change the source language file name
+### Alterar o nome do arquivo de idioma de origem
 
-To change the name of the source language file generated by the extraction tool, use the `--out-file` command option.
+Para alterar o nome do arquivo de idioma de origem gerado pela ferramenta de extração, use a opção de comando `--out-file`.
 
-#### `extract-i18n --out-file` example
+#### Exemplo de `extract-i18n --out-file`
 
-The following example demonstrates naming the output file.
+O exemplo a seguir demonstra como nomear o arquivo de saída.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="extract-i18n-out-file"/>
 
-## Create a translation file for each language
+## Criar um arquivo de tradução para cada idioma
 
-To create a translation file for a locale or language, complete the following actions.
+Para criar um arquivo de tradução para um locale ou idioma, complete as seguintes ações.
 
-1. [Extract the source language file][GuideI18nCommonTranslationFilesExtractTheSourceLanguageFile].
-1. Make a copy of the source language file to create a _translation_ file for each language.
-1. Rename the _translation_ file to add the locale.
+1. [Extraia o arquivo de idioma de origem][GuideI18nCommonTranslationFilesExtractTheSourceLanguageFile].
+1. Faça uma cópia do arquivo de idioma de origem para criar um arquivo de _tradução_ para cada idioma.
+1. Renomeie o arquivo de _tradução_ para adicionar o locale.
 
    <docs-code language="file">
 
@@ -92,7 +93,7 @@ To create a translation file for a locale or language, complete the following ac
 
    </docs-code>
 
-1. Create a new directory at your project root named `locale`.
+1. Crie um novo diretório na raiz do seu projeto chamado `locale`.
 
    <docs-code language="file">
 
@@ -100,123 +101,123 @@ To create a translation file for a locale or language, complete the following ac
 
    </docs-code>
 
-1. Move the _translation_ file to the new directory.
-1. Send the _translation_ file to your translator.
-1. Repeat the above steps for each language you want to add to your application.
+1. Mova o arquivo de _tradução_ para o novo diretório.
+1. Envie o arquivo de _tradução_ para o seu tradutor.
+1. Repita os passos acima para cada idioma que você deseja adicionar à sua aplicação.
 
-### `extract-i18n` example for French
+### Exemplo de `extract-i18n` para francês
 
-For example, to create a French translation file, complete the following actions.
+Por exemplo, para criar um arquivo de tradução para francês, complete as seguintes ações.
 
-1. Run the `extract-i18n` command.
-1. Make a copy of the `messages.xlf` source language file.
-1. Rename the copy to `messages.fr.xlf` for the French language \(`fr`\) translation.
-1. Move the `fr` translation file to the `src/locale` directory.
-1. Send the `fr` translation file to the translator.
+1. Execute o comando `extract-i18n`.
+1. Faça uma cópia do arquivo de idioma de origem `messages.xlf`.
+1. Renomeie a cópia para `messages.fr.xlf` para a tradução do idioma francês \(`fr`\).
+1. Mova o arquivo de tradução `fr` para o diretório `src/locale`.
+1. Envie o arquivo de tradução `fr` para o tradutor.
 
-## Translate each translation file
+## Traduzir cada arquivo de tradução
 
-Unless you are fluent in the language and have the time to edit translations, you will likely complete the following steps.
+A menos que você seja fluente no idioma e tenha tempo para editar traduções, você provavelmente completará os seguintes passos.
 
-1. Send each translation file to a translator.
-1. The translator uses an XLIFF file editor to complete the following actions.
-   1. Create the translation.
-   1. Edit the translation.
+1. Envie cada arquivo de tradução para um tradutor.
+1. O tradutor usa um editor de arquivos XLIFF para completar as seguintes ações.
+   1. Criar a tradução.
+   1. Editar a tradução.
 
-### Translation process example for French
+### Exemplo de processo de tradução para francês
 
-To demonstrate the process, review the `messages.fr.xlf` file in the [Example Angular Internationalization application][GuideI18nExample]. The [Example Angular Internationalization application][GuideI18nExample] includes a French translation for you to edit without a special XLIFF editor or knowledge of French.
+Para demonstrar o processo, revise o arquivo `messages.fr.xlf` na [aplicação de exemplo de Internacionalização do Angular][GuideI18nExample]. A [aplicação de exemplo de Internacionalização do Angular][GuideI18nExample] inclui uma tradução para francês que você pode editar sem um editor XLIFF especial ou conhecimento de francês.
 
-The following actions describe the translation process for French.
+As seguintes ações descrevem o processo de tradução para francês.
 
-1. Open `messages.fr.xlf` and find the first `<trans-unit>` element.
-   This is a _translation unit_, also known as a _text node_, that represents the translation of the `<h1>` greeting tag that was previously marked with the `i18n` attribute.
+1. Abra `messages.fr.xlf` e encontre o primeiro elemento `<trans-unit>`.
+   Esta é uma _unidade de tradução_, também conhecida como _nó de texto_, que representa a tradução da tag de saudação `<h1>` que foi previamente marcada com o atributo `i18n`.
 
    <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translated-hello-before"/>
 
-   The `id="introductionHeader"` is a [custom ID][GuideI18nOptionalManageMarkedText], but without the `@@` prefix required in the source HTML.
+   O `id="introductionHeader"` é um [ID personalizado][GuideI18nOptionalManageMarkedText], mas sem o prefixo `@@` exigido no HTML de origem.
 
-1. Duplicate the `<source>... </source>` element in the text node, rename it to `target`, and then replace the content with the French text.
+1. Duplique o elemento `<source>... </source>` no nó de texto, renomeie-o para `target`, e então substitua o conteúdo com o texto em francês.
 
-   <docs-code header="src/locale/messages.fr.xlf (<trans-unit>, after translation)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translated-hello"/>
+   <docs-code header="src/locale/messages.fr.xlf (<trans-unit>, após tradução)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translated-hello"/>
 
-   In a more complex translation, the information and context in the [description and meaning elements][GuideI18nCommonPrepareAddHelpfulDescriptionsAndMeanings] help you choose the right words for translation.
+   Em uma tradução mais complexa, a informação e contexto nos [elementos de descrição e significado][GuideI18nCommonPrepareAddHelpfulDescriptionsAndMeanings] ajudam você a escolher as palavras certas para a tradução.
 
-1. Translate the other text nodes.
-   The following example displays the way to translate.
+1. Traduza os outros nós de texto.
+   O exemplo a seguir exibe a forma de traduzir.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translated-other-nodes"/>
 
-IMPORTANT: Don't change the IDs for translation units.
-Each `id` attribute is generated by Angular and depends on the content of the component text and the assigned meaning.
+IMPORTANT: Não altere os IDs das unidades de tradução.
+Cada atributo `id` é gerado pelo Angular e depende do conteúdo do texto do component e do significado atribuído.
 
-If you change either the text or the meaning, then the `id` attribute changes.
-For more about managing text updates and IDs, see [custom IDs][GuideI18nOptionalManageMarkedText].
+Se você alterar o texto ou o significado, então o atributo `id` muda.
+Para mais informações sobre gerenciamento de atualizações de texto e IDs, veja [IDs personalizados][GuideI18nOptionalManageMarkedText].
 
-## Translate plurals
+## Traduzir plurais
 
-Add or remove plural cases as needed for each language.
+Adicione ou remova casos de plural conforme necessário para cada idioma.
 
-HELPFUL: For language plural rules, see [CLDR plural rules][GithubUnicodeOrgCldrStagingChartsLatestSupplementalLanguagePluralRulesHtml].
+HELPFUL: Para regras de plural de idiomas, veja [regras de plural do CLDR][GithubUnicodeOrgCldrStagingChartsLatestSupplementalLanguagePluralRulesHtml].
 
-### `minute` `plural` example
+### Exemplo de `plural` de `minute`
 
-To translate a `plural`, translate the ICU format match values.
+Para traduzir um `plural`, traduza os valores de correspondência do formato ICU.
 
 - `just now`
 - `one minute ago`
 - `<x id="INTERPOLATION" equiv-text="{{minutes}}"/> minutes ago`
 
-The following example displays the way to translate.
+O exemplo a seguir exibe a forma de traduzir.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translated-plural"/>
 
-## Translate alternate expressions
+## Traduzir expressões alternativas
 
-Angular also extracts alternate `select` ICU expressions as separate translation units.
+O Angular também extrai expressões ICU `select` alternativas como unidades de tradução separadas.
 
-### `gender` `select` example
+### Exemplo de `select` de `gender`
 
-The following example displays a `select` ICU expression in the component template.
+O exemplo a seguir exibe uma expressão ICU `select` no template do component.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-select"/>
 
-In this example, Angular extracts the expression into two translation units.
-The first contains the text outside of the `select` clause, and uses a placeholder for `select` \(`<x id="ICU">`\):
+Neste exemplo, o Angular extrai a expressão em duas unidades de tradução.
+A primeira contém o texto fora da cláusula `select`, e usa um placeholder para `select` \(`<x id="ICU">`\):
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translate-select-1"/>
 
-IMPORTANT: When you translate the text, move the placeholder if necessary, but don't remove it.
-If you remove the placeholder, the ICU expression is removed from your translated application.
+IMPORTANT: Quando você traduzir o texto, mova o placeholder se necessário, mas não o remova.
+Se você remover o placeholder, a expressão ICU é removida da sua aplicação traduzida.
 
-The following example displays the second translation unit that contains the `select` clause.
+O exemplo a seguir exibe a segunda unidade de tradução que contém a cláusula `select`.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translate-select-2"/>
 
-The following example displays both translation units after translation is complete.
+O exemplo a seguir exibe ambas as unidades de tradução após a tradução estar completa.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translated-select"/>
 
-## Translate nested expressions
+## Traduzir expressões aninhadas
 
-Angular treats a nested expression in the same manner as an alternate expression.
-Angular extracts the expression into two translation units.
+O Angular trata uma expressão aninhada da mesma forma que uma expressão alternativa.
+O Angular extrai a expressão em duas unidades de tradução.
 
-### Nested `plural` example
+### Exemplo de `plural` aninhado
 
-The following example displays the first translation unit that contains the text outside of the nested expression.
+O exemplo a seguir exibe a primeira unidade de tradução que contém o texto fora da expressão aninhada.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translate-nested-1"/>
 
-The following example displays the second translation unit that contains the complete nested expression.
+O exemplo a seguir exibe a segunda unidade de tradução que contém a expressão aninhada completa.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translate-nested-2"/>
 
-The following example displays both translation units after translating.
+O exemplo a seguir exibe ambas as unidades de tradução após traduzir.
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="translate-nested"/>
 
-## What's next
+## Próximos passos
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/merge" title="Merge translations into the app"/>
