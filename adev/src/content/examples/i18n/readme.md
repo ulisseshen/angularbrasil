@@ -1,22 +1,24 @@
-# Angular i18n Internationalization Example
+<!-- ia-translate: true -->
 
-This sample comes from the Angular documentation's "[Example Angular Internationalization application](https://angular.dev/guide/i18n/example)" page.
+# Exemplo de Internacionalização i18n do Angular
 
-## Install and Run the Download
+Este exemplo vem da página "[Exemplo de aplicação Angular de Internacionalização](https://angular.dev/guide/i18n/example)" da documentação do Angular.
 
-1. `npm install` the node_module packages
-2. `npm start` to see it run in English
-3. `npm run start:fr` to see it run with French translation.
+## Instalar e Executar o Download
 
-> See the scripts in `package.json` for an explanation of these commands.
+1. `npm install` os pacotes node_module
+2. `npm start` para vê-lo executar em inglês
+3. `npm run start:fr` para vê-lo executar com tradução em francês.
 
-## Run in Stackblitz
+> Veja os scripts em `package.json` para uma explicação desses comandos.
 
-Stackblitz compiles and runs the English version by default.
+## Executar no Stackblitz
 
-To see the example translate to French with Angular i18n:
+Stackblitz compila e executa a versão em inglês por padrão.
 
-1. Open the `project.json` file and add the following to the bottom:
+Para ver o exemplo traduzido para francês com Angular i18n:
+
+1. Abra o arquivo `project.json` e adicione o seguinte ao final:
 
 ```json
   "stackblitz": {
@@ -24,4 +26,4 @@ To see the example translate to French with Angular i18n:
   }
 ```
 
-1. Click the "Fork" button in the stackblitz header. That makes a new copy for you with this change and re-runs the example in French.
+1. Clique no botão "Fork" no cabeçalho do stackblitz. Isso faz uma nova cópia para você com esta mudança e re-executa o exemplo em francês.
