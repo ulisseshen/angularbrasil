@@ -1,21 +1,22 @@
-# CLI Reference
+<!-- ia-translate: true -->
+# Referência CLI
 
-| Command                            | Alias      | Description                                                                                               |
-| :--------------------------------- | :--------- | :-------------------------------------------------------------------------------------------------------- |
-| [`add`](cli/add)                   |            | Adds support for an external library to your project.                                                     |
-| [`analytics`](cli/analytics)       |            | Configures the gathering of Angular CLI usage metrics.                                                    |
-| [`build`](cli/build)               | `b`        | Compiles an Angular application or library into an output directory named dist/ at the given output path. |
-| [`cache`](cli/cache)               |            | Configure persistent disk cache and retrieve cache statistics.                                            |
-| [`completion`](cli/completion)     |            | Set up Angular CLI autocompletion for your terminal.                                                      |
-| [`config`](cli/config)             |            | Retrieves or sets Angular configuration values in the angular.json file for the workspace.                |
-| [`deploy`](cli/deploy)             |            | Invokes the deploy builder for a specified project or for the default project in the workspace.           |
-| [`e2e`](cli/e2e)                   | `e`        | Builds and serves an Angular application, then runs end-to-end tests.                                     |
-| [`extract-i18n`](cli/extract-i18n) |            | Extracts i18n messages from source code.                                                                  |
-| [`generate`](cli/generate)         | `g`        | Generates and/or modifies files based on a schematic.                                                     |
-| [`lint`](cli/lint)                 |            | Runs linting tools on Angular application code in a given project folder.                                 |
-| [`new`](cli/new)                   | `n`        | Creates a new Angular workspace.                                                                          |
-| [`run`](cli/run)                   |            | Runs an Architect target with an optional custom builder configuration defined in your project.           |
-| [`serve`](cli/serve)               | `s`, `dev` | Builds and serves your application, rebuilding on file changes.                                           |
-| [`test`](cli/test)                 | `t`        | Runs unit tests in a project.                                                                             |
-| [`update`](cli/update)             |            | Updates your workspace and its dependencies. See https://angular.dev/update-guide/.                       |
-| [`version`](cli/version)           | `v`        | Outputs Angular CLI version.                                                                              |
+| Comando                            | Alias      | Descrição                                                                                                         |
+| :--------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------------------- |
+| [`add`](cli/add)                   |            | Adiciona suporte para uma biblioteca externa ao seu projeto.                                                     |
+| [`analytics`](cli/analytics)       |            | Configura a coleta de métricas de uso do Angular CLI.                                                            |
+| [`build`](cli/build)               | `b`        | Compila uma aplicação ou biblioteca Angular em um diretório de saída chamado dist/ no caminho de saída fornecido.|
+| [`cache`](cli/cache)               |            | Configure cache de disco persistente e recupere estatísticas de cache.                                           |
+| [`completion`](cli/completion)     |            | Configure o autocompletar do Angular CLI para seu terminal.                                                      |
+| [`config`](cli/config)             |            | Recupera ou define valores de configuração Angular no arquivo angular.json para o workspace.                     |
+| [`deploy`](cli/deploy)             |            | Invoca o builder de deploy para um projeto especificado ou para o projeto padrão no workspace.                   |
+| [`e2e`](cli/e2e)                   | `e`        | Constrói e serve uma aplicação Angular, depois executa testes end-to-end.                                        |
+| [`extract-i18n`](cli/extract-i18n) |            | Extrai mensagens i18n do código-fonte.                                                                           |
+| [`generate`](cli/generate)         | `g`        | Gera e/ou modifica arquivos baseados em um schematic.                                                             |
+| [`lint`](cli/lint)                 |            | Executa ferramentas de linting no código de aplicação Angular em uma determinada pasta de projeto.               |
+| [`new`](cli/new)                   | `n`        | Cria um novo workspace Angular.                                                                                   |
+| [`run`](cli/run)                   |            | Executa um target Architect com uma configuração de builder personalizada opcional definida em seu projeto.      |
+| [`serve`](cli/serve)               | `s`, `dev` | Constrói e serve sua aplicação, reconstruindo em mudanças de arquivo.                                            |
+| [`test`](cli/test)                 | `t`        | Executa testes de unidade em um projeto.                                                                          |
+| [`update`](cli/update)             |            | Atualiza seu workspace e suas dependências. Veja https://angular.dev/update-guide/.                              |
+| [`version`](cli/version)           | `v`        | Exibe a versão do Angular CLI.                                                                                    |
