@@ -1,27 +1,28 @@
-# Data resolvers
+<!-- ia-translate: true -->
+# Resolvers de dados
 
-Data resolvers allow you to fetch data before navigating to a route, ensuring that your components receive the data they need before rendering. This can help prevent the need for loading states and improve the user experience by pre-loading essential data.
+Resolvers de dados permitem que você busque dados antes de navegar para uma route, garantindo que seus components recebam os dados que precisam antes da renderização. Isso pode ajudar a prevenir a necessidade de estados de carregamento e melhorar a experiência do usuário ao pré-carregar dados essenciais.
 
-## What are data resolvers?
+## O que são resolvers de dados?
 
-A data resolver is a service that implements the `ResolveFn` function. It runs before a route activates and can fetch data from APIs, databases, or other sources. The resolved data becomes available to the component through the `ActivatedRoute`.
+Um resolver de dados é um service que implementa a função `ResolveFn`. Ele é executado antes que uma route seja ativada e pode buscar dados de APIs, bancos de dados ou outras fontes. Os dados resolvidos ficam disponíveis para o component através do `ActivatedRoute`.
 
-## Why use data resolvers?
+## Por que usar resolvers de dados?
 
-Data resolvers solve common routing challenges:
+Resolvers de dados resolvem desafios comuns de roteamento:
 
-- **Prevent empty states**: Components receive data immediately upon loading
-- **Better user experience**: No loading spinners for critical data
-- **Error handling**: Handle data fetching errors before navigation
-- **Data consistency**: Ensure required data is available before rendering which is important for SSR
+- **Prevenir estados vazios**: Components recebem dados imediatamente ao carregar
+- **Melhor experiência do usuário**: Sem spinners de carregamento para dados críticos
+- **Tratamento de erros**: Lidar com erros de busca de dados antes da navegação
+- **Consistência de dados**: Garantir que os dados necessários estejam disponíveis antes da renderização, o que é importante para SSR
 
-## Creating a resolver
+## Criando um resolver
 
-You create a resolver by writing a function with the `ResolveFn` type.
+Você cria um resolver escrevendo uma função com o tipo `ResolveFn`.
 
-It receives the `ActivatedRouteSnapshot` and `RouterStateSnapshot` as parameters.
+Ele recebe o `ActivatedRouteSnapshot` e `RouterStateSnapshot` como parâmetros.
 
-Here is a resolver that gets the user information before rendering a route using the [`inject`](api/core/inject) function:
+Aqui está um resolver que obtém as informações do usuário antes de renderizar uma route usando a função [`inject`](api/core/inject):
 
 ```ts
 import { inject } from '@angular/core';
@@ -42,9 +43,9 @@ export const settingsResolver: ResolveFn<Settings> = (route: ActivatedRouteSnaps
 };
 ```
 
-## Configuring routes with resolvers
+## Configurando routes com resolvers
 
-When you want to add one or more data resolvers to a route, you can add it under the `resolve` key in the route configuration. The `Routes` type defines the structure for route configurations:
+Quando você deseja adicionar um ou mais resolvers de dados a uma route, você pode adicioná-lo sob a chave `resolve` na configuração da route. O tipo `Routes` define a estrutura para configurações de route:
 
 ```ts
 import { Routes } from '@angular/router';
@@ -61,13 +62,13 @@ export const routes: Routes = [
 ];
 ```
 
-You can learn more about the [`resolve` configuration in the API docs](api/router/Route#resolve).
+Você pode aprender mais sobre a [configuração `resolve` na documentação da API](api/router/Route#resolve).
 
-## Accessing resolved data in components
+## Acessando dados resolvidos em components
 
-### Using ActivatedRoute
+### Usando ActivatedRoute
 
-You can access the resolved data in a component by accessing the snapshot data from the `ActivatedRoute` using the `signal` function:
+Você pode acessar os dados resolvidos em um component acessando o snapshot data do `ActivatedRoute` usando a função `signal`:
 
 ```angular-ts
 import { Component, inject, computed } from '@angular/core';
@@ -90,9 +91,9 @@ export class UserDetail {
 }
 ```
 
-### Using withComponentInputBinding
+### Usando withComponentInputBinding
 
-A different approach to accessing the resolved data is to use `withComponentInputBinding()` when configuring your router with `provideRouter`. This allows resolved data to be passed directly as component inputs:
+Uma abordagem diferente para acessar os dados resolvidos é usar `withComponentInputBinding()` ao configurar seu router com `provideRouter`. Isso permite que dados resolvidos sejam passados diretamente como inputs do component:
 
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -106,7 +107,7 @@ bootstrapApplication(App, {
 });
 ```
 
-With this configuration, you can define inputs in your component that match the resolver keys using the `input` function and `input.required` for required inputs:
+Com esta configuração, você pode definir inputs no seu component que correspondem às chaves do resolver usando a função `input` e `input.required` para inputs obrigatórios:
 
 ```angular-ts
 import { Component, input } from '@angular/core';
@@ -125,21 +126,21 @@ export class UserDetail {
 }
 ```
 
-This approach provides better type safety and eliminates the need to inject `ActivatedRoute` just to access resolved data.
+Esta abordagem fornece melhor segurança de tipos e elimina a necessidade de injetar `ActivatedRoute` apenas para acessar dados resolvidos.
 
-## Error handling in resolvers
+## Tratamento de erros em resolvers
 
-In the event of navigation failures, it is important to handle errors gracefully in your data resolvers. Otherwise, a `NavigationError` will occur and the navigation to the current route will fail which will lead to a poor experience for your users.
+No caso de falhas de navegação, é importante tratar erros graciosamente em seus resolvers de dados. Caso contrário, um `NavigationError` ocorrerá e a navegação para a route atual falhará, o que levará a uma experiência ruim para seus usuários.
 
-There are three primary ways to handle errors with data resolvers:
+Existem três maneiras principais de lidar com erros com resolvers de dados:
 
-1. Centralize error handling in `withNavigationErrorHandler`
-2. Manage errors through a subscription to router events
-3. Handle errors directly in the resolver
+1. Centralizar o tratamento de erros em `withNavigationErrorHandler`
+2. Gerenciar erros através de uma subscription para eventos do router
+3. Lidar com erros diretamente no resolver
 
-### Centralize error handling in `withNavigationErrorHandler`
+### Centralizar o tratamento de erros em `withNavigationErrorHandler`
 
-The [`withNavigationErrorHandler`](api/router/withNavigationErrorHandler) feature provides a centralized way to handle all navigation errors, including those from failed data resolvers. This approach keeps error handling logic in one place and prevents duplicate error handling code across resolvers.
+O recurso [`withNavigationErrorHandler`](api/router/withNavigationErrorHandler) fornece uma maneira centralizada de lidar com todos os erros de navegação, incluindo aqueles de resolvers de dados que falharam. Esta abordagem mantém a lógica de tratamento de erros em um só lugar e previne código duplicado de tratamento de erros entre resolvers.
 
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -163,20 +164,20 @@ bootstrapApplication(App, {
 });
 ```
 
-With this configuration, your resolvers can focus on data fetching while letting the centralized handler manage error scenarios:
+Com esta configuração, seus resolvers podem focar na busca de dados enquanto deixam o handler centralizado gerenciar cenários de erro:
 
 ```ts
 export const userResolver: ResolveFn<User> = (route) => {
   const userStore = inject(UserStore);
   const userId = route.paramMap.get('id')!;
-  // No need for explicit error handling - let it bubble up
+  // Não é necessário tratamento explícito de erro - deixe borbulhar
   return userStore.getUser(userId);
 };
 ```
 
-### Managing errors through a subscription to router events
+### Gerenciando erros através de uma subscription para eventos do router
 
-You can also handle resolver errors by subscribing to router events and listening for `NavigationError` events. This approach gives you more granular control over error handling and allows you to implement custom error recovery logic.
+Você também pode lidar com erros de resolver fazendo subscription em eventos do router e ouvindo eventos `NavigationError`. Esta abordagem dá a você mais controle granular sobre o tratamento de erros e permite que você implemente lógica customizada de recuperação de erros.
 
 ```angular-ts
 import { Component, inject, signal } from '@angular/core';
@@ -226,15 +227,15 @@ export class App {
 }
 ```
 
-This approach is particularly useful when you need to:
+Esta abordagem é particularmente útil quando você precisa:
 
-- Implement custom retry logic for failed navigation
-- Show specific error messages based on the type of failure
-- Track navigation failures for analytics purposes
+- Implementar lógica de retry customizada para navegação falhada
+- Mostrar mensagens de erro específicas baseadas no tipo de falha
+- Rastrear falhas de navegação para propósitos de analytics
 
-### Handling errors directly in the resolver
+### Lidando com erros diretamente no resolver
 
-Here's an updated example of the `userResolver` that logs the error and navigates back to the generic `/users` page using the `Router` service:
+Aqui está um exemplo atualizado do `userResolver` que registra o erro e navega de volta para a página genérica `/users` usando o service `Router`:
 
 ```ts
 import { inject } from '@angular/core';
@@ -257,13 +258,13 @@ export const userResolver: ResolveFn<User | RedirectCommand> = (route) => {
 };
 ```
 
-## Navigation loading considerations
+## Considerações sobre carregamento de navegação
 
-While data resolvers prevent loading states within components, they introduce a different UX consideration: navigation is blocked while resolvers execute. Users may experience delays between clicking a link and seeing the new route, especially with slow network requests.
+Embora os resolvers de dados previnam estados de carregamento dentro de components, eles introduzem uma consideração de UX diferente: a navegação é bloqueada enquanto os resolvers são executados. Os usuários podem experimentar atrasos entre clicar em um link e ver a nova route, especialmente com requisições de rede lentas.
 
-### Providing navigation feedback
+### Fornecendo feedback de navegação
 
-To improve user experience during resolver execution, you can listen to router events and show loading indicators:
+Para melhorar a experiência do usuário durante a execução do resolver, você pode ouvir eventos do router e mostrar indicadores de carregamento:
 
 ```angular-ts
 import { Component, inject } from '@angular/core';
@@ -286,20 +287,20 @@ export class App {
 }
 ```
 
-This approach ensures users receive visual feedback that navigation is in progress while resolvers fetch data.
+Esta abordagem garante que os usuários recebam feedback visual de que a navegação está em progresso enquanto os resolvers buscam dados.
 
-## Best practices
+## Boas práticas
 
-- **Keep resolvers lightweight**: Resolvers should fetch essential data only and not everything the page could possibly need
-- **Handle errors**: Always remember to handle errors gracefully to provide the best experience possible to users
-- **Use caching**: Consider caching resolved data to improve performance
-- **Consider navigation UX**: Implement loading indicators for resolver execution since navigation is blocked during data fetching
-- **Set reasonable timeouts**: Avoid resolvers that could hang indefinitely and block navigation
-- **Type safety**: Use TypeScript interfaces for resolved data
+- **Mantenha resolvers leves**: Resolvers devem buscar apenas dados essenciais e não tudo que a página poderia possivelmente precisar
+- **Trate erros**: Sempre lembre-se de tratar erros graciosamente para fornecer a melhor experiência possível aos usuários
+- **Use cache**: Considere fazer cache de dados resolvidos para melhorar a performance
+- **Considere a UX de navegação**: Implemente indicadores de carregamento para a execução do resolver, já que a navegação é bloqueada durante a busca de dados
+- **Defina timeouts razoáveis**: Evite resolvers que possam travar indefinidamente e bloquear a navegação
+- **Segurança de tipos**: Use interfaces TypeScript para dados resolvidos
 
-## Reading parent resolved data in child resolvers
+## Lendo dados resolvidos do pai em resolvers filhos
 
-Resolvers execute from parent to child. When a parent route defines a resolver, its resolved data is available to child resolvers that run afterward.
+Resolvers executam do pai para o filho. Quando uma route pai define um resolver, seus dados resolvidos estão disponíveis para resolvers filhos que executam depois.
 
 ```ts
 import { inject } from '@angular/core';
@@ -312,16 +313,16 @@ import type { User } from './types';
 provideRouter([
   {
     path: 'users/:id',
-    resolve: { user: userResolver }, // user resolver in the parent route
+    resolve: { user: userResolver }, // resolver de usuário na route pai
     children: [
       {
         path: 'posts',
         component: UserPosts,
-        // route.data.user is available here while this resolver runs
+        // route.data.user está disponível aqui enquanto este resolver executa
         resolve: {
           posts: (route: ActivatedRouteSnapshot) => {
             const postService = inject(PostService);
-            const user = route.data['user'] as User; // parent data
+            const user = route.data['user'] as User; // dados do pai
             const userId = user.id;
             return postService.getPostByUser(userId);
           },

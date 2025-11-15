@@ -1,45 +1,46 @@
-# Phase 31: Guide - Routing (Additional Files)
+<!-- ia-translate: true -->
+# Fase 31: Guia - Routing (Arquivos Adicionais)
 
-**Category**: Guide - Routing (Additional)
-**Priority**: HIGH
-**Estimated Words**: ~10,000
-**Files**: 11
+**Categoria**: Guia - Routing (Adicional)
+**Prioridade**: ALTA
+**Palavras Estimadas**: ~10.000
+**Arquivos**: 11
 
-## Overview
+## Visão Geral
 
-This phase covers additional routing documentation files that were missing from the original plan. These are essential routing concepts that developers need to understand.
+Esta fase cobre arquivos adicionais de documentação sobre routing que estavam faltando no plano original. Estes são conceitos essenciais de routing que os desenvolvedores precisam entender.
 
-## Files to Translate
+## Arquivos para Traduzir
 
-### Guide - Routing (11 files)
+### Guia - Routing (11 arquivos)
 
-Progress: 0/11 (0%)
+Progresso: 0/11 (0%)
 
-- [ ] `guide/routing/data-resolvers.md` - Data resolvers for routes
-- [ ] `guide/routing/define-routes.md` - Defining routes
-- [ ] `guide/routing/lifecycle-and-events.md` - Router lifecycle and events
-- [ ] `guide/routing/navigate-to-routes.md` - Navigating to routes
-- [ ] `guide/routing/read-route-state.md` - Reading route state
-- [ ] `guide/routing/redirecting-routes.md` - Redirecting routes
-- [ ] `guide/routing/rendering-strategies.md` - Rendering strategies
-- [ ] `guide/routing/route-guards.md` - Route guards
-- [ ] `guide/routing/route-transition-animations.md` - Route transition animations
-- [ ] `guide/routing/show-routes-with-outlets.md` - Using router outlets
-- [ ] `guide/routing/testing.md` - Testing routing
+- [ ] `guide/routing/data-resolvers.md` - Resolvers de dados para routes
+- [ ] `guide/routing/define-routes.md` - Definindo routes
+- [ ] `guide/routing/lifecycle-and-events.md` - Ciclo de vida e eventos do Router
+- [ ] `guide/routing/navigate-to-routes.md` - Navegando para routes
+- [ ] `guide/routing/read-route-state.md` - Lendo o estado da route
+- [ ] `guide/routing/redirecting-routes.md` - Redirecionando routes
+- [ ] `guide/routing/rendering-strategies.md` - Estratégias de renderização
+- [ ] `guide/routing/route-guards.md` - Guards de route
+- [ ] `guide/routing/route-transition-animations.md` - Animações de transição de route
+- [ ] `guide/routing/show-routes-with-outlets.md` - Usando router outlets
+- [ ] `guide/routing/testing.md` - Testando routing
 
-## Translation Guidelines
+## Diretrizes de Tradução
 
-- Keep routing terms in English: route, router, routing, guard, resolver, outlet
-- Translate explanatory text to Portuguese
-- Preserve all code examples
-- Remember: Add `<!-- ia-translate: true -->` as the first line of each file
+- Mantenha os termos de routing em inglês: route, router, routing, guard, resolver, outlet
+- Traduza o texto explicativo para português
+- Preserve todos os exemplos de código
+- Lembre-se: Adicione `<!-- ia-translate: true -->` como a primeira linha de cada arquivo
 
-## Progress Tracking
+## Acompanhamento de Progresso
 
-- [ ] All files translated
-- [ ] All files reviewed
-- [ ] Phase completed
+- [ ] Todos os arquivos traduzidos
+- [ ] Todos os arquivos revisados
+- [ ] Fase concluída
 
-## Notes
+## Notas
 
-These files are critical for developers working with Angular routing. They complement the existing routing documentation from Phase 14.
+Estes arquivos são críticos para desenvolvedores trabalhando com Angular routing. Eles complementam a documentação existente de routing da Fase 14.
