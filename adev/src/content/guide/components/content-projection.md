@@ -1,9 +1,9 @@
-# Content projection with ng-content
+<!-- ia-translate: true -->
+# Projeção de conteúdo com ng-content
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
-You often need to create components that act as containers for different types of content. For
-example, you may want to create a custom card component:
+Frequentemente você precisa criar components que atuam como containers para diferentes tipos de conteúdo. Por exemplo, você pode querer criar um component de card personalizado:
 
 ```angular-ts
 @Component({
@@ -13,7 +13,7 @@ example, you may want to create a custom card component:
 export class CustomCard {/* ... */}
 ```
 
-**You can use the `<ng-content>` element as a placeholder to mark where content should go**:
+**Você pode usar o elemento `<ng-content>` como um espaço reservado para marcar onde o conteúdo deve ir**:
 
 ```angular-ts
 @Component({
@@ -23,12 +23,9 @@ export class CustomCard {/* ... */}
 export class CustomCard {/* ... */}
 ```
 
-TIP: `<ng-content>` works similarly
-to [the native `<slot>` element](https://developer.mozilla.org/docs/Web/HTML/Element/slot),
-but with some Angular-specific functionality.
+TIP: `<ng-content>` funciona de forma semelhante ao [elemento nativo `<slot>`](https://developer.mozilla.org/docs/Web/HTML/Element/slot), mas com algumas funcionalidades específicas do Angular.
 
-When you use a component with `<ng-content>`, any children of the component host element are
-rendered, or **projected**, at the location of that `<ng-content>`:
+Quando você usa um component com `<ng-content>`, quaisquer filhos do elemento host do component são renderizados, ou **projetados**, no local daquele `<ng-content>`:
 
 ```angular-ts
 // Component source
@@ -59,25 +56,15 @@ export class CustomCard {/* ... */}
 </custom-card>
 ```
 
-Angular refers to any children of a component passed this way as that component's **content**. This
-is distinct from the component's **view**, which refers to the elements defined in the component's
-template.
+O Angular se refere a quaisquer filhos de um component passados desta forma como o **conteúdo** daquele component. Isso é distinto da **view** do component, que se refere aos elementos definidos no template do component.
 
-**The `<ng-content>` element is neither a component nor DOM element**. Instead, it is a special
-placeholder that tells Angular where to render content. Angular's compiler processes
-all `<ng-content>` elements at build-time. You cannot insert, remove, or modify `<ng-content>` at
-run time. You cannot add directives, styles, or arbitrary attributes to `<ng-content>`.
+**O elemento `<ng-content>` não é um component nem um elemento DOM**. Em vez disso, é um espaço reservado especial que diz ao Angular onde renderizar o conteúdo. O compilador do Angular processa todos os elementos `<ng-content>` em tempo de build. Você não pode inserir, remover ou modificar `<ng-content>` em tempo de execução. Você não pode adicionar directives, estilos ou atributos arbitrários ao `<ng-content>`.
 
-IMPORTANT: You should not conditionally include `<ng-content>` with `@if`, `@for`, or `@switch`. Angular always
-instantiates and creates DOM nodes for content rendered to a `<ng-content>` placeholder, even if
-that `<ng-content>` placeholder is hidden. For conditional rendering of component content,
-see [Template fragments](api/core/ng-template).
+IMPORTANT: Você não deve incluir condicionalmente `<ng-content>` com `@if`, `@for` ou `@switch`. O Angular sempre instancia e cria nós DOM para conteúdo renderizado em um espaço reservado `<ng-content>`, mesmo se aquele espaço reservado `<ng-content>` estiver oculto. Para renderização condicional de conteúdo de component, consulte [Fragmentos de template](api/core/ng-template).
 
-## Multiple content placeholders
+## Múltiplos espaços reservados de conteúdo
 
-Angular supports projecting multiple different elements into different `<ng-content>` placeholders
-based on CSS selector. Expanding the card example from above, you could create two placeholders for
-a card title and a card body by using the `select` attribute:
+O Angular suporta projetar múltiplos elementos diferentes em diferentes espaços reservados `<ng-content>` com base em seletor CSS. Expandindo o exemplo do card acima, você poderia criar dois espaços reservados para um título de card e um corpo de card usando o atributo `select`:
 
 ```angular-ts
 @Component({
@@ -134,12 +121,9 @@ export class App {}
 </custom-card>
 ```
 
-The `<ng-content>` placeholder supports the same CSS selectors
-as [component selectors](guide/components/selectors).
+O espaço reservado `<ng-content>` suporta os mesmos seletores CSS que os [seletores de components](guide/components/selectors).
 
-If you include one or more `<ng-content>` placeholders with a `select` attribute and
-one `<ng-content>` placeholder without a `select` attribute, the latter captures all elements that
-did not match a `select` attribute:
+Se você incluir um ou mais espaços reservados `<ng-content>` com um atributo `select` e um espaço reservado `<ng-content>` sem um atributo `select`, o último captura todos os elementos que não corresponderam a um atributo `select`:
 
 ```angular-html
 <!-- Component template -->
@@ -172,12 +156,11 @@ did not match a `select` attribute:
 </custom-card>
 ```
 
-If a component does not include an `<ng-content>` placeholder without a `select` attribute, any
-elements that don't match one of the component's placeholders do not render into the DOM.
+Se um component não incluir um espaço reservado `<ng-content>` sem um atributo `select`, quaisquer elementos que não correspondam a um dos espaços reservados do component não serão renderizados no DOM.
 
-## Fallback content
+## Conteúdo de fallback
 
-Angular can show _fallback content_ for a component's `<ng-content>` placeholder if that component doesn't have any matching child content. You can specify fallback content by adding child content to the `<ng-content>` element itself.
+O Angular pode mostrar _conteúdo de fallback_ para um espaço reservado `<ng-content>` de um component se aquele component não tiver nenhum conteúdo filho correspondente. Você pode especificar o conteúdo de fallback adicionando conteúdo filho ao próprio elemento `<ng-content>`.
 
 ```angular-html
 <!-- Component template -->
@@ -207,11 +190,9 @@ Angular can show _fallback content_ for a component's `<ng-content>` placeholder
 </custom-card>
 ```
 
-## Aliasing content for projection
+## Criando alias de conteúdo para projeção
 
-Angular supports a special attribute, `ngProjectAs`, that allows you to specify a CSS selector on
-any element. Whenever an element with `ngProjectAs` is checked against an `<ng-content>`
-placeholder, Angular compares against the `ngProjectAs` value instead of the element's identity:
+O Angular suporta um atributo especial, `ngProjectAs`, que permite especificar um seletor CSS em qualquer elemento. Sempre que um elemento com `ngProjectAs` é verificado contra um espaço reservado `<ng-content>`, o Angular compara contra o valor de `ngProjectAs` em vez da identidade do elemento:
 
 ```angular-html
 <!-- Component template -->
@@ -242,4 +223,4 @@ placeholder, Angular compares against the `ngProjectAs` value instead of the ele
 </custom-card>
 ```
 
-`ngProjectAs` supports only static values and cannot be bound to dynamic expressions.
+`ngProjectAs` suporta apenas valores estáticos e não pode ser vinculado a expressões dinâmicas.
