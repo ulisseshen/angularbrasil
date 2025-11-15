@@ -1,14 +1,15 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Templates" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
-Use Angular's template syntax to create dynamic user interfaces.
+Use a sintaxe de template do Angular para criar interfaces de usuário dinâmicas.
 </docs-decorative-header>
 
-Component templates aren't just static HTML— they can use data from your component class and set up handlers for user interaction.
+Templates de components não são apenas HTML estático— eles podem usar dados da sua classe de component e configurar manipuladores para interação do usuário.
 
-## Showing dynamic text
+## Mostrando texto dinâmico
 
-In Angular, a _binding_ creates a dynamic connection between a component's template and its data. This connection ensures that changes to the component's data automatically update the rendered template.
+No Angular, um _binding_ cria uma conexão dinâmica entre o template de um component e seus dados. Esta conexão garante que mudanças nos dados do component atualizem automaticamente o template renderizado.
 
-You can create a binding to show some dynamic text in a template by using double curly-braces:
+Você pode criar um binding para mostrar algum texto dinâmico em um template usando chaves duplas:
 
 ```angular-ts
 @Component({
@@ -20,28 +21,28 @@ export class UserProfile {
 }
 ```
 
-When Angular renders the component, you see:
+Quando o Angular renderiza o component, você vê:
 
 ```html
 <h1>Profile for pro_programmer_123</h1>
 ```
 
-Angular automatically keeps the binding up-to-date when the value of the signal changes. Building on
-the example above, if we update the value of the `userName` signal:
+O Angular automaticamente mantém o binding atualizado quando o valor do signal muda. Construindo sobre
+o exemplo acima, se atualizarmos o valor do signal `userName`:
 
 ```typescript
 this.userName.set('cool_coder_789');
 ```
 
-The rendered page updates to reflect the new value:
+A página renderizada atualiza para refletir o novo valor:
 
 ```html
 <h1>Profile for cool_coder_789</h1>
 ```
 
-## Setting dynamic properties and attributes
+## Definindo propriedades e atributos dinâmicos
 
-Angular supports binding dynamic values into DOM properties with square brackets:
+O Angular suporta binding de valores dinâmicos em propriedades do DOM com colchetes:
 
 ```angular-ts
 @Component({
@@ -54,18 +55,18 @@ export class UserProfile {
 }
 ```
 
-You can also bind to HTML _attributes_ by prefixing the attribute name with `attr.`:
+Você também pode fazer binding para _atributos_ HTML prefixando o nome do atributo com `attr.`:
 
 ```angular-html
 <!-- Bind the `role` attribute on the `<ul>` element to value of `listRole`. -->
 <ul [attr.role]="listRole()">
 ```
 
-Angular automatically updates DOM properties and attributes when the bound value changes.
+O Angular automaticamente atualiza propriedades e atributos do DOM quando o valor vinculado muda.
 
-## Handling user interaction
+## Lidando com interação do usuário
 
-Angular lets you add event listeners to an element in your template with parentheses:
+O Angular permite que você adicione event listeners a um elemento no seu template com parênteses:
 
 ```angular-ts
 @Component({
@@ -80,7 +81,7 @@ export class UserProfile {
 }
 ```
 
-If you need to pass the [event](https://developer.mozilla.org/docs/Web/API/Event) object to your listener, you can use Angular's built-in `$event` variable inside the function call:
+Se você precisar passar o objeto [event](https://developer.mozilla.org/docs/Web/API/Event) para seu listener, você pode usar a variável embutida `$event` do Angular dentro da chamada da função:
 
 ```angular-ts
 @Component({
@@ -95,9 +96,9 @@ export class UserProfile {
 }
 ```
 
-## Control flow with `@if` and `@for`
+## Controle de fluxo com `@if` e `@for`
 
-You can conditionally hide and show parts of a template with Angular's `@if` block:
+Você pode condicionalmente ocultar e mostrar partes de um template com o bloco `@if` do Angular:
 
 ```angular-html
 <h1>User profile</h1>
@@ -108,7 +109,7 @@ You can conditionally hide and show parts of a template with Angular's `@if` blo
 }
 ```
 
-The `@if` block also supports an optional `@else` block:
+O bloco `@if` também suporta um bloco `@else` opcional:
 
 ```angular-html
 <h1>User profile</h1>
@@ -122,7 +123,7 @@ The `@if` block also supports an optional `@else` block:
 }
 ```
 
-You can repeat part of a template multiple times with Angular's `@for` block:
+Você pode repetir parte de um template múltiplas vezes com o bloco `@for` do Angular:
 
 ```angular-html
 <h1>User profile</h1>
@@ -134,15 +135,15 @@ You can repeat part of a template multiple times with Angular's `@for` block:
 </ul>
 ```
 
-Angular's uses the `track` keyword, shown in the example above, to associate data with the DOM elements created by `@for`. See [_Why is track in @for blocks important?_](guide/templates/control-flow#why-is-track-in-for-blocks-important) for more info.
+O Angular usa a palavra-chave `track`, mostrada no exemplo acima, para associar dados com os elementos DOM criados por `@for`. Veja [_Por que track em blocos @for é importante?_](guide/templates/control-flow#why-is-track-in-for-blocks-important) para mais informações.
 
-TIP: Want to know more about Angular templates? See the [In-depth Templates guide](guide/templates) for the full details.
+DICA: Quer saber mais sobre templates do Angular? Veja o [guia detalhado de Templates](guide/templates) para todos os detalhes.
 
-## Next Step
+## Próximo Passo
 
-Now that you have dynamic data and templates in the application, it's time to learn how to enhance templates by conditionally hiding or showing certain elements, looping over elements, and more.
+Agora que você tem dados dinâmicos e templates na aplicação, é hora de aprender como aprimorar templates condicionalmente ocultando ou mostrando certos elementos, percorrendo elementos em loop e muito mais.
 
 <docs-pill-row>
-  <docs-pill title="Modular design with dependency injection" href="essentials/dependency-injection" />
-  <docs-pill title="In-depth template guide" href="guide/templates" />
+  <docs-pill title="Design modular com dependency injection" href="essentials/dependency-injection" />
+  <docs-pill title="Guia detalhado de templates" href="guide/templates" />
 </docs-pill-row>
