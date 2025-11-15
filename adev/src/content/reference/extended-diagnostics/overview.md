@@ -1,56 +1,57 @@
-# Extended Diagnostics
+<!-- ia-translate: true -->
+# Diagnósticos Estendidos
 
-There are many coding patterns that are technically valid to the compiler or runtime, but which may have complex nuances or caveats.
-These patterns may not have the intended effect expected by a developer, which often leads to bugs.
-The Angular compiler includes "extended diagnostics" which identify many of these patterns, in order to warn developers about the potential issues and enforce common best practices within a codebase.
+Existem muitos padrões de codificação que são tecnicamente válidos para o compilador ou runtime, mas que podem ter nuances ou ressalvas complexas.
+Esses padrões podem não ter o efeito pretendido esperado por um desenvolvedor, o que frequentemente leva a bugs.
+O compilador Angular inclui "diagnósticos estendidos" que identificam muitos desses padrões, a fim de alertar desenvolvedores sobre problemas potenciais e impor boas práticas comuns dentro de uma base de código.
 
-## Diagnostics
+## Diagnósticos
 
-Currently, Angular supports the following extended diagnostics:
+Atualmente, o Angular suporta os seguintes diagnósticos estendidos:
 
-| Code     | Name                                                                  |
-| :------- | :-------------------------------------------------------------------- |
-| `NG8101` | [`invalidBananaInBox`](extended-diagnostics/NG8101)                   |
-| `NG8102` | [`nullishCoalescingNotNullable`](extended-diagnostics/NG8102)         |
-| `NG8103` | [`missingControlFlowDirective`](extended-diagnostics/NG8103)          |
-| `NG8104` | [`textAttributeNotBinding`](extended-diagnostics/NG8104)              |
-| `NG8105` | [`missingNgForOfLet`](extended-diagnostics/NG8105)                    |
-| `NG8106` | [`suffixNotSupported`](extended-diagnostics/NG8106)                   |
-| `NG8107` | [`optionalChainNotNullable`](extended-diagnostics/NG8107)             |
-| `NG8108` | [`skipHydrationNotStatic`](extended-diagnostics/NG8108)               |
-| `NG8109` | [`interpolatedSignalNotInvoked`](extended-diagnostics/NG8109)         |
-| `NG8111` | [`uninvokedFunctionInEventBinding`](extended-diagnostics/NG8111)      |
-| `NG8113` | [`unusedStandaloneImports`](extended-diagnostics/NG8113)              |
-| `NG8114` | [`unparenthesizedNullishCoalescing`](extended-diagnostics/NG8114)     |
-| `NG8115` | [`uninvokedTrackFunction`](extended-diagnostics/NG8115)               |
-| `NG8116` | [`missingStructuralDirective`](extended-diagnostics/NG8116)           |
-| `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117) |
-| `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)         |
+| Código   | Nome                                                                      |
+| :------- | :------------------------------------------------------------------------ |
+| `NG8101` | [`invalidBananaInBox`](extended-diagnostics/NG8101)                       |
+| `NG8102` | [`nullishCoalescingNotNullable`](extended-diagnostics/NG8102)             |
+| `NG8103` | [`missingControlFlowDirective`](extended-diagnostics/NG8103)              |
+| `NG8104` | [`textAttributeNotBinding`](extended-diagnostics/NG8104)                  |
+| `NG8105` | [`missingNgForOfLet`](extended-diagnostics/NG8105)                        |
+| `NG8106` | [`suffixNotSupported`](extended-diagnostics/NG8106)                       |
+| `NG8107` | [`optionalChainNotNullable`](extended-diagnostics/NG8107)                 |
+| `NG8108` | [`skipHydrationNotStatic`](extended-diagnostics/NG8108)                   |
+| `NG8109` | [`interpolatedSignalNotInvoked`](extended-diagnostics/NG8109)             |
+| `NG8111` | [`uninvokedFunctionInEventBinding`](extended-diagnostics/NG8111)          |
+| `NG8113` | [`unusedStandaloneImports`](extended-diagnostics/NG8113)                  |
+| `NG8114` | [`unparenthesizedNullishCoalescing`](extended-diagnostics/NG8114)         |
+| `NG8115` | [`uninvokedTrackFunction`](extended-diagnostics/NG8115)                   |
+| `NG8116` | [`missingStructuralDirective`](extended-diagnostics/NG8116)               |
+| `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117)     |
+| `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)             |
 
-## Configuration
+## Configuração
 
-Extended diagnostics are warnings by default and do not block compilation.
-Each diagnostic can be configured as either:
+Diagnósticos estendidos são avisos por padrão e não bloqueiam a compilação.
+Cada diagnóstico pode ser configurado como:
 
-| Error category | Effect                                                                                                                                                                   |
-| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `warning`      | Default - The compiler emits the diagnostic as a warning but does not block compilation. The compiler will still exist with status code 0, even if warnings are emitted. |
-| `error`        | The compiler emits the diagnostic as an error and fails the compilation. The compiler will exit with a non-zero status code if one or more errors are emitted.           |
-| `suppress`     | The compiler does _not_ emit the diagnostic at all.                                                                                                                      |
+| Categoria de erro | Efeito                                                                                                                                                                         |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `warning`         | Padrão - O compilador emite o diagnóstico como um aviso mas não bloqueia a compilação. O compilador ainda existirá com código de status 0, mesmo se avisos forem emitidos.    |
+| `error`           | O compilador emite o diagnóstico como um erro e falha a compilação. O compilador sairá com um código de status diferente de zero se um ou mais erros forem emitidos.          |
+| `suppress`        | O compilador _não_ emite o diagnóstico de forma alguma.                                                                                                                        |
 
-Check severity can be configured as an [Angular compiler option](reference/configs/angular-compiler-options):
+A severidade da verificação pode ser configurada como uma [opção do compilador Angular](reference/configs/angular-compiler-options):
 
 <docs-code language="json">
 {
   "angularCompilerOptions": {
     "extendedDiagnostics": {
-      // The categories to use for specific diagnostics.
+      // As categorias a usar para diagnósticos específicos.
       "checks": {
-        // Maps check name to its category.
+        // Mapeia nome da verificação para sua categoria.
         "invalidBananaInBox": "suppress"
       },
 
-      // The category to use for any diagnostics not listed in `checks` above.
+      // A categoria a usar para quaisquer diagnósticos não listados em `checks` acima.
       "defaultCategory": "error"
     }
 
@@ -58,37 +59,36 @@ Check severity can be configured as an [Angular compiler option](reference/confi
 }
 </docs-code>
 
-The `checks` field maps the name of individual diagnostics to their associated category.
-See [Diagnostics](#diagnostics) for a complete list of extended diagnostics and the name to use for configuring them.
+O campo `checks` mapeia o nome de diagnósticos individuais para sua categoria associada.
+Veja [Diagnósticos](#diagnostics) para uma lista completa de diagnósticos estendidos e o nome a usar para configurá-los.
 
-The `defaultCategory` field is used for any diagnostics that are not explicitly listed under `checks`.
-If not set, such diagnostics will be treated as `warning`.
+O campo `defaultCategory` é usado para quaisquer diagnósticos que não estejam explicitamente listados em `checks`.
+Se não definido, tais diagnósticos serão tratados como `warning`.
 
-Extended diagnostics will emit when [`strictTemplates`](tools/cli/template-typecheck#strict-mode) is enabled.
-This is required to allow the compiler to better understand Angular template types and provide accurate and meaningful diagnostics.
+Diagnósticos estendidos serão emitidos quando [`strictTemplates`](tools/cli/template-typecheck#strict-mode) estiver habilitado.
+Isso é necessário para permitir que o compilador entenda melhor os tipos de template do Angular e forneça diagnósticos precisos e significativos.
 
-## Semantic Versioning
+## Versionamento Semântico
 
-The Angular team intends to add or enable new extended diagnostics in **minor** versions of Angular (see [semver](https://docs.npmjs.com/about-semantic-versioning)).
-This means that upgrading Angular may show new warnings in your existing codebase.
-This enables the team to deliver features more quickly and to make extended diagnostics more accessible to developers.
+O time do Angular pretende adicionar ou habilitar novos diagnósticos estendidos em versões **minor** do Angular (veja [semver](https://docs.npmjs.com/about-semantic-versioning)).
+Isso significa que atualizar o Angular pode mostrar novos avisos em sua base de código existente.
+Isso permite que o time entregue funcionalidades mais rapidamente e torne os diagnósticos estendidos mais acessíveis aos desenvolvedores.
 
-However, setting `"defaultCategory": "error"` will promote such warnings to hard errors.
-This can cause a minor version upgrade to introduce compilation errors, which may be seen as a semver non-compliant breaking change.
-Any new diagnostics can be suppressed or demoted to warnings via the above [configuration](#configuration), so the impact of a new diagnostic should be minimal to
-projects that treat extended diagnostics as errors by default.
-Defaulting to error is a very powerful tool; just be aware of this semver caveat when deciding if `error` is the right default for your project.
+No entanto, definir `"defaultCategory": "error"` promoverá tais avisos a erros graves.
+Isso pode fazer com que uma atualização de versão minor introduza erros de compilação, o que pode ser visto como uma breaking change não compatível com semver.
+Quaisquer novos diagnósticos podem ser suprimidos ou rebaixados para avisos através da [configuração](#configuration) acima, então o impacto de um novo diagnóstico deve ser mínimo para projetos que tratam diagnósticos estendidos como erros por padrão.
+Definir error como padrão é uma ferramenta muito poderosa; apenas esteja ciente desta ressalva de semver ao decidir se `error` é o padrão certo para seu projeto.
 
-## New Diagnostics
+## Novos Diagnósticos
 
-The Angular team is always open to suggestions about new diagnostics that could be added.
-Extended diagnostics should generally:
+O time do Angular está sempre aberto a sugestões sobre novos diagnósticos que poderiam ser adicionados.
+Diagnósticos estendidos geralmente devem:
 
-- Detect a common, non-obvious developer mistake with Angular templates
-- Clearly articulate why this pattern can lead to bugs or unintended behavior
-- Suggest one or more clear solutions
-- Have a low, preferably zero, false-positive rate
-- Apply to the vast majority of Angular applications (not specific to an unofficial library)
-- Improve program correctness or performance (not style, that responsibility falls to a linter)
+- Detectar um erro comum e não óbvio de desenvolvedor com templates do Angular
+- Articular claramente por que esse padrão pode levar a bugs ou comportamento não intencional
+- Sugerir uma ou mais soluções claras
+- Ter uma taxa baixa, preferencialmente zero, de falsos positivos
+- Aplicar à grande maioria das aplicações Angular (não específico a uma biblioteca não oficial)
+- Melhorar a correção ou performance do programa (não estilo, essa responsabilidade cabe a um linter)
 
-If you have an idea for an extended diagnostic which fits these criteria, consider filing a [feature request](https://github.com/angular/angular/issues/new?template=2-feature-request.yaml).
+Se você tem uma ideia para um diagnóstico estendido que se encaixa nesses critérios, considere registrar uma [solicitação de funcionalidade](https://github.com/angular/angular/issues/new?template=2-feature-request.yaml).
