@@ -1,56 +1,57 @@
-# Creating custom route matches
+<!-- ia-translate: true -->
+# Criando correspondências de rotas customizadas
 
-The Angular Router supports a powerful matching strategy that you can use to help users navigate your application.
-This matching strategy supports static routes, variable routes with parameters, wildcard routes, and so on.
-Also, build your own custom pattern matching for situations in which the URLs are more complicated.
+O Angular Router suporta uma estratégia de correspondência poderosa que você pode usar para ajudar usuários a navegar em sua aplicação.
+Esta estratégia de correspondência suporta rotas estáticas, rotas variáveis com parâmetros, rotas wildcard e assim por diante.
+Além disso, construa seu próprio padrão de correspondência customizado para situações nas quais as URLs são mais complicadas.
 
-In this tutorial, you'll build a custom route matcher using Angular's `UrlMatcher`.
-This matcher looks for a Twitter handle in the URL.
+Neste tutorial, você construirá um custom route matcher usando o `UrlMatcher` do Angular.
+Este matcher procura por um handle do Twitter na URL.
 
-## Objectives
+## Objetivos
 
-Implement Angular's `UrlMatcher` to create a custom route matcher.
+Implementar o `UrlMatcher` do Angular para criar um custom route matcher.
 
-## Create a sample application
+## Criar uma aplicação de exemplo
 
-Using the Angular CLI, create a new application, _angular-custom-route-match_.
-In addition to the default Angular application framework, you will also create a _profile_ component.
+Usando o Angular CLI, crie uma nova aplicação, _angular-custom-route-match_.
+Além do framework padrão de aplicação Angular, você também criará um component _profile_.
 
-1. Create a new Angular project, _angular-custom-route-match_.
+1. Crie um novo projeto Angular, _angular-custom-route-match_.
 
    ```shell
    ng new angular-custom-route-match
    ```
 
-   When prompted with `Would you like to add Angular routing?`, select `Y`.
+   Quando perguntado com `Would you like to add Angular routing?`, selecione `Y`.
 
-   When prompted with `Which stylesheet format would you like to use?`, select `CSS`.
+   Quando perguntado com `Which stylesheet format would you like to use?`, selecione `CSS`.
 
-   After a few moments, a new project, `angular-custom-route-match`, is ready.
+   Após alguns momentos, um novo projeto, `angular-custom-route-match`, está pronto.
 
-1. From your terminal, navigate to the `angular-custom-route-match` directory.
-1. Create a component, _profile_.
+1. Do seu terminal, navegue para o diretório `angular-custom-route-match`.
+1. Crie um component, _profile_.
 
    ```shell
    ng generate component profile
    ```
 
-1. In your code editor, locate the file, `profile.component.html` and replace the placeholder content with the following HTML.
+1. No seu editor de código, localize o arquivo, `profile.component.html` e substitua o conteúdo placeholder pelo seguinte HTML.
 
 <docs-code header="src/app/profile/profile.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/profile/profile.component.html"/>
 
-1. In your code editor, locate the file, `app.component.html` and replace the placeholder content with the following HTML.
+1. No seu editor de código, localize o arquivo, `app.component.html` e substitua o conteúdo placeholder pelo seguinte HTML.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.component.html"/>
 
-## Configure your routes for your application
+## Configure suas rotas para sua aplicação
 
-With your application framework in place, you next need to add routing capabilities to the `app.config.ts` file.
-As a part of this process, you will create a custom URL matcher that looks for a Twitter handle in the URL.
-This handle is identified by a preceding `@` symbol.
+Com o framework de sua aplicação no lugar, você precisa adicionar capacidades de routing ao arquivo `app.config.ts`.
+Como parte deste processo, você criará um URL matcher customizado que procura por um handle do Twitter na URL.
+Este handle é identificado por um símbolo `@` precedente.
 
-1. In your code editor, open your `app.config.ts` file.
-1. Add an `import` statement for Angular's `provideRouter` and `withComponentInputBinding` as well as the application routes.
+1. No seu editor de código, abra seu arquivo `app.config.ts`.
+1. Adicione uma declaração `import` para `provideRouter` e `withComponentInputBinding` do Angular bem como as rotas da aplicação.
 
    ```ts
    import {provideRouter, withComponentInputBinding} from '@angular/router';
@@ -58,59 +59,59 @@ This handle is identified by a preceding `@` symbol.
    import {routes} from './app.routes';
    ```
 
-1. In the providers array, add a `provideRouter(routes, withComponentInputBinding())` statement.
+1. No array de providers, adicione uma declaração `provideRouter(routes, withComponentInputBinding())`.
 
-1. Define the custom route matcher by adding the following code to the application routes.
+1. Defina o custom route matcher adicionando o seguinte código às rotas da aplicação.
 
 <docs-code header="src/app/app.routes.ts" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.routes.ts" visibleRegion="matcher"/>
 
-This custom matcher is a function that performs the following tasks:
+Este custom matcher é uma função que executa as seguintes tarefas:
 
-- The matcher verifies that the array contains only one segment
-- The matcher employs a regular expression to ensure that the format of the username is a match
-- If there is a match, the function returns the entire URL, defining a `username` route parameter as a substring of the path
-- If there isn't a match, the function returns null and the router continues to look for other routes that match the URL
+- O matcher verifica se o array contém apenas um segmento
+- O matcher emprega uma expressão regular para garantir que o formato do username seja uma correspondência
+- Se houver uma correspondência, a função retorna a URL inteira, definindo um parâmetro de rota `username` como uma substring do caminho
+- Se não houver correspondência, a função retorna null e o router continua a procurar por outras rotas que correspondam à URL
 
-HELPFUL: A custom URL matcher behaves like any other route definition. Define child routes or lazy loaded routes as you would with any other route.
+DICA: Um custom URL matcher se comporta como qualquer outra definição de rota. Defina rotas filhas ou rotas lazy loaded como você faria com qualquer outra rota.
 
-## Reading the route parameters
+## Lendo os parâmetros de rota
 
-With the custom matcher in place, you can now bind the route parameter in the `profile` component.
+Com o custom matcher no lugar, você agora pode vincular o parâmetro de rota no component `profile`.
 
-In your code editor, open your `profile.component.ts` file and create an `input` matching the `username` parameter.
-We added the `withComponentInputBinding` feature earlier
-in `provideRouter`. This allows the `Router` to bind information directly to the route components.
+No seu editor de código, abra seu arquivo `profile.component.ts` e crie um `input` correspondente ao parâmetro `username`.
+Adicionamos a feature `withComponentInputBinding` anteriormente
+no `provideRouter`. Isso permite ao `Router` vincular informações diretamente aos route components.
 
 ```ts
 username = input.required<string>();
 ```
 
-## Test your custom URL matcher
+## Teste seu custom URL matcher
 
-With your code in place, you can now test your custom URL matcher.
+Com seu código no lugar, você agora pode testar seu custom URL matcher.
 
-1. From a terminal window, run the `ng serve` command.
+1. De uma janela de terminal, execute o comando `ng serve`.
 
    ```shell
    ng serve
    ```
 
-1. Open a browser to `http://localhost:4200`.
+1. Abra um navegador em `http://localhost:4200`.
 
-   You should see a single web page, consisting of a sentence that reads `Navigate to my profile`.
+   Você deve ver uma única página web, consistindo de uma frase que diz `Navigate to my profile`.
 
-1. Click the **my profile** hyperlink.
+1. Clique no hyperlink **my profile**.
 
-   A new sentence, reading `Hello, Angular!` appears on the page.
+   Uma nova frase, dizendo `Hello, Angular!` aparece na página.
 
-## Next steps
+## Próximos passos
 
-Pattern matching with the Angular Router provides you with a lot of flexibility when you have dynamic URLs in your application.
-To learn more about the Angular Router, see the following topics:
+Correspondência de padrões com o Angular Router fornece muita flexibilidade quando você tem URLs dinâmicas em sua aplicação.
+Para saber mais sobre o Angular Router, veja os seguintes tópicos:
 
 <docs-pill-row>
   <docs-pill href="guide/routing/common-router-tasks" title="In-app Routing and Navigation"/>
   <docs-pill href="api/router/Router" title="Router API"/>
 </docs-pill-row>
 
-HELPFUL: This content is based on [Custom Route Matching with the Angular Router](https://medium.com/@brandontroberts/custom-route-matching-with-the-angular-router-fbdd48665483), by [Brandon Roberts](https://twitter.com/brandontroberts).
+DICA: Este conteúdo é baseado em [Custom Route Matching with the Angular Router](https://medium.com/@brandontroberts/custom-route-matching-with-the-angular-router-fbdd48665483), por [Brandon Roberts](https://twitter.com/brandontroberts).
