@@ -1,18 +1,19 @@
-# Format data based on locale
+<!-- ia-translate: true -->
+# Formatar dados baseado no locale
 
-Angular provides the following built-in data transformation [pipes](guide/templates/pipes).
-The data transformation pipes use the [`LOCALE_ID`][ApiCoreLocaleId] token to format data based on rules of each locale.
+O Angular fornece os seguintes [pipes](guide/templates/pipes) de transformação de dados integrados.
+Os pipes de transformação de dados usam o token [`LOCALE_ID`][ApiCoreLocaleId] para formatar dados baseado nas regras de cada locale.
 
-| Data transformation pipe                | Details                                           |
-| :-------------------------------------- | :------------------------------------------------ |
-| [`DatePipe`][ApiCommonDatepipe]         | Formats a date value.                             |
-| [`CurrencyPipe`][ApiCommonCurrencypipe] | Transforms a number into a currency string.       |
-| [`DecimalPipe`][ApiCommonDecimalpipe]   | Transforms a number into a decimal number string. |
-| [`PercentPipe`][ApiCommonPercentpipe]   | Transforms a number into a percentage string.     |
+| Pipe de transformação de dados          | Detalhes                                              |
+| :-------------------------------------- | :---------------------------------------------------- |
+| [`DatePipe`][ApiCommonDatepipe]         | Formata um valor de data.                             |
+| [`CurrencyPipe`][ApiCommonCurrencypipe] | Transforma um número em uma string de moeda.          |
+| [`DecimalPipe`][ApiCommonDecimalpipe]   | Transforma um número em uma string de número decimal. |
+| [`PercentPipe`][ApiCommonPercentpipe]   | Transforma um número em uma string de porcentagem.    |
 
-## Use DatePipe to display the current date
+## Usar DatePipe para exibir a data atual
 
-To display the current date in the format for the current locale, use the following format for the `DatePipe`.
+Para exibir a data atual no formato do locale atual, use o seguinte formato para o `DatePipe`.
 
 <!--todo: replace with docs-code -->
 
@@ -22,11 +23,11 @@ To display the current date in the format for the current locale, use the follow
 
 </docs-code>
 
-## Override current locale for CurrencyPipe
+## Sobrescrever o locale atual para CurrencyPipe
 
-Add the `locale` parameter to the pipe to override the current value of `LOCALE_ID` token.
+Adicione o parâmetro `locale` ao pipe para sobrescrever o valor atual do token `LOCALE_ID`.
 
-To force the currency to use American English \(`en-US`\), use the following format for the `CurrencyPipe`
+Para forçar a moeda a usar Inglês Americano \(`en-US`\), use o seguinte formato para o `CurrencyPipe`
 
 <!--todo: replace with docs-code -->
 
@@ -36,12 +37,12 @@ To force the currency to use American English \(`en-US`\), use the following for
 
 </docs-code>
 
-HELPFUL: The locale specified for the `CurrencyPipe` overrides the global `LOCALE_ID` token of your application.
+HELPFUL: O locale especificado para o `CurrencyPipe` sobrescreve o token `LOCALE_ID` global da sua aplicação.
 
-## What's next
+## Próximos passos
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/prepare" title="Prepare component for translation"/>
+  <docs-pill href="guide/i18n/prepare" title="Preparar component para tradução"/>
 </docs-pill-row>
 
 [ApiCommonCurrencypipe]: api/common/CurrencyPipe 'CurrencyPipe | Common - API | Angular'
