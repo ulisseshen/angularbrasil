@@ -1,19 +1,20 @@
-# Debugging tests
+<!-- ia-translate: true -->
+# Debug de testes
 
-If your tests aren't working as you expect them to, you can inspect and debug them in the browser.
+Se seus testes não estão funcionando como você espera, você pode inspecioná-los e fazer debug deles no browser.
 
-NOTE: This guide describes debugging with the Karma test runner.
+NOTA: Este guia descreve debug com o test runner Karma.
 
-To debug an application with the Karma test runner:
+Para fazer debug de uma aplicação com o test runner Karma:
 
-1. Reveal the Karma browser window.
-   See [Set up testing](guide/testing#set-up-testing) if you need help with this step.
+1. Revele a janela do browser Karma.
+   Veja [Configurar testes](guide/testing#set-up-testing) se você precisar de ajuda com este passo.
 
-1. Click the **DEBUG** button to open a new browser tab and re-run the tests.
-1. Open the browser's **Developer Tools**. On Windows, press `Ctrl-Shift-I`. On macOS, press `Command-Option-I`.
-1. Pick the **Sources** section.
-1. Press `Control/Command-P`, and then start typing the name of your test file to open it.
-1. Set a breakpoint in the test.
-1. Refresh the browser, and notice how it stops at the breakpoint.
+1. Clique no botão **DEBUG** para abrir uma nova aba do browser e executar novamente os testes.
+1. Abra as **Ferramentas do Desenvolvedor** do browser. No Windows, pressione `Ctrl-Shift-I`. No macOS, pressione `Command-Option-I`.
+1. Escolha a seção **Sources**.
+1. Pressione `Control/Command-P` e então comece a digitar o nome do seu arquivo de teste para abri-lo.
+1. Defina um breakpoint no teste.
+1. Atualize o browser e observe como ele para no breakpoint.
 
 <img alt="Karma debugging" src="assets/images/guide/testing/karma-1st-spec-debug.png">

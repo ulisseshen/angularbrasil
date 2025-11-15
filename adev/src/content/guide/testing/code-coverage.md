@@ -1,18 +1,19 @@
-# Find out how much code you're testing
+<!-- ia-translate: true -->
+# Descubra quanto código você está testando
 
-The Angular CLI can run unit tests and create code coverage reports.
-Code coverage reports show you any parts of your code base that might not be properly tested by your unit tests.
+A Angular CLI pode executar unit tests e criar relatórios de cobertura de código.
+Relatórios de cobertura de código mostram quaisquer partes da sua base de código que podem não estar devidamente testadas pelos seus unit tests.
 
-To generate a coverage report run the following command in the root of your project.
+Para gerar um relatório de cobertura, execute o seguinte comando na raiz do seu projeto.
 
 ```shell
 ng test --no-watch --coverage
 ```
 
-When the tests are complete, the command creates a new `/coverage` directory in the project.
-Open the `index.html` file to see a report with your source code and code coverage values.
+Quando os testes forem concluídos, o comando cria um novo diretório `/coverage` no projeto.
+Abra o arquivo `index.html` para ver um relatório com seu código fonte e valores de cobertura de código.
 
-If you want to create code-coverage reports every time you test, set the following option in the Angular CLI configuration file, `angular.json`:
+Se você quiser criar relatórios de cobertura de código toda vez que testar, defina a seguinte opção no arquivo de configuração da Angular CLI, `angular.json`:
 
 ```json
 {
@@ -30,13 +31,13 @@ If you want to create code-coverage reports every time you test, set the followi
 }
 ```
 
-## Code coverage enforcement
+## Aplicação de cobertura de código
 
-The code coverage percentages let you estimate how much of your code is tested.
-If your team decides on a set minimum amount to be unit tested, you can enforce this minimum directly in your Angular CLI configuration.
+As porcentagens de cobertura de código permitem estimar quanto do seu código está testado.
+Se sua equipe decidir sobre uma quantidade mínima definida para ser testada por unit tests, você pode aplicar esse mínimo diretamente na sua configuração da Angular CLI.
 
-For example, suppose you want the code base to have a minimum of 80% code coverage.
-To enable this, open the `angular.json` file and add the `coverageThresholds` option to your test configuration:
+Por exemplo, suponha que você queira que a base de código tenha um mínimo de 80% de cobertura de código.
+Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverageThresholds` à sua configuração de teste:
 
 ```json
 {
@@ -60,4 +61,4 @@ To enable this, open the `angular.json` file and add the `coverageThresholds` op
 }
 ```
 
-Now, when you run `ng test`, the tool will throw an error if the coverage drops below 80%.
+Agora, quando você executar `ng test`, a ferramenta lançará um erro se a cobertura cair abaixo de 80%.

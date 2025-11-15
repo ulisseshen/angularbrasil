@@ -1,15 +1,16 @@
+<!-- ia-translate: true -->
 # Testing
 
-Testing your Angular application helps you check that your application is working as you expect.
+Testar sua aplicação Angular ajuda você a verificar se sua aplicação está funcionando conforme esperado.
 
-NOTE: While Vitest is the default test runner, Karma is still fully supported. For information on testing with Karma, see the [Karma testing guide](guide/testing/karma).
+NOTA: Embora o Vitest seja o test runner padrão, o Karma ainda é totalmente suportado. Para informações sobre testes com Karma, veja o [guia de testes Karma](guide/testing/karma).
 
-## Set up testing
+## Configurar testes
 
-The Angular CLI downloads and installs everything you need to test an Angular application with the [Vitest testing framework](https://vitest.dev).
+A Angular CLI baixa e instala tudo o que você precisa para testar uma aplicação Angular com o [framework de testes Vitest](https://vitest.dev).
 
-The project you create with the CLI is immediately ready to test.
-Just run the [`ng test`](cli/test) CLI command:
+O projeto que você cria com a CLI está imediatamente pronto para testar.
+Apenas execute o comando CLI [`ng test`](cli/test):
 
 ```shell
 
@@ -17,9 +18,9 @@ ng test
 
 ```
 
-The `ng test` command builds the application in _watch mode_ and launches the [Vitest test runner](https://vitest.dev).
+O comando `ng test` constrói a aplicação em _modo watch_ e inicia o [test runner Vitest](https://vitest.dev).
 
-The console output looks like below:
+A saída do console se parece com isto:
 
 ```shell
 
@@ -34,16 +35,16 @@ The console output looks like below:
 
 ```
 
-Meanwhile, the `ng test` command is watching for changes.
+Enquanto isso, o comando `ng test` está observando mudanças.
 
-To see this in action, make a small change to `app.ts` and save.
-The tests run again, and the new test results appear in the console.
+Para ver isso em ação, faça uma pequena alteração em `app.ts` e salve.
+Os testes executam novamente e os novos resultados dos testes aparecem no console.
 
-## Configuration
+## Configuração
 
-The Angular CLI takes care of the Vitest configuration for you. It constructs the full configuration in memory, based on options specified in the `angular.json` file.
+A Angular CLI cuida da configuração do Vitest para você. Ela constrói a configuração completa em memória, com base nas opções especificadas no arquivo `angular.json`.
 
-If you want to customize Vitest, you can create a `vitest-base.config.ts` by running the following command:
+Se você quiser customizar o Vitest, pode criar um `vitest-base.config.ts` executando o seguinte comando:
 
 ```shell
 
@@ -51,80 +52,80 @@ ng generate config vitest
 
 ```
 
-IMPORTANT: Using a custom `vitest-base.config.ts` provides powerful customization options. However, the Angular team does not provide support for the specific contents of this file or for any third-party plugins used within it.
+IMPORTANTE: Usar um `vitest-base.config.ts` personalizado fornece opções de customização poderosas. No entanto, a equipe Angular não fornece suporte para o conteúdo específico deste arquivo ou para quaisquer plugins de terceiros usados dentro dele.
 
-HELPFUL: Read more about Vitest configuration in the [Vitest configuration guide](https://vitest.dev/config/).
+ÚTIL: Leia mais sobre configuração do Vitest no [guia de configuração do Vitest](https://vitest.dev/config/).
 
-### Other test frameworks
+### Outros frameworks de teste
 
-You can also unit test an Angular application with other testing libraries and test runners.
-Each library and runner has its own distinctive installation procedures, configuration, and syntax.
+Você também pode fazer unit test de uma aplicação Angular com outras bibliotecas de teste e test runners.
+Cada biblioteca e runner tem seus próprios procedimentos de instalação, configuração e sintaxe distintivos.
 
-### Test file name and location
+### Nome e localização do arquivo de teste
 
-Inside the `src/app` folder the Angular CLI generated a test file for the `App` component named `app.spec.ts`.
+Dentro da pasta `src/app`, a Angular CLI gerou um arquivo de teste para o component `App` chamado `app.spec.ts`.
 
-IMPORTANT: The test file extension **must be `.spec.ts` or `.test.ts`** so that tooling can identify it as a file with tests \(also known as a _spec_ file\).
+IMPORTANTE: A extensão do arquivo de teste **deve ser `.spec.ts` ou `.test.ts`** para que as ferramentas possam identificá-lo como um arquivo com testes \(também conhecido como arquivo _spec_\).
 
-The `app.ts` and `app.spec.ts` files are siblings in the same folder.
-The root file names \(`app`\) are the same for both files.
+Os arquivos `app.ts` e `app.spec.ts` são irmãos na mesma pasta.
+Os nomes dos arquivos raiz \(`app`\) são os mesmos para ambos os arquivos.
 
-Adopt these two conventions in your own projects for _every kind_ of test file.
+Adote essas duas convenções em seus próprios projetos para _todo tipo_ de arquivo de teste.
 
-#### Place your spec file next to the file it tests
+#### Coloque seu arquivo spec ao lado do arquivo que ele testa
 
-It's a good idea to put unit test spec files in the same folder
-as the application source code files that they test:
+É uma boa ideia colocar arquivos spec de unit test na mesma pasta
+que os arquivos de código fonte da aplicação que eles testam:
 
-- Such tests are painless to find
-- You see at a glance if a part of your application lacks tests
-- Nearby tests can reveal how a part works in context
-- When you move the source \(inevitable\), you remember to move the test
-- When you rename the source file \(inevitable\), you remember to rename the test file
+- Tais testes são indolores de encontrar
+- Você vê de relance se uma parte de sua aplicação não tem testes
+- Testes próximos podem revelar como uma parte funciona em contexto
+- Quando você move o código fonte \(inevitável\), você lembra de mover o teste
+- Quando você renomeia o arquivo fonte \(inevitável\), você lembra de renomear o arquivo de teste
 
-#### Place your spec files in a test folder
+#### Coloque seus arquivos spec em uma pasta test
 
-Application integration specs can test the interactions of multiple parts
-spread across folders and modules.
-They don't really belong to any part in particular, so they don't have a
-natural home next to any one file.
+Specs de integração de aplicação podem testar as interações de múltiplas partes
+espalhadas por pastas e modules.
+Elas não pertencem realmente a nenhuma parte em particular, então não têm um
+lugar natural ao lado de nenhum arquivo.
 
-It's often better to create an appropriate folder for them in the `tests` directory.
+Geralmente é melhor criar uma pasta apropriada para elas no diretório `tests`.
 
-Of course specs that test the test helpers belong in the `test` folder,
-next to their corresponding helper files.
+Claro que specs que testam os helpers de teste pertencem à pasta `test`,
+ao lado de seus arquivos helper correspondentes.
 
-## Testing in continuous integration
+## Testes em integração contínua
 
-One of the best ways to keep your project bug-free is through a test suite, but you might forget to run tests all the time.
+Uma das melhores maneiras de manter seu projeto livre de bugs é através de um conjunto de testes, mas você pode esquecer de executar os testes o tempo todo.
 
-Continuous integration \(CI\) servers let you set up your project repository so that your tests run on every commit and pull request.
+Servidores de integração contínua \(CI\) permitem que você configure seu repositório de projeto para que seus testes sejam executados em cada commit e pull request.
 
-To test your Angular application in a continuous integration (CI) server, you can typically run the standard test command:
+Para testar sua aplicação Angular em um servidor de integração contínua (CI), você pode normalmente executar o comando de teste padrão:
 
 ```shell
 ng test
 ```
 
-Most CI servers set a `CI=true` environment variable, which `ng test` detects. This automatically runs your tests in the appropriate non-interactive, single-run mode.
+A maioria dos servidores CI define uma variável de ambiente `CI=true`, que `ng test` detecta. Isso executa automaticamente seus testes no modo apropriado não interativo de execução única.
 
-If your CI server does not set this variable, or if you need to force single-run mode manually, you can use the `--no-watch` and `--no-progress` flags:
+Se seu servidor CI não define esta variável, ou se você precisa forçar o modo de execução única manualmente, você pode usar as flags `--no-watch` e `--no-progress`:
 
 ```shell
 ng test --no-watch --no-progress
 ```
 
-## More information on testing
+## Mais informações sobre testes
 
-After you've set up your application for testing, you might find the following testing guides useful.
+Depois de configurar sua aplicação para testes, você pode achar os seguintes guias de testes úteis.
 
-|                                                                    | Details                                                                           |
+|                                                                    | Detalhes                                                                           |
 | :----------------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Code coverage](guide/testing/code-coverage)                       | How much of your app your tests are covering and how to specify required amounts. |
-| [Testing services](guide/testing/services)                         | How to test the services your application uses.                                   |
-| [Basics of testing components](guide/testing/components-basics)    | Basics of testing Angular components.                                             |
-| [Component testing scenarios](guide/testing/components-scenarios)  | Various kinds of component testing scenarios and use cases.                       |
-| [Testing attribute directives](guide/testing/attribute-directives) | How to test your attribute directives.                                            |
-| [Testing pipes](guide/testing/pipes)                               | How to test pipes.                                                                |
-| [Debugging tests](guide/testing/debugging)                         | Common testing bugs.                                                              |
-| [Testing utility APIs](guide/testing/utility-apis)                 | Angular testing features.                                                         |
+| [Cobertura de código](guide/testing/code-coverage)                       | Quanto da sua aplicação seus testes estão cobrindo e como especificar quantidades necessárias. |
+| [Testes de services](guide/testing/services)                         | Como testar os services que sua aplicação usa.                                   |
+| [Fundamentos de testes de components](guide/testing/components-basics)    | Fundamentos de testes de components Angular.                                             |
+| [Cenários de testes de components](guide/testing/components-scenarios)  | Vários tipos de cenários e casos de uso de testes de components.                       |
+| [Testes de attribute directives](guide/testing/attribute-directives) | Como testar suas attribute directives.                                            |
+| [Testes de pipes](guide/testing/pipes)                               | Como testar pipes.                                                                |
+| [Debug de testes](guide/testing/debugging)                         | Bugs comuns de testes.                                                              |
+| [APIs utilitárias de testes](guide/testing/utility-apis)                 | Recursos de testes do Angular.                                                         |
