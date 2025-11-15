@@ -22,76 +22,38 @@ The translation process is managed by `.claude/agents/translate-to-pt-br.md`, wh
 ### Overall Statistics
 ```
 Total documentation files:     339
-Translated in-place:           253 (74.6%)
-Has pt-br equivalent:           16 (4.7%)
+Translated in-place:           269 (79.4%)
+Remaining pt-br files:          59 (17.4%)
 Completely untranslated:        70 (20.6%)
 Translation coverage:      269/339 (79.4%)
 ```
 
 ### Translation Approaches
 
-**1. In-place translations (Current Standard)**: 253 files
+**1. In-place translations (Current Standard)**: 269 files ✅
    - Files with `<!-- ia-translate: true -->` marker
    - Translation in the original file location
 
-**2. Separate pt-br directory (Legacy Approach)**: 16 files
+**2. Separate pt-br directory (Legacy Approach)**: 59 files
    - Translations stored in parallel `pt-br/` subdirectories
-   - These need to be migrated to in-place approach
+   - **Note**: 16 files were successfully migrated to in-place approach
 
 ## Files Requiring Attention
 
-### Category A: Files with PT-BR Equivalents (Need Migration to In-Place)
-These 16 files have translations in separate pt-br directories. They should be migrated to the in-place approach:
+### ✅ Migrated Files (Previously Category A)
+**These 16 files were successfully migrated from pt-br directories to in-place translation:**
 
-1. adev/src/content/guide/components/advanced-configuration.md
-   → adev/src/content/guide/components/pt-br/advanced-configuration.md
+- guide/components: advanced-configuration.md, queries.md, selectors.md
+- guide/di: creating-and-using-services.md, dependency-injection-context.md
+- guide/forms: typed-forms.md, signals/models.md
+- guide/http: http-resource.md, overview.md
+- guide/i18n: deploy.md, import-global-variants.md, translation-files.md
+- guide: hydration.md, incremental-hydration.md, tailwind.md, zoneless.md
 
-2. adev/src/content/guide/components/queries.md
-   → adev/src/content/guide/components/pt-br/queries.md
+### Remaining PT-BR Files
+There are still 59 files in legacy pt-br directories that could be migrated in the future.
 
-3. adev/src/content/guide/components/selectors.md
-   → adev/src/content/guide/components/pt-br/selectors.md
-
-4. adev/src/content/guide/di/creating-and-using-services.md
-   → adev/src/content/guide/di/pt-br/creating-and-using-services.md
-
-5. adev/src/content/guide/di/dependency-injection-context.md
-   → adev/src/content/guide/di/pt-br/dependency-injection-context.md
-
-6. adev/src/content/guide/forms/signals/models.md
-   → adev/src/content/guide/forms/signals/pt-br/models.md
-
-7. adev/src/content/guide/forms/typed-forms.md
-   → adev/src/content/guide/forms/pt-br/typed-forms.md
-
-8. adev/src/content/guide/http/http-resource.md
-   → adev/src/content/guide/http/pt-br/http-resource.md
-
-9. adev/src/content/guide/http/overview.md
-   → adev/src/content/guide/http/pt-br/overview.md
-
-10. adev/src/content/guide/hydration.md
-    → adev/src/content/guide/pt-br/hydration.md
-
-11. adev/src/content/guide/i18n/deploy.md
-    → adev/src/content/guide/i18n/pt-br/deploy.md
-
-12. adev/src/content/guide/i18n/import-global-variants.md
-    → adev/src/content/guide/i18n/pt-br/import-global-variants.md
-
-13. adev/src/content/guide/i18n/translation-files.md
-    → adev/src/content/guide/i18n/pt-br/translation-files.md
-
-14. adev/src/content/guide/incremental-hydration.md
-    → adev/src/content/guide/pt-br/incremental-hydration.md
-
-15. adev/src/content/guide/tailwind.md
-    → adev/src/content/guide/pt-br/tailwind.md
-
-16. adev/src/content/guide/zoneless.md
-    → adev/src/content/guide/pt-br/zoneless.md
-
-### Category B: Completely Untranslated Files (70 files)
+### Completely Untranslated Files (70 files)
 
 #### ECOSYSTEM (3 files)
 - adev/src/content/ecosystem/custom-build-pipeline.md
@@ -220,8 +182,8 @@ echo "Coverage: $translated/$total files"
 
 ## Recommendations
 
-1. **Priority 1**: Migrate the 16 files with pt-br equivalents to in-place translations
-2. **Priority 2**: Translate the 70 completely untranslated files, focusing on:
+1. **✅ COMPLETED**: Migrated 16 files from pt-br directories to in-place translations
+2. **Priority 1**: Translate the 70 completely untranslated files, focusing on:
    - High-traffic guide sections (Forms, HTTP, i18n, Testing)
    - Reference errors (important for developer troubleshooting)
    - Tools/CLI documentation
