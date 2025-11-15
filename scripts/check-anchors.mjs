@@ -136,6 +136,8 @@ function extractAnchorLinks(content) {
       text: linkText,
       anchor: anchor,
       line: line,
+      hasInvalidChars: !isValidCustomId(anchor),
+      hasNonAscii: hasNonAsciiChars(anchor),
     });
   }
 
@@ -154,13 +156,40 @@ function checkMarkdownFile(filePath, baseDir) {
   const errors = [];
 
   for (const link of links) {
-    if (!validIds.has(link.anchor)) {
+    // Check if anchor link itself has invalid characters
+    if (link.hasInvalidChars) {
       errors.push({
         file: relativePath,
         line: link.line,
         anchor: link.anchor,
         linkText: link.text,
         availableIds: Array.from(validIds),
+        errorType: 'invalid-chars',
+        message: `Anchor link contains invalid characters (only [\w-]+ allowed)`,
+      });
+    }
+    // Check if anchor link has Portuguese/non-ASCII characters
+    else if (link.hasNonAscii) {
+      errors.push({
+        file: relativePath,
+        line: link.line,
+        anchor: link.anchor,
+        linkText: link.text,
+        availableIds: Array.from(validIds),
+        errorType: 'non-ascii',
+        message: `Anchor link contains Portuguese/non-ASCII characters (use English IDs)`,
+      });
+    }
+    // Check if anchor exists
+    else if (!validIds.has(link.anchor)) {
+      errors.push({
+        file: relativePath,
+        line: link.line,
+        anchor: link.anchor,
+        linkText: link.text,
+        availableIds: Array.from(validIds),
+        errorType: 'not-found',
+        message: `Anchor link target does not exist in document`,
       });
     }
   }
@@ -215,16 +244,26 @@ function main() {
         console.log(`   Line ${error.line}: Invalid anchor "#${error.anchor}"`);
         console.log(`   Link text: "${error.linkText}"`);
 
-        // Try to suggest a similar valid ID
-        const suggestions = error.availableIds.filter(
-          (id) =>
-            id.includes(error.anchor.substring(0, 5)) || error.anchor.includes(id.substring(0, 5)),
-        );
+        if (error.message) {
+          console.log(`   Error: ${error.message}`);
+        }
 
-        if (suggestions.length > 0) {
-          console.log(`   Did you mean: ${suggestions.map((s) => `#${s}`).join(', ')}?`);
-        } else if (error.availableIds.length > 0) {
-          console.log(`   Available anchors: ${error.availableIds.map((s) => `#${s}`).join(', ')}`);
+        // Only suggest alternatives for "not-found" errors
+        if (error.errorType === 'not-found') {
+          // Try to suggest a similar valid ID
+          const suggestions = error.availableIds.filter(
+            (id) =>
+              id.includes(error.anchor.substring(0, 5)) ||
+              error.anchor.includes(id.substring(0, 5)),
+          );
+
+          if (suggestions.length > 0) {
+            console.log(`   Did you mean: ${suggestions.map((s) => `#${s}`).join(', ')}?`);
+          } else if (error.availableIds.length > 0 && error.availableIds.length <= 10) {
+            console.log(
+              `   Available anchors: ${error.availableIds.map((s) => `#${s}`).join(', ')}`,
+            );
+          }
         }
         console.log('');
       }
