@@ -58,7 +58,7 @@ The primary `package.json` contains important package metadata, including the fo
 
 - It declares whether the package contains [side effects](#side-effects)
 
-### ESM declaration
+### ESM declaration {#esm-declaration}
 
 The top-level `package.json` contains the key:
 
