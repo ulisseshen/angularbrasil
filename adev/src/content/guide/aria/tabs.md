@@ -1,3 +1,4 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Tabs">
     <!-- TODO: Add a short description about Tabs. -->
 </docs-decorative-header>
@@ -17,6 +18,6 @@
 
 -->
 
-### Example with TailwindCSS
+### Exemplo com TailwindCSS
 
 <!-- TODO: Add more code examples with different styles. -->

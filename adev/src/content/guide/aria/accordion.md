@@ -1,3 +1,4 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Accordion">
     <!-- TODO: Add a short description about Accordion. -->
 </docs-decorative-header>
@@ -17,6 +18,6 @@
 
 -->
 
-### Example with TailwindCSS
+### Exemplo com TailwindCSS
 
 <!-- TODO: Add more code examples with different styles. -->
