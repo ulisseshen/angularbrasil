@@ -1,30 +1,31 @@
-# Reacting to signal changes with effect
+<!-- ia-translate: true -->
+# Reagindo a mudanças de signal com effect
 
-Now that you've learned [querying child elements with signal queries](/tutorials/signals/9-query-child-elements-with-signal-queries), let's explore how to react to signal changes with effects. Effects are functions that run automatically when their dependencies change, making them perfect for side effects like logging, DOM manipulation, or API calls.
+Agora que você aprendeu a [consultar elementos filhos com signal queries](/tutorials/signals/9-query-child-elements-with-signal-queries), vamos explorar como reagir a mudanças de signal com effects. Effects são funções que executam automaticamente quando suas dependências mudam, tornando-os perfeitos para efeitos colaterais como logging, manipulação do DOM ou chamadas de API.
 
-**Important: Effects should be the last API you reach for.** Always prefer `computed()` for derived values and `linkedSignal()` for values that can be both derived and manually set. If you find yourself copying data from one signal to another with an effect, it's a sign you should move your source-of-truth higher up and use `computed()` or `linkedSignal()` instead. Effects are best for syncing signal state to imperative, non-signal APIs.
+**Importante: Effects devem ser a última API que você deve usar.** Sempre prefira `computed()` para valores derivados e `linkedSignal()` para valores que podem ser tanto derivados quanto definidos manualmente. Se você se pegar copiando dados de um signal para outro com um effect, é um sinal de que você deve mover sua fonte de verdade para um nível superior e usar `computed()` ou `linkedSignal()` em vez disso. Effects são melhores para sincronizar estado de signal com APIs imperativas e não-signal.
 
-In this activity, you'll learn how to use the `effect()` function appropriately for legitimate side effects that respond to signal changes.
+Nesta atividade, você aprenderá como usar a função `effect()` apropriadamente para efeitos colaterais legítimos que respondem a mudanças de signal.
 
 <hr />
 
-You have a theme manager app with signals already set up. Now you'll add effects to automatically react to signal changes.
+Você tem um app gerenciador de tema com signals já configurados. Agora você adicionará effects para reagir automaticamente a mudanças de signal.
 
 <docs-workflow>
 
-<docs-step title="Import effect function">
-Add `effect` to your existing imports.
+<docs-step title="Importe a função effect">
+Adicione `effect` aos seus imports existentes.
 
 ```ts
 // Add effect to existing imports
 import {Component, signal, computed, effect, ChangeDetectionStrategy} from '@angular/core';
 ```
 
-The `effect` function creates a reactive side effect that runs automatically when any signals it reads change.
+A função `effect` cria um efeito colateral reativo que executa automaticamente quando quaisquer signals que ele lê mudam.
 </docs-step>
 
-<docs-step title="Create an effect for local storage">
-Add an effect that automatically saves the theme to local storage when it changes.
+<docs-step title="Crie um effect para local storage">
+Adicione um effect que salva automaticamente o tema no local storage quando ele muda.
 
 ```ts
 constructor() {
@@ -36,11 +37,11 @@ constructor() {
 }
 ```
 
-This effect runs whenever the theme signal changes, automatically persisting the user's preference.
+Este effect executa sempre que o signal theme muda, persistindo automaticamente a preferência do usuário.
 </docs-step>
 
-<docs-step title="Create an effect for logging user activity">
-Add an effect that logs when the user logs in or out.
+<docs-step title="Crie um effect para logging de atividade do usuário">
+Adicione um effect que registra quando o usuário faz login ou logout.
 
 ```ts
 constructor() {
@@ -55,11 +56,11 @@ constructor() {
 }
 ```
 
-This effect demonstrates how effects can read multiple signals and react to changes in any of them.
+Este effect demonstra como effects podem ler múltiplos signals e reagir a mudanças em qualquer um deles.
 </docs-step>
 
-<docs-step title="Create an effect with cleanup">
-Add an effect that sets up a timer and cleans up when the component is destroyed.
+<docs-step title="Crie um effect com cleanup">
+Adicione um effect que configura um timer e limpa quando o component é destruído.
 
 ```ts
 constructor() {
@@ -80,32 +81,32 @@ constructor() {
 }
 ```
 
-This effect demonstrates how to clean up resources when effects are destroyed or re-run.
+Este effect demonstra como limpar recursos quando effects são destruídos ou re-executados.
 </docs-step>
 
-<docs-step title="Test the effects">
-Open the browser console and interact with the app:
+<docs-step title="Teste os effects">
+Abra o console do browser e interaja com o app:
 
-- **Toggle Theme** - See localStorage saves and timer logs
-- **Login/Logout** - See user activity logging
-- **Watch Timer** - See periodic theme logging every 5 seconds
+- **Toggle Theme** - Veja salvamentos no localStorage e logs do timer
+- **Login/Logout** - Veja logging de atividade do usuário
+- **Watch Timer** - Veja logging periódico do tema a cada 5 segundos
 
-The effects run automatically whenever their tracked signals change!
+Os effects executam automaticamente sempre que seus signals rastreados mudam!
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've now learned how to use effects with signals. Key concepts to remember:
+Excelente! Você agora aprendeu como usar effects com signals. Conceitos-chave para lembrar:
 
-- **Effects are reactive**: They automatically run when any signal they read changes
-- **Side effects only**: Perfect for logging, DOM manipulation, API calls, and syncing to imperative APIs
-- **Cleanup**: Use the `onCleanup` callback to clean up resources like timers or subscriptions
-- **Automatic tracking**: Effects automatically track which signals they read and re-run when those signals change
+- **Effects são reativos**: Eles executam automaticamente quando qualquer signal que eles leem muda
+- **Somente efeitos colaterais**: Perfeitos para logging, manipulação do DOM, chamadas de API e sincronização com APIs imperativas
+- **Cleanup**: Use o callback `onCleanup` para limpar recursos como timers ou subscriptions
+- **Rastreamento automático**: Effects rastreiam automaticamente quais signals eles leem e re-executam quando esses signals mudam
 
-**Remember: Use effects sparingly!** The examples in this lesson (localStorage sync, logging, timers) are appropriate uses. Avoid effects for:
+**Lembre-se: Use effects com moderação!** Os exemplos nesta lição (sincronização com localStorage, logging, timers) são usos apropriados. Evite effects para:
 
-- Deriving values from other signals - use `computed()` instead
-- Creating writable derived state - use `linkedSignal()` instead
-- Copying data between signals - restructure to use a shared source of truth
+- Derivar valores de outros signals - use `computed()` em vez disso
+- Criar estado derivado modificável - use `linkedSignal()` em vez disso
+- Copiar dados entre signals - reestruture para usar uma fonte de verdade compartilhada
 
-Effects are powerful but should be your last resort when `computed()` and `linkedSignal()` can't solve your use case.
+Effects são poderosos, mas devem ser seu último recurso quando `computed()` e `linkedSignal()` não puderem resolver seu caso de uso.
