@@ -39,7 +39,6 @@ jobs:
       - name: Build adev (Portuguese Angular docs)
         run: pnpm bazel build //adev:build.production
         env:
-          no_proxy: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
           NO_PROXY: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
 
       - name: Deploy to Firebase
