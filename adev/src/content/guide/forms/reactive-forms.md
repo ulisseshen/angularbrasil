@@ -76,7 +76,7 @@ O exemplo a seguir mostra como exibir o valor atual usando interpolação no tem
 O valor exibido muda conforme você atualiza o elemento form control.
 
 Reactive forms fornecem acesso a informações sobre um determinado control através de propriedades e métodos fornecidos com cada instância.
-Essas propriedades e métodos da classe subjacente [AbstractControl](api/forms/AbstractControl 'API reference') são usados para controlar o estado do formulário e determinar quando exibir mensagens ao lidar com [validação de entrada](#validating-form-input 'Learn more about validating form input').
+Essas propriedades e métodos da classe subjacente [AbstractControl](api/forms/AbstractControl 'API reference') são usados para controlar o estado do formulário e determinar quando exibir mensagens ao lidar com [validação de entrada](#validating-form-input).
 
 Leia sobre outras propriedades e métodos de `FormControl` na [Referência da API](api/forms/FormControl 'Detailed syntax reference').
 
@@ -98,17 +98,17 @@ Quando você clica no botão **Update Name**, o valor inserido no elemento form 
 O form model é a fonte da verdade para o control, então quando você clica no botão, o valor da entrada é alterado dentro da classe do component, sobrescrevendo seu valor atual.
 
 HELPFUL: Neste exemplo, você está usando um único control.
-Ao usar o método `setValue()` com um [form group](#grouping-form-controls) ou [form array](#creating-dynamic-forms), o valor precisa corresponder à estrutura do grupo ou array.
+Ao usar o método `setValue()` com um form group ou form array, o valor precisa corresponder à estrutura do grupo ou array.
 
 ## Agrupando form controls
 
 Os formulários normalmente contêm vários controls relacionados.
 Reactive forms fornecem duas maneiras de agrupar vários controls relacionados em um único formulário de entrada.
 
-| Form groups | Detalhes                                                                                                                                                                                                                                                                                   |
-| :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Form group  | Define um formulário com um conjunto fixo de controls que você pode gerenciar juntos. Os fundamentos do form group são discutidos nesta seção. Você também pode [aninhar form groups](#creating-nested-form-groups 'See more about nesting groups') para criar formulários mais complexos. |
-| Form array  | Define um formulário dinâmico, onde você pode adicionar e remover controls em tempo de execução. Você também pode aninhar form arrays para criar formulários mais complexos. Para mais sobre esta opção, consulte [Criando formulários dinâmicos](#creating-dynamic-forms).                |
+| Form groups | Detalhes                                                                                                                                                                                                                                                                         |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Form group  | Define um formulário com um conjunto fixo de controls que você pode gerenciar juntos. Os fundamentos do form group são discutidos nesta seção. Você também pode [aninhar form groups](#creating-nested-form-groups) para criar formulários mais complexos.                       |
+| Form array  | Define um formulário dinâmico, onde você pode adicionar e remover controls em tempo de execução. Você também pode aninhar form arrays para criar formulários mais complexos. Para mais sobre esta opção, consulte [Criando formulários dinâmicos](#criando-formulrios-dinmicos). |
 
 Assim como uma instância de form control oferece controle sobre um único campo de entrada, uma instância de form group rastreia o estado do formulário de um grupo de instâncias de form control \(por exemplo, um formulário\).
 Cada control em uma instância de form group é rastreado por nome ao criar o form group.

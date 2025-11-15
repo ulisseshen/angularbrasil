@@ -126,7 +126,7 @@ export class SelectDirective {
 
 É isso - `SelectDirective` está pronta e funcionando. Um próximo passo poderia ser [adicionar suporte à verificação de tipo de template](#typing-the-directives-context).
 
-## Referência de sintaxe de structural directive
+## Referência de sintaxe de structural directive {#structural-directive-syntax-reference}
 
 Quando você escreve suas próprias structural directives, use a seguinte sintaxe:
 

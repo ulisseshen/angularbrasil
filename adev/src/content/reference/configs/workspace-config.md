@@ -46,7 +46,7 @@ As seguintes propriedades são um conjunto de opções que personalizam o Angula
 | `packageManager`       | A ferramenta de gerenciador de pacotes preferida para usar.                                                                                                                                         | `npm` \| `cnpm` \| `pnpm` \| `yarn`\| `bun` | `npm`        |
 | `warnings`             | Controla avisos do console específicos do Angular CLI.                                                                                                                                              | [Opções de avisos](#warnings-options)       | `{}`         |
 
-### Opções de cache {#build-target} {#cache-options}
+### Opções de cache {#cache-options}
 
 | Propriedade   | Detalhes                                                                                                                                                                                                                                              | Tipo de valor            | Valor padrão     |
 | :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------- | :--------------- |

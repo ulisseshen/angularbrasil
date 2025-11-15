@@ -238,7 +238,7 @@ Exemplo de srcset gerado:
 <img ... srcset="image-400w.jpg 1x, image-800w.jpg 2x">
 ```
 
-#### Imagens responsivas
+#### Imagens responsivas {#responsive-images}
 
 Se sua imagem deve ser responsiva (ou seja, crescer e diminuir de acordo com o tamanho do viewport), então você precisará definir um [atributo `sizes`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes) para gerar o `srcset`.
 
@@ -366,7 +366,7 @@ Baseado nos serviços de imagem comumente usados com aplicações Angular, `NgOp
 
 Para usar o **loader genérico** nenhuma mudança adicional de código é necessária. Este é o comportamento padrão.
 
-### Loaders Nativos {#custom-loaders} {#built-in-loaders}
+### Loaders Nativos {#built-in-loaders}
 
 Para usar um loader existente para um **serviço de imagem de terceiros**, adicione a factory do provider para seu serviço escolhido ao array `providers`. No exemplo abaixo, o loader Imgix é usado:
 

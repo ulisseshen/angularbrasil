@@ -136,7 +136,7 @@ Para prevenir isso, chame um método no component para construir uma URL de víd
 
 <docs-code header="src/app/bypass-security.component.ts (trust-video-url)" path="adev/src/content/examples/security/src/app/bypass-security.component.ts" visibleRegion="trust-video-url"/>
 
-### Content security policy {#enforcing-trusted-types}
+### Content security policy {#content-security-policy}
 
 Content Security Policy \(CSP\) é uma técnica de defesa em profundidade para prevenir XSS.
 Para habilitar CSP, configure seu servidor web para retornar um header HTTP `Content-Security-Policy` apropriado.

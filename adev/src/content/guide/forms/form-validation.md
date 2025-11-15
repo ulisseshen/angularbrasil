@@ -156,7 +156,7 @@ definir a cor da borda de cada form control.
 
 ## Validação de campos cruzados {#control-status-css-classes}
 
-Um validador de campos cruzados é um [validador personalizado](#defining-custom-validators 'Read about custom validators') que compara os valores de diferentes campos em um formulário e os aceita ou rejeita em combinação.
+Um validador de campos cruzados é um [validador personalizado](#defining-custom-validators) que compara os valores de diferentes campos em um formulário e os aceita ou rejeita em combinação.
 Por exemplo, você pode ter um formulário que oferece opções mutuamente incompatíveis, de modo que se o usuário puder escolher A ou B, mas não ambos.
 Alguns valores de campo também podem depender de outros; um usuário pode ser permitido escolher B apenas se A também for escolhido.
 
@@ -309,7 +309,7 @@ Para saber mais sobre opções de `FormControl`, consulte a referência da API [
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-usage"/>
 
-### Adicionando validadores assíncronos a template-driven forms {#defining-custom-validators 'Read about custom validators'}
+### Adicionando validadores assíncronos a template-driven forms {#adding-async-validators-to-template-driven-forms}
 
 Para usar um validador assíncrono em template-driven forms, crie uma nova directive e registre o provider `NG_ASYNC_VALIDATORS` nela.
 

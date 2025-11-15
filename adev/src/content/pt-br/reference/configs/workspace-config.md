@@ -34,19 +34,19 @@ HELPFUL: A seção `projects` do arquivo de configuração não corresponde exat
 
 Para mais informações, veja [Estrutura de arquivos do workspace e projeto](reference/configs/file-structure).
 
-## Opções de configuração do Angular CLI {#opções-de-configuração-do-angular-cli}
+## Opções de configuração do Angular CLI {#angular-cli-configuration-options}
 
 As seguintes propriedades são um conjunto de opções que personaliza o Angular CLI.
 
 | Propriedade            | Detalhes                                                                                                                                                                                         | Tipo de valor                               | Valor padrão |
 | :--------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ | :----------- |
 | `analytics`            | Compartilha dados de uso anônimos com o Angular Team. Um valor booleano indica se deve ou não compartilhar dados, enquanto uma string UUID compartilha dados usando um identificador pseudônimo. | `boolean` \| `string`                       | `false`      |
-| `cache`                | Controla o [cache persistente em disco](cli/cache) usado pelos [Angular CLI Builders](tools/cli/cli-builder).                                                                                    | [Opções de cache](#opções-de-cache)         | `{}`         |
+| `cache`                | Controla o [cache persistente em disco](cli/cache) usado pelos [Angular CLI Builders](tools/cli/cli-builder).                                                                                    | [Opções de cache](#cache-options)           | `{}`         |
 | `schematicCollections` | Lista coleções de schematics a serem usadas em `ng generate`.                                                                                                                                    | `string[]`                                  | `[]`         |
 | `packageManager`       | A ferramenta de gerenciador de pacotes preferida para usar.                                                                                                                                      | `npm` \| `cnpm` \| `pnpm` \| `yarn`\| `bun` | `npm`        |
-| `warnings`             | Controla avisos específicos do Angular CLI no console.                                                                                                                                           | [Opções de avisos](#opções-de-avisos)       | `{}`         |
+| `warnings`             | Controla avisos específicos do Angular CLI no console.                                                                                                                                           | [Opções de avisos](#warnings-options)       | `{}`         |
 
-### Opções de cache
+### Opções de cache {#cache-options}
 
 | Propriedade   | Detalhes                                                                                                                                                                                                                                                       | Tipo de valor            | Valor padrão     |
 | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------- | :--------------- |
@@ -54,13 +54,13 @@ As seguintes propriedades são um conjunto de opções que personaliza o Angular
 | `environment` | Configura em qual ambiente o cache em disco está habilitado.<br><br>_ `ci` habilita o cache apenas em ambientes de integração contínua (CI).<br>_ `local` habilita o cache apenas _fora_ de ambientes de CI.<br>\* `all` habilita o cache em todos os lugares. | `local` \| `ci` \| `all` | `local`          |
 | `path`        | O diretório usado para armazenar os resultados do cache.                                                                                                                                                                                                       | `string`                 | `.angular/cache` |
 
-### Opções de avisos {#opções-de-avisos} {#opções-de-cache}
+### Opções de avisos {#warnings-options}
 
 | Propriedade       | Detalhes                                                                                 | Tipo de valor | Valor padrão |
 | :---------------- | :--------------------------------------------------------------------------------------- | :------------ | :----------- |
 | `versionMismatch` | Mostra um aviso quando a versão global do Angular CLI é mais recente que a versão local. | `boolean`     | `true`       |
 
-## Opções de configuração do projeto {#opções-de-otimização-de-fontes} {#opções-de-otimização-de-styles}
+## Opções de configuração do projeto {#project-configuration-options}
 
 As seguintes propriedades de configuração de nível superior estão disponíveis para cada projeto, em `projects['project-name']`.
 
@@ -162,7 +162,7 @@ Por exemplo, para configurar um build com otimizações desabilitadas:
 }
 ```
 
-### Configurações de build alternativas {#configurações-de-build-alternativas}
+### Configurações de build alternativas {#alternate-build-configurations}
 
 O Angular CLI vem com duas configurações de build: `production` e `development`.
 Por padrão, o comando `ng build` usa a configuração `production`, que aplica várias otimizações de build, incluindo:
@@ -236,7 +236,7 @@ As opções `sourceMap` e `optimization` podem ser definidas como um valor boole
 
 As seções a seguir fornecem mais detalhes sobre como esses valores complexos são usados em cada caso.
 
-### Configuração de assets {#configuração-de-index} {#configuração-de-assets}
+### Configuração de assets {#assets-configuration}
 
 Cada configuração de target `build` pode incluir um array `assets` que lista arquivos ou pastas que você deseja copiar como estão ao construir seu projeto.
 Por padrão, o conteúdo do diretório `public/` é copiado.
@@ -310,7 +310,7 @@ O exemplo a seguir usa o campo `ignore` para excluir certos arquivos no diretór
 }
 ```
 
-### Configuração de styles e scripts
+### Configuração de styles e scripts {#styles-and-scripts-configuration}
 
 Uma entrada de array para as opções `styles` e `scripts` pode ser uma string de caminho simples, ou um objeto que aponta para um arquivo de entry-point extra.
 O builder associado carrega esse arquivo e suas dependências como um bundle separado durante o build.
@@ -403,13 +403,13 @@ Esta opção habilita várias otimizações da saída do build, incluindo:
 
 Várias opções podem ser usadas para ajustar finamente a otimização de uma aplicação.
 
-| Opções    | Detalhes                                                   | Tipo de valor                                                                  | Valor padrão |
-| :-------- | :--------------------------------------------------------- | :----------------------------------------------------------------------------- | :----------- |
-| `scripts` | Habilita otimização da saída de scripts.                   | `boolean`                                                                      | `true`       |
-| `styles`  | Habilita otimização da saída de styles.                    | `boolean` \| [Opções de otimização de styles](#opções-de-otimização-de-styles) | `true`       |
-| `fonts`   | Habilita otimização para fontes. Requer acesso à internet. | `boolean` \| [Opções de otimização de fontes](#opções-de-otimização-de-fontes) | `true`       |
+| Opções    | Detalhes                                                   | Tipo de valor                                                               | Valor padrão |
+| :-------- | :--------------------------------------------------------- | :-------------------------------------------------------------------------- | :----------- |
+| `scripts` | Habilita otimização da saída de scripts.                   | `boolean`                                                                   | `true`       |
+| `styles`  | Habilita otimização da saída de styles.                    | `boolean` \| [Opções de otimização de styles](#styles-optimization-options) | `true`       |
+| `fonts`   | Habilita otimização para fontes. Requer acesso à internet. | `boolean` \| [Opções de otimização de fontes](#fonts-optimization-options)  | `true`       |
 
-#### Opções de otimização de styles
+#### Opções de otimização de styles {#styles-optimization-options}
 
 | Opções                  | Detalhes                                                                                                                       | Tipo de valor | Valor padrão |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------------------------- | :------------ | :----------- |
@@ -417,7 +417,7 @@ Várias opções podem ser usadas para ajustar finamente a otimização de uma a
 | `inlineCritical`        | Extrai e insere definições CSS críticas para melhorar o [First Contentful Paint](https://web.dev/first-contentful-paint).      | `boolean`     | `true`       |
 | `removeSpecialComments` | Remove comentários em CSS global que contém `@license` ou `@preserve` ou que começa com `//!` ou `/*!`.                        | `boolean`     | `true`       |
 
-#### Opções de otimização de fontes
+#### Opções de otimização de fontes {#fonts-optimization-options}
 
 | Opções   | Detalhes                                                                                                                                                                                                                       | Tipo de valor | Valor padrão |
 | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------ | :----------- |
@@ -514,7 +514,7 @@ Para excluir o conteúdo de fontes dos source maps, defina a opção `sourcesCon
 }
 ```
 
-### Configuração de index
+### Configuração de index {#index-configuration}
 
 Configura a geração do index HTML da aplicação.
 
