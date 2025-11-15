@@ -1,86 +1,87 @@
-# Build your first Angular app
+<!-- ia-translate: true -->
+# Construa sua primeira aplicação Angular
 
-This tutorial consists of lessons that introduce the Angular concepts you need to know to start coding in Angular.
+Este tutorial consiste em lições que introduzem os conceitos do Angular que você precisa conhecer para começar a programar em Angular.
 
-You can do as many or as few as you would like and you can do them in any order.
+Você pode fazer quantas ou poucas lições quiser e pode fazê-las em qualquer ordem.
 
-HELPFUL: Prefer video? We also have a full [YouTube course](https://youtube.com/playlist?list=PL1w1q3fL4pmj9k1FrJ3Pe91EPub2_h4jF&si=1q9889ulHp8VZ0e7) for this tutorial!
+ÚTIL: Prefere vídeo? Também temos um [curso completo no YouTube](https://youtube.com/playlist?list=PL1w1q3fL4pmj9k1FrJ3Pe91EPub2_h4jF&si=1q9889ulHp8VZ0e7) para este tutorial!
 
 <docs-video src="https://www.youtube.com/embed/xAT0lHYhHMY?si=cKUW_MGn3MesFT7o"/>
 
-## Before you start
+## Antes de começar
 
-For the best experience with this tutorial, review these requirements to make sure you have what you need to be successful.
+Para a melhor experiência com este tutorial, revise estes requisitos para ter certeza de que você tem o que precisa para ter sucesso.
 
-### Your experience
+### Sua experiência
 
-The lessons in this tutorial assume that you have experience with the following:
+As lições neste tutorial presumem que você tenha experiência com o seguinte:
 
-1. Created an HTML web page by editing the HTML directly.
-1. Programmed web site content in JavaScript.
-1. Read Cascading Style Sheet (CSS) content and understand how selectors are used.
-1. Used command-line instructions to perform tasks on your computer.
+1. Criou uma página web HTML editando o HTML diretamente.
+1. Programou conteúdo de site web em JavaScript.
+1. Leu conteúdo de Cascading Style Sheet (CSS) e entende como seletores são usados.
+1. Usou instruções de linha de comando para realizar tarefas em seu computador.
 
-### Your equipment
+### Seu equipamento
 
-These lessons can be completed using a local installation of the Angular tools or in our embedded editor. Local Angular development can be completed on Windows, MacOS or Linux based systems.
+Essas lições podem ser completadas usando uma instalação local das ferramentas do Angular ou em nosso editor incorporado. O desenvolvimento local do Angular pode ser completado em sistemas baseados em Windows, MacOS ou Linux.
 
-NOTE: Look for alerts like this one, which call out steps that may only be for your local editor.
+NOTA: Fique atento a alertas como este, que destacam passos que podem ser apenas para seu editor local.
 
-## Conceptual preview of your first Angular app
+## Pré-visualização conceitual de sua primeira aplicação Angular
 
-The lessons in this tutorial create an Angular app that lists houses for rent and shows the details of individual houses.
-This app uses features that are common to many Angular apps.
+As lições neste tutorial criam uma aplicação Angular que lista casas para alugar e mostra os detalhes de casas individuais.
+Esta aplicação usa funcionalidades que são comuns a muitas aplicações Angular.
 
 <img alt="Output of homes landing page" src="assets/images/tutorials/first-app/homes-app-landing-page.png">
 
-## Local development environment
+## Ambiente de desenvolvimento local
 
-NOTE: This step is only for your local environment!
+NOTA: Este passo é apenas para seu ambiente local!
 
-Perform these steps in a command-line tool on the computer you want to use for this tutorial.
+Execute esses passos em uma ferramenta de linha de comando no computador que você deseja usar para este tutorial.
 
 <docs-workflow>
 
-<docs-step title="Identify the version of `node.js` that Angular requires">
-Angular requires an active LTS or maintenance LTS version of Node. Let's confirm your version of `node.js`. For information about specific version requirements, see the engines property in the [package.json file](https://unpkg.com/browse/@angular/core@15.1.5/package.json).
+<docs-step title="Identificar a versão do `node.js` que o Angular requer">
+Angular requer uma versão LTS ativa ou LTS de manutenção do Node. Vamos confirmar sua versão do `node.js`. Para informações sobre requisitos de versão específicos, consulte a propriedade engines no [arquivo package.json](https://unpkg.com/browse/@angular/core@15.1.5/package.json).
 
-From a **Terminal** window:
+A partir de uma janela de **Terminal**:
 
-1. Run the following command: `node --version`
-1. Confirm that the version number displayed meets the requirements.
+1. Execute o seguinte comando: `node --version`
+1. Confirme que o número da versão exibida atende aos requisitos.
    </docs-step>
 
-<docs-step title="Install the correct version of `node.js` for Angular">
-If you do not have a version of `node.js` installed, please follow the [directions for installation on nodejs.org](https://nodejs.org/en/download/)
+<docs-step title="Instalar a versão correta do `node.js` para Angular">
+Se você não tiver uma versão do `node.js` instalada, siga as [instruções de instalação no nodejs.org](https://nodejs.org/en/download/)
 </docs-step>
 
-<docs-step title="Install the latest version of Angular">
-With `node.js` and `npm` installed, the next step is to install the [Angular CLI](tools/cli) which provides tooling for effective Angular development.
+<docs-step title="Instalar a versão mais recente do Angular">
+Com `node.js` e `npm` instalados, o próximo passo é instalar o [Angular CLI](tools/cli) que fornece ferramentas para desenvolvimento eficaz do Angular.
 
-From a **Terminal** window run the following command: `npm install -g @angular/cli`.
+A partir de uma janela de **Terminal**, execute o seguinte comando: `npm install -g @angular/cli`.
 </docs-step>
 
-<docs-step title="Install integrated development environment (IDE)">
-You are free to use any tool you prefer to build apps with Angular. We recommend the following:
+<docs-step title="Instalar ambiente de desenvolvimento integrado (IDE)">
+Você é livre para usar qualquer ferramenta que preferir para construir aplicações com Angular. Recomendamos o seguinte:
 
 1. [Visual Studio Code](https://code.visualstudio.com/)
-2. As an optional, but recommended step you can further improve your developer experience by installing the [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
+2. Como um passo opcional, mas recomendado, você pode melhorar ainda mais sua experiência de desenvolvedor instalando o [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
 3. [WebStorm](https://www.jetbrains.com/webstorm/)
    </docs-step>
 
-<docs-step title="Optional: set-up your AI powered IDE">
+<docs-step title="Opcional: configure seu IDE com IA">
 
-In case you're following this tutorial in your preferred AI powered IDE, [check out Angular prompt rules and best practices](/ai/develop-with-ai).
+Caso você esteja seguindo este tutorial em seu IDE com IA preferido, [confira as regras de prompt e melhores práticas do Angular](/ai/develop-with-ai).
 
 </docs-step>
 
 </docs-workflow>
 
-For more information about the topics covered in this lesson, visit:
+Para mais informações sobre os tópicos cobertos nesta lição, visite:
 
 <docs-pill-row>
-  <docs-pill href="/overview" title="What is Angular"/>
-  <docs-pill href="/tools/cli/setup-local" title="Setting up the local environment and workspace"/>
-  <docs-pill href="/cli" title="Angular CLI Reference"/>
+  <docs-pill href="/overview" title="O que é Angular"/>
+  <docs-pill href="/tools/cli/setup-local" title="Configurando o ambiente local e workspace"/>
+  <docs-pill href="/cli" title="Referência do Angular CLI"/>
 </docs-pill-row>
