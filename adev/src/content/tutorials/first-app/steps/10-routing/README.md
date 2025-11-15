@@ -1,84 +1,85 @@
-# Add routes to the application
+<!-- ia-translate: true -->
+# Adicione rotas à aplicação
 
-This tutorial lesson demonstrates how to add routes to your app.
+Esta lição do tutorial demonstra como adicionar rotas à sua aplicação.
 
 <docs-video src="https://www.youtube.com/embed/r5DEBMuStPw?si=H6Bx6nLJoMLaMxkx" />
 
-IMPORTANT: We recommend using your local environment to learn routing.
+IMPORTANTE: Recomendamos usar seu ambiente local para aprender routing.
 
-## What you'll learn
+## O que você vai aprender
 
-At the end of this lesson your application will have support for routing.
+No final desta lição sua aplicação terá suporte para routing.
 
-## Conceptual preview of routing
+## Prévia conceitual de routing
 
-This tutorial introduces routing in Angular. Routing is the ability to navigate from one component in the application to another. In [Single Page Applications (SPA)](guide/routing), only parts of the page are updated to represent the requested view for the user.
+Este tutorial introduz routing no Angular. Routing é a habilidade de navegar de um component na aplicação para outro. Em [Single Page Applications (SPA)](guide/routing), apenas partes da página são atualizadas para representar a view solicitada para o usuário.
 
-The [Angular Router](guide/routing) enables users to declare routes and specify which component should be displayed on the screen if that route is requested by the application.
+O [Angular Router](guide/routing) permite que usuários declarem rotas e especifiquem qual component deve ser exibido na tela se aquela rota for solicitada pela aplicação.
 
-In this lesson, you will enable routing in your application to navigate to the details page.
+Nesta lição, você habilitará routing na sua aplicação para navegar até a página de detalhes.
 
 <docs-workflow>
 
-<docs-step title="Create a default details component ">
-1. From the terminal, enter the following command to create the `Details`:
+<docs-step title="Crie um component de detalhes padrão ">
+1. Do terminal, digite o seguinte comando para criar o `Details`:
 
     <docs-code language="shell">
     ng generate component details
     </docs-code>
 
-    This component will represent the details page that provides more information on a given housing location.
+    Este component representará a página de detalhes que fornece mais informações sobre uma determinada localização de moradia.
 
 </docs-step>
 
-<docs-step title="Add routing to the application">
-1.  In the `src/app` directory, create a file called `routes.ts`. This file is where we will define the routes in the application.
+<docs-step title="Adicione routing à aplicação">
+1.  No diretório `src/app`, crie um arquivo chamado `routes.ts`. Este arquivo é onde definiremos as rotas na aplicação.
 
-1. In `main.ts`, make the following updates to enable routing in the application:
-   1. Import the routes file and the `provideRouter` function:
+1. Em `main.ts`, faça as seguintes atualizações para habilitar routing na aplicação:
+   1. Importe o arquivo de rotas e a função `provideRouter`:
 
-   <docs-code header="Import routing details in src/main.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/main.ts" visibleLines="[7,8]"/>
-   1. Update the call to `bootstrapApplication` to include the routing configuration:
+   <docs-code header="Importe detalhes de routing em src/main.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/main.ts" visibleLines="[7,8]"/>
+   1. Atualize a chamada a `bootstrapApplication` para incluir a configuração de routing:
 
-   <docs-code header="Add router configuration in src/main.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/main.ts" visibleLines="[10,17]"/>
+   <docs-code header="Adicione configuração de router em src/main.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/main.ts" visibleLines="[10,17]"/>
 
-1. In `src/app/app.ts`, update the component to use routing:
-   1. Add file level imports for the router directives `RouterOutlet` and `RouterLink`:
+1. Em `src/app/app.ts`, atualize o component para usar routing:
+   1. Adicione imports no nível do arquivo para as directives de router `RouterOutlet` e `RouterLink`:
 
-   <docs-code language="angular-ts" header="Import router directives in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[3]"/>
-   1. Add `RouterOutlet` and `RouterLink` to the `@Component` metadata imports
+   <docs-code language="angular-ts" header="Importe directives de router em src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[3]"/>
+   1. Adicione `RouterOutlet` e `RouterLink` aos imports dos metadados do `@Component`
 
-   <docs-code language="angular-ts" header="Add router directives to component imports in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[6]"/>
-   1. In the `template` property, replace the `<app-home></app-home>` tag with the `<router-outlet>` directive and add a link back to the home page. Your code should match this code:
+   <docs-code language="angular-ts" header="Adicione directives de router aos imports do component em src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[6]"/>
+   1. Na propriedade `template`, substitua a tag `<app-home></app-home>` pela directive `<router-outlet>` e adicione um link de volta para a página inicial. Seu código deve corresponder a este código:
 
-   <docs-code language="angular-ts" header="Add router-outlet in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[7,18]"/>
+   <docs-code language="angular-ts" header="Adicione router-outlet em src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[7,18]"/>
 
 </docs-step>
 
-<docs-step title="Add route to new component">
-In the previous step you removed the reference to the `<app-home>` component in the template. In this step, you will add a new route to that component.
+<docs-step title="Adicione rota ao novo component">
+No passo anterior você removeu a referência ao component `<app-home>` no template. Neste passo, você adicionará uma nova rota a esse component.
 
-1. In `routes.ts`, perform the following updates to create a route.
-   1. Add a file level imports for the `Home`, `Details` and the `Routes` type that you'll use in the route definitions.
+1. Em `routes.ts`, execute as seguintes atualizações para criar uma rota.
+   1. Adicione imports no nível do arquivo para `Home`, `Details` e o tipo `Routes` que você usará nas definições de rota.
 
-   <docs-code header="Import components and Routes" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/routes.ts" visibleLines="[1,3]"/>
-   1. Define a variable called `routeConfig` of type `Routes` and define two routes for the app:
-      <docs-code header="Add routes to the app" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/routes.ts" visibleLines="[5,18]"/>
+   <docs-code header="Importe components e Routes" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/routes.ts" visibleLines="[1,3]"/>
+   1. Defina uma variável chamada `routeConfig` do tipo `Routes` e defina duas rotas para a aplicação:
+      <docs-code header="Adicione rotas à aplicação" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/routes.ts" visibleLines="[5,18]"/>
 
-   The entries in the `routeConfig` array represent the routes in the application. The first entry navigates to the `Home` whenever the url matches `''`. The second entry uses some special formatting that will be revisited in a future lesson.
+   As entradas no array `routeConfig` representam as rotas na aplicação. A primeira entrada navega para o `Home` sempre que a url corresponder a `''`. A segunda entrada usa alguma formatação especial que será revisitada em uma lição futura.
 
-1. Save all changes and confirm that the application works in the browser. The application should still display the list of housing locations.
+1. Salve todas as alterações e confirme que a aplicação funciona no browser. A aplicação ainda deve exibir a lista de localizações de moradia.
    </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you enabled routing in your app as well as defined new routes. Now your app can support navigation between views. In the next lesson, you will learn to navigate to the "details" page for a given housing location.
+RESUMO: Nesta lição, você habilitou routing na sua aplicação assim como definiu novas rotas. Agora sua aplicação pode suportar navegação entre views. Na próxima lição, você aprenderá a navegar para a página de "detalhes" para uma determinada localização de moradia.
 
-You are making great progress with your app, well done.
+Você está fazendo um ótimo progresso com sua aplicação, muito bem.
 
-For more information about the topics covered in this lesson, visit:
+Para mais informações sobre os tópicos cobertos nesta lição, visite:
 
 <docs-pill-row>
-  <docs-pill href="guide/routing" title="Routing in Angular Overview"/>
-  <docs-pill href="guide/routing/common-router-tasks" title="Common Routing Tasks"/>
+  <docs-pill href="guide/routing" title="Visão Geral de Routing no Angular"/>
+  <docs-pill href="guide/routing/common-router-tasks" title="Tarefas Comuns de Routing"/>
 </docs-pill-row>
