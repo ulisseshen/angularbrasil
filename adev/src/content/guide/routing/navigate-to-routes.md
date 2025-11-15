@@ -1,10 +1,11 @@
-# Navigate to routes
+<!-- ia-translate: true -->
+# Navegar para routes
 
-The RouterLink directive is Angular's declarative approach to navigation. It allows you to use standard anchor elements (`<a>`) that seamlessly integrate with Angular's routing system.
+A directive RouterLink é a abordagem declarativa do Angular para navegação. Ela permite que você use elementos âncora padrão (`<a>`) que se integram perfeitamente ao sistema de routing do Angular.
 
-## How to use RouterLink
+## Como usar RouterLink
 
-Instead of using regular anchor elements `<a>` with an `href` attribute, you add a RouterLink directive with the appropriate path in order to leverage Angular routing.
+Em vez de usar elementos âncora regulares `<a>` com um atributo `href`, você adiciona uma directive RouterLink com o caminho apropriado para aproveitar o routing do Angular.
 
 ```angular-ts
 import {RouterLink} from '@angular/router';
@@ -21,9 +22,9 @@ import {RouterLink} from '@angular/router';
 export class App {}
 ```
 
-### Using absolute or relative links
+### Usando links absolutos ou relativos
 
-**Relative URLs** in Angular routing allow you to define navigation paths relative to the current route's location. This is in contrast to **absolute URLs** which contain the full path with the protocol (e.g., `http://`) and the **root domain** (e.g., `google.com`).
+**URLs relativas** no routing do Angular permitem que você defina caminhos de navegação relativos à localização da route atual. Isso contrasta com **URLs absolutas**, que contêm o caminho completo com o protocolo (por exemplo, `http://`) e o **domínio raiz** (por exemplo, `google.com`).
 
 ```angular-html
 <!-- Absolute URL -->
@@ -33,13 +34,13 @@ export class App {}
 <a href="/essentials">Angular Essentials Guide</a>
 ```
 
-In this example, the first example contains the full path with the protocol (i.e., `https://`) and the root domain (i.e., `angular.dev`) explicitly defined for the essentials page. In contrast, the second example assumes the user is already on the correct root domain for `/essentials`.
+Neste exemplo, o primeiro exemplo contém o caminho completo com o protocolo (ou seja, `https://`) e o domínio raiz (ou seja, `angular.dev`) explicitamente definidos para a página essentials. Em contraste, o segundo exemplo assume que o usuário já está no domínio raiz correto para `/essentials`.
 
-Generally speaking, relative URLs are preferred because they are more maintainable across applications because they don’t need to know their absolute position within the routing hierarchy.
+De modo geral, URLs relativas são preferidas porque são mais fáceis de manter em aplicações, pois não precisam conhecer sua posição absoluta dentro da hierarquia de routing.
 
-### How relative URLs work
+### Como funcionam as URLs relativas
 
-Angular routing has two syntaxes for defining relative URLs: strings and arrays.
+O routing do Angular possui duas sintaxes para definir URLs relativas: strings e arrays.
 
 ```angular-html
 <!-- Navigates user to /dashboard -->
@@ -47,17 +48,17 @@ Angular routing has two syntaxes for defining relative URLs: strings and arrays.
 <a [routerLink]="['dashboard']">Dashboard</a>
 ```
 
-HELPFUL: Passing a string is the most common way to define relative URLs.
+ÚTIL: Passar uma string é a maneira mais comum de definir URLs relativas.
 
-When you need to define dynamic parameters in a relative URL, use the array syntax:
+Quando você precisa definir parâmetros dinâmicos em uma URL relativa, use a sintaxe de array:
 
 ```angular-html
 <a [routerLink]="['user', currentUserId]">Current User</a>
 ```
 
-In addition, Angular routing allows you specify whether you want the path to be relative to the current URL or to the root domain based on whether the relative path is prefixed with a forward slash (`/`) or not.
+Além disso, o routing do Angular permite que você especifique se deseja que o caminho seja relativo à URL atual ou ao domínio raiz, com base em se o caminho relativo é prefixado com uma barra (`/`) ou não.
 
-For example, if the user is on `example.com/settings`, here is how different relative paths can be defined for various scenarios:
+Por exemplo, se o usuário está em `example.com/settings`, veja como diferentes caminhos relativos podem ser definidos para vários cenários:
 
 ```angular-html
 <!-- Navigates to /settings/notifications -->
@@ -66,16 +67,16 @@ For example, if the user is on `example.com/settings`, here is how different rel
 
 <!-- Navigates to /team/:teamId/user/:userId -->
 <a routerLink="/team/123/user/456">User 456</a>
-<a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>”
+<a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>"
 ```
 
-## Programmatic navigation to routes
+## Navegação programática para routes
 
-While `RouterLink` handles declarative navigation in templates, Angular provides programmatic navigation for scenarios where you need to navigate based on logic, user actions, or application state. By injecting `Router`, you can dynamically navigate to routes, pass parameters, and control navigation behavior in your TypeScript code.
+Enquanto o `RouterLink` lida com navegação declarativa em templates, o Angular fornece navegação programática para cenários onde você precisa navegar com base em lógica, ações do usuário ou estado da aplicação. Ao injetar o `Router`, você pode navegar dinamicamente para routes, passar parâmetros e controlar o comportamento de navegação no seu código TypeScript.
 
 ### `router.navigate()`
 
-You can use the `router.navigate()` method to programmatically navigate between routes by specifying a URL path array.
+Você pode usar o método `router.navigate()` para navegar programaticamente entre routes especificando um array de caminhos de URL.
 
 ```angular-ts
 import { Router } from '@angular/router';
@@ -107,9 +108,9 @@ export class AppDashboard {
 }
 ```
 
-`router.navigate()` supports both simple and complex routing scenarios, allowing you to pass route parameters, [query parameters](/guide/routing/read-route-state#query-parameters), and control navigation behavior.
+O `router.navigate()` suporta cenários de routing simples e complexos, permitindo que você passe parâmetros de route, [query parameters](/guide/routing/read-route-state#query-parameters) e controle o comportamento de navegação.
 
-You can also build dynamic navigation paths relative to your component’s location in the routing tree using the `relativeTo` option.
+Você também pode construir caminhos de navegação dinâmicos relativos à localização do seu component na árvore de routing usando a opção `relativeTo`.
 
 ```angular-ts
 import { Router, ActivatedRoute } from '@angular/router';
@@ -145,7 +146,7 @@ export class UserDetailComponent {
 
 ### `router.navigateByUrl()`
 
-The `router.navigateByUrl()` method provides a direct way to programmatically navigate using URL path strings rather than array segments. This method is ideal when you have a full URL path and need to perform absolute navigation, especially when working with externally provided URLs or deep linking scenarios.
+O método `router.navigateByUrl()` fornece uma maneira direta de navegar programaticamente usando strings de caminho de URL em vez de segmentos de array. Este método é ideal quando você tem um caminho de URL completo e precisa realizar navegação absoluta, especialmente ao trabalhar com URLs fornecidas externamente ou cenários de deep linking.
 
 ```ts
 // Standard route navigation
@@ -164,7 +165,7 @@ router.navigateByUrl('/search?category=books&sortBy=price');
 router.navigateByUrl('/sales-awesome;isOffer=true;showModal=false')
 ```
 
-In the event you need to replace the current URL in history, `navigateByUrl` also accepts a configuration object that has a `replaceUrl` option.
+No caso de você precisar substituir a URL atual no histórico, `navigateByUrl` também aceita um objeto de configuração que possui uma opção `replaceUrl`.
 
 ```ts
 // Replace current URL in history
@@ -173,6 +174,6 @@ router.navigateByUrl('/checkout', {
 });
 ```
 
-## Next steps
+## Próximos passos
 
-Learn how to [read route state](/guide/routing/read-route-state) to create responsive and context-aware components.
+Aprenda como [ler o estado da route](/guide/routing/read-route-state) para criar components responsivos e conscientes do contexto.
