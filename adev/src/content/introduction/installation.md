@@ -1,36 +1,37 @@
-<docs-decorative-header title="Installation" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
+<!-- ia-translate: true -->
+<docs-decorative-header title="Instalação" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Get started with Angular quickly with online starters or locally with your terminal.
+Comece com Angular rapidamente com starters online ou localmente com seu terminal.
 
-## Play Online
+## Experimente Online
 
-If you just want to play around with Angular in your browser without setting up a project, you can use our online sandbox:
+Se você quer apenas experimentar o Angular no seu navegador sem configurar um projeto, você pode usar nossa sandbox online:
 
 <docs-card-container>
-  <docs-card title="" href="/playground" link="Open on Playground">
-  The fastest way to play with an Angular app. No setup required.
+  <docs-card title="" href="/playground" link="Abrir no Playground">
+  A maneira mais rápida de experimentar uma aplicação Angular. Nenhuma configuração necessária.
   </docs-card>
 </docs-card-container>
 
-## Set up a new project locally
+## Configure um novo projeto localmente
 
-If you're starting a new project, you'll most likely want to create a local project so that you can use tooling such as Git.
+Se você está iniciando um novo projeto, você provavelmente vai querer criar um projeto local para poder usar ferramentas como Git.
 
-### Prerequisites
+### Pré-requisitos
 
-- **Node.js** - [v20.19.0 or newer](/reference/versions)
-- **Text editor** - We recommend [Visual Studio Code](https://code.visualstudio.com/)
-- **Terminal** - Required for running Angular CLI commands
-- **Development Tool** - To improve your development workflow, we recommend the [Angular Language Service](/tools/language-service)
+- **Node.js** - [v20.19.0 ou mais recente](/reference/versions)
+- **Editor de texto** - Recomendamos [Visual Studio Code](https://code.visualstudio.com/)
+- **Terminal** - Necessário para executar comandos do Angular CLI
+- **Ferramenta de Desenvolvimento** - Para melhorar seu fluxo de trabalho de desenvolvimento, recomendamos o [Angular Language Service](/tools/language-service)
 
-### Instructions
+### Instruções
 
-The following guide will walk you through setting up a local Angular project.
+O guia a seguir vai orientá-lo na configuração de um projeto Angular local.
 
-#### Install Angular CLI
+#### Instale o Angular CLI
 
-Open a terminal (if you're using [Visual Studio Code](https://code.visualstudio.com/), you can open an [integrated terminal](https://code.visualstudio.com/docs/editor/integrated-terminal)) and run the following command:
+Abra um terminal (se você está usando [Visual Studio Code](https://code.visualstudio.com/), você pode abrir um [terminal integrado](https://code.visualstudio.com/docs/editor/integrated-terminal)) e execute o seguinte comando:
 
 <docs-code-multifile>
   <docs-code
@@ -60,11 +61,11 @@ Open a terminal (if you're using [Visual Studio Code](https://code.visualstudio.
 
 </docs-code-multifile>
 
-If you are having issues running this command in Windows or Unix, check out the [CLI docs](/tools/cli/setup-local#install-the-angular-cli) for more info.
+Se você está tendo problemas para executar este comando no Windows ou Unix, consulte a [documentação do CLI](/tools/cli/setup-local#install-the-angular-cli) para mais informações.
 
-#### Create a new project
+#### Crie um novo projeto
 
-In your terminal, run the CLI command `ng new` with the desired project name. In the following examples, we'll be using the example project name of `my-first-angular-app`.
+No seu terminal, execute o comando `ng new` do CLI com o nome desejado do projeto. Nos exemplos a seguir, usaremos o nome de projeto de exemplo `my-first-angular-app`.
 
 <docs-code language="shell">
 
@@ -72,22 +73,22 @@ ng new <project-name>
 
 </docs-code>
 
-You will be presented with some configuration options for your project. Use the arrow and enter keys to navigate and select which options you desire.
+Você verá algumas opções de configuração para seu projeto. Use as teclas de seta e enter para navegar e selecionar as opções que você desejar.
 
-If you don't have any preferences, just hit the enter key to take the default options and continue with the setup.
+Se você não tem preferências, apenas pressione a tecla enter para aceitar as opções padrão e continuar com a configuração.
 
-After you select the configuration options and the CLI runs through the setup, you should see the following message:
+Depois que você selecionar as opções de configuração e o CLI executar a configuração, você deverá ver a seguinte mensagem:
 
 ```text
 ✔ Packages installed successfully.
     Successfully initialized git.
 ```
 
-At this point, you're now ready to run your project locally!
+Neste ponto, você está pronto para executar seu projeto localmente!
 
-#### Running your new project locally
+#### Executando seu novo projeto localmente
 
-In your terminal, switch to your new Angular project.
+No seu terminal, mude para o seu novo projeto Angular.
 
 <docs-code language="shell">
 
@@ -95,7 +96,7 @@ cd my-first-angular-app
 
 </docs-code>
 
-All of your dependencies should be installed at this point (which you can verify by checking for the existence of a `node_modules` folder in your project), so you can start your project by running the command:
+Todas as suas dependências devem estar instaladas neste ponto (o que você pode verificar checando a existência de uma pasta `node_modules` no seu projeto), então você pode iniciar seu projeto executando o comando:
 
 <docs-code language="shell">
 
@@ -103,7 +104,7 @@ npm start
 
 </docs-code>
 
-If everything is successful, you should see a similar confirmation message in your terminal:
+Se tudo der certo, você deverá ver uma mensagem de confirmação similar no seu terminal:
 
 ```text
 Watch mode enabled. Watching for file changes...
@@ -112,12 +113,12 @@ NOTE: Raw file sizes do not reflect development server per-request transformatio
   ➜  press h + enter to show help
 ```
 
-And now you can visit the path in `Local` (e.g., `http://localhost:4200`) to see your application. Happy coding! 🎉
+E agora você pode visitar o caminho em `Local` (por exemplo, `http://localhost:4200`) para ver sua aplicação. Bons códigos! 🎉
 
-### Using AI for Development
+### Usando IA para Desenvolvimento
 
-To get started with building in your preferred AI powered IDE, [check out Angular prompt rules and best practices](/ai/develop-with-ai).
+Para começar a construir no seu IDE preferido com suporte a IA, [confira as regras de prompt e boas práticas do Angular](/ai/develop-with-ai).
 
-## Next steps
+## Próximos passos
 
-Now that you've created your Angular project, you can learn more about Angular in our [Essentials guide](/essentials) or choose a topic in our in-depth guides!
+Agora que você criou seu projeto Angular, você pode aprender mais sobre Angular no nosso [guia Essentials](/essentials) ou escolher um tópico nos nossos guias detalhados!
