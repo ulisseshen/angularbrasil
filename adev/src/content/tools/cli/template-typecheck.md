@@ -226,7 +226,7 @@ Primeiro, habilitar `strictNullChecks` e incluir `null` no tipo de um input, con
 Além disso, é possível fornecer dicas de tipo específicas para o verificador de tipo de template.
 Veja [Melhorando a verificação de tipo de template para directives personalizadas](guide/directives/structural-directives#directive-type-checks) e [Coerção de setter de input](#input-setter-coercion).
 
-## Coerção de setter de input
+## Coerção de setter de input {#input-setter-coercion}
 
 Ocasionalmente é desejável que a propriedade `input()` de uma directive ou component altere o valor vinculado a ela, tipicamente usando uma função `transform` para o input.
 Como exemplo, considere este component de botão personalizado:

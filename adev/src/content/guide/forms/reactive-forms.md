@@ -105,10 +105,10 @@ Ao usar o método `setValue()` com um form group ou form array, o valor precisa 
 Os formulários normalmente contêm vários controls relacionados.
 Reactive forms fornecem duas maneiras de agrupar vários controls relacionados em um único formulário de entrada.
 
-| Form groups | Detalhes                                                                                                                                                                                                                                                                         |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Form group  | Define um formulário com um conjunto fixo de controls que você pode gerenciar juntos. Os fundamentos do form group são discutidos nesta seção. Você também pode [aninhar form groups](#creating-nested-form-groups) para criar formulários mais complexos.                       |
-| Form array  | Define um formulário dinâmico, onde você pode adicionar e remover controls em tempo de execução. Você também pode aninhar form arrays para criar formulários mais complexos. Para mais sobre esta opção, consulte [Criando formulários dinâmicos](#criando-formulrios-dinmicos). |
+| Form groups | Detalhes                                                                                                                                                                                                                                                                    |
+| :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Form group  | Define um formulário com um conjunto fixo de controls que você pode gerenciar juntos. Os fundamentos do form group são discutidos nesta seção. Você também pode [aninhar form groups](#creating-nested-form-groups) para criar formulários mais complexos.                  |
+| Form array  | Define um formulário dinâmico, onde você pode adicionar e remover controls em tempo de execução. Você também pode aninhar form arrays para criar formulários mais complexos. Para mais sobre esta opção, consulte [Criando formulários dinâmicos](#creating-dynamic-forms). |
 
 Assim como uma instância de form control oferece controle sobre um único campo de entrada, uma instância de form group rastreia o estado do formulário de um grupo de instâncias de form control \(por exemplo, um formulário\).
 Cada control em uma instância de form group é rastreado por nome ao criar o form group.
@@ -322,7 +322,7 @@ Para mais sobre validação de formulário, visite o guia [Validação de Formul
 </docs-step>
 </docs-workflow>
 
-## Criando formulários dinâmicos
+## Criando formulários dinâmicos {#creating-dynamic-forms}
 
 `FormArray` é uma alternativa a `FormGroup` para gerenciar qualquer número de controls sem nome.
 Assim como nas instâncias de form group, você pode inserir e remover dinamicamente controls de instâncias de form array, e o valor da instância de form array e o status de validação são calculados a partir de seus controls filhos.

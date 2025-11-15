@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Sistema de build de aplicações Angular {#file-extension-loader-customization}
+# Sistema de build de aplicações Angular
 
 Na v17 e superior, o novo sistema de build fornece uma maneira aprimorada de construir aplicações Angular. Este novo sistema de build inclui:
 
@@ -324,7 +324,7 @@ Se a configuração TypeScript para o projeto foi alterada, pode ser necessário
 
 IMPORTANT: Esta opção não substituirá identificadores contidos dentro de metadados Angular, como um decorator Component ou Directive.
 
-### Customização de loader de extensão de arquivo
+### Customização de loader de extensão de arquivo {#file-extension-loader-customization}
 
 IMPORTANT: Este recurso está disponível apenas com o builder `application`.
 

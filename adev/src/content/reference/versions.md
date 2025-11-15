@@ -136,7 +136,7 @@ Se você criar um arquivo TypeScript, certifique-se de incluí-lo na propriedade
 }
 </docs-code>
 
-## Polyfills para usuários não-CLI
+## Polyfills para usuários não-CLI {#polyfills-for-non-cli-users}
 
 Se você não está usando o CLI, adicione seus scripts polyfill diretamente à página web hospedeira \(`index.html`\).
 
