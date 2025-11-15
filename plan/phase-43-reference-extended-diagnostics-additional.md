@@ -1,41 +1,42 @@
-# Phase 43: Reference - Extended Diagnostics (Additional Files)
+<!-- ia-translate: true -->
+# Fase 43: Referência - Diagnósticos Estendidos (Arquivos Adicionais)
 
-**Category**: Reference - Extended Diagnostics (Additional)
-**Priority**: LOW
-**Estimated Words**: ~4,000
-**Files**: 6
+**Categoria**: Referência - Diagnósticos Estendidos (Adicionais)
+**Prioridade**: BAIXA
+**Palavras Estimadas**: ~4.000
+**Arquivos**: 6
 
-## Overview
+## Visão Geral
 
-This phase covers additional extended diagnostics documentation files that were missing from the original plan. These diagnostics help developers catch potential issues during development.
+Esta fase cobre arquivos adicionais de documentação de diagnósticos estendidos que estavam faltando no plano original. Esses diagnósticos ajudam os desenvolvedores a identificar problemas potenciais durante o desenvolvimento.
 
-## Files to Translate
+## Arquivos para Traduzir
 
-### Reference - Extended Diagnostics (6 files)
+### Referência - Diagnósticos Estendidos (6 arquivos)
 
-Progress: 0/6 (0%)
+Progresso: 0/6 (0%)
 
-- [ ] `reference/extended-diagnostics/NG8021.md` - Diagnostic NG8021
-- [ ] `reference/extended-diagnostics/NG8113.md` - Diagnostic NG8113
-- [ ] `reference/extended-diagnostics/NG8114.md` - Diagnostic NG8114
-- [ ] `reference/extended-diagnostics/NG8115.md` - Diagnostic NG8115
-- [ ] `reference/extended-diagnostics/NG8116.md` - Diagnostic NG8116
-- [ ] `reference/extended-diagnostics/NG8117.md` - Diagnostic NG8117
+- [ ] `reference/extended-diagnostics/NG8021.md` - Diagnóstico NG8021
+- [ ] `reference/extended-diagnostics/NG8113.md` - Diagnóstico NG8113
+- [ ] `reference/extended-diagnostics/NG8114.md` - Diagnóstico NG8114
+- [ ] `reference/extended-diagnostics/NG8115.md` - Diagnóstico NG8115
+- [ ] `reference/extended-diagnostics/NG8116.md` - Diagnóstico NG8116
+- [ ] `reference/extended-diagnostics/NG8117.md` - Diagnóstico NG8117
 
-## Translation Guidelines
+## Diretrizes de Tradução
 
-- Keep diagnostic codes in English: NG8021, NG8113, etc.
-- Keep technical terms in English
-- Translate diagnostic descriptions and recommendations to Portuguese
-- Preserve all code examples
-- Remember: Add `<!-- ia-translate: true -->` as the first line of each file
+- Manter os códigos de diagnóstico em inglês: NG8021, NG8113, etc.
+- Manter termos técnicos em inglês
+- Traduzir descrições e recomendações de diagnósticos para o português
+- Preservar todos os exemplos de código
+- Lembrar: Adicionar `<!-- ia-translate: true -->` como a primeira linha de cada arquivo
 
-## Progress Tracking
+## Acompanhamento de Progresso
 
-- [ ] All files translated
-- [ ] All files reviewed
-- [ ] Phase completed
+- [ ] Todos os arquivos traduzidos
+- [ ] Todos os arquivos revisados
+- [ ] Fase concluída
 
-## Notes
+## Notas
 
-Extended diagnostics provide additional warnings and suggestions to help developers write better Angular code. These files complement the existing extended diagnostics documentation from previous phases.
+Diagnósticos estendidos fornecem avisos e sugestões adicionais para ajudar os desenvolvedores a escrever código Angular melhor. Esses arquivos complementam a documentação de diagnósticos estendidos existente das fases anteriores.
