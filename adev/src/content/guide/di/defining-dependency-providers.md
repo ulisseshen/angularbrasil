@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Definindo providers de dependência
 
 O Angular oferece duas maneiras de tornar services disponíveis para injeção:
@@ -226,7 +227,7 @@ No exemplo acima:
 1. `SocialApp` pode fornecer valores para `UserProfile` e `FriendList`
 2. `FriendList` pode fornecer valores para injeção em `FriendEntry`, mas não pode fornecer valores para injeção em `UserProfile` porque não faz parte da árvore
 
-## Declarando um provider
+## Declarando um provider {#application-bootstrap}
 
 Pense no sistema de dependency injection do Angular como um hash map ou dicionário. Cada objeto de configuração de provider define um par chave-valor:
 
@@ -278,7 +279,7 @@ Identificadores de provider permitem ao sistema de dependency injection (DI) do 
 1. [Nomes de classe](#class-names)
 2. [Injection tokens](#injection-tokens)
 
-#### Nomes de classe
+#### Nomes de classe {#route-providers}
 
 Nomes de classe usam a classe importada diretamente como o identificador:
 
@@ -589,7 +590,7 @@ export class DashboardComponent {
 }
 ```
 
-#### useExisting
+#### useExisting {#class-names}
 
 `useExisting` cria um alias para um provider que já foi definido. Ambos os tokens retornam a mesma instância:
 
@@ -667,7 +668,7 @@ Você pode querer um provider durante o bootstrap quando:
 - O provider requer configuração (por exemplo, routes)
 - Você está usando o padrão `provideSomething` do Angular (por exemplo, `provideRouter`, `provideHttpClient`)
 
-### Providers de component ou directive
+### Providers de component ou directive {#component-or-directive-providers}
 
 Use providers de component ou directive quando:
 

@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Hydration
 
 ## O que é hydration
@@ -19,7 +20,7 @@ Hydration pode ser habilitado apenas para aplicações renderizadas no servidor 
 
 Se você usou o Angular CLI para habilitar SSR (seja habilitando durante a criação da aplicação ou posteriormente via `ng add @angular/ssr`), o código que habilita hydration já deve estar incluído na sua aplicação.
 
-### Configuração manual
+### Configuração manual {#constraints}
 
 Se você tem uma configuração customizada e não usou o Angular CLI para habilitar SSR, você pode habilitar hydration manualmente visitando o component ou módulo principal da sua aplicação e importando `provideClientHydration` de `@angular/platform-browser`. Você então adiciona esse provider à lista de providers de bootstrap da sua aplicação.
 
@@ -105,7 +106,7 @@ IMPORTANTE: O HTML produzido pela operação de server-side rendering **não dev
 
 Se houver uma incompatibilidade entre as estruturas da árvore DOM do servidor e do cliente, o processo de hydration encontrará problemas ao tentar combinar o que era esperado com o que realmente está presente no DOM. Components que fazem manipulação direta do DOM usando APIs DOM nativas são os culpados mais comuns.
 
-### Manipulação Direta do DOM
+### Manipulação Direta do DOM {#direct-dom-manipulation}
 
 Se você tem components que manipulam o DOM usando APIs DOM nativas ou usam `innerHTML` ou `outerHTML`, o processo de hydration encontrará erros. Casos específicos onde manipulação do DOM é um problema são situações como acessar o `document`, consultar elementos específicos e injetar nós adicionais usando `appendChild`. Desanexar nós do DOM e movê-los para outros locais também resultará em erros.
 
@@ -113,7 +114,7 @@ Isso ocorre porque o Angular desconhece essas mudanças no DOM e não pode resol
 
 É melhor refatorar seu component para evitar esse tipo de manipulação do DOM. Tente usar APIs do Angular para fazer esse trabalho, se possível. Se você não pode refatorar esse comportamento, use o atributo `ngSkipHydration` ([descrito abaixo](#how-to-skip-hydration-for-particular-components)) até que você possa refatorar para uma solução amigável ao hydration.
 
-### Estrutura HTML válida
+### Estrutura HTML válida {#valid-html-structure}
 
 Existem alguns casos onde se você tem um template de component que não tem estrutura HTML válida, isso pode resultar em um erro de incompatibilidade de DOM durante hydration.
 
@@ -141,13 +142,13 @@ Hydration depende de um sinal de Zone.js quando ele se torna estável dentro de 
 
 Fornecer uma implementação Zone.js customizada ou "noop" pode levar a um timing diferente do evento "stable", assim acionando a serialização ou a limpeza muito cedo ou muito tarde. Esta ainda não é uma configuração totalmente suportada e você pode precisar ajustar o timing do evento `onStable` na implementação Zone.js customizada.
 
-## Erros
+## Erros {#errors}
 
 Existem vários erros relacionados a hydration que você pode encontrar, variando de incompatibilidades de nó a casos onde o `ngSkipHydration` foi usado em um nó host inválido. O caso de erro mais comum que pode ocorrer é devido à manipulação direta do DOM usando APIs nativas que resulta em hydration sendo incapaz de encontrar ou combinar a estrutura da árvore DOM esperada no cliente que foi renderizada pelo servidor. O outro caso em que você pode encontrar este tipo de erro foi mencionado na seção [Estrutura HTML válida](#valid-html-structure) anteriormente. Então, certifique-se de que o HTML nos seus templates está usando estrutura válida, e você evitará esse caso de erro.
 
 Para uma referência completa sobre erros relacionados a hydration, visite o [Guia de Referência de Erros](/errors).
 
-## Como pular hydration para components específicos
+## Como pular hydration para components específicos {#how-to-skip-hydration-for-particular-components}
 
 Alguns components podem não funcionar adequadamente com hydration habilitado devido a alguns dos problemas mencionados anteriormente, como [Manipulação Direta do DOM](#direct-dom-manipulation). Como solução alternativa, você pode adicionar o atributo `ngSkipHydration` à tag de um component para pular a hidratação de todo o component.
 

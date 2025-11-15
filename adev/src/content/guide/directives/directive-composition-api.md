@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Directive composition API
 
 As directives do Angular oferecem uma ótima maneira de encapsular comportamentos reutilizáveis — directives podem aplicar atributos, classes CSS e event listeners a um elemento.
@@ -28,7 +29,7 @@ Quando o framework renderiza um component, o Angular também cria uma instância
 
 **O Angular ignora o `selector` de directives aplicadas na propriedade `hostDirectives`.**
 
-## Incluindo inputs e outputs
+## Incluindo inputs e outputs {#including-inputs-and-outputs}
 
 Quando você aplica `hostDirectives` ao seu component, os inputs e outputs das host directives não são incluídos na API do seu component por padrão. Você pode incluir explicitamente inputs e outputs na API do seu component expandindo a entrada em `hostDirectives`:
 

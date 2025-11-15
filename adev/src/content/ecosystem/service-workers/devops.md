@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Service worker devops
 
 Esta página é uma referência para implantar e dar suporte a aplicações em produção que usam o Angular service worker.
@@ -76,7 +77,7 @@ O Angular service worker continua a servir um recurso mesmo depois que seus cabe
 que ele não é mais válido. Ao mesmo tempo, ele tenta atualizar o recurso expirado em segundo plano.
 Desta forma, recursos sem hash quebrados não permanecem no cache além de suas vidas úteis configuradas.
 
-### Abas da aplicação
+### Abas da aplicação {#application-tabs}
 
 Pode ser problemático para uma aplicação se a versão dos recursos que ela está recebendo mudar repentinamente ou sem aviso.
 Consulte a seção [Versões da aplicação](#application-versions) para uma descrição de tais problemas.
@@ -99,7 +100,7 @@ Outras razões pelas quais o Angular service worker pode mudar a versão de uma 
 - A página é recarregada/atualizada.
 - A página solicita que uma atualização seja imediatamente ativada usando o serviço `SwUpdate`.
 
-### Atualizações do service worker
+### Atualizações do service worker {#bypassing-the-service-worker}
 
 O Angular service worker é um pequeno script que é executado nos navegadores web.
 De tempos em tempos, o service worker é atualizado com correções de bugs e melhorias de recursos.
@@ -177,10 +178,10 @@ Driver state: NORMAL ((nominal))
 
 Há dois possíveis estados degradados:
 
-| Estados degradados      | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Estados degradados      | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `EXISTING_CLIENTS_ONLY` | O service worker não tem uma cópia limpa da versão mais recente conhecida da aplicação. Versões em cache mais antigas são seguras para usar, então abas existentes continuam a executar a partir do cache, mas novos carregamentos da aplicação serão servidos a partir da rede. O service worker tentará se recuperar deste estado quando uma nova versão da aplicação for detectada e instalada. Isso acontece quando um novo `ngsw.json` está disponível. |
-| `SAFE_MODE`             | O service worker não pode garantir a segurança de usar dados em cache. Ou um erro inesperado ocorreu ou todas as versões em cache são inválidas. Todo o tráfego será servido a partir da rede, executando o mínimo possível de código do service worker.                                                                                                                                                                              |
+| `SAFE_MODE`             | O service worker não pode garantir a segurança de usar dados em cache. Ou um erro inesperado ocorreu ou todas as versões em cache são inválidas. Todo o tráfego será servido a partir da rede, executando o mínimo possível de código do service worker.                                                                                                                                                                                                     |
 
 Em ambos os casos, a anotação entre parênteses fornece o
 erro que causou o service worker a entrar no estado degradado.
@@ -189,7 +190,7 @@ Ambos os estados são temporários; eles são salvos apenas durante o tempo de v
 O navegador às vezes termina um service worker ocioso para conservar memória e poder de processamento, e cria uma nova instância do service worker em resposta a eventos de rede.
 A nova instância inicia no modo `NORMAL`, independentemente do estado da instância anterior.
 
-#### Latest manifest hash
+#### Latest manifest hash {#application-versions}
 
 <docs-code hideCopy language="shell">
 

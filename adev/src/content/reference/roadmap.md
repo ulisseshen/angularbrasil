@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 <docs-decorative-header title="Roadmap do Angular" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
 Saiba como o time do Angular está construindo momentum na web.
 </docs-decorative-header>
@@ -96,7 +97,7 @@ Com a evolução dos Signals no Angular, estamos trabalhando em melhores ferrame
 </docs-card>
 </docs-card-container>
 
-## Trabalho futuro, explorações e prototipagem
+## Trabalho futuro, explorações e prototipagem {#improving-the-angular-developer-experience}
 
 Esta seção representa explorações e prototipagem de potenciais projetos futuros. Um resultado razoável é decidir que nossas soluções atuais são as melhores opções. Outros projetos podem resultar em RFCs, graduando para projetos em andamento, ou sendo despriorizados conforme a web continua a inovar junto com nosso framework.
 

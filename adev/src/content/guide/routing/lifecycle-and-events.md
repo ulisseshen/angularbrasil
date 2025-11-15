@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Ciclo de Vida do Router e Eventos
 
 O Router Angular fornece um conjunto abrangente de hooks de ciclo de vida e eventos que permitem que você responda a mudanças de navegação e execute lógica customizada durante o processo de roteamento.
@@ -7,23 +8,23 @@ O Router Angular fornece um conjunto abrangente de hooks de ciclo de vida e even
 
 O Router Angular emite eventos de navegação que você pode fazer subscription para rastrear o ciclo de vida da navegação. Estes eventos estão disponíveis através do observable `Router.events`. Esta seção cobre eventos comuns de ciclo de vida de roteamento para navegação e rastreamento de erros (em ordem cronológica).
 
-| Eventos                                              | Descrição                                                                                              |
-| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)     | Ocorre quando a navegação começa e contém a URL requisitada.                                            |
+| Eventos                                             | Descrição                                                                                                     |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| [`NavigationStart`](api/router/NavigationStart)     | Ocorre quando a navegação começa e contém a URL requisitada.                                                  |
 | [`RoutesRecognized`](api/router/RoutesRecognized)   | Ocorre depois que o router determina qual route corresponde à URL e contém as informações de estado da route. |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)   | Inicia a fase de guard de route. O router avalia guards de route como `canActivate` e `canDeactivate`.  |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)       | Sinaliza a conclusão da avaliação de guards. Contém o resultado (permitido/negado).                            |
-| [`ResolveStart`](api/router/ResolveStart)           | Inicia a fase de resolução de dados. Resolvers de route começam a buscar dados.                                   |
-| [`ResolveEnd`](api/router/ResolveEnd)               | A resolução de dados é concluída. Todos os dados necessários ficam disponíveis.                                          |
-| [`NavigationEnd`](api/router/NavigationEnd)         | Evento final quando a navegação é concluída com sucesso. O router atualiza a URL.                          |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)   | Inicia a fase de guard de route. O router avalia guards de route como `canActivate` e `canDeactivate`.        |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)       | Sinaliza a conclusão da avaliação de guards. Contém o resultado (permitido/negado).                           |
+| [`ResolveStart`](api/router/ResolveStart)           | Inicia a fase de resolução de dados. Resolvers de route começam a buscar dados.                               |
+| [`ResolveEnd`](api/router/ResolveEnd)               | A resolução de dados é concluída. Todos os dados necessários ficam disponíveis.                               |
+| [`NavigationEnd`](api/router/NavigationEnd)         | Evento final quando a navegação é concluída com sucesso. O router atualiza a URL.                             |
 | [`NavigationSkipped`](api/router/NavigationSkipped) | Ocorre quando o router pula a navegação (ex: navegação para a mesma URL).                                     |
 
 Os seguintes são eventos de erro comuns:
 
-| Evento                                             | Descrição                                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Evento                                            | Descrição                                                                                    |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [`NavigationCancel`](api/router/NavigationCancel) | Ocorre quando o router cancela a navegação. Frequentemente devido a um guard retornar false. |
-| [`NavigationError`](api/router/NavigationError)   | Ocorre quando a navegação falha. Pode ser devido a routes inválidas ou erros de resolver. |
+| [`NavigationError`](api/router/NavigationError)   | Ocorre quando a navegação falha. Pode ser devido a routes inválidas ou erros de resolver.    |
 
 Para uma lista de todos os eventos de ciclo de vida, confira a [tabela completa deste guia](#all-router-events).
 
@@ -198,45 +199,45 @@ Para referência, aqui está a lista completa de todos os eventos do router disp
 
 Estes eventos rastreiam o processo de navegação principal desde o início através do reconhecimento de route, verificações de guard e resolução de dados. Eles fornecem visibilidade em cada fase do ciclo de vida de navegação.
 
-| Evento                                                     | Descrição                                                     |
-| --------------------------------------------------------- | --------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)           | Ocorre quando a navegação inicia                                   |
-| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Ocorre antes de fazer lazy loading de uma configuração de route                |
-| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Ocorre depois que uma configuração de route com lazy loading carrega            |
-| [`RoutesRecognized`](api/router/RoutesRecognized)         | Ocorre quando o router analisa a URL e reconhece as routes |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Ocorre no início da fase de guard                          |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Ocorre no final da fase de guard                            |
-| [`ResolveStart`](api/router/ResolveStart)                 | Ocorre no início da fase de resolve                        |
-| [`ResolveEnd`](api/router/ResolveEnd)                     | Ocorre no final da fase de resolve                          |
+| Evento                                                    | Descrição                                                            |
+| --------------------------------------------------------- | -------------------------------------------------------------------- |
+| [`NavigationStart`](api/router/NavigationStart)           | Ocorre quando a navegação inicia                                     |
+| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Ocorre antes de fazer lazy loading de uma configuração de route      |
+| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Ocorre depois que uma configuração de route com lazy loading carrega |
+| [`RoutesRecognized`](api/router/RoutesRecognized)         | Ocorre quando o router analisa a URL e reconhece as routes           |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Ocorre no início da fase de guard                                    |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Ocorre no final da fase de guard                                     |
+| [`ResolveStart`](api/router/ResolveStart)                 | Ocorre no início da fase de resolve                                  |
+| [`ResolveEnd`](api/router/ResolveEnd)                     | Ocorre no final da fase de resolve                                   |
 
-### Eventos de ativação
+### Eventos de ativação {#all-router-events}
 
 Estes eventos ocorrem durante a fase de ativação quando components de route estão sendo instanciados e inicializados. Eventos de ativação disparam para cada route na árvore de routes, incluindo routes pai e filha.
 
-| Evento                                                     | Descrição                                   |
-| --------------------------------------------------------- | --------------------------------------------- |
+| Evento                                                    | Descrição                                   |
+| --------------------------------------------------------- | ------------------------------------------- |
 | [`ActivationStart`](api/router/ActivationStart)           | Ocorre no início da ativação de route       |
 | [`ChildActivationStart`](api/router/ChildActivationStart) | Ocorre no início da ativação de route filha |
-| [`ActivationEnd`](api/router/ActivationEnd)               | Ocorre no final da ativação de route         |
-| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Ocorre no final da ativação de route filha   |
+| [`ActivationEnd`](api/router/ActivationEnd)               | Ocorre no final da ativação de route        |
+| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Ocorre no final da ativação de route filha  |
 
 ### Eventos de conclusão de navegação
 
 Estes eventos representam o resultado final de uma tentativa de navegação. Toda navegação terminará com exatamente um destes eventos, indicando se teve sucesso, foi cancelada, falhou ou foi pulada.
 
-| Evento                                               | Descrição                                                         |
-| --------------------------------------------------- | ------------------------------------------------------------------- |
+| Evento                                              | Descrição                                                                |
+| --------------------------------------------------- | ------------------------------------------------------------------------ |
 | [`NavigationEnd`](api/router/NavigationEnd)         | Ocorre quando a navegação termina com sucesso                            |
-| [`NavigationCancel`](api/router/NavigationCancel)   | Ocorre quando o router cancela a navegação                           |
-| [`NavigationError`](api/router/NavigationError)     | Ocorre quando a navegação falha devido a um erro inesperado             |
+| [`NavigationCancel`](api/router/NavigationCancel)   | Ocorre quando o router cancela a navegação                               |
+| [`NavigationError`](api/router/NavigationError)     | Ocorre quando a navegação falha devido a um erro inesperado              |
 | [`NavigationSkipped`](api/router/NavigationSkipped) | Ocorre quando o router pula a navegação (ex: navegação para a mesma URL) |
 
 ### Outros eventos
 
 Há um evento adicional que ocorre fora do ciclo de vida principal de navegação, mas ainda é parte do sistema de eventos do router.
 
-| Evento                         | Descrição             |
-| ----------------------------- | ----------------------- |
+| Evento                        | Descrição                |
+| ----------------------------- | ------------------------ |
 | [`Scroll`](api/router/Scroll) | Ocorre durante a rolagem |
 
 ## Próximos passos

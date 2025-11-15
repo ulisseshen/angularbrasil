@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Versionamento e lançamentos do Angular
 
 Reconhecemos que você precisa de estabilidade do framework Angular.
@@ -33,11 +34,11 @@ Por exemplo, a versão 7.2.11 indica versão major 7, versão minor 2 e nível d
 
 O número de versão é incrementado com base no nível de mudança incluído no lançamento.
 
-| Nível de mudança | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Lançamento major | Contém novas funcionalidades significativas, alguma assistência mínima do desenvolvedor é esperada durante a atualização. Ao atualizar para um novo lançamento major, você pode precisar executar scripts de atualização, refatorar código, executar testes adicionais e aprender novas APIs.                                                                                                                                      |
+| Nível de mudança | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lançamento major | Contém novas funcionalidades significativas, alguma assistência mínima do desenvolvedor é esperada durante a atualização. Ao atualizar para um novo lançamento major, você pode precisar executar scripts de atualização, refatorar código, executar testes adicionais e aprender novas APIs.                                                                                                                                                                                                            |
 | Lançamento minor | Contém novas funcionalidades menores. Lançamentos minor são totalmente compatíveis com versões anteriores; nenhuma assistência do desenvolvedor é esperada durante a atualização, mas você pode opcionalmente modificar suas aplicações e bibliotecas para começar a usar novas APIs, funcionalidades e capacidades que foram adicionadas no lançamento. Atualizamos dependências de peer em versões minor expandindo as versões suportadas, mas não exigimos que projetos atualizem essas dependências. |
-| Lançamento patch | Lançamento de correção de bugs de baixo risco. Nenhuma assistência do desenvolvedor é esperada durante a atualização.                                                                                                                                                                                                                                                                                                              |
+| Lançamento patch | Lançamento de correção de bugs de baixo risco. Nenhuma assistência do desenvolvedor é esperada durante a atualização.                                                                                                                                                                                                                                                                                                                                                                                    |
 
 HELPFUL: A partir da versão 7 do Angular, as versões major do núcleo do Angular e do CLI estão alinhadas.
 Isso significa que para usar o CLI enquanto você desenvolve uma aplicação Angular, a versão de `@angular/core` e do CLI precisam ser a mesma.
@@ -46,9 +47,9 @@ Isso significa que para usar o CLI enquanto você desenvolve uma aplicação Ang
 
 Permitimos que você visualize o que está por vir fornecendo pré-lançamentos "Next" e Release Candidates \(`rc`\) para cada lançamento major e minor:
 
-| Tipo de pré-lançamento | Detalhes                                                                                                                                                                         |
-| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Next                   | O lançamento que está sob desenvolvimento ativo e testes. O próximo lançamento é indicado por uma tag de lançamento anexada com o identificador `-next`, como `8.1.0-next.0`.    |
+| Tipo de pré-lançamento | Detalhes                                                                                                                                                                                      |
+| :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Next                   | O lançamento que está sob desenvolvimento ativo e testes. O próximo lançamento é indicado por uma tag de lançamento anexada com o identificador `-next`, como `8.1.0-next.0`.                 |
 | Release candidate      | Um lançamento que está completo em funcionalidades e em testes finais. Um release candidate é indicado por uma tag de lançamento anexada com o identificador `-rc`, como versão `8.1.0-rc.0`. |
 
 A versão de pré-lançamento `next` ou `rc` mais recente da documentação está disponível em [next.angular.dev](https://next.angular.dev).
@@ -73,8 +74,8 @@ HELPFUL: Datas aproximadas são oferecidas como orientação geral e estão suje
 
 ### Cronograma de lançamentos
 
-| Versão | Data               |
-| :----- | :----------------- |
+| Versão | Data                 |
+| :----- | :------------------- |
 | v20.1  | Semana de 2025-07-07 |
 | v20.2  | Semana de 2025-08-18 |
 | v21.0  | Semana de 2025-11-17 |
@@ -83,10 +84,10 @@ HELPFUL: Datas aproximadas são oferecidas como orientação geral e estão suje
 
 Todos os lançamentos major são tipicamente suportados por 18 meses.
 
-| Estágio de suporte     | Tempo de suporte | Detalhes                                                                               |
-| :--------------------- | :--------------- | :------------------------------------------------------------------------------------- |
-| Ativo                  | 6 meses          | Atualizações e patches regularmente agendados são lançados                             |
-| Longo prazo \(LTS\)    | 12 meses         | Apenas [correções críticas e patches de segurança](#lts-fixes) são lançados           |
+| Estágio de suporte  | Tempo de suporte | Detalhes                                                                    |
+| :------------------ | :--------------- | :-------------------------------------------------------------------------- |
+| Ativo               | 6 meses          | Atualizações e patches regularmente agendados são lançados                  |
+| Longo prazo \(LTS\) | 12 meses         | Apenas [correções críticas e patches de segurança](#lts-fixes) são lançados |
 
 ### Versões ativamente suportadas
 
@@ -100,24 +101,24 @@ A tabela a seguir fornece o status das versões do Angular sob suporte.
 
 As versões do Angular v2 a v17 não são mais suportadas.
 
-### Correções LTS
+### Correções LTS {#lts-fixes}
 
 Como regra geral, uma correção é considerada para uma versão LTS se ela resolve um dos seguintes:
 
 - Uma vulnerabilidade de segurança recém-identificada,
 - Uma regressão, desde o início do LTS, causada por uma mudança de terceiros, como uma nova versão de navegador.
 
-## Política de depreciação
+## Política de depreciação {#compatibility-policy}
 
 Quando o time do Angular pretende remover uma API ou funcionalidade, ela será marcada como _depreciada_. Isso ocorre quando uma API é obsoleta, substituída por outra API ou descontinuada de outra forma. APIs depreciadas permanecem disponíveis durante sua fase de depreciação, que dura no mínimo duas versões major (aproximadamente um ano).
 
 Para ajudar a garantir que você tenha tempo suficiente e um caminho claro para atualizar, esta é nossa política de depreciação:
 
-| Estágios de depreciação | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Anúncio                 | Anunciamos APIs e funcionalidades depreciadas no [change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log'). APIs depreciadas aparecem na [documentação](api?status=deprecated) com ~~tachado~~. Quando anunciamos uma depreciação, também anunciamos um caminho de atualização recomendado. Adicionalmente, todas as APIs depreciadas são anotadas com `@deprecated` na documentação correspondente, o que permite que editores de texto e IDEs forneçam dicas se seu projeto depende delas. |
+| Estágios de depreciação | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Anúncio                 | Anunciamos APIs e funcionalidades depreciadas no [change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log'). APIs depreciadas aparecem na [documentação](api?status=deprecated) com ~~tachado~~. Quando anunciamos uma depreciação, também anunciamos um caminho de atualização recomendado. Adicionalmente, todas as APIs depreciadas são anotadas com `@deprecated` na documentação correspondente, o que permite que editores de texto e IDEs forneçam dicas se seu projeto depende delas.                                                               |
 | Período de depreciação  | Quando uma API ou funcionalidade é depreciada, ela ainda está presente em pelo menos os próximos dois lançamentos major (período de pelo menos 12 meses). Depois disso, APIs e funcionalidades depreciadas são candidatas para remoção. Uma depreciação pode ser anunciada em qualquer lançamento, mas a remoção de uma API ou funcionalidade depreciada acontece apenas em lançamento major. Até que uma API ou funcionalidade depreciada seja removida, ela é mantida de acordo com a política de suporte LTS, o que significa que apenas problemas críticos e de segurança são corrigidos. |
-| Dependências npm        | Fazemos apenas atualizações de dependências npm que exigem mudanças em suas aplicações em um lançamento major. Em lançamentos minor, atualizamos dependências de peer expandindo as versões suportadas, mas não exigimos que projetos atualizem essas dependências até uma versão major futura. Isso significa que durante lançamentos minor do Angular, atualizações de dependências npm dentro de aplicações e bibliotecas Angular são opcionais.                                                                       |
+| Dependências npm        | Fazemos apenas atualizações de dependências npm que exigem mudanças em suas aplicações em um lançamento major. Em lançamentos minor, atualizamos dependências de peer expandindo as versões suportadas, mas não exigimos que projetos atualizem essas dependências até uma versão major futura. Isso significa que durante lançamentos minor do Angular, atualizações de dependências npm dentro de aplicações e bibliotecas Angular são opcionais.                                                                                                                                           |
 
 ## Política de compatibilidade
 
@@ -155,7 +156,7 @@ Por exemplo, para atualizar da versão 10 para a versão 12:
 1. Atualize da versão 10 para a versão 11.
 1. Atualize da versão 11 para a versão 12.
 
-## Developer Preview
+## Developer Preview {#deprecation-policy}
 
 Ocasionalmente introduzimos novas APIs sob o rótulo de "Developer Preview". Essas são APIs que são totalmente funcionais e polidas, mas que não estamos prontos para estabilizar sob nossa política normal de depreciação.
 

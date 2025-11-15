@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Erros de metadados AOT
 
 Os seguintes são erros de metadados que você pode encontrar, com explicações e correções sugeridas.
@@ -28,7 +29,7 @@ Evite este erro aderindo à [sintaxe de expressão restrita](tools/cli/aot-compi
 ao escrever metadados Angular
 e fique atento a recursos novos ou incomuns do TypeScript.
 
-## Referência a um símbolo local (não exportado)
+## Referência a um símbolo local (não exportado) {#only-initialized-variables-and-constants}
 
 HELPFUL: Referência a um símbolo local \(não exportado\) 'nome do símbolo'. Considere exportar o símbolo.
 

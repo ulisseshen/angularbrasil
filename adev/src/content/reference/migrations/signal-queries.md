@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Migração para signal queries
 
 O Angular introduziu APIs aprimoradas para queries que são consideradas
@@ -73,7 +74,7 @@ A migração suporta algumas opções para ajustar a migração às suas necessi
 Por padrão, a migração atualizará todo o seu workspace do Angular CLI.
 Você pode limitar a migração a um subdiretório específico usando esta opção.
 
-### `--best-effort-mode`
+### `--best-effort-mode` {#vscode-extension}
 
 Por padrão, a migração pula queries que não podem ser migradas com segurança.
 A migração tenta refatorar o código da forma mais segura possível.

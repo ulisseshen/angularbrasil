@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Migração para signal inputs
 
 O Angular introduziu uma API aprimorada para inputs que é considerada
@@ -74,7 +75,7 @@ A migração suporta algumas opções para ajustar a migração às suas necessi
 Por padrão, a migração atualizará todo o seu workspace do Angular CLI.
 Você pode limitar a migração a um subdiretório específico usando esta opção.
 
-### `--best-effort-mode`
+### `--best-effort-mode` {#vscode-extension}
 
 Por padrão, a migração pula inputs que não podem ser migrados com segurança.
 A migração tenta refatorar o código da forma mais segura possível.

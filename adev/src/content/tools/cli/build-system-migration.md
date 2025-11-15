@@ -1,5 +1,6 @@
 <!-- ia-translate: true -->
-# Sistema de build de aplicações Angular
+
+# Sistema de build de aplicações Angular {#file-extension-loader-customization}
 
 Na v17 e superior, o novo sistema de build fornece uma maneira aprimorada de construir aplicações Angular. Este novo sistema de build inclui:
 
@@ -53,7 +54,7 @@ A migração faz o seguinte:
 - Remove qualquer uso de folha de estilo específico do webpack builder, como til ou circunflexo em `@import`/`url()` e atualiza a configuração para fornecer comportamento equivalente
 - Converte para usar o novo pacote Node.js `@angular/build` de menor dependência se nenhum outro uso de `@angular-devkit/build-angular` for encontrado.
 
-### Migração manual
+### Migração manual {#known-issues}
 
 Adicionalmente para projetos existentes, você pode optar manualmente por usar o novo builder numa base por aplicação com duas opções diferentes.
 Ambas as opções são consideradas estáveis e totalmente suportadas pela equipe Angular.
@@ -513,7 +514,7 @@ Web Workers podem ser usados dentro do código da aplicação usando a mesma sin
 No entanto, o código dentro do Worker não será atualmente verificado quanto a tipo pelo compilador TypeScript. Código TypeScript é suportado, apenas não verificado quanto a tipo.
 Adicionalmente, quaisquer workers aninhados não serão processados pelo sistema de build. Um worker aninhado é uma instanciação de Worker dentro de outro arquivo Worker.
 
-### Imports default ESM vs. imports namespace
+### Imports default ESM vs. imports namespace {#esm-default-imports-vs-namespace-imports}
 
 TypeScript por padrão permite que exports default sejam importados como imports namespace e então usados em expressões de chamada.
 Isso é infelizmente uma divergência da especificação ECMAScript.

@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Cenários de testes de components
 
 Este guia explora casos de uso comuns de testes de components.
@@ -439,7 +440,7 @@ Use uma dessas abordagens:
 
 O objetivo imediato é testar o `DashboardHeroComponent`, não o `DashboardComponent`, então tente a segunda e terceira opções.
 
-### Testar `DashboardHeroComponent` autônomo
+### Testar `DashboardHeroComponent` autônomo {#provide-a-spy-stub-herodetailservicespy}
 
 Aqui está a parte principal da configuração do arquivo spec.
 
@@ -711,7 +712,7 @@ Aqui estão mais alguns testes `HeroDetailComponent` para reforçar o ponto.
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (selected tests)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="selected-tests"/>
 
-## Override de component providers
+## Override de component providers {#override-component-providers}
 
 O `HeroDetailComponent` fornece seu próprio `HeroDetailService`.
 
