@@ -109,7 +109,7 @@ Bibliotecas podem querer expor arquivos estáticos adicionais que não são capt
 
 Para mais informações, veja [Gerenciando assets em uma biblioteca](tools/libraries/creating-libraries#managing-assets-in-a-library).
 
-### Chaves de resolução legadas
+### Chaves de resolução legadas {#legacy-resolution-keys}
 
 Além de `"exports"`, o `package.json` de nível superior também define chaves de resolução de módulo legadas para resolvers que não suportam `"exports"`.
 Para `@angular/core` estas são:
@@ -123,7 +123,7 @@ Para `@angular/core` estas são:
 
 Como mostrado no trecho de código anterior, um resolver de módulo pode usar essas chaves para carregar um formato de código específico.
 
-### Efeitos colaterais
+### Efeitos colaterais {#side-effects}
 
 A última função do `package.json` é declarar se o pacote tem [efeitos colaterais](#sideeffects-flag).
 
@@ -238,7 +238,7 @@ Para gerar um arquivo index ES Module achatado, use as seguintes opções de con
 
 Uma vez que o arquivo index \(por exemplo, `my-ui-lib.js`\) é gerado pelo ngc, bundlers e otimizadores como Rollup podem ser usados para produzir o arquivo ESM achatado.
 
-### Flag "sideEffects"
+### Flag "sideEffects" {#sideeffects-flag}
 
 Por padrão, EcmaScript Modules têm efeitos colaterais: importar de um módulo garante que qualquer código no nível superior desse módulo deve ser executado.
 Isso é frequentemente indesejável, pois a maioria do código com efeitos colaterais em módulos típicos não é verdadeiramente com efeitos colaterais, mas apenas afeta símbolos específicos.
