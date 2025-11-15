@@ -384,7 +384,7 @@ A URL base para seus assets de imagem deve ser passada para a factory do provide
 
 Você pode aprender mais sobre a estrutura da URL base nos documentos de um provider CDN correspondente.
 
-### Loaders Customizados
+### Loaders Customizados {#custom-loaders}
 
 Para usar um **loader customizado**, forneça sua função de loader como um valor para o token DI `IMAGE_LOADER`. No exemplo abaixo, a função de loader customizado retorna uma URL começando com `https://example.com` que inclui `src` e `width` como parâmetros de URL.
 

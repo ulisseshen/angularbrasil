@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Testing Utility APIs {#the-componentfixture} {#testbed-class-summary}
+# Testing Utility APIs {#testing-utility-apis}
 
 Esta página descreve os recursos de testes Angular mais úteis.
 
@@ -20,7 +20,7 @@ Aqui está um resumo das funções independentes, em ordem de utilidade prováve
 | `ComponentFixtureAutoDetect` | Um token de provider para um service que ativa [detecção de mudanças automática](guide/testing/components-scenarios#automatic-change-detection).                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `getTestBed`                 | Obtém a instância atual do `TestBed`. Geralmente desnecessário porque os métodos de classe estáticos da classe `TestBed` são tipicamente suficientes. A instância `TestBed` expõe alguns membros raramente usados que não estão disponíveis como métodos estáticos.                                                                                                                                                                                                                                                                                                                                           |
 
-## Resumo da classe `TestBed`
+## Resumo da classe `TestBed` {#testbed-class-summary}
 
 A classe `TestBed` é um dos principais utilitários de testes Angular.
 Sua API é bastante grande e pode ser esmagadora até que você a tenha explorado, um pouco de cada vez.
@@ -78,7 +78,7 @@ Aqui estão os métodos estáticos mais importantes, em ordem de utilidade prov�
 Alguns dos métodos de instância `TestBed` não são cobertos por métodos de _classe_ estáticos `TestBed`.
 Estes são raramente necessários.
 
-## O `ComponentFixture`
+## O `ComponentFixture` {#the-componentfixture}
 
 O `TestBed.createComponent<T>` cria uma instância do component `T` e retorna um `ComponentFixture` fortemente tipado para aquele component.
 

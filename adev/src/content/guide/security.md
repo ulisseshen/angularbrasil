@@ -188,7 +188,7 @@ Se você não puder gerar nonces no seu projeto, você pode permitir estilos inl
 O Angular em si requer apenas essas configurações para funcionar corretamente.
 À medida que seu projeto cresce, você pode precisar expandir suas configurações de CSP para acomodar funcionalidades extras específicas da sua aplicação.
 
-### Impondo Trusted Types
+### Impondo Trusted Types {#enforcing-trusted-types}
 
 É recomendado que você use [Trusted Types](https://w3c.github.io/trusted-types/dist/spec/) como uma forma de ajudar a proteger suas aplicações de ataques de cross-site scripting.
 Trusted Types é uma funcionalidade da [plataforma web](https://en.wikipedia.org/wiki/Web_platform) que pode ajudá-lo a prevenir ataques de cross-site scripting impondo práticas de codificação mais seguras.

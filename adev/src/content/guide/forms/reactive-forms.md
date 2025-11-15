@@ -173,7 +173,7 @@ Para exibir o component `ProfileEditor` que contém o formulário, adicione-o a 
 
 `ProfileEditor` permite que você gerencie as instâncias de form control para os controls `firstName` e `lastName` dentro da instância do form group.
 
-### Criando form groups aninhados
+### Criando form groups aninhados {#creating-nested-form-groups}
 
 Form groups podem aceitar tanto instâncias individuais de form control quanto outras instâncias de form group como filhos.
 Isso torna a composição de modelos de formulário complexos mais fácil de manter e agrupar logicamente.

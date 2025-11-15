@@ -54,7 +54,7 @@ As seguintes propriedades são um conjunto de opções que personalizam o Angula
 | `environment` | Configura em qual ambiente o cache em disco está habilitado.<br><br>_ `ci` habilita cache apenas em ambientes de integração contínua (CI).<br>_ `local` habilita cache apenas _fora_ de ambientes CI.<br>\* `all` habilita cache em todos os lugares. | `local` \| `ci` \| `all` | `local`          |
 | `path`        | O diretório usado para armazenar resultados do cache.                                                                                                                                                                                                 | `string`                 | `.angular/cache` |
 
-### Opções de avisos
+### Opções de avisos {#warnings-options}
 
 | Propriedade       | Detalhes                                                                                 | Tipo de valor | Valor padrão |
 | :---------------- | :--------------------------------------------------------------------------------------- | :------------ | :----------- |
@@ -133,7 +133,7 @@ Consulte o exemplo em [Target de build](#build-target) abaixo.
 
 HELPFUL: Todas as opções no arquivo de configuração devem usar `camelCase`, em vez de `dash-case` como usado na linha de comando.
 
-## Target de build {#warnings-options}
+## Target de build {#build-target}
 
 Cada target sob `architect` tem as seguintes propriedades:
 
