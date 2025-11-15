@@ -1,7 +1,8 @@
-# Concepts
+<!-- ia-translate: true -->
+# Conceitos
 
 <docs-card-container>
-  <docs-card title="NgModules" link="Learn more" href="guide/ngmodules">
-    NgModules is a concept that commonly used in architecture v16 and earlier to help configure the injector and the compiler and help organize related things together.
+  <docs-card title="NgModules" link="Saiba mais" href="guide/ngmodules">
+    NgModules é um conceito comumente usado na arquitetura v16 e anteriores para ajudar a configurar o injector e o compilador e ajudar a organizar coisas relacionadas juntas.
   </docs-card>
 </docs-card-container>
