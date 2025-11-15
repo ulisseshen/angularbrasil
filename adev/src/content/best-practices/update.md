@@ -1,64 +1,65 @@
-# Keeping your Angular projects up-to-date
+<!-- ia-translate: true -->
+# Mantendo seus projetos Angular atualizados
 
-Just like Web and the entire web ecosystem, Angular is continuously improving.
-Angular balances continuous improvement with a strong focus on stability and making updates straightforward.
-Keeping your Angular application up-to-date enables you to take advantage of leading-edge new features, as well as optimizations and bug fixes.
+Assim como a Web e todo o ecossistema web, o Angular está em constante melhoria.
+O Angular equilibra melhoria contínua com um forte foco em estabilidade e em tornar as atualizações diretas.
+Manter sua aplicação Angular atualizada permite que você aproveite novos recursos de ponta, bem como otimizações e correções de bugs.
 
-This document contains information and resources to help you keep your Angular applications and libraries up-to-date.
+Este documento contém informações e recursos para ajudá-lo a manter suas aplicações e bibliotecas Angular atualizadas.
 
-For information about our versioning policy and practices —including support and deprecation practices, as well as the release schedule— see [Angular versioning and releases](reference/releases 'Angular versioning and releases').
+Para informações sobre nossa política e práticas de versionamento — incluindo práticas de suporte e descontinuação, bem como o cronograma de lançamento — veja [Versionamento e lançamentos do Angular](reference/releases 'Angular versioning and releases').
 
-HELPFUL: If you are currently using AngularJS, see [Upgrading from AngularJS](https://angular.io/guide/upgrade 'Upgrading from Angular JS').
-_AngularJS_ is the name for all v1.x versions of Angular.
+DICA: Se você está usando atualmente AngularJS, veja [Atualizando do AngularJS](https://angular.io/guide/upgrade 'Upgrading from Angular JS').
+_AngularJS_ é o nome para todas as versões v1.x do Angular.
 
-## Getting notified of new releases
+## Sendo notificado sobre novos lançamentos
 
-To be notified when new releases are available, follow [@angular](https://x.com/angular '@angular on X') on X (formerly Twitter) or subscribe to the [Angular blog](https://blog.angular.dev 'Angular blog').
+Para ser notificado quando novos lançamentos estiverem disponíveis, siga [@angular](https://x.com/angular '@angular on X') no X (anteriormente Twitter) ou assine o [blog do Angular](https://blog.angular.dev 'Angular blog').
 
-## Learning about new features
+## Aprendendo sobre novos recursos
 
-What's new? What's changed? We share the most important things you need to know on the Angular blog in [release announcements](https://blog.angular.dev/ 'Angular blog - release announcements').
+O que há de novo? O que mudou? Compartilhamos as coisas mais importantes que você precisa saber no blog do Angular em [anúncios de lançamento](https://blog.angular.dev/ 'Angular blog - release announcements').
 
-To review a complete list of changes, organized by version, see the [Angular change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log').
+Para revisar uma lista completa de mudanças, organizadas por versão, veja o [log de mudanças do Angular](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log').
 
-## Checking your version of Angular
+## Verificando sua versão do Angular
 
-To check your application's version of Angular use the `ng version` command from within your project directory.
+Para verificar a versão do Angular da sua aplicação, use o comando `ng version` dentro do diretório do seu projeto.
 
-## Finding the current version of Angular
+## Encontrando a versão atual do Angular
 
-The most recent stable released version of Angular appears [on npm](https://www.npmjs.com/package/@angular/core 'Angular on npm') under "Version." For example, `16.2.4`.
+A versão estável mais recente lançada do Angular aparece [no npm](https://www.npmjs.com/package/@angular/core 'Angular on npm') em "Version." Por exemplo, `16.2.4`.
 
-You can also find the most current version of Angular by using the CLI command [`ng update`](cli/update).
-By default, [`ng update`](cli/update)(without additional arguments) lists the updates that are available to you.
+Você também pode encontrar a versão mais atual do Angular usando o comando da CLI [`ng update`](cli/update).
+Por padrão, [`ng update`](cli/update) (sem argumentos adicionais) lista as atualizações que estão disponíveis para você.
 
-## Updating your environment and apps
+## Atualizando seu ambiente e aplicações
 
-To make updating uncomplicated, we provide complete instructions in the interactive [Angular Update Guide](update-guide).
+Para tornar a atualização descomplicada, fornecemos instruções completas no [Guia de Atualização do Angular](update-guide) interativo.
 
-The Angular Update Guide provides customized update instructions, based on the current and target versions that you specify.
-It includes basic and advanced update paths, to match the complexity of your applications.
-It also includes troubleshooting information and any recommended manual changes to help you get the most out of the new release.
+O Guia de Atualização do Angular fornece instruções de atualização personalizadas, baseadas nas versões atual e de destino que você especificar.
+Ele inclui caminhos de atualização básicos e avançados, para corresponder à complexidade de suas aplicações.
+Também inclui informações de solução de problemas e quaisquer mudanças manuais recomendadas para ajudá-lo a aproveitar ao máximo o novo lançamento.
 
-For simple updates, the CLI command [`ng update`](cli/update) is all you need.
-Without additional arguments, [`ng update`](cli/update) lists the updates that are available to you and provides recommended steps to update your application to the most current version.
+Para atualizações simples, o comando da CLI [`ng update`](cli/update) é tudo que você precisa.
+Sem argumentos adicionais, [`ng update`](cli/update) lista as atualizações que estão disponíveis para você e fornece etapas recomendadas para atualizar sua aplicação para a versão mais atual.
 
-[Angular Versioning and Releases](reference/releases#versioning 'Angular Release Practices, Versioning') describes the level of change that you can expect based on a release's version number.
-It also describes supported update paths.
+[Versionamento e Lançamentos do Angular](reference/releases#versioning 'Angular Release Practices, Versioning') descreve o nível de mudança que você pode esperar com base no número de versão de um lançamento.
+Também descreve caminhos de atualização suportados.
 
-## Resource summary
+## Resumo de recursos
 
-- Release announcements:
-  [Angular blog - release announcements](https://blog.angular.dev/ 'Angular blog announcements about recent releases')
+- Anúncios de lançamento:
+  [Blog do Angular - anúncios sobre lançamentos recentes](https://blog.angular.dev/ 'Angular blog announcements about recent releases')
 
-- Release details:
-  [Angular change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log')
+- Detalhes do lançamento:
+  [Log de mudanças do Angular](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log')
 
-- Update instructions:
-  [Angular Update Guide](update-guide)
+- Instruções de atualização:
+  [Guia de Atualização do Angular](update-guide)
 
-- Update command reference:
-  [Angular CLI `ng update` command reference](cli/update)
+- Referência do comando de atualização:
+  [Referência do comando `ng update` da CLI Angular](cli/update)
 
-- Versioning, release, support, and deprecation practices:
-  [Angular versioning and releases](reference/releases 'Angular versioning and releases')
+- Práticas de versionamento, lançamento, suporte e descontinuação:
+  [Versionamento e lançamentos do Angular](reference/releases 'Angular versioning and releases')
