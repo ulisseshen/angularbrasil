@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Structural directives {#structural-directive-syntax-reference} {#structural-directive-shorthand}
+# Structural directives {#structural-directives}
 
 Structural directives são directives aplicadas a um elemento `<ng-template>` que renderizam condicionalmente ou repetidamente o conteúdo daquele `<ng-template>`.
 
@@ -24,7 +24,7 @@ A structural directive pode aguardar que os dados fiquem disponíveis e então r
 
 Para mais informações, veja a documentação da [API ng-template](api/core/ng-template).
 
-## Sintaxe abreviada de structural directive
+## Sintaxe abreviada de structural directive {#structural-directive-shorthand}
 
 O Angular suporta uma sintaxe abreviada para structural directives que evita a necessidade de criar explicitamente um elemento `<ng-template>`.
 

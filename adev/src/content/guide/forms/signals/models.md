@@ -208,7 +208,7 @@ resetForm() {
 
 Esta abordagem funciona bem ao carregar dados de uma API ou resetar o formulário inteiro.
 
-### Atualizar um ou mais fields com `update()` {#update-a-single-field-directly-with-set} {#update-one-or-more-fields-with-update}
+### Atualizar um ou mais fields com `update()` {#update-one-or-more-fields-with-update} {#update-one-or-more-fields-with-update}
 
 Use `update()` para modificar fields específicos enquanto preserva outros:
 
