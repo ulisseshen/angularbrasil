@@ -8,7 +8,7 @@
  */
 
 import {readFileSync, readdirSync, statSync} from 'fs';
-import {join, relative} from 'path';
+import {join, relative, dirname} from 'path';
 
 // Generate anchor ID from heading text (following common markdown conventions)
 function generateAnchorId(text) {
@@ -133,10 +133,10 @@ function extractHeadings(content) {
 function extractAnchorLinks(content) {
   const links = [];
 
-  // Match [text](#anchor) or [text](#anchor 'title') pattern
-  const anchorRegex = /\[([^\]]+)\]\(#([^\s)'"]+)(?:\s+['"][^'"]*['"])?\)/g;
+  // Match [text](#anchor) or [text](#anchor 'title') pattern (internal links)
+  const internalAnchorRegex = /\[([^\]]+)\]\(#([^\s)'"]+)(?:\s+['"][^'"]*['"])?\)/g;
   let match;
-  while ((match = anchorRegex.exec(content)) !== null) {
+  while ((match = internalAnchorRegex.exec(content)) !== null) {
     const linkText = match[1];
     let anchor = match[2];
     const line = content.substring(0, match.index).split('\n').length;
@@ -148,7 +148,36 @@ function extractAnchorLinks(content) {
     if (!anchor) continue;
 
     links.push({
+      type: 'internal',
       text: linkText,
+      anchor: anchor,
+      line: line,
+      hasInvalidChars: !isValidCustomId(anchor),
+      hasNonAscii: hasNonAsciiChars(anchor),
+    });
+  }
+
+  // Match [text](path/to/file.md#anchor) pattern (cross-file links, exclude external URLs)
+  const crossFileAnchorRegex = /\[([^\]]+)\]\(([^)#:]+\.md)#([^\s)'"]+)(?:\s+['"][^'"]*['"])?\)/g;
+  while ((match = crossFileAnchorRegex.exec(content)) !== null) {
+    const linkText = match[1];
+    const filePath = match[2];
+    let anchor = match[3];
+    const line = content.substring(0, match.index).split('\n').length;
+
+    // Skip external URLs (http:// or https://)
+    if (filePath.includes('://')) continue;
+
+    // Remove any trailing quotes or whitespace
+    anchor = anchor.trim().replace(/['"]$/, '');
+
+    // Skip empty anchors
+    if (!anchor) continue;
+
+    links.push({
+      type: 'cross-file',
+      text: linkText,
+      targetFile: filePath,
       anchor: anchor,
       line: line,
       hasInvalidChars: !isValidCustomId(anchor),
@@ -159,8 +188,35 @@ function extractAnchorLinks(content) {
   return links;
 }
 
+// Build a map of all files and their available anchors
+function buildAnchorMap(markdownFiles, baseDir) {
+  const anchorMap = new Map();
+
+  for (const file of markdownFiles) {
+    try {
+      const content = readFileSync(file, 'utf8');
+      const {headings} = extractHeadings(content);
+      const validIds = headings.filter((h) => h.depth > 1).map((h) => h.id);
+      const relativePath = relative(baseDir, file);
+
+      anchorMap.set(relativePath, new Set(validIds));
+    } catch (error) {
+      // Skip files that can't be read
+    }
+  }
+
+  return anchorMap;
+}
+
+// Resolve a cross-file path relative to the current file
+function resolveCrossFilePath(currentFilePath, targetPath, baseDir) {
+  const currentDir = join(baseDir, dirname(currentFilePath));
+  const resolvedPath = join(currentDir, targetPath);
+  return relative(baseDir, resolvedPath);
+}
+
 // Check a single markdown file
-function checkMarkdownFile(filePath, baseDir) {
+function checkMarkdownFile(filePath, baseDir, anchorMap) {
   const content = readFileSync(filePath, 'utf8');
   const relativePath = relative(baseDir, filePath);
 
@@ -179,9 +235,10 @@ function checkMarkdownFile(filePath, baseDir) {
         line: link.line,
         anchor: link.anchor,
         linkText: link.text,
-        availableIds: Array.from(validIds),
+        availableIds: link.type === 'internal' ? Array.from(validIds) : [],
         errorType: 'invalid-chars',
         message: `Anchor link contains invalid characters (only [\w-]+ allowed)`,
+        linkType: link.type,
       });
     }
     // Check if anchor link has Portuguese/non-ASCII characters
@@ -191,22 +248,58 @@ function checkMarkdownFile(filePath, baseDir) {
         line: link.line,
         anchor: link.anchor,
         linkText: link.text,
-        availableIds: Array.from(validIds),
+        availableIds: link.type === 'internal' ? Array.from(validIds) : [],
         errorType: 'non-ascii',
         message: `Anchor link contains Portuguese/non-ASCII characters (use English IDs)`,
+        linkType: link.type,
       });
     }
-    // Check if anchor exists
-    else if (!validIds.has(link.anchor)) {
-      errors.push({
-        file: relativePath,
-        line: link.line,
-        anchor: link.anchor,
-        linkText: link.text,
-        availableIds: Array.from(validIds),
-        errorType: 'not-found',
-        message: `Anchor link target does not exist in document`,
-      });
+    // Check internal links
+    else if (link.type === 'internal') {
+      if (!validIds.has(link.anchor)) {
+        errors.push({
+          file: relativePath,
+          line: link.line,
+          anchor: link.anchor,
+          linkText: link.text,
+          availableIds: Array.from(validIds),
+          errorType: 'not-found',
+          message: `Anchor link target does not exist in document`,
+          linkType: 'internal',
+        });
+      }
+    }
+    // Check cross-file links
+    else if (link.type === 'cross-file') {
+      const targetFilePath = resolveCrossFilePath(relativePath, link.targetFile, baseDir);
+      const targetAnchors = anchorMap.get(targetFilePath);
+
+      if (!targetAnchors) {
+        errors.push({
+          file: relativePath,
+          line: link.line,
+          anchor: link.anchor,
+          linkText: link.text,
+          targetFile: link.targetFile,
+          resolvedPath: targetFilePath,
+          availableIds: [],
+          errorType: 'file-not-found',
+          message: `Target file not found: ${link.targetFile}`,
+          linkType: 'cross-file',
+        });
+      } else if (!targetAnchors.has(link.anchor)) {
+        errors.push({
+          file: relativePath,
+          line: link.line,
+          anchor: link.anchor,
+          linkText: link.text,
+          targetFile: link.targetFile,
+          availableIds: Array.from(targetAnchors),
+          errorType: 'not-found',
+          message: `Anchor link target does not exist in ${link.targetFile}`,
+          linkType: 'cross-file',
+        });
+      }
     }
   }
 
@@ -246,11 +339,16 @@ function main() {
   const markdownFiles = findMarkdownFiles(fullSearchDir);
   console.log(`Found ${markdownFiles.length} markdown files\n`);
 
+  // Build anchor map for cross-file link validation
+  console.log('Building anchor map for cross-file validation...');
+  const anchorMap = buildAnchorMap(markdownFiles, baseDir);
+  console.log('');
+
   let totalErrors = 0;
   let totalWarnings = 0;
 
   for (const file of markdownFiles) {
-    const {errors, warnings, relativePath} = checkMarkdownFile(file, baseDir);
+    const {errors, warnings, relativePath} = checkMarkdownFile(file, baseDir, anchorMap);
 
     if (errors.length > 0) {
       totalErrors += errors.length;
@@ -259,6 +357,10 @@ function main() {
       for (const error of errors) {
         console.log(`   Line ${error.line}: Invalid anchor "#${error.anchor}"`);
         console.log(`   Link text: "${error.linkText}"`);
+
+        if (error.linkType === 'cross-file') {
+          console.log(`   Target file: ${error.targetFile}`);
+        }
 
         if (error.message) {
           console.log(`   Error: ${error.message}`);
