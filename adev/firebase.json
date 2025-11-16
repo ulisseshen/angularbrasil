@@ -1,10 +1,9 @@
 {
-  "hosting": [
-    {
-      "target": "angular-docs",
-      "public": "./build/browser",
-      "ignore": ["**/.*"],
-      "trailingSlash": false,
+  "hosting": {
+    "target": "angular-docs",
+    "public": "./build/browser",
+    "ignore": ["**/.*"],
+    "trailingSlash": false,
       "headers": [
         {
           "source": "assets/images/tutorials/common/*.jpg",
@@ -83,6 +82,5 @@
           "destination": "/index.html"
         }
       ]
-    }
-  ]
+  }
 }
