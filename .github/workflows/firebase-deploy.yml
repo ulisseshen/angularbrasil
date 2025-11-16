@@ -48,9 +48,8 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: angularbrasil
+          projectId: transliteradu
           channelId: live
-          target: angular-docs
           entryPoint: ./adev
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
@@ -61,8 +60,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: angularbrasil
-          target: angular-docs
+          projectId: transliteradu
           entryPoint: ./adev
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
