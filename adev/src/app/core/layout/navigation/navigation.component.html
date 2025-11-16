@@ -1,3 +1,4 @@
+<!-- ia-translate: true -->
 <!-- Primary Nav -->
 <div
   [attr.id]="PRIMARY_NAV_ID"
@@ -11,7 +12,7 @@
     <button
       type="button"
       class="adev-mobile-nav-button"
-      aria-label="Toggle mobile navigation"
+      aria-label="Alternar navegação móvel"
       (click)="openMobileNav($event)"
     >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 223 236" width="32">
@@ -70,7 +71,7 @@
       type="button"
       class="adev-close-nav"
       (click)="closeMobileNav()"
-      aria-label="Close navigation"
+      aria-label="Fechar navegação"
     >
       <docs-icon role="presentation">close</docs-icon>
     </button>
@@ -81,7 +82,7 @@
         class="adev-nav-item adev-nav-item--logo"
         [class.adev-nav-item--active]="activeRouteItem() === PAGE_PREFIX.HOME"
       >
-        <a aria-label="Angular homepage" routerLink="/">
+        <a aria-label="Página inicial do Angular" routerLink="/">
           <!-- Logo Symbol -->
           @if (!isUwu) {
             <svg
@@ -148,7 +149,7 @@
         <div class="adev-nav-item">
           <button
             type="button"
-            aria-label="Select Angular version"
+            aria-label="Selecionar versão do Angular"
             role="menu"
             class="adev-version-button"
             [class.adev-mini-menu-open]="openedMenu() === 'version-picker'"
@@ -194,7 +195,7 @@
           class="adev-nav-button"
           type="button"
           (click)="toggleSearchDialog($event)"
-          title="Search docs"
+          title="Buscar na documentação"
         >
           <svg
             aria-hidden="true"
@@ -209,7 +210,7 @@
           </svg>
           <span
             class="adev-nav-item__label adev-search-desktop"
-            [aria-label]="'Open search dialog with ' + searchTitle"
+            [aria-label]="'Abrir diálogo de busca com ' + searchTitle"
           >
             <kbd>{{ searchLabel }}</kbd>
             <kbd>K</kbd>
@@ -234,7 +235,7 @@
               d="M3.645 13.792h6.708v-1.25H3.645v1.25Zm0-3.542h6.708V9H3.645v1.25Zm-2.063 7.083a1.2 1.2 0 0 1-.875-.375 1.2 1.2 0 0 1-.375-.875V1.917a1.2 1.2 0 0 1 .375-.875 1.2 1.2 0 0 1 .875-.375h7.52l4.563 4.562v10.854a1.2 1.2 0 0 1-.375.875 1.2 1.2 0 0 1-.875.375H1.582ZM8.478 5.792V1.917H1.582v14.166h10.833V5.792H8.478Z"
             />
           </svg>
-          <span class="adev-nav-item__label">Docs</span>
+          <span class="adev-nav-item__label">Documentação</span>
         </a>
       </li>
 
@@ -255,7 +256,7 @@
               d="m5.668 10-5-5 5-5 1.187 1.188L3.022 5.02l3.813 3.812L5.668 10Zm6.667 0-1.188-1.188L14.98 4.98l-3.812-3.812L12.335 0l5 5-5 5Z"
             />
           </svg>
-          <span class="adev-nav-item__label">Tutorials</span>
+          <span class="adev-nav-item__label">Tutoriais</span>
         </a>
       </li>
 
@@ -291,7 +292,7 @@
               d="M3.645 13.792h6.708v-1.25H3.645v1.25Zm0-3.542h6.708V9H3.645v1.25Zm-2.063 7.083a1.2 1.2 0 0 1-.875-.375 1.2 1.2 0 0 1-.375-.875V1.917a1.2 1.2 0 0 1 .375-.875 1.2 1.2 0 0 1 .875-.375h7.52l4.563 4.562v10.854a1.2 1.2 0 0 1-.375.875 1.2 1.2 0 0 1-.875.375H1.582ZM8.478 5.792V1.917H1.582v14.166h10.833V5.792H8.478Z"
             />
           </svg>
-          <span class="adev-nav-item__label">Reference</span>
+          <span class="adev-nav-item__label">Referência</span>
         </a>
       </li>
     </ul>
@@ -304,7 +305,7 @@
           type="button"
           [cdkMenuTriggerFor]="socialMiniMenu"
           [cdkMenuPosition]="miniMenuPositions"
-          aria-label="Open social media links"
+          aria-label="Abrir links de redes sociais"
           (cdkMenuClosed)="closeMenu()"
           (cdkMenuOpened)="openMenu('social')"
         >
@@ -317,7 +318,7 @@
               <a
                 [href]="ngLinks.YOUTUBE"
                 cdkMenuItem
-                title="Angular YouTube channel"
+                title="Canal do Angular no YouTube"
                 target="_blank"
                 rel="noopener"
               >
@@ -339,7 +340,7 @@
               <a
                 [href]="ngLinks.X"
                 cdkMenuItem
-                title="Angular X (formerly Twitter) profile"
+                title="Perfil do Angular no X (antigo Twitter)"
                 target="_blank"
                 rel="noopener"
               >
@@ -361,7 +362,7 @@
               <a
                 [href]="ngLinks.BLUESKY"
                 cdkMenuItem
-                title="Angular Bluesky profile"
+                title="Perfil do Angular no Bluesky"
                 target="_blank"
                 rel="noopener"
               >
@@ -383,7 +384,7 @@
               <a
                 [href]="ngLinks.MEDIUM"
                 cdkMenuItem
-                title="Angular Medium blog"
+                title="Blog do Angular no Medium"
                 target="_blank"
                 rel="noopener"
               >
@@ -399,7 +400,7 @@
               <a
                 [href]="ngLinks.GITHUB"
                 cdkMenuItem
-                title="Angular Github"
+                title="Angular no GitHub"
                 target="_blank"
                 rel="noopener"
               >
@@ -423,7 +424,7 @@
               <a
                 [href]="ngLinks.DISCORD"
                 cdkMenuItem
-                title="Angular Discord"
+                title="Discord do Angular"
                 target="_blank"
                 rel="noopener"
               >
@@ -452,7 +453,7 @@
           type="button"
           [cdkMenuTriggerFor]="themeMiniMenu"
           [cdkMenuPosition]="miniMenuPositions"
-          [aria-label]="'Change theme. Current theme: ' + theme()"
+          [aria-label]="'Mudar tema. Tema atual: ' + theme()"
           aria-controls="theme-mini-menu"
           [aria-expanded]="openedMenu() === 'theme-picker'"
           aria-haspopup="menu"
@@ -480,7 +481,7 @@
             cdkMenu
             id="theme-mini-menu"
             role="menu"
-            aria-label="Theme options"
+            aria-label="Opções de tema"
           >
             <li role="none">
               <button
@@ -489,10 +490,10 @@
                 role="menuitemradio"
                 [aria-checked]="theme() === 'auto'"
                 (click)="setTheme('auto')"
-                aria-label="Set default system theme"
+                aria-label="Definir tema padrão do sistema"
               >
                 <docs-icon class="docs-icon_high-contrast" aria-hidden="true">routine</docs-icon>
-                <span>System</span>
+                <span>Sistema</span>
               </button>
             </li>
             <li role="none">
@@ -502,10 +503,10 @@
                 role="menuitemradio"
                 [aria-checked]="theme() === 'dark'"
                 (click)="setTheme('dark')"
-                aria-label="Set dark theme"
+                aria-label="Definir tema escuro"
               >
                 <docs-icon class="docs-icon_high-contrast" aria-hidden="true">dark_mode</docs-icon>
-                <span>Dark</span>
+                <span>Escuro</span>
               </button>
             </li>
             <li role="none">
@@ -515,10 +516,10 @@
                 role="menuitemradio"
                 [aria-checked]="theme() === 'light'"
                 (click)="setTheme('light')"
-                aria-label="Set light theme"
+                aria-label="Definir tema claro"
               >
                 <docs-icon class="docs-icon_high-contrast" aria-hidden="true">light_mode</docs-icon>
-                <span>Light</span>
+                <span>Claro</span>
               </button>
             </li>
           </ul>
@@ -533,7 +534,7 @@
       <button type="button" (click)="openMobileNav($event)">
         <docs-icon class="docs-icon_high-contrast">menu</docs-icon>
         @if (activeRouteItem() === PAGE_PREFIX.DOCS) {
-          <span>Docs</span>
+          <span>Documentação</span>
         }
         @if (activeRouteItem() === PAGE_PREFIX.REFERENCE) {
           <span>API</span>
