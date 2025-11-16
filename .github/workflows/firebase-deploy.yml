@@ -53,6 +53,13 @@ jobs:
         env:
           NO_PROXY: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
 
+      - name: Prepare build for Firebase deployment
+        run: |
+          # Bazel outputs to bazel-bin/adev/build.production/browser
+          # Firebase expects it at adev/build/browser
+          mkdir -p adev/build
+          cp -r bazel-bin/adev/build.production/browser adev/build/
+
       - name: Deploy to Firebase
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: FirebaseExtended/action-hosting-deploy@v0
