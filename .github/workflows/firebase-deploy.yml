@@ -106,30 +106,8 @@ jobs:
           target: angular-docs
           entryPoint: ./adev
 
-      - name: Manual Firebase deployment test
-        if: github.event_name == 'pull_request'
-        run: |
-          cd adev
-          echo "Current directory: $(pwd)"
-          echo "Listing build/browser:"
-          ls -la build/browser | head -15
-
-          # Write service account to file
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-sa.json
-
-          echo "Testing Firebase deployment..."
-          npx --yes firebase-tools@latest deploy \
-            --only hosting:angular-docs \
-            --project transliteradu \
-            --service-account /tmp/firebase-sa.json \
-            --non-interactive \
-            --debug \
-            2>&1 | head -150
-
-          rm -f /tmp/firebase-sa.json
-
       - name: Deploy Preview to Firebase
-        if: false
+        if: github.event_name == 'pull_request'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
