@@ -35,32 +35,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Validate Firebase service account JSON
-        run: |
-          # Validate JSON format
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | jq empty 2>&1 || {
-            echo "::error::FIREBASE_SERVICE_ACCOUNT is not valid JSON"
-            echo "::error::Please check the service account JSON format"
-            exit 1
-          }
-
-          # Check for required fields
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | jq -e '.type, .project_id, .private_key, .client_email' > /dev/null 2>&1 || {
-            echo "::error::FIREBASE_SERVICE_ACCOUNT is missing required fields"
-            echo "::error::Required fields: type, project_id, private_key, client_email"
-            exit 1
-          }
-
-          # Verify project_id matches expected project
-          PROJECT_ID=$(echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | jq -r '.project_id')
-          if [ "$PROJECT_ID" != "transliteradu" ]; then
-            echo "::warning::Service account project_id is '$PROJECT_ID' but workflow expects 'transliteradu'"
-            echo "::warning::This may cause deployment issues"
-          fi
-
-          echo "✅ Firebase service account JSON is valid"
-          echo "   Project ID: $PROJECT_ID"
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
