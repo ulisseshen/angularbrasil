@@ -55,10 +55,29 @@ jobs:
 
       - name: Prepare build for Firebase deployment
         run: |
-          # Bazel outputs to bazel-bin/adev/build.production/browser
-          # Firebase expects it at adev/build/browser
+          echo "Finding build output..."
+          find . -type d -name "browser" | grep -E "adev|build" | head -10
+
+          # Find the actual browser output directory
+          BROWSER_PATH=$(find dist-out -name "browser" -type d 2>/dev/null | head -1)
+          if [ -z "$BROWSER_PATH" ]; then
+            BROWSER_PATH=$(find adev/dist -name "browser" -type d 2>/dev/null | head -1)
+          fi
+          if [ -z "$BROWSER_PATH" ]; then
+            # Check the symlink bazel creates
+            BROWSER_PATH="dist/bin/adev/build.production/browser"
+          fi
+
+          echo "Browser path found: $BROWSER_PATH"
+
+          # Copy to where Firebase expects it
           mkdir -p adev/build
-          cp -r bazel-bin/adev/build.production/browser adev/build/
+          cp -r "$BROWSER_PATH" adev/build/ || {
+            echo "Failed to copy browser directory"
+            echo "Searching all possible locations..."
+            find . -name "browser" -type d
+            exit 1
+          }
 
       - name: Deploy to Firebase
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
