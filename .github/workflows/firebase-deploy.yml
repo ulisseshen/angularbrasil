@@ -95,23 +95,52 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy to Firebase
+      - name: Deploy to Firebase (Production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: transliteradu
-          channelId: live
-          target: angular-docs
-          entryPoint: ./adev
+        run: |
+          cd adev
+
+          # Write service account to temp file
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-sa.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-sa.json
+
+          # Deploy to Firebase production
+          npx --yes firebase-tools@latest deploy \
+            --only hosting:angular-docs \
+            --project transliteradu \
+            --non-interactive
+
+          rm -f /tmp/firebase-sa.json
 
       - name: Deploy Preview to Firebase
         if: github.event_name == 'pull_request'
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: transliteradu
-          target: angular-docs
-          entryPoint: ./adev
+        run: |
+          cd adev
+
+          # Write service account to temp file
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-sa.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-sa.json
+
+          # Create preview channel name from PR number
+          CHANNEL_ID="pr${{ github.event.pull_request.number }}"
+
+          # Deploy to Firebase preview channel
+          npx --yes firebase-tools@latest hosting:channel:deploy "$CHANNEL_ID" \
+            --only angular-docs \
+            --expires 7d \
+            --project transliteradu \
+            --non-interactive \
+            --json > /tmp/deploy-output.json
+
+          # Extract preview URL
+          PREVIEW_URL=$(cat /tmp/deploy-output.json | jq -r '.result."angular-docs".url // empty')
+
+          rm -f /tmp/firebase-sa.json /tmp/deploy-output.json
+
+          # Comment on PR with preview URL
+          if [ -n "$PREVIEW_URL" ]; then
+            echo "Preview URL: $PREVIEW_URL"
+            gh pr comment ${{ github.event.pull_request.number }} --body "✅ Preview deployed to: $PREVIEW_URL"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
