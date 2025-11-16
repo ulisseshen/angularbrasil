@@ -10,6 +10,7 @@
 Use the translation agent located at `.claude/agents/translate-to-pt-br.md` for all translations.
 
 **To use the agent:**
+
 ```bash
 # The agent will automatically apply when you edit these files
 # Ensure each translated file starts with: <!-- ia-translate: true -->
@@ -123,16 +124,19 @@ For each file, ensure:
 ## Special Considerations
 
 **CLI documentation:**
+
 - Command syntax must remain in English
 - Flags and options stay as-is
 - Only explanatory text is translated
 
 **Library documentation:**
+
 - Package names unchanged
 - API references stay in English
 - Build configurations preserved
 
 **Example READMEs:**
+
 - Can be brief - these are supplementary
 - Focus on clarity for beginners
 

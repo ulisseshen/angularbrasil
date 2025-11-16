@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Instruções para Download do Exemplo Angular Universal
 
 Este é o código de exemplo baixado para o guia [Angular Universal (Standalone)](https://angular.dev/guide/ssr).

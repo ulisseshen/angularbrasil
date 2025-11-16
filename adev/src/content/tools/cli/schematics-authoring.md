@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Criando schematics
 
 Você pode criar seus próprios schematics para operar em projetos Angular.
@@ -141,20 +142,20 @@ Neste caso, "yes" corresponde a `true` e "no" corresponde a `false`.
 
 Existem três tipos de entrada suportados.
 
-| Tipo de entrada | Detalhes                                                   |
-| :-------------- | :--------------------------------------------------------- |
-| confirmation    | Uma pergunta sim ou não; ideal para opções Boolean.       |
-| input           | Entrada textual; ideal para opções string ou number.      |
-| list            | Um conjunto predefinido de valores permitidos.             |
+| Tipo de entrada | Detalhes                                             |
+| :-------------- | :--------------------------------------------------- |
+| confirmation    | Uma pergunta sim ou não; ideal para opções Boolean.  |
+| input           | Entrada textual; ideal para opções string ou number. |
+| list            | Um conjunto predefinido de valores permitidos.       |
 
 Na forma abreviada, o tipo é inferido do tipo e restrições da propriedade.
 
-| Schema da propriedade | Tipo de prompt                               |
-| :-------------------- | :------------------------------------------- |
-| "type": "boolean"     | confirmation \("yes"=`true`, "no"=`false`\)  |
-| "type": "string"      | input                                        |
-| "type": "number"      | input \(apenas números válidos aceitos\)     |
-| "type": "integer"     | input \(apenas números válidos aceitos\)     |
+| Schema da propriedade | Tipo de prompt                                       |
+| :-------------------- | :--------------------------------------------------- |
+| "type": "boolean"     | confirmation \("yes"=`true`, "no"=`false`\)          |
+| "type": "string"      | input                                                |
+| "type": "number"      | input \(apenas números válidos aceitos\)             |
+| "type": "integer"     | input \(apenas números válidos aceitos\)             |
 | "enum": […]           | list \(membros do enum tornam-se seleções da lista\) |
 
 No exemplo a seguir, a propriedade recebe um valor enumerado, então o schematic escolhe automaticamente o tipo list e cria um menu a partir dos valores possíveis.
@@ -186,11 +187,11 @@ Isso garante que quaisquer valores passados ao schematic atendam às expectativa
 A sintaxe do campo `x-prompt` suporta uma forma longa para casos onde você requer personalização e controle adicionais sobre o prompt.
 Nesta forma, o valor do campo `x-prompt` é um objeto JSON com subcampos que personalizam o comportamento do prompt.
 
-| Campo   | Valor de dados                                                              |
-| :------ | :-------------------------------------------------------------------------- |
+| Campo   | Valor de dados                                                                       |
+| :------ | :----------------------------------------------------------------------------------- |
 | type    | `confirmation`, `input` ou `list` \(selecionado automaticamente na forma abreviada\) |
-| message | string \(obrigatório\)                                                      |
-| items   | string e/ou par de objeto label/value \(válido apenas com type `list`\)    |
+| message | string \(obrigatório\)                                                               |
+| items   | string e/ou par de objeto label/value \(válido apenas com type `list`\)              |
 
 O exemplo a seguir da forma longa é do schema JSON para o schematic que o CLI usa para [gerar aplicações](https://github.com/angular/angular-cli/blob/ba8a6ea59983bb52a6f1e66d105c5a77517f062e/packages/schematics/angular/application/schema.json#L56).
 Ele define o prompt que permite aos usuários escolher qual pré-processador de estilo desejam usar para a aplicação sendo criada.
@@ -388,12 +389,12 @@ No exemplo, você invoca a funcionalidade definida do schematic chamando a funç
 
 Cada schematic nomeado na coleção tem as seguintes partes principais.
 
-| Partes        | Detalhes                                                        |
-| :------------ | :-------------------------------------------------------------- |
+| Partes        | Detalhes                                                               |
+| :------------ | :--------------------------------------------------------------------- |
 | `index.ts`    | Código que define a lógica de transformação para um schematic nomeado. |
-| `schema.json` | Definição de variável de schematic.                             |
-| `schema.d.ts` | Variáveis de schematic.                                         |
-| `files/`      | Arquivos opcionais de component/template para replicar.         |
+| `schema.json` | Definição de variável de schematic.                                    |
+| `schema.d.ts` | Variáveis de schematic.                                                |
+| `files/`      | Arquivos opcionais de component/template para replicar.                |
 
 É possível para um schematic fornecer toda a sua lógica no arquivo `index.ts`, sem templates adicionais.
 Você pode criar schematics dinâmicos para Angular, no entanto, fornecendo components e templates na pasta `files`, como aqueles em projetos Angular independentes.

@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Criando bibliotecas
 
 Esta página fornece uma visão geral conceitual de como criar e publicar novas bibliotecas para estender a funcionalidade do Angular.
@@ -245,9 +246,9 @@ Mapeamentos de path TypeScript _não_ devem apontar para os arquivos `.ts` de or
 
 Existem dois formatos de distribuição a serem usados ao publicar uma biblioteca:
 
-| Formatos de distribuição    | Detalhes                                                                                                                                                                                                                                                                                                                                 |
-| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Partial-Ivy \(recomendado\) | Contém código portátil que pode ser consumido por aplicações Ivy construídas com qualquer versão do Angular a partir da v12.                                                                                                                                                                                                             |
+| Formatos de distribuição    | Detalhes                                                                                                                                                                                                                                                                                                                                                 |
+| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Partial-Ivy \(recomendado\) | Contém código portátil que pode ser consumido por aplicações Ivy construídas com qualquer versão do Angular a partir da v12.                                                                                                                                                                                                                             |
 | Full-Ivy                    | Contém instruções privadas do Angular Ivy, que não são garantidas para funcionar em diferentes versões do Angular. Este formato requer que a biblioteca e a aplicação sejam construídas com a _mesma_ versão exata do Angular. Este formato é útil para ambientes onde todo o código de biblioteca e aplicação é construído diretamente do código-fonte. |
 
 Para publicar no npm, use o formato partial-Ivy, pois é estável entre versões de patch do Angular.

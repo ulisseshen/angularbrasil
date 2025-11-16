@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Compatibilidade de versão
 
 As tabelas a seguir descrevem as versões de Node.js, TypeScript e RxJS que cada versão do
@@ -80,8 +81,8 @@ O "widely available" Baseline inclui browsers lançados há menos de 30 meses (2
 da data escolhida dentro do conjunto de browsers principais do Baseline (Chrome, Edge, Firefox, Safari) e
 visa suportar aproximadamente 95% dos usuários da web.
 
-| Angular | Data do Baseline | Conjunto de Browsers        |
-| ------- | ---------------- | --------------------------- |
+| Angular | Data do Baseline | Conjunto de Browsers                 |
+| ------- | ---------------- | ------------------------------------ |
 | v21     | 2025-10-20       | [Conjunto de Browsers][browsers-v21] |
 | v20     | 2025-04-30       | [Conjunto de Browsers][browsers-v20] |
 
@@ -90,14 +91,14 @@ visa suportar aproximadamente 95% dos usuários da web.
 
 Versões do Angular anteriores à v20 suportam as seguintes versões específicas de browser:
 
-| Browser | Versões suportadas                      |
-| :------ | :-------------------------------------- |
-| Chrome  | 2 versões mais recentes                 |
+| Browser | Versões suportadas                                     |
+| :------ | :----------------------------------------------------- |
+| Chrome  | 2 versões mais recentes                                |
 | Firefox | versão mais recente e extended support release \(ESR\) |
-| Edge    | 2 versões principais mais recentes      |
-| Safari  | 2 versões principais mais recentes      |
-| iOS     | 2 versões principais mais recentes      |
-| Android | 2 versões principais mais recentes      |
+| Edge    | 2 versões principais mais recentes                     |
+| Safari  | 2 versões principais mais recentes                     |
+| iOS     | 2 versões principais mais recentes                     |
+| Android | 2 versões principais mais recentes                     |
 
 ## Polyfills
 
@@ -135,7 +136,7 @@ Se você criar um arquivo TypeScript, certifique-se de incluí-lo na propriedade
 }
 </docs-code>
 
-## Polyfills para usuários não-CLI
+## Polyfills para usuários não-CLI {#polyfills-for-non-cli-users}
 
 Se você não está usando o CLI, adicione seus scripts polyfill diretamente à página web hospedeira \(`index.html`\).
 

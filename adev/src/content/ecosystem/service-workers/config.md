@@ -1,9 +1,10 @@
 <!-- ia-translate: true -->
+
 # Arquivo de configuração do Service Worker
 
 Este tópico descreve as propriedades do arquivo de configuração do service worker.
 
-## Modificando a configuração
+## Modificando a configuração {#modifying-the-configuration}
 
 O arquivo de configuração JSON `ngsw-config.json` especifica quais arquivos e URLs de dados o Angular service worker deve armazenar em cache e como ele deve atualizar os arquivos e dados em cache.
 O [Angular CLI](tools/cli) processa este arquivo de configuração durante `ng build`.
@@ -12,12 +13,12 @@ Todos os caminhos de arquivo devem começar com `/`, que corresponde ao diretór
 
 A menos que comentado de outra forma, os padrões usam um formato glob **limitado\*** que internamente será convertido em regex:
 
-| Formatos glob | Detalhes                                                                                                                             |
-| :------------ | :----------------------------------------------------------------------------------------------------------------------------------- |
-| `**`          | Corresponde a 0 ou mais segmentos de caminho                                                                                         |
-| `*`           | Corresponde a 0 ou mais caracteres excluindo `/`                                                                                     |
-| `?`           | Corresponde exatamente a um caractere excluindo `/`                                                                                  |
-| prefixo `!`   | Marca o padrão como sendo negativo, o que significa que apenas arquivos que não correspondem ao padrão são incluídos                |
+| Formatos glob | Detalhes                                                                                                             |
+| :------------ | :------------------------------------------------------------------------------------------------------------------- |
+| `**`          | Corresponde a 0 ou mais segmentos de caminho                                                                         |
+| `*`           | Corresponde a 0 ou mais caracteres excluindo `/`                                                                     |
+| `?`           | Corresponde exatamente a um caractere excluindo `/`                                                                  |
+| prefixo `!`   | Marca o padrão como sendo negativo, o que significa que apenas arquivos que não correspondem ao padrão são incluídos |
 
 <docs-callout important title="Caracteres especiais precisam ser escapados">
 Preste atenção que alguns caracteres com significado especial em uma expressão regular não são escapados e também o padrão não é envolvido em `^`/`$` na conversão interna de glob para regex.
@@ -33,11 +34,11 @@ Se você quiser que seus padrões correspondam ao início e/ou final de URLs, vo
 
 Exemplos de padrões:
 
-| Padrões      | Detalhes                               |
-| :----------- | :------------------------------------- |
-| `/**/*.html` | Especifica todos os arquivos HTML      |
-| `/*.html`    | Especifica apenas arquivos HTML na raiz|
-| `!/**/*.map` | Exclui todos os sourcemaps             |
+| Padrões      | Detalhes                                |
+| :----------- | :-------------------------------------- |
+| `/**/*.html` | Especifica todos os arquivos HTML       |
+| `/*.html`    | Especifica apenas arquivos HTML na raiz |
+| `!/**/*.map` | Exclui todos os sourcemaps              |
 
 ## Propriedades de configuração do service worker
 
@@ -115,9 +116,9 @@ Ele identifica este grupo específico de assets entre versões da configuração
 O `installMode` determina como esses recursos são inicialmente armazenados em cache.
 O `installMode` pode ter um de dois valores:
 
-| Valores    | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                  |
-| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prefetch` | Instrui o Angular service worker a buscar cada recurso listado enquanto está armazenando em cache a versão atual da aplicação. Isso consome muita banda, mas garante que os recursos estejam disponíveis sempre que forem solicitados, mesmo se o browser estiver offline no momento.                                                                                                                    |
+| Valores    | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prefetch` | Instrui o Angular service worker a buscar cada recurso listado enquanto está armazenando em cache a versão atual da aplicação. Isso consome muita banda, mas garante que os recursos estejam disponíveis sempre que forem solicitados, mesmo se o browser estiver offline no momento.                                                                                                                                                                     |
 | `lazy`     | Não armazena em cache nenhum dos recursos antecipadamente. Em vez disso, o Angular service worker armazena em cache apenas os recursos para os quais recebe requisições. Este é um modo de cache sob demanda. Recursos que nunca são solicitados não são armazenados em cache. Isso é útil para coisas como imagens em diferentes resoluções, para que o service worker armazene em cache apenas os assets corretos para a tela e orientação específicas. |
 
 Padrão para `prefetch`.
@@ -127,9 +128,9 @@ Padrão para `prefetch`.
 Para recursos já no cache, o `updateMode` determina o comportamento de caching quando uma nova versão da aplicação é descoberta.
 Quaisquer recursos no grupo que mudaram desde a versão anterior são atualizados de acordo com `updateMode`.
 
-| Valores    | Detalhes                                                                                                                                                                                                                              |
-| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `prefetch` | Instrui o service worker a baixar e armazenar em cache os recursos alterados imediatamente.                                                                                                                                           |
+| Valores    | Detalhes                                                                                                                                                                                                                                                               |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prefetch` | Instrui o service worker a baixar e armazenar em cache os recursos alterados imediatamente.                                                                                                                                                                            |
 | `lazy`     | Instrui o service worker a não armazenar em cache esses recursos. Em vez disso, ele os trata como não solicitados e aguarda até que sejam solicitados novamente antes de atualizá-los. Um `updateMode` de `lazy` é válido apenas se o `installMode` também for `lazy`. |
 
 Padrão para o valor ao qual `installMode` está definido.
@@ -138,9 +139,9 @@ Padrão para o valor ao qual `installMode` está definido.
 
 Esta seção descreve os recursos a armazenar em cache, divididos nos seguintes grupos:
 
-| Grupos de recursos | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `files`            | Lista padrões que correspondem a arquivos no diretório de distribuição. Estes podem ser arquivos únicos ou padrões semelhantes a glob que correspondem a vários arquivos.                                                                                                                                                                                                                                                  |
+| Grupos de recursos | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `files`            | Lista padrões que correspondem a arquivos no diretório de distribuição. Estes podem ser arquivos únicos ou padrões semelhantes a glob que correspondem a vários arquivos.                                                                                                                                                                                                                                                           |
 | `urls`             | Inclui URLs e padrões de URL que são correspondidos em tempo de execução. Esses recursos não são buscados diretamente e não têm hashes de conteúdo, mas são armazenados em cache de acordo com seus cabeçalhos HTTP. Isso é mais útil para CDNs como o serviço Google Fonts. <br /> _(Padrões glob negativos não são suportados e `?` será correspondido literalmente; ou seja, não corresponderá a nenhum caractere além de `?`.)_ |
 
 #### `cacheQueryOptions`
@@ -150,9 +151,9 @@ Elas são passadas para a função `Cache#match` do browser.
 Veja [MDN](https://developer.mozilla.org/docs/Web/API/Cache/match) para detalhes.
 Atualmente, apenas as seguintes opções são suportadas:
 
-| Opções         | Detalhes                                         |
-| :------------- | :----------------------------------------------- |
-| `ignoreSearch` | Ignorar parâmetros de query. Padrão para `false`.|
+| Opções         | Detalhes                                          |
+| :------------- | :------------------------------------------------ |
+| `ignoreSearch` | Ignorar parâmetros de query. Padrão para `false`. |
 
 ### `dataGroups`
 
@@ -238,13 +239,13 @@ CRÍTICO: Caches sem limites podem crescer de maneiras ilimitadas e eventualment
 
 O parâmetro `maxAge` indica quanto tempo as respostas têm permissão para permanecer no cache antes de serem consideradas inválidas e removidas. `maxAge` é uma string de duração, usando os seguintes sufixos de unidade:
 
-| Sufixos | Detalhes     |
-| :------ | :----------- |
-| `d`     | Dias         |
-| `h`     | Horas        |
-| `m`     | Minutos      |
-| `s`     | Segundos     |
-| `u`     | Milissegundos|
+| Sufixos | Detalhes      |
+| :------ | :------------ |
+| `d`     | Dias          |
+| `h`     | Horas         |
+| `m`     | Minutos       |
+| `s`     | Segundos      |
+| `u`     | Milissegundos |
 
 Por exemplo, a string `3d12h` armazena em cache o conteúdo por até três dias e meio.
 
@@ -254,13 +255,13 @@ Esta string de duração especifica o timeout de rede.
 O timeout de rede é quanto tempo o Angular service worker aguarda a rede responder antes de usar uma resposta em cache, se configurado para fazê-lo.
 `timeout` é uma string de duração, usando os seguintes sufixos de unidade:
 
-| Sufixos | Detalhes     |
-| :------ | :----------- |
-| `d`     | Dias         |
-| `h`     | Horas        |
-| `m`     | Minutos      |
-| `s`     | Segundos     |
-| `u`     | Milissegundos|
+| Sufixos | Detalhes      |
+| :------ | :------------ |
+| `d`     | Dias          |
+| `h`     | Horas         |
+| `m`     | Minutos       |
+| `s`     | Segundos      |
+| `u`     | Milissegundos |
 
 Por exemplo, a string `5s30u` se traduz em cinco segundos e 30 milissegundos de timeout de rede.
 
@@ -269,13 +270,13 @@ Por exemplo, a string `5s30u` se traduz em cinco segundos e 30 milissegundos de 
 Esta string de duração especifica o tempo antes da expiração de um recurso em cache quando o Angular service worker deve tentar proativamente atualizar o recurso da rede.
 A duração `refreshAhead` é uma configuração opcional que determina quanto tempo antes da expiração de uma resposta em cache o service worker deve iniciar uma requisição para atualizar o recurso da rede.
 
-| Sufixos | Detalhes     |
-| :------ | :----------- |
-| `d`     | Dias         |
-| `h`     | Horas        |
-| `m`     | Minutos      |
-| `s`     | Segundos     |
-| `u`     | Milissegundos|
+| Sufixos | Detalhes      |
+| :------ | :------------ |
+| `d`     | Dias          |
+| `h`     | Horas         |
+| `m`     | Minutos       |
+| `s`     | Segundos      |
+| `u`     | Milissegundos |
 
 Por exemplo, a string `1h30m` se traduz em uma hora e 30 minutos antes do tempo de expiração.
 
@@ -283,10 +284,10 @@ Por exemplo, a string `1h30m` se traduz em uma hora e 30 minutos antes do tempo 
 
 O Angular service worker pode usar uma de duas estratégias de cache para recursos de dados.
 
-| Estratégias de cache | Detalhes                                                                                                                                                                                                                                                                                                                                                            |
-| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Estratégias de cache | Detalhes                                                                                                                                                                                                                                                                                                                                                    |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `performance`        | O padrão, otimiza para respostas o mais rápido possível. Se um recurso existe no cache, a versão em cache é usada, e nenhuma requisição de rede é feita. Isso permite alguma desatualização, dependendo do `maxAge`, em troca de melhor performance. Isso é adequado para recursos que não mudam com frequência; por exemplo, imagens de avatar de usuário. |
-| `freshness`          | Otimiza para atualização dos dados, preferencialmente buscando dados solicitados da rede. Apenas se a rede atingir o timeout, de acordo com `timeout`, a requisição recorre ao cache. Isso é útil para recursos que mudam com frequência; por exemplo, saldos de contas.                                                                                     |
+| `freshness`          | Otimiza para atualização dos dados, preferencialmente buscando dados solicitados da rede. Apenas se a rede atingir o timeout, de acordo com `timeout`, a requisição recorre ao cache. Isso é útil para recursos que mudam com frequência; por exemplo, saldos de contas.                                                                                    |
 
 ÚTIL: Você também pode emular uma terceira estratégia, [staleWhileRevalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate), que retorna dados em cache se estiverem disponíveis, mas também busca dados atualizados da rede em segundo plano para a próxima vez.
 Para usar esta estratégia, defina `strategy` como `freshness` e `timeout` como `0u` em `cacheConfig`.
@@ -304,10 +305,10 @@ Se o Angular service worker deve armazenar em cache respostas opacas ou não.
 
 Se não especificado, o valor padrão depende da estratégia configurada do grupo de dados:
 
-| Estratégias                                | Detalhes                                                                                                                                                                                                                                                                                                                                |
-| :----------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Grupos com a estratégia `freshness`       | O valor padrão é `true` e o service worker armazena em cache respostas opacas. Esses grupos solicitarão os dados toda vez e apenas recorrerão à resposta em cache quando offline ou em uma rede lenta. Portanto, não importa se o service worker armazenar em cache uma resposta de erro.                                              |
-| Grupos com a estratégia `performance`     | O valor padrão é `false` e o service worker não armazena em cache respostas opacas. Esses grupos continuariam a retornar uma resposta em cache até `maxAge` expirar, mesmo se o erro fosse devido a um problema temporário de rede ou servidor. Portanto, seria problemático para o service worker armazenar em cache uma resposta de erro. |
+| Estratégias                           | Detalhes                                                                                                                                                                                                                                                                                                                                    |
+| :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Grupos com a estratégia `freshness`   | O valor padrão é `true` e o service worker armazena em cache respostas opacas. Esses grupos solicitarão os dados toda vez e apenas recorrerão à resposta em cache quando offline ou em uma rede lenta. Portanto, não importa se o service worker armazenar em cache uma resposta de erro.                                                   |
+| Grupos com a estratégia `performance` | O valor padrão é `false` e o service worker não armazena em cache respostas opacas. Esses grupos continuariam a retornar uma resposta em cache até `maxAge` expirar, mesmo se o erro fosse devido a um problema temporário de rede ou servidor. Portanto, seria problemático para o service worker armazenar em cache uma resposta de erro. |
 
 <docs-callout title="Comentário sobre respostas opacas">
 
@@ -377,9 +378,9 @@ Esta propriedade opcional permite que você configure como o service worker mani
 
 </docs-code>
 
-| Valores possíveis | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `'performance'`   | A configuração padrão. Serve o [arquivo de índice](#index) especificado, que normalmente está em cache.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Valores possíveis | Detalhes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `'performance'`   | A configuração padrão. Serve o [arquivo de índice](#index) especificado, que normalmente está em cache.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `'freshness'`     | Passa as requisições para a rede e recorre ao comportamento `performance` quando offline. Este valor é útil quando o servidor redireciona as requisições de navegação para outro lugar usando um código de status de redirecionamento HTTP `3xx`. Razões para usar este valor incluem: <ul> <li> Redirecionar para um site de autenticação quando a autenticação não é manipulada pela aplicação </li> <li> Redirecionar URLs específicas para evitar quebrar links/favoritos existentes após um redesign do site </li> <li> Redirecionar para um site diferente, como uma página de status do servidor, enquanto uma página está temporariamente fora do ar </li> </ul> |
 
 IMPORTANTE: A estratégia `freshness` geralmente resulta em mais requisições enviadas ao servidor, o que pode aumentar a latência de resposta. É recomendado que você use a estratégia de performance padrão sempre que possível.

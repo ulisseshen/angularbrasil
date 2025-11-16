@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Interceptors
 
 `HttpClient` suporta uma forma de middleware conhecida como _interceptors_.
@@ -68,7 +69,7 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 
 DICA: Interceptors naturalmente associam respostas com suas requisições de saída, porque eles transformam o stream de resposta em um closure que captura o objeto da requisição.
 
-## Modificando requisições
+## Modificando requisições {#di-based-interceptors}
 
 A maioria dos aspectos das instâncias de `HttpRequest` e `HttpResponse` são _imutáveis_, e interceptors não podem modificá-los diretamente. Em vez disso, interceptors aplicam mutações clonando esses objetos usando a operação `.clone()`, e especificando quais propriedades devem ser mutadas na nova instância. Isso pode envolver realizar atualizações imutáveis no próprio valor (como `HttpHeaders` ou `HttpParams`).
 

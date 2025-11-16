@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 <docs-decorative-header title="Built-in directives" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
 Directives são classes que adicionam comportamento adicional a elementos em suas aplicações Angular.
 </docs-decorative-header>
@@ -7,29 +8,29 @@ Use as directives built-in do Angular para gerenciar formulários, listas, estil
 
 Os diferentes tipos de directives Angular são os seguintes:
 
-| Tipos de Directive                                                  | Detalhes                                                                           |
-| :--------------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Components](guide/components)                                   | Usados com um template. Este tipo de directive é o tipo de directive mais comum.   |
+| Tipos de Directive                                               | Detalhes                                                                         |
+| :--------------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| [Components](guide/components)                                   | Usados com um template. Este tipo de directive é o tipo de directive mais comum. |
 | [Attribute directives](#built-in-attribute-directives)           | Mudam a aparência ou comportamento de um elemento, component ou outra directive. |
-| [Structural directives](/guide/directives/structural-directives) | Mudam o layout do DOM adicionando e removendo elementos DOM.                        |
+| [Structural directives](/guide/directives/structural-directives) | Mudam o layout do DOM adicionando e removendo elementos DOM.                     |
 
 Este guia cobre [attribute directives](#built-in-attribute-directives) built-in.
 
-## Attribute directives built-in
+## Attribute directives built-in {#built-in-attribute-directives}
 
 Attribute directives escutam e modificam o comportamento de outros elementos HTML, atributos, propriedades e components.
 
 As attribute directives mais comuns são as seguintes:
 
-| Directives comuns                                      | Detalhes                                            |
-| :----------------------------------------------------- | :------------------------------------------------- |
-| [`NgClass`](#adding-and-removing-classes-with-ngclass) | Adiciona e remove um conjunto de classes CSS.             |
-| [`NgStyle`](#setting-inline-styles-with-ngstyle)       | Adiciona e remove um conjunto de estilos HTML.             |
+| Directives comuns                                      | Detalhes                                                        |
+| :----------------------------------------------------- | :-------------------------------------------------------------- |
+| [`NgClass`](#adding-and-removing-classes-with-ngclass) | Adiciona e remove um conjunto de classes CSS.                   |
+| [`NgStyle`](#setting-inline-styles-with-ngstyle)       | Adiciona e remove um conjunto de estilos HTML.                  |
 | [`NgModel`](guide/forms/template-driven-forms)         | Adiciona two-way data binding a um elemento de formulário HTML. |
 
 HELPFUL: Directives built-in usam apenas APIs públicas. Elas não têm acesso especial a nenhuma API privada que outras directives não possam acessar.
 
-## Adicionando e removendo classes com `NgClass`
+## Adicionando e removendo classes com `NgClass` {#adding-and-removing-classes-with-ngclass}
 
 Adicione ou remova múltiplas classes CSS simultaneamente com `ngClass`.
 
@@ -68,7 +69,7 @@ Para este caso de uso, o Angular aplica as classes na inicialização e em caso 
 O exemplo completo chama `setCurrentClasses()` inicialmente com `ngOnInit()` quando o usuário clica no botão `Refresh currentClasses`.
 Esses passos não são necessários para implementar `ngClass`.
 
-## Definindo estilos inline com `NgStyle`
+## Definindo estilos inline com `NgStyle` {#setting-inline-styles-with-ngstyle}
 
 HELPFUL: Para adicionar ou remover um _único_ estilo, use [style bindings](guide/templates/binding#css-class-and-style-property-bindings) em vez de `NgStyle`.
 

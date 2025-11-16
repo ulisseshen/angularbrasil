@@ -1,5 +1,6 @@
 <!-- ia-translate: true -->
-# Structural directives
+
+# Structural directives {#structural-directives}
 
 Structural directives são directives aplicadas a um elemento `<ng-template>` que renderizam condicionalmente ou repetidamente o conteúdo daquele `<ng-template>`.
 
@@ -23,7 +24,7 @@ A structural directive pode aguardar que os dados fiquem disponíveis e então r
 
 Para mais informações, veja a documentação da [API ng-template](api/core/ng-template).
 
-## Sintaxe abreviada de structural directive
+## Sintaxe abreviada de structural directive {#structural-directive-shorthand}
 
 O Angular suporta uma sintaxe abreviada para structural directives que evita a necessidade de criar explicitamente um elemento `<ng-template>`.
 
@@ -73,7 +74,7 @@ ng generate directive select
 
 O Angular cria a classe da directive e especifica o seletor CSS, `[select]`, que identifica a directive em um template.
 </docs-step>
-<docs-step title="Tornar a directive estrutural">
+<docs-step title="Tornar a directive estrutural {#typing-the-directives-context}">
 Importe `TemplateRef` e `ViewContainerRef`. Injete `TemplateRef` e `ViewContainerRef` na directive como propriedades privadas.
 
 ```ts
@@ -123,9 +124,9 @@ export class SelectDirective {
 </docs-step>
 </docs-workflow>
 
-É isso - `SelectDirective` está pronta e funcionando. Um próximo passo poderia ser [adicionar suporte à verificação de tipo de template](#typing-the-directives-context).
+É isso - `SelectDirective` está pronta e funcionando. Um próximo passo poderia ser [adicionar suporte à verificação de tipo de template](#tipando-o-contexto-da-directive).
 
-## Referência de sintaxe de structural directive
+## Referência de sintaxe de structural directive {#structural-directive-syntax-reference}
 
 Quando você escreve suas próprias structural directives, use a seguinte sintaxe:
 
@@ -143,35 +144,35 @@ keyExp = :key ":"? :expression ("as" :local)? ";"?
 let = "let" :local "=" :export ";"?
 ```
 
-| Palavra-chave | Detalhes                                            |
-| :------------ | :-------------------------------------------------- |
-| `prefix`      | Chave de atributo HTML                              |
-| `key`         | Chave de atributo HTML                              |
-| `local`       | Nome da variável local usada no template            |
-| `export`      | Valor exportado pela directive sob um dado nome     |
-| `expression`  | Expressão Angular padrão                            |
+| Palavra-chave | Detalhes                                        |
+| :------------ | :---------------------------------------------- |
+| `prefix`      | Chave de atributo HTML                          |
+| `key`         | Chave de atributo HTML                          |
+| `local`       | Nome da variável local usada no template        |
+| `export`      | Valor exportado pela directive sob um dado nome |
+| `expression`  | Expressão Angular padrão                        |
 
 ### Como o Angular traduz a sintaxe abreviada
 
 O Angular traduz a sintaxe abreviada de structural directive para a sintaxe de binding normal da seguinte forma:
 
-| Abreviado                       | Tradução                                                        |
-| :------------------------------ | :-------------------------------------------------------------- |
-| `prefix` e `expression` sozinho | `[prefix]="expression"`                                         |
-| `keyExp`                        | `[prefixKey]="expression"` (O `prefix` é adicionado à `key`)    |
-| `let local`                     | `let-local="export"`                                            |
+| Abreviado                       | Tradução                                                     |
+| :------------------------------ | :----------------------------------------------------------- |
+| `prefix` e `expression` sozinho | `[prefix]="expression"`                                      |
+| `keyExp`                        | `[prefixKey]="expression"` (O `prefix` é adicionado à `key`) |
+| `let local`                     | `let-local="export"`                                         |
 
 ### Exemplos de sintaxe abreviada
 
 A tabela a seguir fornece exemplos de sintaxe abreviada:
 
-| Abreviado                                                         | Como o Angular interpreta a sintaxe                                                                           |
-| :---------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
-| `*myDir="let item of [1,2,3]"`                                    | `<ng-template myDir let-item [myDirOf]="[1, 2, 3]">`                                                          |
+| Abreviado                                                             | Como o Angular interpreta a sintaxe                                                                           |
+| :-------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| `*myDir="let item of [1,2,3]"`                                        | `<ng-template myDir let-item [myDirOf]="[1, 2, 3]">`                                                          |
 | `*myDir="let item of [1,2,3] as items; trackBy: myTrack; index as i"` | `<ng-template myDir let-item [myDirOf]="[1,2,3]" let-items="myDirOf" [myDirTrackBy]="myTrack" let-i="index">` |
-| `*ngComponentOutlet="componentClass";`                            | `<ng-template [ngComponentOutlet]="componentClass">`                                                          |
-| `*ngComponentOutlet="componentClass; inputs: myInputs";`          | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">`                     |
-| `*myDir="exp as value"`                                           | `<ng-template [myDir]="exp" let-value="myDir">`                                                               |
+| `*ngComponentOutlet="componentClass";`                                | `<ng-template [ngComponentOutlet]="componentClass">`                                                          |
+| `*ngComponentOutlet="componentClass; inputs: myInputs";`              | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">`                     |
+| `*myDir="exp as value"`                                               | `<ng-template [myDir]="exp" let-value="myDir">`                                                               |
 
 ## Melhorando a verificação de tipo de template para directives personalizadas
 

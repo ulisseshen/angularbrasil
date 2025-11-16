@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Hello world
 
 Esta primeira lição serve como ponto de partida a partir do qual cada lição neste tutorial adiciona novos recursos para construir uma aplicação Angular completa. Nesta lição, vamos atualizar a aplicação para exibir o famoso texto, "Hello World".
@@ -80,7 +81,7 @@ No painel **Explorer** do seu IDE:
 Depois de revisar os arquivos que compõem um projeto de aplicação Angular, continue para o próximo passo.
 </docs-step>
 
-<docs-step title="Criar `Hello World`">
+<docs-step title="Criar `Hello World` {#create-hello-world}">
 Neste passo, você atualiza os arquivos do projeto Angular para mudar o conteúdo exibido.
 
 No seu IDE:

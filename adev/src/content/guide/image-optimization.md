@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Começando com NgOptimizedImage
 
 A directive `NgOptimizedImage` facilita a adoção de boas práticas de performance para carregamento de imagens.
@@ -50,7 +51,7 @@ Um image loader **não é obrigatório** para usar NgOptimizedImage, mas usar um
 
 Um guia breve para configurar um loader pode ser encontrado na seção [Configurando um Image Loader](#configuring-an-image-loader-for-ngoptimizedimage) no final desta página.
 </docs-step>
-<docs-step title="Ativar a directive">
+<docs-step title="Ativar a directive {#add-resource-hints}">
 Para ativar a directive `NgOptimizedImage`, substitua o atributo `src` da sua imagem por `ngSrc`.
 
 ```html
@@ -95,7 +96,7 @@ NOTA: Se você não souber o tamanho de suas imagens, considere usar o "fill mod
 </docs-step>
 </docs-workflow>
 
-## Usando o modo `fill`
+## Usando o modo `fill` {#using-fill-mode} {#responsive-images}
 
 Nos casos em que você deseja que uma imagem preencha um elemento container, você pode usar o atributo `fill`. Isso é frequentemente útil quando você quer obter um comportamento de "imagem de background". Também pode ser útil quando você não sabe a largura e altura exatas da sua imagem, mas você tem um container pai com um tamanho conhecido no qual você gostaria de ajustar sua imagem (veja "object-fit" abaixo).
 
@@ -115,7 +116,7 @@ Você também pode estilizar sua imagem com a [propriedade object-position](http
 
 IMPORTANTE: Para que a imagem "fill" renderize adequadamente, seu elemento pai **deve** ser estilizado com `position: "relative"`, `position: "fixed"`, ou `position: "absolute"`.
 
-## Como migrar sua imagem de background
+## Como migrar sua imagem de background {#how-to-migrate-your-background-image}
 
 Aqui está um processo simples passo a passo para migrar de `background-image` para `NgOptimizedImage`. Para estes passos, vamos nos referir ao elemento que tem uma imagem de background como o "elemento container":
 
@@ -156,7 +157,7 @@ providers: [
 
 Se você quiser bordas nítidas ao redor do seu placeholder desfocado, você pode envolver sua imagem em uma `<div>` container com o estilo `overflow: hidden`. Desde que a `<div>` seja do mesmo tamanho da imagem (como usando o estilo `width: fit-content`), as "bordas difusas" do placeholder ficarão ocultas.
 
-### Placeholders de Data URL
+### Placeholders de Data URL {#optional-set-up-a-loader}
 
 Você também pode especificar um placeholder usando uma [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URLs) base64 sem um loader de imagem. O formato da data url é `data:image/[imagetype];[data]`, onde `[imagetype]` é o formato da imagem, como `png`, e `[data]` é uma codificação base64 da imagem. Essa codificação pode ser feita usando a linha de comando ou em JavaScript. Para comandos específicos, veja [a documentação do MDN](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URLs#encoding_data_into_base64_format). Um exemplo de um placeholder de data URL com dados truncados é mostrado abaixo:
 
@@ -199,7 +200,7 @@ Se os atributos `width` e `height` na imagem estiverem impedindo você de dimens
 
 NgOptimizedImage inclui várias funcionalidades projetadas para melhorar a performance de carregamento na sua aplicação. Essas funcionalidades são descritas nesta seção.
 
-### Adicionar resource hints
+### Adicionar resource hints {#advanced-sizes-values}
 
 Uma [resource hint `preconnect`](https://web.dev/preconnect-and-dns-prefetch) para a origem da sua imagem garante que a imagem LCP carregue o mais rápido possível.
 
@@ -237,7 +238,7 @@ Exemplo de srcset gerado:
 <img ... srcset="image-400w.jpg 1x, image-800w.jpg 2x">
 ```
 
-#### Imagens responsivas
+#### Imagens responsivas {#responsive-images}
 
 Se sua imagem deve ser responsiva (ou seja, crescer e diminuir de acordo com o tamanho do viewport), então você precisará definir um [atributo `sizes`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes) para gerar o `srcset`.
 
@@ -327,7 +328,7 @@ Você ainda pode sobrescrever esse comportamento definindo explicitamente o atri
 - `async`: decodifica a imagem assincronamente, evitando bloqueio da thread principal quando possível.
 - `sync`: decodifica a imagem imediatamente; pode bloquear a renderização mas garante que os pixels estejam prontos assim que a imagem estiver disponível.
 
-### Valores avançados de 'sizes'
+### Valores avançados de 'sizes' {#the-loaderparams-property}
 
 Você pode querer ter imagens exibidas em larguras variadas em telas de tamanhos diferentes. Um exemplo comum desse padrão é um layout baseado em grid ou colunas que renderiza uma única coluna em dispositivos móveis, e duas colunas em dispositivos maiores. Você pode capturar esse comportamento no atributo `sizes`, usando uma sintaxe de "media query", como a seguinte:
 
@@ -341,31 +342,31 @@ O atributo `sizes` no exemplo acima diz "Eu espero que esta imagem seja 100 por 
 
 Para informações adicionais sobre o atributo `sizes`, veja [web.dev](https://web.dev/learn/design/responsive-images/#sizes) ou [mdn](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes).
 
-## Configurando um image loader para `NgOptimizedImage`
+## Configurando um image loader para `NgOptimizedImage` {#configuring-an-image-loader-for-ngoptimizedimage}
 
 Um "loader" é uma função que gera uma [URL de transformação de imagem](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options) para um determinado arquivo de imagem. Quando apropriado, `NgOptimizedImage` define o tamanho, formato e transformações de qualidade de imagem para uma imagem.
 
 `NgOptimizedImage` fornece tanto um loader genérico que não aplica transformações, quanto loaders para vários serviços de imagem de terceiros. Ele também suporta escrever seu próprio loader customizado.
 
-| Tipo de loader                       | Comportamento                                                                                                                                                                                                                                       |
-| :----------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Loader genérico                      | A URL retornada pelo loader genérico sempre corresponderá ao valor de `src`. Em outras palavras, este loader não aplica transformações. Sites que usam Angular para servir imagens são o caso de uso principal pretendido para este loader.        |
+| Tipo de loader                               | Comportamento                                                                                                                                                                                                                               |
+| :------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Loader genérico                              | A URL retornada pelo loader genérico sempre corresponderá ao valor de `src`. Em outras palavras, este loader não aplica transformações. Sites que usam Angular para servir imagens são o caso de uso principal pretendido para este loader. |
 | Loaders para serviços de imagem de terceiros | A URL retornada pelos loaders para serviços de imagem de terceiros seguirá as convenções da API usadas por aquele serviço de imagem específico.                                                                                             |
-| Loaders customizados                 | O comportamento de um loader customizado é definido por seu desenvolvedor. Você deve usar um loader customizado se seu serviço de imagem não for suportado pelos loaders que vêm pré-configurados com `NgOptimizedImage`.                          |
+| Loaders customizados                         | O comportamento de um loader customizado é definido por seu desenvolvedor. Você deve usar um loader customizado se seu serviço de imagem não for suportado pelos loaders que vêm pré-configurados com `NgOptimizedImage`.                   |
 
 Baseado nos serviços de imagem comumente usados com aplicações Angular, `NgOptimizedImage` fornece loaders pré-configurados para trabalhar com os seguintes serviços de imagem:
 
-| Serviço de Imagem     | API Angular               | Documentação                                                                |
-| :-------------------- | :------------------------ | :-------------------------------------------------------------------------- |
+| Serviço de Imagem         | API Angular               | Documentação                                                               |
+| :------------------------ | :------------------------ | :------------------------------------------------------------------------- |
 | Cloudflare Image Resizing | `provideCloudflareLoader` | [Documentação](https://developers.cloudflare.com/images/image-resizing/)   |
-| Cloudinary            | `provideCloudinaryLoader` | [Documentação](https://cloudinary.com/documentation/resizing_and_cropping) |
-| ImageKit              | `provideImageKitLoader`   | [Documentação](https://docs.imagekit.io/)                                  |
-| Imgix                 | `provideImgixLoader`      | [Documentação](https://docs.imgix.com/)                                    |
-| Netlify               | `provideNetlifyLoader`    | [Documentação](https://docs.netlify.com/image-cdn/overview/)               |
+| Cloudinary                | `provideCloudinaryLoader` | [Documentação](https://cloudinary.com/documentation/resizing_and_cropping) |
+| ImageKit                  | `provideImageKitLoader`   | [Documentação](https://docs.imagekit.io/)                                  |
+| Imgix                     | `provideImgixLoader`      | [Documentação](https://docs.imgix.com/)                                    |
+| Netlify                   | `provideNetlifyLoader`    | [Documentação](https://docs.netlify.com/image-cdn/overview/)               |
 
 Para usar o **loader genérico** nenhuma mudança adicional de código é necessária. Este é o comportamento padrão.
 
-### Loaders Nativos
+### Loaders Nativos {#built-in-loaders}
 
 Para usar um loader existente para um **serviço de imagem de terceiros**, adicione a factory do provider para seu serviço escolhido ao array `providers`. No exemplo abaixo, o loader Imgix é usado:
 
@@ -383,7 +384,7 @@ A URL base para seus assets de imagem deve ser passada para a factory do provide
 
 Você pode aprender mais sobre a estrutura da URL base nos documentos de um provider CDN correspondente.
 
-### Loaders Customizados
+### Loaders Customizados {#custom-loaders}
 
 Para usar um **loader customizado**, forneça sua função de loader como um valor para o token DI `IMAGE_LOADER`. No exemplo abaixo, a função de loader customizado retorna uma URL começando com `https://example.com` que inclui `src` e `width` como parâmetros de URL.
 
@@ -456,7 +457,7 @@ providers: [
 ],
 ```
 
-Se você usar uma variável para passar a string de domínio para o loader, ou você não estiver usando um loader, a análise estática não será capaz de identificar o domínio, e nenhum link preconnect será gerado. Neste caso você deve adicionar manualmente um link preconnect ao head do documento, como [descrito acima](#add-resource-hints).
+Se você usar uma variável para passar a string de domínio para o loader, ou você não estiver usando um loader, a análise estática não será capaz de identificar o domínio, e nenhum link preconnect será gerado. Neste caso você deve adicionar manualmente um link preconnect ao head do documento, como [descrito acima](#advanced-sizes-values).
 
 ### Posso usar dois domínios de imagem diferentes na mesma página?
 
@@ -464,7 +465,7 @@ O padrão de provider de [loaders de imagem](#configuring-an-image-loader-for-ng
 
 Para fazer isso, recomendamos escrever um [loader de imagem customizado](#custom-loaders) que use a [propriedade `loaderParams`](#the-loaderparams-property) para passar uma flag que especifica qual CDN de imagem deve ser usada, e então invoca o loader apropriado baseado nessa flag.
 
-### Vocês podem adicionar um novo loader nativo para minha CDN preferida?
+### Vocês podem adicionar um novo loader nativo para minha CDN preferida? {#why-is-a-preconnect-element-not-being-generated-for-my-image-domain}
 
 Por razões de manutenção, atualmente não planejamos suportar loaders nativos adicionais no repositório Angular. Em vez disso, encorajamos desenvolvedores a publicar quaisquer loaders de imagem adicionais como pacotes de terceiros.
 

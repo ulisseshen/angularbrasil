@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Gerando código usando schematics
 
 Um schematic é um gerador de código baseado em template que suporta lógica complexa.

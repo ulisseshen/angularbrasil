@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Form models
 
 Form models são a fundação de Signal Forms, servindo como a única fonte de verdade para os dados do seu formulário. Este guia explora como criar form models, atualizá-los e projetá-los para manutenibilidade.
@@ -41,7 +42,7 @@ A função `form()` aceita o model signal e cria uma **field tree** - uma estrut
 
 A directive `[field]` vincula cada elemento input ao seu field correspondente na field tree, habilitando sincronização automática de duas vias entre a UI e o model.
 
-### Usando tipos TypeScript
+### Usando tipos TypeScript {#using-typescript-types}
 
 Embora o TypeScript infira tipos de literais de objeto, definir tipos explícitos melhora a qualidade do código e fornece melhor suporte IntelliSense.
 
@@ -71,7 +72,7 @@ const emailField = loginForm.email
 const usernameField = loginForm.username
 ```
 
-### Inicializando todos os fields
+### Inicializando todos os fields {#replacing-form-models-with-set}
 
 Form models devem fornecer valores iniciais para todos os fields que você deseja incluir na field tree.
 
@@ -207,7 +208,7 @@ resetForm() {
 
 Esta abordagem funciona bem ao carregar dados de uma API ou resetar o formulário inteiro.
 
-### Atualizar um ou mais fields com `update()`
+### Atualizar um ou mais fields com `update()` {#update-one-or-more-fields-with-update} {#update-one-or-more-fields-with-update}
 
 Use `update()` para modificar fields específicos enquanto preserva outros:
 
@@ -222,7 +223,7 @@ updateEmail(newEmail: string) {
 
 Este padrão é útil quando você precisa mudar um ou mais fields baseado no estado atual do model.
 
-### Atualizar um único field diretamente com `set()`
+### Atualizar um único field diretamente com `set()` {#update-a-single-field-directly-with-set}
 
 Use `set()` em valores de field individuais para atualizar diretamente o field state:
 

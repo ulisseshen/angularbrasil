@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Migrando de Karma para Vitest
 
 O Angular CLI usa [Vitest](https://vitest.dev/) como test runner de teste unitário padrão para novos projetos. Este guia fornece instruções para migrar um projeto existente de Karma e Jasmine para Vitest.
@@ -77,7 +78,7 @@ Você pode agora excluir `karma.conf.js` e `src/test.ts` do seu projeto e desins
   </docs-code>
 </docs-code-multifile>
 
-### 5. Configurar modo browser (opcional)
+### 5. Configurar modo browser (opcional) {#5-configure-browser-mode-optional}
 
 Se você precisar executar testes em um browser real, deve instalar um provider de browser e configurar seu `angular.json`.
 
@@ -166,12 +167,12 @@ ng g @schematics/angular:refactor-jasmine-vitest
 
 Você pode usar as seguintes opções para customizar o comportamento do schematic:
 
-| Opção                    | Descrição                                                                                           |
-| :----------------------- | :-------------------------------------------------------------------------------------------------- |
-| `--project <name>`       | Especifique o projeto a refatorar em um workspace multi-projeto. <br> Exemplo: `--project=my-lib`      |
+| Opção                    | Descrição                                                                                                   |
+| :----------------------- | :---------------------------------------------------------------------------------------------------------- |
+| `--project <name>`       | Especifique o projeto a refatorar em um workspace multi-projeto. <br> Exemplo: `--project=my-lib`           |
 | `--include <path>`       | Refatore apenas um arquivo ou diretório específico. <br> Exemplo: `--include=src/app/app.component.spec.ts` |
-| `--file-suffix <suffix>` | Especifique um sufixo de arquivo diferente para arquivos de teste. <br> Exemplo: `--file-suffix=.test.ts`              |
-| `--add-imports`          | Adicione imports `vitest` explícitos se você desabilitou globals em sua configuração Vitest.            |
+| `--file-suffix <suffix>` | Especifique um sufixo de arquivo diferente para arquivos de teste. <br> Exemplo: `--file-suffix=.test.ts`   |
+| `--add-imports`          | Adicione imports `vitest` explícitos se você desabilitou globals em sua configuração Vitest.                |
 | `--verbose`              | Veja logging detalhado de todas as transformações aplicadas.                                                |
 
 ### Após migrar

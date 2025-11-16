@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Pipes
 
 ## Visão Geral
@@ -49,21 +50,21 @@ Veja o [guia detalhado sobre i18n](/guide/i18n) para aprender mais sobre como o 
 
 O Angular inclui um conjunto de pipes integrados no pacote `@angular/common`:
 
-| Nome                                          | Descrição                                                                                                     |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| [`AsyncPipe`](api/common/AsyncPipe)           | Lê o valor de uma `Promise` ou de um `Observable` RxJS.                                                      |
-| [`CurrencyPipe`](api/common/CurrencyPipe)     | Transforma um número para uma string de moeda, formatada de acordo com as regras da localidade.              |
-| [`DatePipe`](api/common/DatePipe)             | Formata um valor `Date` de acordo com as regras da localidade.                                               |
-| [`DecimalPipe`](api/common/DecimalPipe)       | Transforma um número em uma string com ponto decimal, formatada de acordo com as regras da localidade.       |
-| [`I18nPluralPipe`](api/common/I18nPluralPipe) | Mapeia um valor para uma string que pluraliza o valor de acordo com as regras da localidade.                 |
-| [`I18nSelectPipe`](api/common/I18nSelectPipe) | Mapeia uma chave para um seletor personalizado que retorna um valor desejado.                                |
-| [`JsonPipe`](api/common/JsonPipe)             | Transforma um objeto para uma representação em string via `JSON.stringify`, destinado para debugging.        |
-| [`KeyValuePipe`](api/common/KeyValuePipe)     | Transforma Object ou Map em um array de pares chave-valor.                                                   |
-| [`LowerCasePipe`](api/common/LowerCasePipe)   | Transforma texto para minúsculas.                                                                            |
-| [`PercentPipe`](api/common/PercentPipe)       | Transforma um número para uma string de porcentagem, formatada de acordo com as regras da localidade.        |
-| [`SlicePipe`](api/common/SlicePipe)           | Cria um novo Array ou String contendo um subconjunto (slice) dos elementos.                                  |
-| [`TitleCasePipe`](api/common/TitleCasePipe)   | Transforma texto para title case.                                                                            |
-| [`UpperCasePipe`](api/common/UpperCasePipe)   | Transforma texto para maiúsculas.                                                                            |
+| Nome                                          | Descrição                                                                                              |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [`AsyncPipe`](api/common/AsyncPipe)           | Lê o valor de uma `Promise` ou de um `Observable` RxJS.                                                |
+| [`CurrencyPipe`](api/common/CurrencyPipe)     | Transforma um número para uma string de moeda, formatada de acordo com as regras da localidade.        |
+| [`DatePipe`](api/common/DatePipe)             | Formata um valor `Date` de acordo com as regras da localidade.                                         |
+| [`DecimalPipe`](api/common/DecimalPipe)       | Transforma um número em uma string com ponto decimal, formatada de acordo com as regras da localidade. |
+| [`I18nPluralPipe`](api/common/I18nPluralPipe) | Mapeia um valor para uma string que pluraliza o valor de acordo com as regras da localidade.           |
+| [`I18nSelectPipe`](api/common/I18nSelectPipe) | Mapeia uma chave para um seletor personalizado que retorna um valor desejado.                          |
+| [`JsonPipe`](api/common/JsonPipe)             | Transforma um objeto para uma representação em string via `JSON.stringify`, destinado para debugging.  |
+| [`KeyValuePipe`](api/common/KeyValuePipe)     | Transforma Object ou Map em um array de pares chave-valor.                                             |
+| [`LowerCasePipe`](api/common/LowerCasePipe)   | Transforma texto para minúsculas.                                                                      |
+| [`PercentPipe`](api/common/PercentPipe)       | Transforma um número para uma string de porcentagem, formatada de acordo com as regras da localidade.  |
+| [`SlicePipe`](api/common/SlicePipe)           | Cria um novo Array ou String contendo um subconjunto (slice) dos elementos.                            |
+| [`TitleCasePipe`](api/common/TitleCasePipe)   | Transforma texto para title case.                                                                      |
+| [`UpperCasePipe`](api/common/UpperCasePipe)   | Transforma texto para maiúsculas.                                                                      |
 
 ## Usando pipes
 
@@ -268,7 +269,7 @@ export class MyCustomTransformationPipe implements PipeTransform {
 }
 ```
 
-### Detectando mudanças dentro de arrays ou objetos
+### Detectando mudanças dentro de arrays ou objetos {#detecting-change-within-arrays-or-objects}
 
 Quando você quer que um pipe detecte mudanças dentro de arrays ou objetos, ele deve ser marcado como uma função impura passando a flag `pure` com um valor de `false`.
 

@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Formato de pacote Angular
 
 Este documento descreve o Formato de Pacote Angular \(APF\).
@@ -41,12 +42,12 @@ node_modules/@angular/core
 
 Esta tabela descreve o layout de arquivos sob `node_modules/@angular/core` anotado para descrever o propósito de arquivos e diretórios:
 
-| Arquivos                                                                                                                                                  | Propósito                                                                                                                                                                                                      |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `README.md`                                                                                                                                               | README do pacote, usado pela UI web do npmjs.                                                                                                                                                                  |
+| Arquivos                                                                                                                                                  | Propósito                                                                                                                                                                                                                           |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `README.md`                                                                                                                                               | README do pacote, usado pela UI web do npmjs.                                                                                                                                                                                       |
 | `package.json`                                                                                                                                            | `package.json` primário, descrevendo o pacote em si, bem como todos os entrypoints disponíveis e formatos de código. Este arquivo contém o mapeamento "exports" usado por runtimes e ferramentas para realizar resolução de módulo. |
-| `fesm2022/` <br /> &nbsp;&nbsp;─ `core.mjs` <br /> &nbsp;&nbsp;─ `core.mjs.map` <br /> &nbsp;&nbsp;─ `testing.mjs` <br /> &nbsp;&nbsp;─ `testing.mjs.map` | Código para todos os entrypoints em formato ES2022 achatado \(FESM\), junto com source maps.                                                                                                                  |
-| `types/` <br /> &nbsp;&nbsp;─ `core.d.ts` <br /> &nbsp;&nbsp;─ `testing.d.ts`                                                                             | Definições de tipo TypeScript empacotadas para todos os entrypoints públicos.                                                                                                                                 |
+| `fesm2022/` <br /> &nbsp;&nbsp;─ `core.mjs` <br /> &nbsp;&nbsp;─ `core.mjs.map` <br /> &nbsp;&nbsp;─ `testing.mjs` <br /> &nbsp;&nbsp;─ `testing.mjs.map` | Código para todos os entrypoints em formato ES2022 achatado \(FESM\), junto com source maps.                                                                                                                                        |
+| `types/` <br /> &nbsp;&nbsp;─ `core.d.ts` <br /> &nbsp;&nbsp;─ `testing.d.ts`                                                                             | Definições de tipo TypeScript empacotadas para todos os entrypoints públicos.                                                                                                                                                       |
 
 ## `package.json`
 
@@ -59,7 +60,7 @@ O `package.json` primário contém metadados importantes do pacote, incluindo o 
 
 - Ele declara se o pacote contém [efeitos colaterais](#side-effects)
 
-### Declaração ESM
+### Declaração ESM {#esm-declaration}
 
 O `package.json` de nível superior contém a chave:
 
@@ -97,10 +98,10 @@ O campo `"exports"` tem a seguinte estrutura:
 De interesse primário são as chaves `"."` e `"./testing"`, que definem os formatos de código disponíveis para o entrypoint primário `@angular/core` e o entrypoint secundário `@angular/core/testing`, respectivamente.
 Para cada entrypoint, os formatos disponíveis são:
 
-| Formatos                  | Detalhes                                                                |
-| :------------------------ | :---------------------------------------------------------------------- |
+| Formatos                     | Detalhes                                                                          |
+| :--------------------------- | :-------------------------------------------------------------------------------- |
 | Typings \(arquivos `.d.ts`\) | Arquivos `.d.ts` são usados pelo TypeScript ao depender de um determinado pacote. |
-| `default`                 | Código ES2022 achatado em uma única fonte.                             |
+| `default`                    | Código ES2022 achatado em uma única fonte.                                        |
 
 Ferramentas que estão cientes dessas chaves podem selecionar preferencialmente um formato de código desejável de `"exports"`.
 
@@ -108,7 +109,7 @@ Bibliotecas podem querer expor arquivos estáticos adicionais que não são capt
 
 Para mais informações, veja [Gerenciando assets em uma biblioteca](tools/libraries/creating-libraries#managing-assets-in-a-library).
 
-### Chaves de resolução legadas
+### Chaves de resolução legadas {#legacy-resolution-keys}
 
 Além de `"exports"`, o `package.json` de nível superior também define chaves de resolução de módulo legadas para resolvers que não suportam `"exports"`.
 Para `@angular/core` estas são:
@@ -122,7 +123,7 @@ Para `@angular/core` estas são:
 
 Como mostrado no trecho de código anterior, um resolver de módulo pode usar essas chaves para carregar um formato de código específico.
 
-### Efeitos colaterais
+### Efeitos colaterais {#side-effects}
 
 A última função do `package.json` é declarar se o pacote tem [efeitos colaterais](#sideeffects-flag).
 
@@ -237,7 +238,7 @@ Para gerar um arquivo index ES Module achatado, use as seguintes opções de con
 
 Uma vez que o arquivo index \(por exemplo, `my-ui-lib.js`\) é gerado pelo ngc, bundlers e otimizadores como Rollup podem ser usados para produzir o arquivo ESM achatado.
 
-### Flag "sideEffects"
+### Flag "sideEffects" {#sideeffects-flag}
 
 Por padrão, EcmaScript Modules têm efeitos colaterais: importar de um módulo garante que qualquer código no nível superior desse módulo deve ser executado.
 Isso é frequentemente indesejável, pois a maioria do código com efeitos colaterais em módulos típicos não é verdadeiramente com efeitos colaterais, mas apenas afeta símbolos específicos.

@@ -1,11 +1,12 @@
 <!-- ia-translate: true -->
+
 # Controlar acesso a routes com guards
 
 CRÍTICO: Nunca confie apenas em guards do lado do cliente como única fonte de controle de acesso. Todo JavaScript que roda em um navegador pode ser modificado pelo usuário que está usando o navegador. Sempre aplique autorização de usuário no lado do servidor, além de quaisquer guards do lado do cliente.
 
 Route guards são funções que controlam se um usuário pode navegar para ou sair de uma route específica. Eles são como pontos de verificação que gerenciam se um usuário pode acessar routes específicas. Exemplos comuns de uso de route guards incluem autenticação e controle de acesso.
 
-## Criando um route guard
+## Criando um route guard {#route-guard-return-types}
 
 Você pode gerar um route guard usando o Angular CLI:
 
@@ -21,15 +22,15 @@ DICA: Você também pode criar um route guard manualmente criando um arquivo Typ
 
 Todos os route guards compartilham os mesmos tipos de retorno possíveis. Isso oferece flexibilidade em como você controla a navegação:
 
-| Return types                    | Description                                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `boolean`                       | `true` permite navegação, `false` bloqueia (veja nota para o route guard `CanMatch`)            |
-| `UrlTree` ou `RedirectCommand`  | Redireciona para outra route em vez de bloquear                                                 |
-| `Promise<T>` ou `Observable<T>` | O router usa o primeiro valor emitido e então cancela a inscrição                               |
+| Return types                    | Description                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------------ |
+| `boolean`                       | `true` permite navegação, `false` bloqueia (veja nota para o route guard `CanMatch`) |
+| `UrlTree` ou `RedirectCommand`  | Redireciona para outra route em vez de bloquear                                      |
+| `Promise<T>` ou `Observable<T>` | O router usa o primeiro valor emitido e então cancela a inscrição                    |
 
 Nota: `CanMatch` se comporta de forma diferente— quando retorna `false`, o Angular tenta outras routes correspondentes em vez de bloquear completamente a navegação.
 
-## Tipos de route guards
+## Tipos de route guards {#types-of-route-guards}
 
 O Angular fornece quatro tipos de route guards, cada um servindo propósitos diferentes:
 

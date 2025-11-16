@@ -1,43 +1,44 @@
 <!-- ia-translate: true -->
+
 # Diagnósticos Estendidos
 
 Existem muitos padrões de codificação que são tecnicamente válidos para o compilador ou runtime, mas que podem ter nuances ou ressalvas complexas.
 Esses padrões podem não ter o efeito pretendido esperado por um desenvolvedor, o que frequentemente leva a bugs.
 O compilador Angular inclui "diagnósticos estendidos" que identificam muitos desses padrões, a fim de alertar desenvolvedores sobre problemas potenciais e impor boas práticas comuns dentro de uma base de código.
 
-## Diagnósticos
+## Diagnósticos {#diagnostics}
 
 Atualmente, o Angular suporta os seguintes diagnósticos estendidos:
 
-| Código   | Nome                                                                      |
-| :------- | :------------------------------------------------------------------------ |
-| `NG8101` | [`invalidBananaInBox`](extended-diagnostics/NG8101)                       |
-| `NG8102` | [`nullishCoalescingNotNullable`](extended-diagnostics/NG8102)             |
-| `NG8103` | [`missingControlFlowDirective`](extended-diagnostics/NG8103)              |
-| `NG8104` | [`textAttributeNotBinding`](extended-diagnostics/NG8104)                  |
-| `NG8105` | [`missingNgForOfLet`](extended-diagnostics/NG8105)                        |
-| `NG8106` | [`suffixNotSupported`](extended-diagnostics/NG8106)                       |
-| `NG8107` | [`optionalChainNotNullable`](extended-diagnostics/NG8107)                 |
-| `NG8108` | [`skipHydrationNotStatic`](extended-diagnostics/NG8108)                   |
-| `NG8109` | [`interpolatedSignalNotInvoked`](extended-diagnostics/NG8109)             |
-| `NG8111` | [`uninvokedFunctionInEventBinding`](extended-diagnostics/NG8111)          |
-| `NG8113` | [`unusedStandaloneImports`](extended-diagnostics/NG8113)                  |
-| `NG8114` | [`unparenthesizedNullishCoalescing`](extended-diagnostics/NG8114)         |
-| `NG8115` | [`uninvokedTrackFunction`](extended-diagnostics/NG8115)                   |
-| `NG8116` | [`missingStructuralDirective`](extended-diagnostics/NG8116)               |
-| `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117)     |
-| `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)             |
+| Código   | Nome                                                                  |
+| :------- | :-------------------------------------------------------------------- |
+| `NG8101` | [`invalidBananaInBox`](extended-diagnostics/NG8101)                   |
+| `NG8102` | [`nullishCoalescingNotNullable`](extended-diagnostics/NG8102)         |
+| `NG8103` | [`missingControlFlowDirective`](extended-diagnostics/NG8103)          |
+| `NG8104` | [`textAttributeNotBinding`](extended-diagnostics/NG8104)              |
+| `NG8105` | [`missingNgForOfLet`](extended-diagnostics/NG8105)                    |
+| `NG8106` | [`suffixNotSupported`](extended-diagnostics/NG8106)                   |
+| `NG8107` | [`optionalChainNotNullable`](extended-diagnostics/NG8107)             |
+| `NG8108` | [`skipHydrationNotStatic`](extended-diagnostics/NG8108)               |
+| `NG8109` | [`interpolatedSignalNotInvoked`](extended-diagnostics/NG8109)         |
+| `NG8111` | [`uninvokedFunctionInEventBinding`](extended-diagnostics/NG8111)      |
+| `NG8113` | [`unusedStandaloneImports`](extended-diagnostics/NG8113)              |
+| `NG8114` | [`unparenthesizedNullishCoalescing`](extended-diagnostics/NG8114)     |
+| `NG8115` | [`uninvokedTrackFunction`](extended-diagnostics/NG8115)               |
+| `NG8116` | [`missingStructuralDirective`](extended-diagnostics/NG8116)           |
+| `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117) |
+| `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)         |
 
-## Configuração
+## Configuração {#configuration}
 
 Diagnósticos estendidos são avisos por padrão e não bloqueiam a compilação.
 Cada diagnóstico pode ser configurado como:
 
-| Categoria de erro | Efeito                                                                                                                                                                         |
-| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `warning`         | Padrão - O compilador emite o diagnóstico como um aviso mas não bloqueia a compilação. O compilador ainda existirá com código de status 0, mesmo se avisos forem emitidos.    |
-| `error`           | O compilador emite o diagnóstico como um erro e falha a compilação. O compilador sairá com um código de status diferente de zero se um ou mais erros forem emitidos.          |
-| `suppress`        | O compilador _não_ emite o diagnóstico de forma alguma.                                                                                                                        |
+| Categoria de erro | Efeito                                                                                                                                                                     |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `warning`         | Padrão - O compilador emite o diagnóstico como um aviso mas não bloqueia a compilação. O compilador ainda existirá com código de status 0, mesmo se avisos forem emitidos. |
+| `error`           | O compilador emite o diagnóstico como um erro e falha a compilação. O compilador sairá com um código de status diferente de zero se um ou mais erros forem emitidos.       |
+| `suppress`        | O compilador _não_ emite o diagnóstico de forma alguma.                                                                                                                    |
 
 A severidade da verificação pode ser configurada como uma [opção do compilador Angular](reference/configs/angular-compiler-options):
 

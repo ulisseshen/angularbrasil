@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Builders do Angular CLI
 
 Vários comandos do Angular CLI executam um processo complexo no seu código, como construir, testar ou servir sua aplicação.
@@ -38,14 +39,14 @@ Além disso, estenda e personalize o Angular criando seus próprios builders, qu
 Um builder reside em uma pasta de "projeto" que é similar em estrutura a um workspace Angular, com arquivos de configuração global no nível superior, e configuração mais específica em uma pasta source com os arquivos de código que definem o comportamento.
 Por exemplo, sua pasta `myBuilder` poderia conter os seguintes arquivos.
 
-| Arquivos                 | Propósito                                                                                                 |
-| :----------------------- | :-------------------------------------------------------------------------------------------------------- |
-| `src/my-builder.ts`      | Arquivo fonte principal para a definição do builder.                                                      |
-| `src/my-builder.spec.ts` | Arquivo fonte para testes.                                                                                |
-| `src/schema.json`        | Definição das opções de entrada do builder.                                                               |
-| `builders.json`          | Definição de builders.                                                                                    |
+| Arquivos                 | Propósito                                                                                                  |
+| :----------------------- | :--------------------------------------------------------------------------------------------------------- |
+| `src/my-builder.ts`      | Arquivo fonte principal para a definição do builder.                                                       |
+| `src/my-builder.spec.ts` | Arquivo fonte para testes.                                                                                 |
+| `src/schema.json`        | Definição das opções de entrada do builder.                                                                |
+| `builders.json`          | Definição de builders.                                                                                     |
 | `package.json`           | Dependências. Veja [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/package.json). |
-| `tsconfig.json`          | [Configuração TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).              |
+| `tsconfig.json`          | [Configuração TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).                |
 
 Builders podem ser publicados no `npm`, veja [Publicando sua Biblioteca](tools/libraries/creating-libraries).
 
@@ -228,10 +229,10 @@ project:target[:configuration]
 
 ```
 
-|               | Detalhes                                                                                                                      |
-| :------------ | :---------------------------------------------------------------------------------------------------------------------------- |
-| project       | O nome do projeto Angular CLI ao qual o target está associado.                                                                |
-| target        | Uma configuração de builder nomeada da seção `architect` do arquivo `angular.json`.                                           |
+|               | Detalhes                                                                                                                          |
+| :------------ | :-------------------------------------------------------------------------------------------------------------------------------- |
+| project       | O nome do projeto Angular CLI ao qual o target está associado.                                                                    |
+| target        | Uma configuração de builder nomeada da seção `architect` do arquivo `angular.json`.                                               |
 | configuration | (opcional) O nome de uma substituição de configuração específica para o target dado, conforme definido no arquivo `angular.json`. |
 
 Se seu builder chamar outro builder, ele pode precisar ler uma string de target passada.
@@ -391,10 +392,10 @@ Este comportamento também permite que builds de longa duração sejam parados e
 
 Em geral, se seu builder está observando um evento externo, você deve separar sua execução em três fases.
 
-| Fases      | Detalhes                                                                                                                                                                                                                                                          |
-| :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Running    | A tarefa sendo executada, como invocar um compilador. Isso termina quando o compilador termina e seu builder emite um objeto `BuilderOutput`.                                                                                                                     |
-| Watching   | Entre duas execuções, observar um fluxo de evento externo. Por exemplo, observar o sistema de arquivos para quaisquer mudanças. Isso termina quando o compilador reinicia, e `context.reportRunning()` é chamado.                                                  |
+| Fases      | Detalhes                                                                                                                                                                                                                                                         |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Running    | A tarefa sendo executada, como invocar um compilador. Isso termina quando o compilador termina e seu builder emite um objeto `BuilderOutput`.                                                                                                                    |
+| Watching   | Entre duas execuções, observar um fluxo de evento externo. Por exemplo, observar o sistema de arquivos para quaisquer mudanças. Isso termina quando o compilador reinicia, e `context.reportRunning()` é chamado.                                                |
 | Completion | Ou a tarefa está totalmente concluída, como um compilador que precisa executar várias vezes, ou a execução do builder foi parada (usando `BuilderRun.stop()`). O Architect executa a lógica de desmontagem e cancela a inscrição no `Observable` do seu builder. |
 
 ## Resumo

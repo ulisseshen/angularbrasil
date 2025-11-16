@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # A Licença MIT
 
 Copyright (c) 2010-2025 Google LLC. https://angular.dev/license

@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Scripts personalizados de service worker
 
 Embora o service worker Angular forneça excelentes capacidades, você pode precisar adicionar funcionalidade personalizada, como lidar com notificações push, sincronização em segundo plano ou outros eventos de service worker. Você pode criar um script de service worker personalizado que importa e estende o service worker Angular.

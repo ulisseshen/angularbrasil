@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Reactive forms
 
 Reactive forms fornecem uma abordagem model-driven para lidar com entradas de formulário cujos valores mudam ao longo do tempo.
@@ -75,7 +76,7 @@ O exemplo a seguir mostra como exibir o valor atual usando interpolação no tem
 O valor exibido muda conforme você atualiza o elemento form control.
 
 Reactive forms fornecem acesso a informações sobre um determinado control através de propriedades e métodos fornecidos com cada instância.
-Essas propriedades e métodos da classe subjacente [AbstractControl](api/forms/AbstractControl 'API reference') são usados para controlar o estado do formulário e determinar quando exibir mensagens ao lidar com [validação de entrada](#validating-form-input 'Learn more about validating form input').
+Essas propriedades e métodos da classe subjacente [AbstractControl](api/forms/AbstractControl 'API reference') são usados para controlar o estado do formulário e determinar quando exibir mensagens ao lidar com [validação de entrada](#validating-form-input).
 
 Leia sobre outras propriedades e métodos de `FormControl` na [Referência da API](api/forms/FormControl 'Detailed syntax reference').
 
@@ -97,17 +98,17 @@ Quando você clica no botão **Update Name**, o valor inserido no elemento form 
 O form model é a fonte da verdade para o control, então quando você clica no botão, o valor da entrada é alterado dentro da classe do component, sobrescrevendo seu valor atual.
 
 HELPFUL: Neste exemplo, você está usando um único control.
-Ao usar o método `setValue()` com um [form group](#grouping-form-controls) ou [form array](#creating-dynamic-forms), o valor precisa corresponder à estrutura do grupo ou array.
+Ao usar o método `setValue()` com um form group ou form array, o valor precisa corresponder à estrutura do grupo ou array.
 
 ## Agrupando form controls
 
 Os formulários normalmente contêm vários controls relacionados.
 Reactive forms fornecem duas maneiras de agrupar vários controls relacionados em um único formulário de entrada.
 
-| Form groups | Detalhes                                                                                                                                                                                                                                                |
-| :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Form group  | Define um formulário com um conjunto fixo de controls que você pode gerenciar juntos. Os fundamentos do form group são discutidos nesta seção. Você também pode [aninhar form groups](#creating-nested-form-groups 'See more about nesting groups') para criar formulários mais complexos. |
-| Form array  | Define um formulário dinâmico, onde você pode adicionar e remover controls em tempo de execução. Você também pode aninhar form arrays para criar formulários mais complexos. Para mais sobre esta opção, consulte [Criando formulários dinâmicos](#creating-dynamic-forms).                              |
+| Form groups | Detalhes                                                                                                                                                                                                                                                                    |
+| :---------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Form group  | Define um formulário com um conjunto fixo de controls que você pode gerenciar juntos. Os fundamentos do form group são discutidos nesta seção. Você também pode [aninhar form groups](#creating-nested-form-groups) para criar formulários mais complexos.                  |
+| Form array  | Define um formulário dinâmico, onde você pode adicionar e remover controls em tempo de execução. Você também pode aninhar form arrays para criar formulários mais complexos. Para mais sobre esta opção, consulte [Criando formulários dinâmicos](#creating-dynamic-forms). |
 
 Assim como uma instância de form control oferece controle sobre um único campo de entrada, uma instância de form group rastreia o estado do formulário de um grupo de instâncias de form control \(por exemplo, um formulário\).
 Cada control em uma instância de form group é rastreado por nome ao criar o form group.
@@ -172,7 +173,7 @@ Para exibir o component `ProfileEditor` que contém o formulário, adicione-o a 
 
 `ProfileEditor` permite que você gerencie as instâncias de form control para os controls `firstName` e `lastName` dentro da instância do form group.
 
-### Criando form groups aninhados
+### Criando form groups aninhados {#creating-nested-form-groups}
 
 Form groups podem aceitar tanto instâncias individuais de form control quanto outras instâncias de form group como filhos.
 Isso torna a composição de modelos de formulário complexos mais fácil de manter e agrupar logicamente.
@@ -189,7 +190,7 @@ Alguns tipos de informação naturalmente se enquadram no mesmo grupo.
 Um nome e endereço são exemplos típicos de tais grupos aninhados e são usados nos exemplos a seguir.
 
 <docs-workflow>
-<docs-step title="Crie um grupo aninhado">
+<docs-step title="Crie um grupo aninhado {#grouping-form-controls}">
 Para criar um grupo aninhado em `profileForm`, adicione um elemento `address` aninhado à instância do form group.
 
 <docs-code header="profile-editor.component.ts (nested form group)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.1.ts" visibleRegion="nested-formgroup"/>
@@ -215,10 +216,10 @@ Esta seção cobre como atualizar partes específicas de um data model de form c
 
 Existem duas maneiras de atualizar o valor do modelo:
 
-| Métodos        | Detalhes                                                                                                                                                               |
-| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Métodos        | Detalhes                                                                                                                                                 |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `setValue()`   | Define um novo valor para um control individual. O método `setValue()` adere estritamente à estrutura do form group e substitui todo o valor do control. |
-| `patchValue()` | Substitui quaisquer propriedades definidas no objeto que foram alteradas no form model.                                                                                     |
+| `patchValue()` | Substitui quaisquer propriedades definidas no objeto que foram alteradas no form model.                                                                  |
 
 As verificações estritas do método `setValue()` ajudam a capturar erros de aninhamento em formulários complexos, enquanto `patchValue()` falha silenciosamente nesses erros.
 
@@ -278,7 +279,7 @@ TIP: Você pode definir o control apenas com o valor inicial, mas se seus contro
 
 </docs-workflow>
 
-## Validando entrada de formulário
+## Validando entrada de formulário {#validating-form-input}
 
 _Validação de formulário_ é usada para garantir que a entrada do usuário esteja completa e correta.
 Esta seção cobre adicionar um único validador a um form control e exibir o status geral do formulário.
@@ -321,7 +322,7 @@ Para mais sobre validação de formulário, visite o guia [Validação de Formul
 </docs-step>
 </docs-workflow>
 
-## Criando formulários dinâmicos
+## Criando formulários dinâmicos {#creating-dynamic-forms}
 
 `FormArray` é uma alternativa a `FormGroup` para gerenciar qualquer número de controls sem nome.
 Assim como nas instâncias de form group, você pode inserir e remover dinamicamente controls de instâncias de form array, e o valor da instância de form array e o status de validação são calculados a partir de seus controls filhos.
@@ -491,16 +492,16 @@ control.events.subscribe((e) => {
 
 NOTE: Na mudança de valor, a emissão acontece logo após um valor deste control ser atualizado. O valor de um control pai (por exemplo, se este FormControl faz parte de um FormGroup) é atualizado mais tarde, portanto, acessar um valor de um control pai (usando a propriedade `value`) do callback deste evento pode resultar em obter um valor que ainda não foi atualizado. Assine os `events` do control pai em vez disso.
 
-## Funções utilitárias para restringir tipos de form control
+## Funções utilitárias para restringir tipos de form control {#creating-nested-form-groups 'See more about nesting groups'} {#validating-form-input 'Learn more about validating form input'}
 
 O Angular fornece quatro funções utilitárias que ajudam a determinar o tipo concreto de um `AbstractControl`. Essas funções atuam como **type guards** e restringem o tipo de control quando retornam `true`, o que permite que você acesse com segurança propriedades específicas do subtipo dentro do mesmo bloco.
 
-| Função utilitária | Detalhes                                             |
-| :--------------- | :-------------------------------------------------- |
-| `isFormControl`  | Retorna `true` quando o control é um `FormControl`. |
-| `isFormGroup`    | Retorna `true` quando o control é um `FormGroup`    |
-| `isFormRecord`   | Retorna `true` quando o control é um `FormRecord`   |
-| `isFormArray`    | Retorna `true` quando o control é um `FormArray`    |
+| Função utilitária | Detalhes                                            |
+| :---------------- | :-------------------------------------------------- |
+| `isFormControl`   | Retorna `true` quando o control é um `FormControl`. |
+| `isFormGroup`     | Retorna `true` quando o control é um `FormGroup`    |
+| `isFormRecord`    | Retorna `true` quando o control é um `FormRecord`   |
+| `isFormArray`     | Retorna `true` quando o control é um `FormArray`    |
 
 Esses helpers são particularmente úteis em **validadores personalizados**, onde a assinatura da função recebe um `AbstractControl`, mas a lógica é destinada a um tipo específico de control.
 
@@ -525,21 +526,21 @@ Para detalhes de sintaxe completos, consulte a documentação de referência da 
 
 ### Classes
 
-| Classe             | Detalhes                                                                                                                                                                                 |
-| :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AbstractControl` | A classe base abstrata para as classes concretas de form control `FormControl`, `FormGroup` e `FormArray`. Ela fornece seus comportamentos e propriedades comuns.                           |
-| `FormControl`     | Gerencia o valor e o status de validação de um form control individual. Ele corresponde a um form control HTML, como `<input>` ou `<select>`.                                            |
+| Classe            | Detalhes                                                                                                                                                                                                    |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AbstractControl` | A classe base abstrata para as classes concretas de form control `FormControl`, `FormGroup` e `FormArray`. Ela fornece seus comportamentos e propriedades comuns.                                           |
+| `FormControl`     | Gerencia o valor e o status de validação de um form control individual. Ele corresponde a um form control HTML, como `<input>` ou `<select>`.                                                               |
 | `FormGroup`       | Gerencia o valor e o estado de validação de um grupo de instâncias `AbstractControl`. As propriedades do grupo incluem seus controls filhos. O formulário de nível superior no seu component é `FormGroup`. |
-| `FormArray`       | Gerencia o valor e o estado de validação de um array numericamente indexado de instâncias `AbstractControl`.                                                                                     |
-| `FormBuilder`     | Um serviço injetável que fornece métodos de fábrica para criar instâncias de control.                                                                                                     |
-| `FormRecord`      | Rastreia o valor e o estado de validação de uma coleção de instâncias `FormControl`, cada uma das quais tem o mesmo tipo de valor.                                                                  |
+| `FormArray`       | Gerencia o valor e o estado de validação de um array numericamente indexado de instâncias `AbstractControl`.                                                                                                |
+| `FormBuilder`     | Um serviço injetável que fornece métodos de fábrica para criar instâncias de control.                                                                                                                       |
+| `FormRecord`      | Rastreia o valor e o estado de validação de uma coleção de instâncias `FormControl`, cada uma das quais tem o mesmo tipo de valor.                                                                          |
 
 ### Directives
 
-| Directive              | Detalhes                                                                                    |
-| :--------------------- | :----------------------------------------------------------------------------------------- |
-| `FormControlDirective` | Sincroniza uma instância `FormControl` autônoma a um elemento form control.                       |
+| Directive              | Detalhes                                                                                             |
+| :--------------------- | :--------------------------------------------------------------------------------------------------- |
+| `FormControlDirective` | Sincroniza uma instância `FormControl` autônoma a um elemento form control.                          |
 | `FormControlName`      | Sincroniza `FormControl` em uma instância `FormGroup` existente a um elemento form control por nome. |
-| `FormGroupDirective`   | Sincroniza uma instância `FormGroup` existente a um elemento DOM.                                   |
-| `FormGroupName`        | Sincroniza uma instância `FormGroup` aninhada a um elemento DOM.                                      |
-| `FormArrayName`        | Sincroniza uma instância `FormArray` aninhada a um elemento DOM.                                      |
+| `FormGroupDirective`   | Sincroniza uma instância `FormGroup` existente a um elemento DOM.                                    |
+| `FormGroupName`        | Sincroniza uma instância `FormGroup` aninhada a um elemento DOM.                                     |
+| `FormArrayName`        | Sincroniza uma instância `FormArray` aninhada a um elemento DOM.                                     |

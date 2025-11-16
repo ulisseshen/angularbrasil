@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Kit de Imprensa Angular
 
 Os gráficos de logo disponíveis para download nesta página são fornecidos sob [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
@@ -51,7 +52,7 @@ Neste exemplo, adaptamos o escudo para criar uma variação do logo Angular Sign
 Se você está criando seu próprio logo, encorajamos diferenciar seu logo do nosso para não causar confusão. Ao adaptar o logo, você é livre para mudar e adaptar as cores e forma para torná-lo seu.
 
 Ao representar Angular com o logo original, siga estas diretrizes:
-![Rhubarb the small cat](assets/images/press-kit/do_and_dont.png "Rhubarb the small cat")
+![Rhubarb the small cat](assets/images/press-kit/do_and_dont.png 'Rhubarb the small cat')
 </docs-step>
 
 </docs-workflow>

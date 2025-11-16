@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Schematics para bibliotecas
 
 Quando você cria uma biblioteca Angular, pode fornecê-la e empacotá-la com schematics que a integram com o Angular CLI.
@@ -52,12 +53,12 @@ Use a opção `save` de `ng-add` para configurar se a biblioteca deve ser adicio
 
 Valores possíveis são:
 
-| Valores             | Detalhes                                    |
-| :------------------ | :------------------------------------------ |
-| `false`             | Não adicione o pacote ao `package.json`     |
-| `true`              | Adicione o pacote às dependencies           |
-| `"dependencies"`    | Adicione o pacote às dependencies           |
-| `"devDependencies"` | Adicione o pacote às devDependencies        |
+| Valores             | Detalhes                                |
+| :------------------ | :-------------------------------------- |
+| `false`             | Não adicione o pacote ao `package.json` |
+| `true`              | Adicione o pacote às dependencies       |
+| `"dependencies"`    | Adicione o pacote às dependencies       |
+| `"devDependencies"` | Adicione o pacote às devDependencies    |
 
 ## Construindo seus schematics
 
@@ -74,9 +75,9 @@ Para dizer à biblioteca como construir os schematics, adicione um arquivo `tsco
 
    <docs-code header="projects/my-lib/tsconfig.schematics.json (TypeScript Config)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/tsconfig.schematics.json"/>
 
-   | Opções    | Detalhes                                                                                               |
-   | :-------- | :----------------------------------------------------------------------------------------------------- |
-   | `rootDir` | Especifica que sua pasta `schematics` contém os arquivos de entrada a serem compilados.               |
+   | Opções    | Detalhes                                                                                                       |
+   | :-------- | :------------------------------------------------------------------------------------------------------------- |
+   | `rootDir` | Especifica que sua pasta `schematics` contém os arquivos de entrada a serem compilados.                        |
    | `outDir`  | Mapeia para a pasta de saída da biblioteca. Por padrão, esta é a pasta `dist/my-lib` na raiz de seu workspace. |
 
 1. Para garantir que seus arquivos-fonte de schematics sejam compilados no pacote da biblioteca, adicione os seguintes scripts ao arquivo `package.json` na pasta raiz do projeto de sua biblioteca \(`projects/my-lib`\).
@@ -128,10 +129,10 @@ Quando você adiciona um schematic à coleção, você precisa apontá-lo no sch
 
    <docs-code header="projects/my-lib/schematics/my-service/schema.ts (Schematic Interface)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/my-service/schema.ts"/>
 
-   | Opções  | Detalhes                                                                                                                        |
-   | :------ | :------------------------------------------------------------------------------------------------------------------------------ |
-   | name    | O nome que você deseja fornecer para o service criado.                                                                          |
-   | path    | Substitui o caminho fornecido ao schematic. O valor padrão do caminho é baseado no diretório de trabalho atual.                |
+   | Opções  | Detalhes                                                                                                                                       |
+   | :------ | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+   | name    | O nome que você deseja fornecer para o service criado.                                                                                         |
+   | path    | Substitui o caminho fornecido ao schematic. O valor padrão do caminho é baseado no diretório de trabalho atual.                                |
    | project | Fornece um projeto específico para executar o schematic. No schematic, você pode fornecer um padrão se a opção não for fornecida pelo usuário. |
 
 ### Adicionar arquivos de template
@@ -230,14 +231,14 @@ Use o templating para gerar quaisquer arquivos personalizados necessários para 
 
    <docs-code header="projects/my-lib/schematics/my-service/index.ts (Template transform)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" visibleRegion="template"/>
 
-   | Métodos            | Detalhes                                                                                                                                                                                                                     |
-   | :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | `apply()`          | Aplica múltiplas regras a uma fonte e retorna a fonte transformada. Recebe 2 argumentos, uma fonte e um array de regras.                                                                                                    |
-   | `url()`            | Lê arquivos-fonte do seu sistema de arquivos, relativo ao schematic.                                                                                                                                                         |
+   | Métodos            | Detalhes                                                                                                                                                                                                                                               |
+   | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | `apply()`          | Aplica múltiplas regras a uma fonte e retorna a fonte transformada. Recebe 2 argumentos, uma fonte e um array de regras.                                                                                                                               |
+   | `url()`            | Lê arquivos-fonte do seu sistema de arquivos, relativo ao schematic.                                                                                                                                                                                   |
    | `applyTemplates()` | Recebe um argumento de métodos e propriedades que você deseja disponibilizar ao template do schematic e aos nomes de arquivo do schematic. Retorna uma `Rule`. É aqui que você define os métodos `classify()` e `dasherize()`, e a propriedade `name`. |
-   | `classify()`       | Recebe um valor e retorna o valor em title case. Por exemplo, se o nome fornecido é `my service`, é retornado como `MyService`.                                                                                              |
-   | `dasherize()`      | Recebe um valor e retorna o valor em dashed e minúsculas. Por exemplo, se o nome fornecido é MyService, é retornado como `my-service`.                                                                                       |
-   | `move()`           | Move os arquivos-fonte fornecidos para seu destino quando o schematic é aplicado.                                                                                                                                            |
+   | `classify()`       | Recebe um valor e retorna o valor em title case. Por exemplo, se o nome fornecido é `my service`, é retornado como `MyService`.                                                                                                                        |
+   | `dasherize()`      | Recebe um valor e retorna o valor em dashed e minúsculas. Por exemplo, se o nome fornecido é MyService, é retornado como `my-service`.                                                                                                                 |
+   | `move()`           | Move os arquivos-fonte fornecidos para seu destino quando o schematic é aplicado.                                                                                                                                                                      |
 
 1. Finalmente, a rule factory deve retornar uma regra.
 

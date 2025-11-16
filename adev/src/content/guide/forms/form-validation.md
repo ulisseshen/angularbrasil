@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Validando entrada de formulário
 
 Você pode melhorar a qualidade geral dos dados validando a entrada do usuário quanto à precisão e completude.
@@ -45,9 +46,9 @@ O Angular então chama essas funções sempre que o valor do control muda.
 
 Funções validadoras podem ser síncronas ou assíncronas.
 
-| Tipo de validador   | Detalhes                                                                                                                                                                                                                 |
-| :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Validadores síncronos  | Funções síncronas que recebem uma instância de control e retornam imediatamente um conjunto de erros de validação ou `null`. Passe-os como o segundo argumento ao instanciar um `FormControl`.                       |
+| Tipo de validador       | Detalhes                                                                                                                                                                                                                               |
+| :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Validadores síncronos   | Funções síncronas que recebem uma instância de control e retornam imediatamente um conjunto de erros de validação ou `null`. Passe-os como o segundo argumento ao instanciar um `FormControl`.                                         |
 | Validadores assíncronos | Funções assíncronas que recebem uma instância de control e retornam uma Promise ou Observable que posteriormente emite um conjunto de erros de validação ou `null`. Passe-os como o terceiro argumento ao instanciar um `FormControl`. |
 
 Por razões de desempenho, o Angular executa validadores assíncronos apenas se todos os validadores síncronos passarem.
@@ -81,7 +82,7 @@ Este formulário difere da versão template-driven pelo fato de não exportar ma
 
 Observe que o atributo `required` ainda está presente no template. Embora não seja necessário para validação, ele deve ser mantido para fins de acessibilidade.
 
-## Definindo validadores personalizados
+## Definindo validadores personalizados {#defining-custom-validators}
 
 Os validadores nativos nem sempre correspondem ao caso de uso exato da sua aplicação, então às vezes você precisa criar um validador personalizado.
 
@@ -153,9 +154,9 @@ definir a cor da borda de cada form control.
 
 <docs-code header="forms.css (status classes)" path="adev/src/content/examples/form-validation/src/assets/forms.css"/>
 
-## Validação de campos cruzados
+## Validação de campos cruzados {#control-status-css-classes}
 
-Um validador de campos cruzados é um [validador personalizado](#defining-custom-validators 'Read about custom validators') que compara os valores de diferentes campos em um formulário e os aceita ou rejeita em combinação.
+Um validador de campos cruzados é um [validador personalizado](#defining-custom-validators) que compara os valores de diferentes campos em um formulário e os aceita ou rejeita em combinação.
 Por exemplo, você pode ter um formulário que oferece opções mutuamente incompatíveis, de modo que se o usuário puder escolher A ou B, mas não ambos.
 Alguns valores de campo também podem depender de outros; um usuário pode ser permitido escolher B apenas se A também for escolhido.
 
@@ -308,7 +309,7 @@ Para saber mais sobre opções de `FormControl`, consulte a referência da API [
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-usage"/>
 
-### Adicionando validadores assíncronos a template-driven forms
+### Adicionando validadores assíncronos a template-driven forms {#adding-async-validators-to-template-driven-forms}
 
 Para usar um validador assíncrono em template-driven forms, crie uma nova directive e registre o provider `NG_ASYNC_VALIDATORS` nela.
 

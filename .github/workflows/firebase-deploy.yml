@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: read
+  checks: write
+  pull-requests: write
 
 jobs:
   build-and-deploy:
@@ -17,6 +19,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Validate Firebase credentials
+        run: |
+          if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" ]; then
+            echo "::error::FIREBASE_SERVICE_ACCOUNT secret is not set"
+            echo "::error::Please add the Firebase service account JSON to repository secrets"
+            echo "::error::Go to: Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          echo "✅ Firebase service account secret is configured"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,30 +51,96 @@ jobs:
       - name: Build adev (Portuguese Angular docs)
         run: pnpm bazel build //adev:build.production
         env:
-          no_proxy: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
           NO_PROXY: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
 
-      - name: Deploy to Firebase
+      - name: Prepare build for Firebase deployment
+        run: |
+          # Bazel outputs to dist/bin/adev/dist/browser (confirmed from angular/angular repo)
+          BROWSER_PATH="dist/bin/adev/dist/browser"
+
+          if [ ! -d "$BROWSER_PATH" ]; then
+            echo "ERROR: Build output not found at $BROWSER_PATH"
+            echo "Contents of dist/bin/adev:"
+            ls -la dist/bin/adev/ || echo "dist/bin/adev does not exist"
+            exit 1
+          fi
+
+          echo "Found browser output at: $BROWSER_PATH"
+
+          # Copy to where Firebase expects it
+          mkdir -p adev/build/browser
+          cp -r "$BROWSER_PATH"/* adev/build/browser/
+
+          echo "Build output copied successfully"
+          echo "Files in adev/build/browser:"
+          ls -la adev/build/browser | head -20
+
+          # Verify index.html exists
+          if [ -f "adev/build/browser/index.html" ]; then
+            echo "✅ index.html found"
+          else
+            echo "❌ ERROR: index.html not found!"
+            exit 1
+          fi
+
+      - name: Verify Firebase can see the files
+        run: |
+          echo "Checking from Firebase's working directory (adev/):"
+          cd adev
+          ls -la ./build/browser | head -20
+          if [ -f "./build/browser/index.html" ]; then
+            echo "✅ Firebase will find index.html"
+          else
+            echo "❌ ERROR: Firebase won't find index.html at ./build/browser/"
+            exit 1
+          fi
+
+      - name: Deploy to Firebase (Production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: angularbrasil
-          channelId: live
-          target: angular-docs
-          entryPoint: ./adev
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
+        run: |
+          cd adev
+
+          # Write service account to temp file
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-sa.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-sa.json
+
+          # Deploy to Firebase production
+          npx --yes firebase-tools@latest deploy \
+            --only hosting:angular-docs \
+            --project transliteradu \
+            --non-interactive
+
+          rm -f /tmp/firebase-sa.json
 
       - name: Deploy Preview to Firebase
         if: github.event_name == 'pull_request'
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: angularbrasil
-          target: angular-docs
-          entryPoint: ./adev
+        run: |
+          cd adev
+
+          # Write service account to temp file
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-sa.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-sa.json
+
+          # Create preview channel name from PR number
+          CHANNEL_ID="pr${{ github.event.pull_request.number }}"
+
+          # Deploy to Firebase preview channel
+          npx --yes firebase-tools@latest hosting:channel:deploy "$CHANNEL_ID" \
+            --only angular-docs \
+            --expires 7d \
+            --project transliteradu \
+            --non-interactive \
+            --json > /tmp/deploy-output.json
+
+          # Extract preview URL
+          PREVIEW_URL=$(cat /tmp/deploy-output.json | jq -r '.result."angular-docs".url // empty')
+
+          rm -f /tmp/firebase-sa.json /tmp/deploy-output.json
+
+          # Comment on PR with preview URL
+          if [ -n "$PREVIEW_URL" ]; then
+            echo "Preview URL: $PREVIEW_URL"
+            gh pr comment ${{ github.event.pull_request.number }} --body "✅ Preview deployed to: $PREVIEW_URL"
+          fi
         env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
+          GH_TOKEN: ${{ github.token }}

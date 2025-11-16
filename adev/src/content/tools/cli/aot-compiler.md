@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Compilação Ahead-of-time (AOT)
 
 Uma aplicação Angular consiste principalmente de components e seus templates HTML.
@@ -13,22 +14,22 @@ HELPFUL: [Assista Alex Rickabaugh explicar o compilador Angular](https://www.you
 
 Aqui estão algumas razões pelas quais você pode querer usar AOT.
 
-| Razões                                          | Detalhes                                                                                                                                                                                                                                                        |
-| :---------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Renderização mais rápida                       | Com AOT, o browser baixa uma versão pré-compilada da aplicação. O browser carrega código executável para que possa renderizar a aplicação imediatamente, sem esperar para compilar a aplicação primeiro.                                                        |
-| Menos requisições assíncronas                  | O compilador _incorpora_ templates HTML externos e folhas de estilo CSS dentro do JavaScript da aplicação, eliminando requisições ajax separadas para esses arquivos fonte.                                                                                     |
-| Tamanho menor de download do framework Angular | Não há necessidade de baixar o compilador Angular se a aplicação já está compilada. O compilador é aproximadamente metade do Angular em si, então omiti-lo reduz drasticamente a carga útil da aplicação.                                                      |
-| Detectar erros de template mais cedo           | O compilador AOT detecta e reporta erros de binding em templates durante a etapa de build antes que os usuários possam vê-los.                                                                                                                                  |
-| Melhor segurança                                | AOT compila templates HTML e components em arquivos JavaScript muito antes de serem servidos ao client. Sem templates para ler e sem avaliação arriscada de HTML ou JavaScript no lado do client, há menos oportunidades para ataques de injeção.              |
+| Razões                                         | Detalhes                                                                                                                                                                                                                                          |
+| :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Renderização mais rápida                       | Com AOT, o browser baixa uma versão pré-compilada da aplicação. O browser carrega código executável para que possa renderizar a aplicação imediatamente, sem esperar para compilar a aplicação primeiro.                                          |
+| Menos requisições assíncronas                  | O compilador _incorpora_ templates HTML externos e folhas de estilo CSS dentro do JavaScript da aplicação, eliminando requisições ajax separadas para esses arquivos fonte.                                                                       |
+| Tamanho menor de download do framework Angular | Não há necessidade de baixar o compilador Angular se a aplicação já está compilada. O compilador é aproximadamente metade do Angular em si, então omiti-lo reduz drasticamente a carga útil da aplicação.                                         |
+| Detectar erros de template mais cedo           | O compilador AOT detecta e reporta erros de binding em templates durante a etapa de build antes que os usuários possam vê-los.                                                                                                                    |
+| Melhor segurança                               | AOT compila templates HTML e components em arquivos JavaScript muito antes de serem servidos ao client. Sem templates para ler e sem avaliação arriscada de HTML ou JavaScript no lado do client, há menos oportunidades para ataques de injeção. |
 
 ## Escolhendo um compilador
 
 Angular oferece duas formas de compilar sua aplicação:
 
-| Compilação Angular    | Detalhes                                                                                            |
-| :-------------------- | :-------------------------------------------------------------------------------------------------- |
-| Just-in-Time \(JIT\)  | Compila sua aplicação no browser em tempo de execução. Isso era o padrão até o Angular 8.          |
-| Ahead-of-Time \(AOT\) | Compila sua aplicação e bibliotecas em tempo de build. Isso é o padrão a partir do Angular 9.      |
+| Compilação Angular    | Detalhes                                                                                      |
+| :-------------------- | :-------------------------------------------------------------------------------------------- |
+| Just-in-Time \(JIT\)  | Compila sua aplicação no browser em tempo de execução. Isso era o padrão até o Angular 8.     |
+| Ahead-of-Time \(AOT\) | Compila sua aplicação e bibliotecas em tempo de build. Isso é o padrão a partir do Angular 9. |
 
 Quando você executa os comandos CLI [`ng build`](cli/build) \(somente build\) ou [`ng serve`](cli/serve) \(build e servir localmente\), o tipo de compilação \(JIT ou AOT\) depende do valor da propriedade `aot` na sua configuração de build especificada em `angular.json`.
 Por padrão, `aot` é definido como `true` para novas aplicações CLI.
@@ -63,11 +64,11 @@ Quando precisa criar uma instância de `TypicalComponent`, o Angular chama a fac
 
 Existem três fases de compilação AOT.
 
-|     | Fase                              | Detalhes                                                                                                                                                                                                                                                                                                                      |
-| :-- | :-------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | análise de código                 | Nesta fase, o compilador TypeScript e o _AOT collector_ criam uma representação do código fonte. O collector não tenta interpretar os metadados que coleta. Ele representa os metadados da melhor forma possível e registra erros quando detecta uma violação de sintaxe de metadados.                                        |
-| 2   | geração de código                 | Nesta fase, o `StaticReflector` do compilador interpreta os metadados coletados na fase 1, realiza validação adicional dos metadados e lança um erro se detectar uma violação de restrição de metadados.                                                                                                                     |
-| 3   | verificação de tipo de template   | Nesta fase opcional, o _template compiler_ do Angular usa o compilador TypeScript para validar as expressões de binding em templates. Você pode ativar esta fase explicitamente definindo a opção de configuração `strictTemplates`; veja [Opções do compilador Angular](reference/configs/angular-compiler-options).        |
+|     | Fase                            | Detalhes                                                                                                                                                                                                                                                                                                              |
+| :-- | :------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | análise de código               | Nesta fase, o compilador TypeScript e o _AOT collector_ criam uma representação do código fonte. O collector não tenta interpretar os metadados que coleta. Ele representa os metadados da melhor forma possível e registra erros quando detecta uma violação de sintaxe de metadados.                                |
+| 2   | geração de código               | Nesta fase, o `StaticReflector` do compilador interpreta os metadados coletados na fase 1, realiza validação adicional dos metadados e lança um erro se detectar uma violação de restrição de metadados.                                                                                                              |
+| 3   | verificação de tipo de template | Nesta fase opcional, o _template compiler_ do Angular usa o compilador TypeScript para validar as expressões de binding em templates. Você pode ativar esta fase explicitamente definindo a opção de configuração `strictTemplates`; veja [Opções do compilador Angular](reference/configs/angular-compiler-options). |
 
 ### Restrições de metadados
 
@@ -98,30 +99,30 @@ Você pode pensar em `.metadata.json` como um diagrama da estrutura geral dos me
 
 HELPFUL: O [schema.ts](https://github.com/angular/angular/blob/main/packages/compiler-cli/src/metadata/schema.ts) do Angular descreve o formato JSON como uma coleção de interfaces TypeScript.
 
-### Limitações de sintaxe de expressão
+### Limitações de sintaxe de expressão {#supported-classes-and-functions}
 
 O collector AOT entende apenas um subconjunto de JavaScript.
 Defina objetos de metadados com a seguinte sintaxe limitada:
 
-| Sintaxe                     | Exemplo                                                    |
-| :-------------------------- | :--------------------------------------------------------- |
-| Literal object              | `{cherry: true, apple: true, mincemeat: false}`            |
-| Literal array               | `['cherries', 'flour', 'sugar']`                           |
-| Spread em literal array     | `['apples', 'flour', …]`                                   |
-| Calls                       | `bake(ingredients)`                                        |
-| New                         | `new Oven()`                                               |
-| Property access             | `pie.slice`                                                |
-| Array index                 | `ingredients[0]`                                           |
-| Identity reference          | `Component`                                                |
-| A template string           | <code>`pie is ${multiplier} times better than cake`</code> |
-| Literal string              | `'pi'`                                                     |
-| Literal number              | `3.14153265`                                               |
-| Literal boolean             | `true`                                                     |
-| Literal null                | `null`                                                     |
-| Operador prefixo suportado  | `!cake`                                                    |
-| Operador binário suportado  | `a+b`                                                      |
-| Operador condicional        | `a ? b : c`                                                |
-| Parênteses                  | `(a+b)`                                                    |
+| Sintaxe                    | Exemplo                                                    |
+| :------------------------- | :--------------------------------------------------------- |
+| Literal object             | `{cherry: true, apple: true, mincemeat: false}`            |
+| Literal array              | `['cherries', 'flour', 'sugar']`                           |
+| Spread em literal array    | `['apples', 'flour', …]`                                   |
+| Calls                      | `bake(ingredients)`                                        |
+| New                        | `new Oven()`                                               |
+| Property access            | `pie.slice`                                                |
+| Array index                | `ingredients[0]`                                           |
+| Identity reference         | `Component`                                                |
+| A template string          | <code>`pie is ${multiplier} times better than cake`</code> |
+| Literal string             | `'pi'`                                                     |
+| Literal number             | `3.14153265`                                               |
+| Literal boolean            | `true`                                                     |
+| Literal null               | `null`                                                     |
+| Operador prefixo suportado | `!cake`                                                    |
+| Operador binário suportado | `a+b`                                                      |
+| Operador condicional       | `a ? b : c`                                                |
+| Parênteses                 | `(a+b)`                                                    |
 
 Se uma expressão usa sintaxe não suportada, o collector escreve um nó de erro no arquivo `.metadata.json`.
 O compilador mais tarde reporta o erro se precisar daquela parte de metadados para gerar o código da aplicação.
@@ -250,26 +251,26 @@ O collector reduz esta expressão à sua string _folded_ equivalente:
 
 A tabela a seguir descreve quais expressões o collector pode e não pode fazer fold:
 
-| Sintaxe                               | Foldable                                       |
-| :------------------------------------ | :--------------------------------------------- |
-| Literal object                        | sim                                            |
-| Literal array                         | sim                                            |
-| Spread em literal array               | não                                            |
-| Calls                                 | não                                            |
-| New                                   | não                                            |
-| Property access                       | sim, se o target for foldable                  |
-| Array index                           | sim, se target e index forem foldable          |
-| Identity reference                    | sim, se for uma referência a um local          |
-| Um template sem substituições         | sim                                            |
-| Um template com substituições         | sim, se as substituições forem foldable        |
-| Literal string                        | sim                                            |
-| Literal number                        | sim                                            |
-| Literal boolean                       | sim                                            |
-| Literal null                          | sim                                            |
-| Operador prefixo suportado            | sim, se o operando for foldable                |
-| Operador binário suportado            | sim, se esquerda e direita forem foldable      |
-| Operador condicional                  | sim, se a condição for foldable                |
-| Parênteses                            | sim, se a expressão for foldable               |
+| Sintaxe                       | Foldable                                  |
+| :---------------------------- | :---------------------------------------- |
+| Literal object                | sim                                       |
+| Literal array                 | sim                                       |
+| Spread em literal array       | não                                       |
+| Calls                         | não                                       |
+| New                           | não                                       |
+| Property access               | sim, se o target for foldable             |
+| Array index                   | sim, se target e index forem foldable     |
+| Identity reference            | sim, se for uma referência a um local     |
+| Um template sem substituições | sim                                       |
+| Um template com substituições | sim, se as substituições forem foldable   |
+| Literal string                | sim                                       |
+| Literal number                | sim                                       |
+| Literal boolean               | sim                                       |
+| Literal null                  | sim                                       |
+| Operador prefixo suportado    | sim, se o operando for foldable           |
+| Operador binário suportado    | sim, se esquerda e direita forem foldable |
+| Operador condicional          | sim, se a condição for foldable           |
+| Parênteses                    | sim, se a expressão for foldable          |
 
 Se uma expressão não é foldable, o collector a escreve em `.metadata.json` como uma [AST](https://en.wikipedia.org/wiki/Abstract*syntax*tree) para o compilador resolver.
 
@@ -281,7 +282,7 @@ Ele representa os metadados da melhor forma possível e registra erros quando de
 
 O compilador entende todas as formas de sintaxe que o collector suporta, mas pode rejeitar metadados _sintaticamente_ corretos se a _semântica_ violar as regras do compilador.
 
-### Símbolos públicos ou protegidos
+### Símbolos públicos ou protegidos {#expression-syntax-limitations}
 
 O compilador só pode referenciar símbolos _exportados_.
 
@@ -297,11 +298,11 @@ O compilador, no entanto, pode mais tarde se recusar a gerar uma chamada a uma f
 
 O compilador só pode criar instâncias de certas classes, suporta apenas decorators principais e suporta apenas chamadas a macros \(funções ou métodos estáticos\) que retornam expressões.
 
-| Ação do compilador       | Detalhes                                                                                                                                                     |
-| :----------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Novas instâncias         | O compilador permite apenas metadados que criam instâncias da classe `InjectionToken` de `@angular/core`.                                                   |
-| Decorators suportados    | O compilador suporta apenas metadados para os [decorators Angular no módulo `@angular/core`](api/core#decorators).                                          |
-| Chamadas de função       | Factory functions devem ser funções exportadas e nomeadas. O compilador AOT não suporta expressões lambda \("arrow functions"\) para factory functions.     |
+| Ação do compilador    | Detalhes                                                                                                                                                |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Novas instâncias      | O compilador permite apenas metadados que criam instâncias da classe `InjectionToken` de `@angular/core`.                                               |
+| Decorators suportados | O compilador suporta apenas metadados para os [decorators Angular no módulo `@angular/core`](api/core#decorators).                                      |
+| Chamadas de função    | Factory functions devem ser funções exportadas e nomeadas. O compilador AOT não suporta expressões lambda \("arrow functions"\) para factory functions. |
 
 ### Chamadas de funções e métodos estáticos
 

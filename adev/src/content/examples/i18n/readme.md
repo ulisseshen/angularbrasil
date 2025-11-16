@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Exemplo de Internacionalização i18n do Angular
 
 Este exemplo vem da página "[Exemplo de aplicação Angular de Internacionalização](https://angular.dev/guide/i18n/example)" da documentação do Angular.

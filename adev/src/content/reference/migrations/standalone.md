@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Migrar um projeto Angular existente para standalone
 
 **Components standalone** fornecem uma maneira simplificada de construir aplicações Angular. Components, directives e pipes standalone visam simplificar a experiência de autoria reduzindo a necessidade de `NgModule`s. Aplicações existentes podem opcionalmente e incrementalmente adotar o novo estilo standalone sem nenhuma breaking change.
@@ -25,10 +26,10 @@ Antes de usar o schematic, certifique-se de que o projeto:
 
 ## Opções do schematic
 
-| Opção  | Detalhes                                                                                                                                    |
-| :----- | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| `mode` | A transformação a realizar. Veja [Modos de migração](#migration-modes) abaixo para detalhes sobre as opções disponíveis.                   |
-| `path` | O caminho para migrar, relativo à raiz do projeto. Você pode usar esta opção para migrar seções do seu projeto incrementalmente.           |
+| Opção  | Detalhes                                                                                                                         |
+| :----- | :------------------------------------------------------------------------------------------------------------------------------- |
+| `mode` | A transformação a realizar. Veja [Modos de migração](#migration-modes) abaixo para detalhes sobre as opções disponíveis.         |
+| `path` | O caminho para migrar, relativo à raiz do projeto. Você pode usar esta opção para migrar seções do seu projeto incrementalmente. |
 
 ## Etapas de migração
 
@@ -53,7 +54,7 @@ Parabéns, sua aplicação foi convertida para standalone 🎉. Aqui estão algu
 - Execute quaisquer formatadores de código, se o projeto usa formatação automática.
 - Execute quaisquer linters em seu projeto e corrija novos avisos. Alguns linters suportam uma flag `--fix` que pode resolver alguns de seus avisos automaticamente.
 
-## Modos de migração
+## Modos de migração {#migration-modes}
 
 A migração tem os seguintes modos:
 
@@ -115,7 +116,7 @@ export class GreeterComponent {
 }
 ```
 
-### Remover NgModules desnecessários
+### Remover NgModules desnecessários {#remove-unnecessary-ngmodules}
 
 Após converter todas as declarações para standalone, muitos NgModules podem ser removidos com segurança. Esta etapa deleta tais declarações de módulo e o máximo de referências correspondentes possível. Se a migração não puder deletar uma referência automaticamente, ela deixa o seguinte comentário TODO para que você possa deletar o NgModule manualmente:
 
@@ -149,7 +150,7 @@ export class ImporterModule {}
 // Não existe!
 ```
 
-### Mudar para API de bootstrap standalone
+### Mudar para API de bootstrap standalone {#switch-to-standalone-bootstrapping-api}
 
 Esta etapa converte quaisquer usos de `bootstrapModule` para a nova API `bootstrapApplication` baseada em standalone. Ela também remove `standalone: false` do component raiz e deleta o NgModule raiz. Se o módulo raiz tiver quaisquer `providers` ou `imports`, a migração tenta copiar o máximo possível dessa configuração para a nova chamada de bootstrap.
 

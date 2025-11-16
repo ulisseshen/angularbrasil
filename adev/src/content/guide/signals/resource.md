@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Reatividade assíncrona com resources
 
 IMPORTANT: `resource` é [experimental](reference/releases#experimental). Está pronto para você experimentar, mas pode mudar antes de se tornar estável.
@@ -52,15 +53,15 @@ Ao criar um resource, você especifica um `ResourceLoader`. Este loader é uma f
 
 O objeto `ResourceLoaderParams` contém três propriedades: `params`, `previous` e `abortSignal`.
 
-| Propriedade   | Descrição                                                                                                                                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `params`      | O valor da computação `params` do resource.                                                                                                      |
-| `previous`    | Um objeto com uma propriedade `status`, contendo o `ResourceStatus` anterior.                                                                    |
+| Propriedade   | Descrição                                                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `params`      | O valor da computação `params` do resource.                                                                                                            |
+| `previous`    | Um objeto com uma propriedade `status`, contendo o `ResourceStatus` anterior.                                                                          |
 | `abortSignal` | Um [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal). Veja [Abortar requisições](#aborting-requests) abaixo para detalhes. |
 
 Se a computação `params` retorna `undefined`, a função loader não executa e o status do resource se torna `'idle'`.
 
-### Abortar requisições
+### Abortar requisições {#aborting-requests}
 
 Um resource aborta uma operação de carregamento pendente se a computação `params` mudar enquanto o resource está carregando.
 
@@ -102,24 +103,24 @@ userResource.reload();
 
 O objeto resource tem várias propriedades signal para ler o status do loader assíncrono.
 
-| Propriedade | Descrição                                                                                                       |
-| ----------- | --------------------------------------------------------------------------------------------------------------- |
-| `value`     | O valor mais recente do resource, ou `undefined` se nenhum valor foi recebido.                                  |
-| `hasValue`  | Se o resource tem um valor.                                                                                     |
-| `error`     | O erro mais recente encontrado ao executar o loader do resource, ou `undefined` se nenhum erro ocorreu.         |
-| `isLoading` | Se o loader do resource está em execução atualmente.                                                            |
-| `status`    | O `ResourceStatus` específico do resource, conforme descrito abaixo.                                            |
+| Propriedade | Descrição                                                                                               |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| `value`     | O valor mais recente do resource, ou `undefined` se nenhum valor foi recebido.                          |
+| `hasValue`  | Se o resource tem um valor.                                                                             |
+| `error`     | O erro mais recente encontrado ao executar o loader do resource, ou `undefined` se nenhum erro ocorreu. |
+| `isLoading` | Se o loader do resource está em execução atualmente.                                                    |
+| `status`    | O `ResourceStatus` específico do resource, conforme descrito abaixo.                                    |
 
 O signal `status` fornece um `ResourceStatus` específico que descreve o estado do resource usando uma constante string.
 
-| Status        | `value()`         | Descrição                                                                    |
-| ------------- | :---------------- | ---------------------------------------------------------------------------- |
-| `'idle'`      | `undefined`       | O resource não tem requisição válida e o loader não foi executado.          |
-| `'error'`     | `undefined`       | O loader encontrou um erro.                                                  |
-| `'loading'`   | `undefined`       | O loader está em execução como resultado da mudança do valor `params`.      |
-| `'reloading'` | Valor anterior    | O loader está em execução como resultado da chamada do método `reload` do resource. |
-| `'resolved'`  | Valor resolvido   | O loader foi concluído.                                                      |
-| `'local'`     | Valor definido localmente | O valor do resource foi definido localmente via `.set()` ou `.update()`     |
+| Status        | `value()`                 | Descrição                                                                           |
+| ------------- | :------------------------ | ----------------------------------------------------------------------------------- |
+| `'idle'`      | `undefined`               | O resource não tem requisição válida e o loader não foi executado.                  |
+| `'error'`     | `undefined`               | O loader encontrou um erro.                                                         |
+| `'loading'`   | `undefined`               | O loader está em execução como resultado da mudança do valor `params`.              |
+| `'reloading'` | Valor anterior            | O loader está em execução como resultado da chamada do método `reload` do resource. |
+| `'resolved'`  | Valor resolvido           | O loader foi concluído.                                                             |
+| `'local'`     | Valor definido localmente | O valor do resource foi definido localmente via `.set()` ou `.update()`             |
 
 Você pode usar essas informações de status para exibir condicionalmente elementos de interface do usuário, como indicadores de carregamento e mensagens de erro.
 

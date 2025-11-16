@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Injectors hierárquicos
 
 Este guia fornece cobertura aprofundada do sistema de dependency injection hierárquico do Angular, incluindo regras de resolução, modificadores e padrões avançados.
@@ -9,9 +10,9 @@ NOTA: Para conceitos básicos sobre hierarquia de injector e escopo de provider,
 
 O Angular tem duas hierarquias de injector:
 
-| Hierarquias de injector         | Detalhes                                                                                                                                                                   |
-| :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Hierarquia `EnvironmentInjector` | Configure um `EnvironmentInjector` nesta hierarquia usando `@Injectable()` ou array `providers` em `ApplicationConfig`.                                                   |
+| Hierarquias de injector          | Detalhes                                                                                                                                                                         |
+| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hierarquia `EnvironmentInjector` | Configure um `EnvironmentInjector` nesta hierarquia usando `@Injectable()` ou array `providers` em `ApplicationConfig`.                                                          |
 | Hierarquia `ElementInjector`     | Criado implicitamente em cada elemento DOM. Um `ElementInjector` é vazio por padrão a menos que você o configure na propriedade `providers` em `@Directive()` ou `@Component()`. |
 
 <docs-callout title="Aplicações Baseadas em NgModule">
@@ -148,7 +149,7 @@ Isso significa que directives assim como components podem configurar providers, 
 Quando você configura um provider para um component ou directive usando a propriedade `providers`, esse provider pertence ao `ElementInjector` daquele component ou directive.
 Components e directives no mesmo elemento compartilham um injector.
 
-## Regras de resolução
+## Regras de resolução {#resolution-rules}
 
 Ao resolver um token para um component/directive, o Angular o resolve em duas fases:
 
@@ -363,7 +364,7 @@ As seções a seguir demonstram `providers` e `viewProviders` juntamente com man
 
 Uma classe de component pode fornecer services de duas maneiras:
 
-| Arrays                       | Detalhes                                        |
+| Arrays                       | Detalhes                                       |
 | :--------------------------- | :--------------------------------------------- |
 | Com um array `providers`     | `@Component({ providers: [SomeService] })`     |
 | Com um array `viewProviders` | `@Component({ viewProviders: [SomeService] })` |
@@ -375,11 +376,11 @@ Por exemplo, a árvore lógica mostrará que `<child-component>` é um filho dir
 Na árvore lógica, você verá atributos especiais: `@Provide`, `@Inject`, e `@ApplicationConfig`.
 Estes não são atributos reais mas estão aqui para demonstrar o que está acontecendo por baixo dos panos.
 
-| Atributo de service Angular | Detalhes                                                                                  |
-| :------------------------ | :--------------------------------------------------------------------------------------- |
-| `@Inject(Token)=>Value`   | Se `Token` for injetado nesta localização na árvore lógica, seu valor seria `Value`. |
-| `@Provide(Token=Value)`   | Indica que `Token` é fornecido com `Value` nesta localização na árvore lógica.    |
-| `@ApplicationConfig`      | Demonstra que um `EnvironmentInjector` de fallback deve ser usado nesta localização.      |
+| Atributo de service Angular | Detalhes                                                                             |
+| :-------------------------- | :----------------------------------------------------------------------------------- |
+| `@Inject(Token)=>Value`     | Se `Token` for injetado nesta localização na árvore lógica, seu valor seria `Value`. |
+| `@Provide(Token=Value)`     | Indica que `Token` é fornecido com `Value` nesta localização na árvore lógica.       |
+| `@ApplicationConfig`        | Demonstra que um `EnvironmentInjector` de fallback deve ser usado nesta localização. |
 
 ### Estrutura de aplicação de exemplo
 
@@ -745,7 +746,7 @@ O `AnimalService` na árvore lógica seria assim:
 O conteúdo projetado de `<app-inspector>` vê a baleia <code>🐳</code>, não o cachorro <code>🐶</code>, porque o cachorro <code>🐶</code> está dentro do `<#VIEW>` do `<app-child>`.
 O `<app-inspector>` só pode ver o cachorro <code>🐶</code> se também estiver dentro do `<#VIEW>`.
 
-### Visibilidade de tokens fornecidos
+### Visibilidade de tokens fornecidos {#visibility-of-provided-tokens}
 
 Decorators de visibilidade influenciam onde a busca pelo token de injeção começa e termina na árvore lógica.
 Para fazer isso, coloque a configuração de visibilidade no ponto de injeção, ou seja, ao invocar `inject()`, ao invés de em um ponto de declaração.

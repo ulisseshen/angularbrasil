@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Segurança
 
 Este tópico descreve as proteções integradas do Angular contra vulnerabilidades e ataques comuns em aplicações web, como ataques de cross-site scripting.
@@ -59,17 +60,17 @@ Por exemplo, um valor que é inofensivo em CSS é potencialmente perigoso em uma
 
 O Angular define os seguintes contextos de segurança:
 
-| Contextos de segurança | Detalhes                                                                                  |
-| :--------------------- | :---------------------------------------------------------------------------------------- |
-| HTML                   | Usado ao interpretar um valor como HTML, por exemplo, ao fazer binding em `innerHtml`.    |
-| Style                  | Usado ao fazer binding de CSS na propriedade `style`.                                     |
-| URL                    | Usado para propriedades de URL, como `<a href>`.                                          |
-| Resource URL           | Uma URL que é carregada e executada como código, por exemplo, em `<script src>`.          |
+| Contextos de segurança | Detalhes                                                                               |
+| :--------------------- | :------------------------------------------------------------------------------------- |
+| HTML                   | Usado ao interpretar um valor como HTML, por exemplo, ao fazer binding em `innerHtml`. |
+| Style                  | Usado ao fazer binding de CSS na propriedade `style`.                                  |
+| URL                    | Usado para propriedades de URL, como `<a href>`.                                       |
+| Resource URL           | Uma URL que é carregada e executada como código, por exemplo, em `<script src>`.       |
 
 O Angular sanitiza valores não confiáveis para HTML e URLs. Sanitizar resource URLs não é possível porque elas contêm código arbitrário.
 Em modo de desenvolvimento, o Angular exibe um aviso no console quando precisa alterar um valor durante a sanitização.
 
-### Exemplo de sanitização
+### Exemplo de sanitização {#trusting-safe-values}
 
 O template a seguir faz binding do valor de `htmlSnippet`. Uma vez interpolando-o no conteúdo de um elemento, e outra fazendo binding na propriedade `innerHTML` de um elemento:
 
@@ -135,7 +136,7 @@ Para prevenir isso, chame um método no component para construir uma URL de víd
 
 <docs-code header="src/app/bypass-security.component.ts (trust-video-url)" path="adev/src/content/examples/security/src/app/bypass-security.component.ts" visibleRegion="trust-video-url"/>
 
-### Content security policy
+### Content security policy {#content-security-policy}
 
 Content Security Policy \(CSP\) é uma técnica de defesa em profundidade para prevenir XSS.
 Para habilitar CSP, configure seu servidor web para retornar um header HTTP `Content-Security-Policy` apropriado.
@@ -178,16 +179,16 @@ NOTE: Se você quiser [fazer inline do CSS crítico](/tools/cli/build#critical-c
 
 Se você não puder gerar nonces no seu projeto, você pode permitir estilos inline adicionando `'unsafe-inline'` à seção `style-src` do header CSP.
 
-| Seções                                           | Detalhes                                                                                                                                                                                                                         |
-| :----------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `default-src 'self';`                            | Permite que a página carregue todos os seus recursos necessários da mesma origem.                                                                                                                                                |
-| `style-src 'self' 'nonce-randomNonceGoesHere';`  | Permite que a página carregue estilos globais da mesma origem \(`'self'`\) e estilos inseridos pelo Angular com o `nonce-randomNonceGoesHere`.                                                                                   |
-| `script-src 'self' 'nonce-randomNonceGoesHere';` | Permite que a página carregue JavaScript da mesma origem \(`'self'`\) e scripts inseridos pelo Angular CLI com o `nonce-randomNonceGoesHere`. Isso só é necessário se você estiver usando inlining de CSS crítico.              |
+| Seções                                           | Detalhes                                                                                                                                                                                                           |
+| :----------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default-src 'self';`                            | Permite que a página carregue todos os seus recursos necessários da mesma origem.                                                                                                                                  |
+| `style-src 'self' 'nonce-randomNonceGoesHere';`  | Permite que a página carregue estilos globais da mesma origem \(`'self'`\) e estilos inseridos pelo Angular com o `nonce-randomNonceGoesHere`.                                                                     |
+| `script-src 'self' 'nonce-randomNonceGoesHere';` | Permite que a página carregue JavaScript da mesma origem \(`'self'`\) e scripts inseridos pelo Angular CLI com o `nonce-randomNonceGoesHere`. Isso só é necessário se você estiver usando inlining de CSS crítico. |
 
 O Angular em si requer apenas essas configurações para funcionar corretamente.
 À medida que seu projeto cresce, você pode precisar expandir suas configurações de CSP para acomodar funcionalidades extras específicas da sua aplicação.
 
-### Impondo Trusted Types
+### Impondo Trusted Types {#enforcing-trusted-types}
 
 É recomendado que você use [Trusted Types](https://w3c.github.io/trusted-types/dist/spec/) como uma forma de ajudar a proteger suas aplicações de ataques de cross-site scripting.
 Trusted Types é uma funcionalidade da [plataforma web](https://en.wikipedia.org/wiki/Web_platform) que pode ajudá-lo a prevenir ataques de cross-site scripting impondo práticas de codificação mais seguras.
@@ -203,13 +204,13 @@ Consulte [caniuse.com/trusted-types](https://caniuse.com/trusted-types) para o s
 
 Para impor Trusted Types para sua aplicação, você deve configurar o servidor web da sua aplicação para emitir headers HTTP com uma das seguintes políticas Angular:
 
-| Políticas                | Detalhes                                                                                                                                                                                                                                                                                                                            |
-| :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `angular`                | Esta política é usada em código revisado de segurança que é interno ao Angular, e é necessária para que o Angular funcione quando Trusted Types são impostos. Qualquer valor de template inline ou conteúdo sanitizado pelo Angular é tratado como seguro por esta política.                                                      |
-| `angular#bundler`        | Esta política é usada pelo bundler do Angular CLI ao criar arquivos de chunk lazy.                                                                                                                                                                                                                                                 |
-| `angular#unsafe-bypass`  | Esta política é usada para aplicações que usam qualquer um dos métodos no [DomSanitizer](api/platform-browser/DomSanitizer) do Angular que contornam segurança, como `bypassSecurityTrustHtml`. Qualquer aplicação que use esses métodos deve habilitar esta política.                                                           |
-| `angular#unsafe-jit`     | Esta política é usada pelo [compilador Just-In-Time (JIT)](api/core/Compiler). Você deve habilitar esta política se sua aplicação interagir diretamente com o compilador JIT ou estiver sendo executada em modo JIT usando o [platform browser dynamic](api/platform-browser-dynamic/platformBrowserDynamic).                     |
-| `angular#unsafe-upgrade` | Esta política é usada pelo pacote [@angular/upgrade](api/upgrade/static/UpgradeModule). Você deve habilitar esta política se sua aplicação é um híbrido AngularJS.                                                                                                                                                                 |
+| Políticas                | Detalhes                                                                                                                                                                                                                                                                                                      |
+| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `angular`                | Esta política é usada em código revisado de segurança que é interno ao Angular, e é necessária para que o Angular funcione quando Trusted Types são impostos. Qualquer valor de template inline ou conteúdo sanitizado pelo Angular é tratado como seguro por esta política.                                  |
+| `angular#bundler`        | Esta política é usada pelo bundler do Angular CLI ao criar arquivos de chunk lazy.                                                                                                                                                                                                                            |
+| `angular#unsafe-bypass`  | Esta política é usada para aplicações que usam qualquer um dos métodos no [DomSanitizer](api/platform-browser/DomSanitizer) do Angular que contornam segurança, como `bypassSecurityTrustHtml`. Qualquer aplicação que use esses métodos deve habilitar esta política.                                        |
+| `angular#unsafe-jit`     | Esta política é usada pelo [compilador Just-In-Time (JIT)](api/core/Compiler). Você deve habilitar esta política se sua aplicação interagir diretamente com o compilador JIT ou estiver sendo executada em modo JIT usando o [platform browser dynamic](api/platform-browser-dynamic/platformBrowserDynamic). |
+| `angular#unsafe-upgrade` | Esta política é usada pelo pacote [@angular/upgrade](api/upgrade/static/UpgradeModule). Você deve habilitar esta política se sua aplicação é um híbrido AngularJS.                                                                                                                                            |
 
 Você deve configurar os headers HTTP para Trusted Types nos seguintes locais:
 
@@ -249,7 +250,7 @@ Para saber mais sobre solução de problemas de configurações de Trusted Type,
 
 </docs-callout>
 
-### Use o compilador de template AOT
+### Use o compilador de template AOT {#use-the-aot-template-compiler}
 
 O compilador de template AOT previne toda uma classe de vulnerabilidades chamada template injection, e melhora muito o desempenho da aplicação.
 O compilador de template AOT é o compilador padrão usado por aplicações Angular CLI, e você deve usá-lo em todos os deployments de produção.

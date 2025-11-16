@@ -1,4 +1,5 @@
 <!-- ia-translate: true -->
+
 # Renderização server e hybrid
 
 O Angular entrega todas as aplicações como client-side rendered (CSR) por padrão. Embora essa abordagem forneça um payload inicial leve, ela introduz trade-offs incluindo tempos de carregamento mais lentos, métricas de desempenho degradadas e maiores demandas de recursos, já que o dispositivo do usuário executa a maioria dos cálculos. Como resultado, muitas aplicações alcançam melhorias significativas de desempenho ao integrar server-side rendering (SSR) em uma estratégia de hybrid rendering.
@@ -89,8 +90,8 @@ const serverConfig: ApplicationConfig = {
 
 A configuração de server routing permite que você especifique como cada rota na sua aplicação deve renderizar definindo um [`RenderMode`](api/ssr/RenderMode 'API reference'):
 
-| Modo de renderização | Descrição                                                                                                           |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Modo de renderização | Descrição                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | **Server (SSR)**     | Renderiza a aplicação no servidor para cada requisição, enviando uma página HTML totalmente populada ao navegador. |
 | **Client (CSR)**     | Renderiza a aplicação no navegador. Este é o comportamento padrão do Angular.                                      |
 | **Prerender (SSG)**  | Pré-renderiza a aplicação em build time, gerando arquivos HTML estáticos para cada rota.                           |
@@ -305,7 +306,7 @@ IMPORTANT: Os tokens acima serão `null` nos seguintes cenários:
 - Ao executar static site generation (SSG).
 - Durante a extração de rota em desenvolvimento (no momento da requisição).
 
-## Gerar uma aplicação totalmente estática
+## Gerar uma aplicação totalmente estática {#generate-a-fully-static-application}
 
 Por padrão, o Angular pré-renderiza toda a sua aplicação e gera um arquivo de servidor para manipular requisições. Isso permite que sua aplicação sirva conteúdo pré-renderizado aos usuários. No entanto, se você preferir um site totalmente estático sem um servidor, pode optar por não ter esse comportamento definindo o `outputMode` como `static` no seu arquivo de configuração `angular.json`.
 
