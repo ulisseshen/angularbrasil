@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "angularbrasil"
+  },
+  "targets": {
+    "angularbrasil": {
+      "hosting": {
+        "angular-docs": [
+          "angularbrasil"
+        ]
+      }
+    }
+  }
+}
