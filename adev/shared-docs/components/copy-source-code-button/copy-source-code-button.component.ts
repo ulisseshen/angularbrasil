@@ -1,3 +1,4 @@
+<!-- ia-translate: true -->
 /*!
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -27,8 +28,8 @@ export const CONFIRMATION_DISPLAY_TIME_MS = 2000;
   templateUrl: './copy-source-code-button.component.html',
   host: {
     'type': 'button',
-    'aria-label': 'Copy example source to clipboard',
-    'title': 'Copy example source',
+    'aria-label': 'Copiar código-fonte do exemplo para a área de transferência',
+    'title': 'Copiar código-fonte do exemplo',
     '(click)': 'copySourceCode()',
     '[class.docs-copy-source-code-button-success]': 'showCopySuccess()',
     '[class.docs-copy-source-code-button-failed]': 'showCopyFailure()',
