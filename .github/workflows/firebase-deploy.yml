@@ -106,8 +106,29 @@ jobs:
           target: angular-docs
           entryPoint: ./adev
 
-      - name: Deploy Preview to Firebase
+      - name: Manual Firebase deployment test
         if: github.event_name == 'pull_request'
+        run: |
+          cd adev
+          echo "Current directory: $(pwd)"
+          echo "Listing build/browser:"
+          ls -la build/browser | head -15
+
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > /tmp/firebase-sa.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-sa.json
+
+          echo "Testing Firebase deployment..."
+          npx firebase-tools@latest hosting:channel:deploy test-manual \
+            --only angular-docs \
+            --expires 1d \
+            --project transliteradu \
+            --debug \
+            2>&1 | head -100
+
+          rm -f /tmp/firebase-sa.json
+
+      - name: Deploy Preview to Firebase
+        if: false
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
