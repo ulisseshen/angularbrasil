@@ -35,6 +35,28 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Validate Firebase service account and permissions
+        run: |
+          # Write service account to file
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > $HOME/gcloud-service-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud-service-key.json
+
+          # Use firebase-tools to validate authentication and list hosting sites
+          echo "Validating Firebase service account and permissions..."
+          npx --yes firebase-tools hosting:sites:list --project transliteradu || {
+            echo "::error::Failed to authenticate or access Firebase hosting sites"
+            echo "::error::Please verify:"
+            echo "::error::  1. FIREBASE_SERVICE_ACCOUNT contains valid JSON"
+            echo "::error::  2. Service account has Firebase Hosting Admin role"
+            echo "::error::  3. Project ID 'transliteradu' exists and is accessible"
+            rm -f $HOME/gcloud-service-key.json
+            exit 1
+          }
+
+          rm -f $HOME/gcloud-service-key.json
+          echo "✅ Firebase service account authenticated successfully"
+          echo "✅ Service account has required permissions for hosting deployment"
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
