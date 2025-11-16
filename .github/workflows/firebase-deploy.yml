@@ -42,13 +42,13 @@ jobs:
           npx firebase-tools@latest projects:list --json 2>&1 | tee firebase-check.log
 
           if grep -q '"status": "error"' firebase-check.log; then
-            echo "::error::Cannot access Firebase project 'angularbrasil'"
+            echo "::error::Cannot access Firebase project 'transliteradu'"
             echo "::error::Please verify:"
             echo "::error::  1. The service account JSON is valid"
             echo "::error::  2. The service account has these permissions:"
             echo "::error::     - firebase.projects.get"
             echo "::error::     - firebasehosting.sites.update"
-            echo "::error::  3. The Firebase project 'angularbrasil' exists"
+            echo "::error::  3. The Firebase project 'transliteradu' exists"
             rm -f $HOME/firebase-sa.json firebase-check.log
             exit 1
           fi
@@ -80,7 +80,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: angularbrasil
+          projectId: transliteradu
           channelId: live
           target: angular-docs
           entryPoint: ./adev
@@ -93,7 +93,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: angularbrasil
+          projectId: transliteradu
           target: angular-docs
           entryPoint: ./adev
         env:

@@ -1,9 +1,9 @@
 {
   "projects": {
-    "default": "angularbrasil"
+    "default": "transliteradu"
   },
   "targets": {
-    "angularbrasil": {
+    "transliteradu": {
       "hosting": {
         "angular-docs": [
           "angularbrasil"
