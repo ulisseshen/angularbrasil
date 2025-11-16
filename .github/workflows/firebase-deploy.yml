@@ -20,10 +20,41 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Validate Firebase credentials
+        run: |
+          if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" ]; then
+            echo "::error::FIREBASE_SERVICE_ACCOUNT secret is not set"
+            echo "::error::Please add the Firebase service account JSON to repository secrets"
+            echo "::error::Go to: Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          echo "✅ Firebase service account secret is configured"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Verify Firebase project access
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > $HOME/firebase-sa.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-sa.json
+          npx firebase-tools@latest projects:list --json 2>&1 | tee firebase-check.log
+
+          if grep -q '"status": "error"' firebase-check.log; then
+            echo "::error::Cannot access Firebase project 'angularbrasil'"
+            echo "::error::Please verify:"
+            echo "::error::  1. The service account JSON is valid"
+            echo "::error::  2. The service account has these permissions:"
+            echo "::error::     - firebase.projects.get"
+            echo "::error::     - firebasehosting.sites.update"
+            echo "::error::  3. The Firebase project 'angularbrasil' exists"
+            rm -f $HOME/firebase-sa.json firebase-check.log
+            exit 1
+          fi
+
+          rm -f $HOME/firebase-sa.json firebase-check.log
+          echo "✅ Firebase project access verified"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
