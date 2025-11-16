@@ -68,11 +68,32 @@ jobs:
           echo "Found browser output at: $BROWSER_PATH"
 
           # Copy to where Firebase expects it
-          mkdir -p adev/build
-          cp -r "$BROWSER_PATH" adev/build/browser
+          mkdir -p adev/build/browser
+          cp -r "$BROWSER_PATH"/* adev/build/browser/
 
           echo "Build output copied successfully"
-          ls -la adev/build/browser | head -10
+          echo "Files in adev/build/browser:"
+          ls -la adev/build/browser | head -20
+
+          # Verify index.html exists
+          if [ -f "adev/build/browser/index.html" ]; then
+            echo "✅ index.html found"
+          else
+            echo "❌ ERROR: index.html not found!"
+            exit 1
+          fi
+
+      - name: Verify Firebase can see the files
+        run: |
+          echo "Checking from Firebase's working directory (adev/):"
+          cd adev
+          ls -la ./build/browser | head -20
+          if [ -f "./build/browser/index.html" ]; then
+            echo "✅ Firebase will find index.html"
+          else
+            echo "❌ ERROR: Firebase won't find index.html at ./build/browser/"
+            exit 1
+          fi
 
       - name: Deploy to Firebase
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
