@@ -105,8 +105,6 @@ jobs:
           channelId: live
           target: angular-docs
           entryPoint: ./adev
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
 
       - name: Deploy Preview to Firebase
         if: github.event_name == 'pull_request'
@@ -117,5 +115,3 @@ jobs:
           projectId: transliteradu
           target: angular-docs
           entryPoint: ./adev
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
