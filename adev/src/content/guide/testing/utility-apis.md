@@ -1,11 +1,11 @@
 <!-- ia-translate: true -->
 
-# APIs Utilitárias de Teste {#testbed-class-summary}
+# APIs Utilitárias de Teste
 
 Esta página descreve os recursos de teste do Angular mais úteis.
 
 As utilitários de teste do Angular incluem o `TestBed`, o `ComponentFixture` e um punhado de funções que controlam o ambiente de teste.
-As classes [`TestBed`](#resumo-da-classe-testbed) e [`ComponentFixture`](#the-componentfixture) são cobertas separadamente.
+As classes [`TestBed`](#testbed-class-summary) e [`ComponentFixture`](#the-componentfixture) são cobertas separadamente.
 
 Aqui está um resumo das funções autônomas, em ordem de utilidade provável:
 
@@ -20,7 +20,7 @@ Aqui está um resumo das funções autônomas, em ordem de utilidade provável:
 | `ComponentFixtureAutoDetect` | Um token de provider para um service que ativa a [detecção automática de mudanças](guide/testing/components-scenarios#automatic-change-detection).                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `getTestBed`                 | Obtém a instância atual do `TestBed`. Geralmente desnecessário porque os métodos de classe estáticos da classe `TestBed` são tipicamente suficientes. A instância `TestBed` expõe alguns membros raramente usados que não estão disponíveis como métodos estáticos.                                                                                                                                                                                                                                                                                                                                       |
 
-## Resumo da classe `TestBed`
+## Resumo da classe `TestBed` {#testbed-class-summary}
 
 A classe `TestBed` é uma das principais utilitários de teste do Angular.
 Sua API é bastante grande e pode ser avassaladora até que você a explore, um pouco de cada vez.
