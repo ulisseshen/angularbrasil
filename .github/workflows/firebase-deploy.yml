@@ -55,13 +55,24 @@ jobs:
 
       - name: Prepare build for Firebase deployment
         run: |
-          echo "Searching for build output by finding index.html..."
+          echo "Searching for build output..."
 
-          # Find all index.html files created recently (exclude node_modules and templates)
-          find . -name "index.html" -type f -newer package.json 2>/dev/null | grep -v node_modules | grep -v "src/" | grep -v "templates" || true
+          # Check root dist directory structure
+          echo "Checking ./dist directory:"
+          ls -la dist/ || echo "No dist directory"
+
+          # Check for nested directories in dist
+          if [ -d "dist" ]; then
+            echo "Contents of dist:"
+            find dist -maxdepth 3 -type d
+          fi
 
           # Try to find the dist directory that was just created
-          if [ -d "adev/dist/browser" ]; then
+          if [ -d "dist/bin/adev/build.production/browser" ]; then
+            BROWSER_PATH="dist/bin/adev/build.production/browser"
+          elif [ -d "dist/adev/build.production/browser" ]; then
+            BROWSER_PATH="dist/adev/build.production/browser"
+          elif [ -d "adev/dist/browser" ]; then
             BROWSER_PATH="adev/dist/browser"
           elif [ -d "adev/dist" ]; then
             BROWSER_PATH="adev/dist"
@@ -69,15 +80,14 @@ jobs:
             BROWSER_PATH="dist/adev/browser"
           else
             echo "ERROR: Cannot find build output directory"
-            echo "Listing adev contents:"
-            ls -la adev/
-            echo ""
-            echo "Searching for all dist directories:"
-            find . -type d -name "dist" | grep -v node_modules
+            echo "Searching for index.html in dist:"
+            find dist -name "index.html" -type f 2>/dev/null || echo "No index.html found in dist"
             exit 1
           fi
 
           echo "Found browser output at: $BROWSER_PATH"
+          echo "Contents:"
+          ls -la "$BROWSER_PATH" | head -20
 
           # Copy to where Firebase expects it
           mkdir -p adev/build
