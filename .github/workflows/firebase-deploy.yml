@@ -55,29 +55,33 @@ jobs:
 
       - name: Prepare build for Firebase deployment
         run: |
-          echo "Finding build output..."
-          find . -type d -name "browser" | grep -E "adev|build" | head -10
+          echo "Searching for build output by finding index.html..."
 
-          # Find the actual browser output directory
-          BROWSER_PATH=$(find dist-out -name "browser" -type d 2>/dev/null | head -1)
-          if [ -z "$BROWSER_PATH" ]; then
-            BROWSER_PATH=$(find adev/dist -name "browser" -type d 2>/dev/null | head -1)
-          fi
-          if [ -z "$BROWSER_PATH" ]; then
-            # Check the symlink bazel creates
-            BROWSER_PATH="dist/bin/adev/build.production/browser"
+          # Find all index.html files created recently (exclude node_modules and templates)
+          find . -name "index.html" -type f -newer package.json 2>/dev/null | grep -v node_modules | grep -v "src/" | grep -v "templates" || true
+
+          # Try to find the dist directory that was just created
+          if [ -d "adev/dist/browser" ]; then
+            BROWSER_PATH="adev/dist/browser"
+          elif [ -d "adev/dist" ]; then
+            BROWSER_PATH="adev/dist"
+          elif [ -d "dist/adev/browser" ]; then
+            BROWSER_PATH="dist/adev/browser"
+          else
+            echo "ERROR: Cannot find build output directory"
+            echo "Listing adev contents:"
+            ls -la adev/
+            echo ""
+            echo "Searching for all dist directories:"
+            find . -type d -name "dist" | grep -v node_modules
+            exit 1
           fi
 
-          echo "Browser path found: $BROWSER_PATH"
+          echo "Found browser output at: $BROWSER_PATH"
 
           # Copy to where Firebase expects it
           mkdir -p adev/build
-          cp -r "$BROWSER_PATH" adev/build/ || {
-            echo "Failed to copy browser directory"
-            echo "Searching all possible locations..."
-            find . -name "browser" -type d
-            exit 1
-          }
+          cp -r "$BROWSER_PATH" adev/build/browser
 
       - name: Deploy to Firebase
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
