@@ -9,7 +9,7 @@ Como um sistema de design, esta página contém orientação visual e de autoria
 - Elementos customizados de documentação Angular: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills), e [`docs-steps`](#workflow)
 - Elementos de texto customizados: [alertas](#alerts)
 - Exemplos de código: [`docs-code`](#code)
-- Elementos Markdown estilizados incorporados: links, listas, [cabeçalhos](#headers-h2), [linhas horizontais](#horizontal-line-divider)
+- Elementos Markdown estilizados incorporados: links, listas, [cabeçalhos](#headers-h2), [linhas horizontais](#divisor-de-linha-horizontal)
 - e mais!
 
 Prepare-se para:
