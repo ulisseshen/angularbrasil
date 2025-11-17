@@ -1,3 +1,4 @@
+<!-- ia-translate: true -->
 <div class="docs-example-viewer" role="group">
   <header class="docs-example-viewer-actions">
     @if (view() === CodeExampleViewMode.SNIPPET) {
@@ -20,9 +21,9 @@
         role="switch"
         class="docs-example-code-toggle"
         [attr.aria-checked]="showCode()"
-        [attr.aria-label]="showCode() ? 'Hide code' : 'Show code'"
+        [attr.aria-label]="showCode() ? 'Ocultar código' : 'Mostrar código'"
         (click)="showCode.set(!showCode())"
-        [matTooltip]="showCode() ? 'Hide code' : 'Show code'"
+        [matTooltip]="showCode() ? 'Ocultar código' : 'Mostrar código'"
         matTooltipPosition="above"
       >
         <docs-icon>{{showCode() ? 'code_off' : 'code'}}</docs-icon>
@@ -30,9 +31,9 @@
       <button
         type="button"
         class="docs-example-copy-link"
-        [attr.aria-label]="'Copy link to ' + exampleMetadata()?.title + ' example to the clipboard'"
+        [attr.aria-label]="'Copiar link do exemplo ' + exampleMetadata()?.title + ' para a área de transferência'"
         (click)="copyLink()"
-        matTooltip="Copy link to example"
+        matTooltip="Copiar link do exemplo"
         matTooltipPosition="above"
       >
         <i aria-hidden="true">
@@ -57,8 +58,8 @@
         <button
           type="button"
           (click)="toggleExampleVisibility()"
-          [attr.aria-label]="(expanded() ? 'Collapse' : 'Expand') + ' code example'"
-          matTooltip="{{ expanded() ? 'Collapse' : 'Expand' }} example"
+          [attr.aria-label]="(expanded() ? 'Recolher' : 'Expandir') + ' exemplo de código'"
+          matTooltip="{{ expanded() ? 'Recolher' : 'Expandir' }} exemplo"
           matTooltipPosition="above"
         >
           <i aria-hidden="true">
@@ -121,8 +122,8 @@
           [href]="githubUrl()"
           target="_blank"
           class="docs-example-github-link"
-          aria-label="Open example on GitHub"
-          matTooltip="Open example on GitHub"
+          aria-label="Abrir exemplo no GitHub"
+          matTooltip="Abrir exemplo no GitHub"
           matTooltipPosition="above"
         >
           <i aria-hidden="true">
@@ -149,8 +150,8 @@
           [href]="stackblitzUrl()"
           target="_blank"
           class="docs-example-stackblitz-link"
-          aria-label="Edit example in StackBlitz"
-          matTooltip="Edit example in StackBlitz"
+          aria-label="Editar exemplo no StackBlitz"
+          matTooltip="Editar exemplo no StackBlitz"
           matTooltipPosition="above"
         >
           <i aria-hidden="true">
