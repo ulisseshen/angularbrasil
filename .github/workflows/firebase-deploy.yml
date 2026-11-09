@@ -28,6 +28,17 @@ jobs:
           sudo docker image prune --all --force || true
           df -h /
 
+      # Bazel persistent workers (Angular/TS compilers) stay resident at ~1.5 GB each and
+      # are not counted by --local_resources; add swap so the 16 GB runner is not OOM-killed.
+      - name: Add swap
+        run: |
+          sudo swapoff -a || true
+          sudo fallocate -l 16G /swapfile-bazel
+          sudo chmod 600 /swapfile-bazel
+          sudo mkswap /swapfile-bazel
+          sudo swapon /swapfile-bazel
+          free -m
+
       - name: Validate Firebase credentials
         run: |
           if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" ]; then
@@ -65,7 +76,7 @@ jobs:
             ps -eo rss,nlwp,comm --sort=-rss | head -6; ps -e --no-headers | wc -l
             echo "::endgroup::"; sleep 3
           done) &
-          pnpm bazel build //adev:build.production --local_resources=memory=HOST_RAM*.6
+          pnpm bazel build //adev:build.production --local_resources=memory=HOST_RAM*.5 --worker_max_instances=2
         env:
           NO_PROXY: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
 
