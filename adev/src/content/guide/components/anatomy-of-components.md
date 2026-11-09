@@ -1,15 +1,16 @@
-<docs-decorative-header title="Anatomy of a component" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
+<!-- ia-translate: true -->
+<docs-decorative-header title="Anatomia de um component" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
-Every component must have:
+Todo component deve ter:
 
-- A TypeScript class with _behaviors_ such as handling user input and fetching data from a server
-- An HTML template that controls what renders into the DOM
-- A [CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) that defines how the component is used in HTML
+- Uma classe TypeScript com _comportamentos_, como tratar a entrada do usuário e buscar dados de um servidor
+- Um template HTML que controla o que é renderizado no DOM
+- Um [seletor CSS](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) que define como o component é usado no HTML
 
-You provide Angular-specific information for a component by adding a `@Component` [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) on top of the TypeScript class:
+Você fornece informações específicas do Angular para um component adicionando um [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) `@Component` no topo da classe TypeScript:
 
 ```angular-ts {highlight: [1, 2, 3, 4]}
 @Component({
@@ -19,11 +20,11 @@ You provide Angular-specific information for a component by adding a `@Component
 export class ProfilePhoto {}
 ```
 
-For full details on writing Angular templates, including data binding, event handling, and control flow, see the [Templates guide](guide/templates).
+Para detalhes completos sobre como escrever templates Angular, incluindo data binding, manipulação de eventos e controle de fluxo, consulte o [guia de Templates](guide/templates).
 
-The object passed to the `@Component` decorator is called the component's **metadata**. This includes the `selector`, `template`, and other properties described throughout this guide.
+O objeto passado para o decorator `@Component` é chamado de **metadata** do component. Isso inclui o `selector`, o `template` e outras propriedades descritas ao longo deste guia.
 
-Components can optionally include a list of CSS styles that apply to that component's DOM:
+Components também podem incluir opcionalmente uma lista de estilos CSS que se aplicam ao DOM desse component:
 
 ```angular-ts {highlight: [4]}
 @Component({
@@ -38,9 +39,9 @@ Components can optionally include a list of CSS styles that apply to that compon
 export class ProfilePhoto {}
 ```
 
-By default, a component's styles only affect elements defined in that component's template. See [Styling Components](guide/components/styling) for details on Angular's approach to styling.
+Por padrão, os estilos de um component afetam apenas os elementos definidos no template desse component. Consulte [Estilizando components](guide/components/styling) para detalhes sobre a abordagem do Angular para estilização.
 
-You can alternatively choose to write your template and styles in separate files:
+Você também pode optar por escrever o template e os estilos em arquivos separados:
 
 ```ts {highlight: [3,4]}
 @Component({
@@ -51,37 +52,36 @@ You can alternatively choose to write your template and styles in separate files
 export class ProfilePhoto {}
 ```
 
-This can help separate the concerns of _presentation_ from _behavior_ in your project. You can choose one approach for your entire project, or you can decide which to use for each component.
+Isso pode ajudar a separar as preocupações de _apresentação_ e de _comportamento_ no seu projeto. Você pode escolher uma abordagem para o projeto inteiro ou decidir qual usar para cada component.
 
-Both `templateUrl` and `styleUrl` are relative to the directory in which the component resides.
+Tanto `templateUrl` quanto `styleUrl` são relativos ao diretório em que o component está.
 
-## Using components
+## Usando components {#using-components}
 
-### Imports in the `@Component` decorator
+### Imports no decorator `@Component` {#imports-in-the-component-decorator}
 
-To use a component, [directive](guide/directives), or [pipe](guide/templates/pipes), you must add
-it to the `imports` array in the `@Component` decorator:
+Para usar um component, uma [directive](guide/directives) ou um [pipe](guide/templates/pipes), você deve adicioná-lo ao array `imports` do decorator `@Component`:
 
 ```ts
 import {Component} from '@angular/core';
 import {ProfilePhoto} from './profile-photo';
 
 @Component({
-  // Import the `ProfilePhoto` component in
-  // order to use it in this component's template.
+  // Importe o component `ProfilePhoto` para
+  // poder usá-lo no template deste component.
   imports: [ProfilePhoto],
   /* ... */
 })
 export class UserProfile {}
 ```
 
-By default, Angular components are _standalone_, meaning that you can directly add them to the `imports` array of other components. Components created with an earlier version of Angular may instead specify `standalone: false` in their `@Component` decorator. For these components, you instead import the `NgModule` in which the component is defined. See the full [`NgModule` guide](guide/ngmodules/overview) for details.
+Por padrão, components Angular são _standalone_, o que significa que você pode adicioná-los diretamente ao array `imports` de outros components. Components criados com uma versão anterior do Angular podem, em vez disso, especificar `standalone: false` no decorator `@Component`. Para esses components, você deve importar o `NgModule` em que o component está definido. Consulte o [guia completo de `NgModule`](guide/ngmodules/overview) para mais detalhes.
 
-IMPORTANT: In Angular versions before 19.0.0, the `standalone` option defaults to `false`.
+IMPORTANT: Nas versões do Angular anteriores à 19.0.0, a opção `standalone` tem como padrão `false`.
 
-### Showing components in a template
+### Mostrando components em um template {#showing-components-in-a-template}
 
-Every component defines a [CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors):
+Todo component define um [seletor CSS](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors):
 
 ```angular-ts {highlight: [2]}
 @Component({
@@ -91,9 +91,9 @@ Every component defines a [CSS selector](https://developer.mozilla.org/docs/Lear
 export class ProfilePhoto { }
 ```
 
-See [Component Selectors](guide/components/selectors) for details about which types of selectors Angular supports and guidance on choosing a selector.
+Consulte [Seletores de components](guide/components/selectors) para detalhes sobre quais tipos de seletores o Angular suporta e orientações sobre como escolher um seletor.
 
-You show a component by creating a matching HTML element in the template of _other_ components:
+Você exibe um component criando um elemento HTML correspondente no template de _outros_ components:
 
 ```angular-ts {highlight: [8]}
 @Component({
@@ -108,12 +108,11 @@ export class ProfilePhoto {}
 export class UserProfile {}
 ```
 
-Angular creates an instance of the component for every matching HTML element it encounters. The DOM element that matches a component's selector is referred to as that component's **host element**. The contents of a component's template are rendered inside its host element.
+O Angular cria uma instância do component para cada elemento HTML correspondente que encontra. O elemento DOM que corresponde ao seletor de um component é chamado de **elemento host** desse component. O conteúdo do template de um component é renderizado dentro do seu elemento host.
 
-The DOM rendered by a component, corresponding to that component's template, is called that
-component's **view**.
+O DOM renderizado por um component, correspondente ao template desse component, é chamado de **view** desse component.
 
-In composing components in this way, **you can think of your Angular application as a tree of components**.
+Ao compor components dessa forma, **você pode pensar na sua aplicação Angular como uma árvore de components**.
 
 ```mermaid
 flowchart TD
@@ -126,4 +125,4 @@ flowchart TD
     E[UserBio]
 ```
 
-This tree structure is important to understanding several other Angular concepts, including [dependency injection](guide/di) and [child queries](guide/components/queries).
+Essa estrutura em árvore é importante para entender vários outros conceitos do Angular, incluindo [injeção de dependência](guide/di) e [consultas filhas](guide/components/queries).
