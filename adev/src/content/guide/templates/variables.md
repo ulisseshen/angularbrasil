@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Variáveis em templates {#variables-in-templates}
+# Variáveis em templates
 
 O Angular tem dois tipos de declarações de variáveis em templates: variáveis locais de template e template reference variables.
 

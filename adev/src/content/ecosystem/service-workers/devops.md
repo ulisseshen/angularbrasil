@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Devops do service worker {#service-worker-devops}
+# Devops do service worker
 
 Esta página é uma referência para implantar e dar suporte a aplicações em produção que usam o Angular service worker.
 Ela explica como o Angular service worker se encaixa no ambiente de produção mais amplo, o comportamento do service worker sob várias condições e os recursos e mecanismos de segurança disponíveis.

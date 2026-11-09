@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Mantendo seus projetos Angular atualizados {#keeping-your-angular-projects-up-to-date}
+# Mantendo seus projetos Angular atualizados
 
 Assim como a Web e todo o ecossistema web, o Angular está em constante evolução.
 O Angular equilibra melhorias contínuas com um forte foco em estabilidade e em tornar as atualizações simples.

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Gerenciando dados assíncronos com signals usando a API Resource {#managing-async-data-with-signals-using-the-resources-api}
+# Gerenciando dados assíncronos com signals usando a API Resource
 
 Agora que você aprendeu [como derivar estado com linked signals](/tutorials/signals/3-deriving-state-with-linked-signals), vamos explorar como lidar com dados assíncronos com a API Resource. A API Resource fornece uma maneira poderosa de gerenciar operações assíncronas usando signals, com estados de carregamento integrados, tratamento de erros e gerenciamento de requisições.
 

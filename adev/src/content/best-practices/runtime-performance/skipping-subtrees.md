@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Pulando subárvores de components {#skipping-component-subtrees}
+# Pulando subárvores de components
 
 Por padrão, o JavaScript usa estruturas de dados mutáveis que você pode referenciar a partir de vários components diferentes. O Angular executa change detection em toda a sua árvore de components para garantir que o estado mais atualizado das suas estruturas de dados seja refletido no DOM.
 

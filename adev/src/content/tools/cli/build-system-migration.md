@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Sistema de build de aplicações Angular {#angular-application-build-system}
+# Sistema de build de aplicações Angular
 
 Na v17 e superior, o novo sistema de build fornece uma maneira aprimorada de construir aplicações Angular. Este novo sistema de build inclui:
 

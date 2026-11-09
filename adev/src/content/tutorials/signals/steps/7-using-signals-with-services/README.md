@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Usando signals com services {#using-signals-with-services}
+# Usando signals com services
 
 Agora que você aprendeu [a vinculação bidirecional com model signals](/tutorials/signals/6-two-way-binding-with-model-signals), vamos explorar como usar signals com services do Angular. Services são perfeitos para compartilhar estado reativo entre múltiplos componentes, e os signals tornam isso ainda mais poderoso, oferecendo detecção automática de mudanças e padrões reativos limpos.
 

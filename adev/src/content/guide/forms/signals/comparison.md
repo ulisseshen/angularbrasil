@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Comparação com outras abordagens de formulários {#comparison-with-other-form-approaches}
+# Comparação com outras abordagens de formulários
 
 O Angular oferece três abordagens para construir formulários: Signal Forms, Reactive Forms e Template-driven Forms. Cada uma tem padrões distintos para gerenciar estado, validação e fluxo de dados. Este guia ajuda você a entender as diferenças e a escolher a abordagem certa para o seu projeto.
 

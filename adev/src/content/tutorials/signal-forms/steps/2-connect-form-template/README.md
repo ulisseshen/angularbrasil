@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Conecte seu formulário ao template {#connect-your-form-to-the-template}
+# Conecte seu formulário ao template
 
 Agora, você precisa conectar seu formulário ao template usando a diretiva `[formField]`. Isso cria um data binding bidirecional entre o modelo do seu formulário e os elementos de input.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Crie o component HousingLocation da aplicação {#create-the-applications-housinglocation-component}
+# Crie o component HousingLocation da aplicação
 
 Esta lição do tutorial demonstra como adicionar o component `HousingLocation` à sua aplicação Angular.
 

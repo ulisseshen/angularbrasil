@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando um service injetável {#creating-an-injectable-service}
+# Criando um service injetável
 
 A injeção de dependência (DI) no Angular é um dos recursos mais poderosos do framework. Considere a injeção de dependência como a capacidade do Angular de _fornecer_ os recursos de que sua aplicação precisa em tempo de execução. Uma dependência pode ser um service ou algum outro recurso.
 

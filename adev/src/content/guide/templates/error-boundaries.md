@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Error boundaries com `@boundary` {#error-boundaries-with-boundary}
+# Error boundaries com `@boundary`
 
 IMPORTANT: `@boundary` está em [developer preview](reference/releases#developer-preview).
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Referenciando filhos de components com queries {#referencing-component-children-with-queries}
+# Referenciando filhos de components com queries
 
 TIP: Este guia assume que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Computações lentas {#slow-computations}
+# Computações lentas
 
 A cada ciclo de change detection, o Angular, de forma síncrona:
 

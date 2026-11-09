@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Definindo providers de dependência {#defining-dependency-providers}
+# Definindo providers de dependência
 
 O Angular oferece duas formas de tornar services disponíveis para injeção:
 

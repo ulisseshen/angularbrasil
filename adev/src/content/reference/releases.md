@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Versionamento e lançamentos do Angular {#angular-versioning-and-releases}
+# Versionamento e lançamentos do Angular
 
 Reconhecemos que você precisa de estabilidade do framework Angular.
 A estabilidade garante que components e bibliotecas reutilizáveis, tutoriais, ferramentas e práticas aprendidas não se tornem obsoletos inesperadamente.

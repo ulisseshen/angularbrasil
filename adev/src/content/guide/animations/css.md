@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Animando sua aplicação com CSS {#animating-your-application-with-css}
+# Animando sua aplicação com CSS
 
 CSS oferece um conjunto robusto de ferramentas para você criar animações bonitas e envolventes dentro de sua aplicação.
 

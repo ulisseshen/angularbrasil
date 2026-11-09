@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione o envio do formulário {#add-form-submission}
+# Adicione o envio do formulário
 
 Por fim, vamos aprender como lidar com o envio do formulário. Você vai aprender a usar a função `submit()` para executar operações assíncronas quando o formulário for válido, e a desabilitar o botão de envio quando o formulário tiver erros.
 

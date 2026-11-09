@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Reactive forms {#reactive-forms}
+# Reactive forms
 
 Quando você quer gerenciar seus forms programaticamente, em vez de depender apenas do template, os reactive forms são a resposta.
 

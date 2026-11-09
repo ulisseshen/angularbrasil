@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Usando APIs DOM {#using-dom-apis}
+# Usando APIs DOM
 
 TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

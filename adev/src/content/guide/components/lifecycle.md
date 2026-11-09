@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Ciclo de vida de component {#component-lifecycle}
+# Ciclo de vida de component
 
 TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

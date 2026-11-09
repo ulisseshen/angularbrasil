@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Mesclar traduções na aplicação {#merge-translations-into-the-application}
+# Mesclar traduções na aplicação
 
 Para mesclar as traduções concluídas no seu projeto, siga estas ações
 

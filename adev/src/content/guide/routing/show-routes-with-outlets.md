@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Mostrar routes com outlets {#show-routes-with-outlets}
+# Mostrar routes com outlets
 
 A diretiva `RouterOutlet` é um placeholder que marca o local onde o router deve renderizar o component para a URL atual.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Utilitários de teste do Zone.js {#zonejs-testing-utilities}
+# Utilitários de teste do Zone.js
 
 Este guia descreve os utilitários de teste usados principalmente para gerenciar e controlar tarefas assíncronas em testes unitários. Esses utilitários são, essencialmente, os utilitários de relógio simulado específicos do Zone.js, especialmente relevantes para controlar o fluxo de operações assíncronas dentro dos testes.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Testes End-to-End {#end-to-end-testing}
+# Testes End-to-End
 
 Testes end-to-end ou (E2E) são uma forma de teste usada para validar que sua aplicação inteira funciona como esperado do início ao fim ou _"end-to-end"_ (de ponta a ponta). Testes E2E diferem de testes unitários por serem completamente desacoplados dos detalhes de implementação subjacentes do seu código. Eles são tipicamente usados para validar uma aplicação de uma maneira que imita como um usuário interagiria com ela. Esta página serve como um guia para começar com testes end-to-end no Angular usando o Angular CLI.
 

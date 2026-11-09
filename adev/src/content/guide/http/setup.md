@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Configurando o `HttpClient` {#setting-up-httpclient}
+# Configurando o `HttpClient`
 
 O `HttpClient` está disponível para injeção por padrão no Angular v21 e versões posteriores.
 

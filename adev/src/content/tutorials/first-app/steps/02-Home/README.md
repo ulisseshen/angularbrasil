@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criar component Home {#create-home-component}
+# Criar component Home
 
 Esta lição do tutorial demonstra como criar um novo [component](guide/components) para sua aplicação Angular.
 

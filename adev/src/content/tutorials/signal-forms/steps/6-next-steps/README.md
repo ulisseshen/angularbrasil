@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Parabéns! {#congratulations}
+# Parabéns!
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">

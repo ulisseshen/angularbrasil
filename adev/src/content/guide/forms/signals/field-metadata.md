@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Metadados de campo {#field-metadata}
+# Metadados de campo
 
 Metadados de campo são dados reativos que você pode anexar a um campo individual. Os validadores de restrição integrados do Angular, como `required()` e `min()`, usam esse sistema internamente. Em outras palavras, toda vez que você chama um validador, você está contribuindo para uma chave de metadados daquele campo específico.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Verificação de tipo em template {#template-type-checking}
+# Verificação de tipo em template
 
 ## Visão geral da verificação de tipo em template {#overview-of-template-type-checking}
 

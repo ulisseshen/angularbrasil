@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Injetores hierárquicos {#hierarchical-injectors}
+# Injetores hierárquicos
 
 Este guia oferece uma cobertura aprofundada do sistema hierárquico de injeção de dependência do Angular, incluindo regras de resolução, modificadores e padrões avançados.
 

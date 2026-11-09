@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Segurança {#security}
+# Segurança
 
 Este tópico descreve as proteções integradas do Angular contra vulnerabilidades e ataques comuns em aplicações web, como ataques de cross-site scripting.
 Ele não cobre segurança no nível da aplicação, como autenticação e autorização.

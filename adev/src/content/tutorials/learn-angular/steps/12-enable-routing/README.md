@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Visão geral de routing {#routing-overview}
+# Visão geral de routing
 
 Para a maioria das aplicações, chega um momento em que o app precisa de mais de uma única página. Quando esse momento inevitavelmente chega, o routing se torna uma parte importante da história de performance para os usuários.
 

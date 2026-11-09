@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Visão geral do DevTools {#devtools-overview}
+# Visão geral do DevTools
 
 O Angular DevTools é uma extensão de navegador que fornece recursos de debugging e profiling para aplicações Angular.
 

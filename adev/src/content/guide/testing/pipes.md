@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Testando pipes {#testing-pipes}
+# Testando pipes
 
 Você pode testar [pipes](guide/templates/pipes) sem os utilitários de teste do Angular.
 

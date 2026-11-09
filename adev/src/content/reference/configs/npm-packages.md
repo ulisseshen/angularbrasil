@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Dependências npm do workspace {#workspace-npm-dependencies}
+# Dependências npm do workspace
 
 O Angular Framework, o Angular CLI e os components usados por aplicações Angular são empacotados como [pacotes npm](https://docs.npmjs.com/getting-started/what-is-npm 'O que é npm?') e distribuídos usando o [registro npm](https://docs.npmjs.com).
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando correspondências de rotas customizadas {#creating-custom-route-matches}
+# Criando correspondências de rotas customizadas
 
 O Angular Router suporta uma estratégia de correspondência poderosa que você pode usar para ajudar usuários a navegar na sua aplicação.
 Essa estratégia de correspondência suporta rotas estáticas, rotas variáveis com parâmetros, rotas wildcard e assim por diante.

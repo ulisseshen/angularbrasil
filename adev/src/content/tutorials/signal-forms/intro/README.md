@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Aprenda Signal Forms do Angular {#learn-angular-signal-forms}
+# Aprenda Signal Forms do Angular
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Validando forms {#validating-forms}
+# Validando forms
 
 Outro cenário comum ao trabalhar com forms é a necessidade de validar as entradas, para garantir que os dados corretos sejam enviados.
 

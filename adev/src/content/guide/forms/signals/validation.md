@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Validação {#validation}
+# Validação
 
 Formulários precisam de validação para garantir que os usuários forneçam dados corretos e completos antes do envio. Sem validação, você precisaria tratar problemas de qualidade dos dados no servidor, oferecer uma experiência ruim com mensagens de erro pouco claras e verificar manualmente cada restrição.
 

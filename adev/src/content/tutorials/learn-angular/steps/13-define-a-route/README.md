@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Definir uma route {#define-a-route}
+# Definir uma route
 
 Agora que você configurou o app para usar o Angular Router, precisa definir as rotas.
 

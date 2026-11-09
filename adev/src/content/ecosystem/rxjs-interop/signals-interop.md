@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Interoperabilidade do RxJS com signals do Angular {#rxjs-interop-with-angular-signals}
+# Interoperabilidade do RxJS com signals do Angular
 
 O pacote `@angular/core/rxjs-interop` oferece APIs que ajudam você a integrar o RxJS e os signals do Angular.
 

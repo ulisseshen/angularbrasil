@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Diagnósticos Estendidos {#extended-diagnostics}
+# Diagnósticos Estendidos
 
 Existem muitos padrões de codificação que são tecnicamente válidos para o compilador ou runtime, mas que podem ter nuances ou ressalvas complexas.
 Esses padrões podem não ter o efeito pretendido esperado por um desenvolvedor, o que frequentemente leva a bugs.

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Projetando o seu modelo de formulário {#designing-your-form-model}
+# Projetando o seu modelo de formulário
 
 Os Signal Forms usam uma abordagem orientada a modelo, derivando o estado e a estrutura do formulário diretamente do modelo que você fornece. Como ele é a base de todo o formulário, é importante começar com um modelo bem projetado. Este guia explora as melhores práticas para projetar modelos de formulário.
 

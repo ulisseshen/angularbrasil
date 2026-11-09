@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migrando formulários existentes para Signal Forms {#migrating-existing-forms-to-signal-forms}
+# Migrando formulários existentes para Signal Forms
 
 Este guia apresenta estratégias para migrar bases de código existentes para Signal Forms, com foco na interoperabilidade com
 Reactive Forms existentes.

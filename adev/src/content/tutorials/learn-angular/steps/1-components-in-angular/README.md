@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Components no Angular {#components-in-angular}
+# Components no Angular
 
 Components são os blocos de construção fundamentais para qualquer aplicação Angular. Cada component tem três partes:
 

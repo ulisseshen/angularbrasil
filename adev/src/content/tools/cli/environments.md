@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Configurando ambientes de aplicação {#configuring-application-environments}
+# Configurando ambientes de aplicação
 
 Você pode definir diferentes configurações de build nomeadas para seu projeto, como `development` e `staging`, com diferentes padrões.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# APIs utilitárias de teste {#testing-utility-apis}
+# APIs utilitárias de teste
 
 NOTE: Enquanto este guia está sendo atualizado para o Vitest, algumas descrições e exemplos das APIs utilitárias são apresentados atualmente no contexto de Karma/Jasmine. Estamos trabalhando ativamente para fornecer equivalentes do Vitest e orientações atualizadas, quando aplicável.
 

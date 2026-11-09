@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Tutor de IA do Angular {#angular-ai-tutor}
+# Tutor de IA do Angular
 
 O Tutor de IA do Angular foi projetado para guiar você, de forma interativa e passo a passo, na criação de uma aplicação Angular completa e moderna do zero. Você vai aprender os padrões e as boas práticas mais recentes construindo um projeto real e concreto: uma **"Caixa de Receitas Inteligente"** para criar e gerenciar receitas.
 

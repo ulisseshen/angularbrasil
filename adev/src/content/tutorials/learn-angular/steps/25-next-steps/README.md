@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Pronto para explorar mais do Angular? {#ready-to-explore-more-of-angular}
+# Pronto para explorar mais do Angular?
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Fundamentos de testes de components {#basics-of-testing-components}
+# Fundamentos de testes de components
 
 Um component, diferentemente de todas as outras partes de uma aplicação Angular, combina um template HTML e uma classe TypeScript.
 O component é verdadeiramente o template e a classe _trabalhando juntos_.

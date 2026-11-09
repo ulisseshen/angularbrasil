@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Obtendo o valor do form control {#getting-form-control-value}
+# Obtendo o valor do form control
 
 Agora que seus forms estão configurados com o Angular, o próximo passo é acessar os valores dos form controls.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Enciclopédia de Erros {#error-encyclopedia}
+# Enciclopédia de Erros
 
 ## Erros de runtime {#runtime-errors}
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Resolvendo zone pollution {#resolving-zone-pollution}
+# Resolvendo zone pollution
 
 **Zone.js** é um mecanismo de sinalização que o Angular usa para detectar quando o estado de uma aplicação pode ter mudado. Ele captura operações assíncronas como `setTimeout`, requisições de rede e event listeners. O Angular agenda a change detection com base nos sinais do Zone.js.
 

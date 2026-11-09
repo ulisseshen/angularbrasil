@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione um parâmetro de input ao component {#add-an-input-parameter-to-the-component}
+# Adicione um parâmetro de input ao component
 
 Esta lição do tutorial demonstra como criar um `input` de component e usá-lo para passar dados a um component para customização.
 

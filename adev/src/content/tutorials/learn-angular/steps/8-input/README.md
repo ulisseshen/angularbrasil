@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Propriedades input de components {#component-input-properties}
+# Propriedades input de components
 
 Às vezes, o desenvolvimento de aplicações exige que você envie dados para um component. Esses dados podem ser usados para personalizar um component ou para enviar informações de um component pai para um component filho.
 

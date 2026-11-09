@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Testing Utility APIs {#testing-utility-apis}
+# Testing Utility APIs
 
 Esta página descreve as funcionalidades de testes do Angular mais úteis.
 

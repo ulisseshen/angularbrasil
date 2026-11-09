@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Estilizando components {#styling-components}
+# Estilizando components
 
 TIP: Este guia assume que você já leu o [Guia Essencial](essentials). Leia-o primeiro se você é novo no Angular.
 

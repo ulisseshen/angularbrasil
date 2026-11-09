@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Introdução às animations do Angular {#introduction-to-angular-animations}
+# Introdução às animations do Angular
 
 IMPORTANTE: O pacote `@angular/animations` agora está depreciado. A equipe Angular recomenda usar CSS nativo com `animate.enter` e `animate.leave` para animations em todo código novo. Saiba mais no novo [guia de animation](guide/animations) de entrada e saída. Veja também [Migrando do pacote de Animations do Angular](guide/animations/migration) para aprender como você pode começar a migrar para animations CSS puras em suas aplicações.
 

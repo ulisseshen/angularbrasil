@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Tratamento de eventos {#event-handling}
+# Tratamento de eventos
 
 O tratamento de eventos habilita recursos interativos em aplicações web. Ele dá a você, como desenvolvedor, a capacidade de responder a ações do usuário, como cliques em botões, envios de formulários e muito mais.
 

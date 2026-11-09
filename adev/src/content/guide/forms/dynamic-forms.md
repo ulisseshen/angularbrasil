@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Construindo formulários dinâmicos {#building-dynamic-forms}
+# Construindo formulários dinâmicos
 
 Muitos formulários, como questionários, podem ser muito semelhantes entre si em formato e intenção.
 Para tornar mais rápido e fácil gerar diferentes versões de tal formulário, você pode criar um _template de formulário dinâmico_ baseado em metadados que descrevem o modelo de objeto de negócio.

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migração de NgStyle para style bindings {#migration-from-ngstyle-to-style-bindings}
+# Migração de NgStyle para style bindings
 
 Este schematic migra usos da directive NgStyle para style bindings em sua aplicação.
 Ele migrará apenas os usos que são considerados seguros para migração.

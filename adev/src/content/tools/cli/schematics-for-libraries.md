@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Schematics para bibliotecas {#schematics-for-libraries}
+# Schematics para bibliotecas
 
 Quando você cria uma biblioteca Angular, pode fornecê-la e empacotá-la com schematics que a integram ao Angular CLI.
 Com seus schematics, seus usuários podem usar `ng add` para instalar uma versão inicial da sua biblioteca,

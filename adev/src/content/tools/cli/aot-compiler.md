@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Compilação Ahead-of-time (AOT) {#ahead-of-time-aot-compilation}
+# Compilação Ahead-of-time (AOT)
 
 Uma aplicação Angular consiste principalmente de components e seus templates HTML.
 Como os components e templates fornecidos pelo Angular não podem ser compreendidos diretamente pelo browser, as aplicações Angular requerem um processo de compilação antes que possam ser executadas em um browser.

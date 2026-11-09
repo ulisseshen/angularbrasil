@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicionar o pacote localize {#add-the-localize-package}
+# Adicionar o pacote localize
 
 Para aproveitar os recursos de localização do Angular, use o [Angular CLI][CliMain] para adicionar o pacote `@angular/localize` ao seu projeto.
 

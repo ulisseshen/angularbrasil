@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Testando routing e navegação {#testing-routing-and-navigation}
+# Testando routing e navegação
 
 Testar routing e navegação é essencial para garantir que sua aplicação se comporte corretamente quando os usuários navegam entre diferentes routes. Este guia cobre diversas estratégias para testar a funcionalidade de routing em aplicações Angular.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Busca de dados reativa com `httpResource` {#reactive-data-fetching-with-httpresource}
+# Busca de dados reativa com `httpResource`
 
 `httpResource` é um wrapper reativo em torno do `HttpClient` que fornece o status da requisição e a resposta como signals. Assim, você pode usar esses signals com `computed`, `effect`, `linkedSignal` ou qualquer outra API reativa. Por ser construído em cima do `HttpClient`, `httpResource` suporta todos os mesmos recursos, como interceptors.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Começando com NgOptimizedImage {#getting-started-with-ngoptimizedimage}
+# Começando com NgOptimizedImage
 
 A directive `NgOptimizedImage` facilita a adoção de boas práticas de performance para carregamento de imagens.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Lógica entre campos {#cross-field-logic}
+# Lógica entre campos
 
 A **lógica entre campos** é necessária quando qualquer regra, validação ou comportamento de um campo depende do valor ou do estado de outro campo.
 

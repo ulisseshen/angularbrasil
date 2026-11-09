@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Estado dependente com `linkedSignal` {#dependent-state-with-linkedsignal}
+# Estado dependente com `linkedSignal`
 
 Você pode usar a função `signal` para armazenar algum estado no seu código Angular. Às vezes, este estado depende de algum _outro_ estado. Por exemplo, imagine um component que permite ao usuário selecionar um método de envio para um pedido:
 

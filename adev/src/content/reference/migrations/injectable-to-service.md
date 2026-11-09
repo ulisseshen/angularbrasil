@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migração de `@Injectable` para `@Service` {#migration-from-injectable-to-service}
+# Migração de `@Injectable` para `@Service`
 
 Este schematic converte classes `@Injectable` elegíveis para o decorator [`@Service`](/api/core/Service), um atalho ergonômico para `@Injectable({providedIn: 'root'})`.
 Ele está disponível a partir da v22.1 e migra apenas classes consideradas seguras para migração.

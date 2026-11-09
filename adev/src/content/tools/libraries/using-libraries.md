@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Uso de libraries do Angular publicadas no npm {#usage-of-angular-libraries-published-to-npm}
+# Uso de libraries do Angular publicadas no npm
 
 Ao construir sua aplicação Angular, aproveite libraries sofisticadas de primeira parte, bem como um rico ecossistema de libraries de terceiros.
 [Angular Material][AngularMaterialMain] é um exemplo de library sofisticada de primeira parte.

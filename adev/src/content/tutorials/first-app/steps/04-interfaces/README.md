@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando uma interface {#creating-an-interface}
+# Criando uma interface
 
 Esta lição do tutorial demonstra como criar uma interface e incluí-la em um component da sua aplicação.
 

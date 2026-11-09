@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Transições e triggers de animação {#animation-transitions-and-triggers}
+# Transições e triggers de animação
 
 IMPORTANTE: O pacote `@angular/animations` agora está depreciado. A equipe do Angular recomenda usar CSS nativo com `animate.enter` e `animate.leave` para animações em todos os códigos novos. Saiba mais no novo [guia de animação](guide/animations) de entrada e saída. Veja também [Migrando do pacote de Animations do Angular](guide/animations/migration) para aprender como você pode começar a migrar para animações CSS puras em suas aplicações.
 

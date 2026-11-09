@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Pipeline de build personalizado {#custom-build-pipeline}
+# Pipeline de build personalizado
 
 Ao construir uma aplicação Angular, recomendamos fortemente que você use o Angular CLI para aproveitar sua funcionalidade de atualização dependente de estrutura e sua abstração do sistema de build. Dessa forma, seus projetos se beneficiam das melhorias mais recentes de segurança, desempenho e APIs, além de melhorias transparentes no build.
 

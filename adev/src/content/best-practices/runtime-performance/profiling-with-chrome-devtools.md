@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Profiling com o Chrome DevTools {#profiling-with-the-chrome-devtools}
+# Profiling com o Chrome DevTools
 
 O Angular se integra à [API de extensibilidade do Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/extension) para apresentar dados e insights específicos do framework diretamente no [painel de performance do Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/overview).
 

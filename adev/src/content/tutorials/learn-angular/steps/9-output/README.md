@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Propriedades output de components {#component-output-properties}
+# Propriedades output de components
 
 Ao trabalhar com components, pode ser necessário notificar outros components de que algo aconteceu. Talvez um botão tenha sido clicado, um item tenha sido adicionado ou removido de uma lista, ou alguma outra atualização importante tenha ocorrido. Nesse cenário, os components precisam se comunicar com os components pais.
 

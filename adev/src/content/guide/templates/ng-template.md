@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando fragmentos de template com ng-template {#create-template-fragments-with-ng-template}
+# Criando fragmentos de template com ng-template
 
 Inspirado no [elemento nativo `<template>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template), o elemento `<ng-template>` permite declarar um **fragmento de template**, uma seção de conteúdo que você pode renderizar de forma dinâmica ou programática.
 

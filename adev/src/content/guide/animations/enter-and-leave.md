@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Animando suas aplicações com `animate.enter` e `animate.leave` {#animating-your-applications-with-animateenter-and-animateleave}
+# Animando suas aplicações com `animate.enter` e `animate.leave`
 
 Animações bem projetadas podem tornar sua aplicação mais intuitiva e envolvente, mas elas não são apenas cosméticas.
 Animações podem melhorar sua aplicação e a experiência do usuário de várias maneiras:

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Testes unitários {#unit-testing}
+# Testes unitários
 
 Testar sua aplicação Angular ajuda você a verificar se ela está funcionando como você espera. Testes unitários são essenciais para identificar bugs cedo, garantir a qualidade do código e facilitar refatorações seguras.
 

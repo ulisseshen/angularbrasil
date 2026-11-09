@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Construa sua primeira aplicação Angular {#build-your-first-angular-app}
+# Construa sua primeira aplicação Angular
 
 Este tutorial consiste em lições que introduzem os conceitos do Angular que você precisa conhecer para começar a programar em Angular.
 

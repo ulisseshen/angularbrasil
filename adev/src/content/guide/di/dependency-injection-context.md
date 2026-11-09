@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Contexto de injeção {#injection-context}
+# Contexto de injeção
 
 O sistema de injeção de dependência (DI) depende de um contexto de runtime em que o injector atual está disponível.
 

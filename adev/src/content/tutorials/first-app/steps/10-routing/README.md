@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione rotas à aplicação {#add-routes-to-the-application}
+# Adicione rotas à aplicação
 
 Esta lição do tutorial demonstra como adicionar rotas à sua aplicação.
 

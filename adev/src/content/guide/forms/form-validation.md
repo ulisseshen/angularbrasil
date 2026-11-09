@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Validando entrada de formulário {#validating-form-input}
+# Validando entrada de formulário
 
 Você pode melhorar a qualidade geral dos dados validando a entrada do usuário quanto à precisão e completude.
 Esta página mostra como validar a entrada do usuário a partir da UI e exibir mensagens de validação úteis, tanto em reactive forms quanto em template-driven forms.

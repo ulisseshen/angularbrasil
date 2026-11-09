@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Control flow em components - `@if` {#control-flow-in-components--if}
+# Control flow em components - `@if`
 
 Decidir o que exibir na tela para um usuário é uma tarefa comum no desenvolvimento de aplicações. Muitas vezes, a decisão é tomada programaticamente, usando condições.
 

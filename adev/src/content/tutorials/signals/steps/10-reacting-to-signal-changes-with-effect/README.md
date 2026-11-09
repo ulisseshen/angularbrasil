@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Reagindo a mudanças de signal com effect {#reacting-to-signal-changes-with-effect}
+# Reagindo a mudanças de signal com effect
 
 Agora que você aprendeu a [consultar elementos filhos com signal queries](/tutorials/signals/9-query-child-elements-with-signal-queries), vamos explorar como reagir a mudanças de signal com effects. Effects são funções que executam automaticamente quando suas dependências mudam, tornando-os perfeitos para efeitos colaterais como logging, manipulação do DOM ou chamadas de API.
 

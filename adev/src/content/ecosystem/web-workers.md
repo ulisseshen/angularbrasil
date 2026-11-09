@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Processamento em segundo plano usando web workers {#background-processing-using-web-workers}
+# Processamento em segundo plano usando web workers
 
 [Web workers](https://developer.mozilla.org/docs/Web/API/Web_Workers_API) permitem executar computações intensivas de CPU em uma thread em segundo plano, liberando a thread principal para atualizar a interface do usuário.
 Aplicações que realizam muitas computações, como gerar desenhos de Desenho Assistido por Computador \(CAD\) ou fazer cálculos geométricos pesados, podem usar web workers para aumentar o desempenho.

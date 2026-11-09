@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Compondo components {#composing-components}
+# Compondo components
 
 Você aprendeu a atualizar o template, a lógica e os estilos de um component, mas como você usa um component na sua aplicação?
 

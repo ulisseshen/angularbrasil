@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Renderizando components programaticamente {#programmatically-rendering-components}
+# Renderizando components programaticamente
 
 TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

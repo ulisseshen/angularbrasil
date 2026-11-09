@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Depuração e solução de problemas de injeção de dependência {#debugging-and-troubleshooting-dependency-injection}
+# Depuração e solução de problemas de injeção de dependência
 
 Problemas de injeção de dependência (DI) normalmente surgem de erros de configuração, problemas de escopo ou padrões de uso incorretos. Este guia ajuda você a identificar e resolver os problemas comuns de DI que os desenvolvedores encontram.
 

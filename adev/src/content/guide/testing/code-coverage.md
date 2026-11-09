@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Cobertura de código {#code-coverage}
+# Cobertura de código
 
 Relatórios de cobertura de código mostram quaisquer partes da sua base de código que podem não estar devidamente testadas pelos seus unit tests.
 

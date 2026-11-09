@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Aprenda Angular signals {#learn-angular-signals}
+# Aprenda Angular signals
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">

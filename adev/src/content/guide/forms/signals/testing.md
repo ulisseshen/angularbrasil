@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Testando Signal Forms {#testing-signal-forms}
+# Testando Signal Forms
 
 Formulários costumam ser críticos para as aplicações, e os testes dão confiança de que eles se comportam corretamente conforme a base de código muda. Signal Forms mantém a maior parte da sua lógica no schema, e não no template, o que significa que você pode testar a maior parte do comportamento do formulário sem renderizar um component.
 

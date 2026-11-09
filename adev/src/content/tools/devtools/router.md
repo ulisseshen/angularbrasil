@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Inspecione a árvore de rotas {#inspect-the-router-tree}
+# Inspecione a árvore de rotas
 
 A aba **Router Tree** permite visualizar a árvore de rotas da sua aplicação. Você pode explorar como as rotas são aninhadas e ver detalhes de rotas específicas.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Seletores de components {#component-selectors}
+# Seletores de components
 
 TIP: Este guia assume que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

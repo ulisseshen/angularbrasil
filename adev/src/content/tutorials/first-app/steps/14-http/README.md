@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione comunicação HTTP à sua aplicação {#add-http-communication-to-your-app}
+# Adicione comunicação HTTP à sua aplicação
 
 Este tutorial demonstra como integrar HTTP e uma API à sua aplicação.
 

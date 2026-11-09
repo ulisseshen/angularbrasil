@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Ler o estado da route {#read-route-state}
+# Ler o estado da route
 
 O Angular Router permite que você leia e use informações associadas a uma route para criar components responsivos e conscientes do contexto.
 

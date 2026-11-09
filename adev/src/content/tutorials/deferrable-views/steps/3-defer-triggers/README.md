@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Triggers de defer {#defer-triggers}
+# Triggers de defer
 
 Embora as opções padrão de `@defer` ofereçam ótimas possibilidades para o lazy loading de partes dos seus components, ainda pode ser desejável personalizar melhor a experiência de carregamento deferido.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Navegar para routes {#navigate-to-routes}
+# Navegar para routes
 
 A directive RouterLink é a abordagem declarativa do Angular para navegação. Ela permite que você use elementos âncora padrão (`<a>`) que se integram perfeitamente ao sistema de roteamento do Angular.
 

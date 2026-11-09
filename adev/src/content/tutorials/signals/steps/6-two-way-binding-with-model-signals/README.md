@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Vinculação bidirecional com model signals {#two-way-binding-with-model-signals}
+# Vinculação bidirecional com model signals
 
 Agora que você aprendeu [a passar dados para componentes com input signals](/tutorials/signals/5-component-communication-with-signals), vamos explorar a API `model()` do Angular para vinculação bidirecional. Model signals são perfeitos para componentes de UI como checkboxes, sliders ou controles de formulário personalizados, onde o componente precisa tanto receber um valor QUANTO atualizá-lo.
 

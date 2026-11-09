@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Comunicando com o Service Worker {#communicating-with-the-service-worker}
+# Comunicando com o Service Worker
 
 Ativar o suporte a service worker faz mais do que apenas registrar o service worker; ele também fornece services que você pode usar para interagir com o service worker e controlar o caching da sua aplicação.
 

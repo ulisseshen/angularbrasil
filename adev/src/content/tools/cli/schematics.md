@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Gerando código usando schematics {#generating-code-using-schematics}
+# Gerando código usando schematics
 
 Um schematic é um gerador de código baseado em templates que suporta lógica complexa.
 É um conjunto de instruções para transformar um projeto de software gerando ou modificando código.

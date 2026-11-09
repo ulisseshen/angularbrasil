@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Ciclo de vida e eventos do Router {#router-lifecycle-and-events}
+# Ciclo de vida e eventos do Router
 
 O Router Angular fornece um conjunto abrangente de hooks de ciclo de vida e eventos que permitem que você responda a mudanças de navegação e execute lógica customizada durante o processo de roteamento.
 

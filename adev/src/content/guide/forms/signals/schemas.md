@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Schemas e composabilidade de schemas {#schemas-and-schema-composability}
+# Schemas e composabilidade de schemas
 
 Signal Forms usa uma arquitetura de duas camadas para separar _como o seu formulário é estruturado_ de _como ele se comporta em tempo de execução_.
 

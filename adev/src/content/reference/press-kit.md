@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Kit de Imprensa Angular {#angular-press-kit}
+# Kit de Imprensa Angular
 
 Os gráficos de logo disponíveis para download nesta página são fornecidos sob [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 

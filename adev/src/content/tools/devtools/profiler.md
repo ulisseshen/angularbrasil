@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Faça o profile da sua aplicação {#profile-your-application}
+# Faça o profile da sua aplicação
 
 A aba **Profiler** permite visualizar a execução da detecção de mudanças do Angular.
 Isso é útil para determinar quando e como a detecção de mudanças impacta a performance da sua aplicação.

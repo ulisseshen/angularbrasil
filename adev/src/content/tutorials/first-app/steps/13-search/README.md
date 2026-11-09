@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione a funcionalidade de busca à sua aplicação {#add-the-search-feature-to-your-app}
+# Adicione a funcionalidade de busca à sua aplicação
 
 Este tutorial demonstra como adicionar uma funcionalidade de busca à sua aplicação Angular.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Renderização server e hybrid {#server-and-hybrid-rendering}
+# Renderização server e hybrid
 
 O Angular entrega todas as aplicações como client-side rendered (CSR) por padrão. Embora essa abordagem forneça um payload inicial leve, ela introduz trade-offs, incluindo tempos de carregamento mais lentos, métricas de desempenho degradadas e maiores demandas de recursos, já que o dispositivo do usuário executa a maior parte dos cálculos. Como resultado, muitas aplicações alcançam melhorias significativas de desempenho ao integrar server-side rendering (SSR) em uma estratégia de hybrid rendering.
 

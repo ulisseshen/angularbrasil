@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Skills de agente {#agent-skills}
+# Skills de agente
 
 Skills de agente são instruções e capacidades especializadas e específicas de domínio, projetadas para agentes de IA como o Gemini CLI. Essas skills oferecem orientação arquitetural, geram código Angular idiomático e ajudam a criar novos projetos usando boas práticas modernas.
 

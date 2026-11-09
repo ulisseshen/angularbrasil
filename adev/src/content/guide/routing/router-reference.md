@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Referência do Router {#router-reference}
+# Referência do Router
 
 As seções a seguir destacam alguns conceitos e terminologias centrais do router.
 

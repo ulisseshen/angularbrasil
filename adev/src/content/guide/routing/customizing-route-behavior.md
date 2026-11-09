@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Personalizando o comportamento de rotas {#customizing-route-behavior}
+# Personalizando o comportamento de rotas
 
 O Angular Router oferece pontos de extensão poderosos que permitem personalizar como as rotas se comportam na sua aplicação. Embora o comportamento padrão de roteamento funcione bem para a maioria das aplicações, requisitos específicos frequentemente exigem implementações customizadas para otimização de desempenho, tratamento especializado de URLs ou lógica de roteamento complexa.
 

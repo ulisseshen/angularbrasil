@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Prompts de LLM e configuração de IDE com IA {#llm-prompts-and-ai-ide-setup}
+# Prompts de LLM e configuração de IDE com IA
 
 Gerar código com modelos de linguagem grandes (LLMs) é uma área de interesse em rápido crescimento para desenvolvedores. Embora os LLMs frequentemente sejam capazes de gerar código funcional, pode ser um desafio gerar código para frameworks em constante evolução como o Angular.
 

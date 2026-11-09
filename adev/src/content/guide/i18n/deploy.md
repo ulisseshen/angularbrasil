@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Fazer deploy de múltiplos locales {#deploy-multiple-locales}
+# Fazer deploy de múltiplos locales
 
 Se `myapp` é o diretório que contém os arquivos distribuíveis do seu projeto, normalmente você disponibiliza versões diferentes para locales diferentes, em diretórios de locale.
 Por exemplo, a versão em francês fica no diretório `myapp/fr` e a versão em espanhol fica no diretório `myapp/es`.

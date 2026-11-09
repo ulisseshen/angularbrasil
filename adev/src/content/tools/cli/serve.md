@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Servindo aplicações Angular para desenvolvimento {#serving-angular-apps-for-development}
+# Servindo aplicações Angular para desenvolvimento
 
 Você pode servir sua aplicação Angular CLI com o comando `ng serve`.
 Isso compila sua aplicação, pula otimizações desnecessárias, inicia um devserver e, automaticamente, reconstrói e recarrega a página (live reload) a cada alteração subsequente.

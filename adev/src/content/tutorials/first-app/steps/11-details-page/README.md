@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Integre a página de detalhes à aplicação {#integrate-details-page-into-application}
+# Integre a página de detalhes à aplicação
 
 Esta lição do tutorial demonstra como conectar a página de detalhes à sua aplicação.
 

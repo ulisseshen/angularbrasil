@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicionando lógica ao formulário {#adding-form-logic}
+# Adicionando lógica ao formulário
 
 O Signal Forms permite adicionar lógica ao seu formulário usando schemas. A lógica de validação é abordada no [guia de Validação](guide/forms/signals/validation), e este guia trata de outras regras disponíveis nos schemas. Você pode desabilitar campos condicionalmente, ocultá-los com base em outros valores, torná-los somente leitura, aplicar debounce à entrada do usuário e anexar metadados para controles personalizados.
 

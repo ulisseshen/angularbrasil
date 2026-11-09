@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Formatando dados com pipes {#formatting-data-with-pipes}
+# Formatando dados com pipes
 
 Você pode levar o uso de pipes ainda mais longe, configurando-os. Pipes podem ser configurados passando opções para eles.
 

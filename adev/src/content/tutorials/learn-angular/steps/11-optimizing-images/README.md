@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Otimizando imagens {#optimizing-images}
+# Otimizando imagens
 
 Imagens são uma grande parte de muitas aplicações e podem ser um grande contribuinte para problemas de performance, incluindo pontuações baixas de [Core Web Vitals](https://web.dev/explore/learn-core-web-vitals).
 

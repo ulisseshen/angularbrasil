@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Use @for para listar objetos no component {#use-for-to-list-objects-in-component}
+# Use @for para listar objetos no component
 
 Esta lição do tutorial demonstra como usar o bloco `@for` em templates Angular para exibir dados repetidos dinamicamente em um template.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Testando services {#testing-services}
+# Testando services
 
 Services normalmente contêm a lógica de negócio da sua aplicação, da qual os components dependem. Testar services verifica se essa lógica funciona corretamente de forma isolada, independentemente de qualquer component ou template.
 

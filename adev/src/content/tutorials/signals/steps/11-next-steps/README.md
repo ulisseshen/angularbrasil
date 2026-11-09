@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Quer se aprofundar em signals? {#want-to-dive-deeper-into-signals}
+# Quer se aprofundar em signals?
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">

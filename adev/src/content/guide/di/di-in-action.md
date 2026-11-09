@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# DI em ação {#di-in-action}
+# DI em ação
 
 Este guia explora recursos adicionais da injeção de dependência (DI) no Angular.
 

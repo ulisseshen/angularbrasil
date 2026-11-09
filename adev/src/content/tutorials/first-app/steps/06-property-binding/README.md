@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione um property binding ao template de um component {#add-a-property-binding-to-a-components-template}
+# Adicione um property binding ao template de um component
 
 Esta lição do tutorial demonstra como adicionar property binding a um template e usá-lo para passar dados dinâmicos a components.
 

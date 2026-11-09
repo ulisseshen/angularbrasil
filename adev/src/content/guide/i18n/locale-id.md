@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Referenciar locales por ID {#refer-to-locales-by-id}
+# Referenciar locales por ID
 
 O Angular usa o _identificador de locale_ Unicode \(Unicode locale ID\) para encontrar os dados de locale corretos para a internacionalização de strings de texto.
 

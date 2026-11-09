@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Estrutura de arquivos do workspace e projeto {#workspace-and-project-file-structure}
+# Estrutura de arquivos do workspace e projeto
 
 Você desenvolve aplicações no contexto de um workspace Angular.
 Um workspace contém os arquivos para um ou mais projetos.

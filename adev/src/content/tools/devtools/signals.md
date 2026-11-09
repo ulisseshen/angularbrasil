@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Depure o grafo de signals {#debug-the-signal-graph}
+# Depure o grafo de signals
 
 A aba **Components** pode exibir um grafo de signals em tempo real para o component ou directive selecionado.
 O grafo mostra como os signals, computeds, effects e outros nós reativos desse component dependem uns dos outros, o que facilita entender e depurar os fluxos de dados reativos.

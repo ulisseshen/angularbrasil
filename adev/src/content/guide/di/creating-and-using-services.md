@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando e usando services {#creating-and-using-services}
+# Criando e usando services
 
 Services são trechos de código reutilizáveis que você pode compartilhar em toda a sua aplicação Angular. Você normalmente os usa para lidar com busca de dados, lógica de negócio ou outras funcionalidades que vários components precisam acessar.
 

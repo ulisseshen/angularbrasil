@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Testando com Karma e Jasmine {#testing-with-karma-and-jasmine}
+# Testando com Karma e Jasmine
 
 Embora o [Vitest](https://vitest.dev) seja o test runner padrão para novos projetos Angular, o [Karma](https://karma-runner.github.io) ainda é um test runner suportado e amplamente usado. Este guia fornece instruções para testar sua aplicação Angular usando o test runner Karma com o framework de testes [Jasmine](https://jasmine.github.io).
 

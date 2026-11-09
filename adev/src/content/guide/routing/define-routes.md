@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Definindo rotas {#define-routes}
+# Definindo rotas
 
 As rotas servem como os blocos de construção fundamentais para a navegação dentro de uma aplicação Angular.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Desempenho {#performance}
+# Desempenho
 
 O Angular inclui muitas otimizações prontas para uso, mas, conforme as aplicações crescem, pode ser necessário ajustar tanto a velocidade com que sua aplicação carrega quanto a responsividade que ela apresenta durante o uso. Estes guias cobrem as ferramentas e técnicas que o Angular oferece para ajudar você a construir aplicações rápidas.
 

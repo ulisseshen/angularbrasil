@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Cancelando a inscrição com `takeUntilDestroyed` {#unsubscribing-with-takeuntildestroyed}
+# Cancelando a inscrição com `takeUntilDestroyed`
 
 TIP: Este guia assume que você está familiarizado com o [ciclo de vida de components e directives](guide/components/lifecycle).
 

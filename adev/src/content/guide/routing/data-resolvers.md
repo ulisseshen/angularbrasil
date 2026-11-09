@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Resolvers de dados {#data-resolvers}
+# Resolvers de dados
 
 Os resolvers de dados permitem buscar dados antes de navegar para uma rota, garantindo que seus componentes recebam os dados de que precisam antes da renderização. Isso ajuda a evitar a necessidade de estados de carregamento e melhora a experiência do usuário ao pré-carregar dados essenciais.
 

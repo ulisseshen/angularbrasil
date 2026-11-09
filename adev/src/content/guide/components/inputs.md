@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Aceitando dados com propriedades de input {#accepting-data-with-input-properties}
+# Aceitando dados com propriedades de input
 
 TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular. Se você está familiarizado com outros frameworks web, propriedades de input são semelhantes às _props_.
 

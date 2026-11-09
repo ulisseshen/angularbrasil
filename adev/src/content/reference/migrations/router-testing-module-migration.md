@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migração do RouterTestingModule {#routertestingmodule-migration}
+# Migração do RouterTestingModule
 
 Este schematic migra usos de `RouterTestingModule` dentro de testes para `RouterModule`.
 

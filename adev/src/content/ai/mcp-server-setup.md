@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Angular CLI MCP Server {#angular-cli-mcp-server}
+# Angular CLI MCP Server
 
 O Angular CLI inclui um Model Context Protocol (MCP) server que permite que assistentes de IA (como Cursor, Antigravity, JetBrains AI, etc.) interajam diretamente com o Angular CLI. Ele oferece ferramentas para geração de código, análise de workspace e execução de builds e testes.
 

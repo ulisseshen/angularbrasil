@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Operações assíncronas {#async-operations}
+# Operações assíncronas
 
 Algumas validações exigem dados de fontes externas, como APIs de backend ou serviços de terceiros. Signal Forms fornece duas funções para validação assíncrona: `validateHttp()` para validação baseada em HTTP e `validateAsync()` para validação personalizada baseada em recurso.
 

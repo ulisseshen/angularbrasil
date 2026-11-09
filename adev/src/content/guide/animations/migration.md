@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migrando para longe do pacote Animations do Angular {#migrating-away-from-angulars-animations-package}
+# Migrando para longe do pacote Animations do Angular
 
 O pacote `@angular/animations` está descontinuado a partir da v20.2, que também introduziu o novo recurso `animate.enter` e `animate.leave` para adicionar animações à sua aplicação. Usando esses novos recursos, você pode substituir todas as animações baseadas em `@angular/animations` por CSS puro ou bibliotecas de animação JS. Remover `@angular/animations` da sua aplicação pode reduzir significativamente o tamanho do seu bundle JavaScript. Animações CSS nativas geralmente oferecem performance superior, pois podem se beneficiar de aceleração por hardware. Este guia percorre o processo de refatoração do seu código de `@angular/animations` para animações CSS nativas.
 

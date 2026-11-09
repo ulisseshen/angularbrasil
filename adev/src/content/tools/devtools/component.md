@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Inspecione a árvore de components {#inspect-the-component-tree}
+# Inspecione a árvore de components
 
 ## Debugar sua aplicação {#debug-your-application}
 

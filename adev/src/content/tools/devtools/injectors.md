@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Inspecione seus injectors {#inspect-your-injectors}
+# Inspecione seus injectors
 
 NOTA: A árvore de injectors está disponível para aplicações Angular construídas com a versão 17 ou superior.
 

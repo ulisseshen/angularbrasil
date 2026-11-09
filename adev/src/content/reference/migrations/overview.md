@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migrações {#migrations}
+# Migrações
 
 Aprenda como você pode migrar seu projeto Angular existente para os recursos mais recentes de forma incremental.
 

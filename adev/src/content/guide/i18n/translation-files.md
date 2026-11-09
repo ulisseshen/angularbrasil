@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Trabalhar com arquivos de tradução {#work-with-translation-files}
+# Trabalhar com arquivos de tradução
 
 Após preparar um component para tradução, use o comando [`extract-i18n`][CliExtractI18n] do [Angular CLI][CliMain] para extrair o texto marcado no component para um arquivo de _idioma de origem_.
 

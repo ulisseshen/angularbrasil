@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Property binding no Angular {#property-binding-in-angular}
+# Property binding no Angular
 
 Property binding no Angular permite que você defina valores para propriedades de elementos HTML, components do Angular e muito mais.
 

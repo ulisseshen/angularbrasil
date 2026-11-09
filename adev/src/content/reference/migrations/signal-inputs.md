@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Migração para signal inputs {#migration-to-signal-inputs}
+# Migração para signal inputs
 
 O Angular introduziu uma API aprimorada para inputs que é considerada
 pronta para produção a partir da v19.

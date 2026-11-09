@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Reatividade assíncrona com resources {#async-reactivity-with-resources}
+# Reatividade assíncrona com resources
 
 Todas as APIs de signal são síncronas— `signal`, `computed`, `input`, etc. No entanto, aplicações frequentemente precisam lidar com dados que estão disponíveis de forma assíncrona. Um `Resource` oferece uma maneira de incorporar dados assíncronos ao código baseado em signals da sua aplicação, permitindo ainda acessar esses dados de forma síncrona.
 

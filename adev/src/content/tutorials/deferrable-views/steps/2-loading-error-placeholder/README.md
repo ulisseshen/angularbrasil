@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Blocos @loading, @error e @placeholder {#loading-error-and-placeholder-blocks}
+# Blocos @loading, @error e @placeholder
 
 Deferrable views permitem definir conteúdo a ser mostrado em diferentes estados de carregamento.
 

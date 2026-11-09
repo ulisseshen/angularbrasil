@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Angular sem ZoneJS (Zoneless) {#angular-without-zonejs-zoneless}
+# Angular sem ZoneJS (Zoneless)
 
 ## Por que usar Zoneless? {#why-use-zoneless}
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Aplicando debounce a signals com `debounced` {#debouncing-signals-with-debounced}
+# Aplicando debounce a signals com `debounced`
 
 IMPORTANT: `debounced` é [experimental](reference/releases#experimental). Ele está pronto para você experimentar, mas pode mudar antes de se tornar estável.
 

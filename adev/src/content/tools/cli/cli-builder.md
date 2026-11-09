@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Builders do Angular CLI {#angular-cli-builders}
+# Builders do Angular CLI
 
 Vários comandos do Angular CLI executam um processo complexo no seu código, como construir, testar ou servir sua aplicação.
 Os comandos usam uma ferramenta interna chamada Architect para executar _builders do CLI_, que invocam outra ferramenta (bundler, test runner, servidor) para realizar a tarefa desejada.

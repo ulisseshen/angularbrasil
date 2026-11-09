@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Erros de metadados AOT {#aot-metadata-errors}
+# Erros de metadados AOT
 
 Os seguintes são erros de metadados que você pode encontrar, com explicações e correções sugeridas.
 

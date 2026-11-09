@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Visão geral do Angular service worker {#angular-service-worker-overview}
+# Visão geral do Angular service worker
 
 IMPORTANT: O Angular Service Worker é um utilitário básico de cache para suporte offline simples com um conjunto de recursos limitado. Não aceitaremos novos recursos além de correções de segurança. Para recursos de cache e offline mais avançados, recomendamos explorar as APIs nativas do navegador diretamente.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando schematics {#authoring-schematics}
+# Criando schematics
 
 Você pode criar seus próprios schematics para operar em projetos Angular.
 Desenvolvedores de bibliotecas geralmente empacotam schematics com suas bibliotecas para integrá-las ao Angular CLI.

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Usando Tailwind CSS com Angular {#using-tailwind-css-with-angular}
+# Usando Tailwind CSS com Angular
 
 [Tailwind CSS](https://tailwindcss.com/) é um framework CSS utility-first que pode ser usado para construir sites modernos sem nunca sair do seu HTML. Este guia vai orientá-lo na configuração do Tailwind CSS no seu projeto Angular.
 

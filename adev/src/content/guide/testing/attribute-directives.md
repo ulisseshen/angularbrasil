@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Testes de Attribute Directives {#testing-attribute-directives}
+# Testes de Attribute Directives
 
 Uma _attribute directive_ modifica o comportamento de um elemento, component ou outra directive.
 Seu nome reflete a maneira como a directive é aplicada: como um atributo em um elemento host.

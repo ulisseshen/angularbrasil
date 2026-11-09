@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Migrar um projeto Angular existente para standalone {#migrate-an-existing-angular-project-to-standalone}
+# Migrar um projeto Angular existente para standalone
 
 **Components standalone** fornecem uma maneira simplificada de construir aplicações Angular. Components, directives e pipes standalone visam simplificar a experiência de autoria reduzindo a necessidade de `NgModule`s. Aplicações existentes podem adotar opcionalmente e incrementalmente o novo estilo standalone sem nenhuma breaking change.
 

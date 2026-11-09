@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Entendendo a comunicação com backend services usando HTTP {#understanding-communication-with-backend-services-using-http}
+# Entendendo a comunicação com backend services usando HTTP
 
 A maioria das aplicações front-end precisa se comunicar com um servidor através do protocolo HTTP, para baixar ou enviar dados e acessar outros back-end services. O Angular fornece uma API HTTP client para aplicações Angular, a classe de service `HttpClient` em `@angular/common/http`.
 

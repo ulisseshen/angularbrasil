@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Interoperabilidade do RxJS com outputs de component e directive {#rxjs-interop-with-component-and-directive-outputs}
+# Interoperabilidade do RxJS com outputs de component e directive
 
 TIP: Este guia assume que você já está familiarizado com [outputs de component e directive](guide/components/outputs).
 

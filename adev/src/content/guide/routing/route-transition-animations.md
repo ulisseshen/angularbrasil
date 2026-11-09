@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Animações de transição de routes {#route-transition-animations}
+# Animações de transição de routes
 
 As animações de transição de routes melhoram a experiência do usuário ao oferecer transições visuais suaves ao navegar entre diferentes views na sua aplicação Angular. O [Angular Router](/guide/routing) inclui suporte nativo à API View Transitions do navegador, o que permite animações fluidas entre as mudanças de route em navegadores compatíveis.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Começando com service workers {#getting-started-with-service-workers}
+# Começando com service workers
 
 Este documento explica como habilitar o suporte ao Angular service worker em projetos que você criou com o [Angular CLI](tools/cli). Em seguida, usa um exemplo para mostrar um service worker em ação, demonstrando carregamento e cache básico.
 

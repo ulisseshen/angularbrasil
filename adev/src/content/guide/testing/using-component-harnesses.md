@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Usando component harnesses em testes {#using-component-harnesses-in-tests}
+# Usando component harnesses em testes
 
 ## Antes de começar {#before-you-start}
 

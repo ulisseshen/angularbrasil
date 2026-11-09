@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Use RouterLink para navegação {#use-routerlink-for-navigation}
+# Use RouterLink para navegação
 
 No estado atual do app, a página inteira é recarregada quando clicamos em um link interno que existe dentro do app. Embora isso possa não parecer significativo com um app pequeno, pode ter implicações de performance em páginas maiores, com mais conteúdo, nas quais os usuários precisam baixar os assets novamente e executar os cálculos outra vez.
 

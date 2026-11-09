@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criar um pipe personalizado {#create-a-custom-pipe}
+# Criar um pipe personalizado
 
 Você pode criar pipes personalizados no Angular para atender às suas necessidades de transformação de dados.
 

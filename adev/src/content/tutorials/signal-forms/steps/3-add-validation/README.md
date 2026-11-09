@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione validação ao seu formulário {#add-validation-to-your-form}
+# Adicione validação ao seu formulário
 
 Adicionar validação ao seu formulário é essencial para garantir que os usuários insiram dados válidos. Signal Forms usa validators em uma schema function que você passa para a função `form()`.
 

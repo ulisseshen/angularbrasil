@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migração para rotas com lazy-loading {#migration-to-lazy-loaded-routes}
+# Migração para rotas com lazy-loading
 
 Este schematic ajuda desenvolvedores a converter rotas de components carregadas de forma eager para rotas com lazy loading. Isso permite que o processo de build divida o bundle de produção em chunks menores, evitando um grande bundle JS que inclui todas as rotas, o que afeta negativamente o carregamento inicial da página de uma aplicação.
 

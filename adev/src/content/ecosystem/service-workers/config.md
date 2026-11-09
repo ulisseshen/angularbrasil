@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Arquivo de configuração do Service Worker {#service-worker-configuration-file}
+# Arquivo de configuração do Service Worker
 
 Este tópico descreve as propriedades do arquivo de configuração do service worker.
 

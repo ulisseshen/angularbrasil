@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Otimizando o tamanho da aplicação cliente com lightweight injection tokens {#optimizing-client-application-size-with-lightweight-injection-tokens}
+# Otimizando o tamanho da aplicação cliente com lightweight injection tokens
 
 Esta página fornece uma visão geral conceitual de uma técnica de injeção de dependência recomendada para desenvolvedores de bibliotecas.
 Projetar sua biblioteca com _lightweight injection tokens_ ajuda a otimizar o tamanho do bundle das aplicações cliente que usam sua biblioteca.

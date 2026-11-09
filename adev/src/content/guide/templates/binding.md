@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Vinculando texto, propriedades e atributos dinâmicos {#binding-dynamic-text-properties-and-attributes}
+# Vinculando texto, propriedades e atributos dinâmicos
 
 No Angular, um **binding** cria uma conexão dinâmica entre o template de um component e os seus dados. Essa conexão garante que mudanças nos dados do component atualizem automaticamente o template renderizado.
 

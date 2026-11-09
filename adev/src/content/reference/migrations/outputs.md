@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migração para a função output {#migration-to-output-function}
+# Migração para a função output
 
 O Angular introduziu uma API aprimorada para outputs na v17.3 que é considerada
 pronta para produção a partir da v19. Esta API imita a API `input()`, mas não é baseada em Signals.

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicione uma interpolação ao template de um component {#add-an-interpolation-to-a-components-template}
+# Adicione uma interpolação ao template de um component
 
 Esta lição do tutorial demonstra como adicionar interpolação a templates Angular para exibir dados dinâmicos em um template.
 

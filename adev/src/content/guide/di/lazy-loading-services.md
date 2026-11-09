@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Lazy loading de services {#lazy-loading-services}
+# Lazy loading de services
 
 IMPORTANT: Para que o lazy loading funcione, o service que você carrega precisa ser provido automaticamente. Decore-o com `@Injectable({providedIn: 'root'})` ou com [`@Service()`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator). Sem o provimento automático, o Angular não tem como construir o service depois que ele é carregado.
 

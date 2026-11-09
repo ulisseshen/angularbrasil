@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Configurando o ambiente local e workspace {#setting-up-the-local-environment-and-workspace}
+# Configurando o ambiente local e workspace
 
 Este guia explica como configurar seu ambiente para desenvolvimento Angular usando o [Angular CLI](cli 'CLI command reference').
 Ele inclui informações sobre a instalação do CLI, criação de um workspace inicial e aplicação starter, e execução dessa aplicação localmente para verificar sua configuração.

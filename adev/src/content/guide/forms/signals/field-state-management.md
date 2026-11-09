@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Gerenciamento do estado de campos {#field-state-management}
+# Gerenciamento do estado de campos
 
 O estado de campo do Signal Forms permite reagir às interações do usuário por meio de signals reativos para o status de validação (como `valid`, `invalid`, `errors`), o rastreamento de interações (como `touched`, `dirty`) e a disponibilidade (como `disabled`, `hidden`).
 

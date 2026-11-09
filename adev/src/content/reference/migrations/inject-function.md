@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Migração para a função `inject` {#migration-to-the-inject-function}
+# Migração para a função `inject`
 
 A função [`inject`](/api/core/inject) do Angular oferece tipos mais precisos e melhor compatibilidade com decorators padrão, em comparação com a injeção baseada em constructor.
 

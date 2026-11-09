@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Estratégias de carregamento de routes {#route-loading-strategies}
+# Estratégias de carregamento de routes
 
 Entender como e quando as routes e os components são carregados no roteamento do Angular é essencial para construir aplicações web responsivas. O Angular oferece duas estratégias principais para controlar o comportamento de carregamento:
 

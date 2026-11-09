@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Envio de formulário {#form-submission}
+# Envio de formulário
 
 Quando um usuário envia um formulário, sua aplicação normalmente precisa tratar várias questões ao mesmo tempo: exibir erros de validação, impedir o envio duplicado, enviar os dados para um servidor e muito mais. Tratar cada uma dessas questões manualmente pode ser trabalhoso e propenso a erros.
 

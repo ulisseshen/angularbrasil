@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Configure o modelo do form {#set-up-the-form-model}
+# Configure o modelo do form
 
 Todo Signal Form começa com um modelo de dados do form: um signal que define o formato dos seus dados e armazena os valores do form.
 

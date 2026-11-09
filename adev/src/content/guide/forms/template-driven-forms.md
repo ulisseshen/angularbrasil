@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Construindo um formulário template-driven {#building-a-template-driven-form}
+# Construindo um formulário template-driven
 
 Este tutorial mostra como criar um formulário template-driven. Os elementos de controle no formulário são vinculados a propriedades de dados que possuem validação de entrada. A validação de entrada ajuda a manter a integridade dos dados e o estilo melhora a experiência do usuário.
 

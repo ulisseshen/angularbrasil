@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Controlar o acesso a routes com guards {#control-route-access-with-guards}
+# Controlar o acesso a routes com guards
 
 CRITICAL: Nunca confie apenas em guards do lado do cliente como única fonte de controle de acesso. Todo JavaScript executado em um navegador web pode ser modificado pelo usuário que está usando o navegador. Sempre aplique a autorização do usuário no servidor, além de quaisquer guards do lado do cliente.
 

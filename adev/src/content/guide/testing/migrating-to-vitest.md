@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Migrando de Karma para Vitest {#migrating-from-karma-to-vitest}
+# Migrando de Karma para Vitest
 
 O Angular CLI usa [Vitest](https://vitest.dev/) como test runner unitário padrão para novos projetos. Este guia fornece instruções para migrar um projeto existente de Karma e Jasmine para Vitest.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Guia de estilo de código Angular {#angular-coding-style-guide}
+# Guia de estilo de código Angular
 
 ## Introdução {#introduction}
 

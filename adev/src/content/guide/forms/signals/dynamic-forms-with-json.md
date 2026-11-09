@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Formulários dinâmicos com JSON {#dynamic-forms-with-json}
+# Formulários dinâmicos com JSON
 
 Alguns formulários não conseguem definir sua estrutura em tempo de compilação. Formulários dirigidos pelo servidor, painéis administrativos, aplicações multi-tenant e conteúdo gerenciado por CMS precisam renderizar campos a partir de uma configuração entregue em tempo de execução, normalmente como JSON vindo de um backend, de uma ferramenta administrativa ou de configurações por tenant.
 

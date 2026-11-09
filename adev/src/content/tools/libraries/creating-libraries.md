@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Criando bibliotecas {#creating-libraries}
+# Criando bibliotecas
 
 Esta página oferece uma visão geral conceitual de como criar e publicar novas bibliotecas para estender a funcionalidade do Angular.
 

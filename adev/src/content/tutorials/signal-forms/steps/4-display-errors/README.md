@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Exiba erros de validação {#display-validation-errors}
+# Exiba erros de validação
 
 Agora que você consegue validar o formulário, é importante mostrar os erros de validação aos usuários.
 

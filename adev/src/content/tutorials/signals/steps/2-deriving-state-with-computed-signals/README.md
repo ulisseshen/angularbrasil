@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Derivando estado com computed signals {#deriving-state-with-computed-signals}
+# Derivando estado com computed signals
 
 Agora que você aprendeu [como criar e atualizar signals](/tutorials/signals/1-creating-your-first-signal), vamos aprender sobre computed signals. Computed signals são valores derivados que se atualizam automaticamente quando suas dependências mudam. Eles são perfeitos para criar cálculos reativos baseados em outros signals.
 

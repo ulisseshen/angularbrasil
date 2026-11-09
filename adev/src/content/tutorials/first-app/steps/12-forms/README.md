@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicionando um formulário à sua aplicação Angular {#adding-a-form-to-your-angular-app}
+# Adicionando um formulário à sua aplicação Angular
 
 Esta lição do tutorial demonstra como adicionar um formulário que coleta dados do usuário a uma aplicação Angular.
 Esta lição começa com uma aplicação Angular funcional e mostra como adicionar um formulário a ela.

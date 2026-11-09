@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Passando dados para componentes com input signals {#passing-data-to-components-with-input-signals}
+# Passando dados para componentes com input signals
 
 Agora que você aprendeu [a gerenciar dados assíncronos com signals](/tutorials/signals/4-managing-async-data-with-signals), vamos explorar a API `input()` baseada em signals do Angular para passar dados de componentes pai para filhos, tornando o fluxo de dados entre componentes mais reativo e eficiente. Se você está familiarizado com props de componentes de outros frameworks, inputs são a mesma ideia.
 

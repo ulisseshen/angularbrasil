@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Sintaxe de expressão {#expression-syntax}
+# Sintaxe de expressão
 
 As expressões do Angular são baseadas em JavaScript, mas diferem em alguns pontos importantes. Este guia percorre as semelhanças e diferenças entre as expressões do Angular e o JavaScript padrão.
 

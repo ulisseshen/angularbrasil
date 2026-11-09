@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Control flow em components - `@for` {#control-flow-in-components--for}
+# Control flow em components - `@for`
 
 Muitas vezes, ao construir aplicações web, você precisa repetir algum código um número específico de vezes. Por exemplo, dado um array de nomes, você pode querer exibir cada nome em uma tag `<p>`.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Construindo aplicações Angular {#building-angular-apps}
+# Construindo aplicações Angular
 
 Você pode fazer o build da sua aplicação ou library Angular CLI com o comando `ng build`.
 Isso compilará seu código TypeScript para JavaScript, além de otimizar, fazer o bundle e minificar a saída conforme apropriado.

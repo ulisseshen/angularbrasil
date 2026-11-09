@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Buscando dados com recursos {#data-fetching-with-resources}
+# Buscando dados com recursos
 
 IMPORTANT: Os recursos de rota estão em [prévia para desenvolvedores](reference/releases#developer-preview).
 

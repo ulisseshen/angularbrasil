@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Configuração do workspace Angular {#angular-workspace-configuration}
+# Configuração do workspace Angular
 
 O arquivo `angular.json` no nível raiz de um workspace Angular fornece padrões de configuração para todo o workspace e específicos de projeto. Estes são usados pelas ferramentas de build e desenvolvimento fornecidas pelo Angular CLI.
 Os valores de caminho fornecidos na configuração são relativos ao diretório raiz do workspace.

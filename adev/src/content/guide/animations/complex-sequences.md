@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Sequências complexas de animação {#complex-animation-sequences}
+# Sequências complexas de animação
 
 IMPORTANTE: O package `@angular/animations` agora está deprecado. O time do Angular recomenda usar CSS nativo com `animate.enter` e `animate.leave` para animações em todo código novo. Saiba mais no novo [guia de animação](/guide/animations) de enter e leave. Veja também [Migrando do package de Animations do Angular](guide/animations/migration) para aprender como você pode começar a migrar para animações CSS puras em suas aplicações.
 

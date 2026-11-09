@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Padrão App shell {#app-shell-pattern}
+# Padrão App shell
 
 O [padrão App shell](https://developer.chrome.com/blog/app-shell) é uma forma de renderizar uma parte da sua aplicação usando uma rota em tempo de build.
 Ele pode melhorar a experiência do usuário ao iniciar rapidamente uma página renderizada estaticamente (um esqueleto comum a todas as páginas), enquanto o navegador baixa a versão completa do client e alterna para ela automaticamente depois que o código carrega.

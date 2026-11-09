@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Erros não tratados no Angular {#unhandled-errors-in-angular}
+# Erros não tratados no Angular
 
 À medida que sua aplicação Angular é executada, parte do seu código pode lançar um erro. Se não forem tratados, esses erros podem levar a comportamentos inesperados e a uma UI que não responde. Este guia cobre como o Angular lida com erros que não são explicitamente capturados pelo código da sua aplicação. Para orientação sobre como escrever sua própria lógica de tratamento de erros dentro da aplicação, consulte as boas práticas para tratamento de erros em JavaScript e Angular.
 

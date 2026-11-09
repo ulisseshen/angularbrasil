@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Projeção de conteúdo com ng-content {#content-projection-with-ng-content}
+# Projeção de conteúdo com ng-content
 
 TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

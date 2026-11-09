@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Requisições de teste {#test-requests}
+# Requisições de teste
 
 Como para qualquer dependência externa, você deve fazer mock do backend HTTP para que seus testes possam simular a interação com um servidor remoto. A biblioteca `@angular/common/http/testing` fornece ferramentas para capturar as requisições feitas pela aplicação, fazer assertions sobre elas e fazer mock das respostas para emular o comportamento do seu backend.
 

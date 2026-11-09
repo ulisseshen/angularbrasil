@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Adicionando event listeners {#adding-event-listeners}
+# Adicionando event listeners
 
 O Angular permite definir event listeners em um elemento do seu template especificando o nome do evento entre parênteses, junto com uma instrução que é executada toda vez que o evento ocorre.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Elementos host de components {#component-host-elements}
+# Elementos host de components
 
 TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 

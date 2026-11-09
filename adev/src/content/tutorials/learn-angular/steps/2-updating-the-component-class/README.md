@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Atualizando a classe do component {#updating-the-component-class}
+# Atualizando a classe do component
 
 No Angular, a lógica e o comportamento do component são definidos na classe TypeScript do component.
 

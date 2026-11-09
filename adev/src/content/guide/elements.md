@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Visão geral de Angular elements {#angular-elements-overview}
+# Visão geral de Angular elements
 
 _Angular elements_ são components Angular empacotados como _custom elements_ \(também chamados Web Components\), um padrão web para definir novos elementos HTML de forma independente de framework.
 

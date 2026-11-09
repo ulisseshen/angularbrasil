@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Outras Tarefas Comuns de Routing {#other-common-routing-tasks}
+# Outras Tarefas Comuns de Routing
 
 Este guia cobre algumas outras tarefas comuns associadas ao uso do router do Angular na sua aplicação.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Tutoriais {#tutorials}
+# Tutoriais
 
 Bem-vindo aos tutoriais do Angular! Estes tutoriais irão guiá-lo através dos conceitos principais do framework e ajudá-lo a começar a construir aplicações eficientes e escaláveis.
 

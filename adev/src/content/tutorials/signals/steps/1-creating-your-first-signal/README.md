@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Criando e atualizando seu primeiro signal {#creating-and-updating-your-first-signal}
+# Criando e atualizando seu primeiro signal
 
 Bem-vindo ao tutorial de Angular signals! [Signals](/essentials/signals) são a primitiva reativa do Angular que fornece uma maneira de gerenciar estado e atualizar automaticamente sua UI quando esse estado muda.
 

@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Debug de testes {#debugging-tests}
+# Debug de testes
 
 Se seus testes não estiverem funcionando como você espera, você pode fazer debug deles tanto no ambiente Node.js padrão quanto em um browser real.
 

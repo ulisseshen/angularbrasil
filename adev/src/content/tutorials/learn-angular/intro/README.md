@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Bem-vindo ao tutorial do Angular {#welcome-to-the-angular-tutorial}
+# Bem-vindo ao tutorial do Angular
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">

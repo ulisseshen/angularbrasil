@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Controles personalizados {#custom-controls}
+# Controles personalizados
 
 NOTE: Este guia pressupõe familiaridade com [essenciais de Signal Forms](essentials/signal-forms).
 

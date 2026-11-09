@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Agrupando elementos com ng-container {#grouping-elements-with-ng-container}
+# Agrupando elementos com ng-container
 
 `<ng-container>` é um elemento especial do Angular que agrupa vários elementos juntos ou marca uma localização em um template sem renderizar um elemento real no DOM.
 

@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Visão geral de forms {#forms-overview}
+# Visão geral de forms
 
 Forms são uma parte importante de muitos apps, porque permitem que seu app aceite a entrada do usuário. Vamos aprender como os forms são tratados no Angular.
 

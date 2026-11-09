@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Preparar component para tradução {#prepare-component-for-translation}
+# Preparar component para tradução
 
 Para preparar seu projeto para tradução, siga estas ações.
 
