@@ -1,15 +1,17 @@
-# Route Loading Strategies
+<!-- ia-translate: true -->
 
-Understanding how and when routes and components load in Angular routing is crucial for building responsive web applications. Angular offers two primary strategies to control loading behavior:
+# Estratégias de carregamento de routes {#route-loading-strategies}
 
-1. **Eagerly loaded**: Routes and components that are loaded immediately
-2. **Lazily loaded**: Routes and components loaded only when needed
+Entender como e quando as routes e os components são carregados no roteamento do Angular é essencial para construir aplicações web responsivas. O Angular oferece duas estratégias principais para controlar o comportamento de carregamento:
 
-Each approach offers distinct advantages for different scenarios.
+1. **Carregados antecipadamente (eager)**: routes e components que são carregados imediatamente
+2. **Carregados preguiçosamente (lazy)**: routes e components carregados apenas quando necessário
 
-## Eagerly loaded components
+Cada abordagem oferece vantagens distintas para diferentes cenários.
 
-When you define a route with the [`component`](api/router/Route#component) property, the referenced component is eagerly loaded as part of the same JavaScript bundle as the route configuration.
+## Components carregados antecipadamente {#eagerly-loaded-components}
+
+Quando você define uma route com a propriedade [`component`](api/router/Route#component), o component referenciado é carregado antecipadamente como parte do mesmo bundle JavaScript da configuração de routes.
 
 ```ts
 import {Routes} from '@angular/router';
@@ -17,8 +19,8 @@ import {HomePage} from './components/home/home-page';
 import {LoginPage} from './components/auth/login-page';
 
 export const routes: Routes = [
-  // HomePage and LoginPage are both directly referenced in this config,
-  // so their code is eagerly included in the same JavaScript bundle as this file.
+  // HomePage e LoginPage são ambos referenciados diretamente nesta configuração,
+  // então o código deles é incluído antecipadamente no mesmo bundle JavaScript deste arquivo.
   {
     path: '',
     component: HomePage,
@@ -30,13 +32,13 @@ export const routes: Routes = [
 ];
 ```
 
-Eagerly loading route components like this means that the browser has to download and parse all of the JavaScript for these components as part of your initial page load, but the components are available to Angular immediately.
+Carregar antecipadamente os components de route dessa forma significa que o navegador precisa baixar e analisar todo o JavaScript desses components como parte do carregamento inicial da página, mas os components ficam disponíveis para o Angular imediatamente.
 
-While including more JavaScript in your initial page load leads to slower initial load times, this can lead to more seamless transitions as the user navigates through an application.
+Embora incluir mais JavaScript no carregamento inicial leve a tempos de carregamento inicial mais lentos, isso pode gerar transições mais fluidas conforme o usuário navega pela aplicação.
 
-## Lazily loaded components and routes
+## Components e routes carregados preguiçosamente {#lazily-loaded-components-and-routes}
 
-You can use the [`loadComponent`](api/router/Route#loadComponent) property to lazily load the JavaScript for a component at the point at which that route would become active. The [`loadChildren`](api/router/Route#loadChildren) property lazily loads child routes during route matching.
+Você pode usar a propriedade [`loadComponent`](api/router/Route#loadComponent) para carregar preguiçosamente o JavaScript de um component no momento em que aquela route se tornaria ativa. A propriedade [`loadChildren`](api/router/Route#loadChildren) carrega preguiçosamente as routes filhas durante a correspondência de routes.
 
 ```ts
 import {Routes} from '@angular/router';
@@ -54,15 +56,15 @@ export const routes: Routes = [
 ];
 ```
 
-The [`loadComponent`](/api/router/Route#loadComponent) and [`loadChildren`](/api/router/Route#loadChildren) properties accept a loader function that returns a Promise that resolves to an Angular component or a set of routes respectively. In most cases, this function uses the standard [JavaScript dynamic import API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import). You can, however, use any arbitrary async loader function.
+As propriedades [`loadComponent`](/api/router/Route#loadComponent) e [`loadChildren`](/api/router/Route#loadChildren) aceitam uma função de carregamento que retorna uma Promise que resolve para um component Angular ou para um conjunto de routes, respectivamente. Na maioria dos casos, essa função usa a [API padrão de import dinâmico do JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import). No entanto, você pode usar qualquer função de carregamento assíncrona arbitrária.
 
-If the lazily loaded file uses a `default` export, you can return the `import()` promise directly without an additional `.then` call to select the exported class.
+Se o arquivo carregado preguiçosamente usar um export `default`, você pode retornar diretamente a Promise do `import()`, sem uma chamada `.then` adicional para selecionar a classe exportada.
 
-Lazily loading routes can significantly improve the load speed of your Angular application by removing large portions of JavaScript from the initial bundle. These portions of your code compile into separate JavaScript "chunks" that the router requests only when the user visits the corresponding route.
+Carregar routes preguiçosamente pode melhorar significativamente a velocidade de carregamento da sua aplicação Angular, removendo grandes partes do JavaScript do bundle inicial. Essas partes do seu código são compiladas em "chunks" JavaScript separados, que o router solicita somente quando o usuário visita a route correspondente.
 
-## Injection context lazy loading
+## Carregamento preguiçoso com contexto de injeção {#injection-context-lazy-loading}
 
-The Router executes [`loadComponent`](/api/router/Route#loadComponent) and [`loadChildren`](/api/router/Route#loadChildren) within the **injection context of the current route**, allowing you to call [`inject`](/api/core/inject)inside these loader functions to access providers declared on that route, inherited from parent routes through hierarchical dependency injection, or available globally. This enables context-aware lazy loading.
+O Router executa [`loadComponent`](/api/router/Route#loadComponent) e [`loadChildren`](/api/router/Route#loadChildren) dentro do **contexto de injeção da route atual**, permitindo que você chame [`inject`](/api/core/inject) dentro dessas funções de carregamento para acessar providers declarados naquela route, herdados de routes pai por meio da injeção de dependência hierárquica, ou disponíveis globalmente. Isso possibilita um carregamento preguiçoso sensível ao contexto.
 
 ```ts
 import {Routes} from '@angular/router';
@@ -72,7 +74,7 @@ import {FeatureFlags} from './feature-flags';
 export const routes: Routes = [
   {
     path: 'dashboard',
-    // Runs inside the route's injection context
+    // Executa dentro do contexto de injeção da route
     loadComponent: () => {
       const flags = inject(FeatureFlags);
       return flags.isPremium
@@ -83,14 +85,14 @@ export const routes: Routes = [
 ];
 ```
 
-## Should I use an eager or a lazy route?
+## Devo usar uma route antecipada ou preguiçosa? {#should-i-use-an-eager-or-a-lazy-route}
 
-There are many factors to consider when deciding on whether a route should be eager or lazy.
+Há muitos fatores a considerar ao decidir se uma route deve ser antecipada ou preguiçosa.
 
-In general, eager loading is recommended for primary landing page(s) while other pages would be lazy-loaded.
+De modo geral, o carregamento antecipado é recomendado para a(s) página(s) inicial(is) principal(is), enquanto as demais páginas devem ser carregadas preguiçosamente.
 
-NOTE: While lazy routes have the upfront performance benefit of reducing the amount of initial data requested by the user, it adds future data requests that could be undesirable. This is particularly true when dealing with nested lazy loading at multiple levels, which can significantly impact performance.
+NOTE: Embora routes preguiçosas tenham o benefício de desempenho inicial de reduzir a quantidade de dados que o usuário solicita no começo, elas adicionam solicitações de dados futuras que podem ser indesejáveis. Isso é especialmente verdadeiro ao lidar com carregamento preguiçoso aninhado em múltiplos níveis, o que pode impactar significativamente o desempenho.
 
-## Next steps
+## Próximos passos {#next-steps}
 
-Learn how to [display the contents of your routes with Outlets](/guide/routing/show-routes-with-outlets).
+Saiba como [exibir o conteúdo das suas routes com Outlets](/guide/routing/show-routes-with-outlets).
