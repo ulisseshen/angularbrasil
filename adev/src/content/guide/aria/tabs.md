@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Tabs
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" title="Tabs ARIA pattern"/>
-  <docs-pill href="/api/aria/tabs/Tabs" title="Tabs API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" title="Padrão ARIA de tabs"/>
+  <docs-pill href="/api/aria/tabs/Tabs" title="Referência da API de Tabs"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-Tabs display layered content sections where only one panel is visible at a time. Users switch between panels by clicking tab buttons or using arrow keys to navigate the tab list.
+As tabs exibem seções de conteúdo em camadas, em que apenas um painel fica visível por vez. Os usuários alternam entre os painéis clicando nos botões das abas ou usando as setas para navegar pela lista de abas.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.html"/>
@@ -35,43 +36,43 @@ Tabs display layered content sections where only one panel is visible at a time.
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso {#usage}
 
-Tabs work well for organizing related content into distinct sections where users switch between different views or categories.
+As tabs funcionam bem para organizar conteúdo relacionado em seções distintas, nas quais os usuários alternam entre diferentes visões ou categorias.
 
-**Use tabs when:**
+**Use tabs quando:**
 
-- Organizing related content into distinct sections
-- Creating settings panels with multiple categories
-- Building documentation with multiple topics
-- Implementing dashboards with different views
-- Showing content where users need to switch contexts
+- Organizar conteúdo relacionado em seções distintas
+- Criar painéis de configurações com várias categorias
+- Construir documentação com vários tópicos
+- Implementar dashboards com diferentes visões
+- Exibir conteúdo em que os usuários precisam alternar de contexto
 
-**Avoid tabs when:**
+**Evite tabs quando:**
 
-- Building sequential forms or wizards (use a stepper pattern)
-- Navigating between pages (use router navigation)
-- Showing single content sections (no need for tabs)
-- Having more than 7-8 tabs (consider a different layout)
+- Construir formulários sequenciais ou wizards (use um padrão de stepper)
+- Navegar entre páginas (use a navegação do router)
+- Exibir uma única seção de conteúdo (não há necessidade de tabs)
+- Houver mais de 7 a 8 tabs (considere um layout diferente)
 
-## Features
+## Recursos {#features}
 
-- **Selection modes** - Tabs activate automatically on focus or require manual activation
-- **Keyboard navigation** - Arrow keys, Home, and End for efficient tab navigation
-- **Orientation** - Horizontal or vertical tab list layouts
-- **Lazy content** - Tab panels render only when activated
-- **Disabled tabs** - Disable individual tabs with focus management
-- **Focus modes** - Roving tabindex or activedescendant focus strategies
-- **RTL support** - Right-to-left language navigation
+- **Modos de seleção** - As tabs são ativadas automaticamente ao receber foco ou exigem ativação manual
+- **Navegação por teclado** - Teclas de seta, Home e End para uma navegação eficiente entre as tabs
+- **Orientação** - Layouts de lista de tabs horizontais ou verticais
+- **Conteúdo sob demanda** - Os painéis das tabs são renderizados somente quando ativados
+- **Tabs desabilitadas** - Desabilite tabs individuais com gerenciamento de foco
+- **Modos de foco** - Estratégias de foco roving tabindex ou activedescendant
+- **Suporte a RTL** - Navegação em idiomas da direita para a esquerda
 
-## Examples
+## Exemplos {#examples}
 
-### Selection follows focus
+### Seleção segue o foco {#selection-follows-focus}
 
-When selection follows focus, tabs activate immediately as you navigate with arrow keys. This provides instant feedback and works well for lightweight content.
+Quando a seleção segue o foco, as tabs são ativadas imediatamente conforme você navega com as setas. Isso oferece feedback instantâneo e funciona bem para conteúdos leves.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.html"/>
@@ -96,14 +97,14 @@ When selection follows focus, tabs activate immediately as you navigate with arr
   </docs-tab>
 </docs-tab-group>
 
-Set `[selectionMode]="'follow'"` on the tab list to enable this behavior.
+Defina `[selectionMode]="'follow'"` na lista de tabs para habilitar esse comportamento.
 
-### Manual activation
+### Ativação manual {#manual-activation}
 
-With manual activation, arrow keys move focus between tabs without changing the selected tab. Users press Space or Enter to activate the focused tab.
+Com a ativação manual, as teclas de seta movem o foco entre as tabs sem alterar a tab selecionada. Os usuários pressionam Espaço ou Enter para ativar a tab em foco.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/explicit-selection/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/explicit-selection/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/explicit-selection/app/app.html"/>
@@ -128,14 +129,14 @@ With manual activation, arrow keys move focus between tabs without changing the 
   </docs-tab>
 </docs-tab-group>
 
-Use `[selectionMode]="'explicit'"` for heavy content panels to avoid unnecessary rendering.
+Use `[selectionMode]="'explicit'"` em painéis com conteúdo pesado para evitar renderizações desnecessárias.
 
-### Vertical tabs
+### Abas verticais {#vertical-tabs}
 
-Arrange tabs vertically for interfaces like settings panels or navigation sidebars.
+Organize as tabs na vertical para interfaces como painéis de configurações ou barras laterais de navegação.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/vertical/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/vertical/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/vertical/app/app.html"/>
@@ -160,43 +161,43 @@ Arrange tabs vertically for interfaces like settings panels or navigation sideba
   </docs-tab>
 </docs-tab-group>
 
-Set `[orientation]="'vertical'"` on the tab list. Navigation changes to Up/Down arrow keys.
+Defina `[orientation]="'vertical'"` na lista de tabs. A navegação passa a usar as setas para cima e para baixo.
 
-### Lazy content rendering
+### Renderização de conteúdo sob demanda {#lazy-content-rendering}
 
-Use the `ngTabContent` directive on an `ng-template` to defer rendering tab panels until they're shown.
+Use a directive `ngTabContent` em um `ng-template` para adiar a renderização dos painéis das tabs até que sejam exibidos.
 
 ```angular-html
 <div ngTabs>
   <ul ngTabList [(selectedTab)]="selectedTab">
-    <li ngTab value="tab1">Tab 1</li>
-    <li ngTab value="tab2">Tab 2</li>
+    <li ngTab value="tab1">Aba 1</li>
+    <li ngTab value="tab2">Aba 2</li>
   </ul>
 
   <div ngTabPanel value="tab1">
     <ng-template ngTabContent>
-      <!-- This content only renders when Tab 1 is shown -->
+      <!-- Este conteúdo só é renderizado quando a Aba 1 é exibida -->
       <app-heavy-component />
     </ng-template>
   </div>
 
   <div ngTabPanel value="tab2">
     <ng-template ngTabContent>
-      <!-- This content only renders when Tab 2 is shown -->
+      <!-- Este conteúdo só é renderizado quando a Aba 2 é exibida -->
       <app-another-component />
     </ng-template>
   </div>
 </div>
 ```
 
-By default, content is removed from the DOM when the panel is hidden. Set `[preserveContent]="true"` to keep it, for example when the panel contains a video that shouldn't reset when switching tabs.
+Por padrão, o conteúdo é removido do DOM quando o painel fica oculto. Defina `[preserveContent]="true"` para mantê-lo, por exemplo quando o painel contém um vídeo que não deve reiniciar ao alternar as tabs.
 
-### Disabled tabs
+### Abas desabilitadas {#disabled-tabs}
 
-Disable specific tabs to prevent user interaction. Control whether disabled tabs can receive keyboard focus.
+Desabilite tabs específicas para impedir a interação do usuário. Controle se as tabs desabilitadas podem receber foco do teclado.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/disabled/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/disabled/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/disabled/app/app.html"/>
@@ -221,21 +222,21 @@ Disable specific tabs to prevent user interaction. Control whether disabled tabs
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the tab list, disabled tabs can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled tabs are skipped during keyboard navigation.
+Quando `[softDisabled]="true"` está na lista de tabs, as tabs desabilitadas podem receber foco, mas não podem ser ativadas. Quando `[softDisabled]="false"`, as tabs desabilitadas são ignoradas durante a navegação pelo teclado.
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing tabs components.
-Here is an example of how to use the harnesses in a component test:
+A Angular Aria oferece harnesses de componente para testar componentes de tabs.
+Veja a seguir um exemplo de como usar os harnesses em um teste de componente:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {ComponentHarness, HarnessLoader} from '@angular/cdk/testing';
 import {TabsHarness} from '@angular/aria/tabs/testing';
-import {MyTabsComponent} from './my-tabs'; // Your component
+import {MyTabsComponent} from './my-tabs'; // Seu componente
 
-// A simple harness to help query content inside the tab panel
+// Um harness simples para ajudar a consultar o conteúdo dentro do painel da tab
 class TestContentHarness extends ComponentHarness {
   static hostSelector = '.test-content';
   async getText(): Promise<string> {
@@ -260,32 +261,32 @@ describe('MyTabsComponent', () => {
   it('should switch tabs and scope panel queries', async () => {
     const tabs = await loader.getHarness(TabsHarness);
 
-    // Get all tabs
+    // Obtém todas as tabs
     const tabItems = await tabs.getTabs();
     expect(tabItems.length).toBe(3);
 
-    // Verify initial selection
+    // Verifica a seleção inicial
     expect(await tabItems[0].isSelected()).toBe(true);
     expect(await tabItems[1].isSelected()).toBe(false);
 
-    // Query content inside the active tab panel
-    // TabHarness automatically scopes queries to its associated panel
+    // Consulta o conteúdo dentro do painel da tab ativa
+    // O TabHarness limita automaticamente as consultas ao painel associado
     const content = await tabItems[0].getHarness(TestContentHarness);
     expect(await content.getText()).toBe('Content 1');
 
-    // Switch to the second tab
+    // Muda para a segunda tab
     await tabItems[1].select();
 
-    // Verify selection updated
+    // Verifica se a seleção foi atualizada
     expect(await tabItems[0].isSelected()).toBe(false);
     expect(await tabItems[1].isSelected()).toBe(true);
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`Tabs`](/api/aria/tabs/Tabs)
 - [`TabList`](/api/aria/tabs/TabList)
