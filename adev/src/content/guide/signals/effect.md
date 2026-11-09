@@ -1,6 +1,7 @@
+<!-- ia-translate: true -->
 # Effects
 
-Signals are useful because they notify interested consumers when they change. An **effect** is an operation that runs whenever one or more signal values change. You can create an effect with the `effect` function:
+Signals são úteis porque notificam os consumidores interessados quando eles mudam. Um **effect** é uma operação que executa sempre que um ou mais valores de signal mudam. Você pode criar um effect com a função `effect`:
 
 ```ts
 import {effect} from '@angular/core';
@@ -10,30 +11,30 @@ effect(() => {
 });
 ```
 
-Effects always run **at least once.** When an effect runs, it tracks any signal value reads. Whenever any of these signal values change, the effect runs again. Similar to computed signals, effects keep track of their dependencies dynamically, and only track signals which were read in the most recent execution.
+Effects sempre executam **pelo menos uma vez.** Quando um effect executa, ele rastreia quaisquer leituras de valores de signal. Sempre que algum desses valores de signal muda, o effect executa novamente. Assim como os computed signals, os effects mantêm o controle de suas dependências dinamicamente e rastreiam apenas os signals que foram lidos na execução mais recente.
 
-Effects always execute **asynchronously**, during the change detection process.
+Effects sempre executam **de forma assíncrona**, durante o processo de detecção de mudanças.
 
-## Use cases for effects
+## Casos de uso para effects {#use-cases-for-effects}
 
-Effects should be the last API you reach for. Always prefer `computed()` for derived values and `linkedSignal()` for values that can be both derived and manually set. If you find yourself copying data from one signal to another with an effect, it's a sign you should move your source-of-truth higher up and use `computed()` or `linkedSignal()` instead. Effects are best for syncing signal state to imperative, non-signal APIs.
+Effects devem ser a última API à qual você recorre. Sempre prefira `computed()` para valores derivados e `linkedSignal()` para valores que podem ser tanto derivados quanto definidos manualmente. Se você se pegar copiando dados de um signal para outro com um effect, é sinal de que você deve mover sua fonte da verdade para mais acima e usar `computed()` ou `linkedSignal()` no lugar. Effects são mais indicados para sincronizar o estado dos signals com APIs imperativas que não são baseadas em signals.
 
-TIP: There are no situations where effect is good, only situations where it is appropriate.
+TIP: Não há situações em que effect seja uma boa escolha, apenas situações em que ele é apropriado.
 
-- Logging signal values, either for analytics or as a debugging tool.
-- Keeping data in sync with different kinds of storage: `window.localStorage`, session storage, cookies, etc.
-- Adding custom DOM behavior that can't be expressed with template syntax.
-- Performing custom rendering to a `<canvas>` element, charting library, or other third party UI library.
+- Registrar valores de signals, seja para analytics ou como ferramenta de depuração.
+- Manter dados sincronizados com diferentes tipos de armazenamento: `window.localStorage`, session storage, cookies, etc.
+- Adicionar comportamento customizado no DOM que não pode ser expresso com a sintaxe de template.
+- Realizar renderização customizada em um elemento `<canvas>`, biblioteca de gráficos ou outra biblioteca de UI de terceiros.
 
-<docs-callout critical title="When not to use effects">
-Avoid using effects for propagation of state changes. This can result in `ExpressionChangedAfterItHasBeenChecked` errors, infinite circular updates, or unnecessary change detection cycles.
+<docs-callout critical title="Quando não usar effects">
+Evite usar effects para propagação de mudanças de estado. Isso pode resultar em erros `ExpressionChangedAfterItHasBeenChecked`, atualizações circulares infinitas ou ciclos desnecessários de detecção de mudanças.
 
-Instead, use `computed` signals to model state that depends on other state.
+Em vez disso, use `computed` signals para modelar estado que depende de outro estado.
 </docs-callout>
 
-## Injection context
+## Contexto de injeção {#injection-context}
 
-By default, you can only create an `effect()` within an [injection context](guide/di/dependency-injection-context) (where you have access to the `inject` function). The easiest way to satisfy this requirement is to call `effect` within a component, directive, or service `constructor`:
+Por padrão, você só pode criar um `effect()` dentro de um [contexto de injeção](guide/di/dependency-injection-context) (onde você tem acesso à função `inject`). A forma mais fácil de atender a esse requisito é chamar `effect` dentro do `constructor` de um component, directive ou service:
 
 ```ts
 @Component(/* ... */)
@@ -41,7 +42,7 @@ export class EffectiveCounter {
   readonly count = signal(0);
 
   constructor() {
-    // Register a new effect.
+    // Registra um novo effect.
     effect(() => {
       console.log(`The count is: ${this.count()}`);
     });
@@ -49,7 +50,7 @@ export class EffectiveCounter {
 }
 ```
 
-To create an effect outside the constructor, you can pass an `Injector` to `effect` via its options:
+Para criar um effect fora do constructor, você pode passar um `Injector` para `effect` por meio de suas opções:
 
 ```ts
 @Component(/* ... */)
@@ -68,35 +69,35 @@ export class EffectiveCounter {
 }
 ```
 
-## Execution of effects
+## Execução de effects {#execution-of-effects}
 
-Angular implicitly defines two implicit behaviors for its effects depending on the context they were created in.
+O Angular define implicitamente dois comportamentos para seus effects, dependendo do contexto em que eles foram criados.
 
-A "View Effect" is an `effect` created in the context of a component instantiation. This includes effects created by services that are tied to component injectors.<br>
-A "Root Effect" is created in the context of a root provided service instantiation.
+Um "View Effect" é um `effect` criado no contexto da instanciação de um component. Isso inclui effects criados por services vinculados aos injectors de component.<br>
+Um "Root Effect" é criado no contexto da instanciação de um service fornecido na raiz.
 
-The execution of both kinds of `effect` are tied to the change detection process.
+A execução de ambos os tipos de `effect` está vinculada ao processo de detecção de mudanças.
 
-- "View effects" are executed _before_ their corresponding component is checked by the change detection process.
-- "Root effects" are executed prior to all components being checked by the change detection process.
+- "View effects" são executados _antes_ de seu component correspondente ser verificado pelo processo de detecção de mudanças.
+- "Root effects" são executados antes de todos os components serem verificados pelo processo de detecção de mudanças.
 
-In both cases, if at least one of the effect dependencies changed during the effect execution, the effect will re-run before moving ahead on the change detection process.
+Em ambos os casos, se pelo menos uma das dependências do effect mudar durante a execução do effect, o effect será executado novamente antes de o processo de detecção de mudanças prosseguir.
 
-## Destroying effects
+## Destruindo effects {#destroying-effects}
 
-When a component or directive is destroyed, Angular automatically cleans up any associated effects.
+Quando um component ou directive é destruído, o Angular limpa automaticamente quaisquer effects associados.
 
-An `effect` can be created in two different contexts that will affect when it's destroyed:
+Um `effect` pode ser criado em dois contextos diferentes que afetam quando ele é destruído:
 
-- A "View effect" is destroyed when the component is destroyed.
-- A "Root effect" is destroyed when the application is destroyed.
+- Um "View effect" é destruído quando o component é destruído.
+- Um "Root effect" é destruído quando a aplicação é destruída.
 
-Effects return an `EffectRef`. You can use the ref's `destroy` method to manually dispose of an effect. You can combine this with the `manualCleanup` option when creating an effect to disable automatic cleanup. Be careful to actually destroy such effects when they're no longer required.
+Effects retornam um `EffectRef`. Você pode usar o método `destroy` da referência para descartar manualmente um effect. Você pode combiná-lo com a opção `manualCleanup` ao criar um effect para desativar a limpeza automática. Tenha cuidado para realmente destruir esses effects quando eles não forem mais necessários.
 
-## Effect cleanup functions
+## Funções de limpeza de effects {#effect-cleanup-functions}
 
-When a component or directive is destroyed, Angular automatically cleans up any associated effects.
-Effects might start long-running operations, which you should cancel if the effect is destroyed or runs again before the first operation finished. When you create an effect, your function can optionally accept an `onCleanup` function as its first parameter. This `onCleanup` function lets you register a callback that is invoked before the next run of the effect begins, or when the effect is destroyed.
+Quando um component ou directive é destruído, o Angular limpa automaticamente quaisquer effects associados.
+Effects podem iniciar operações de longa duração, que você deve cancelar se o effect for destruído ou executar novamente antes que a primeira operação termine. Quando você cria um effect, sua função pode opcionalmente aceitar uma função `onCleanup` como primeiro parâmetro. Essa função `onCleanup` permite registrar um callback que é invocado antes de a próxima execução do effect começar, ou quando o effect é destruído.
 
 ```ts
 effect((onCleanup) => {
@@ -112,11 +113,11 @@ effect((onCleanup) => {
 });
 ```
 
-## Side effects on DOM elements
+## Efeitos colaterais em elementos do DOM {#side-effects-on-dom-elements}
 
-The `effect` function is a general-purpose tool for running code in reaction to signal changes. However, it runs _before_ the Angular updates the DOM. In some situations, you may need to manually inspect or modify the DOM, or integrate a 3rd-party library that requires direct DOM access.
+A função `effect` é uma ferramenta de uso geral para executar código em reação a mudanças de signals. No entanto, ela executa _antes_ de o Angular atualizar o DOM. Em algumas situações, você pode precisar inspecionar ou modificar manualmente o DOM, ou integrar uma biblioteca de terceiros que requer acesso direto ao DOM.
 
-For these situations, you can use `afterRenderEffect`. It functions like `effect`, but runs after Angular has finished rendering and committed its changes to the DOM.
+Para essas situações, você pode usar `afterRenderEffect`. Ela funciona como `effect`, mas executa depois que o Angular terminou de renderizar e confirmou suas mudanças no DOM.
 
 ```ts
 @Component(/* ... */)
@@ -126,14 +127,14 @@ export class MyFancyChart {
   chart: ChartInstance;
 
   constructor() {
-    // Run a single time to create the chart instance
+    // Executa uma única vez para criar a instância do gráfico
     afterNextRender({
       write: () => {
         this.chart = initializeChart(this.canvas().nativeElement, this.chartData());
       },
     });
 
-    // Re-run after DOM has been updated whenever `chartData` changes
+    // Executa novamente após o DOM ser atualizado sempre que `chartData` mudar
     afterRenderEffect(() => {
       this.chart.updateData(this.chartData());
     });
@@ -141,28 +142,28 @@ export class MyFancyChart {
 }
 ```
 
-In this example `afterRenderEffect` is used to update a chart created by a 3rd party library.
+Neste exemplo, `afterRenderEffect` é usado para atualizar um gráfico criado por uma biblioteca de terceiros.
 
-TIP: You often don't need `afterRenderEffect` to check for DOM changes. APIs like `ResizeObserver`, `MutationObserver` and `IntersectionObserver` are preferred to `effect` or `afterRenderEffect` when possible.
+TIP: Você frequentemente não precisa de `afterRenderEffect` para verificar mudanças no DOM. APIs como `ResizeObserver`, `MutationObserver` e `IntersectionObserver` são preferíveis a `effect` ou `afterRenderEffect` sempre que possível.
 
-### Render phases
+### Fases de renderização {#render-phases}
 
-Accessing the DOM and mutating it can impact the performance of your application, for example by triggering too many unnecessary [reflows](https://developer.mozilla.org/en-US/docs/Glossary/Reflow).
+Acessar o DOM e modificá-lo pode impactar o desempenho da sua aplicação, por exemplo, disparando muitos [reflows](https://developer.mozilla.org/en-US/docs/Glossary/Reflow) desnecessários.
 
-To optimize those operations, `afterRenderEffect` offers four phases to group the callbacks and execute them in an optimized order.
+Para otimizar essas operações, `afterRenderEffect` oferece quatro fases para agrupar os callbacks e executá-los em uma ordem otimizada.
 
-The phases are:
+As fases são:
 
-| Phase            | Description                                                                                                                                                                                        |
+| Fase             | Descrição                                                                                                                                                                                          |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `earlyRead`      | Use this phase to read from the DOM before a subsequent write callback, for example to perform custom layout that the browser doesn't natively support. Prefer the read phase if reading can wait. |
-| `write`          | Use this phase to write to the DOM. **Never** read from the DOM in this phase.                                                                                                                     |
-| `mixedReadWrite` | Use this phase to read from and write to the DOM simultaneously. Never use this phase if it is possible to divide the work among the other phases instead.                                         |
-| `read`           | Use this phase to read from the DOM. **Never** write to the DOM in this phase.                                                                                                                     |
+| `earlyRead`      | Use esta fase para ler do DOM antes de um callback de escrita subsequente, por exemplo, para realizar um layout customizado que o navegador não suporta nativamente. Prefira a fase de leitura se a leitura puder esperar. |
+| `write`          | Use esta fase para escrever no DOM. **Nunca** leia do DOM nesta fase.                                                                                                                             |
+| `mixedReadWrite` | Use esta fase para ler e escrever no DOM simultaneamente. Nunca use esta fase se for possível dividir o trabalho entre as outras fases.                                                           |
+| `read`           | Use esta fase para ler do DOM. **Nunca** escreva no DOM nesta fase.                                                                                                                               |
 
-Using these phases helps prevent layout thrashing and ensures that your DOM operations are performed in a safe and efficient manner.
+Usar essas fases ajuda a prevenir layout thrashing e garante que suas operações no DOM sejam executadas de forma segura e eficiente.
 
-You can specify the phases by passing an object with a callback for each phase to `afterRenderEffect`:
+Você pode especificar as fases passando para `afterRenderEffect` um objeto com um callback para cada fase:
 
 ```ts
 afterRenderEffect({
@@ -181,27 +182,27 @@ afterRenderEffect({
 });
 ```
 
-CRITICAL: If you don't specify the phase, `afterRenderEffect` runs callbacks during the `mixedReadWrite` phase. This may worsen application performance by causing additional DOM reflows.
+CRITICAL: Se você não especificar a fase, `afterRenderEffect` executa os callbacks durante a fase `mixedReadWrite`. Isso pode piorar o desempenho da aplicação ao causar reflows adicionais no DOM.
 
-#### Phase executions
+#### Execuções de fases {#phase-executions}
 
-The `earlyRead` phase callback receives only the cleanup function. Each subsequent phase receives the return value of the previous phase's callback as a Signal. You can use this to coordinate work across phases.
+O callback da fase `earlyRead` recebe apenas a função de limpeza. Cada fase subsequente recebe, como um Signal, o valor retornado pelo callback da fase anterior. Você pode usar isso para coordenar o trabalho entre as fases.
 
-Effects run in the following phase order:
+Os effects executam na seguinte ordem de fases:
 
 1. `earlyRead`
 2. `write`
 3. `mixedReadWrite`
 4. `read`
 
-If one of the phases modifies a signal value tracked by `afterRenderEffect`, the affected phases execute again.
+Se uma das fases modificar um valor de signal rastreado pelo `afterRenderEffect`, as fases afetadas são executadas novamente.
 
-#### Cleanup
+#### Limpeza {#cleanup}
 
-Each phase provides a cleanup callback function as argument. The cleanup callbacks are executed when the `afterRenderEffect` is destroyed or before re-running phase effects.
+Cada fase fornece uma função de callback de limpeza como argumento. Os callbacks de limpeza são executados quando o `afterRenderEffect` é destruído ou antes de as fases do effect serem executadas novamente.
 
-### Server-side rendering caveats
+### Ressalvas de renderização no servidor {#server-side-rendering-caveats}
 
-`afterRenderEffect`, similarly to `afterNextRender`/`afterEveryRender`, only runs on the client.
+`afterRenderEffect`, assim como `afterNextRender`/`afterEveryRender`, executa apenas no cliente.
 
-NOTE: Components are not guaranteed to be [hydrated](/guide/hydration) before the callback runs. You must use caution when directly reading or writing the DOM and layout.
+NOTE: Os components não são necessariamente [hidratados](/guide/hydration) antes de o callback executar. Você deve ter cuidado ao ler ou escrever diretamente no DOM e no layout.

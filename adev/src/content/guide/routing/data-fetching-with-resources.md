@@ -1,21 +1,22 @@
-# Data fetching with resources
+<!-- ia-translate: true -->
+# Buscando dados com recursos {#data-fetching-with-resources}
 
-IMPORTANT: Route resources are in [developer preview](reference/releases#developer-preview).
+IMPORTANT: Os recursos de rota estão em [prévia para desenvolvedores](reference/releases#developer-preview).
 
-The Angular Router integrates with Angular signals through the `resources` route configuration. This allows you to fetch data reactively using `Resource` APIs.
+O Angular Router se integra aos signals do Angular por meio da configuração de rota `resources`. Isso permite buscar dados de forma reativa usando as APIs `Resource`.
 
-## Why use route resources?
+## Por que usar recursos de rota? {#why-use-route-resources}
 
-Route resources offer several advantages over traditional [data resolvers](/guide/routing/data-resolvers):
+Os recursos de rota oferecem várias vantagens em relação aos [resolvers de dados](/guide/routing/data-resolvers) tradicionais:
 
-- **Parallel execution**: Route resources across all matched routes load concurrently instead of one route at a time.
-- **Non-blocking data loading**: Use `nonBlocking()` to activate the route immediately and render loading skeletons or UI states while data loads in the background.
-- **Reload without renavigation**: Call `.reload()` on individual resources or update signal parameters to refresh data without rerunning guards or rematching routes.
-- **Reactive data fetching**: Resources integrate directly with Angular signals, automatically re-evaluating when signal dependencies change and exposing reactive status signals like `isLoading()` and `error()`.
+- **Execução paralela**: Os recursos de rota de todas as rotas correspondidas são carregados simultaneamente, em vez de uma rota por vez.
+- **Carregamento de dados não bloqueante**: Use `nonBlocking()` para ativar a rota imediatamente e renderizar esqueletos de carregamento ou estados de interface enquanto os dados são carregados em segundo plano.
+- **Recarregamento sem renavegação**: Chame `.reload()` em recursos individuais ou atualize os parâmetros de signal para atualizar os dados sem executar novamente os guards nem a correspondência de rotas.
+- **Busca de dados reativa**: Os recursos se integram diretamente aos signals do Angular, sendo reavaliados automaticamente quando suas dependências de signal mudam, e expõem signals de status reativos, como `isLoading()` e `error()`.
 
-## Enabling route resources
+## Habilitando recursos de rota {#enabling-route-resources}
 
-To enable route resources, provide `withRouterResources()` to your router configuration:
+Para habilitar os recursos de rota, forneça `withRouterResources()` na configuração do seu router:
 
 ```ts
 import {provideRouter, withComponentInputBinding, withRouterResources} from '@angular/router';
@@ -26,11 +27,11 @@ bootstrapApplication(App, {
 });
 ```
 
-TIP: Enable `withComponentInputBinding()` so the router can bind resolved resources directly to component inputs.
+TIP: Habilite `withComponentInputBinding()` para que o router possa vincular os recursos resolvidos diretamente aos inputs de componentes.
 
-## Defining route resources
+## Definindo recursos de rota {#defining-route-resources}
 
-You define resources on a route with the `resources` function. The function runs in an injection context, so you can use `inject()` to access services, API clients, or stores directly inside the route definition.
+Você define recursos em uma rota com a função `resources`. Essa função é executada em um contexto de injeção, então você pode usar `inject()` para acessar serviços, clientes de API ou stores diretamente dentro da definição da rota.
 
 ```angular-ts
 import {Component, inject, input, resource} from '@angular/core';
@@ -54,24 +55,24 @@ const routes: Routes = [
 ];
 
 @Component({
-  template: `<p>User: {{ user().name }}</p>`,
+  template: `<p>Usuário: {{ user().name }}</p>`,
 })
 export class UserProfile {
-  // The router binds only the value for blocking resources.
+  // O router vincula apenas o valor dos recursos bloqueantes
   user = input.required<User>();
 }
 ```
 
-### The `ResourceContext` object
+### O objeto `ResourceContext` {#the-resourcecontext-object}
 
-The `resources` function receives a `ResourceContext` that provides:
+A função `resources` recebe um `ResourceContext` que fornece:
 
-- Route signals: `params`, `queryParams`, `fragment`, and `data`.
-- `resources`: a signal of the resources inherited from ancestor routes. See [Resource inheritance](#resource-inheritance).
+- Signals de rota: `params`, `queryParams`, `fragment` e `data`.
+- `resources`: um signal com os recursos herdados das rotas ancestrais. Veja [Herança de recursos](#resource-inheritance).
 
-### Supported resource implementations
+### Implementações de recurso suportadas {#supported-resource-implementations}
 
-The `resources` function can return any Angular `Resource` implementation, such as `resource()`, `rxResource()`, or a custom resource.
+A função `resources` pode retornar qualquer implementação de `Resource` do Angular, como `resource()`, `rxResource()` ou um recurso customizado.
 
 ```ts
 import {Routes} from '@angular/router';
@@ -91,9 +92,9 @@ const routes: Routes = [
 ];
 ```
 
-NOTE: `rxResource` uses the `stream` property instead of `loader` to accept a function that returns an Observable.
+NOTE: `rxResource` usa a propriedade `stream` em vez de `loader` para aceitar uma função que retorna um Observable.
 
-The `resources` function can also be `async` and return a `Promise` if you need to perform asynchronous setup or dynamic imports before configuring resources:
+A função `resources` também pode ser `async` e retornar uma `Promise`, caso você precise executar uma configuração assíncrona ou importações dinâmicas antes de configurar os recursos:
 
 ```ts
 resources: async (ctx) => {
@@ -109,44 +110,44 @@ resources: async (ctx) => {
 },
 ```
 
-## Fine-grained change tracking with signals
+## Rastreamento de mudanças refinado com signals {#fine-grained-change-tracking-with-signals}
 
-A resource tracks the signals that its `params` function reads. Read the exact value you need so that the resource refetches only when that value changes:
+Um recurso rastreia os signals que a sua função `params` lê. Leia exatamente o valor de que você precisa, para que o recurso seja buscado novamente apenas quando esse valor mudar:
 
 ```ts
 resources: (ctx) => ({
   products: resource({
-    // Tracks only the 'category' query parameter
+    // Rastreia apenas o query parameter 'category'
     params: () => ctx.queryParams()['category'],
     loader: ({params: category}) => fetchProducts(category),
   }),
 }),
 ```
 
-A navigation that changes an unrelated query parameter, such as `?sort=desc` or `?page=2`, leaves `category` unchanged, so the resource does not refetch.
+Uma navegação que altera um query parameter não relacionado, como `?sort=desc` ou `?page=2`, deixa `category` inalterado, então o recurso não é buscado novamente.
 
-TIP: Read specific properties, such as `ctx.params()['id']`, instead of returning an entire parameters object, such as `ctx.params()`. The router creates a new object on every navigation, so returning the whole object refetches the resource even when the individual values are unchanged.
+TIP: Leia propriedades específicas, como `ctx.params()['id']`, em vez de retornar o objeto inteiro de parâmetros, como `ctx.params()`. O router cria um novo objeto a cada navegação, então retornar o objeto inteiro faz o recurso ser buscado novamente mesmo quando os valores individuais não mudaram.
 
-## Parallel execution
+## Execução paralela {#parallel-execution}
 
-Data resolvers execute sequentially from parent route to child route. If a parent route resolver takes 200ms and a child route resolver takes 300ms, the navigation is blocked for 500ms.
+Os resolvers de dados são executados sequencialmente, do pai para o filho. Se o resolver de uma rota pai levar 200 ms e o de uma rota filha levar 300 ms, a navegação fica bloqueada por 500 ms.
 
-Route resources across the matched route hierarchy run concurrently, so the same navigation completes in 300ms, the time of the slowest resource. Resources that depend on data from an ancestor route also set up immediately instead of waiting; see [Chaining a resource off an ancestor resource](#chaining-a-resource-off-an-ancestor-resource).
+Os recursos de rota ao longo da hierarquia de rotas correspondidas são executados simultaneamente, então a mesma navegação é concluída em 300 ms, o tempo do recurso mais lento. Os recursos que dependem de dados de uma rota ancestral também são configurados imediatamente, em vez de esperar; veja [Encadeando um recurso a partir de um recurso ancestral](#chaining-a-resource-off-an-ancestor-resource).
 
-## Resource inheritance
+## Herança de recursos {#resource-inheritance}
 
-Every route inherits the resources of its ancestor routes. Angular exposes those inherited resources in two forms:
+Toda rota herda os recursos das suas rotas ancestrais. O Angular expõe esses recursos herdados em duas formas:
 
-| API                                                               | Contains                                         | Behavior                                                                                        | Use it to                                                          |
-| :---------------------------------------------------------------- | :----------------------------------------------- | :---------------------------------------------------------------------------------------------- | :----------------------------------------------------------------- |
-| `ctx.resources()` inside a `resources` function                   | Ancestor resources only                          | The raw resources returned by ancestor `resources` functions. Their state is always live.       | Chain a resource off an ancestor resource                          |
-| `ActivatedRoute.resources` and `ActivatedRouteSnapshot.resources` | The route's own resources and ancestor resources | Read-only resources managed by the router. Their state is frozen while a navigation is pending. | Read data or call `reload()` from a component, directive, or guard |
+| API                                                               | Contém                                           | Comportamento                                                                                                   | Use para                                                              |
+| :---------------------------------------------------------------- | :----------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| `ctx.resources()` dentro de uma função `resources`                | Apenas os recursos ancestrais                    | Os recursos brutos retornados pelas funções `resources` ancestrais. O estado deles está sempre ativo.           | Encadear um recurso a partir de um recurso ancestral                  |
+| `ActivatedRoute.resources` e `ActivatedRouteSnapshot.resources`   | Os recursos próprios da rota e os recursos ancestrais | Recursos somente leitura gerenciados pelo router. O estado deles fica congelado enquanto uma navegação está pendente. | Ler dados ou chamar `reload()` a partir de um componente, diretiva ou guard |
 
-If a route defines a resource with the same name as an ancestor resource, the route's own resource shadows the inherited one.
+Se uma rota definir um recurso com o mesmo nome de um recurso ancestral, o recurso próprio da rota sobrescreve (shadows) o herdado.
 
-### Binding inherited resources to component inputs
+### Vinculando recursos herdados a inputs de componentes {#binding-inherited-resources-to-component-inputs}
 
-With `withComponentInputBinding()`, the router binds both inherited resources and the route's own resources to matching component inputs:
+Com `withComponentInputBinding()`, o router vincula tanto os recursos herdados quanto os recursos próprios da rota aos inputs de componentes correspondentes:
 
 ```angular-ts
 import {Component, input, resource} from '@angular/core';
@@ -188,24 +189,24 @@ const routes: Routes = [
 
 @Component({
   template: `
-    <h1>Project: {{ project().name }}</h1>
-    <h2>Task: {{ task().title }}</h2>
+    <h1>Projeto: {{ project().name }}</h1>
+    <h2>Tarefa: {{ task().title }}</h2>
   `,
 })
 export class TaskDetail {
-  // Inherited from the parent 'projects/:projectId' route
+  // Herdado da rota pai 'projects/:projectId'
   project = input.required<Project>();
 
-  // Bound from the route's own resource
+  // Vinculado a partir do recurso próprio da rota
   task = input.required<Task>();
 }
 ```
 
-NOTE: When the router binds route state to component inputs, resource names take precedence over route `data` (including resolved values), path parameters, and query parameters.
+NOTE: Quando o router vincula o estado da rota a inputs de componentes, os nomes dos recursos têm precedência sobre os `data` da rota (incluindo os valores resolvidos), os parâmetros de caminho e os query parameters.
 
-### Chaining a resource off an ancestor resource
+### Encadeando um recurso a partir de um recurso ancestral {#chaining-a-resource-off-an-ancestor-resource}
 
-A child route frequently needs data from an ancestor route before it can load its own data. Instead of waiting for the ancestor route to finish loading, chain the child's `params` function off the ancestor resource with [`chain()`](/guide/signals/resource#chaining-resources). Angular passes a context object that contains `chain` to every `params` function:
+Uma rota filha frequentemente precisa de dados de uma rota ancestral antes de carregar os próprios dados. Em vez de esperar que a rota ancestral termine de carregar, encadeie a função `params` da filha ao recurso ancestral com [`chain()`](/guide/signals/resource#chaining-resources). O Angular passa a todas as funções `params` um objeto de contexto que contém `chain`:
 
 ```ts
 import {Resource, resource} from '@angular/core';
@@ -231,7 +232,7 @@ const routes: Routes = [
         component: UserDetails,
         resources: (ctx) => ({
           details: resource({
-            // Retains the loading state until the inherited 'user' resource resolves
+            // Mantém o estado de carregamento até que o recurso herdado 'user' seja resolvido
             params: ({chain}) => chain(ctx.resources()['user'] as Resource<User>).role,
             loader: ({params: role}) => fetchRoleDetails(role),
           }),
@@ -242,19 +243,19 @@ const routes: Routes = [
 ];
 ```
 
-IMPORTANT: Never destructure or invoke `ctx.resources()` directly in the outer `resources` function body (for example, `const {user} = ctx.resources()`). Because ancestor routes initialize in parallel and can do so asynchronously, ancestor resources are not available during route setup. Calling `ctx.resources()` synchronously outside a reactive context throws an error and fails the navigation. Always read `ctx.resources()` reactively inside a resource's `params` function.
+IMPORTANT: Nunca desestruture nem invoque `ctx.resources()` diretamente no corpo externo da função `resources` (por exemplo, `const {user} = ctx.resources()`). Como as rotas ancestrais são inicializadas em paralelo e isso pode acontecer de forma assíncrona, os recursos ancestrais não estão disponíveis durante a configuração da rota. Chamar `ctx.resources()` de forma síncrona fora de um contexto reativo gera um erro e faz a navegação falhar. Sempre leia `ctx.resources()` de forma reativa dentro da função `params` de um recurso.
 
-NOTE: Because `ctx.resources()` is typed as a record of `Resource<unknown>`, cast the inherited resource to its value type (such as `as Resource<User>`) when reading it.
+NOTE: Como `ctx.resources()` é tipado como um registro de `Resource<unknown>`, converta o recurso herdado para o seu tipo de valor (como `as Resource<User>`) ao lê-lo.
 
-`chain()` also propagates the state of the ancestor resource. If the ancestor errors, the chained resource errors with a `ResourceDependencyError`, and the router cancels the navigation when that chained resource is blocking. If the ancestor is `idle`, the chained resource becomes `idle`.
+`chain()` também propaga o estado do recurso ancestral. Se o ancestral apresentar erro, o recurso encadeado apresenta erro com um `ResourceDependencyError`, e o router cancela a navegação quando esse recurso encadeado é bloqueante. Se o ancestral estiver `idle`, o recurso encadeado também fica `idle`.
 
-## Blocking and non-blocking resources
+## Recursos bloqueantes e não bloqueantes {#blocking-and-non-blocking-resources}
 
-By default, every resource returned from `resources` is blocking: the router waits until the data is fully loaded before it activates the route and the component.
+Por padrão, todo recurso retornado por `resources` é bloqueante: o router espera até que os dados sejam totalmente carregados antes de ativar a rota e o componente.
 
-For a blocking resource, the router binds the resolved value to the component input, so the input type is `T` instead of `Resource<T>`. The component never observes a `loading` state because the router blocks navigation until the resource loads, and it never observes an `error` state because the router cancels the navigation when the resource errors.
+Para um recurso bloqueante, o router vincula o valor resolvido ao input do componente, então o tipo do input é `T` em vez de `Resource<T>`. O componente nunca observa um estado `loading`, porque o router bloqueia a navegação até que o recurso seja carregado, e nunca observa um estado `error`, porque o router cancela a navegação se o recurso falhar.
 
-To handle loading states in the UI instead, wrap the resource in `nonBlocking()`. The router activates the component immediately and binds the full `Resource<T>` object to the component input, which gives you access to `isLoading()`, `error()`, and the other resource signals.
+Para tratar os estados de carregamento na interface, envolva o recurso em `nonBlocking()`. O router ativa o componente imediatamente e vincula o objeto `Resource<T>` completo ao input do componente, o que dá acesso a `isLoading()`, `error()` e os demais signals do recurso:
 
 ```angular-ts
 import {Component, input, Resource, resource} from '@angular/core';
@@ -277,9 +278,9 @@ const routes: Routes = [
 @Component({
   template: `
     @if (reportData().isLoading()) {
-      <p>Loading...</p>
+      <p>Carregando...</p>
     } @else if (reportData().error()) {
-      <p>Error loading report.</p>
+      <p>Erro ao carregar o relatório.</p>
     } @else if (reportData().hasValue()) {
       <report-view [data]="reportData().value()" />
     }
@@ -290,11 +291,11 @@ export class Reports {
 }
 ```
 
-NOTE: If a blocking resource errors, the router cancels the navigation and emits a `NavigationError` event. A resource wrapped in `nonBlocking()` completes the navigation and exposes the failure through its `error()` signal.
+NOTE: Se um recurso bloqueante apresentar erro, o router cancela a navegação e emite um evento `NavigationError`. Um recurso envolvido em `nonBlocking()` conclui a navegação e expõe a falha pelo signal `error()`.
 
-### Redirecting from a resource
+### Redirecionando a partir de um recurso {#redirecting-from-a-resource}
 
-If a blocking resource needs to redirect the user (for example, if an item is not found), throw a `RedirectCommand` inside the resource loader. The router cancels the current navigation and redirects to the specified URL:
+Se um recurso bloqueante precisar redirecionar o usuário (por exemplo, quando um item não é encontrado), lance um `RedirectCommand` dentro do loader do recurso. O router cancela a navegação atual e redireciona para a URL especificada:
 
 ```ts
 import {inject, resource} from '@angular/core';
@@ -324,16 +325,16 @@ const routes: Routes = [
 ];
 ```
 
-## Reloading resources without renavigation
+## Recarregando recursos sem renavegação {#reloading-resources-without-renavigation}
 
-With data resolvers, refetching data requires a route navigation (for example, navigating with `onSameUrlNavigation: 'reload'`), which rematches routes and reruns guards and resolvers.
+Com os resolvers de dados, buscar os dados novamente exige uma navegação de rota (por exemplo, navegando com `onSameUrlNavigation: 'reload'`), o que faz as rotas serem correspondidas de novo e os guards e resolvers serem executados novamente.
 
-Route resources support two ways to refresh data in place:
+Os recursos de rota oferecem duas formas de atualizar os dados no próprio lugar:
 
-1. **Programmatic reload**: Call `.reload()` on the `Resource` instance.
-2. **Reactive reload**: Update a signal that the resource's `params` function reads, such as an application filter or state signal, which reruns the loader.
+1. **Recarregamento programático**: Chame `.reload()` na instância de `Resource`.
+2. **Recarregamento reativo**: Atualize um signal que a função `params` do recurso lê, como um signal de filtro ou de estado da aplicação, o que executa novamente o loader.
 
-Because the router binds only the value of a blocking resource to a component input, read the `Resource` instance from `ActivatedRoute` or `ActivatedRouteSnapshot` when you need to call `.reload()` or inspect status signals:
+Como o router vincula apenas o valor de um recurso bloqueante a um input de componente, leia a instância de `Resource` a partir de `ActivatedRoute` ou `ActivatedRouteSnapshot` quando precisar chamar `.reload()` ou inspecionar os signals de status:
 
 ```angular-ts
 import {Component, inject, input} from '@angular/core';
@@ -341,8 +342,8 @@ import {ActivatedRoute} from '@angular/router';
 
 @Component({
   template: `
-    <p>User: {{ user().name }}</p>
-    <button (click)="refreshUser()">Refresh</button>
+    <p>Usuário: {{ user().name }}</p>
+    <button (click)="refreshUser()">Atualizar</button>
   `,
 })
 export class UserProfile {
@@ -350,26 +351,26 @@ export class UserProfile {
   private userResource = inject(ActivatedRoute).resources?.['user'];
 
   refreshUser() {
-    // Reloads only this specific resource without renavigating the route
+    // Recarrega apenas este recurso específico, sem renavegar a rota
     this.userResource?.reload();
   }
 }
 ```
 
-## Transitional states during pending navigations
+## Estados transitórios durante navegações pendentes {#transitional-states-during-pending-navigations}
 
-While a navigation is pending, the router freezes the resources that it exposes on `ActivatedRoute`, which masks intermediate `loading` and `reloading` states.
+Enquanto uma navegação está pendente, o router congela os recursos que expõe em `ActivatedRoute`, o que mascara os estados intermediários `loading` e `reloading`.
 
-If you navigate from `/user/1` to `/user/2` and the router reuses the `UserProfile` component, the component keeps rendering the data from `/user/1` until `/user/2` resolves. The router then unfreezes the resources and the UI transitions directly to the new data with no loading flash.
+Se você navegar de `/user/1` para `/user/2` e o router reutilizar o componente `UserProfile`, o componente continua exibindo os dados de `/user/1` até que `/user/2` seja resolvido. Em seguida, o router descongela os recursos e a interface passa diretamente para os novos dados, sem um flash de carregamento.
 
-The router exposes these resources as read-only, even when the `resources` function returns a writable resource such as `resource()`. You can read the resource signals and call `reload()`, but not `set()` or `update()`. A `reload()` call during an active navigation or during rollback recovery returns `false` so that it cannot interrupt the router's transition tracking.
+O router expõe esses recursos como somente leitura, mesmo quando a função `resources` retorna um recurso gravável, como `resource()`. Você pode ler os signals do recurso e chamar `reload()`, mas não `set()` nem `update()`. Uma chamada a `reload()` durante uma navegação ativa ou durante a recuperação por rollback retorna `false`, para não interromper o rastreamento de transições do router.
 
-NOTE: Freezing applies only to the resources that the router exposes on `ActivatedRoute`. The raw resources available through `ctx.resources()` always report their live state, which is what allows a chained resource to react to an ancestor resource during a navigation.
+NOTE: O congelamento se aplica apenas aos recursos que o router expõe em `ActivatedRoute`. Os recursos brutos disponíveis em `ctx.resources()` sempre informam o estado ativo, o que permite que um recurso encadeado reaja a um recurso ancestral durante uma navegação.
 
-### Rollback recovery on cancellation
+### Recuperação por rollback no cancelamento {#rollback-recovery-on-cancellation}
 
-If a navigation is cancelled (for example, by a guard), the router reverts the state tree to the previous state. This reversion can cause the resource's signal dependencies, such as route parameters, to revert to their previous values.
+Se uma navegação for cancelada (por exemplo, por um guard), o router reverte a árvore de estado para o estado anterior. Essa reversão pode fazer com que as dependências de signal do recurso, como os parâmetros de rota, voltem aos valores anteriores.
 
-Because the parameters changed back, the resource might automatically trigger a new load to fetch data for the old parameters. To prevent flashing a loading state for data that was already visible, the router retains the previous resource snapshot in the UI until the resource has settled in the reverted state.
+Como os parâmetros voltaram, o recurso pode disparar automaticamente um novo carregamento para buscar os dados dos parâmetros antigos. Para evitar exibir um estado de carregamento para dados que já estavam visíveis, o router mantém o snapshot anterior do recurso na interface até que ele se estabilize no estado revertido.
 
-TIP: Forward the `abortSignal` provided by the resource loader to your asynchronous calls (like `fetch`). When the router rolls back parameters or supersedes navigations, the pending request is cleanly aborted: `loader: ({params: id, abortSignal}) => fetchUser(id, {signal: abortSignal})`.
+TIP: Repasse o `abortSignal` fornecido pelo loader do recurso às suas chamadas assíncronas (como `fetch`). Quando o router reverte os parâmetros ou substitui navegações, a requisição pendente é abortada de forma limpa: `loader: ({params: id, abortSignal}) => fetchUser(id, {signal: abortSignal})`.
