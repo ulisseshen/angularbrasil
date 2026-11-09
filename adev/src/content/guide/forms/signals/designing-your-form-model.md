@@ -254,7 +254,7 @@ Isso ilustra outro problema dos modelos de formulário com estrutura dinâmica: 
 
 Embora a estrutura estática seja geralmente preferida, há cenários específicos em que a estrutura dinâmica é necessária e suportada.
 
-##### Arrays {#arrays}
+##### Arrays
 
 Arrays são a exceção mais comum. Formulários frequentemente precisam coletar um número variável de itens, como uma lista de números de telefone, participantes ou itens de um pedido.
 

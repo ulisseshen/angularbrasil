@@ -1,16 +1,17 @@
-# Testing Signal Forms
+<!-- ia-translate: true -->
+# Testando Signal Forms {#testing-signal-forms}
 
-Forms are often critical to applications, and testing gives you confidence they behave correctly as the codebase changes. Signal Forms keeps most of its logic in the schema rather than the template, which means you can test the majority of form behavior without rendering a component.
+Formulários costumam ser críticos para as aplicações, e os testes dão confiança de que eles se comportam corretamente conforme a base de código muda. Signal Forms mantém a maior parte da sua lógica no schema, e não no template, o que significa que você pode testar a maior parte do comportamento do formulário sem renderizar um component.
 
-This guide walks through how to set up those tests, starting with isolated logic tests and then covering component-bound tests for cases where DOM interaction matters.
+Este guia mostra como configurar esses testes, começando por testes de lógica isolada e depois cobrindo testes vinculados a components, para os casos em que a interação com o DOM importa.
 
-## Testing form logic in isolation
+## Testando a lógica do formulário isoladamente {#testing-form-logic-in-isolation}
 
-When you only need to verify validation, disabled state, required state, or error output, test the form directly instead of rendering a component. Isolated tests keep the setup small and let the test focus on the form's behavior.
+Quando você só precisa verificar validação, estado disabled, estado required ou a saída de erros, teste o formulário diretamente, em vez de renderizar um component. Testes isolados mantêm a configuração enxuta e deixam o teste focado no comportamento do formulário.
 
-The key requirement is the injector. Signal Forms needs an injection context during form creation. If a test calls `form()` without one, the call throws before the test can assert anything about the form.
+O requisito principal é o injector. Signal Forms precisa de um injection context durante a criação do formulário. Se um teste chamar `form()` sem um, a chamada lança erro antes que o teste possa fazer qualquer verificação sobre o formulário.
 
-The most direct way to satisfy this requirement is to pass an injector explicitly. The following test creates a form with a `required` rule and verifies that the field becomes valid after receiving a value:
+A forma mais direta de atender a esse requisito é passar um injector explicitamente. O teste a seguir cria um formulário com uma regra `required` e verifica se o field fica válido depois de receber um valor:
 
 ```ts {header: 'profile-form.spec.ts'}
 import {Injector, signal} from '@angular/core';
@@ -41,9 +42,9 @@ describe('profile form', () => {
 });
 ```
 
-This pattern works well for most isolated tests because the injector requirement stays visible at the call site. It also mirrors how Signal Forms unit tests in Angular's source create forms.
+Esse padrão funciona bem para a maioria dos testes isolados, porque o requisito do injector fica visível no ponto da chamada. Ele também espelha a forma como os testes unitários de Signal Forms no código-fonte do Angular criam formulários.
 
-When the code under test calls `form()` internally, you may not be able to pass the injector directly. In that case, wrap the call in an ambient injection context:
+Quando o código testado chama `form()` internamente, pode não ser possível passar o injector diretamente. Nesse caso, envolva a chamada em um injection context ambiente:
 
 ```ts {header: 'profile-form.spec.ts'}
 import {signal} from '@angular/core';
@@ -66,15 +67,15 @@ describe('profile form', () => {
 });
 ```
 
-Both patterns produce the same kind of form. Passing `{injector}` is often the clearest choice when the test creates the form directly. `TestBed.runInInjectionContext()` is useful when the code under test calls `form()` internally and you need to supply the surrounding injection context.
+Os dois padrões produzem o mesmo tipo de formulário. Passar `{injector}` costuma ser a escolha mais clara quando o teste cria o formulário diretamente. `TestBed.runInInjectionContext()` é útil quando o código testado chama `form()` internamente e você precisa fornecer o injection context ao redor.
 
-Once the form exists, test it through field state signals. Common assertions include `valid()`, `invalid()`, `disabled()`, `required()`, and `errors()`. For most form logic, that is enough to verify the behavior without involving the DOM.
+Depois que o formulário existe, teste-o pelos signals de field state. Verificações comuns incluem `valid()`, `invalid()`, `disabled()`, `required()` e `errors()`. Para a maior parte da lógica de formulário, isso basta para verificar o comportamento sem envolver o DOM.
 
-## Testing a form with multiple rules
+## Testando um formulário com múltiplas regras {#testing-a-form-with-multiple-rules}
 
-After the injector setup is in place, a good next step is a complete test that exercises a few pieces of form logic together. This kind of test is still isolated, but it looks much closer to a real application form.
+Depois que a configuração do injector estiver pronta, um bom próximo passo é um teste completo que exercite alguns pedaços de lógica de formulário juntos. Esse tipo de teste continua isolado, mas se parece muito mais com um formulário real de aplicação.
 
-For example, this test verifies both a basic required rule and a conditional required rule that depends on another field:
+Por exemplo, este teste verifica tanto uma regra básica de required quanto uma regra de required condicional que depende de outro field:
 
 ```ts {header: 'profile-form.spec.ts'}
 import {Injector, signal} from '@angular/core';
@@ -119,27 +120,27 @@ describe('profile form', () => {
 });
 ```
 
-This example shows an important testing pattern: update one field, then assert against the state of another field. Because Signal Forms rules are reactive, a field's validation can depend on sibling values, parent values, or other derived conditions. Tests should verify those relationships directly instead of only checking the field that changed.
+Este exemplo mostra um padrão de teste importante: atualize um field e depois faça a verificação sobre o state de outro field. Como as regras de Signal Forms são reativas, a validação de um field pode depender de valores de fields irmãos, de valores do pai ou de outras condições derivadas. Os testes devem verificar essas relações diretamente, em vez de checar apenas o field que mudou.
 
-For validation-focused tests, `errors()` is usually the most useful assertion. `valid()` and `invalid()` tell you whether the field currently passes validation, but `errors()` shows which rule produced the failure. That becomes especially useful once a field has multiple validators or conditional rules.
+Para testes focados em validação, `errors()` costuma ser a verificação mais útil. `valid()` e `invalid()` informam se o field passa na validação no momento, mas `errors()` mostra qual regra produziu a falha. Isso se torna especialmente útil quando um field tem vários validadores ou regras condicionais.
 
-The same structure works for most everyday form tests:
+A mesma estrutura funciona para a maioria dos testes de formulário do dia a dia:
 
-1. Create a model signal with the smallest shape that reproduces the behavior.
-1. Build the form with an explicit injector.
-1. Assert the initial field state.
-1. Change a field with `.value.set(...)`, including sibling fields when testing cross-field rules.
-1. Assert the updated state signals, usually `errors()`, `valid()`, or `invalid()`.
+1. Crie um model signal com o menor formato que reproduza o comportamento.
+1. Construa o formulário com um injector explícito.
+1. Verifique o field state inicial.
+1. Altere um field com `.value.set(...)`, incluindo os fields irmãos ao testar regras entre fields.
+1. Verifique os signals de state atualizados, normalmente `errors()`, `valid()` ou `invalid()`.
 
-When a test is about schema behavior rather than rendering, default to this isolated style. It is faster than a component test and makes it easier to see which rule is responsible when the behavior changes.
+Quando um teste trata do comportamento do schema, e não da renderização, use por padrão esse estilo isolado. Ele é mais rápido que um teste de component e facilita identificar qual regra é responsável quando o comportamento muda.
 
-## Testing forms bound to components
+## Testando formulários vinculados a components {#testing-forms-bound-to-components}
 
-When you need to verify behavior that depends on template bindings, user interaction through `dispatchEvent`, or custom form controls that manage their own rendering, isolated tests are not enough. You need component-bound tests to render the template so that you can interact with actual DOM elements.
+Quando você precisa verificar um comportamento que depende de bindings do template, de interação do usuário via `dispatchEvent` ou de custom form controls que gerenciam a própria renderização, testes isolados não são suficientes. Você precisa de testes vinculados a components, que renderizam o template para que você possa interagir com elementos reais do DOM.
 
-### Setting up a component test
+### Configurando um teste de component {#setting-up-a-component-test}
 
-Component-bound tests render the component so you can interact with actual DOM elements. Create the component with `TestBed.createComponent()` and wait for rendering to complete before asserting:
+Testes vinculados a components renderizam o component para que você possa interagir com elementos reais do DOM. Crie o component com `TestBed.createComponent()` e aguarde a renderização terminar antes de fazer as verificações:
 
 ```angular-ts {header: 'profile-form.ts'}
 import {Component, signal} from '@angular/core';
@@ -170,10 +171,10 @@ describe('ProfileForm', () => {
 
     const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
 
-    // Model → View: the input reflects the model's initial value
+    // Model → View: o input reflete o valor inicial do model
     expect(input.value).toBe('Ada');
 
-    // View → Model: simulate the user clearing the field
+    // View → Model: simula o usuário limpando o field
     input.value = '';
     input.dispatchEvent(new Event('input'));
     await fixture.whenStable();
@@ -184,28 +185,28 @@ describe('ProfileForm', () => {
 });
 ```
 
-Notice that the component uses `form()` without an explicit injector because the component's own injection context provides it automatically. After each change, `await fixture.whenStable()` waits for rendering and effects to complete before asserting.
+Repare que o component usa `form()` sem um injector explícito, porque o próprio injection context do component o fornece automaticamente. Depois de cada alteração, `await fixture.whenStable()` aguarda a renderização e os effects terminarem antes das verificações.
 
-The same pattern works for async operations such as async validators or server calls. Call `await fixture.whenStable()` after the async work resolves.
+O mesmo padrão funciona para operações assíncronas, como validadores assíncronos ou chamadas ao servidor. Chame `await fixture.whenStable()` depois que o trabalho assíncrono for resolvido.
 
-## When to use each approach
+## Quando usar cada abordagem {#when-to-use-each-approach}
 
-| What you need to verify                              | Approach        |
+| O que você precisa verificar                              | Abordagem        |
 | ---------------------------------------------------- | --------------- |
-| Validation rules, `errors()`, `valid()`, `invalid()` | Isolated        |
-| Disabled, required, or readonly state                | Isolated        |
-| Cross-field reactive dependencies                    | Isolated        |
-| Conditional schemas (`applyWhen`, `applyWhenValue`)  | Isolated        |
-| Input values rendering in the DOM                    | Component-bound |
-| User typing updating the model                       | Component-bound |
-| Custom form controls with their own templates        | Component-bound |
-| Focus management or accessibility attributes         | Component-bound |
+| Regras de validação, `errors()`, `valid()`, `invalid()` | Isolada         |
+| Estado disabled, required ou readonly                | Isolada         |
+| Dependências reativas entre fields                    | Isolada         |
+| Schemas condicionais (`applyWhen`, `applyWhenValue`)  | Isolada         |
+| Valores de input renderizados no DOM                 | Vinculada a component |
+| Digitação do usuário atualizando o model             | Vinculada a component |
+| Custom form controls com seus próprios templates     | Vinculada a component |
+| Gerenciamento de foco ou atributos de acessibilidade | Vinculada a component |
 
-Most forms only need isolated tests. The form's logic (such as validation, disabled state, cross-field rules) lives in the schema, and schemas do not need a template to run. Component-bound tests add value when the behavior you care about crosses the boundary between the form and the DOM.
+A maioria dos formulários só precisa de testes isolados. A lógica do formulário (como validação, state disabled e regras entre fields) fica no schema, e os schemas não precisam de um template para rodar. Testes vinculados a components agregam valor quando o comportamento que você quer verificar atravessa a fronteira entre o formulário e o DOM.
 
-## Next steps
+## Próximos passos {#next-steps}
 
-This guide covered testing Signal Forms in isolation and with component templates. Here are related guides that explore other aspects of Signal Forms:
+Este guia abordou o teste de Signal Forms de forma isolada e com templates de components. Estes são guias relacionados que exploram outros aspectos de Signal Forms:
 
 <docs-pill-row>
   <docs-pill href="guide/forms/signals/validation" title="Validation" />
