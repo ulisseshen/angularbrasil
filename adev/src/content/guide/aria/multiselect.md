@@ -1,221 +1,225 @@
-<!-- ia-translate: true -->
-<docs-decorative-header title="Multiselect">
-</docs-decorative-header>
+# Multiselect
 
-## Visão Geral
+## Overview
 
-Um padrão que combina combobox somente leitura com listbox habilitado para múltipla seleção para criar dropdowns de seleção múltipla com navegação por teclado e suporte para leitores de tela.
+The multiselect pattern combines a read-only combobox trigger with a multi-select listbox popup to create highly accessible multiple-selection dropdowns with keyboard navigation and screen reader support.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.html"/>
-  <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.css"/>
-</docs-code-multifile>
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-## Uso
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-O padrão multiselect funciona melhor quando os usuários precisam escolher múltiplos itens relacionados de um conjunto familiar de opções.
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-Considere usar este padrão quando:
+## Usage
 
-- **Usuários precisam de múltiplas seleções** - Tags, categorias, filtros ou rótulos onde múltiplas escolhas se aplicam
-- **A lista de opções é fixa** (menos de 20 itens) - Os usuários podem escanear as opções sem busca
-- **Filtrando conteúdo** - Múltiplos critérios podem estar ativos simultaneamente
-- **Atribuindo atributos** - Rótulos, permissões ou recursos onde múltiplos valores fazem sentido
-- **Escolhas relacionadas** - Opções que logicamente funcionam juntas (como selecionar múltiplos membros da equipe)
+The multiselect pattern works best when users need to choose multiple related items from a familiar set of options.
 
-Evite este padrão quando:
+Consider using this pattern when:
 
-- **Apenas seleção única é necessária** - Use o [padrão Select](guide/aria/select) para dropdowns de escolha única mais simples
-- **A lista tem mais de 20 itens com busca necessária** - Use o [padrão Autocomplete](guide/aria/autocomplete) com capacidade de multisseleção
-- **A maioria ou todas as opções serão selecionadas** - Um padrão de checklist fornece melhor visibilidade
-- **As escolhas são opções binárias independentes** - Checkboxes individuais comunicam as escolhas mais claramente
+- **Users need multiple selections** - Tags, categories, filters, or labels where multiple choices apply
+- **The option list is fixed** (fewer than 20 items) - Users can scan options without search
+- **Filtering content** - Multiple criteria can be active simultaneously
+- **Assigning attributes** - Labels, permissions, or features where multiple values make sense
+- **Related choices** - Options that logically work together (such as selecting multiple team members)
 
-## Recursos
+Avoid this pattern when:
 
-O padrão multiselect combina as directives [Combobox](guide/aria/combobox) e [Listbox](guide/aria/listbox) para fornecer um dropdown totalmente acessível com:
+- **Only single selection is needed** - Use the [Select pattern](guide/aria/select) for simpler single-choice dropdowns
+- **The list has more than 20 items with search needed** - Use the [Autocomplete pattern](guide/aria/autocomplete) with multiselect capability
+- **Most or all options will be selected** - A checklist pattern provides better visibility
+- **Choices are independent binary options** - Individual checkboxes communicate the choices more clearly
 
-- **Navegação por Teclado** - Navegue pelas opções com as setas, alterne com Espaço, feche com Escape
-- **Suporte para Leitores de Tela** - Atributos ARIA integrados incluindo aria-multiselectable
-- **Exibição de Contagem de Seleção** - Mostra padrão compacto "Item + 2 mais" para múltiplas seleções
-- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
-- **Posicionamento Inteligente** - CDK Overlay lida com bordas do viewport e rolagem
-- **Suporte para Texto Bidirecional** - Lida automaticamente com idiomas da direita para a esquerda (RTL)
-- **Seleção Persistente** - Opções selecionadas permanecem visíveis com marcas de verificação após a seleção
+## Features
 
-## Exemplos
+The multiselect pattern combines [Combobox](guide/aria/combobox) and [Listbox](guide/aria/listbox) directives to provide a fully accessible dropdown with:
 
-### Multiselect básico
+- **Keyboard Navigation** - Navigate options with arrow keys, toggle with Space, close with Escape
+- **Screen Reader Support** - Built-in ARIA attributes including aria-multiselectable
+- **Selection Count Display** - Shows compact "Item + 2 more" pattern for multiple selections
+- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **Smart Positioning** - CDK Overlay handles viewport edges and scrolling
+- **Persistent Selection** - Selected options remain visible with checkmarks after selection
 
-Usuários precisam selecionar múltiplos itens de uma lista de opções. Um combobox somente leitura pareado com um listbox habilitado para múltipla seleção fornece funcionalidade de multisseleção familiar com suporte completo de acessibilidade.
+## Examples
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.html" />
-</docs-code-multifile>
+### Basic multiselect
 
-O atributo `multi` em `ngListbox` habilita múltipla seleção. Pressione Espaço para alternar opções, e o popup permanece aberto para seleções adicionais. A exibição mostra o primeiro item selecionado mais uma contagem das seleções restantes.
+Users need to select multiple items from a list of options. A readonly combobox paired with a multi-enabled listbox provides familiar multiselect functionality with full accessibility support.
 
-### Multiselect com exibição personalizada
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Opções frequentemente precisam de indicadores visuais como ícones ou cores para ajudar os usuários a identificar escolhas. Templates personalizados dentro das opções permitem formatação rica enquanto o valor de exibição mostra um resumo compacto.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.html" />
-</docs-code-multifile>
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-Cada opção exibe um ícone ao lado de seu rótulo. O valor de exibição atualiza para mostrar o ícone e texto da primeira seleção, seguido por uma contagem de seleções adicionais. Opções selecionadas mostram uma marca de verificação para feedback visual claro.
+The `multi` attribute on `ngListbox` enables multiple selection. Press Space to toggle options, and the popup remains open for additional selections. The display shows the first selected item plus a count of remaining selections.
 
-### Multiselect com chips
+### Multiselect with custom display
 
-Quando os usuários se beneficiam de ver todos os itens selecionados rapidamente, chips fornecem uma representação visual de cada seleção com a capacidade de remover itens individuais.
+Options often need visual indicators like icons or colors to help users identify choices. Custom templates within options allow rich formatting while the display value shows a compact summary.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/chips/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/chips/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/chips/app/app.html" />
-</docs-code-multifile>
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Chips aparecem na área do trigger mostrando todos os itens selecionados. Cada chip inclui um botão de remoção que desmarca o item quando clicado. Este padrão funciona melhor quando o número de seleções permanece gerenciável (tipicamente menos de 5 itens).
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/icons/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-### Seleção controlada
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/icons/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-Formulários às vezes precisam limitar o número de seleções ou validar escolhas do usuário. Controle programático sobre a seleção habilita essas restrições enquanto mantém a acessibilidade.
+Each option displays an icon alongside its label. The display value updates to show the first selection's icon and text, followed by a count of additional selections. Selected options show a checkmark for clear visual feedback.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/limited/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.html" />
-</docs-code-multifile>
+### Controlled selection
 
-Este exemplo limita as seleções a três itens. Quando o limite é atingido, opções não selecionadas ficam desabilitadas, prevenindo seleções adicionais. Uma mensagem informa os usuários sobre a restrição.
+Forms sometimes need to limit the number of selections or validate user choices. Programmatic control over selection enables these constraints while maintaining accessibility.
 
-### Suporte para direita-para-esquerda (RTL)
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/limited/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Multiselect suporta automaticamente idiomas da direita para a esquerda. Envolva o multiselect em um container com `dir="rtl"` para inverter o layout. A navegação por setas se ajusta automaticamente.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/limited/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/limited/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/limited/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/limited/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/rtl/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/rtl/app/app.ts"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/rtl/app/app.html" highlight="[1]"/>
-  <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/rtl/app/app.css"/>
-</docs-code-multifile>
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/limited/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/limited/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/limited/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/multiselect/src/limited/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-O atributo de direção inverte automaticamente o layout visual e a direção de navegação por teclado enquanto mantém a ordem lógica de seleção.
+This example limits selections to two items. When the limit is reached, unselected options are disabled to prevent further selections, and the combobox display updates to reflect the choices.
 
-## Showcase
+## Testing
 
-TBD
+The multiselect pattern can be tested using a combination of `ComboboxHarness` and `ListboxHarness` from `@angular/aria/combobox/testing` and `@angular/aria/listbox/testing`.
+Here is an example of how to use the harnesses to test a multiselect component:
 
-## APIs
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComboboxHarness} from '@angular/aria/combobox/testing';
+import {ListboxHarness} from '@angular/aria/listbox/testing';
+import {MyMultiselectComponent} from './my-multiselect'; // Your component
 
-O padrão multiselect usa as seguintes directives da biblioteca Aria do Angular. Veja a documentação completa da API nos guias linkados.
+describe('MyMultiselectComponent', () => {
+  let fixture: ComponentFixture<MyMultiselectComponent>;
+  let loader: HarnessLoader;
 
-### Combobox Directives
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyMultiselectComponent],
+    });
 
-O padrão multiselect usa `ngCombobox` com o atributo `readonly` para prevenir entrada de texto enquanto preserva a navegação por teclado.
+    fixture = TestBed.createComponent(MyMultiselectComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-#### Inputs
+  it('should allow selecting multiple options', async () => {
+    const select = await loader.getHarness(ComboboxHarness);
 
-| Property   | Type      | Default | Description                                      |
-| ---------- | --------- | ------- | ------------------------------------------------ |
-| `readonly` | `boolean` | `false` | Defina como `true` para criar comportamento de dropdown |
-| `disabled` | `boolean` | `false` | Desabilita o multiselect inteiro                 |
+    // Open the dropdown
+    await select.open();
 
-Veja a [documentação da API do Combobox](guide/aria/combobox#apis) para detalhes completos sobre todos os inputs e signals disponíveis.
+    // Get the listbox harness from the popup
+    const listbox = await select.getPopupWidget(ListboxHarness);
+    expect(await listbox.isMulti()).toBe(true);
 
-### Listbox Directives
+    const options = await listbox.getOptions();
 
-O padrão multiselect usa `ngListbox` com o atributo `multi` para seleção múltipla e `ngOption` para cada item selecionável.
+    // Select first and second options
+    await options[0].click();
+    await options[1].click();
 
-#### Inputs
+    // Verify both options are selected
+    expect(await options[0].isSelected()).toBe(true);
+    expect(await options[1].isSelected()).toBe(true);
 
-| Property | Type      | Default | Description                                   |
-| -------- | --------- | ------- | --------------------------------------------- |
-| `multi`  | `boolean` | `false` | Defina como `true` para habilitar seleção múltipla |
+    // Close the dropdown
+    await select.close();
 
-#### Model
-
-| Property | Type    | Description                                      |
-| -------- | ------- | ------------------------------------------------ |
-| `values` | `any[]` | Array bidirecional vinculável de valores selecionados |
-
-Quando `multi` é true, os usuários podem selecionar múltiplas opções usando Espaço para alternar a seleção. O popup permanece aberto após a seleção, permitindo escolhas adicionais.
-
-Veja a [documentação da API do Listbox](guide/aria/listbox#apis) para detalhes completos sobre configuração do listbox, modos de seleção e propriedades das opções.
-
-### Posicionamento
-
-O padrão multiselect integra com [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamento inteligente. Use `cdkConnectedOverlay` para lidar com bordas do viewport e rolagem automaticamente.
-
-## Estilização
-
-As directives usadas no padrão multiselect não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
-
-### Estilizando o trigger do multiselect
-
-```css
-.multiselect-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  min-height: 40px;
-  gap: 8px;
-}
-
-.multiselect-trigger:focus-within {
-  outline: 2px solid blue;
-  border-color: blue;
-}
-
-.selection-count {
-  color: #666;
-  font-size: 0.875rem;
-}
+    // Verify value is updated (e.g., comma separated list or count)
+    expect(await (await select.host()).text()).toContain('Option 1, Option 2');
+  });
+});
 ```
 
-### Estilizando chips
+## API reference
 
-```css
-.chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 8px;
-  background: #e0e0e0;
-  border-radius: 16px;
-  gap: 4px;
-  margin: 2px;
-  font-size: 0.875rem;
-}
+For detailed API documentation, inspect the following API references:
 
-.chip-remove {
-  cursor: pointer;
-  font-size: 16px;
-  color: #666;
-}
-
-.chip-remove:hover {
-  color: #333;
-}
-```
-
-### Estilizando opções selecionadas
-
-```css
-[ngOption][aria-selected="true"] {
-  background: #e3f2fd;
-}
-
-.option-check {
-  visibility: hidden;
-  color: #1976d2;
-}
-
-[ngOption][aria-selected="true"] .option-check {
-  visibility: visible;
-}
-```
-
-Veja o [guia de estilização do Listbox](guide/aria/listbox#styling) para padrões detalhados de personalização incluindo estados de hover e estilos desabilitados.
+- [`Combobox`](/api/aria/combobox/Combobox)
+- [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
+- [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
+- [`Listbox`](/api/aria/listbox/Listbox)
+- [`Option`](/api/aria/listbox/Option)

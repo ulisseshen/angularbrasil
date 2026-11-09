@@ -13,7 +13,6 @@ describe('SUPPORTED_APIS', () => {
   let supportedApis: SupportedApisSignal;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     supportedApis = TestBed.inject(SUPPORTED_APIS);
   });
 
@@ -30,6 +29,7 @@ describe('SUPPORTED_APIS', () => {
       routes: false,
       signals: true,
       signalPropertiesInspection: false,
+      signalWatch: true,
       transferState: true,
     });
 
@@ -39,6 +39,7 @@ describe('SUPPORTED_APIS', () => {
       routes: false,
       signals: true,
       signalPropertiesInspection: false,
+      signalWatch: true,
       transferState: true,
     });
   });
@@ -50,6 +51,7 @@ describe('SUPPORTED_APIS', () => {
       routes: true,
       signals: true,
       signalPropertiesInspection: true,
+      signalWatch: true,
       transferState: true,
     });
 
@@ -60,6 +62,7 @@ describe('SUPPORTED_APIS', () => {
         routes: true,
         signals: true,
         signalPropertiesInspection: true,
+        signalWatch: true,
         transferState: true,
       });
     }).toThrowError();

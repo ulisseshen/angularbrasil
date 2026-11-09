@@ -1,0 +1,1133 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.dev/license
+ */
+
+import {
+  Component,
+  computed,
+  Directive,
+  inject,
+  Injector,
+  input,
+  model,
+  output,
+  Self,
+  signal,
+} from '@angular/core';
+import {TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {
+  FormControl,
+  FormGroup,
+  NgControl,
+  ReactiveFormsModule,
+  Validators,
+  ɵFORM_CONTROL_INTEGRATION,
+  ControlValueAccessor,
+} from '@angular/forms';
+import {FormValueControl} from '@angular/forms/signals';
+import {SignalFormControl} from '../../compat';
+
+@Component({
+  selector: 'my-fvc-input',
+  template:
+    '<input #i [value]="value()" (input)="value.set(i.value)" (blur)="touch.emit()" [disabled]="disabled()" />',
+})
+class MyFvcInput implements FormValueControl<string> {
+  readonly value = model('');
+  readonly touch = output<void>();
+  readonly disabled = input(false);
+  readonly touched = input(false);
+  readonly dirty = input(false);
+  readonly valid = input(true);
+  readonly invalid = input(false);
+  readonly pending = input(false);
+  readonly required = input(false);
+  readonly errors = input<readonly any[]>([]);
+}
+
+describe('FormControlDirective with FVC', () => {
+  it('should sync FormControl value to FVC (model -> view)', () => {
+    @Component({
+      template: `<my-fvc-input [formControl]="ctrl" />`,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('initial');
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+    expect(fvc.value()).toBe('initial');
+
+    act(() => fixture.componentInstance.ctrl.setValue('updated'));
+    expect(fvc.value()).toBe('updated');
+  });
+
+  it('should sync FVC value to FormControl (view -> model)', () => {
+    @Component({
+      template: `<my-fvc-input [formControl]="ctrl" />`,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('initial');
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+    act(() => fvc.value.set('from-fvc'));
+
+    expect(fixture.componentInstance.ctrl.value).toBe('from-fvc');
+  });
+
+  it('should update FormControl value before template (valueChange) listener fires', () => {
+    @Component({
+      template: `<my-fvc-input [formControl]="ctrl" (valueChange)="onValueChange()" />`,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('initial');
+      observedDuringValueChange: string | null | undefined;
+
+      onValueChange() {
+        this.observedDuringValueChange = this.ctrl.value;
+      }
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const component = fixture.componentInstance;
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+    act(() => fvc.value.set('from-fvc'));
+
+    expect(component.observedDuringValueChange).toBe('from-fvc');
+    expect(component.ctrl.value).toBe('from-fvc');
+  });
+
+  it('should fall back to CVA when no FVC pattern is present', () => {
+    @Component({
+      template: `<input [formControl]="ctrl" />`,
+      imports: [ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('initial');
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+
+    const input = fixture.debugElement.query(By.css('input')).nativeElement;
+    expect(input.value).toBe('initial');
+
+    act(() => fixture.componentInstance.ctrl.setValue('updated'));
+    expect(input.value).toBe('updated');
+  });
+
+  it('should fall back to CVA when NgControl.valueAccessor is assigned directly', () => {
+    // A directive that acts like a CVA but assigns itself directly instead of via DI
+    @Directive({
+      selector: '[customDirectCva]',
+    })
+    class CustomDirectCva implements ControlValueAccessor {
+      constructor(@Self() ngControl: NgControl) {
+        ngControl.valueAccessor = this;
+      }
+
+      writtenValue: any;
+
+      writeValue(obj: any): void {
+        this.writtenValue = obj;
+      }
+      registerOnChange(fn: any): void {}
+      registerOnTouched(fn: any): void {}
+    }
+
+    @Component({
+      template: `<input customDirectCva [formControl]="ctrl" />`,
+      imports: [CustomDirectCva, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('initial');
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const cva = fixture.debugElement
+      .query(By.directive(CustomDirectCva))
+      .injector.get(CustomDirectCva);
+
+    expect(cva.writtenValue).toBe('initial');
+
+    act(() => fixture.componentInstance.ctrl.setValue('updated'));
+    expect(cva.writtenValue).toBe('updated');
+  });
+
+  describe('status bindings', () => {
+    it('should sync disabled state to FVC', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test');
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.disabled()).toBe(false);
+
+      act(() => fixture.componentInstance.ctrl.disable());
+      expect(fvc.disabled()).toBe(true);
+
+      act(() => fixture.componentInstance.ctrl.enable());
+      expect(fvc.disabled()).toBe(false);
+    });
+
+    it('should sync touched state to FVC', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test');
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.touched()).toBe(false);
+
+      act(() => fixture.componentInstance.ctrl.markAsTouched());
+      expect(fvc.touched()).toBe(true);
+
+      act(() => fixture.componentInstance.ctrl.markAsUntouched());
+      expect(fvc.touched()).toBe(false);
+    });
+
+    it('should sync dirty state to FVC', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test');
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.dirty()).toBe(false);
+
+      act(() => fixture.componentInstance.ctrl.markAsDirty());
+      expect(fvc.dirty()).toBe(true);
+
+      act(() => fixture.componentInstance.ctrl.markAsPristine());
+      expect(fvc.dirty()).toBe(false);
+    });
+
+    it('should sync valid/invalid state to FVC', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test', Validators.required);
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.valid()).toBe(true);
+      expect(fvc.invalid()).toBe(false);
+
+      act(() => fixture.componentInstance.ctrl.setValue(''));
+      expect(fvc.valid()).toBe(false);
+      expect(fvc.invalid()).toBe(true);
+
+      act(() => fixture.componentInstance.ctrl.setValue('valid'));
+      expect(fvc.valid()).toBe(true);
+      expect(fvc.invalid()).toBe(false);
+    });
+
+    it('should sync pending state to FVC', async () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test');
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.pending()).toBe(false);
+
+      // Add async validator that never resolves to keep pending state
+      let resolveValidator: () => void;
+      const asyncValidator = () =>
+        new Promise<null>((resolve) => {
+          resolveValidator = () => resolve(null);
+        });
+
+      act(() => {
+        fixture.componentInstance.ctrl.addAsyncValidators(asyncValidator);
+        fixture.componentInstance.ctrl.updateValueAndValidity();
+      });
+
+      expect(fvc.pending()).toBe(true);
+
+      // Resolve the validator
+      resolveValidator!();
+      await fixture.whenStable();
+      act(() => {});
+
+      expect(fvc.pending()).toBe(false);
+    });
+
+    it('should fall back to native disabled property when FVC lacks disabled input', () => {
+      // An FVC directive placed on a native input that lacks a disabled input
+      @Directive({
+        selector: '[fvcNoDisabled]',
+      })
+      class FvcNoDisabledDirective {
+        readonly value = model(''); // FVC with value model but NO disabled input
+      }
+
+      @Component({
+        template: `<input fvcNoDisabled [formControl]="ctrl" ngNoCva />`,
+        imports: [FvcNoDisabledDirective, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test');
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+      expect(inputEl.disabled).toBe(false);
+
+      act(() => fixture.componentInstance.ctrl.disable());
+      expect(inputEl.disabled).toBe(true);
+
+      act(() => fixture.componentInstance.ctrl.enable());
+      expect(inputEl.disabled).toBe(false);
+    });
+
+    it('should prefer FVC disabled input over native fallback when FVC has the input', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('test');
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+      // Initially both FVC and native should reflect enabled state
+      expect(fvc.disabled()).toBe(false);
+      expect(inputEl.disabled).toBe(false);
+
+      // Disable - FVC's disabled input is used, which reflects to native via FVC's template
+      act(() => fixture.componentInstance.ctrl.disable());
+      expect(fvc.disabled()).toBe(true);
+      expect(inputEl.disabled).toBe(true); // Set via FVC's template binding [disabled]="disabled()"
+
+      // Enable - both should be enabled again
+      act(() => fixture.componentInstance.ctrl.enable());
+      expect(fvc.disabled()).toBe(false);
+      expect(inputEl.disabled).toBe(false);
+    });
+  });
+
+  describe('error bindings', () => {
+    it('should sync FormControl errors to FVC', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('', Validators.required);
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      // Empty value should have required error
+      expect(fvc.errors().length).toBe(1);
+      expect(fvc.errors()[0].kind).toBe('required');
+
+      // Valid value should clear errors
+      act(() => fixture.componentInstance.ctrl.setValue('valid'));
+      expect(fvc.errors().length).toBe(0);
+    });
+
+    it('should sync multiple errors to FVC', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('ab', [Validators.required, Validators.minLength(5)]);
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      // Should have minLength error (value is 'ab' which is less than 5)
+      expect(fvc.errors().length).toBe(1);
+      expect(fvc.errors()[0].kind).toBe('minlength');
+      expect(fvc.errors()[0].context).toEqual({requiredLength: 5, actualLength: 2});
+
+      // Empty value should have required error (minLength doesn't validate empty)
+      act(() => fixture.componentInstance.ctrl.setValue(''));
+      expect(fvc.errors().length).toBe(1);
+      expect(fvc.errors()[0].kind).toBe('required');
+
+      // Valid value should clear all errors
+      act(() => fixture.componentInstance.ctrl.setValue('valid'));
+      expect(fvc.errors().length).toBe(0);
+    });
+  });
+});
+
+describe('error bindings', () => {
+  it('should sync FVC parseErrors to FormControl', () => {
+    @Component({
+      selector: 'my-parsing-input',
+      template: '<input #i [value]="value()" (input)="value.set(i.value)" />',
+    })
+    class MyParsingInput {
+      readonly value = model('');
+      constructor() {
+        const parseErrorsToken = inject(ɵFORM_CONTROL_INTEGRATION, {optional: true, self: true});
+        if (parseErrorsToken) {
+          parseErrorsToken.setParseErrors(
+            computed(() => {
+              return this.value() === 'INVALID' ? [{kind: 'parse', reason: 'cannot parse'}] : [];
+            }),
+          );
+        }
+      }
+    }
+
+    @Component({
+      template: `<my-parsing-input [formControl]="ctrl" />`,
+      imports: [MyParsingInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('');
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const fvc = fixture.debugElement.query(By.directive(MyParsingInput)).componentInstance;
+
+    // Initially no errors
+    expect(fixture.componentInstance.ctrl.errors).toBeNull();
+
+    // Set value that triggers parse error
+    act(() => fvc.value.set('INVALID'));
+    expect(fixture.componentInstance.ctrl.errors).toEqual({
+      parse: {kind: 'parse', reason: 'cannot parse'},
+    });
+
+    // Clear parse error
+    act(() => fvc.value.set('valid'));
+    expect(fixture.componentInstance.ctrl.errors).toBeNull();
+  });
+
+  it('should merge parseErrors with validator errors', () => {
+    @Component({
+      selector: 'my-parsing-input',
+      template: '<input #i [value]="value()" (input)="value.set(i.value)" />',
+    })
+    class MyParsingInput {
+      readonly value = model('');
+      constructor() {
+        const parseErrorsToken = inject(ɵFORM_CONTROL_INTEGRATION, {optional: true, self: true});
+        if (parseErrorsToken) {
+          parseErrorsToken.setParseErrors(
+            computed(() => (this.value() === 'BAD' ? [{kind: 'parse'}] : [])),
+          );
+        }
+      }
+    }
+
+    @Component({
+      template: `<my-parsing-input [formControl]="ctrl" />`,
+      imports: [MyParsingInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = new FormControl('', Validators.minLength(5));
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const fvc = fixture.debugElement.query(By.directive(MyParsingInput)).componentInstance;
+
+    // Set value that triggers parse error (BAD = 3 chars, also minLength error)
+    act(() => fvc.value.set('BAD'));
+    expect(fixture.componentInstance.ctrl.errors).toEqual({
+      parse: {kind: 'parse'},
+      minlength: {requiredLength: 5, actualLength: 3},
+    });
+
+    // Set value that won't trigger a parse error - only minLength check
+    act(() => fvc.value.set('abc')); // 3 chars
+    expect(fixture.componentInstance.ctrl.errors).toEqual({
+      minlength: {requiredLength: 5, actualLength: 3},
+    });
+
+    // Set valid long value - no errors
+    act(() => fvc.value.set('valid-long'));
+    expect(fixture.componentInstance.ctrl.errors).toBeNull();
+  });
+
+  it('should switch parseErrors to new FormControl when swapped', () => {
+    @Component({
+      selector: 'my-parsing-input',
+      template: '<input #i [value]="value()" (input)="value.set(i.value)" />',
+    })
+    class MyParsingInput {
+      readonly value = model('');
+      constructor() {
+        const parseErrorsToken = inject(ɵFORM_CONTROL_INTEGRATION, {optional: true, self: true});
+        if (parseErrorsToken) {
+          parseErrorsToken.setParseErrors(
+            computed(() => (this.value() === 'BAD' ? [{kind: 'parse'}] : [])),
+          );
+        }
+      }
+    }
+
+    @Component({
+      template: `<my-parsing-input [formControl]="ctrl()" />`,
+      imports: [MyParsingInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      ctrl = signal(new FormControl(''));
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const fvc = fixture.debugElement.query(By.directive(MyParsingInput)).componentInstance;
+    const oldCtrl = fixture.componentInstance.ctrl();
+
+    // Trigger parse error on old control
+    act(() => fvc.value.set('BAD'));
+    expect(oldCtrl.errors).toEqual({parse: {kind: 'parse'}});
+
+    // Swap to new FormControl - errors should move to new control
+    const newCtrl = new FormControl('');
+    act(() => fixture.componentInstance.ctrl.set(newCtrl));
+
+    // Old control should no longer have parse errors (validator removed)
+    expect(oldCtrl.errors).toBeNull();
+    // New control should not have parse errors yet (validator added, but value is '')
+    expect(newCtrl.errors).toBeNull();
+
+    // Trigger parse error again - should only affect new control
+    act(() => fvc.value.set('BAD'));
+    expect(oldCtrl.errors).toBeNull();
+    expect(newCtrl.errors).toEqual({parse: {kind: 'parse'}});
+
+    // Clear parse error - should affect new control only
+    act(() => fvc.value.set('good'));
+    expect(oldCtrl.errors).toBeNull();
+    expect(newCtrl.errors).toBeNull();
+  });
+});
+
+describe('FormControlName with FVC', () => {
+  it('should sync FormControl value to FVC (model -> view)', () => {
+    @Component({
+      template: `
+        <form [formGroup]="form">
+          <my-fvc-input formControlName="name" />
+        </form>
+      `,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      form = new FormGroup({
+        name: new FormControl('initial'),
+      });
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+    expect(fvc.value()).toBe('initial');
+
+    act(() => fixture.componentInstance.form.controls.name.setValue('updated'));
+    expect(fvc.value()).toBe('updated');
+  });
+
+  it('should sync FVC value to FormControl (view -> model)', () => {
+    @Component({
+      template: `
+        <form [formGroup]="form">
+          <my-fvc-input formControlName="name" />
+        </form>
+      `,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      form = new FormGroup({
+        name: new FormControl('initial'),
+      });
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+    act(() => fvc.value.set('from-fvc'));
+
+    expect(fixture.componentInstance.form.controls.name.value).toBe('from-fvc');
+  });
+
+  it('should report the form as dirty inside valueChanges when the FVC writes a value', () => {
+    @Component({
+      template: `
+        <form [formGroup]="form">
+          <my-fvc-input formControlName="name" />
+        </form>
+      `,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      form = new FormGroup({
+        name: new FormControl('initial'),
+      });
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const form = fixture.componentInstance.form;
+
+    const dirtyDuringValueChanges: boolean[] = [];
+    form.valueChanges.subscribe(() => dirtyDuringValueChanges.push(form.dirty));
+
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+    act(() => fvc.value.set('from-fvc'));
+
+    expect(dirtyDuringValueChanges).toEqual([true]);
+  });
+
+  it('should update FormControl value before template (valueChange) listener fires', () => {
+    @Component({
+      template: `
+        <form [formGroup]="form">
+          <my-fvc-input formControlName="name" (valueChange)="onValueChange()" />
+        </form>
+      `,
+      imports: [MyFvcInput, ReactiveFormsModule],
+    })
+    class TestCmp {
+      form = new FormGroup({
+        name: new FormControl('initial'),
+      });
+      observedDuringValueChange: string | null | undefined;
+
+      onValueChange() {
+        this.observedDuringValueChange = this.form.controls.name.value;
+      }
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+    const component = fixture.componentInstance;
+    const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+    act(() => fvc.value.set('from-fvc'));
+
+    expect(component.observedDuringValueChange).toBe('from-fvc');
+    expect(component.form.controls.name.value).toBe('from-fvc');
+  });
+
+  it('should fall back to CVA when no FVC pattern is present', () => {
+    @Component({
+      template: `
+        <form [formGroup]="form">
+          <input formControlName="name" />
+        </form>
+      `,
+      imports: [ReactiveFormsModule],
+    })
+    class TestCmp {
+      form = new FormGroup({
+        name: new FormControl('initial'),
+      });
+    }
+
+    const fixture = act(() => TestBed.createComponent(TestCmp));
+
+    const input = fixture.debugElement.query(By.css('input')).nativeElement;
+    expect(input.value).toBe('initial');
+
+    act(() => fixture.componentInstance.form.controls.name.setValue('updated'));
+    expect(input.value).toBe('updated');
+  });
+
+  describe('status bindings', () => {
+    it('should sync disabled state to FVC', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          name: new FormControl('test'),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.disabled()).toBe(false);
+
+      act(() => fixture.componentInstance.form.controls.name.disable());
+      expect(fvc.disabled()).toBe(true);
+
+      act(() => fixture.componentInstance.form.controls.name.enable());
+      expect(fvc.disabled()).toBe(false);
+    });
+
+    it('should sync touched state to FVC', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          name: new FormControl('test'),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.touched()).toBe(false);
+
+      act(() => fixture.componentInstance.form.controls.name.markAsTouched());
+      expect(fvc.touched()).toBe(true);
+
+      act(() => fixture.componentInstance.form.controls.name.markAsUntouched());
+      expect(fvc.touched()).toBe(false);
+    });
+
+    it('should sync dirty state to FVC', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          name: new FormControl('test'),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.dirty()).toBe(false);
+
+      act(() => fixture.componentInstance.form.controls.name.markAsDirty());
+      expect(fvc.dirty()).toBe(true);
+
+      act(() => fixture.componentInstance.form.controls.name.markAsPristine());
+      expect(fvc.dirty()).toBe(false);
+    });
+
+    it('should sync valid/invalid state to FVC', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          name: new FormControl('test', Validators.required),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      expect(fvc.valid()).toBe(true);
+      expect(fvc.invalid()).toBe(false);
+
+      act(() => fixture.componentInstance.form.controls.name.setValue(''));
+      expect(fvc.valid()).toBe(false);
+      expect(fvc.invalid()).toBe(true);
+
+      act(() => fixture.componentInstance.form.controls.name.setValue('valid'));
+      expect(fvc.valid()).toBe(true);
+      expect(fvc.invalid()).toBe(false);
+    });
+  });
+
+  describe('error bindings', () => {
+    it('should sync FormControl errors to FVC', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          name: new FormControl('', Validators.required),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      // Empty value should have required error
+      expect(fvc.errors().length).toBe(1);
+      expect(fvc.errors()[0].kind).toBe('required');
+
+      // Valid value should clear errors
+      act(() => fixture.componentInstance.form.controls.name.setValue('valid'));
+      expect(fvc.errors().length).toBe(0);
+    });
+  });
+
+  describe('required binding', () => {
+    it('should sync required status to FVC based on Validators.required', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          name: new FormControl('', Validators.required),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      expect(fvc.required()).toBe(true);
+
+      // Remove required validator
+      act(() => {
+        fixture.componentInstance.form.controls.name.removeValidators(Validators.required);
+        fixture.componentInstance.form.controls.name.updateValueAndValidity();
+      });
+      expect(fvc.required()).toBe(false);
+
+      // Add required validator back
+      act(() => {
+        fixture.componentInstance.form.controls.name.addValidators(Validators.required);
+        fixture.componentInstance.form.controls.name.updateValueAndValidity();
+      });
+      expect(fvc.required()).toBe(true);
+    });
+  });
+
+  describe('updateOn options', () => {
+    it('should not update value or validity based on custom control input until blur', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('', {validators: Validators.required, updateOn: 'blur'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      act(() => fvc.value.set('Nancy'));
+
+      expect(fixture.componentInstance.ctrl.value).toBe('');
+      expect(fixture.componentInstance.ctrl.valid).toBe(false);
+
+      act(() => fvc.touch.emit());
+
+      expect(fixture.componentInstance.ctrl.value).toBe('Nancy');
+      expect(fixture.componentInstance.ctrl.valid).toBe(true);
+    });
+
+    it('should not update custom control value or validity until submit', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form" (submit)="$event.preventDefault()">
+            <my-fvc-input formControlName="login" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        form = new FormGroup({
+          login: new FormControl('', {validators: Validators.required, updateOn: 'submit'}),
+        });
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      act(() => fvc.value.set('Nancy'));
+
+      expect(fixture.componentInstance.form.value).toEqual({login: ''});
+      expect(fixture.componentInstance.form.valid).toBe(false);
+
+      const form = fixture.nativeElement.querySelector('form');
+      act(() => {
+        form?.dispatchEvent(new Event('submit', {cancelable: true}));
+      });
+
+      expect(fixture.componentInstance.form.value).toEqual({login: 'Nancy'});
+      expect(fixture.componentInstance.form.valid).toBe(true);
+    });
+
+    it('should reset custom control view value when control is reset with pending changes', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('initial', {updateOn: 'blur'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      expect(fvc.value()).toBe('initial');
+
+      act(() => fvc.value.set('modified'));
+      expect(fixture.componentInstance.ctrl.value).toBe('initial');
+
+      act(() => fixture.componentInstance.ctrl.reset('reset-value'));
+      expect(fixture.componentInstance.ctrl.value).toBe('reset-value');
+      expect(fvc.value()).toBe('reset-value');
+    });
+
+    it('should reset custom control view value when a pending undefined value is discarded', () => {
+      @Component({selector: 'my-optional-fvc-input', template: ''})
+      class MyOptionalFvcInput implements FormValueControl<string | undefined> {
+        readonly value = model<string | undefined>();
+        readonly touch = output<void>();
+      }
+
+      @Component({
+        template: `<my-optional-fvc-input [formControl]="ctrl" />`,
+        imports: [MyOptionalFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl<string | undefined>('initial', {updateOn: 'blur'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyOptionalFvcInput)).componentInstance;
+
+      act(() => fvc.value.set(undefined));
+      expect(fixture.componentInstance.ctrl.value).toBe('initial');
+
+      act(() => fixture.componentInstance.ctrl.reset('initial'));
+      expect(fvc.value()).toBe('initial');
+    });
+
+    it('should reset custom control view value when control.setValue is called with current value to discard pending changes', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('initial', {updateOn: 'blur'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      expect(fvc.value()).toBe('initial');
+
+      act(() => fvc.value.set('modified'));
+      expect(fixture.componentInstance.ctrl.value).toBe('initial');
+      expect(fvc.value()).toBe('modified');
+
+      act(() => fixture.componentInstance.ctrl.setValue('initial'));
+      expect(fvc.value()).toBe('initial');
+    });
+
+    it('should not mark control dirty or commit on blur after programmatic setValue', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        ctrl = new FormControl('initial', {updateOn: 'blur'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      act(() => fvc.value.set('modified'));
+
+      const emitted: Array<string | null> = [];
+      fixture.componentInstance.ctrl.valueChanges.subscribe((v) => emitted.push(v));
+
+      act(() => {
+        fixture.componentInstance.ctrl.setValue('new-value');
+        fixture.componentInstance.ctrl.markAsPristine();
+      });
+      expect(fixture.componentInstance.ctrl.dirty).toBe(false);
+      expect(emitted).toEqual(['new-value']);
+
+      act(() => fvc.touch.emit());
+
+      expect(fixture.componentInstance.ctrl.dirty).toBe(false);
+      expect(emitted).toEqual(['new-value']);
+    });
+
+    it('should sync custom control bound via formControlName to a SignalFormControl', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        readonly name = new SignalFormControl('Alice', undefined, {injector: inject(Injector)});
+        readonly form = new FormGroup({name: this.name});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      expect(fvc.value()).toBe('Alice');
+
+      act(() => fvc.value.set('Bob'));
+      expect(fixture.componentInstance.name.value).toBe('Bob');
+      expect(fixture.componentInstance.name.dirty).toBe(true);
+
+      act(() => fvc.touch.emit());
+      expect(fixture.componentInstance.name.touched).toBe(true);
+    });
+
+    it('should sync SignalFormControl in a FormGroup with updateOn change', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form">
+            <my-fvc-input formControlName="name" />
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        readonly name = new SignalFormControl('Alice', undefined, {injector: inject(Injector)});
+        readonly form = new FormGroup({name: this.name}, {updateOn: 'change'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      act(() => fvc.value.set('Bob'));
+      expect(fixture.componentInstance.form.value).toEqual({name: 'Bob'});
+      act(() => fixture.componentInstance.name.setValue('Carol'));
+      expect(fvc.value()).toBe('Carol');
+      act(() => fvc.value.set('Dave'));
+      expect(fixture.componentInstance.form.value).toEqual({name: 'Dave'});
+    });
+
+    it('should not mark control dirty or emit again on blur after setValue without updating the view', () => {
+      @Component({
+        template: `<my-fvc-input [formControl]="ctrl" />`,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        readonly ctrl = new FormControl('initial', {updateOn: 'blur'});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+      const ctrl = fixture.componentInstance.ctrl;
+
+      act(() => fvc.value.set('modified'));
+      const emitted: Array<string | null> = [];
+      ctrl.valueChanges.subscribe((v) => emitted.push(v));
+
+      act(() => ctrl.setValue('new-value', {emitModelToViewChange: false}));
+      expect(fvc.value()).toBe('new-value');
+
+      act(() => fvc.touch.emit());
+
+      expect(ctrl.value).toBe('new-value');
+      expect(ctrl.dirty).toBe(false);
+      expect(emitted).toEqual(['new-value']);
+    });
+
+    it('should discard pending changes when custom control is destroyed before commit', () => {
+      @Component({
+        template: `
+          <form [formGroup]="form" (submit)="$event.preventDefault()">
+            @if (show()) {
+              <my-fvc-input formControlName="name" />
+            }
+          </form>
+        `,
+        imports: [MyFvcInput, ReactiveFormsModule],
+      })
+      class TestCmp {
+        readonly show = signal(true);
+        readonly name = new FormControl('initial', {updateOn: 'submit'});
+        readonly form = new FormGroup({name: this.name});
+      }
+
+      const fixture = act(() => TestBed.createComponent(TestCmp));
+      const fvc = fixture.debugElement.query(By.directive(MyFvcInput)).componentInstance;
+
+      act(() => fvc.value.set('modified'));
+      expect(fixture.componentInstance.name.value).toBe('initial');
+
+      // Destroy the custom control while `_pendingChange` is true.
+      act(() => fixture.componentInstance.show.set(false));
+
+      // Submitting the form should not commit the discarded pending value or mark it dirty.
+      const formEl = fixture.nativeElement.querySelector('form');
+      act(() => {
+        formEl?.dispatchEvent(new Event('submit', {cancelable: true}));
+      });
+
+      expect(fixture.componentInstance.name.value).toBe('initial');
+      expect(fixture.componentInstance.name.dirty).toBe(false);
+    });
+  });
+});
+
+function act<T>(fn: () => T): T {
+  try {
+    return fn();
+  } finally {
+    TestBed.tick();
+  }
+}

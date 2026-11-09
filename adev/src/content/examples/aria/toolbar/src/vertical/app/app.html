@@ -1,5 +1,3 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet" />
-
 <div ngToolbar orientation="vertical" aria-label="Text Formatting Tools">
   <div class="group">
     <button
@@ -8,6 +6,7 @@
       type="button"
       aria-label="undo"
       class="material-symbols-outlined"
+      translate="no"
     >
       undo
     </button>
@@ -18,6 +17,7 @@
       type="button"
       aria-label="redo"
       class="material-symbols-outlined"
+      translate="no"
     >
       redo
     </button>
@@ -31,9 +31,10 @@
       value="bold"
       type="button"
       aria-label="bold"
-      #bold="ngToolbarWidget"
       class="material-symbols-outlined"
-      [aria-pressed]="bold.selected()"
+      [attr.aria-pressed]="bold()"
+      (click)="bold.set(!bold())"
+      translate="no"
     >
       format_bold
     </button>
@@ -43,9 +44,10 @@
       value="italic"
       type="button"
       aria-label="italic"
-      #italic="ngToolbarWidget"
       class="material-symbols-outlined"
-      [aria-pressed]="italic.selected()"
+      [attr.aria-pressed]="italic()"
+      (click)="italic.set(!italic())"
+      translate="no"
     >
       format_italic
     </button>
@@ -55,9 +57,10 @@
       value="underlined"
       type="button"
       aria-label="underlined"
-      #underlined="ngToolbarWidget"
       class="material-symbols-outlined"
-      [aria-pressed]="underlined.selected()"
+      [attr.aria-pressed]="underlined()"
+      (click)="underlined.set(!underlined())"
+      translate="no"
     >
       format_underlined
     </button>

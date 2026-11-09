@@ -3,13 +3,9 @@
 
 O [Angular CLI][CliMain] automaticamente inclui dados de locale se você executar o comando [`ng build`][CliBuild] com a opção `--localize`.
 
-<!--todo: replace with docs-code -->
-
-<docs-code language="shell">
-
+```shell
 ng build --localize
-
-</docs-code>
+```
 
 HELPFUL: A instalação inicial do Angular já contém dados de locale para inglês nos Estados Unidos \(`en-US`\).
 O [Angular CLI][CliMain] automaticamente inclui os dados de locale e define o valor `LOCALE_ID` quando você usa a opção `--localize` com o comando [`ng build`][CliBuild].
@@ -21,7 +17,7 @@ Variantes globais dos dados de locale estão disponíveis em `@angular/common/lo
 
 Por exemplo, você poderia importar as variantes globais para francês \(`fr`\) em `main.ts` onde você faz o bootstrap da aplicação.
 
-<docs-code header="src/main.ts (import locale)" path="adev/src/content/examples/i18n/src/main.ts" visibleRegion="global-locale"/>
+<docs-code header="src/main.ts (import locale)" path="adev/src/content/examples/i18n/src/main.ts" region="global-locale"/>
 
 HELPFUL: Em uma aplicação `NgModules`, você importaria no seu `app.module`.
 

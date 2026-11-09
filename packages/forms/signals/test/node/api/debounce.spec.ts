@@ -9,6 +9,7 @@
 import {Injector, signal} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 import {applyWhenValue, debounce, form} from '@angular/forms/signals';
+import {timeout} from '@angular/private/testing';
 
 describe('debounce', () => {
   describe('by duration', () => {
@@ -23,7 +24,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
     });
@@ -39,7 +40,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -58,7 +59,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -79,7 +80,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
     });
@@ -95,7 +96,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -104,7 +105,7 @@ describe('debounce', () => {
     });
 
     it('should synchronize value after promise resolves', async () => {
-      const {promise, resolve} = promiseWithResolvers<void>();
+      const {promise, resolve} = Promise.withResolvers<void>();
       const address = signal({street: ''});
       const addressForm = form(
         address,
@@ -115,7 +116,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -126,8 +127,8 @@ describe('debounce', () => {
     });
 
     it('should synchronize value after most recently returned promise resolves', async () => {
-      const first = promiseWithResolvers();
-      const second = promiseWithResolvers();
+      const first = Promise.withResolvers<void>();
+      const second = Promise.withResolvers<void>();
       const debounceFn = jasmine
         .createSpy('debounceFn')
         .and.returnValues(first.promise, second.promise);
@@ -142,10 +143,10 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
-      street.setControlValue('2000 N Shoreline Blvd');
+      street.controlValue.set('2000 N Shoreline Blvd');
       expect(street.value()).toBe('');
 
       first.resolve();
@@ -158,7 +159,7 @@ describe('debounce', () => {
     });
 
     it('should be ignored if value is directly set before it resolves', async () => {
-      const debounceResult = promiseWithResolvers();
+      const debounceResult = Promise.withResolvers<void>();
       const debounceFn = jasmine.createSpy('debounceFn').and.returnValues(debounceResult.promise);
 
       const address = signal({street: ''});
@@ -172,7 +173,7 @@ describe('debounce', () => {
       const street = addressForm.street();
 
       // Set `controlValue` which will trigger a debounce update.
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -188,7 +189,7 @@ describe('debounce', () => {
 
     describe('abort signal', () => {
       it('should be aborted if control value is set again', async () => {
-        const {promise, resolve} = promiseWithResolvers();
+        const {promise, resolve} = Promise.withResolvers<void>();
         const abortSpy = jasmine.createSpy('abort');
 
         const address = signal({street: ''});
@@ -204,10 +205,10 @@ describe('debounce', () => {
         );
         const street = addressForm.street();
 
-        street.setControlValue('1600 Amphitheatre Pkwy');
+        street.controlValue.set('1600 Amphitheatre Pkwy');
         expect(abortSpy).not.toHaveBeenCalled();
 
-        street.setControlValue('2000 N Shoreline Blvd');
+        street.controlValue.set('2000 N Shoreline Blvd');
         expect(abortSpy).toHaveBeenCalledTimes(1);
 
         resolve();
@@ -230,13 +231,84 @@ describe('debounce', () => {
         );
         const street = addressForm.street();
 
-        street.setControlValue('1600 Amphitheatre Pkwy');
+        street.controlValue.set('1600 Amphitheatre Pkwy');
         expect(abortSpy).not.toHaveBeenCalled();
 
         street.markAsTouched();
         expect(abortSpy).toHaveBeenCalledTimes(1);
         expect(street.value()).toBe('1600 Amphitheatre Pkwy');
       });
+
+      it('should remove abort listener when debounce completes', async () => {
+        const addListenerSpy = spyOn(AbortSignal.prototype, 'addEventListener').and.callThrough();
+        const removeListenerSpy = spyOn(
+          AbortSignal.prototype,
+          'removeEventListener',
+        ).and.callThrough();
+
+        const address = signal({street: ''});
+        const addressForm = form(
+          address,
+          (address) => {
+            debounce(address.street, 1);
+          },
+          options(),
+        );
+        const street = addressForm.street();
+
+        street.controlValue.set('1600 Amphitheatre Pkwy');
+        expect(addListenerSpy).toHaveBeenCalledOnceWith('abort', jasmine.any(Function), {
+          once: true,
+        });
+        expect(removeListenerSpy).not.toHaveBeenCalled();
+
+        await timeout(10);
+        expect(street.value()).toBe('1600 Amphitheatre Pkwy');
+        expect(removeListenerSpy).toHaveBeenCalledOnceWith('abort', jasmine.any(Function));
+      });
+    });
+  });
+
+  describe('until blurred', () => {
+    it('should synchronize value immediately on touch', () => {
+      const address = signal({street: ''});
+      const addressForm = form(
+        address,
+        (address) => {
+          debounce(address.street, 'blur');
+        },
+        options(),
+      );
+      const street = addressForm.street();
+
+      street.controlValue.set('1600 Amphitheatre Pkwy');
+      expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
+      expect(street.value()).toBe('');
+
+      street.markAsTouched();
+      expect(street.value()).toBe('1600 Amphitheatre Pkwy');
+    });
+
+    it('should be ignored if value is directly set before blur', () => {
+      const address = signal({street: ''});
+      const addressForm = form(
+        address,
+        (address) => {
+          debounce(address.street, 'blur');
+        },
+        options(),
+      );
+      const street = addressForm.street();
+
+      street.controlValue.set('1600 Amphitheatre Pkwy');
+      expect(street.value()).toBe('');
+
+      street.value.set('2000 N Shoreline Blvd');
+      expect(street.value()).toBe('2000 N Shoreline Blvd');
+      expect(street.controlValue()).toBe('2000 N Shoreline Blvd');
+
+      street.markAsTouched();
+      expect(street.value()).toBe('2000 N Shoreline Blvd');
     });
   });
 
@@ -252,7 +324,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -272,7 +344,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
     });
@@ -288,7 +360,7 @@ describe('debounce', () => {
         options(),
       );
 
-      addressForm().setControlValue({street: '1600 Amphitheatre Pkwy'});
+      addressForm().controlValue.set({street: '1600 Amphitheatre Pkwy'});
       expect(addressForm().controlValue()).toEqual({street: '1600 Amphitheatre Pkwy'});
       expect(addressForm().value()).toEqual({street: ''});
 
@@ -306,10 +378,10 @@ describe('debounce', () => {
         options(),
       );
 
-      addressForm.street().setControlValue('1600 Amphitheatre Pkwy');
+      addressForm.street().controlValue.set('1600 Amphitheatre Pkwy');
       expect(addressForm().value()).toEqual({street: '', city: ''});
 
-      addressForm.city().setControlValue('Mountain View');
+      addressForm.city().controlValue.set('Mountain View');
       expect(addressForm().value()).toEqual({street: '', city: 'Mountain View'});
 
       await timeout(0);
@@ -333,7 +405,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
     });
@@ -356,7 +428,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -389,12 +461,12 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
 
       debounced.set(true);
-      street.setControlValue('2000 N Shoreline Blvd');
+      street.controlValue.set('2000 N Shoreline Blvd');
       expect(street.controlValue()).toBe('2000 N Shoreline Blvd');
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
 
@@ -420,7 +492,7 @@ describe('debounce', () => {
       );
       const street = addressForm.street();
 
-      street.setControlValue('1600 Amphitheatre Pkwy');
+      street.controlValue.set('1600 Amphitheatre Pkwy');
       expect(street.controlValue()).toBe('1600 Amphitheatre Pkwy');
       expect(street.value()).toBe('');
 
@@ -428,7 +500,7 @@ describe('debounce', () => {
       expect(street.value()).toBe('1600 Amphitheatre Pkwy');
 
       debounced.set(false);
-      street.setControlValue('2000 N Shoreline Blvd');
+      street.controlValue.set('2000 N Shoreline Blvd');
       expect(street.value()).toBe('2000 N Shoreline Blvd');
     });
   });
@@ -439,34 +511,7 @@ function options() {
   return {injector: TestBed.inject(Injector)};
 }
 
-/** Returns a promise that will resolve after {@link durationInMilliseconds}.  */
-function timeout(durationInMilliseconds: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, durationInMilliseconds));
-}
-
 /** Returns a promise that will never resolve. */
 function forever(): Promise<never> {
   return new Promise(() => {});
-}
-
-/**
- * Replace with `Promise.withResolvers()` once it's available.
- *
- * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers.
- */
-// TODO: share this with submit.spec.ts
-function promiseWithResolvers<T = void>(): {
-  promise: Promise<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
-  reject: (reason?: any) => void;
-} {
-  let resolve!: (value: T | PromiseLike<T>) => void;
-  let reject!: (reason?: any) => void;
-
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-
-  return {promise, resolve, reject};
 }

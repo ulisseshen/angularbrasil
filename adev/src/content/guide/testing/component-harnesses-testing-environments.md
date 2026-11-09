@@ -20,9 +20,9 @@ Caso contrário, para adicionar suporte para outros ambientes, você precisa def
 
 O [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) é um conjunto de primitivas de comportamento para construir components. Para usar os component harnesses, primeiro instale `@angular/cdk` do npm. Você pode fazer isso do seu terminal usando o Angular CLI:
 
-<docs-code language="shell">
-  ng add @angular/cdk
-</docs-code>
+```shell
+ng add @angular/cdk
+```
 
 ## Criando uma implementação de `TestElement`
 

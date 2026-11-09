@@ -1,154 +1,102 @@
-<!-- ia-translate: true -->
 # Attribute directives
 
-Mude a aparência ou comportamento de elementos DOM e components Angular com attribute directives.
+Attribute directives change the appearance or behavior of DOM elements and Angular components.
 
-## Construindo uma attribute directive
+## Use template bindings for one-off behavior
 
-Esta seção orienta você na criação de uma directive de destaque que define a cor de fundo do elemento host para amarelo.
+Angular's template syntax already covers changing a single element's classes, styles, properties, and events:
 
-1. Para criar uma directive, use o comando CLI [`ng generate directive`](tools/cli/schematics).
+- [Class and style bindings](guide/templates/binding#css-class-and-style-property-bindings) add and remove CSS classes and inline styles.
+- [Property and attribute bindings](guide/templates/binding) set DOM properties and HTML attributes.
+- [Event listeners](guide/templates/event-listeners) respond to user interaction.
 
-   <docs-code language="shell">
+Attribute directives are useful when you want to package this kind of behavior into a reusable unit that you can apply to any element or component.
 
-   ng generate directive highlight
+## Building an attribute directive
 
-   </docs-code>
+A custom attribute directive is a JavaScript class with the `@Directive()` decorator. The decorator's `selector` defines the attribute that applies the directive. The square brackets make this an attribute selector, so the directive matches elements that carry the attribute. By convention, use a prefix such as `app` to avoid naming collisions:
 
-   O CLI cria `src/app/highlight.directive.ts`, um arquivo de teste correspondente `src/app/highlight.directive.spec.ts`.
+```ts
+import {Directive} from '@angular/core';
 
-   <docs-code header="src/app/highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.0.ts"/>
+@Directive({
+  selector: '[appHighlight]',
+})
+export class HighlightDirective {}
+```
 
-   A propriedade de configuração do decorator `@Directive()` especifica o seletor de atributo CSS da directive, `[appHighlight]`.
+HELPFUL: The CLI command [`ng generate directive`](tools/cli/schematics) scaffolds a directive along with its test file.
 
-1. Importe `ElementRef` de `@angular/core`.
-   `ElementRef` concede acesso direto ao elemento DOM host através de sua propriedade `nativeElement`.
+A directive can change its host declaratively through host bindings or imperatively through a reference to the host element. This example [injects](guide/di) [`ElementRef`](api/core/ElementRef) and accesses the element through its `nativeElement` property to set the background to yellow:
 
-1. Adicione `ElementRef` no `constructor()` da directive para [injetar](guide/di) uma referência ao elemento DOM host, o elemento ao qual você aplica `appHighlight`.
+<docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.1.ts"/>
 
-1. Adicione lógica à classe `HighlightDirective` que define o fundo como amarelo.
+IMPORTANT: Directives _do not_ support namespaces.
 
-<docs-code header="src/app/highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.1.ts"/>
+```angular-html {avoid}
+<p app:Highlight>This is invalid</p>
+```
 
-ÚTIL: Directives _não_ suportam namespaces.
+## Applying an attribute directive
 
-<docs-code header="src/app/app.component.avoid.html (não suportado)" path="adev/src/content/examples/attribute-directives/src/app/app.component.avoid.html" visibleRegion="unsupported"/>
+To apply the directive, add its selector as an attribute on an element:
 
-## Aplicando uma attribute directive
+<docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.html" region="applied"/>
 
-1. Para usar a `HighlightDirective`, adicione um elemento `<p>` ao template HTML com a directive como um atributo.
+Angular creates an instance of `HighlightDirective` for that `<p>` element, injects a reference to the element, and sets its background to yellow.
 
-<docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.html" visibleRegion="applied"/>
+## Handling user events
 
-O Angular cria uma instância da classe `HighlightDirective` e injeta uma referência ao elemento `<p>` no constructor da directive, que define o estilo de fundo do elemento `<p>` como amarelo.
+To respond to user interaction, bind host element events to handler methods through the `host` property of the `@Directive()` decorator. The following directive highlights the host element while the pointer is over it and clears the highlight when the pointer leaves:
 
-## Manipulando eventos do usuário
+<docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts"/>
 
-Esta seção mostra como detectar quando um usuário passa o mouse sobre o elemento ou sai dele e responder definindo ou limpando a cor de destaque.
+The `host` property maps the `mouseenter` and `mouseleave` events to the `onMouseEnter()` and `onMouseLeave()` methods, which delegate to a `highlight()` helper that sets the background color on the host element. For more on host event bindings, see [binding to the host element](guide/components/host-elements#binding-to-the-host-element).
 
-1. Importe `HostListener` de '@angular/core'.
+## Accepting input values
 
-<docs-code header="src/app/highlight.directive.ts (imports)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts" visibleRegion="imports"/>
+Like components, directives accept inputs through the [`input()`](guide/components/inputs) function. Give an input the same name as the selector so that a single binding both applies the directive and passes a value to it:
 
-1. Adicione dois event handlers que respondem quando o mouse entra ou sai, cada um com o decorator `@HostListener()`.
+<docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="input"/>
 
-<docs-code header="src/app/highlight.directive.ts (mouse-methods)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts" visibleRegion="mouse-methods"/>
+Read the input by calling it as a signal, and fall back to a default when no color is set:
 
-Inscreva-se em eventos do elemento DOM que hospeda uma attribute directive, o `<p>` neste caso, com o decorator `@HostListener()`.
+<docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="mouse-enter"/>
 
-ÚTIL: Os handlers delegam para um método auxiliar, `highlight()`, que define a cor no elemento DOM host, `el`.
+In the template, bind the value to the selector. Because the input shares the selector's name, `[appHighlight]` both applies the directive and sets its value. Here the bound `color` is a property on the component:
 
-A directive completa é a seguinte:
+<docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="color"/>
 
-<docs-code header="src/app/highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts"/>
+<docs-code header="app.component.ts" path="adev/src/content/examples/attribute-directives/src/app/app.component.ts" region="class"/>
 
-A cor de fundo aparece quando o ponteiro passa sobre o elemento de parágrafo e desaparece quando o ponteiro se move para fora.
+A directive can declare more than one input. The following directive adds a `defaultColor` input, then falls back through `appHighlight`, `defaultColor`, and finally `red`:
 
-<img alt="Second Highlight" src="assets/images/guide/attribute-directives/highlight-directive-anim.gif">
+<docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.ts"/>
 
-## Passando valores para uma attribute directive
+Bind both inputs on the same element. Because `defaultColor` takes a static string rather than a dynamic expression, it doesn't need square brackets:
 
-Esta seção orienta você a definir a cor de destaque ao aplicar a `HighlightDirective`.
+<docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="defaultColor"/>
 
-1. Em `highlight.directive.ts`, importe `Input` de `@angular/core`.
+## Deactivating Angular processing with `NgNonBindable`
 
-<docs-code header="src/app/highlight.directive.ts (imports)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" visibleRegion="imports"/>
+To prevent expression evaluation in the browser, add `ngNonBindable` to the host element.
+`ngNonBindable` deactivates interpolation, directives, and binding in templates.
 
-1. Adicione uma propriedade `input` `appHighlight`.
+In the following example, the expression `{{ 1 + 1 }}` renders just as it does in your code editor, and does not display `2`.
 
-   <docs-code header="src/app/highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" visibleRegion="input"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="ngNonBindable"/>
 
-   A função `input()` adiciona metadados à classe que torna a propriedade `appHighlight` da directive disponível para binding.
+Applying `ngNonBindable` to an element stops binding for that element's child elements.
+However, `ngNonBindable` still lets directives work on the element where you apply `ngNonBindable`.
+In the following example, the `appHighlight` directive is still active but Angular does not evaluate the expression `{{ 1 + 1 }}`.
 
-1. Em `app.component.ts`, adicione uma propriedade `color` ao `AppComponent`.
+<docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="ngNonBindable-with-directive"/>
 
-<docs-code header="src/app/app.component.ts (class)" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.ts" visibleRegion="class"/>
+If you apply `ngNonBindable` to a parent element, Angular disables interpolation and binding of any sort, such as property binding or event binding, for the element's children.
 
-1. Para aplicar simultaneamente a directive e a cor, use property binding com o seletor da directive `appHighlight`, definindo-o igual a `color`.
+## What's next
 
-   <docs-code header="src/app/app.component.html (color)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="color"/>
-
-   O attribute binding `[appHighlight]` executa duas tarefas:
-   - Aplica a directive de destaque ao elemento `<p>`
-   - Define a cor de destaque da directive com um property binding
-
-### Definindo o valor com entrada do usuário
-
-Esta seção orienta você a adicionar botões de opção para vincular sua escolha de cor à directive `appHighlight`.
-
-1. Adicione marcação a `app.component.html` para escolher uma cor da seguinte forma:
-
-<docs-code header="src/app/app.component.html (v2)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="v2"/>
-
-1. Revise o `AppComponent.color` para que ele não tenha valor inicial.
-
-<docs-code header="src/app/app.component.ts (class)" path="adev/src/content/examples/attribute-directives/src/app/app.component.ts" visibleRegion="class"/>
-
-1. Em `highlight.directive.ts`, revise o método `onMouseEnter` para que ele primeiro tente destacar com `appHighlight` e volte para `red` se `appHighlight` for `undefined`.
-
-<docs-code header="src/app/highlight.directive.ts (mouse-enter)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" visibleRegion="mouse-enter"/>
-
-1. Sirva sua aplicação para verificar que o usuário pode escolher a cor com os botões de opção.
-
-<img alt="Gif animado da directive de destaque refatorada mudando de cor de acordo com o botão de opção que o usuário seleciona" src="assets/images/guide/attribute-directives/highlight-directive-v2-anim.gif">
-
-## Binding para uma segunda propriedade
-
-Esta seção orienta você a configurar sua aplicação para que o desenvolvedor possa definir a cor padrão.
-
-1. Adicione uma segunda propriedade `Input()` à `HighlightDirective` chamada `defaultColor`.
-
-<docs-code header="src/app/highlight.directive.ts (defaultColor)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.ts" visibleRegion="defaultColor"/>
-
-1. Revise o `onMouseEnter` da directive para que ele primeiro tente destacar com o `appHighlight`, depois com o `defaultColor`, e volte para `red` se ambas as propriedades forem `undefined`.
-
-<docs-code header="src/app/highlight.directive.ts (mouse-enter)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.ts" visibleRegion="mouse-enter"/>
-
-1. Para fazer binding com `AppComponent.color` e voltar para "violet" como a cor padrão, adicione o seguinte HTML.
-   Neste caso, o binding `defaultColor` não usa colchetes, `[]`, porque é estático.
-
-   <docs-code header="src/app/app.component.html (defaultColor)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="defaultColor"/>
-
-   Assim como com components, você pode adicionar múltiplos property bindings de directive a um elemento host.
-
-A cor padrão é vermelho se não houver binding de cor padrão.
-Quando o usuário escolhe uma cor, a cor selecionada se torna a cor de destaque ativa.
-
-<img alt="Gif animado da directive de destaque final que mostra cor vermelha sem binding e violeta com a cor padrão definida. Quando o usuário seleciona a cor, a seleção tem precedência." src="assets/images/guide/attribute-directives/highlight-directive-final-anim.gif">
-
-## Desativando o processamento do Angular com `NgNonBindable`
-
-Para prevenir a avaliação de expressões no navegador, adicione `ngNonBindable` ao elemento host.
-`ngNonBindable` desativa interpolation, directives e binding em templates.
-
-No exemplo a seguir, a expressão `{{ 1 + 1 }}` renderiza exatamente como aparece no seu editor de código, e não exibe `2`.
-
-<docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable"/>
-
-Aplicar `ngNonBindable` a um elemento interrompe o binding para os elementos filhos desse elemento.
-No entanto, `ngNonBindable` ainda permite que directives funcionem no elemento onde você aplica `ngNonBindable`.
-No exemplo a seguir, a directive `appHighlight` ainda está ativa, mas o Angular não avalia a expressão `{{ 1 + 1 }}`.
-
-<docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable-with-directive"/>
-
-Se você aplicar `ngNonBindable` a um elemento pai, o Angular desativa interpolation e binding de qualquer tipo, como property binding ou event binding, para os filhos do elemento.
+<docs-pill-row>
+  <docs-pill href="guide/directives/structural-directives" title="Structural directives"/>
+  <docs-pill href="guide/directives/directive-composition-api" title="Directive composition API"/>
+</docs-pill-row>

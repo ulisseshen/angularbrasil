@@ -18,7 +18,7 @@ import {type DestroyRef} from '../../linker/destroy_ref';
 import {NgZone} from '../../zone';
 import {AFTER_RENDER_SEQUENCES_TO_ADD, FLAGS, LView, LViewFlags} from '../interfaces/view';
 import {profiler} from '../profiler';
-import {ProfilerEvent} from '../../../primitives/profiler/src/profiler_types';
+import {ProfilerEvent} from '../../../primitives/devtools';
 import {markAncestorsForTraversal} from '../util/view_utils';
 import {AfterRenderPhase, AfterRenderRef} from './api';
 
@@ -131,15 +131,19 @@ export class AfterRenderImpl {
       // Mark the view for traversal to ensure we eventually schedule the afterNextRender.
       markAncestorsForTraversal(view);
       view[FLAGS] |= LViewFlags.HasChildViewsToRefresh;
-    } else if (!this.executing) {
-      this.addSequence(sequence);
     } else {
-      this.deferredRegistrations.add(sequence);
+      this.addSequence(sequence);
     }
   }
 
   addSequence(sequence: AfterRenderSequence): void {
-    this.sequences.add(sequence);
+    if (this.executing) {
+      // Defer registrations made while hooks are running. Otherwise the sequence could start
+      // in the current pass with its earlier phases already skipped. See #61715.
+      this.deferredRegistrations.add(sequence);
+    } else {
+      this.sequences.add(sequence);
+    }
     // Trigger an `ApplicationRef.tick()` if one is not already pending/running, because we have a
     // new render hook that needs to run.
     this.scheduler.notify(NotificationSource.RenderHook);

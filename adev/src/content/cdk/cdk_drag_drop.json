@@ -179,10 +179,259 @@
       "rawComment": "/** Possible values that can be used to configure the drag start delay. */",
       "description": "Possible values that can be used to configure the drag start delay.",
       "jsdocTags": [],
+      "members": [],
       "source": {
         "filePath": "src/cdk/drag-drop/directives/config.ts",
         "startLine": 13,
         "endLine": 13
+      }
+    },
+    {
+      "name": "DragDrop",
+      "isAbstract": false,
+      "entryType": "undecorated_class",
+      "members": [
+        {
+          "name": "createDrag",
+          "signatures": [
+            {
+              "name": "createDrag",
+              "entryType": "function",
+              "description": "Turns an element into a draggable item.",
+              "generics": [
+                {
+                  "name": "T",
+                  "default": "any"
+                }
+              ],
+              "isNewType": false,
+              "jsdocTags": [
+                {
+                  "name": "param",
+                  "comment": "Element to which to attach the dragging functionality."
+                },
+                {
+                  "name": "param",
+                  "comment": "Object used to configure the dragging behavior."
+                },
+                {
+                  "name": "deprecated",
+                  "comment": "Use the `createDragRef` function that provides better tree shaking."
+                },
+                {
+                  "name": "breaking-change",
+                  "comment": "23.0.0"
+                }
+              ],
+              "params": [
+                {
+                  "name": "element",
+                  "description": "Element to which to attach the dragging functionality.",
+                  "type": "HTMLElement | ElementRef<HTMLElement>",
+                  "isOptional": false,
+                  "isRestParam": false
+                },
+                {
+                  "name": "config",
+                  "description": "Object used to configure the dragging behavior.",
+                  "type": "DragRefConfig | undefined",
+                  "isOptional": true,
+                  "isRestParam": false
+                }
+              ],
+              "rawComment": "/**\n   * Turns an element into a draggable item.\n   * @param element Element to which to attach the dragging functionality.\n   * @param config Object used to configure the dragging behavior.\n   * @deprecated Use the `createDragRef` function that provides better tree shaking.\n   * @breaking-change 23.0.0\n   */",
+              "returnType": "DragRef<T>"
+            }
+          ],
+          "implementation": {
+            "params": [
+              {
+                "name": "element",
+                "description": "Element to which to attach the dragging functionality.",
+                "type": "HTMLElement | ElementRef<HTMLElement>",
+                "isOptional": false,
+                "isRestParam": false
+              },
+              {
+                "name": "config",
+                "description": "Object used to configure the dragging behavior.",
+                "type": "DragRefConfig | undefined",
+                "isOptional": true,
+                "isRestParam": false
+              }
+            ],
+            "isNewType": false,
+            "returnType": "DragRef<T>",
+            "generics": [
+              {
+                "name": "T",
+                "default": "any"
+              }
+            ],
+            "name": "createDrag",
+            "description": "Turns an element into a draggable item.",
+            "entryType": "function",
+            "jsdocTags": [
+              {
+                "name": "param",
+                "comment": "Element to which to attach the dragging functionality."
+              },
+              {
+                "name": "param",
+                "comment": "Object used to configure the dragging behavior."
+              },
+              {
+                "name": "deprecated",
+                "comment": "Use the `createDragRef` function that provides better tree shaking."
+              },
+              {
+                "name": "breaking-change",
+                "comment": "23.0.0"
+              }
+            ],
+            "rawComment": "/**\n   * Turns an element into a draggable item.\n   * @param element Element to which to attach the dragging functionality.\n   * @param config Object used to configure the dragging behavior.\n   * @deprecated Use the `createDragRef` function that provides better tree shaking.\n   * @breaking-change 23.0.0\n   */"
+          },
+          "entryType": "function",
+          "description": "Turns an element into a draggable item.",
+          "jsdocTags": [
+            {
+              "name": "param",
+              "comment": "Element to which to attach the dragging functionality."
+            },
+            {
+              "name": "param",
+              "comment": "Object used to configure the dragging behavior."
+            },
+            {
+              "name": "deprecated",
+              "comment": "Use the `createDragRef` function that provides better tree shaking."
+            },
+            {
+              "name": "breaking-change",
+              "comment": "23.0.0"
+            }
+          ],
+          "rawComment": "/**\n   * Turns an element into a draggable item.\n   * @param element Element to which to attach the dragging functionality.\n   * @param config Object used to configure the dragging behavior.\n   * @deprecated Use the `createDragRef` function that provides better tree shaking.\n   * @breaking-change 23.0.0\n   */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "createDropList",
+          "signatures": [
+            {
+              "name": "createDropList",
+              "entryType": "function",
+              "description": "Turns an element into a drop list.",
+              "generics": [
+                {
+                  "name": "T",
+                  "default": "any"
+                }
+              ],
+              "isNewType": false,
+              "jsdocTags": [
+                {
+                  "name": "param",
+                  "comment": "Element to which to attach the drop list functionality."
+                },
+                {
+                  "name": "deprecated",
+                  "comment": "Use the `createDropListRef` function that provides better tree shaking."
+                },
+                {
+                  "name": "breaking-change",
+                  "comment": "23.0.0"
+                }
+              ],
+              "params": [
+                {
+                  "name": "element",
+                  "description": "Element to which to attach the drop list functionality.",
+                  "type": "HTMLElement | ElementRef<HTMLElement>",
+                  "isOptional": false,
+                  "isRestParam": false
+                }
+              ],
+              "rawComment": "/**\n   * Turns an element into a drop list.\n   * @param element Element to which to attach the drop list functionality.\n   * @deprecated Use the `createDropListRef` function that provides better tree shaking.\n   * @breaking-change 23.0.0\n   */",
+              "returnType": "DropListRef<T>"
+            }
+          ],
+          "implementation": {
+            "params": [
+              {
+                "name": "element",
+                "description": "Element to which to attach the drop list functionality.",
+                "type": "HTMLElement | ElementRef<HTMLElement>",
+                "isOptional": false,
+                "isRestParam": false
+              }
+            ],
+            "isNewType": false,
+            "returnType": "DropListRef<T>",
+            "generics": [
+              {
+                "name": "T",
+                "default": "any"
+              }
+            ],
+            "name": "createDropList",
+            "description": "Turns an element into a drop list.",
+            "entryType": "function",
+            "jsdocTags": [
+              {
+                "name": "param",
+                "comment": "Element to which to attach the drop list functionality."
+              },
+              {
+                "name": "deprecated",
+                "comment": "Use the `createDropListRef` function that provides better tree shaking."
+              },
+              {
+                "name": "breaking-change",
+                "comment": "23.0.0"
+              }
+            ],
+            "rawComment": "/**\n   * Turns an element into a drop list.\n   * @param element Element to which to attach the drop list functionality.\n   * @deprecated Use the `createDropListRef` function that provides better tree shaking.\n   * @breaking-change 23.0.0\n   */"
+          },
+          "entryType": "function",
+          "description": "Turns an element into a drop list.",
+          "jsdocTags": [
+            {
+              "name": "param",
+              "comment": "Element to which to attach the drop list functionality."
+            },
+            {
+              "name": "deprecated",
+              "comment": "Use the `createDropListRef` function that provides better tree shaking."
+            },
+            {
+              "name": "breaking-change",
+              "comment": "23.0.0"
+            }
+          ],
+          "rawComment": "/**\n   * Turns an element into a drop list.\n   * @param element Element to which to attach the drop list functionality.\n   * @deprecated Use the `createDropListRef` function that provides better tree shaking.\n   * @breaking-change 23.0.0\n   */",
+          "memberType": "method",
+          "memberTags": []
+        }
+      ],
+      "generics": [],
+      "description": "Service that allows for drag-and-drop functionality to be attached to DOM elements.",
+      "jsdocTags": [
+        {
+          "name": "deprecated",
+          "comment": "Use the `createDragRef` or `createDropListRef` function for better tree shaking.\nWill be removed in v23."
+        },
+        {
+          "name": "breaking-change",
+          "comment": "23.0.0"
+        }
+      ],
+      "rawComment": "/**\n * Service that allows for drag-and-drop functionality to be attached to DOM elements.\n * @deprecated Use the `createDragRef` or `createDropListRef` function for better tree shaking.\n * Will be removed in v23.\n * @breaking-change 23.0.0\n */",
+      "implements": [],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/drag-drop.ts",
+        "startLine": 19,
+        "endLine": 46
       }
     },
     {
@@ -193,6 +442,7 @@
       "rawComment": "/** Possible axis along which dragging can be locked. */",
       "description": "Possible axis along which dragging can be locked.",
       "jsdocTags": [],
+      "members": [],
       "source": {
         "filePath": "src/cdk/drag-drop/directives/config.ts",
         "startLine": 16,
@@ -201,7 +451,7 @@
     },
     {
       "name": "CDK_DRAG_PARENT",
-      "type": "any",
+      "type": "InjectionToken<CdkDrag<any>>",
       "entryType": "constant",
       "rawComment": "/**\n * Injection token that can be used for a `CdkDrag` to provide itself as a parent to the\n * drag-specific child directive (`CdkDragHandle`, `CdkDragPreview` etc.). Used primarily\n * to avoid circular imports.\n * @docs-private\n */",
       "description": "Injection token that can be used for a `CdkDrag` to provide itself as a parent to the\ndrag-specific child directive (`CdkDragHandle`, `CdkDragPreview` etc.). Used primarily\nto avoid circular imports.",
@@ -225,23 +475,11 @@
       "rawComment": "/** Possible orientations for a drop list. */",
       "description": "Possible orientations for a drop list.",
       "jsdocTags": [],
+      "members": [],
       "source": {
         "filePath": "src/cdk/drag-drop/directives/config.ts",
         "startLine": 19,
         "endLine": 19
-      }
-    },
-    {
-      "name": "CDK_DROP_LIST_GROUP",
-      "type": "any",
-      "entryType": "constant",
-      "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDropListGroup`. It serves as\n * alternative token to the actual `CdkDropListGroup` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
-      "description": "Injection token that can be used to reference instances of `CdkDropListGroup`. It serves as\nalternative token to the actual `CdkDropListGroup` class which could cause unnecessary\nretention of the class and its directive metadata.",
-      "jsdocTags": [],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/directives/drop-list-group.ts",
-        "startLine": 16,
-        "endLine": 18
       }
     },
     {
@@ -283,8 +521,21 @@
       }
     },
     {
+      "name": "CDK_DROP_LIST_GROUP",
+      "type": "InjectionToken<CdkDropListGroup<CdkDropList<any>>>",
+      "entryType": "constant",
+      "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDropListGroup`. It serves as\n * alternative token to the actual `CdkDropListGroup` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
+      "description": "Injection token that can be used to reference instances of `CdkDropListGroup`. It serves as\nalternative token to the actual `CdkDropListGroup` class which could cause unnecessary\nretention of the class and its directive metadata.",
+      "jsdocTags": [],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/directives/drop-list-group.ts",
+        "startLine": 17,
+        "endLine": 19
+      }
+    },
+    {
       "name": "CDK_DRAG_PLACEHOLDER",
-      "type": "any",
+      "type": "InjectionToken<CdkDragPlaceholder<any>>",
       "entryType": "constant",
       "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDragPlaceholder`. It serves as\n * alternative token to the actual `CdkDragPlaceholder` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
       "description": "Injection token that can be used to reference instances of `CdkDragPlaceholder`. It serves as\nalternative token to the actual `CdkDragPlaceholder` class which could cause unnecessary\nretention of the class and its directive metadata.",
@@ -297,7 +548,7 @@
     },
     {
       "name": "CDK_DRAG_PREVIEW",
-      "type": "any",
+      "type": "InjectionToken<CdkDragPreview<any>>",
       "entryType": "constant",
       "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDragPreview`. It serves as\n * alternative token to the actual `CdkDragPreview` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
       "description": "Injection token that can be used to reference instances of `CdkDragPreview`. It serves as\nalternative token to the actual `CdkDragPreview` class which could cause unnecessary\nretention of the class and its directive metadata.",
@@ -309,268 +560,13 @@
       }
     },
     {
-      "name": "CdkDropListGroup",
-      "isAbstract": false,
-      "entryType": "undecorated_class",
-      "members": [
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Whether starting a dragging sequence from inside this group is disabled.",
-          "jsdocTags": []
-        },
-        {
-          "name": "ngOnDestroy",
-          "signatures": [
-            {
-              "name": "ngOnDestroy",
-              "entryType": "function",
-              "description": "",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "ngOnDestroy",
-            "description": "",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": ""
-          },
-          "entryType": "function",
-          "description": "",
-          "jsdocTags": [],
-          "rawComment": "",
-          "memberType": "method",
-          "memberTags": []
-        }
-      ],
-      "generics": [
-        {
-          "name": "T"
-        }
-      ],
-      "description": "Declaratively connects sibling `cdkDropList` instances together. All of the `cdkDropList`\nelements that are placed inside a `cdkDropListGroup` will be connected to each other\nautomatically. Can be used as an alternative to the `cdkDropListConnectedTo` input\nfrom `cdkDropList`.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * Declaratively connects sibling `cdkDropList` instances together. All of the `cdkDropList`\n * elements that are placed inside a `cdkDropListGroup` will be connected to each other\n * automatically. Can be used as an alternative to the `cdkDropListConnectedTo` input\n * from `cdkDropList`.\n */",
-      "implements": [
-        "OnDestroy"
-      ],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/directives/drop-list-group.ts",
-        "startLine": 26,
-        "endLine": 42
-      }
-    },
-    {
-      "name": "DragDrop",
-      "isAbstract": false,
-      "entryType": "undecorated_class",
-      "members": [
-        {
-          "name": "createDrag",
-          "signatures": [
-            {
-              "name": "createDrag",
-              "entryType": "function",
-              "description": "Turns an element into a draggable item.",
-              "generics": [
-                {
-                  "name": "T",
-                  "default": "any"
-                }
-              ],
-              "isNewType": false,
-              "jsdocTags": [
-                {
-                  "name": "param",
-                  "comment": "Element to which to attach the dragging functionality."
-                },
-                {
-                  "name": "param",
-                  "comment": "Object used to configure the dragging behavior."
-                }
-              ],
-              "params": [
-                {
-                  "name": "element",
-                  "description": "Element to which to attach the dragging functionality.",
-                  "type": "any",
-                  "isOptional": false,
-                  "isRestParam": false
-                },
-                {
-                  "name": "config",
-                  "description": "Object used to configure the dragging behavior.",
-                  "type": "DragRefConfig",
-                  "isOptional": true,
-                  "isRestParam": false
-                }
-              ],
-              "rawComment": "/**\n   * Turns an element into a draggable item.\n   * @param element Element to which to attach the dragging functionality.\n   * @param config Object used to configure the dragging behavior.\n   */",
-              "returnType": "DragRef<T>"
-            }
-          ],
-          "implementation": {
-            "params": [
-              {
-                "name": "element",
-                "description": "Element to which to attach the dragging functionality.",
-                "type": "any",
-                "isOptional": false,
-                "isRestParam": false
-              },
-              {
-                "name": "config",
-                "description": "Object used to configure the dragging behavior.",
-                "type": "DragRefConfig",
-                "isOptional": true,
-                "isRestParam": false
-              }
-            ],
-            "isNewType": false,
-            "returnType": "DragRef<T>",
-            "generics": [
-              {
-                "name": "T",
-                "default": "any"
-              }
-            ],
-            "name": "createDrag",
-            "description": "Turns an element into a draggable item.",
-            "entryType": "function",
-            "jsdocTags": [
-              {
-                "name": "param",
-                "comment": "Element to which to attach the dragging functionality."
-              },
-              {
-                "name": "param",
-                "comment": "Object used to configure the dragging behavior."
-              }
-            ],
-            "rawComment": "/**\n   * Turns an element into a draggable item.\n   * @param element Element to which to attach the dragging functionality.\n   * @param config Object used to configure the dragging behavior.\n   */"
-          },
-          "entryType": "function",
-          "description": "Turns an element into a draggable item.",
-          "jsdocTags": [
-            {
-              "name": "param",
-              "comment": "Element to which to attach the dragging functionality."
-            },
-            {
-              "name": "param",
-              "comment": "Object used to configure the dragging behavior."
-            }
-          ],
-          "rawComment": "/**\n   * Turns an element into a draggable item.\n   * @param element Element to which to attach the dragging functionality.\n   * @param config Object used to configure the dragging behavior.\n   */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "createDropList",
-          "signatures": [
-            {
-              "name": "createDropList",
-              "entryType": "function",
-              "description": "Turns an element into a drop list.",
-              "generics": [
-                {
-                  "name": "T",
-                  "default": "any"
-                }
-              ],
-              "isNewType": false,
-              "jsdocTags": [
-                {
-                  "name": "param",
-                  "comment": "Element to which to attach the drop list functionality."
-                }
-              ],
-              "params": [
-                {
-                  "name": "element",
-                  "description": "Element to which to attach the drop list functionality.",
-                  "type": "any",
-                  "isOptional": false,
-                  "isRestParam": false
-                }
-              ],
-              "rawComment": "/**\n   * Turns an element into a drop list.\n   * @param element Element to which to attach the drop list functionality.\n   */",
-              "returnType": "DropListRef<T>"
-            }
-          ],
-          "implementation": {
-            "params": [
-              {
-                "name": "element",
-                "description": "Element to which to attach the drop list functionality.",
-                "type": "any",
-                "isOptional": false,
-                "isRestParam": false
-              }
-            ],
-            "isNewType": false,
-            "returnType": "DropListRef<T>",
-            "generics": [
-              {
-                "name": "T",
-                "default": "any"
-              }
-            ],
-            "name": "createDropList",
-            "description": "Turns an element into a drop list.",
-            "entryType": "function",
-            "jsdocTags": [
-              {
-                "name": "param",
-                "comment": "Element to which to attach the drop list functionality."
-              }
-            ],
-            "rawComment": "/**\n   * Turns an element into a drop list.\n   * @param element Element to which to attach the drop list functionality.\n   */"
-          },
-          "entryType": "function",
-          "description": "Turns an element into a drop list.",
-          "jsdocTags": [
-            {
-              "name": "param",
-              "comment": "Element to which to attach the drop list functionality."
-            }
-          ],
-          "rawComment": "/**\n   * Turns an element into a drop list.\n   * @param element Element to which to attach the drop list functionality.\n   */",
-          "memberType": "method",
-          "memberTags": []
-        }
-      ],
-      "generics": [],
-      "description": "Service that allows for drag-and-drop functionality to be attached to DOM elements.",
-      "jsdocTags": [],
-      "rawComment": "/**\n * Service that allows for drag-and-drop functionality to be attached to DOM elements.\n */",
-      "implements": [],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/drag-drop.ts",
-        "startLine": 25,
-        "endLine": 69
-      }
-    },
-    {
       "name": "CdkDragPlaceholder",
       "isAbstract": false,
       "entryType": "directive",
       "members": [
         {
           "name": "templateRef",
-          "type": "any",
+          "type": "TemplateRef<T>",
           "memberType": "property",
           "memberTags": [],
           "description": "",
@@ -637,20 +633,99 @@
       "isStandalone": true,
       "selector": "ng-template[cdkDragPlaceholder]",
       "exportAs": [],
+      "aliases": [
+        "cdkDragPlaceholder"
+      ],
       "source": {
         "filePath": "/src/cdk/drag-drop/directives/drag-placeholder.ts",
         "startLine": 23,
-        "endLine": 44
+        "endLine": 42
+      }
+    },
+    {
+      "name": "CdkDropListGroup",
+      "isAbstract": false,
+      "entryType": "directive",
+      "members": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Whether starting a dragging sequence from inside this group is disabled.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListGroupDisabled",
+          "isRequiredInput": false
+        },
+        {
+          "name": "ngOnDestroy",
+          "signatures": [
+            {
+              "name": "ngOnDestroy",
+              "entryType": "function",
+              "description": "",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "ngOnDestroy",
+            "description": "",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": ""
+          },
+          "entryType": "function",
+          "description": "",
+          "jsdocTags": [],
+          "rawComment": "",
+          "memberType": "method",
+          "memberTags": []
+        }
+      ],
+      "generics": [
+        {
+          "name": "T"
+        }
+      ],
+      "description": "Declaratively connects sibling `cdkDropList` instances together. All of the `cdkDropList`\nelements that are placed inside a `cdkDropListGroup` will be connected to each other\nautomatically. Can be used as an alternative to the `cdkDropListConnectedTo` input\nfrom `cdkDropList`.",
+      "jsdocTags": [],
+      "rawComment": "/**\n * Declaratively connects sibling `cdkDropList` instances together. All of the `cdkDropList`\n * elements that are placed inside a `cdkDropListGroup` will be connected to each other\n * automatically. Can be used as an alternative to the `cdkDropListConnectedTo` input\n * from `cdkDropList`.\n */",
+      "implements": [
+        "OnDestroy"
+      ],
+      "isStandalone": true,
+      "selector": "[cdkDropListGroup]",
+      "exportAs": [
+        "cdkDropListGroup"
+      ],
+      "aliases": [
+        "cdkDropListGroup"
+      ],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/directives/drop-list-group.ts",
+        "startLine": 27,
+        "endLine": 43
       }
     },
     {
       "name": "CdkDragPreview",
       "isAbstract": false,
-      "entryType": "undecorated_class",
+      "entryType": "directive",
       "members": [
         {
           "name": "templateRef",
-          "type": "any",
+          "type": "TemplateRef<T>",
           "memberType": "property",
           "memberTags": [],
           "description": "",
@@ -660,17 +735,25 @@
           "name": "data",
           "type": "T",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Context data to be added to the preview template instance.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "data",
+          "isRequiredInput": false
         },
         {
           "name": "matchSize",
           "type": "boolean",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Whether the preview should preserve the same size as the item that is being dragged.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "matchSize",
+          "isRequiredInput": false
         },
         {
           "name": "ngOnDestroy",
@@ -718,15 +801,21 @@
       "implements": [
         "OnDestroy"
       ],
+      "isStandalone": true,
+      "selector": "ng-template[cdkDragPreview]",
+      "exportAs": [],
+      "aliases": [
+        "cdkDragPreview"
+      ],
       "source": {
         "filePath": "/src/cdk/drag-drop/directives/drag-preview.ts",
         "startLine": 31,
-        "endLine": 55
+        "endLine": 53
       }
     },
     {
       "name": "CDK_DRAG_CONFIG",
-      "type": "any",
+      "type": "InjectionToken<DragDropConfig>",
       "entryType": "constant",
       "rawComment": "/**\n * Injection token that can be used to configure the\n * behavior of the drag&drop-related components.\n */",
       "description": "Injection token that can be used to configure the\nbehavior of the drag&drop-related components.",
@@ -740,7 +829,7 @@
     {
       "name": "DragDropModule",
       "isAbstract": false,
-      "entryType": "undecorated_class",
+      "entryType": "ng_module",
       "members": [],
       "generics": [],
       "description": "",
@@ -755,7 +844,7 @@
     },
     {
       "name": "CDK_DRAG_HANDLE",
-      "type": "any",
+      "type": "InjectionToken<CdkDragHandle>",
       "entryType": "constant",
       "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDragHandle`. It serves as\n * alternative token to the actual `CdkDragHandle` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
       "description": "Injection token that can be used to reference instances of `CdkDragHandle`. It serves as\nalternative token to the actual `CdkDragHandle` class which could cause unnecessary\nretention of the class and its directive metadata.",
@@ -1148,11 +1237,11 @@
     {
       "name": "CdkDragHandle",
       "isAbstract": false,
-      "entryType": "undecorated_class",
+      "entryType": "directive",
       "members": [
         {
           "name": "element",
-          "type": "any",
+          "type": "ElementRef<HTMLElement>",
           "memberType": "property",
           "memberTags": [],
           "description": "",
@@ -1162,17 +1251,25 @@
           "name": "disabled",
           "type": "boolean",
           "memberType": "getter",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Whether starting to drag through this handle is disabled.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDragHandleDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "disabled",
           "type": "boolean",
           "memberType": "setter",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDragHandleDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "ngAfterViewInit",
@@ -1249,20 +1346,26 @@
         "AfterViewInit",
         "OnDestroy"
       ],
+      "isStandalone": true,
+      "selector": "[cdkDragHandle]",
+      "exportAs": [],
+      "aliases": [
+        "cdkDragHandle"
+      ],
       "source": {
         "filePath": "/src/cdk/drag-drop/directives/drag-handle.ts",
         "startLine": 33,
-        "endLine": 89
+        "endLine": 87
       }
     },
     {
       "name": "CdkDropList",
       "isAbstract": false,
-      "entryType": "undecorated_class",
+      "entryType": "directive",
       "members": [
         {
           "name": "element",
-          "type": "any",
+          "type": "ElementRef<HTMLElement>",
           "memberType": "property",
           "memberTags": [],
           "description": "",
@@ -1272,153 +1375,217 @@
           "name": "connectedTo",
           "type": "string | CdkDropList<any> | (string | CdkDropList<any>)[]",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Other draggable containers that this container is connected to and into which the\ncontainer's items can be transferred. Can either be references to other drop containers,\nor their unique IDs.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListConnectedTo",
+          "isRequiredInput": false
         },
         {
           "name": "data",
           "type": "T",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Arbitrary data to attach to this container.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListData",
+          "isRequiredInput": false
         },
         {
           "name": "orientation",
           "type": "DropListOrientation",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Direction in which the list is oriented.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListOrientation",
+          "isRequiredInput": false
         },
         {
           "name": "id",
           "type": "string",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Unique ID for the drop zone. Can be used as a reference\nin the `connectedTo` of another `CdkDropList`.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "id",
+          "isRequiredInput": false
         },
         {
           "name": "lockAxis",
           "type": "DragAxis | null",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Locks the position of the draggable elements inside the container along the specified axis.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListLockAxis",
+          "isRequiredInput": false
         },
         {
           "name": "disabled",
           "type": "boolean",
           "memberType": "getter",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Whether starting a dragging sequence from this container is disabled.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "disabled",
           "type": "boolean",
           "memberType": "setter",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "sortingDisabled",
           "type": "boolean",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Whether sorting within this drop list is disabled.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListSortingDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "enterPredicate",
           "type": "(drag: CdkDrag<any>, drop: CdkDropList<any>) => boolean",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Function that is used to determine whether an item\nis allowed to be moved into a drop container.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListEnterPredicate",
+          "isRequiredInput": false
         },
         {
           "name": "sortPredicate",
           "type": "(index: number, drag: CdkDrag<any>, drop: CdkDropList<any>) => boolean",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Functions that is used to determine whether an item can be sorted into a particular index.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListSortPredicate",
+          "isRequiredInput": false
         },
         {
           "name": "autoScrollDisabled",
           "type": "boolean",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Whether to auto-scroll the view when the user moves their pointer close to the edges.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListAutoScrollDisabled",
+          "isRequiredInput": false
         },
         {
           "name": "autoScrollStep",
           "type": "NumberInput",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Number of pixels to scroll for each frame when auto-scrolling an element.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListAutoScrollStep",
+          "isRequiredInput": false
         },
         {
           "name": "elementContainerSelector",
           "type": "string | null",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "Selector that will be used to resolve an alternate element container for the drop list.\nPassing an alternate container is useful for the cases where one might not have control\nover the parent node of the draggable items within the list (e.g. due to content projection).\nThis allows for usages like:\n\n```\n<div cdkDropList cdkDropListElementContainer=\".inner\">\n  <div class=\"inner\">\n    <div cdkDrag></div>\n  </div>\n</div>\n```",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListElementContainer",
+          "isRequiredInput": false
         },
         {
           "name": "hasAnchor",
           "type": "boolean",
           "memberType": "property",
-          "memberTags": [],
+          "memberTags": [
+            "input"
+          ],
           "description": "By default when an item leaves its initial container, its placeholder will be transferred\nto the new container. If that's not desirable for your use case, you can enable this option\nwhich will clone the placeholder and leave it inside the original container. If the item is\nreturned to the initial container, the anchor element will be removed automatically.\n\nThe cloned placeholder can be styled by targeting the `cdk-drag-anchor` class.\n\nThis option is useful in combination with `cdkDropListSortingDisabled` to implement copying\nbehavior in a drop list.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "inputAlias": "cdkDropListHasAnchor",
+          "isRequiredInput": false
         },
         {
           "name": "dropped",
           "type": "EventEmitter<CdkDragDrop<T, any, any>>",
           "memberType": "property",
           "memberTags": [
-            "readonly"
+            "readonly",
+            "output"
           ],
           "description": "Emits when the user drops an item inside the container.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "outputAlias": "cdkDropListDropped"
         },
         {
           "name": "entered",
           "type": "EventEmitter<CdkDragEnter<T, T>>",
           "memberType": "property",
           "memberTags": [
-            "readonly"
+            "readonly",
+            "output"
           ],
           "description": "Emits when the user has moved a new drag item into this container.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "outputAlias": "cdkDropListEntered"
         },
         {
           "name": "exited",
           "type": "EventEmitter<CdkDragExit<T, T>>",
           "memberType": "property",
           "memberTags": [
-            "readonly"
+            "readonly",
+            "output"
           ],
           "description": "Emits when the user removes an item from the container\nby dragging it into another container.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "outputAlias": "cdkDropListExited"
         },
         {
           "name": "sorted",
           "type": "EventEmitter<CdkDragSortEvent<T, T>>",
           "memberType": "property",
           "memberTags": [
-            "readonly"
+            "readonly",
+            "output"
           ],
           "description": "Emits as the user is swapping items while actively dragging.",
-          "jsdocTags": []
+          "jsdocTags": [],
+          "outputAlias": "cdkDropListSorted"
         },
         {
           "name": "addItem",
@@ -1597,63 +1764,18 @@
       "implements": [
         "OnDestroy"
       ],
+      "isStandalone": true,
+      "selector": "[cdkDropList], cdk-drop-list",
+      "exportAs": [
+        "cdkDropList"
+      ],
+      "aliases": [
+        "cdkDropList"
+      ],
       "source": {
         "filePath": "/src/cdk/drag-drop/directives/drop-list.ts",
         "startLine": 36,
-        "endLine": 436
-      }
-    },
-    {
-      "name": "DragRefConfig",
-      "entryType": "interface",
-      "members": [
-        {
-          "name": "dragStartThreshold",
-          "type": "number",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Minimum amount of pixels that the user should\ndrag, before the CDK initiates a drag sequence.",
-          "jsdocTags": []
-        },
-        {
-          "name": "pointerDirectionChangeThreshold",
-          "type": "number",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Amount the pixels the user should drag before the CDK\nconsiders them to have changed the drag direction.",
-          "jsdocTags": []
-        },
-        {
-          "name": "zIndex",
-          "type": "number | undefined",
-          "memberType": "property",
-          "memberTags": [
-            "optional"
-          ],
-          "description": "`z-index` for the absolutely-positioned elements that are created by the drag item.",
-          "jsdocTags": []
-        },
-        {
-          "name": "parentDragRef",
-          "type": "DragRef<any> | undefined",
-          "memberType": "property",
-          "memberTags": [
-            "optional"
-          ],
-          "description": "Ref that the current drag item is nested in.",
-          "jsdocTags": []
-        }
-      ],
-      "generics": [],
-      "description": "Object that can be used to configure the behavior of DragRef.",
-      "jsdocTags": [],
-      "rawComment": "/** Object that can be used to configure the behavior of DragRef. */",
-      "extends": [],
-      "implements": [],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/drag-ref.ts",
-        "startLine": 40,
-        "endLine": 58
+        "endLine": 434
       }
     },
     {
@@ -2395,8 +2517,61 @@
       ],
       "source": {
         "filePath": "/src/cdk/drag-drop/drag-drop-registry.ts",
-        "startLine": 59,
-        "endLine": 336
+        "startLine": 57,
+        "endLine": 331
+      }
+    },
+    {
+      "name": "DragRefConfig",
+      "entryType": "interface",
+      "members": [
+        {
+          "name": "dragStartThreshold",
+          "type": "number",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Minimum amount of pixels that the user should\ndrag, before the CDK initiates a drag sequence.",
+          "jsdocTags": []
+        },
+        {
+          "name": "pointerDirectionChangeThreshold",
+          "type": "number",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Amount the pixels the user should drag before the CDK\nconsiders them to have changed the drag direction.",
+          "jsdocTags": []
+        },
+        {
+          "name": "zIndex",
+          "type": "number | undefined",
+          "memberType": "property",
+          "memberTags": [
+            "optional"
+          ],
+          "description": "`z-index` for the absolutely-positioned elements that are created by the drag item.",
+          "jsdocTags": []
+        },
+        {
+          "name": "parentDragRef",
+          "type": "DragRef<any> | undefined",
+          "memberType": "property",
+          "memberTags": [
+            "optional"
+          ],
+          "description": "Ref that the current drag item is nested in.",
+          "jsdocTags": []
+        }
+      ],
+      "generics": [],
+      "description": "Object that can be used to configure the behavior of DragRef.",
+      "jsdocTags": [],
+      "rawComment": "/** Object that can be used to configure the behavior of DragRef. */",
+      "extends": [],
+      "implements": [],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/drag-ref.ts",
+        "startLine": 43,
+        "endLine": 61
       }
     },
     {
@@ -2647,6 +2822,861 @@
       }
     },
     {
+      "name": "CDK_DROP_LIST",
+      "type": "InjectionToken<CdkDropList<any>>",
+      "entryType": "constant",
+      "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDropList`. It serves as\n * alternative token to the actual `CdkDropList` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
+      "description": "Injection token that can be used to reference instances of `CdkDropList`. It serves as\nalternative token to the actual `CdkDropList` class which could cause unnecessary\nretention of the class and its directive metadata.",
+      "jsdocTags": [],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/directives/drag.ts",
+        "startLine": 57,
+        "endLine": 57
+      }
+    },
+    {
+      "name": "createDropListRef",
+      "signatures": [
+        {
+          "name": "createDropListRef",
+          "entryType": "function",
+          "description": "Creates a `DropListRef` for an element, turning it into a drop list.",
+          "generics": [
+            {
+              "name": "T",
+              "default": "unknown"
+            }
+          ],
+          "isNewType": false,
+          "jsdocTags": [
+            {
+              "name": "param",
+              "comment": "Injector used to resolve dependencies."
+            },
+            {
+              "name": "param",
+              "comment": "Element to which to attach the drop list functionality."
+            }
+          ],
+          "params": [
+            {
+              "name": "injector",
+              "description": "Injector used to resolve dependencies.",
+              "type": "Injector",
+              "isOptional": false,
+              "isRestParam": false
+            },
+            {
+              "name": "element",
+              "description": "Element to which to attach the drop list functionality.",
+              "type": "HTMLElement | ElementRef<HTMLElement>",
+              "isOptional": false,
+              "isRestParam": false
+            }
+          ],
+          "rawComment": "/**\n * Creates a `DropListRef` for an element, turning it into a drop list.\n * @param injector Injector used to resolve dependencies.\n * @param element Element to which to attach the drop list functionality.\n */",
+          "returnType": "DropListRef<T>"
+        }
+      ],
+      "implementation": {
+        "params": [
+          {
+            "name": "injector",
+            "description": "Injector used to resolve dependencies.",
+            "type": "Injector",
+            "isOptional": false,
+            "isRestParam": false
+          },
+          {
+            "name": "element",
+            "description": "Element to which to attach the drop list functionality.",
+            "type": "HTMLElement | ElementRef<HTMLElement>",
+            "isOptional": false,
+            "isRestParam": false
+          }
+        ],
+        "isNewType": false,
+        "returnType": "DropListRef<T>",
+        "generics": [
+          {
+            "name": "T",
+            "default": "unknown"
+          }
+        ],
+        "name": "createDropListRef",
+        "description": "Creates a `DropListRef` for an element, turning it into a drop list.",
+        "entryType": "function",
+        "jsdocTags": [
+          {
+            "name": "param",
+            "comment": "Injector used to resolve dependencies."
+          },
+          {
+            "name": "param",
+            "comment": "Element to which to attach the drop list functionality."
+          }
+        ],
+        "rawComment": "/**\n * Creates a `DropListRef` for an element, turning it into a drop list.\n * @param injector Injector used to resolve dependencies.\n * @param element Element to which to attach the drop list functionality.\n */"
+      },
+      "entryType": "function",
+      "description": "Creates a `DropListRef` for an element, turning it into a drop list.",
+      "jsdocTags": [
+        {
+          "name": "param",
+          "comment": "Injector used to resolve dependencies."
+        },
+        {
+          "name": "param",
+          "comment": "Element to which to attach the drop list functionality."
+        }
+      ],
+      "rawComment": "/**\n * Creates a `DropListRef` for an element, turning it into a drop list.\n * @param injector Injector used to resolve dependencies.\n * @param element Element to which to attach the drop list functionality.\n */",
+      "source": {
+        "filePath": "/src/cdk/drag-drop/drop-list-ref.ts",
+        "startLine": 57,
+        "endLine": 68
+      }
+    },
+    {
+      "name": "CdkDrag",
+      "isAbstract": false,
+      "entryType": "directive",
+      "members": [
+        {
+          "name": "element",
+          "type": "ElementRef<HTMLElement>",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "",
+          "jsdocTags": []
+        },
+        {
+          "name": "dropContainer",
+          "type": "CdkDropList<any>",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "",
+          "jsdocTags": []
+        },
+        {
+          "name": "data",
+          "type": "T",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Arbitrary data to attach to this drag instance.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragData",
+          "isRequiredInput": false
+        },
+        {
+          "name": "lockAxis",
+          "type": "DragAxis | null",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Locks the position of the dragged element along the specified axis.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragLockAxis",
+          "isRequiredInput": false
+        },
+        {
+          "name": "rootElementSelector",
+          "type": "string",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Selector that will be used to determine the root draggable element, starting from\nthe `cdkDrag` element and going up the DOM. Passing an alternate root element is useful\nwhen trying to enable dragging on an element that you might not have access to.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragRootElement",
+          "isRequiredInput": false
+        },
+        {
+          "name": "boundaryElement",
+          "type": "string | HTMLElement | ElementRef<HTMLElement>",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Node or selector that will be used to determine the element to which the draggable's\nposition will be constrained. If a string is passed in, it'll be used as a selector that\nwill be matched starting from the element's parent and going up the DOM until a match\nhas been found.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragBoundary",
+          "isRequiredInput": false
+        },
+        {
+          "name": "dragStartDelay",
+          "type": "DragStartDelay",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Amount of milliseconds to wait after the user has put their\npointer down before starting to drag the element.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragStartDelay",
+          "isRequiredInput": false
+        },
+        {
+          "name": "freeDragPosition",
+          "type": "Point",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Sets the position of a `CdkDrag` that is outside of a drop container.\nCan be used to restore the element's position for a returning user.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragFreeDragPosition",
+          "isRequiredInput": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "memberType": "getter",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Whether starting to drag this element is disabled.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragDisabled",
+          "isRequiredInput": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "memberType": "setter",
+          "memberTags": [
+            "input"
+          ],
+          "description": "",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragDisabled",
+          "isRequiredInput": false
+        },
+        {
+          "name": "constrainPosition",
+          "type": "DragConstrainPosition | undefined",
+          "memberType": "property",
+          "memberTags": [
+            "optional",
+            "input"
+          ],
+          "description": "Function that can be used to customize the logic of how the position of the drag item\nis limited while it's being dragged. Gets called with a point containing the current position\nof the user's pointer on the page, a reference to the item being dragged and its dimensions.\nShould return a point describing where the item should be rendered.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragConstrainPosition",
+          "isRequiredInput": false
+        },
+        {
+          "name": "previewClass",
+          "type": "string | string[]",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Class to be added to the preview element.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragPreviewClass",
+          "isRequiredInput": false
+        },
+        {
+          "name": "previewContainer",
+          "type": "PreviewContainer",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "Configures the place into which the preview of the item will be inserted. Can be configured\nglobally through `CDK_DROP_LIST`. Possible values:\n- `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that\nyou don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain\nits inherited styles.\n- `parent` - Preview will be inserted into the parent of the drag item. The advantage is that\ninherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be\nvisible due to `z-index`. Furthermore, the preview is going to have an effect over selectors\nlike `:nth-child` and some flexbox configurations.\n- `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.\nSame advantages and disadvantages as `parent`.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragPreviewContainer",
+          "isRequiredInput": false
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "memberType": "property",
+          "memberTags": [
+            "input"
+          ],
+          "description": "If the parent of the dragged element has a `scale` transform, it can throw off the\npositioning when the user starts dragging. Use this input to notify the CDK of the scale.",
+          "jsdocTags": [],
+          "inputAlias": "cdkDragScale",
+          "isRequiredInput": false
+        },
+        {
+          "name": "started",
+          "type": "EventEmitter<CdkDragStart<any>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the user starts dragging the item.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragStarted"
+        },
+        {
+          "name": "released",
+          "type": "EventEmitter<CdkDragRelease<any>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the user has released a drag item, before any animations have started.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragReleased"
+        },
+        {
+          "name": "ended",
+          "type": "EventEmitter<CdkDragEnd<any>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the user stops dragging an item in the container.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragEnded"
+        },
+        {
+          "name": "entered",
+          "type": "EventEmitter<CdkDragEnter<any, any>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the user has moved the item into a new container.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragEntered"
+        },
+        {
+          "name": "exited",
+          "type": "EventEmitter<CdkDragExit<any, any>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the user removes the item its container by dragging it into another container.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragExited"
+        },
+        {
+          "name": "dropped",
+          "type": "EventEmitter<CdkDragDrop<any, any, any>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits when the user drops the item inside a container.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragDropped"
+        },
+        {
+          "name": "moved",
+          "type": "Observable<CdkDragMove<T>>",
+          "memberType": "property",
+          "memberTags": [
+            "readonly",
+            "output"
+          ],
+          "description": "Emits as the user is dragging the item. Use with caution,\nbecause this event will fire for every pixel that the user has dragged.",
+          "jsdocTags": [],
+          "outputAlias": "cdkDragMoved"
+        },
+        {
+          "name": "getPlaceholderElement",
+          "signatures": [
+            {
+              "name": "getPlaceholderElement",
+              "entryType": "function",
+              "description": "Returns the element that is being used as a placeholder\nwhile the current element is being dragged.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/**\n   * Returns the element that is being used as a placeholder\n   * while the current element is being dragged.\n   */",
+              "returnType": "HTMLElement"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "HTMLElement",
+            "generics": [],
+            "name": "getPlaceholderElement",
+            "description": "Returns the element that is being used as a placeholder\nwhile the current element is being dragged.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/**\n   * Returns the element that is being used as a placeholder\n   * while the current element is being dragged.\n   */"
+          },
+          "entryType": "function",
+          "description": "Returns the element that is being used as a placeholder\nwhile the current element is being dragged.",
+          "jsdocTags": [],
+          "rawComment": "/**\n   * Returns the element that is being used as a placeholder\n   * while the current element is being dragged.\n   */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "getRootElement",
+          "signatures": [
+            {
+              "name": "getRootElement",
+              "entryType": "function",
+              "description": "Returns the root draggable element.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Returns the root draggable element. */",
+              "returnType": "HTMLElement"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "HTMLElement",
+            "generics": [],
+            "name": "getRootElement",
+            "description": "Returns the root draggable element.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Returns the root draggable element. */"
+          },
+          "entryType": "function",
+          "description": "Returns the root draggable element.",
+          "jsdocTags": [],
+          "rawComment": "/** Returns the root draggable element. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "reset",
+          "signatures": [
+            {
+              "name": "reset",
+              "entryType": "function",
+              "description": "Resets a standalone drag item to its initial position.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Resets a standalone drag item to its initial position. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "reset",
+            "description": "Resets a standalone drag item to its initial position.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Resets a standalone drag item to its initial position. */"
+          },
+          "entryType": "function",
+          "description": "Resets a standalone drag item to its initial position.",
+          "jsdocTags": [],
+          "rawComment": "/** Resets a standalone drag item to its initial position. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "resetToBoundary",
+          "signatures": [
+            {
+              "name": "resetToBoundary",
+              "entryType": "function",
+              "description": "Resets drag item to end of boundary element.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/** Resets drag item to end of boundary element. */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "resetToBoundary",
+            "description": "Resets drag item to end of boundary element.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/** Resets drag item to end of boundary element. */"
+          },
+          "entryType": "function",
+          "description": "Resets drag item to end of boundary element.",
+          "jsdocTags": [],
+          "rawComment": "/** Resets drag item to end of boundary element. */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "getFreeDragPosition",
+          "signatures": [
+            {
+              "name": "getFreeDragPosition",
+              "entryType": "function",
+              "description": "Gets the pixel coordinates of the draggable outside of a drop container.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "/**\n   * Gets the pixel coordinates of the draggable outside of a drop container.\n   */",
+              "returnType": "Readonly<Point>"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "Readonly<Point>",
+            "generics": [],
+            "name": "getFreeDragPosition",
+            "description": "Gets the pixel coordinates of the draggable outside of a drop container.",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": "/**\n   * Gets the pixel coordinates of the draggable outside of a drop container.\n   */"
+          },
+          "entryType": "function",
+          "description": "Gets the pixel coordinates of the draggable outside of a drop container.",
+          "jsdocTags": [],
+          "rawComment": "/**\n   * Gets the pixel coordinates of the draggable outside of a drop container.\n   */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "setFreeDragPosition",
+          "signatures": [
+            {
+              "name": "setFreeDragPosition",
+              "entryType": "function",
+              "description": "Sets the current position in pixels the draggable outside of a drop container.",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [
+                {
+                  "name": "param",
+                  "comment": "New position to be set."
+                }
+              ],
+              "params": [
+                {
+                  "name": "value",
+                  "description": "New position to be set.",
+                  "type": "Point",
+                  "isOptional": false,
+                  "isRestParam": false
+                }
+              ],
+              "rawComment": "/**\n   * Sets the current position in pixels the draggable outside of a drop container.\n   * @param value New position to be set.\n   */",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [
+              {
+                "name": "value",
+                "description": "New position to be set.",
+                "type": "Point",
+                "isOptional": false,
+                "isRestParam": false
+              }
+            ],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "setFreeDragPosition",
+            "description": "Sets the current position in pixels the draggable outside of a drop container.",
+            "entryType": "function",
+            "jsdocTags": [
+              {
+                "name": "param",
+                "comment": "New position to be set."
+              }
+            ],
+            "rawComment": "/**\n   * Sets the current position in pixels the draggable outside of a drop container.\n   * @param value New position to be set.\n   */"
+          },
+          "entryType": "function",
+          "description": "Sets the current position in pixels the draggable outside of a drop container.",
+          "jsdocTags": [
+            {
+              "name": "param",
+              "comment": "New position to be set."
+            }
+          ],
+          "rawComment": "/**\n   * Sets the current position in pixels the draggable outside of a drop container.\n   * @param value New position to be set.\n   */",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "ngAfterViewInit",
+          "signatures": [
+            {
+              "name": "ngAfterViewInit",
+              "entryType": "function",
+              "description": "",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "ngAfterViewInit",
+            "description": "",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": ""
+          },
+          "entryType": "function",
+          "description": "",
+          "jsdocTags": [],
+          "rawComment": "",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "ngOnChanges",
+          "signatures": [
+            {
+              "name": "ngOnChanges",
+              "entryType": "function",
+              "description": "",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [
+                {
+                  "name": "changes",
+                  "description": "",
+                  "type": "SimpleChanges<this>",
+                  "isOptional": false,
+                  "isRestParam": false
+                }
+              ],
+              "rawComment": "",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [
+              {
+                "name": "changes",
+                "description": "",
+                "type": "SimpleChanges<this>",
+                "isOptional": false,
+                "isRestParam": false
+              }
+            ],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "ngOnChanges",
+            "description": "",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": ""
+          },
+          "entryType": "function",
+          "description": "",
+          "jsdocTags": [],
+          "rawComment": "",
+          "memberType": "method",
+          "memberTags": []
+        },
+        {
+          "name": "ngOnDestroy",
+          "signatures": [
+            {
+              "name": "ngOnDestroy",
+              "entryType": "function",
+              "description": "",
+              "generics": [],
+              "isNewType": false,
+              "jsdocTags": [],
+              "params": [],
+              "rawComment": "",
+              "returnType": "void"
+            }
+          ],
+          "implementation": {
+            "params": [],
+            "isNewType": false,
+            "returnType": "void",
+            "generics": [],
+            "name": "ngOnDestroy",
+            "description": "",
+            "entryType": "function",
+            "jsdocTags": [],
+            "rawComment": ""
+          },
+          "entryType": "function",
+          "description": "",
+          "jsdocTags": [],
+          "rawComment": "",
+          "memberType": "method",
+          "memberTags": []
+        }
+      ],
+      "generics": [
+        {
+          "name": "T",
+          "default": "any"
+        }
+      ],
+      "description": "Element that can be moved inside a CdkDropList container.",
+      "jsdocTags": [],
+      "rawComment": "/** Element that can be moved inside a CdkDropList container. */",
+      "implements": [
+        "AfterViewInit",
+        "OnChanges",
+        "OnDestroy"
+      ],
+      "isStandalone": true,
+      "selector": "[cdkDrag]",
+      "exportAs": [
+        "cdkDrag"
+      ],
+      "aliases": [
+        "cdkDrag"
+      ],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/directives/drag.ts",
+        "startLine": 60,
+        "endLine": 615
+      }
+    },
+    {
+      "name": "DragConstrainPosition",
+      "type": "(\n  userPointerPosition: Point,\n  dragRef: DragRef,\n  dimensions: DOMRect,\n  pickupPositionInElement: Point,\n) => Point",
+      "entryType": "type_alias",
+      "generics": [],
+      "rawComment": "/** Function that can be used to constrain the position of a dragged element. */",
+      "description": "Function that can be used to constrain the position of a dragged element.",
+      "jsdocTags": [],
+      "members": [],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/drag-ref.ts",
+        "startLine": 64,
+        "endLine": 69
+      }
+    },
+    {
+      "name": "CdkDragDrop",
+      "entryType": "interface",
+      "members": [
+        {
+          "name": "previousIndex",
+          "type": "number",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Index of the item when it was picked up.",
+          "jsdocTags": []
+        },
+        {
+          "name": "currentIndex",
+          "type": "number",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Current index of the item.",
+          "jsdocTags": []
+        },
+        {
+          "name": "item",
+          "type": "CdkDrag<I>",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Item that is being dropped.",
+          "jsdocTags": []
+        },
+        {
+          "name": "container",
+          "type": "CdkDropList<T>",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Container in which the item was dropped.",
+          "jsdocTags": []
+        },
+        {
+          "name": "previousContainer",
+          "type": "CdkDropList<O>",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Container from which the item was picked up. Can be the same as the `container`.",
+          "jsdocTags": []
+        },
+        {
+          "name": "isPointerOverContainer",
+          "type": "boolean",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Whether the user's pointer was over the container when the item was dropped.",
+          "jsdocTags": []
+        },
+        {
+          "name": "distance",
+          "type": "{ x: number; y: number; }",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Distance in pixels that the user has dragged since the drag sequence started.",
+          "jsdocTags": []
+        },
+        {
+          "name": "dropPoint",
+          "type": "{ x: number; y: number; }",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Position where the pointer was when the item was dropped",
+          "jsdocTags": []
+        },
+        {
+          "name": "event",
+          "type": "MouseEvent | TouchEvent",
+          "memberType": "property",
+          "memberTags": [],
+          "description": "Native event that caused the drop event.",
+          "jsdocTags": []
+        }
+      ],
+      "generics": [
+        {
+          "name": "T"
+        },
+        {
+          "name": "O",
+          "default": "T"
+        },
+        {
+          "name": "I",
+          "default": "any"
+        }
+      ],
+      "description": "Event emitted when the user drops a draggable item inside a drop container.",
+      "jsdocTags": [],
+      "rawComment": "/** Event emitted when the user drops a draggable item inside a drop container. */",
+      "extends": [],
+      "implements": [],
+      "source": {
+        "filePath": "/src/cdk/drag-drop/drag-events.ts",
+        "startLine": 62,
+        "endLine": 81
+      }
+    },
+    {
       "name": "DropListRef",
       "isAbstract": false,
       "entryType": "undecorated_class",
@@ -2659,7 +3689,7 @@
               {
                 "name": "element",
                 "description": "",
-                "type": "any",
+                "type": "HTMLElement | ElementRef<HTMLElement>",
                 "isOptional": false,
                 "isRestParam": false
               },
@@ -2710,7 +3740,7 @@
         },
         {
           "name": "element",
-          "type": "any",
+          "type": "HTMLElement | ElementRef<HTMLElement>",
           "memberType": "property",
           "memberTags": [],
           "description": "Element that the drop list is attached to.",
@@ -2782,7 +3812,7 @@
         },
         {
           "name": "beforeStarted",
-          "type": "any",
+          "type": "Subject<void>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -2792,7 +3822,7 @@
         },
         {
           "name": "entered",
-          "type": "any",
+          "type": "Subject<{ item: DragRef<any>; container: DropListRef<any>; currentIndex: number; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -2802,7 +3832,7 @@
         },
         {
           "name": "exited",
-          "type": "any",
+          "type": "Subject<{ item: DragRef<any>; container: DropListRef<any>; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -2812,7 +3842,7 @@
         },
         {
           "name": "dropped",
-          "type": "any",
+          "type": "Subject<{ item: DragRef<any>; currentIndex: number; previousIndex: number; container: DropListRef<any>; previousContainer: DropListRef<any>; isPointerOverContainer: boolean; distance: Point; dropPoint: Point; event: MouseEvent | TouchEvent; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -2822,7 +3852,7 @@
         },
         {
           "name": "sorted",
-          "type": "any",
+          "type": "Subject<{ previousIndex: number; currentIndex: number; container: DropListRef<any>; item: DragRef<any>; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -2832,7 +3862,7 @@
         },
         {
           "name": "receivingStarted",
-          "type": "any",
+          "type": "Subject<{ receiver: DropListRef<any>; initiator: DropListRef<any>; items: DragRef<any>[]; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -2842,7 +3872,7 @@
         },
         {
           "name": "receivingStopped",
-          "type": "any",
+          "type": "Subject<{ receiver: DropListRef<any>; initiator: DropListRef<any>; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -3200,10 +4230,6 @@
                 {
                   "name": "param",
                   "comment": "Event that triggered the dropping sequence."
-                },
-                {
-                  "name": "breaking-change",
-                  "comment": "15.0.0 `previousIndex` and `event` parameters to become required."
                 }
               ],
               "params": [
@@ -3260,11 +4286,11 @@
                   "name": "event",
                   "description": "Event that triggered the dropping sequence.",
                   "type": "MouseEvent | TouchEvent",
-                  "isOptional": true,
+                  "isOptional": false,
                   "isRestParam": false
                 }
               ],
-              "rawComment": "/**\n   * Drops an item into this container.\n   * @param item Item being dropped into the container.\n   * @param currentIndex Index at which the item should be inserted.\n   * @param previousIndex Index of the item when dragging started.\n   * @param previousContainer Container from which the item got dragged in.\n   * @param isPointerOverContainer Whether the user's pointer was over the\n   *    container when the item was dropped.\n   * @param distance Distance the user has dragged since the start of the dragging sequence.\n   * @param event Event that triggered the dropping sequence.\n   *\n   * @breaking-change 15.0.0 `previousIndex` and `event` parameters to become required.\n   */",
+              "rawComment": "/**\n   * Drops an item into this container.\n   * @param item Item being dropped into the container.\n   * @param currentIndex Index at which the item should be inserted.\n   * @param previousIndex Index of the item when dragging started.\n   * @param previousContainer Container from which the item got dragged in.\n   * @param isPointerOverContainer Whether the user's pointer was over the\n   *    container when the item was dropped.\n   * @param distance Distance the user has dragged since the start of the dragging sequence.\n   * @param event Event that triggered the dropping sequence.\n   */",
               "returnType": "void"
             }
           ],
@@ -3323,7 +4349,7 @@
                 "name": "event",
                 "description": "Event that triggered the dropping sequence.",
                 "type": "MouseEvent | TouchEvent",
-                "isOptional": true,
+                "isOptional": false,
                 "isRestParam": false
               }
             ],
@@ -3361,13 +4387,9 @@
               {
                 "name": "param",
                 "comment": "Event that triggered the dropping sequence."
-              },
-              {
-                "name": "breaking-change",
-                "comment": "15.0.0 `previousIndex` and `event` parameters to become required."
               }
             ],
-            "rawComment": "/**\n   * Drops an item into this container.\n   * @param item Item being dropped into the container.\n   * @param currentIndex Index at which the item should be inserted.\n   * @param previousIndex Index of the item when dragging started.\n   * @param previousContainer Container from which the item got dragged in.\n   * @param isPointerOverContainer Whether the user's pointer was over the\n   *    container when the item was dropped.\n   * @param distance Distance the user has dragged since the start of the dragging sequence.\n   * @param event Event that triggered the dropping sequence.\n   *\n   * @breaking-change 15.0.0 `previousIndex` and `event` parameters to become required.\n   */"
+            "rawComment": "/**\n   * Drops an item into this container.\n   * @param item Item being dropped into the container.\n   * @param currentIndex Index at which the item should be inserted.\n   * @param previousIndex Index of the item when dragging started.\n   * @param previousContainer Container from which the item got dragged in.\n   * @param isPointerOverContainer Whether the user's pointer was over the\n   *    container when the item was dropped.\n   * @param distance Distance the user has dragged since the start of the dragging sequence.\n   * @param event Event that triggered the dropping sequence.\n   */"
           },
           "entryType": "function",
           "description": "Drops an item into this container.",
@@ -3399,13 +4421,9 @@
             {
               "name": "param",
               "comment": "Event that triggered the dropping sequence."
-            },
-            {
-              "name": "breaking-change",
-              "comment": "15.0.0 `previousIndex` and `event` parameters to become required."
             }
           ],
-          "rawComment": "/**\n   * Drops an item into this container.\n   * @param item Item being dropped into the container.\n   * @param currentIndex Index at which the item should be inserted.\n   * @param previousIndex Index of the item when dragging started.\n   * @param previousContainer Container from which the item got dragged in.\n   * @param isPointerOverContainer Whether the user's pointer was over the\n   *    container when the item was dropped.\n   * @param distance Distance the user has dragged since the start of the dragging sequence.\n   * @param event Event that triggered the dropping sequence.\n   *\n   * @breaking-change 15.0.0 `previousIndex` and `event` parameters to become required.\n   */",
+          "rawComment": "/**\n   * Drops an item into this container.\n   * @param item Item being dropped into the container.\n   * @param currentIndex Index at which the item should be inserted.\n   * @param previousIndex Index of the item when dragging started.\n   * @param previousContainer Container from which the item got dragged in.\n   * @param isPointerOverContainer Whether the user's pointer was over the\n   *    container when the item was dropped.\n   * @param distance Distance the user has dragged since the start of the dragging sequence.\n   * @param event Event that triggered the dropping sequence.\n   */",
           "memberType": "method",
           "memberTags": []
         },
@@ -3985,690 +5003,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/cdk/drag-drop/drop-list-ref.ts",
-        "startLine": 55,
-        "endLine": 787
-      }
-    },
-    {
-      "name": "CDK_DROP_LIST",
-      "type": "any",
-      "entryType": "constant",
-      "rawComment": "/**\n * Injection token that can be used to reference instances of `CdkDropList`. It serves as\n * alternative token to the actual `CdkDropList` class which could cause unnecessary\n * retention of the class and its directive metadata.\n */",
-      "description": "Injection token that can be used to reference instances of `CdkDropList`. It serves as\nalternative token to the actual `CdkDropList` class which could cause unnecessary\nretention of the class and its directive metadata.",
-      "jsdocTags": [],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/directives/drag.ts",
-        "startLine": 58,
-        "endLine": 58
-      }
-    },
-    {
-      "name": "CdkDrag",
-      "isAbstract": false,
-      "entryType": "undecorated_class",
-      "members": [
-        {
-          "name": "element",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "",
-          "jsdocTags": []
-        },
-        {
-          "name": "dropContainer",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "",
-          "jsdocTags": []
-        },
-        {
-          "name": "data",
-          "type": "T",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Arbitrary data to attach to this drag instance.",
-          "jsdocTags": []
-        },
-        {
-          "name": "lockAxis",
-          "type": "DragAxis | null",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Locks the position of the dragged element along the specified axis.",
-          "jsdocTags": []
-        },
-        {
-          "name": "rootElementSelector",
-          "type": "string",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Selector that will be used to determine the root draggable element, starting from\nthe `cdkDrag` element and going up the DOM. Passing an alternate root element is useful\nwhen trying to enable dragging on an element that you might not have access to.",
-          "jsdocTags": []
-        },
-        {
-          "name": "boundaryElement",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Node or selector that will be used to determine the element to which the draggable's\nposition will be constrained. If a string is passed in, it'll be used as a selector that\nwill be matched starting from the element's parent and going up the DOM until a match\nhas been found.",
-          "jsdocTags": []
-        },
-        {
-          "name": "dragStartDelay",
-          "type": "DragStartDelay",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Amount of milliseconds to wait after the user has put their\npointer down before starting to drag the element.",
-          "jsdocTags": []
-        },
-        {
-          "name": "freeDragPosition",
-          "type": "Point",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Sets the position of a `CdkDrag` that is outside of a drop container.\nCan be used to restore the element's position for a returning user.",
-          "jsdocTags": []
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "memberType": "getter",
-          "memberTags": [],
-          "description": "Whether starting to drag this element is disabled.",
-          "jsdocTags": []
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "memberType": "setter",
-          "memberTags": [],
-          "description": "",
-          "jsdocTags": []
-        },
-        {
-          "name": "constrainPosition",
-          "type": "DragConstrainPosition | undefined",
-          "memberType": "property",
-          "memberTags": [
-            "optional"
-          ],
-          "description": "Function that can be used to customize the logic of how the position of the drag item\nis limited while it's being dragged. Gets called with a point containing the current position\nof the user's pointer on the page, a reference to the item being dragged and its dimensions.\nShould return a point describing where the item should be rendered.",
-          "jsdocTags": []
-        },
-        {
-          "name": "previewClass",
-          "type": "string | string[]",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Class to be added to the preview element.",
-          "jsdocTags": []
-        },
-        {
-          "name": "previewContainer",
-          "type": "any",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Configures the place into which the preview of the item will be inserted. Can be configured\nglobally through `CDK_DROP_LIST`. Possible values:\n- `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that\nyou don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain\nits inherited styles.\n- `parent` - Preview will be inserted into the parent of the drag item. The advantage is that\ninherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be\nvisible due to `z-index`. Furthermore, the preview is going to have an effect over selectors\nlike `:nth-child` and some flexbox configurations.\n- `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.\nSame advantages and disadvantages as `parent`.",
-          "jsdocTags": []
-        },
-        {
-          "name": "scale",
-          "type": "number",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "If the parent of the dragged element has a `scale` transform, it can throw off the\npositioning when the user starts dragging. Use this input to notify the CDK of the scale.",
-          "jsdocTags": []
-        },
-        {
-          "name": "started",
-          "type": "EventEmitter<CdkDragStart<any>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits when the user starts dragging the item.",
-          "jsdocTags": []
-        },
-        {
-          "name": "released",
-          "type": "EventEmitter<CdkDragRelease<any>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits when the user has released a drag item, before any animations have started.",
-          "jsdocTags": []
-        },
-        {
-          "name": "ended",
-          "type": "EventEmitter<CdkDragEnd<any>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits when the user stops dragging an item in the container.",
-          "jsdocTags": []
-        },
-        {
-          "name": "entered",
-          "type": "EventEmitter<CdkDragEnter<any, any>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits when the user has moved the item into a new container.",
-          "jsdocTags": []
-        },
-        {
-          "name": "exited",
-          "type": "EventEmitter<CdkDragExit<any, any>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits when the user removes the item its container by dragging it into another container.",
-          "jsdocTags": []
-        },
-        {
-          "name": "dropped",
-          "type": "EventEmitter<CdkDragDrop<any, any, any>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits when the user drops the item inside a container.",
-          "jsdocTags": []
-        },
-        {
-          "name": "moved",
-          "type": "Observable<CdkDragMove<T>>",
-          "memberType": "property",
-          "memberTags": [
-            "readonly"
-          ],
-          "description": "Emits as the user is dragging the item. Use with caution,\nbecause this event will fire for every pixel that the user has dragged.",
-          "jsdocTags": []
-        },
-        {
-          "name": "getPlaceholderElement",
-          "signatures": [
-            {
-              "name": "getPlaceholderElement",
-              "entryType": "function",
-              "description": "Returns the element that is being used as a placeholder\nwhile the current element is being dragged.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/**\n   * Returns the element that is being used as a placeholder\n   * while the current element is being dragged.\n   */",
-              "returnType": "HTMLElement"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "HTMLElement",
-            "generics": [],
-            "name": "getPlaceholderElement",
-            "description": "Returns the element that is being used as a placeholder\nwhile the current element is being dragged.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/**\n   * Returns the element that is being used as a placeholder\n   * while the current element is being dragged.\n   */"
-          },
-          "entryType": "function",
-          "description": "Returns the element that is being used as a placeholder\nwhile the current element is being dragged.",
-          "jsdocTags": [],
-          "rawComment": "/**\n   * Returns the element that is being used as a placeholder\n   * while the current element is being dragged.\n   */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "getRootElement",
-          "signatures": [
-            {
-              "name": "getRootElement",
-              "entryType": "function",
-              "description": "Returns the root draggable element.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/** Returns the root draggable element. */",
-              "returnType": "HTMLElement"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "HTMLElement",
-            "generics": [],
-            "name": "getRootElement",
-            "description": "Returns the root draggable element.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Returns the root draggable element. */"
-          },
-          "entryType": "function",
-          "description": "Returns the root draggable element.",
-          "jsdocTags": [],
-          "rawComment": "/** Returns the root draggable element. */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "reset",
-          "signatures": [
-            {
-              "name": "reset",
-              "entryType": "function",
-              "description": "Resets a standalone drag item to its initial position.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/** Resets a standalone drag item to its initial position. */",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "reset",
-            "description": "Resets a standalone drag item to its initial position.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Resets a standalone drag item to its initial position. */"
-          },
-          "entryType": "function",
-          "description": "Resets a standalone drag item to its initial position.",
-          "jsdocTags": [],
-          "rawComment": "/** Resets a standalone drag item to its initial position. */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "resetToBoundary",
-          "signatures": [
-            {
-              "name": "resetToBoundary",
-              "entryType": "function",
-              "description": "Resets drag item to end of boundary element.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/** Resets drag item to end of boundary element. */",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "resetToBoundary",
-            "description": "Resets drag item to end of boundary element.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/** Resets drag item to end of boundary element. */"
-          },
-          "entryType": "function",
-          "description": "Resets drag item to end of boundary element.",
-          "jsdocTags": [],
-          "rawComment": "/** Resets drag item to end of boundary element. */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "getFreeDragPosition",
-          "signatures": [
-            {
-              "name": "getFreeDragPosition",
-              "entryType": "function",
-              "description": "Gets the pixel coordinates of the draggable outside of a drop container.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "/**\n   * Gets the pixel coordinates of the draggable outside of a drop container.\n   */",
-              "returnType": "Readonly<Point>"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "Readonly<Point>",
-            "generics": [],
-            "name": "getFreeDragPosition",
-            "description": "Gets the pixel coordinates of the draggable outside of a drop container.",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": "/**\n   * Gets the pixel coordinates of the draggable outside of a drop container.\n   */"
-          },
-          "entryType": "function",
-          "description": "Gets the pixel coordinates of the draggable outside of a drop container.",
-          "jsdocTags": [],
-          "rawComment": "/**\n   * Gets the pixel coordinates of the draggable outside of a drop container.\n   */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "setFreeDragPosition",
-          "signatures": [
-            {
-              "name": "setFreeDragPosition",
-              "entryType": "function",
-              "description": "Sets the current position in pixels the draggable outside of a drop container.",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [
-                {
-                  "name": "param",
-                  "comment": "New position to be set."
-                }
-              ],
-              "params": [
-                {
-                  "name": "value",
-                  "description": "New position to be set.",
-                  "type": "Point",
-                  "isOptional": false,
-                  "isRestParam": false
-                }
-              ],
-              "rawComment": "/**\n   * Sets the current position in pixels the draggable outside of a drop container.\n   * @param value New position to be set.\n   */",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [
-              {
-                "name": "value",
-                "description": "New position to be set.",
-                "type": "Point",
-                "isOptional": false,
-                "isRestParam": false
-              }
-            ],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "setFreeDragPosition",
-            "description": "Sets the current position in pixels the draggable outside of a drop container.",
-            "entryType": "function",
-            "jsdocTags": [
-              {
-                "name": "param",
-                "comment": "New position to be set."
-              }
-            ],
-            "rawComment": "/**\n   * Sets the current position in pixels the draggable outside of a drop container.\n   * @param value New position to be set.\n   */"
-          },
-          "entryType": "function",
-          "description": "Sets the current position in pixels the draggable outside of a drop container.",
-          "jsdocTags": [
-            {
-              "name": "param",
-              "comment": "New position to be set."
-            }
-          ],
-          "rawComment": "/**\n   * Sets the current position in pixels the draggable outside of a drop container.\n   * @param value New position to be set.\n   */",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "ngAfterViewInit",
-          "signatures": [
-            {
-              "name": "ngAfterViewInit",
-              "entryType": "function",
-              "description": "",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "ngAfterViewInit",
-            "description": "",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": ""
-          },
-          "entryType": "function",
-          "description": "",
-          "jsdocTags": [],
-          "rawComment": "",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "ngOnChanges",
-          "signatures": [
-            {
-              "name": "ngOnChanges",
-              "entryType": "function",
-              "description": "",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [
-                {
-                  "name": "changes",
-                  "description": "",
-                  "type": "SimpleChanges",
-                  "isOptional": false,
-                  "isRestParam": false
-                }
-              ],
-              "rawComment": "",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [
-              {
-                "name": "changes",
-                "description": "",
-                "type": "SimpleChanges",
-                "isOptional": false,
-                "isRestParam": false
-              }
-            ],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "ngOnChanges",
-            "description": "",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": ""
-          },
-          "entryType": "function",
-          "description": "",
-          "jsdocTags": [],
-          "rawComment": "",
-          "memberType": "method",
-          "memberTags": []
-        },
-        {
-          "name": "ngOnDestroy",
-          "signatures": [
-            {
-              "name": "ngOnDestroy",
-              "entryType": "function",
-              "description": "",
-              "generics": [],
-              "isNewType": false,
-              "jsdocTags": [],
-              "params": [],
-              "rawComment": "",
-              "returnType": "void"
-            }
-          ],
-          "implementation": {
-            "params": [],
-            "isNewType": false,
-            "returnType": "void",
-            "generics": [],
-            "name": "ngOnDestroy",
-            "description": "",
-            "entryType": "function",
-            "jsdocTags": [],
-            "rawComment": ""
-          },
-          "entryType": "function",
-          "description": "",
-          "jsdocTags": [],
-          "rawComment": "",
-          "memberType": "method",
-          "memberTags": []
-        }
-      ],
-      "generics": [
-        {
-          "name": "T",
-          "default": "any"
-        }
-      ],
-      "description": "Element that can be moved inside a CdkDropList container.",
-      "jsdocTags": [],
-      "rawComment": "/** Element that can be moved inside a CdkDropList container. */",
-      "implements": [
-        "AfterViewInit",
-        "OnChanges",
-        "OnDestroy"
-      ],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/directives/drag.ts",
-        "startLine": 61,
-        "endLine": 619
-      }
-    },
-    {
-      "name": "DragConstrainPosition",
-      "type": "(\n  userPointerPosition: Point,\n  dragRef: DragRef,\n  dimensions: DOMRect,\n  pickupPositionInElement: Point,\n) => Point",
-      "entryType": "type_alias",
-      "generics": [],
-      "rawComment": "/** Function that can be used to constrain the position of a dragged element. */",
-      "description": "Function that can be used to constrain the position of a dragged element.",
-      "jsdocTags": [],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/drag-ref.ts",
-        "startLine": 61,
-        "endLine": 66
-      }
-    },
-    {
-      "name": "CdkDragDrop",
-      "entryType": "interface",
-      "members": [
-        {
-          "name": "previousIndex",
-          "type": "number",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Index of the item when it was picked up.",
-          "jsdocTags": []
-        },
-        {
-          "name": "currentIndex",
-          "type": "number",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Current index of the item.",
-          "jsdocTags": []
-        },
-        {
-          "name": "item",
-          "type": "CdkDrag<I>",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Item that is being dropped.",
-          "jsdocTags": []
-        },
-        {
-          "name": "container",
-          "type": "CdkDropList<T>",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Container in which the item was dropped.",
-          "jsdocTags": []
-        },
-        {
-          "name": "previousContainer",
-          "type": "CdkDropList<O>",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Container from which the item was picked up. Can be the same as the `container`.",
-          "jsdocTags": []
-        },
-        {
-          "name": "isPointerOverContainer",
-          "type": "boolean",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Whether the user's pointer was over the container when the item was dropped.",
-          "jsdocTags": []
-        },
-        {
-          "name": "distance",
-          "type": "{ x: number; y: number; }",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Distance in pixels that the user has dragged since the drag sequence started.",
-          "jsdocTags": []
-        },
-        {
-          "name": "dropPoint",
-          "type": "{ x: number; y: number; }",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Position where the pointer was when the item was dropped",
-          "jsdocTags": []
-        },
-        {
-          "name": "event",
-          "type": "MouseEvent | TouchEvent",
-          "memberType": "property",
-          "memberTags": [],
-          "description": "Native event that caused the drop event.",
-          "jsdocTags": []
-        }
-      ],
-      "generics": [
-        {
-          "name": "T"
-        },
-        {
-          "name": "O",
-          "default": "T"
-        },
-        {
-          "name": "I",
-          "default": "any"
-        }
-      ],
-      "description": "Event emitted when the user drops a draggable item inside a drop container.",
-      "jsdocTags": [],
-      "rawComment": "/** Event emitted when the user drops a draggable item inside a drop container. */",
-      "extends": [],
-      "implements": [],
-      "source": {
-        "filePath": "/src/cdk/drag-drop/drag-events.ts",
-        "startLine": 62,
-        "endLine": 81
+        "startLine": 73,
+        "endLine": 803
       }
     },
     {
@@ -4762,8 +5098,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/cdk/drag-drop/drag-ref.ts",
-        "startLine": 102,
-        "endLine": 105
+        "startLine": 105,
+        "endLine": 108
       }
     },
     {
@@ -4774,10 +5110,11 @@
       "rawComment": "/**\n * Possible places into which the preview of a drag item can be inserted.\n * - `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that\n * you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain\n * its inherited styles.\n * - `parent` - Preview will be inserted into the parent of the drag item. The advantage is that\n * inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be\n * visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors\n * like `:nth-child` and some flexbox configurations.\n * - `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.\n * Same advantages and disadvantages as `parent`.\n */",
       "description": "Possible places into which the preview of a drag item can be inserted.\n- `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that\nyou don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain\nits inherited styles.\n- `parent` - Preview will be inserted into the parent of the drag item. The advantage is that\ninherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be\nvisible due to `z-index`. Furthermore, the preview is going to have an effect over selectors\nlike `:nth-child` and some flexbox configurations.\n- `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.\nSame advantages and disadvantages as `parent`.",
       "jsdocTags": [],
+      "members": [],
       "source": {
         "filePath": "/src/cdk/drag-drop/drag-ref.ts",
-        "startLine": 125,
-        "endLine": 125
+        "startLine": 128,
+        "endLine": 128
       }
     },
     {
@@ -4839,6 +5176,135 @@
       }
     },
     {
+      "name": "createDragRef",
+      "signatures": [
+        {
+          "name": "createDragRef",
+          "entryType": "function",
+          "description": "Creates a `DragRef` for an element, turning it into a draggable item.",
+          "generics": [
+            {
+              "name": "T",
+              "default": "unknown"
+            }
+          ],
+          "isNewType": false,
+          "jsdocTags": [
+            {
+              "name": "param",
+              "comment": "Injector used to resolve dependencies."
+            },
+            {
+              "name": "param",
+              "comment": "Element to which to attach the dragging functionality."
+            },
+            {
+              "name": "param",
+              "comment": "Object used to configure the dragging behavior."
+            }
+          ],
+          "params": [
+            {
+              "name": "injector",
+              "description": "Injector used to resolve dependencies.",
+              "type": "Injector",
+              "isOptional": false,
+              "isRestParam": false
+            },
+            {
+              "name": "element",
+              "description": "Element to which to attach the dragging functionality.",
+              "type": "HTMLElement | ElementRef<HTMLElement>",
+              "isOptional": false,
+              "isRestParam": false
+            },
+            {
+              "name": "config",
+              "description": "Object used to configure the dragging behavior.",
+              "type": "DragRefConfig",
+              "isOptional": true,
+              "isRestParam": false
+            }
+          ],
+          "rawComment": "/**\n * Creates a `DragRef` for an element, turning it into a draggable item.\n * @param injector Injector used to resolve dependencies.\n * @param element Element to which to attach the dragging functionality.\n * @param config Object used to configure the dragging behavior.\n */",
+          "returnType": "DragRef<T>"
+        }
+      ],
+      "implementation": {
+        "params": [
+          {
+            "name": "injector",
+            "description": "Injector used to resolve dependencies.",
+            "type": "Injector",
+            "isOptional": false,
+            "isRestParam": false
+          },
+          {
+            "name": "element",
+            "description": "Element to which to attach the dragging functionality.",
+            "type": "HTMLElement | ElementRef<HTMLElement>",
+            "isOptional": false,
+            "isRestParam": false
+          },
+          {
+            "name": "config",
+            "description": "Object used to configure the dragging behavior.",
+            "type": "DragRefConfig",
+            "isOptional": true,
+            "isRestParam": false
+          }
+        ],
+        "isNewType": false,
+        "returnType": "DragRef<T>",
+        "generics": [
+          {
+            "name": "T",
+            "default": "unknown"
+          }
+        ],
+        "name": "createDragRef",
+        "description": "Creates a `DragRef` for an element, turning it into a draggable item.",
+        "entryType": "function",
+        "jsdocTags": [
+          {
+            "name": "param",
+            "comment": "Injector used to resolve dependencies."
+          },
+          {
+            "name": "param",
+            "comment": "Element to which to attach the dragging functionality."
+          },
+          {
+            "name": "param",
+            "comment": "Object used to configure the dragging behavior."
+          }
+        ],
+        "rawComment": "/**\n * Creates a `DragRef` for an element, turning it into a draggable item.\n * @param injector Injector used to resolve dependencies.\n * @param element Element to which to attach the dragging functionality.\n * @param config Object used to configure the dragging behavior.\n */"
+      },
+      "entryType": "function",
+      "description": "Creates a `DragRef` for an element, turning it into a draggable item.",
+      "jsdocTags": [
+        {
+          "name": "param",
+          "comment": "Injector used to resolve dependencies."
+        },
+        {
+          "name": "param",
+          "comment": "Element to which to attach the dragging functionality."
+        },
+        {
+          "name": "param",
+          "comment": "Object used to configure the dragging behavior."
+        }
+      ],
+      "rawComment": "/**\n * Creates a `DragRef` for an element, turning it into a draggable item.\n * @param injector Injector used to resolve dependencies.\n * @param element Element to which to attach the dragging functionality.\n * @param config Object used to configure the dragging behavior.\n */",
+      "source": {
+        "filePath": "/src/cdk/drag-drop/drag-ref.ts",
+        "startLine": 136,
+        "endLine": 157
+      }
+    },
+    {
       "name": "DragRef",
       "isAbstract": false,
       "entryType": "undecorated_class",
@@ -4851,7 +5317,7 @@
               {
                 "name": "element",
                 "description": "",
-                "type": "any",
+                "type": "HTMLElement | ElementRef<HTMLElement>",
                 "isOptional": false,
                 "isRestParam": false
               },
@@ -4964,7 +5430,7 @@
         },
         {
           "name": "beforeStarted",
-          "type": "any",
+          "type": "Subject<void>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -4974,7 +5440,7 @@
         },
         {
           "name": "started",
-          "type": "any",
+          "type": "Subject<{ source: DragRef<any>; event: MouseEvent | TouchEvent; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -4984,7 +5450,7 @@
         },
         {
           "name": "released",
-          "type": "any",
+          "type": "Subject<{ source: DragRef<any>; event: MouseEvent | TouchEvent; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -4994,7 +5460,7 @@
         },
         {
           "name": "ended",
-          "type": "any",
+          "type": "Subject<{ source: DragRef<any>; distance: Point; dropPoint: Point; event: MouseEvent | TouchEvent; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -5004,7 +5470,7 @@
         },
         {
           "name": "entered",
-          "type": "any",
+          "type": "Subject<{ container: DropListRef<any>; item: DragRef<any>; currentIndex: number; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -5014,7 +5480,7 @@
         },
         {
           "name": "exited",
-          "type": "any",
+          "type": "Subject<{ container: DropListRef<any>; item: DragRef<any>; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -5024,7 +5490,7 @@
         },
         {
           "name": "dropped",
-          "type": "any",
+          "type": "Subject<{ previousIndex: number; currentIndex: number; item: DragRef<any>; container: DropListRef<any>; previousContainer: DropListRef<any>; distance: Point; dropPoint: Point; isPointerOverContainer: boolean; event: MouseEvent | TouchEvent; }>",
           "memberType": "property",
           "memberTags": [
             "readonly"
@@ -5173,7 +5639,7 @@
                 {
                   "name": "handles",
                   "description": "",
-                  "type": "any[]",
+                  "type": "(HTMLElement | ElementRef<HTMLElement>)[]",
                   "isOptional": false,
                   "isRestParam": false
                 }
@@ -5187,7 +5653,7 @@
               {
                 "name": "handles",
                 "description": "",
-                "type": "any[]",
+                "type": "(HTMLElement | ElementRef<HTMLElement>)[]",
                 "isOptional": false,
                 "isRestParam": false
               }
@@ -5350,7 +5816,7 @@
                 {
                   "name": "rootElement",
                   "description": "",
-                  "type": "any",
+                  "type": "HTMLElement | ElementRef<HTMLElement>",
                   "isOptional": false,
                   "isRestParam": false
                 }
@@ -5364,7 +5830,7 @@
               {
                 "name": "rootElement",
                 "description": "",
-                "type": "any",
+                "type": "HTMLElement | ElementRef<HTMLElement>",
                 "isOptional": false,
                 "isRestParam": false
               }
@@ -5399,7 +5865,7 @@
                 {
                   "name": "boundaryElement",
                   "description": "",
-                  "type": "any",
+                  "type": "HTMLElement | ElementRef<HTMLElement> | null",
                   "isOptional": false,
                   "isRestParam": false
                 }
@@ -5413,7 +5879,7 @@
               {
                 "name": "boundaryElement",
                 "description": "",
-                "type": "any",
+                "type": "HTMLElement | ElementRef<HTMLElement> | null",
                 "isOptional": false,
                 "isRestParam": false
               }
@@ -5908,7 +6374,7 @@
                 {
                   "name": "value",
                   "description": "Container into which to insert the preview.",
-                  "type": "any",
+                  "type": "PreviewContainer",
                   "isOptional": false,
                   "isRestParam": false
                 }
@@ -5922,7 +6388,7 @@
               {
                 "name": "value",
                 "description": "Container into which to insert the preview.",
-                "type": "any",
+                "type": "PreviewContainer",
                 "isOptional": false,
                 "isRestParam": false
               }
@@ -5966,8 +6432,8 @@
       "implements": [],
       "source": {
         "filePath": "/src/cdk/drag-drop/drag-ref.ts",
-        "startLine": 130,
-        "endLine": 1631
+        "startLine": 162,
+        "endLine": 1662
       }
     }
   ],
@@ -5977,15 +6443,31 @@
       "@angular/core"
     ],
     [
+      "Service",
+      "@angular/core"
+    ],
+    [
+      "ElementRef",
+      "@angular/core"
+    ],
+    [
+      "inject",
+      "@angular/core"
+    ],
+    [
+      "Injector",
+      "@angular/core"
+    ],
+    [
       "Directive",
       "@angular/core"
     ],
     [
-      "OnDestroy",
+      "Input",
       "@angular/core"
     ],
     [
-      "Input",
+      "OnDestroy",
       "@angular/core"
     ],
     [
@@ -5994,30 +6476,6 @@
     ],
     [
       "TemplateRef",
-      "@angular/core"
-    ],
-    [
-      "inject",
-      "@angular/core"
-    ],
-    [
-      "Injectable",
-      "@angular/core"
-    ],
-    [
-      "NgZone",
-      "@angular/core"
-    ],
-    [
-      "ElementRef",
-      "@angular/core"
-    ],
-    [
-      "RendererFactory2",
-      "@angular/core"
-    ],
-    [
-      "DOCUMENT",
       "@angular/core"
     ],
     [
@@ -6041,6 +6499,38 @@
       "@angular/core"
     ],
     [
+      "Component",
+      "@angular/core"
+    ],
+    [
+      "ListenerOptions",
+      "@angular/core"
+    ],
+    [
+      "NgZone",
+      "@angular/core"
+    ],
+    [
+      "RendererFactory2",
+      "@angular/core"
+    ],
+    [
+      "ViewEncapsulation",
+      "@angular/core"
+    ],
+    [
+      "WritableSignal",
+      "@angular/core"
+    ],
+    [
+      "signal",
+      "@angular/core"
+    ],
+    [
+      "DOCUMENT",
+      "@angular/core"
+    ],
+    [
       "EmbeddedViewRef",
       "@angular/core"
     ],
@@ -6053,30 +6543,6 @@
       "@angular/core"
     ],
     [
-      "signal",
-      "@angular/core"
-    ],
-    [
-      "ChangeDetectionStrategy",
-      "@angular/core"
-    ],
-    [
-      "Component",
-      "@angular/core"
-    ],
-    [
-      "ListenerOptions",
-      "@angular/core"
-    ],
-    [
-      "ViewEncapsulation",
-      "@angular/core"
-    ],
-    [
-      "WritableSignal",
-      "@angular/core"
-    ],
-    [
       "OnChanges",
       "@angular/core"
     ],
@@ -6086,10 +6552,6 @@
     ],
     [
       "afterNextRender",
-      "@angular/core"
-    ],
-    [
-      "Injector",
       "@angular/core"
     ],
     [
@@ -6109,6 +6571,10 @@
       "@angular/cdk/drag-drop"
     ],
     [
+      "DragDrop",
+      "@angular/cdk/drag-drop"
+    ],
+    [
       "DragAxis",
       "@angular/cdk/drag-drop"
     ],
@@ -6121,11 +6587,11 @@
       "@angular/cdk/drag-drop"
     ],
     [
-      "CDK_DROP_LIST_GROUP",
+      "CdkDragRelease",
       "@angular/cdk/drag-drop"
     ],
     [
-      "CdkDragRelease",
+      "CDK_DROP_LIST_GROUP",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6137,15 +6603,11 @@
       "@angular/cdk/drag-drop"
     ],
     [
-      "CdkDropListGroup",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragDrop",
-      "@angular/cdk/drag-drop"
-    ],
-    [
       "CdkDragPlaceholder",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "CdkDropListGroup",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6185,11 +6647,11 @@
       "@angular/cdk/drag-drop"
     ],
     [
-      "DragRefConfig",
+      "DragDropRegistry",
       "@angular/cdk/drag-drop"
     ],
     [
-      "DragDropRegistry",
+      "DragRefConfig",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6205,11 +6667,11 @@
       "@angular/cdk/drag-drop"
     ],
     [
-      "DropListRef",
+      "CDK_DROP_LIST",
       "@angular/cdk/drag-drop"
     ],
     [
-      "CDK_DROP_LIST",
+      "createDropListRef",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6222,6 +6684,10 @@
     ],
     [
       "CdkDragDrop",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6238,6 +6704,10 @@
     ],
     [
       "CdkDragSortEvent",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "createDragRef",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6265,6 +6735,18 @@
       "@angular/cdk/drag-drop"
     ],
     [
+      "DragDrop",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DragDrop.createDrag",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DragDrop.createDropList",
+      "@angular/cdk/drag-drop"
+    ],
+    [
       "DragAxis",
       "@angular/cdk/drag-drop"
     ],
@@ -6274,10 +6756,6 @@
     ],
     [
       "DropListOrientation",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "CDK_DROP_LIST_GROUP",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6293,35 +6771,15 @@
       "@angular/cdk/drag-drop"
     ],
     [
+      "CDK_DROP_LIST_GROUP",
+      "@angular/cdk/drag-drop"
+    ],
+    [
       "CDK_DRAG_PLACEHOLDER",
       "@angular/cdk/drag-drop"
     ],
     [
       "CDK_DRAG_PREVIEW",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "CdkDropListGroup",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "CdkDropListGroup.disabled",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "CdkDropListGroup.ngOnDestroy",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragDrop",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragDrop.createDrag",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragDrop.createDropList",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6338,6 +6796,18 @@
     ],
     [
       "CdkDragPlaceholder.ngOnDestroy",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "CdkDropListGroup",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "CdkDropListGroup.disabled",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "CdkDropListGroup.ngOnDestroy",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -6581,26 +7051,6 @@
       "@angular/cdk/drag-drop"
     ],
     [
-      "DragRefConfig",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragRefConfig.dragStartThreshold",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragRefConfig.pointerDirectionChangeThreshold",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragRefConfig.zIndex",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DragRefConfig.parentDragRef",
-      "@angular/cdk/drag-drop"
-    ],
-    [
       "DragDropRegistry",
       "@angular/cdk/drag-drop"
     ],
@@ -6661,6 +7111,26 @@
       "@angular/cdk/drag-drop"
     ],
     [
+      "DragRefConfig",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DragRefConfig.dragStartThreshold",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DragRefConfig.pointerDirectionChangeThreshold",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DragRefConfig.zIndex",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DragRefConfig.parentDragRef",
+      "@angular/cdk/drag-drop"
+    ],
+    [
       "CdkDragEnter",
       "@angular/cdk/drag-drop"
     ],
@@ -6693,147 +7163,11 @@
       "@angular/cdk/drag-drop"
     ],
     [
-      "DropListRef",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.constructor",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.element",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.disabled",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.sortingDisabled",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.lockAxis",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.autoScrollDisabled",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.autoScrollStep",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.hasAnchor",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.enterPredicate",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.sortPredicate",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.beforeStarted",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.entered",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.exited",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.dropped",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.sorted",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.receivingStarted",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.receivingStopped",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.data",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.dispose",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.isDragging",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.start",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.enter",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.exit",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.drop",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.withItems",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.withDirection",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.connectedTo",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.withOrientation",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.withScrollableParents",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.withElementContainer",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.getScrollableParents",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.getItemIndex",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.getItemAtIndex",
-      "@angular/cdk/drag-drop"
-    ],
-    [
-      "DropListRef.isReceiving",
-      "@angular/cdk/drag-drop"
-    ],
-    [
       "CDK_DROP_LIST",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "createDropListRef",
       "@angular/cdk/drag-drop"
     ],
     [
@@ -7005,6 +7339,146 @@
       "@angular/cdk/drag-drop"
     ],
     [
+      "DropListRef",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.constructor",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.element",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.disabled",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.sortingDisabled",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.lockAxis",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.autoScrollDisabled",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.autoScrollStep",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.hasAnchor",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.enterPredicate",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.sortPredicate",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.beforeStarted",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.entered",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.exited",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.dropped",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.sorted",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.receivingStarted",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.receivingStopped",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.data",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.dispose",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.isDragging",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.start",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.enter",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.exit",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.drop",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.withItems",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.withDirection",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.connectedTo",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.withOrientation",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.withScrollableParents",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.withElementContainer",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.getScrollableParents",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.getItemIndex",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.getItemAtIndex",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "DropListRef.isReceiving",
+      "@angular/cdk/drag-drop"
+    ],
+    [
       "CdkDragMove",
       "@angular/cdk/drag-drop"
     ],
@@ -7062,6 +7536,10 @@
     ],
     [
       "CdkDragSortEvent.item",
+      "@angular/cdk/drag-drop"
+    ],
+    [
+      "createDragRef",
       "@angular/cdk/drag-drop"
     ],
     [

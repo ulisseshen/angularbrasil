@@ -9,13 +9,13 @@ Harnesses oferecem vários benefícios:
 - Eles tornam os testes mais legíveis e fáceis de manter
 - Eles podem ser usados em múltiplos ambientes de teste
 
-<docs-code language="typescript">
+```ts
 // Example of test with a harness for a component called MyButtonComponent
 it('should load button with exact text', async () => {
   const button = await loader.getHarness(MyButtonComponentHarness);
   expect(await button.getText()).toBe('Confirm');
 });
-</docs-code>
+```
 
 Component harnesses são especialmente úteis para widgets de UI compartilhados. Desenvolvedores frequentemente escrevem testes que dependem de detalhes de implementação privados de widgets, como estrutura DOM e classes CSS. Essas dependências tornam os testes frágeis e difíceis de manter. Harnesses oferecem uma alternativa — uma API suportada que interage com o widget da mesma forma que um usuário final faz. Mudanças na implementação do widget agora se tornam menos propensas a quebrar os testes do usuário. Por exemplo, [Angular Material](https://material.angular.dev/components/categories) fornece um test harness para cada component da biblioteca.
 

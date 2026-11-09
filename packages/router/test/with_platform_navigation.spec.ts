@@ -7,27 +7,48 @@
  */
 
 import {TestBed} from '@angular/core/testing';
-import {provideRouter, Router} from '../src';
-import {withPlatformNavigation, withRouterConfig} from '../src/provide_router';
-import {withBody} from '@angular/private/testing';
+import {
+  NavigationStart,
+  provideRouter,
+  Event,
+  Router,
+  UrlSerializer,
+  DefaultUrlSerializer,
+  UrlTree,
+  Params,
+} from '../src';
+import {withExperimentalPlatformNavigation, withRouterConfig} from '../src/provide_router';
+import {withBody, useAutoTick, timeout} from '@angular/private/testing';
 import {
   PlatformLocation,
   Location,
   PlatformNavigation,
   BrowserPlatformLocation,
+  ɵPRECOMMIT_HANDLER_SUPPORTED as PRECOMMIT_HANDLER_SUPPORTED,
 } from '@angular/common';
 import {
   ɵFakeNavigation as FakeNavigation,
   ɵFakeNavigationPlatformLocation as FakeNavigationPlatformLocation,
   provideLocationMocks,
+  MOCK_PLATFORM_LOCATION_CONFIG,
 } from '@angular/common/testing';
-import {timeout, useAutoTick} from './helpers';
+import {inject, Provider} from '@angular/core';
 
 /// <reference types="dom-navigation" />
 
+function isFirefox() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.indexOf('firefox') != -1) {
+    return true;
+  }
+  return false;
+}
+
 describe('withPlatformNavigation feature', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [provideRouter([], withPlatformNavigation())]});
+    TestBed.configureTestingModule({
+      providers: [provideRouter([], withExperimentalPlatformNavigation())],
+    });
   });
 
   it('provides FakeNavigation by default', () => {
@@ -82,7 +103,7 @@ describe('withPlatformNavigation feature', () => {
 
       location.go('/c');
       expect(changed).toBeFalse();
-      await new Promise((resolve) => setTimeout(resolve, 1));
+      await timeout(1);
       expect(changed).toBeTrue();
     });
   });
@@ -108,11 +129,8 @@ describe('withPlatformNavigation feature', () => {
           children: [],
         },
       ]);
-      const {finished} = navigation.navigate('/somepath');
+      navigation.navigate('/somepath');
       await timeout(5);
-      // note that this finished promise will be rejected because the Router will create a separate 'replace' navigate
-      // since we cannot redirect the original navigation without precommit handler support
-      await expectAsync(finished).not.toBeResolved();
       expect(navigation.transition).not.toBeNull();
       await timeout(10);
       expect(navigation.transition).toBeNull();
@@ -131,11 +149,14 @@ describe('withPlatformNavigation feature', () => {
       // set up navigation
       navigation.addEventListener(
         'navigate',
-        (e: any) => e.intercept({handler: () => new Promise((_, reject) => setTimeout(reject, 5))}),
+        (e: any) =>
+          e.intercept({precommitHandler: () => new Promise((_, reject) => setTimeout(reject, 5))}),
         {once: true},
       );
 
-      navigation.navigate('/blocked');
+      const navRes = navigation.navigate('/blocked');
+      navRes.committed.catch(() => {});
+      navRes.finished.catch(() => {});
       await timeout();
       expect(navigation.transition).not.toBeNull();
       expect(router.currentNavigation()).not.toBeNull();
@@ -146,6 +167,72 @@ describe('withPlatformNavigation feature', () => {
       // wait for "rollback" navigation which is resetting the state
       await timeout();
       expect(navigation.transition).toBeNull();
+    });
+
+    it('retains the original traversal NavigateEvent', async () => {
+      router.resetConfig([{path: '**', children: []}]);
+      await router.navigateByUrl('/first');
+      await timeout();
+
+      const navigateEvents: NavigateEvent[] = [];
+      navigation.addEventListener('navigate', (e: NavigateEvent) => navigateEvents.push(e));
+      await navigation.back().finished;
+      expect(navigateEvents.length).toBe(1);
+      expect(navigateEvents[0].navigationType).toBe('traverse');
+    });
+
+    it('retains a single NavigateEvent across redirects', async () => {
+      const navigateEvents: NavigateEvent[] = [];
+      navigation.addEventListener('navigate', (e: NavigateEvent) => navigateEvents.push(e));
+
+      router.resetConfig([
+        {path: 'first', canActivate: [() => inject(Router).parseUrl('/redirected')], children: []},
+        {path: '**', children: []},
+      ]);
+      const navPromise = router.navigateByUrl('/first');
+      if (TestBed.inject(PRECOMMIT_HANDLER_SUPPORTED)) {
+        router.events.subscribe((e) => {
+          if (e instanceof NavigationStart) {
+            expect(navigateEvents.length).toBe(1);
+          }
+        });
+      }
+      await navPromise;
+      expect(navigateEvents.length).toBe(1);
+    });
+
+    it('handles redirects during traversal navigations by committing and replacing', async () => {
+      router.resetConfig([
+        {path: 'first', children: []},
+        {path: 'second', children: []},
+        {path: 'redirected', children: []},
+        {path: '**', children: []},
+      ]);
+
+      await router.navigateByUrl('/first');
+      await timeout();
+      await router.navigateByUrl('/second');
+      await timeout();
+
+      expect(navigation.entries().length).toBe(3);
+      expect(navigation.currentEntry!.url).toContain('/second');
+
+      router.resetConfig([
+        {path: 'first', canActivate: [() => inject(Router).parseUrl('/redirected')], children: []},
+        {path: 'second', children: []},
+        {path: 'redirected', children: []},
+        {path: '**', children: []},
+      ]);
+
+      const backRes = navigation.back();
+      backRes.committed.catch(() => {});
+      backRes.finished.catch(() => {});
+      await timeout();
+      await navigation.transition?.finished;
+
+      expect(router.url).toBe('/redirected');
+      expect(navigation.currentEntry!.url).toContain('/redirected');
+      expect(navigation.currentEntry!.index).toBe(1);
     });
   });
 
@@ -158,7 +245,7 @@ describe('withPlatformNavigation feature', () => {
         providers: [
           provideRouter(
             [{path: '**', children: []}],
-            withPlatformNavigation(),
+            withExperimentalPlatformNavigation(),
             withRouterConfig({urlUpdateStrategy: 'eager'}),
           ),
         ],
@@ -186,24 +273,170 @@ describe('withPlatformNavigation feature', () => {
       await expectAsync(finished).toBeResolved();
     });
   });
+
+  class TrailingSlashNormalizingUrlSerializer extends DefaultUrlSerializer {
+    override parse(url: string): UrlTree {
+      if (url !== '/' && url.endsWith('/')) {
+        url = url.slice(0, -1);
+      }
+      return super.parse(url);
+    }
+    override serialize(tree: UrlTree): string {
+      let url = super.serialize(tree);
+      if (url !== '/' && url.endsWith('/')) {
+        url = url.slice(0, -1);
+      }
+      return url;
+    }
+  }
+
+  class QueryParamSortingUrlSerializer extends DefaultUrlSerializer {
+    override parse(url: string): UrlTree {
+      const tree = super.parse(url);
+      const sorted: Params = {};
+      for (const key of Object.keys(tree.queryParams).sort()) {
+        sorted[key] = tree.queryParams[key];
+      }
+      tree.queryParams = sorted;
+      return tree;
+    }
+    override serialize(tree: UrlTree): string {
+      const sorted: Params = {};
+      for (const key of Object.keys(tree.queryParams).sort()) {
+        sorted[key] = tree.queryParams[key];
+      }
+      const newTree = new UrlTree(tree.root, sorted, tree.fragment);
+      return super.serialize(newTree);
+    }
+  }
+
+  describe('URL comparison and extraction bugs', () => {
+    useAutoTick();
+    let router: Router;
+    let navigation: PlatformNavigation;
+
+    it('should not trigger new navigation when traversing back to a URL with trailing slash mismatch (with custom serializer)', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          {provide: UrlSerializer, useClass: TrailingSlashNormalizingUrlSerializer},
+          {provide: PRECOMMIT_HANDLER_SUPPORTED, useValue: false},
+          provideRouter(
+            [
+              {path: 'foo', children: []},
+              {path: 'bar', children: []},
+            ],
+            withExperimentalPlatformNavigation(),
+          ),
+        ],
+      });
+      navigation = TestBed.inject(PlatformNavigation);
+
+      navigation.navigate('/foo/');
+      await timeout();
+      navigation.navigate('/bar');
+      await timeout();
+
+      router = TestBed.inject(Router);
+      router.initialNavigation();
+      await navigation.transition?.finished;
+
+      const navigateSpy = spyOn(navigation, 'navigate').and.callThrough();
+
+      await navigation.back().finished;
+      await timeout();
+
+      expect(navigateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not trigger new navigation when traversing back to a URL with query param order mismatch (with custom serializer)', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          {provide: UrlSerializer, useClass: QueryParamSortingUrlSerializer},
+          {provide: PRECOMMIT_HANDLER_SUPPORTED, useValue: false},
+          provideRouter(
+            [
+              {path: 'foo', children: []},
+              {path: 'bar', children: []},
+            ],
+            withExperimentalPlatformNavigation(),
+          ),
+        ],
+      });
+      navigation = TestBed.inject(PlatformNavigation);
+
+      navigation.navigate('/foo?b=2&a=1');
+      await timeout();
+      navigation.navigate('/bar');
+      await timeout();
+
+      router = TestBed.inject(Router);
+      router.initialNavigation();
+      await navigation.transition?.finished;
+
+      const navigateSpy = spyOn(navigation, 'navigate').and.callThrough();
+
+      await navigation.back().finished;
+      await timeout();
+
+      expect(navigateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not intercept navigations outside the app root', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: MOCK_PLATFORM_LOCATION_CONFIG,
+            useValue: {
+              startUrl: 'http://localhost/my-app/',
+              appBaseHref: '/my-app/',
+            },
+          },
+          provideRouter([{path: '**', children: []}], withExperimentalPlatformNavigation()),
+        ],
+      });
+      navigation = TestBed.inject(PlatformNavigation);
+
+      let interceptCalled = false;
+      navigation.addEventListener('navigate', (e: any) => {
+        const originalIntercept = e.intercept;
+        e.intercept = function (...args: any[]) {
+          interceptCalled = true;
+          originalIntercept.apply(this, args);
+        };
+      });
+
+      router = TestBed.inject(Router);
+      router.initialNavigation();
+      await navigation.transition?.finished;
+
+      interceptCalled = false;
+      navigation.navigate('http://localhost/other-app/foo');
+      await timeout();
+
+      expect(interceptCalled).toBeFalse();
+    });
+  });
 });
 
 describe('configuration error', () => {
   it('throws an error mentioning SpyLocation and the location mocks', () => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([], withPlatformNavigation()), provideLocationMocks()],
+      providers: [provideRouter([], withExperimentalPlatformNavigation()), provideLocationMocks()],
     });
     expect(() => TestBed.inject(Location)).toThrowError(/SpyLocation.*provideLocationMocks/);
   });
 });
 
-if (typeof window !== 'undefined' && 'navigation' in window) {
+if (typeof window !== 'undefined' && 'navigation' in window && !isFirefox()) {
   describe('real platform navigation', () => {
     const navigation = window.navigation as Navigation;
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
-          provideRouter([{path: '**', children: []}], withPlatformNavigation()),
+          provideRouter([{path: '**', children: []}], withExperimentalPlatformNavigation()),
           {provide: PlatformLocation, useClass: BrowserPlatformLocation},
           {provide: PlatformNavigation, useFactory: () => navigation},
         ],
@@ -225,6 +458,136 @@ if (typeof window !== 'undefined' && 'navigation' in window) {
         document.querySelector('a')!.click();
         await new Promise((r) => setTimeout(r));
         expect(router.url).toBe('/somewhere');
+      }),
+    );
+
+    it('should not convert reload events to SPA navigations', async () => {
+      const navigation = TestBed.inject(PlatformNavigation);
+      navigation.addEventListener(
+        'navigate',
+        (e: NavigateEvent) => {
+          e.intercept({
+            handler: () => new Promise((_, reject) => setTimeout(reject, 2)),
+          });
+        },
+        {once: true},
+      );
+      const routerEvents: Event[] = [];
+      router.events.subscribe((e) => routerEvents.push(e));
+      router.resetConfig([
+        {
+          path: '**',
+          children: [],
+        },
+      ]);
+      navigation.reload();
+      await timeout(3);
+      expect(routerEvents).toEqual([]);
+    });
+
+    /**
+     * Cancels the next `navigate` event so the browser doesn't download the file.
+     * The listener is added after the router's own listener, so the router has already handled
+     * the event when it runs.
+     */
+    function preventNextNavigation() {
+      TestBed.inject(PlatformNavigation).addEventListener(
+        'navigate',
+        (e: NavigateEvent) => e.preventDefault(),
+        {once: true},
+      );
+    }
+
+    it(
+      'should not convert downloads to SPA navigations',
+      withBody('<a href="/file.txt" download>download</a>', async () => {
+        preventNextNavigation();
+        const routerEvents: Event[] = [];
+        router.events.subscribe((e) => routerEvents.push(e));
+        document.querySelector('a')!.click();
+        await timeout();
+        expect(routerEvents).toEqual([]);
+      }),
+    );
+  });
+
+  describe('focusReset with real platform navigation', () => {
+    const navigation = window.navigation as Navigation;
+
+    async function setup(providers: Provider[] = []) {
+      TestBed.configureTestingModule({
+        providers: [
+          provideRouter(
+            [
+              {
+                path: 'guarded',
+                canActivate: [() => inject(Router).parseUrl('/search?q=redirected')],
+                children: [],
+              },
+              {path: '**', children: []},
+            ],
+            withExperimentalPlatformNavigation(),
+          ),
+          {provide: PlatformLocation, useClass: BrowserPlatformLocation},
+          {provide: PlatformNavigation, useFactory: () => navigation},
+          ...providers,
+        ],
+      });
+      const router = TestBed.inject(Router);
+      router.initialNavigation();
+      await timeout();
+      return router;
+    }
+
+    it(
+      'resets focus by default',
+      withBody('<input>', async () => {
+        const router = await setup();
+        const input = document.querySelector('input')!;
+        input.focus();
+        expect(document.activeElement).toBe(input);
+
+        // Each test uses its own URL: these tests share the page URL, and navigating to the
+        // current URL again would be skipped by the router.
+        await router.navigate(['/search'], {queryParams: {q: 'default'}});
+        // The browser resets focus when it finishes the navigate event, after the next render.
+        await navigation.transition?.finished;
+
+        expect(router.url).toBe('/search?q=default');
+        expect(document.activeElement).toBe(document.body);
+      }),
+    );
+
+    it(
+      "keeps focus with focusReset: 'manual'",
+      withBody('<input>', async () => {
+        const router = await setup();
+        const input = document.querySelector('input')!;
+        input.focus();
+        expect(document.activeElement).toBe(input);
+
+        await router.navigate(['/search'], {queryParams: {q: 'manual'}, focusReset: 'manual'});
+        await navigation.transition?.finished;
+
+        expect(router.url).toBe('/search?q=manual');
+        expect(document.activeElement).toBe(input);
+      }),
+    );
+
+    it(
+      "keeps focusReset: 'manual' when a guard redirects",
+      withBody('<input>', async () => {
+        // Without precommitHandler, the browser navigation is created for the redirect.
+        const router = await setup([{provide: PRECOMMIT_HANDLER_SUPPORTED, useValue: false}]);
+        const input = document.querySelector('input')!;
+        input.focus();
+        expect(document.activeElement).toBe(input);
+
+        await router.navigateByUrl('/guarded', {focusReset: 'manual'});
+        await navigation.transition?.finished;
+
+        expect(router.url).toBe('/search?q=redirected');
+        expect(document.activeElement).toBe(input);
       }),
     );
   });

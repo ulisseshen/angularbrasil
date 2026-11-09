@@ -30,6 +30,8 @@ import {
   JSACTION_BLOCK_ELEMENT_MAP,
   EVENT_REPLAY_ENABLED_DEFAULT,
   IS_EVENT_REPLAY_ENABLED,
+  EVENT_REPLAY_QUEUE,
+  EventReplayQueue,
 } from './tokens';
 import {
   sharedStashFunction,
@@ -46,6 +48,7 @@ import {APP_ID} from '../application/application_tokens';
 import {performanceMarkFeature} from '../util/performance';
 import {triggerHydrationFromBlockName} from '../defer/triggering';
 import {isIncrementalHydrationEnabled} from './utils';
+import {formatRuntimeError, RuntimeErrorCode} from '../errors';
 
 /** Apps in which we've enabled event replay.
  *  This is to prevent initializing event replay more than once per app.
@@ -58,11 +61,6 @@ const appsWithEventReplay = new WeakSet<ApplicationRef>();
 const EAGER_CONTENT_LISTENERS_KEY = '';
 
 /**
- * A list of block events that need to be replayed
- */
-let blockEventQueue: {event: Event; currentTarget: Element}[] = [];
-
-/**
  * Determines whether Event Replay feature should be activated on the client.
  */
 function shouldEnableEventReplay(injector: Injector) {
@@ -72,6 +70,9 @@ function shouldEnableEventReplay(injector: Injector) {
 /**
  * Returns a set of providers required to setup support for event replay.
  * Requires hydration to be enabled separately.
+ *
+ * @see [Capturing and replaying event](guide/hydration#capturing-and-replaying-events)
+ *
  */
 export function withEventReplay(): Provider[] {
   const providers: Provider[] = [
@@ -172,7 +173,11 @@ export function withEventReplay(): Provider[] {
               }
 
               const eventContractDetails = injector.get(JSACTION_EVENT_CONTRACT);
-              initEventReplay(eventContractDetails, injector);
+              if (!initEventReplay(eventContractDetails, injector)) {
+                // Another app with the same APP_ID already used the early event data.
+                // Nothing left to replay here.
+                return;
+              }
               const jsActionMap = injector.get(JSACTION_BLOCK_ELEMENT_MAP);
               jsActionMap.get(EAGER_CONTENT_LISTENERS_KEY)?.forEach(removeListeners);
               jsActionMap.delete(EAGER_CONTENT_LISTENERS_KEY);
@@ -201,10 +206,24 @@ export function withEventReplay(): Provider[] {
   return providers;
 }
 
-const initEventReplay = (eventDelegation: EventContractDetails, injector: Injector) => {
+/** @returns false if there was no early event data to replay (another app already used it). */
+const initEventReplay = (eventDelegation: EventContractDetails, injector: Injector): boolean => {
   const appId = injector.get(APP_ID);
-  // This is set in packages/platform-server/src/utils.ts
-  const earlyJsactionData = window._ejsas![appId]!;
+  // This is set in packages/platform-server/src/utils.ts. Two apps can share an APP_ID
+  // (duplicate bootstrap script, embedded widget), so it may already be cleared.
+  const earlyJsactionData = window._ejsas?.[appId];
+  if (!earlyJsactionData) {
+    console.warn(
+      formatRuntimeError(
+        RuntimeErrorCode.EVENT_REPLAY_CONTRACT_ALREADY_CONSUMED,
+        ngDevMode &&
+          `Event replay was skipped for APP_ID "${appId}". Another application on this page ` +
+            `already consumed the early event contract for this APP_ID. APP_ID must be unique ` +
+            `per application when multiple Angular applications share a page.`,
+      ),
+    );
+    return false;
+  }
   const eventContract = (eventDelegation.instance = new EventContract(
     new EventContractContainer(earlyJsactionData.c),
   ));
@@ -221,6 +240,7 @@ const initEventReplay = (eventDelegation: EventContractDetails, injector: Inject
     invokeRegisteredReplayListeners(injector, event, event.currentTarget as Element);
   });
   registerDispatcher(eventContract, dispatcher);
+  return true;
 };
 
 /**
@@ -238,7 +258,7 @@ export function collectDomEventsInfo(
   if (!tCleanup || !lCleanup) {
     return domEventsInfo;
   }
-  for (let i = 0; i < tCleanup.length; ) {
+  for (let i = 0; i < tCleanup.length;) {
     const firstParam = tCleanup[i++];
     const secondParam = tCleanup[i++];
     if (typeof firstParam !== 'string') {
@@ -292,23 +312,25 @@ function hydrateAndInvokeBlockListeners(
   event: Event,
   currentTarget: Element,
 ) {
-  blockEventQueue.push({event, currentTarget});
-  triggerHydrationFromBlockName(injector, blockName, replayQueuedBlockEvents);
+  const queue = injector.get(EVENT_REPLAY_QUEUE);
+  queue.push({event, currentTarget});
+  triggerHydrationFromBlockName(injector, blockName, createReplayQueuedBlockEventsFn(queue));
 }
 
-function replayQueuedBlockEvents(hydratedBlocks: string[]) {
-  // clone the queue
-  const queue = [...blockEventQueue];
-  const hydrated = new Set<string>(hydratedBlocks);
-  // empty it
-  blockEventQueue = [];
-  for (let {event, currentTarget} of queue) {
-    const blockName = currentTarget.getAttribute(DEFER_BLOCK_SSR_ID_ATTRIBUTE)!;
-    if (hydrated.has(blockName)) {
-      invokeListeners(event, currentTarget);
-    } else {
-      // requeue events that weren't yet hydrated
-      blockEventQueue.push({event, currentTarget});
+function createReplayQueuedBlockEventsFn(queue: EventReplayQueue) {
+  return (hydratedBlocks: string[]) => {
+    const hydrated = new Set<string>(hydratedBlocks);
+    const newQueue: EventReplayQueue = [];
+    for (let {event, currentTarget} of queue) {
+      const blockName = currentTarget.getAttribute(DEFER_BLOCK_SSR_ID_ATTRIBUTE)!;
+      if (hydrated.has(blockName)) {
+        invokeListeners(event, currentTarget);
+      } else {
+        // requeue events that weren't yet hydrated
+        newQueue.push({event, currentTarget});
+      }
     }
-  }
+    queue.length = 0;
+    queue.push(...newQueue);
+  };
 }

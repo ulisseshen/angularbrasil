@@ -60,15 +60,17 @@ export class JitEvaluator {
   evaluateCode(
     sourceUrl: string,
     ctx: EmitterVisitorContext,
-    vars: {[key: string]: any},
+    vars: Record<string, any>,
     createSourceMap: boolean,
   ): any {
     let fnBody = `"use strict";${ctx.toSource()}\n//# sourceURL=${sourceUrl}`;
     const fnArgNames: string[] = [];
     const fnArgValues: any[] = [];
     for (const argName in vars) {
-      fnArgValues.push(vars[argName]);
-      fnArgNames.push(argName);
+      if (Object.hasOwn(vars, argName)) {
+        fnArgValues.push(vars[argName]);
+        fnArgNames.push(argName);
+      }
     }
     if (createSourceMap) {
       // using `new Function(...)` generates a header, 1 line of no arguments, 2 lines otherwise
@@ -115,7 +117,8 @@ export class JitEmitterVisitor extends AbstractJsEmitterVisitor {
     const stmt = new o.ReturnStatement(
       new o.LiteralMapExpr(
         this._evalExportedVars.map(
-          (resultVar) => new o.LiteralMapEntry(resultVar, o.variable(resultVar), false),
+          (resultVar) =>
+            new o.LiteralMapPropertyAssignment(resultVar, o.variable(resultVar), false),
         ),
       ),
     );

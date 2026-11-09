@@ -10,13 +10,13 @@ const APP_COMPONENT_URI = vscode.Uri.file(APP_COMPONENT);
 describe('Angular LS', () => {
   beforeAll(async () => {
     await activate(APP_COMPONENT_URI);
-  }, 20_000);
+  });
 
   it(`returns definition for variable in template`, async () => {
     // vscode Position is zero-based
-    //   template: `<h1>Hello {{name}}</h1>`,
-    //                          ^-------- here
-    const position = new vscode.Position(4, 25);
+    //   template: `<h1>Hello {{ name }}</h1>`,
+    //                           ^-------- here
+    const position = new vscode.Position(4, 26);
     // For a complete list of standard commands, see
     // https://code.visualstudio.com/api/references/commands
     const definitions = await vscode.commands.executeCommand<vscode.LocationLink[]>(

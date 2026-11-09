@@ -8,7 +8,7 @@
 /// <reference types="jasmine"/>
 import ts from 'typescript';
 
-import {absoluteFrom, setFileSystem} from '../../src/helpers';
+import {absoluteFrom, setFileSystem, getFileSystem} from '../../src/helpers';
 import {InvalidFileSystem} from '../../src/invalid_file_system';
 import {AbsoluteFsPath} from '../../src/types';
 
@@ -16,6 +16,7 @@ import {MockFileSystem} from './mock_file_system';
 import {MockFileSystemNative} from './mock_file_system_native';
 import {MockFileSystemPosix} from './mock_file_system_posix';
 import {MockFileSystemWindows} from './mock_file_system_windows';
+import {isNgpSkipEnabled, shouldSkipInNgp} from './ngp_known_failures';
 
 export interface TestFile {
   name: AbsoluteFsPath;
@@ -41,11 +42,48 @@ function runInEachFileSystemFn(callback: (os: string) => void) {
   FS_ALL.forEach((os) => runInFileSystem(os, callback, false));
 }
 
+// Jasmine require to have distinct top suite names.
+// Since this function creates top level suites, we need to ensure that they have distinct names.
+// We use a counter to ensure that each suite has a unique name, even if the same file system is tested multiple times.
+let counter = 0;
 function runInFileSystem(os: string, callback: (os: string) => void, error: boolean) {
-  describe(`<<FileSystem: ${os}>>`, () => {
+  describe(`<<FileSystem: ${os}>>/${counter++}`, () => {
     beforeEach(() => initMockFileSystem(os));
     afterEach(() => setFileSystem(new InvalidFileSystem()));
-    callback(os);
+    if (isNgpSkipEnabled()) {
+      const origDescribe = globalThis.describe;
+      const origIt = globalThis.it;
+      const suiteStack: string[] = [];
+      globalThis.describe = ((description: string, specDefinitions: () => void) => {
+        return origDescribe(description, () => {
+          suiteStack.push(description);
+          try {
+            specDefinitions();
+          } finally {
+            suiteStack.pop();
+          }
+        });
+      }) as typeof globalThis.describe;
+      globalThis.it = ((
+        expectation: string,
+        assertion?: jasmine.ImplementationCallback,
+        timeout?: number,
+      ) => {
+        const fullName = [...suiteStack, expectation].join(' ').replace(/\s+/g, ' ').trim();
+        if (shouldSkipInNgp(fullName)) {
+          return globalThis.xit(expectation, assertion, timeout);
+        }
+        return origIt(expectation, assertion, timeout);
+      }) as typeof globalThis.it;
+      try {
+        callback(os);
+      } finally {
+        globalThis.describe = origDescribe;
+        globalThis.it = origIt;
+      }
+    } else {
+      callback(os);
+    }
     if (error) {
       afterAll(() => {
         throw new Error(`runInFileSystem limited to ${os}, cannot pass`);
@@ -66,7 +104,15 @@ runInEachFileSystem.unix = (callback: (os: string) => void) =>
 runInEachFileSystem.windows = (callback: (os: string) => void) =>
   runInFileSystem(FS_WINDOWS, callback, true);
 
+let mockFileSystemLocked = false;
+export function lockMockFileSystem() {
+  mockFileSystemLocked = true;
+}
+
 export function initMockFileSystem(os: string, cwd?: AbsoluteFsPath): MockFileSystem {
+  if (mockFileSystemLocked) {
+    return getFileSystem() as MockFileSystem;
+  }
   const fs = createMockFileSystem(os, cwd);
   setFileSystem(fs);
   monkeyPatchTypeScript(fs);

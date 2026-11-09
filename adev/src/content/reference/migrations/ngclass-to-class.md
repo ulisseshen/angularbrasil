@@ -13,13 +13,13 @@ ng generate @angular/core:ngclass-to-class
 #### Antes
 
 ```html
-<div [ngClass]="{admin: isAdmin, dense: density === 'high'}">
+<div [ngClass]="{admin: isAdmin, dense: density === 'high'}"></div>
 ```
 
 #### Depois
 
 ```html
-<div [class]="{admin: isAdmin, dense: density === 'high'}">
+<div [class]="{admin: isAdmin, dense: density === 'high'}"></div>
 ```
 
 ## Opções de configuração

@@ -77,23 +77,17 @@ Os host bindings são automaticamente reavaliados quando os signals mudam - assi
 <docs-step title="Use o directive no seu template">
 Atualize o template do app para demonstrar o directive reativo:
 
-```angular-ts
+```angular-html
 template: `
-  <div>
-    <h1>Directive with Signals</h1>
+<div>
+  <h1>Directive with Signals</h1>
 
-    <div highlight color="yellow" [intensity]="0.2">
-      Hover me - Yellow highlight
-    </div>
+  <div highlight color="yellow" [intensity]="0.2">Hover me - Yellow highlight</div>
 
-    <div highlight color="blue" [intensity]="0.4">
-      Hover me - Blue highlight
-    </div>
+  <div highlight color="blue" [intensity]="0.4">Hover me - Blue highlight</div>
 
-    <div highlight color="green" [intensity]="0.6">
-      Hover me - Green highlight
-    </div>
-  </div>
+  <div highlight color="green" [intensity]="0.6">Hover me - Green highlight</div>
+</div>
 `,
 ```
 

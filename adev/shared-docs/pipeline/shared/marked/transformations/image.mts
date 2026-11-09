@@ -8,15 +8,35 @@
 
 import {normalize} from 'path';
 
-import {Renderer, Tokens} from 'marked';
+import {Renderer} from 'marked';
+import type {DocsImage} from '../extensions/docs-image.mjs';
 
 // TODO(josephperrott): Determine how we can define/know the image content base path.
 const imageContentBasePath = 'unknown';
 
-export function imageRender(this: Renderer, {href, title, text}: Tokens.Image) {
+function escapeAttribute(value: string): string {
+  return value.replace(/"/g, '&quot;');
+}
+
+export function imageRender(this: Renderer, token: DocsImage) {
+  const {href, title, text, loading, decoding, fetchpriority} = token;
+
   const isRelativeSrc = href?.startsWith('./');
   const src = isRelativeSrc ? `${imageContentBasePath}/${normalize(href)}` : href;
+
+  const attrs = [
+    `src="${src}"`,
+    `alt="${escapeAttribute(text)}"`,
+    `class="docs-image"`,
+    title ? `title="${escapeAttribute(title)}"` : null,
+    loading ? `loading="${loading}"` : null,
+    decoding ? `decoding="${decoding}"` : null,
+    fetchpriority ? `fetchpriority="${fetchpriority}"` : null,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return `
-  <img src="${src}" alt="${text}" title="${title}" class="docs-image">
+  <img ${attrs}>
   `;
 }

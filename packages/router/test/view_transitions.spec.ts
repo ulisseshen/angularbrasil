@@ -7,9 +7,9 @@
  */
 
 import {DOCUMENT} from '@angular/common';
-import {Component, destroyPlatform, provideZonelessChangeDetection} from '@angular/core';
+import {Component, destroyPlatform} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
-import {withBody, isNode} from '@angular/private/testing';
+import {isNode, withBody} from '@angular/private/testing';
 import {
   Event,
   NavigationEnd,
@@ -37,7 +37,6 @@ describe('view transitions', () => {
   it('should skip initial transition', async () => {
     const appRef = await bootstrapApplication(App, {
       providers: [
-        provideZonelessChangeDetection(),
         provideRouter(
           [{path: '**', component: App}],
           withDisabledInitialNavigation(),
@@ -60,16 +59,12 @@ describe('view transitions', () => {
 
   it('should have the correct event order when using view transitions', async () => {
     @Component({
-      selector: 'component-b',
       template: `b`,
     })
     class ComponentB {}
 
     const res = await bootstrapApplication(App, {
-      providers: [
-        provideZonelessChangeDetection(),
-        provideRouter([{path: 'b', component: ComponentB}], withViewTransitions()),
-      ],
+      providers: [provideRouter([{path: 'b', component: ComponentB}], withViewTransitions())],
     });
     const router = res.injector.get(Router);
     const eventLog = [] as Event[];
@@ -85,7 +80,7 @@ describe('view transitions', () => {
     it('should not create a view transition if only the fragment changes', async () => {
       @Component({
         selector: 'test-app',
-        template: `{{checks}}`,
+        template: `{{ checks }}`,
       })
       class App {
         checks = 0;
@@ -97,7 +92,6 @@ describe('view transitions', () => {
       const transitionSpy = jasmine.createSpy();
       const appRef = await bootstrapApplication(App, {
         providers: [
-          provideZonelessChangeDetection(),
           provideRouter(
             [{path: '**', component: App}],
             withDisabledInitialNavigation(),

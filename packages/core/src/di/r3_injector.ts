@@ -8,8 +8,8 @@
 
 import '../util/ng_dev_mode';
 
-import {RuntimeError, RuntimeErrorCode} from '../errors';
 import {OnDestroy} from '../change_detection/lifecycle_hooks';
+import {RuntimeError, RuntimeErrorCode} from '../errors';
 import {Type} from '../interface/type';
 import {
   emitInjectorToCreateInstanceEvent,
@@ -33,6 +33,13 @@ import {newArray} from '../util/array_utils';
 import {EMPTY_ARRAY} from '../util/empty';
 import {stringify} from '../util/stringify';
 
+import {
+  isNotFound,
+  NotFound,
+  InjectionToken as PrimitivesInjectionToken,
+  Injector as PrimitivesInjector,
+} from '@angular/core/primitives/di';
+import {setActiveConsumer} from '@angular/core/primitives/signals';
 import {resolveForwardRef} from './forward_ref';
 import {ENVIRONMENT_INITIALIZER} from './initializer_token';
 import {setInjectImplementation} from './inject_switch';
@@ -53,7 +60,7 @@ import {
   InjectorType,
   ɵɵInjectableDeclaration,
 } from './interface/defs';
-import {InternalInjectFlags, InjectOptions} from './interface/injector';
+import {InjectOptions, InternalInjectFlags} from './interface/injector';
 import {
   ClassProvider,
   ConstructorProvider,
@@ -75,13 +82,6 @@ import {
 } from './provider_collection';
 import {ProviderToken} from './provider_token';
 import {INJECTOR_SCOPE, InjectorScope} from './scope';
-import {setActiveConsumer} from '@angular/core/primitives/signals';
-import {
-  Injector as PrimitivesInjector,
-  InjectionToken as PrimitivesInjectionToken,
-  NotFound,
-  isNotFound,
-} from '@angular/core/primitives/di';
 
 /**
  * Marker which indicates that a value has not yet been created from the factory function.
@@ -123,6 +123,8 @@ interface Record<T> {
  * An `Injector` that's part of the environment injector hierarchy, which exists outside of the
  * component tree.
  *
+ * @see [Types of injector hierarchies](guide/di/hierarchical-dependency-injection#types-of-injector-hierarchies)
+ *
  * @publicApi
  */
 export abstract class EnvironmentInjector implements Injector {
@@ -160,6 +162,8 @@ export abstract class EnvironmentInjector implements Injector {
    */
   abstract get<T>(token: string | ProviderToken<T>, notFoundValue?: any): any;
 
+  // TODO(v23): remove this method and provide a ng-update migration
+  // 3p-only-start
   /**
    * Runs the given function in the context of this `EnvironmentInjector`.
    *
@@ -172,6 +176,7 @@ export abstract class EnvironmentInjector implements Injector {
    * @deprecated use the standalone function `runInInjectionContext` instead
    */
   abstract runInContext<ReturnT>(fn: () => ReturnT): ReturnT;
+  // 3p-only-end
 
   abstract destroy(): void;
 
@@ -298,6 +303,7 @@ export class R3Injector extends EnvironmentInjector implements PrimitivesInjecto
     return () => this.removeOnDestroy(callback);
   }
 
+  // 3p-only-start
   override runInContext<ReturnT>(fn: () => ReturnT): ReturnT {
     assertNotDestroyed(this);
 
@@ -317,6 +323,7 @@ export class R3Injector extends EnvironmentInjector implements PrimitivesInjecto
       ngDevMode && setInjectorProfilerContext(prevInjectContext!);
     }
   }
+  // 3p-only-end
 
   override get<T>(
     token: ProviderToken<T>,
@@ -325,7 +332,7 @@ export class R3Injector extends EnvironmentInjector implements PrimitivesInjecto
   ): T {
     assertNotDestroyed(this);
 
-    if (token.hasOwnProperty(NG_ENV_ID)) {
+    if (Object.hasOwn(token, NG_ENV_ID)) {
       return (token as any)[NG_ENV_ID](this);
     }
 
@@ -453,12 +460,16 @@ export class R3Injector extends EnvironmentInjector implements PrimitivesInjecto
   }
 
   override toString() {
-    const tokens: string[] = [];
-    const records = this.records;
-    for (const token of records.keys()) {
-      tokens.push(stringify(token));
+    if (ngDevMode) {
+      const tokens: string[] = [];
+      const records = this.records;
+      for (const token of records.keys()) {
+        tokens.push(stringify(token));
+      }
+      return `R3Injector[${tokens.join(', ')}]`;
     }
-    return `R3Injector[${tokens.join(', ')}]`;
+
+    return 'R3Injector[...]';
   }
 
   /**
@@ -519,7 +530,7 @@ export class R3Injector extends EnvironmentInjector implements PrimitivesInjecto
     const prevConsumer = setActiveConsumer(null);
     try {
       if (record.value === CIRCULAR) {
-        throw cyclicDependencyError(stringify(token));
+        throw cyclicDependencyError(ngDevMode ? stringify(token) : '');
       } else if (record.value === NOT_YET) {
         record.value = CIRCULAR;
 

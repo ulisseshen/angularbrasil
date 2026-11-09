@@ -1,33 +1,33 @@
-<!-- ia-translate: true -->
-# Herança
+# Inheritance
 
-TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
+TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
 
-Components Angular são classes TypeScript e participam da semântica de herança padrão do JavaScript.
+Angular components are TypeScript classes and participate in standard JavaScript inheritance
+semantics.
 
-Um component pode estender qualquer classe base:
+A component can extend any base class:
 
 ```ts
 export class ListboxBase {
   value: string;
 }
 
-@Component({ ... })
+@Component(/* ... */)
 export class CustomListbox extends ListboxBase {
   // CustomListbox inherits the `value` property.
 }
 ```
 
-## Estendendo outros components e directives
+## Extending other components and directives
 
-Quando um component estende outro component ou uma directive, ele herda alguns dos metadados definidos no decorator da classe base e nos membros decorados da classe base. Isso inclui bindings de host, inputs, outputs e métodos de ciclo de vida.
+When a component extends another component or a directive, it inherits some of the metadata defined in
+the base class's decorator and the base class's decorated members. This includes
+host bindings, inputs, outputs, lifecycle methods.
 
 ```angular-ts
 @Component({
   selector: 'base-listbox',
-  template: `
-    ...
-  `,
+  template: ` ... `,
   host: {
     '(keydown)': 'handleKey($event)',
   },
@@ -41,9 +41,7 @@ export class ListboxBase {
 
 @Component({
   selector: 'custom-listbox',
-  template: `
-    ...
-  `,
+  template: ` ... `,
   host: {
     '(click)': 'focusActiveOption()',
   },
@@ -56,21 +54,38 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-No exemplo acima, `CustomListbox` herda todas as informações associadas a `ListboxBase`, sobrescrevendo o seletor e o template com seus próprios valores. `CustomListbox` tem dois inputs (`value` e `disabled`) e dois event listeners (`keydown` e `click`).
+In the example above, `CustomListbox` inherits all the information associated with `ListboxBase`,
+overriding the selector and template with its own values. `CustomListbox` has two inputs (`value`
+and `disabled`) and two event listeners (`keydown` and `click`).
 
-Classes filhas acabam com a _união_ de todos os inputs, outputs e bindings de host de seus ancestrais e os seus próprios.
+Child classes end up with the _union_ of all of their ancestors' inputs, outputs, and host bindings
+and their own.
 
-### Encaminhando dependências injetadas
+### Forwarding injected dependencies
 
-Se uma classe base injeta dependências como parâmetros do constructor, a classe filha deve explicitamente passar essas dependências para `super`.
+When a base class uses `inject()` as a property initializer, the child class inherits the property automatically. No `super` forwarding is needed.
 
 ```ts
-@Component({ ... })
+@Component(/* ... */)
 export class ListboxBase {
-  constructor(private element: ElementRef) { }
+  protected element = inject(ElementRef);
 }
 
-@Component({ ... })
+@Component(/* ... */)
+export class CustomListbox extends ListboxBase {
+  // `element` is inherited from `ListboxBase`.
+}
+```
+
+If a base class injects dependencies as constructor parameters, the child class must explicitly pass these dependencies to `super`.
+
+```ts
+@Component(/* ... */)
+export class ListboxBase {
+  constructor(private element: ElementRef) {}
+}
+
+@Component(/* ... */)
 export class CustomListbox extends ListboxBase {
   constructor(element: ElementRef) {
     super(element);
@@ -78,12 +93,14 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-### Sobrescrevendo métodos de ciclo de vida
+### Overriding lifecycle methods
 
-Se uma classe base define um método de ciclo de vida, como `ngOnInit`, uma classe filha que também implementa `ngOnInit` _sobrescreve_ a implementação da classe base. Se você quiser preservar o método de ciclo de vida da classe base, chame explicitamente o método com `super`:
+If a base class defines a lifecycle method, such as `ngOnInit`, a child class that also
+implements `ngOnInit` _overrides_ the base class's implementation. If you want to preserve the base
+class's lifecycle method, explicitly call the method with `super`:
 
 ```ts
-@Component({ ... })
+@Component(/* ... */)
 export class ListboxBase {
   protected isInitialized = false;
   ngOnInit() {
@@ -91,7 +108,7 @@ export class ListboxBase {
   }
 }
 
-@Component({ ... })
+@Component(/* ... */)
 export class CustomListbox extends ListboxBase {
   override ngOnInit() {
     super.ngOnInit();

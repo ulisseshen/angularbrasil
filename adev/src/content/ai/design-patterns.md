@@ -28,11 +28,14 @@ storyResource = resource({
   loader: ({params}): Promise<StoryData> => {
     // The params value is the current value of the storyInput signal
     const url = this.endpoint();
-    return runFlow({ url, input: {
-      userInput: params,
-      sessionId: this.storyService.sessionId() // Read from another signal
-    }});
-  }
+    return runFlow({
+      url,
+      input: {
+        userInput: params,
+        sessionId: this.storyService.sessionId(), // Read from another signal
+      },
+    });
+  },
 });
 ```
 
@@ -57,7 +60,7 @@ storyParts = linkedSignal<string[], string[]>({
     const existingStoryParts = previous?.value || [];
     // Return a new array with the old and new parts
     return [...existingStoryParts, ...newStoryParts];
-  }
+  },
 });
 ```
 
@@ -78,14 +81,14 @@ O exemplo a seguir demonstra como criar uma UI responsiva para exibir dinamicame
   <div class="img-placeholder">
     <mat-spinner [diameter]="50" />
   </div>
-<!-- Dynamically populates the src attribute with the generated image URL -->
+  <!-- Dynamically populates the src attribute with the generated image URL -->
 } @else if (imgResource.hasValue()) {
   <img [src]="imgResource.value()" />
-<!-- Provides a retry option if the request fails  -->
+  <!-- Provides a retry option if the request fails  -->
 } @else {
   <div class="img-placeholder" (click)="imgResource.reload()">
     <mat-icon fontIcon="refresh" />
-      <p>Failed to load image. Click to retry.</p>
+    <p>Failed to load image. Click to retry.</p>
   </div>
 }
 ```
@@ -102,23 +105,23 @@ characters = resource({
     // exposed by the Genkit client SDK
     const response = streamFlow({
       url: '/streamCharacters',
-      input: 10
+      input: 10,
     });
 
     (async () => {
       for await (const chunk of response.stream) {
         data.update((prev) => {
           if ('value' in prev) {
-            return { value: `${prev.value} ${chunk}` };
+            return {value: `${prev.value} ${chunk}`};
           } else {
-            return { error: chunk as unknown as Error };
+            return {error: chunk as unknown as Error};
           }
         });
       }
     })();
 
     return data;
-  }
+  },
 });
 ```
 
@@ -128,47 +131,48 @@ O membro `characters` é atualizado de forma assíncrona e pode ser exibido no t
 @if (characters.isLoading()) {
   <p>Loading...</p>
 } @else if (characters.hasValue()) {
-  <p>{{characters.value()}}</p>
+  <p>{{ characters.value() }}</p>
 } @else {
-  <p>{{characters.error()}}</p>
+  <p>{{ characters.error() }}</p>
 }
 ```
 
 No lado do servidor, em `server.ts` por exemplo, o endpoint definido envia os dados a serem transmitidos para o cliente. O código a seguir usa Gemini com o framework Genkit, mas esta técnica é aplicável a outras APIs que suportam respostas de streaming de LLMs:
 
 ```ts
-import { startFlowServer } from '@genkit-ai/express';
-import { genkit } from "genkit/beta";
-import { googleAI, gemini20Flash } from "@genkit-ai/googleai";
+import {startFlowServer} from '@genkit-ai/express';
+import {genkit} from 'genkit/beta';
+import {googleAI, gemini20Flash} from '@genkit-ai/googleai';
 
-const ai = genkit({ plugins: [googleAI()] });
+const ai = genkit({plugins: [googleAI()]});
 
-export const streamCharacters = ai.defineFlow({
+export const streamCharacters = ai.defineFlow(
+  {
     name: 'streamCharacters',
     inputSchema: z.number(),
     outputSchema: z.string(),
     streamSchema: z.string(),
   },
-  async (count, { sendChunk }) => {
-    const { response, stream } = ai.generateStream({
-    model: gemini20Flash,
-    config: {
-      temperature: 1,
-    },
-    prompt: `Generate ${count} different RPG game characters.`,
-  });
+  async (count, {sendChunk}) => {
+    const {response, stream} = ai.generateStream({
+      model: gemini20Flash,
+      config: {
+        temperature: 1,
+      },
+      prompt: `Generate ${count} different RPG game characters.`,
+    });
 
-  (async () => {
-    for await (const chunk of stream) {
-      sendChunk(chunk.content[0].text!);
-    }
-  })();
+    (async () => {
+      for await (const chunk of stream) {
+        sendChunk(chunk.content[0].text!);
+      }
+    })();
 
-  return (await response).text;
-});
+    return (await response).text;
+  },
+);
 
 startFlowServer({
   flows: [streamCharacters],
 });
-
 ```

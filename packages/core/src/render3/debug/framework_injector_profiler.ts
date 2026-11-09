@@ -8,7 +8,7 @@
 
 import {Injector} from '../../di/injector';
 import {EnvironmentInjector} from '../../di/r3_injector';
-import {Type} from '../../interface/type';
+import {AbstractType, Type} from '../../interface/type';
 import {assertDefined, throwError} from '../../util/assert';
 import {assertTNodeForLView} from '../assert';
 import {getComponentDef} from '../def_getters';
@@ -17,6 +17,7 @@ import {TNode} from '../interfaces/node';
 import {LView} from '../interfaces/view';
 import {AfterRenderPhaseEffectNode} from '../reactivity/after_render_effect';
 import {EffectRefImpl} from '../reactivity/effect';
+import {SIGNAL} from '../../../primitives/signals';
 
 import {
   InjectedService,
@@ -66,7 +67,7 @@ import {
 class DIDebugData {
   resolverToTokenToDependencies = new WeakMap<
     Injector | LView,
-    WeakMap<Type<unknown>, InjectedService[]>
+    WeakMap<Type<unknown> | AbstractType<unknown>, InjectedService[]>
   >();
   resolverToProviders = new WeakMap<Injector | TNode, ProviderRecord[]>();
   resolverToEffects = new WeakMap<
@@ -78,7 +79,7 @@ class DIDebugData {
   reset() {
     this.resolverToTokenToDependencies = new WeakMap<
       Injector | LView,
-      WeakMap<Type<unknown>, InjectedService[]>
+      WeakMap<Type<unknown> | AbstractType<unknown>, InjectedService[]>
     >();
     this.resolverToProviders = new WeakMap<Injector | TNode, ProviderRecord[]>();
     this.standaloneInjectorToComponent = new WeakMap<Injector, Type<unknown>>();
@@ -134,12 +135,23 @@ function handleEffectCreatedEvent(
   }
 
   const {resolverToEffects} = frameworkDIDebugData;
+  const cleanupContainer = effect instanceof EffectRefImpl ? effect[SIGNAL] : effect.sequence;
+  let trackedEffects = resolverToEffects.get(diResolver);
 
-  if (!resolverToEffects.has(diResolver)) {
-    resolverToEffects.set(diResolver, []);
+  if (!trackedEffects) {
+    trackedEffects = [];
+    resolverToEffects.set(diResolver, trackedEffects);
   }
 
-  resolverToEffects.get(diResolver)!.push(effect);
+  trackedEffects.push(effect);
+  cleanupContainer.onDestroyFns ??= [];
+  cleanupContainer.onDestroyFns.push(() => {
+    const index = trackedEffects!.indexOf(effect);
+
+    if (index > -1) {
+      trackedEffects!.splice(index, 1);
+    }
+  });
 }
 
 /**

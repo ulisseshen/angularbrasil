@@ -9,7 +9,6 @@
 import {DOCUMENT, isPlatformBrowser, Location} from '@angular/common';
 import {
   ApplicationRef,
-  ChangeDetectionStrategy,
   Component,
   ComponentRef,
   createComponent,
@@ -32,31 +31,29 @@ import {Router} from '@angular/router';
 import {fromEvent} from 'rxjs';
 import {Snippet} from '../../../interfaces';
 import {NavigationState, TOC_SKIP_CONTENT_MARKER} from '../../../services';
-import {handleHrefClickEventWithRouter} from '../../../utils';
+import {handleHrefClickEventWithRouter, isFirefox} from '../../../utils';
 import {IconComponent} from '../../icon/icon.component';
 import {TableOfContents} from '../../table-of-contents/table-of-contents.component';
 
 import {DomSanitizer} from '@angular/platform-browser';
 import {Breadcrumb} from '../../breadcrumb/breadcrumb.component';
+import {CopyLinkButton} from '../../copy-link-anchor/copy-link-anchor.component';
 import {CopySourceCodeButton} from '../../copy-source-code-button/copy-source-code-button.component';
-import {ExampleViewer} from '../example-viewer/example-viewer.component';
 import {TabGroup} from '../../tab-group/tab-group.component';
+import {ExampleViewer} from '../example-viewer/example-viewer.component';
 
 const TOC_HOST_ELEMENT_NAME = 'docs-table-of-contents';
-export const ASSETS_EXAMPLES_PATH = 'assets/content/examples';
 export const DOCS_VIEWER_SELECTOR = 'docs-viewer, main[docsViewer]';
-export const DOCS_CODE_SELECTOR = '.docs-code';
-export const DOCS_CODE_MUTLIFILE_SELECTOR = '.docs-code-multifile';
-export const DOCS_CODE_TAB_GROUP_SELECTOR = '.docs-tab-group';
-export const DOCS_CODE_TAB_SELECTOR = '.docs-tab';
-// TODO: Update the branch/sha
-export const GITHUB_CONTENT_URL = 'https://github.com/angular/angular/blob/main/';
+const DOCS_CODE_SELECTOR = '.docs-code';
+const DOCS_CODE_MUTLIFILE_SELECTOR = '.docs-code-multifile';
+const DOCS_CODE_TAB_GROUP_SELECTOR = '.docs-tab-group';
+const DOCS_CODE_TAB_SELECTOR = '.docs-tab';
+const GITHUB_CONTENT_URL = 'https://github.com/angular/angular/blob/{{BUILD_SCM_ABBREV_HASH}}';
 
 @Component({
   selector: DOCS_VIEWER_SELECTOR,
   template: '',
   styleUrls: ['docs-viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class.docs-animate-content]': 'animateContent',
@@ -121,9 +118,12 @@ export class DocViewer {
       // In case when content contains static code snippets, then create buttons
       // responsible for copy source code.
       this.loadCopySourceCodeButtons();
+      // Setup copy link functionality for section anchor links
+      this.loadCopyLinkAnchors(contentContainer);
       // In case when content contains tabs, create tabs component and move
       // content in a tab into tab panel.
       this.constructTabs(contentContainer);
+      this.setupVideoFacades(contentContainer);
     }
 
     // Display Breadcrumb component if the `<docs-breadcrumb>` element exists
@@ -171,9 +171,16 @@ export class DocViewer {
       return;
     }
 
-    const firstHeading = element.querySelector<HTMLHeadingElement>('h2,h3[id]');
+    let firstHeading = element.querySelector<HTMLElement>('h2,h3[id]');
     if (!firstHeading) {
       return;
+    }
+
+    // If the first header is in a card container element, place TOC element
+    // before the container.
+    const parentEl = firstHeading.parentElement;
+    if (parentEl && parentEl.classList.contains('docs-card-container-header')) {
+      firstHeading = parentEl.parentElement;
     }
 
     // Since the content of the main area is dynamically created and there is
@@ -196,6 +203,7 @@ export class DocViewer {
     const preview = Boolean(placeholder.getAttribute('preview'));
     const hideCode = Boolean(placeholder.getAttribute('hideCode'));
     const title = placeholder.getAttribute('header') ?? undefined;
+    const style = placeholder.getAttribute('style') ?? undefined;
     const firstCodeSnippetTitle =
       snippets.length > 0 ? (snippets[0].title ?? snippets[0].name) : undefined;
     const exampleRef = this.viewContainer.createComponent(ExampleViewer);
@@ -208,6 +216,7 @@ export class DocViewer {
       preview,
       hideCode,
       id: this.countOfExamples,
+      style,
     });
 
     exampleRef.setInput('githubUrl', `${GITHUB_CONTENT_URL}/${snippets[0].name}`);
@@ -260,13 +269,31 @@ export class DocViewer {
   private loadCopySourceCodeButtons(): void {
     const staticCodeSnippets = <Element[]>(
       Array.from(
-        this.elementRef.nativeElement.querySelectorAll('.docs-code:not([mermaid],.docs-no-copy)'),
+        this.elementRef.nativeElement.querySelectorAll(
+          '.docs-code:not([mermaid],[hideCopy],.docs-no-copy)',
+        ),
       )
     );
 
     for (let codeSnippet of staticCodeSnippets) {
       const copySourceCodeButton = this.viewContainer.createComponent(CopySourceCodeButton);
       codeSnippet.appendChild(copySourceCodeButton.location.nativeElement);
+    }
+  }
+
+  private loadCopyLinkAnchors(element: HTMLElement): void {
+    const docsAnchors = Array.from(element.querySelectorAll<HTMLAnchorElement>('a.docs-anchor'));
+
+    for (const anchor of docsAnchors) {
+      const href = anchor.getAttribute('href')!;
+      const label = anchor.textContent!;
+
+      const copyLinkButtonRef = this.viewContainer.createComponent(CopyLinkButton);
+      copyLinkButtonRef.setInput('href', href);
+      copyLinkButtonRef.setInput('label', label);
+      copyLinkButtonRef.setInput('matTooltip', `Copy link to ${label}`);
+
+      anchor.appendChild(copyLinkButtonRef.location.nativeElement);
     }
   }
 
@@ -383,6 +410,38 @@ export class DocViewer {
       const tabGroupRef = this.viewContainer.createComponent(TabGroup);
       tabGroupRef.setInput('tabs', tabs);
       tabGroup.parentElement!.replaceChild(tabGroupRef.location.nativeElement, tabGroup);
+    }
+  }
+
+  private setupVideoFacades(element: HTMLElement): void {
+    const facades = element.querySelectorAll<HTMLAnchorElement>('a.docs-video-facade');
+
+    for (const facade of Array.from(facades)) {
+      const src = facade.getAttribute('data-video-src');
+      if (!src) {
+        continue;
+      }
+
+      if (isFirefox) {
+        const thumbnail = facade.querySelector<HTMLImageElement>('img.docs-video-thumbnail');
+        thumbnail?.addEventListener(
+          'error',
+          () => {
+            thumbnail.src = thumbnail.src.replace('maxresdefault', 'hqdefault');
+          },
+          {once: true},
+        );
+        continue;
+      }
+
+      const iframe = this.document.createElement('iframe');
+      iframe.className = 'docs-video';
+      iframe.src = src;
+      iframe.title = facade.getAttribute('data-video-title') ?? 'Video player';
+      iframe.setAttribute('allow', 'accelerometer; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('credentialless', '');
+      facade.replaceWith(iframe);
     }
   }
 }

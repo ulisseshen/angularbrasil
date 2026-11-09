@@ -9,17 +9,14 @@
 import {ApplicationRef, Injector, signal} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {compatForm} from '../../../compat/src/api/compat_form';
-import {CompatValidationError} from '../../../compat/src/api/compat_validation_error';
+import {compatForm, CompatValidationError} from '../../../compat/public_api';
 import {
-  customError,
   disabled,
   email,
   FieldState,
   FieldTree,
   form,
   hidden,
-  metadata,
   readonly,
   required,
   submit,
@@ -27,22 +24,6 @@ import {
   validate,
   validateTree,
 } from '../../../public_api';
-
-function promiseWithResolvers<T>(): {
-  promise: Promise<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
-  reject: (reason?: any) => void;
-} {
-  let resolve!: (value: T | PromiseLike<T>) => void;
-  let reject!: (reason?: any) => void;
-
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-
-  return {promise, resolve, reject};
-}
 
 describe('Forms compat', () => {
   it('should not error on a valid value', () => {
@@ -160,6 +141,27 @@ describe('Forms compat', () => {
       expect(f.age().valid()).toBeTrue();
     });
 
+    it('picks up the required state from a reactive form control', () => {
+      const control = new FormControl('pirojok-the-cat', Validators.required);
+      const cat = signal({name: control});
+
+      const f = compatForm(cat, {
+        injector: TestBed.inject(Injector),
+      });
+
+      expect(f.name().required()).toBeTrue();
+
+      control.clearValidators();
+      control.updateValueAndValidity();
+
+      expect(f.name().required()).toBeFalse();
+
+      control.setValidators(Validators.required);
+      control.updateValueAndValidity();
+
+      expect(f.name().required()).toBeTrue();
+    });
+
     it('allows to manually set errors', () => {
       const catControl = new FormControl('meow', Validators.minLength(3));
       const cat = signal(catControl);
@@ -206,10 +208,10 @@ describe('Forms compat', () => {
       const formControl = new FormControl<number>(5, {
         nonNullable: true,
         asyncValidators: () => {
-          // can't use promiseWithResolver here, because this runs multiple times across tests.
-          return new Promise<null>((r) => {
-            resolve = r;
-          });
+          // Create a new promise on every run, because the validator runs multiple times across tests.
+          const {promise, resolve: r} = Promise.withResolvers<null>();
+          resolve = r;
+          return promise;
         },
       });
       const cat = signal({
@@ -257,8 +259,10 @@ describe('Forms compat', () => {
       const f = compatForm(
         cat,
         (p) => {
-          disabled(p, ({value}) => {
-            return value().name === 'disabled-cat';
+          disabled(p, {
+            when: ({value}) => {
+              return value().name === 'disabled-cat';
+            },
           });
         },
         {
@@ -289,8 +293,10 @@ describe('Forms compat', () => {
       const f = compatForm(
         cat,
         (p) => {
-          hidden(p, ({value}) => {
-            return value().name === 'hidden-cat';
+          hidden(p, {
+            when: ({value}) => {
+              return value().name === 'hidden-cat';
+            },
           });
         },
         {
@@ -348,10 +354,14 @@ describe('Forms compat', () => {
       expect(f().submitting()).toBe(false);
       expect(f.age().submitting()).toBe(false);
 
-      const {promise, resolve} = promiseWithResolvers<TreeValidationResult>();
+      const {promise, resolve} = Promise.withResolvers<TreeValidationResult>();
 
-      const result = submit(f as unknown as FieldTree<void>, () => {
-        return promise;
+      const result = submit(f, {
+        action: (field) => {
+          expect(field.name().value()).toBe('pirojok-the-cat');
+          expect(field.age().control()).toBe(control);
+          return promise;
+        },
       });
 
       expect(f().submitting()).toBe(true);
@@ -459,7 +469,7 @@ describe('Forms compat', () => {
         },
       );
 
-      expect(f().errors()).toEqual([customError({kind: 'too small', field: f})]);
+      expect(f().errors()).toEqual([{kind: 'too small', fieldTree: f}]);
     });
 
     it('supports getting control from fieldTreeOf', () => {
@@ -486,7 +496,7 @@ describe('Forms compat', () => {
         },
       );
 
-      expect(f().errors()).toEqual([customError({kind: 'too small', field: f})]);
+      expect(f().errors()).toEqual([{kind: 'too small', fieldTree: f}]);
     });
 
     it('fails for regular values', () => {
@@ -540,7 +550,7 @@ describe('Forms compat', () => {
         required(path.name);
 
         validate(path.name, ({valueOf}) => {
-          return valueOf(path.age) < 8 ? customError({kind: 'too small'}) : undefined;
+          return valueOf(path.age) < 8 ? {kind: 'too small'} : undefined;
         });
       },
       {
@@ -550,10 +560,10 @@ describe('Forms compat', () => {
 
     expect(f.name().valid()).toBe(false);
     expect(f.name().errors()).toEqual([
-      customError({
+      {
         kind: 'too small',
-        field: f.name,
-      }),
+        fieldTree: f.name,
+      },
     ]);
 
     control.setValue(10);
@@ -705,7 +715,7 @@ describe('Forms compat', () => {
           required(path.name);
 
           validate(path.name, ({valueOf}) => {
-            return valueOf(path.age) < 8 ? customError({kind: 'too small'}) : undefined;
+            return valueOf(path.age) < 8 ? {kind: 'too small'} : undefined;
           });
           required(path.name, {
             when: ({valueOf}) => {
@@ -716,12 +726,10 @@ describe('Forms compat', () => {
             return valueOf(path.age) < 8 ? [] : [];
           });
 
-          readonly(path.name, ({valueOf}) => {
-            return valueOf(path.age) < 8;
-          });
-
-          metadata(path.name, ({valueOf}) => {
-            return valueOf(path.age) < 8 ? '' : '';
+          readonly(path.name, {
+            when: ({valueOf}) => {
+              return valueOf(path.age) < 8;
+            },
           });
 
           email(path.name, {

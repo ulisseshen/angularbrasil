@@ -1,54 +1,63 @@
-<!-- ia-translate: true -->
-# Resolvers de dados
+# Data resolvers
 
-Resolvers de dados permitem que você busque dados antes de navegar para uma route, garantindo que seus components recebam os dados que precisam antes da renderização. Isso pode ajudar a prevenir a necessidade de estados de carregamento e melhorar a experiência do usuário ao pré-carregar dados essenciais.
+Data resolvers allow you to fetch data before navigating to a route, ensuring that your components receive the data they need before rendering. This can help prevent the need for loading states and improve the user experience by pre-loading essential data.
 
-## O que são resolvers de dados?
+TIP: If your application uses Angular Signals, consider using [route resources](/guide/routing/data-fetching-with-resources) for reactive data fetching with `Resource` APIs and built-in support for non-blocking data loading.
 
-Um resolver de dados é um service que implementa a função `ResolveFn`. Ele é executado antes que uma route seja ativada e pode buscar dados de APIs, bancos de dados ou outras fontes. Os dados resolvidos ficam disponíveis para o component através do `ActivatedRoute`.
+## What are data resolvers?
 
-## Por que usar resolvers de dados?
+A data resolver is a service that implements the `ResolveFn` function. It runs before a route activates and can fetch data from APIs, databases, or other sources. The resolved data becomes available to the component through the `ActivatedRoute`.
 
-Resolvers de dados resolvem desafios comuns de roteamento:
+Data resolvers have access to [services provided at the route level](guide/di/defining-dependency-providers#route-providers) as well as route-specific information via the `route` argument.
 
-- **Prevenir estados vazios**: Components recebem dados imediatamente ao carregar
-- **Melhor experiência do usuário**: Sem spinners de carregamento para dados críticos
-- **Tratamento de erros**: Lidar com erros de busca de dados antes da navegação
-- **Consistência de dados**: Garantir que os dados necessários estejam disponíveis antes da renderização, o que é importante para SSR
+## Why use data resolvers?
 
-## Criando um resolver
+Data resolvers solve common routing challenges:
 
-Você cria um resolver escrevendo uma função com o tipo `ResolveFn`.
+- **Prevent empty states**: Components receive data immediately upon loading
+- **Better user experience**: No loading spinners for critical data
+- **Error handling**: Handle data fetching errors before navigation
+- **Data consistency**: Ensure required data is available before rendering which is important for SSR
 
-Ele recebe o `ActivatedRouteSnapshot` e `RouterStateSnapshot` como parâmetros.
+## Creating a resolver
 
-Aqui está um resolver que obtém as informações do usuário antes de renderizar uma route usando a função [`inject`](api/core/inject):
+You create a resolver by writing a function with the `ResolveFn` type.
+
+It receives the `ActivatedRouteSnapshot` and `RouterStateSnapshot` as parameters.
+
+Here is a resolver that gets the user information before rendering a route using the [`inject`](api/core/inject) function:
 
 ```ts
-import { inject } from '@angular/core';
-import { UserStore, SettingsStore } from './user-store';
-import type { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import type { User, Settings } from './types';
+import {inject} from '@angular/core';
+import {UserStore, SettingsStore} from './user-store';
+import type {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from '@angular/router';
+import type {User, Settings} from './types';
 
-export const userResolver: ResolveFn<User> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const userResolver: ResolveFn<User> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
   const userStore = inject(UserStore);
   const userId = route.paramMap.get('id')!;
   return userStore.getUser(userId);
 };
 
-export const settingsResolver: ResolveFn<Settings> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const settingsResolver: ResolveFn<Settings> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
   const settingsStore = inject(SettingsStore);
   const userId = route.paramMap.get('id')!;
   return settingsStore.getUserSettings(userId);
 };
 ```
 
-## Configurando routes com resolvers
+## Configuring routes with resolvers
 
-Quando você deseja adicionar um ou mais resolvers de dados a uma route, você pode adicioná-lo sob a chave `resolve` na configuração da route. O tipo `Routes` define a estrutura para configurações de route:
+When you want to add one or more data resolvers to a route, you can add it under the `resolve` key in the route configuration. The `Routes` type defines the structure for route configurations:
 
 ```ts
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -56,69 +65,67 @@ export const routes: Routes = [
     component: UserDetail,
     resolve: {
       user: userResolver,
-      settings: settingsResolver
-    }
-  }
+      settings: settingsResolver,
+    },
+  },
 ];
 ```
 
-Você pode aprender mais sobre a [configuração `resolve` na documentação da API](api/router/Route#resolve).
+You can learn more about the [`resolve` configuration in the API docs](api/router/Route#resolve).
 
-## Acessando dados resolvidos em components
+## Accessing resolved data in components
 
-### Usando ActivatedRoute
+### Using ActivatedRoute
 
-Você pode acessar os dados resolvidos em um component acessando o snapshot data do `ActivatedRoute` usando a função `signal`:
+You can access the resolved data in a component by converting the `data` observable from the `ActivatedRoute` into a signal using the `toSignal` function:
 
 ```angular-ts
-import { Component, inject, computed } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import type { User, Settings } from './types';
+import {Component, inject, computed} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
+import type {User, Settings} from './types';
 
 @Component({
   template: `
     <h1>{{ user().name }}</h1>
     <p>{{ user().email }}</p>
     <div>Theme: {{ settings().theme }}</div>
-  `
+  `,
 })
 export class UserDetail {
   private route = inject(ActivatedRoute);
-  private data = toSignal(this.route.data);
+  private data = toSignal(this.route.data, {requireSync: true});
   user = computed(() => this.data().user as User);
   settings = computed(() => this.data().settings as Settings);
 }
 ```
 
-### Usando withComponentInputBinding
+### Using withComponentInputBinding
 
-Uma abordagem diferente para acessar os dados resolvidos é usar `withComponentInputBinding()` ao configurar seu router com `provideRouter`. Isso permite que dados resolvidos sejam passados diretamente como inputs do component:
+A different approach to accessing the resolved data is to use `withComponentInputBinding()` when configuring your router with `provideRouter`. This allows resolved data to be passed directly as component inputs:
 
 ```ts
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { routes } from './app.routes';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideRouter, withComponentInputBinding} from '@angular/router';
+import {routes} from './app.routes';
 
 bootstrapApplication(App, {
-  providers: [
-    provideRouter(routes, withComponentInputBinding())
-  ]
+  providers: [provideRouter(routes, withComponentInputBinding())],
 });
 ```
 
-Com esta configuração, você pode definir inputs no seu component que correspondem às chaves do resolver usando a função `input` e `input.required` para inputs obrigatórios:
+With this configuration, you can define inputs in your component that match the resolver keys using the `input` function and `input.required` for required inputs:
 
 ```angular-ts
-import { Component, input } from '@angular/core';
-import type { User, Settings } from './types';
+import {Component, input} from '@angular/core';
+import type {User, Settings} from './types';
 
 @Component({
   template: `
     <h1>{{ user().name }}</h1>
     <p>{{ user().email }}</p>
     <div>Theme: {{ settings().theme }}</div>
-  `
+  `,
 })
 export class UserDetail {
   user = input.required<User>();
@@ -126,67 +133,70 @@ export class UserDetail {
 }
 ```
 
-Esta abordagem fornece melhor segurança de tipos e elimina a necessidade de injetar `ActivatedRoute` apenas para acessar dados resolvidos.
+This approach provides better type safety and eliminates the need to inject `ActivatedRoute` just to access resolved data.
 
-## Tratamento de erros em resolvers
+## Error handling in resolvers
 
-No caso de falhas de navegação, é importante tratar erros graciosamente em seus resolvers de dados. Caso contrário, um `NavigationError` ocorrerá e a navegação para a route atual falhará, o que levará a uma experiência ruim para seus usuários.
+In the event of navigation failures, it is important to handle errors gracefully in your data resolvers. Otherwise, a `NavigationError` will occur and the navigation to the current route will fail which will lead to a poor experience for your users.
 
-Existem três maneiras principais de lidar com erros com resolvers de dados:
+There are three primary ways to handle errors with data resolvers:
 
-1. Centralizar o tratamento de erros em `withNavigationErrorHandler`
-2. Gerenciar erros através de uma subscription para eventos do router
-3. Lidar com erros diretamente no resolver
+1. Centralize error handling in `withNavigationErrorHandler`
+2. Manage errors through a subscription to router events
+3. Handle errors directly in the resolver
 
-### Centralizar o tratamento de erros em `withNavigationErrorHandler`
+### Centralize error handling in `withNavigationErrorHandler`
 
-O recurso [`withNavigationErrorHandler`](api/router/withNavigationErrorHandler) fornece uma maneira centralizada de lidar com todos os erros de navegação, incluindo aqueles de resolvers de dados que falharam. Esta abordagem mantém a lógica de tratamento de erros em um só lugar e previne código duplicado de tratamento de erros entre resolvers.
+The [`withNavigationErrorHandler`](api/router/withNavigationErrorHandler) feature provides a centralized way to handle all navigation errors, including those from failed data resolvers. This approach keeps error handling logic in one place and prevents duplicate error handling code across resolvers.
 
 ```ts
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withNavigationErrorHandler } from '@angular/router';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { routes } from './app.routes';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideRouter, Router, withNavigationErrorHandler} from '@angular/router';
+import {inject} from '@angular/core';
+import {routes} from './app.routes';
 
 bootstrapApplication(App, {
   providers: [
-    provideRouter(routes, withNavigationErrorHandler((error) => {
-      const router = inject(Router);
+    provideRouter(
+      routes,
+      withNavigationErrorHandler((error) => {
+        const router = inject(Router);
 
-      if (error?.message) {
-        console.error('Navigation error occurred:', error.message)
-      }
+        if (error.error?.message) {
+          console.error('Navigation error occurred:', error.error.message);
+        }
 
-      router.navigate(['/error']);
-    }))
-  ]
+        router.navigate(['/error']);
+      }),
+    ),
+  ],
 });
 ```
 
-Com esta configuração, seus resolvers podem focar na busca de dados enquanto deixam o handler centralizado gerenciar cenários de erro:
+With this configuration, your resolvers can focus on data fetching while letting the centralized handler manage error scenarios:
 
 ```ts
 export const userResolver: ResolveFn<User> = (route) => {
   const userStore = inject(UserStore);
   const userId = route.paramMap.get('id')!;
-  // Não é necessário tratamento explícito de erro - deixe borbulhar
+  // No need for explicit error handling - let it bubble up
   return userStore.getUser(userId);
 };
 ```
 
-### Gerenciando erros através de uma subscription para eventos do router
+### Managing errors through a subscription to router events
 
-Você também pode lidar com erros de resolver fazendo subscription em eventos do router e ouvindo eventos `NavigationError`. Esta abordagem dá a você mais controle granular sobre o tratamento de erros e permite que você implemente lógica customizada de recuperação de erros.
+You can also handle resolver errors by subscribing to router events and listening for `NavigationError` events. This approach gives you more granular control over error handling and allows you to implement custom error recovery logic.
 
 ```angular-ts
-import { Component, inject, signal } from '@angular/core';
-import { Router, NavigationError } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map } from 'rxjs';
+import {Component, inject, signal} from '@angular/core';
+import {Router, NavigationError, RouterOutlet} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {map} from 'rxjs';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   template: `
     @if (errorMessage()) {
       <div class="error-banner">
@@ -195,7 +205,7 @@ import { filter, map } from 'rxjs';
       </div>
     }
     <router-outlet />
-  `
+  `,
 })
 export class App {
   private router = inject(Router);
@@ -203,18 +213,20 @@ export class App {
 
   private navigationErrors = toSignal(
     this.router.events.pipe(
-      filter((event): event is NavigationError => event instanceof NavigationError),
-      map(event => {
-        this.lastFailedUrl.set(event.url);
+      map((event) => {
+        if (event instanceof NavigationError) {
+          this.lastFailedUrl.set(event.url);
 
-        if (event.error) {
-          console.error('Navigation error', event.error)
+          if (event.error) {
+            console.error('Navigation error', event.error);
+          }
+
+          return 'Navigation failed. Please try again.';
         }
-
-        return 'Navigation failed. Please try again.';
-      })
+        return '';
+      }),
     ),
-    { initialValue: '' }
+    {initialValue: ''},
   );
 
   errorMessage = this.navigationErrors;
@@ -227,22 +239,22 @@ export class App {
 }
 ```
 
-Esta abordagem é particularmente útil quando você precisa:
+This approach is particularly useful when you need to:
 
-- Implementar lógica de retry customizada para navegação falhada
-- Mostrar mensagens de erro específicas baseadas no tipo de falha
-- Rastrear falhas de navegação para propósitos de analytics
+- Implement custom retry logic for failed navigation
+- Show specific error messages based on the type of failure
+- Track navigation failures for analytics purposes
 
-### Lidando com erros diretamente no resolver
+### Handling errors directly in the resolver
 
-Aqui está um exemplo atualizado do `userResolver` que registra o erro e navega de volta para a página genérica `/users` usando o service `Router`:
+Here's an updated example of the `userResolver` that logs the error and navigates back to the generic `/users` page using the `Router` service:
 
 ```ts
-import { inject } from '@angular/core';
-import { ResolveFn, RedirectCommand, Router } from '@angular/router';
-import { catchError, of, EMPTY } from 'rxjs';
-import { UserStore } from './user-store';
-import type { User } from './types';
+import {inject} from '@angular/core';
+import {ResolveFn, RedirectCommand, Router} from '@angular/router';
+import {catchError, of, EMPTY} from 'rxjs';
+import {UserStore} from './user-store';
+import type {User} from './types';
 
 export const userResolver: ResolveFn<User | RedirectCommand> = (route) => {
   const userStore = inject(UserStore);
@@ -250,36 +262,37 @@ export const userResolver: ResolveFn<User | RedirectCommand> = (route) => {
   const userId = route.paramMap.get('id')!;
 
   return userStore.getUser(userId).pipe(
-    catchError(error => {
+    catchError((error) => {
       console.error('Failed to load user:', error);
       return of(new RedirectCommand(router.parseUrl('/users')));
-    })
+    }),
   );
 };
 ```
 
-## Considerações sobre carregamento de navegação
+## Navigation loading considerations
 
-Embora os resolvers de dados previnam estados de carregamento dentro de components, eles introduzem uma consideração de UX diferente: a navegação é bloqueada enquanto os resolvers são executados. Os usuários podem experimentar atrasos entre clicar em um link e ver a nova route, especialmente com requisições de rede lentas.
+While data resolvers prevent loading states within components, they introduce a different UX consideration: navigation is blocked while resolvers execute. Users may experience delays between clicking a link and seeing the new route, especially with slow network requests.
 
-### Fornecendo feedback de navegação
+TIP: To avoid blocking navigation and render components immediately with skeleton or loading indicators, use [non-blocking route resources](/guide/routing/data-fetching-with-resources#blocking-and-non-blocking-resources).
 
-Para melhorar a experiência do usuário durante a execução do resolver, você pode ouvir eventos do router e mostrar indicadores de carregamento:
+### Providing navigation feedback
+
+To improve user experience during resolver execution, you can listen to router events and show loading indicators:
 
 ```angular-ts
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import {Component, computed, inject} from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   template: `
     @if (isNavigating()) {
       <div class="loading-bar">Loading...</div>
     }
     <router-outlet />
-  `
+  `,
 })
 export class App {
   private router = inject(Router);
@@ -287,42 +300,44 @@ export class App {
 }
 ```
 
-Esta abordagem garante que os usuários recebam feedback visual de que a navegação está em progresso enquanto os resolvers buscam dados.
+This approach ensures users receive visual feedback that navigation is in progress while resolvers fetch data.
 
-## Boas práticas
+## Best practices
 
-- **Mantenha resolvers leves**: Resolvers devem buscar apenas dados essenciais e não tudo que a página poderia possivelmente precisar
-- **Trate erros**: Sempre lembre-se de tratar erros graciosamente para fornecer a melhor experiência possível aos usuários
-- **Use cache**: Considere fazer cache de dados resolvidos para melhorar a performance
-- **Considere a UX de navegação**: Implemente indicadores de carregamento para a execução do resolver, já que a navegação é bloqueada durante a busca de dados
-- **Defina timeouts razoáveis**: Evite resolvers que possam travar indefinidamente e bloquear a navegação
-- **Segurança de tipos**: Use interfaces TypeScript para dados resolvidos
+- **Keep resolvers lightweight**: Resolvers should fetch essential data only and not everything the page could possibly need
+- **Handle errors**: Always remember to handle errors gracefully to provide the best experience possible to users
+- **Use caching**: Consider caching resolved data to improve performance
+- **Consider navigation UX**: Implement loading indicators for resolver execution since navigation is blocked during data fetching
+- **Set reasonable timeouts**: Avoid resolvers that could hang indefinitely and block navigation
+- **Type safety**: Use TypeScript interfaces for resolved data
 
-## Lendo dados resolvidos do pai em resolvers filhos
+## Reading parent resolved data in child resolvers
 
-Resolvers executam do pai para o filho. Quando uma route pai define um resolver, seus dados resolvidos estão disponíveis para resolvers filhos que executam depois.
+Resolvers execute sequentially from parent to child. When a parent route defines a resolver, its resolved data is available to child resolvers that run afterward.
+
+NOTE: Because resolvers execute sequentially from parent to child, each nested level adds to the total navigation wait time (a network waterfall). If your child routes do not depend on parent data, consider [route resources](/guide/routing/data-fetching-with-resources), which execute concurrently across all routes.
 
 ```ts
-import { inject } from '@angular/core';
-import { provideRouter , ActivatedRouteSnapshot } from '@angular/router';
-import { userResolver } from './resolvers';
-import { UserPosts } from './pages';
-import { PostService } from './services',
-import type { User } from './types';
+import {inject} from '@angular/core';
+import {provideRouter, ActivatedRouteSnapshot} from '@angular/router';
+import {userResolver} from './resolvers';
+import {UserPosts} from './pages';
+import {PostService} from './services';
+import type {User} from './types';
 
 provideRouter([
   {
     path: 'users/:id',
-    resolve: { user: userResolver }, // resolver de usuário na route pai
+    resolve: {user: userResolver}, // user resolver in the parent route
     children: [
       {
         path: 'posts',
         component: UserPosts,
-        // route.data.user está disponível aqui enquanto este resolver executa
+        // route.data.user is available here while this resolver runs
         resolve: {
           posts: (route: ActivatedRouteSnapshot) => {
             const postService = inject(PostService);
-            const user = route.data['user'] as User; // dados do pai
+            const user = route.parent?.data['user'] as User; // parent data
             const userId = user.id;
             return postService.getPostByUser(userId);
           },
@@ -332,3 +347,10 @@ provideRouter([
   },
 ]);
 ```
+
+## Next steps
+
+<docs-pill-row>
+  <docs-pill href="/guide/routing/data-fetching-with-resources" title="Data fetching with resources"/>
+  <docs-pill href="/guide/routing/route-guards" title="Control route access with guards"/>
+</docs-pill-row>

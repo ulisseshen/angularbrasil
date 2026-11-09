@@ -235,9 +235,9 @@ export function inject(token: HostAttributeToken, options: {optional: false}): s
  * - In a stackframe of a function call in a DI context
  *
  * @param token A token that represents a dependency that should be injected.
- * @param flags Optional flags that control how injection is executed.
- * The flags correspond to injection strategies that can be specified with
- * parameter decorators `@Host`, `@Self`, `@SkipSelf`, and `@Optional`.
+ * @param options Control how injection is executed. Options correspond to injection strategies
+ *     that can be specified with parameter decorators `@Host`, `@Self`, `@SkipSelf`, and
+ *     `@Optional`.
  * @returns the injected value if operation is successful, `null` otherwise.
  * @throws if called outside of a supported context.
  *
@@ -285,6 +285,8 @@ export function inject(token: HostAttributeToken, options: {optional: false}): s
  *   }
  * }
  * ```
+ *
+ * @see [Injecting dependencies with inject()](guide/di#injecting-dependencies-with-inject)
  *
  * @publicApi
  */
@@ -382,32 +384,4 @@ export function attachInjectFlag(decorator: any, flag: InternalInjectFlags | Dec
  */
 export function getInjectFlag(token: any): number | undefined {
   return token[DI_DECORATOR_FLAG];
-}
-
-export function formatError(
-  text: string,
-  obj: any,
-  injectorErrorName: string,
-  source: string | null = null,
-): string {
-  text = text && text.charAt(0) === '\n' && text.charAt(1) == NO_NEW_LINE ? text.slice(2) : text;
-  let context = stringify(obj);
-  if (Array.isArray(obj)) {
-    context = obj.map(stringify).join(' -> ');
-  } else if (typeof obj === 'object') {
-    let parts = <string[]>[];
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        let value = obj[key];
-        parts.push(
-          key + ':' + (typeof value === 'string' ? JSON.stringify(value) : stringify(value)),
-        );
-      }
-    }
-    context = `{${parts.join(', ')}}`;
-  }
-  return `${injectorErrorName}${source ? '(' + source + ')' : ''}[${context}]: ${text.replace(
-    NEW_LINE,
-    '\n  ',
-  )}`;
 }

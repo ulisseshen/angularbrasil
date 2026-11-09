@@ -7,33 +7,31 @@ Executar este schematic fará a limpeza de todos os imports não utilizados dent
 
 Execute o schematic usando o seguinte comando:
 
-<docs-code language="shell">
-
+```shell
 ng generate @angular/core:cleanup-unused-imports
-
-</docs-code>
+```
 
 #### Antes
 
-<docs-code language="typescript">
-import { Component } from '@angular/core';
-import { UnusedDirective } from './unused';
+```angular-ts
+import {Component} from '@angular/core';
+import {UnusedDirective} from './unused';
 
 @Component({
-template: 'Hello',
-imports: [UnusedDirective],
+  template: 'Hello',
+  imports: [UnusedDirective],
 })
 export class MyComp {}
-</docs-code>
+```
 
 #### Depois
 
-<docs-code language="typescript">
-import { Component } from '@angular/core';
+```angular-ts
+import {Component} from '@angular/core';
 
 @Component({
-template: 'Hello',
-imports: [],
+  template: 'Hello',
+  imports: [],
 })
 export class MyComp {}
-</docs-code>
+```

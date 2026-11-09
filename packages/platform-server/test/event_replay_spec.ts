@@ -17,12 +17,14 @@ import {
   PendingTasks,
   PLATFORM_ID,
   ɵgetDocument as getDocument,
+  ɵEVENT_REPLAY_QUEUE as EVENT_REPLAY_QUEUE,
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {
   bootstrapApplication,
   provideClientHydration,
   withEventReplay,
+  withNoIncrementalHydration,
 } from '@angular/platform-browser';
 
 import {EventPhase} from '@angular/core/primitives/event-dispatch';
@@ -88,14 +90,61 @@ describe('event replay', () => {
     window._ejsas = {};
   });
 
+  // Issue #67328: post-hydration events must not be replayed
+  it('should not replay an event that was already handled by a real DOM listener after component hydration', async () => {
+    const onClickSpy = jasmine.createSpy();
+    let removeTask: (() => void) | null = null;
+
+    @Component({
+      selector: 'app',
+
+      template: `<button id="btn" (click)="onClick()"></button>`,
+    })
+    class AppComponent {
+      constructor() {
+        if (isPlatformBrowser(inject(PLATFORM_ID))) {
+          removeTask = inject(PendingTasks).add();
+        }
+      }
+      onClick = onClickSpy;
+    }
+
+    const hydrationFeatures = () => [withEventReplay()];
+    const html = await ssr(AppComponent, {hydrationFeatures});
+    const ssrContents = getAppContents(html);
+    const doc = getDocument();
+
+    prepareEnvironment(doc, ssrContents);
+    resetTViewsFor(AppComponent);
+
+    // Hydrate the component (registers real DOM listeners) but keep app unstable
+    const appRef = await hydrate(doc, AppComponent, {hydrationFeatures});
+    appRef.tick();
+
+    // Click AFTER hydration: real DOM listener fires once, jsaction also queues it
+    const btn = doc.getElementById('btn')!;
+    btn.click();
+
+    // Real DOM listener should have fired once
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+
+    // Let the app become stable — triggers whenStable() which kicks off jsaction replay
+    removeTask!();
+    await appRef.whenStable();
+    appRef.tick();
+
+    // Without the fix, jsaction replay fires the handler a second time (count = 2).
+    // With the fix, the post-hydration event must not be replayed again (count = 1).
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('should work for elements with local refs', async () => {
     const onClickSpy = jasmine.createSpy();
 
     @Component({
       selector: 'app',
-      template: `
-        <button id="btn" (click)="onClick()" #localRef></button>
-      `,
+
+      template: ` <button id="btn" (click)="onClick()" #localRef></button> `,
     })
     class AppComponent {
       onClick = onClickSpy;
@@ -119,9 +168,7 @@ describe('event replay', () => {
 
     @Component({
       selector: 'app',
-      template: `
-        <button id="btn-1" (click)="onClick()"></button>
-      `,
+      template: ` <button id="btn-1" (click)="onClick()"></button> `,
     })
     class AppComponent_1 {
       onClick = onClickSpy;
@@ -129,9 +176,8 @@ describe('event replay', () => {
 
     @Component({
       selector: 'app-2',
-      template: `
-        <button id="btn-2" (click)="onClick()"></button>
-      `,
+
+      template: ` <button id="btn-2" (click)="onClick()"></button> `,
     })
     class AppComponent_2 {
       onClick() {}
@@ -180,9 +226,8 @@ describe('event replay', () => {
   it('should cleanup `window._ejsas[appId]` once app is destroyed', async () => {
     @Component({
       selector: 'app',
-      template: `
-        <button id="btn" (click)="onClick()"></button>
-      `,
+
+      template: ` <button id="btn" (click)="onClick()"></button> `,
     })
     class AppComponent {
       onClick() {}
@@ -216,6 +261,90 @@ describe('event replay', () => {
     // This ensure that `_ejsas` for the current application is cleaned up
     // once the application is destroyed.
     expect(window._ejsas![appId]).toBeUndefined();
+  });
+
+  // Two apps with the same APP_ID both see `_ejsas[appId]` as set, so both enable event
+  // replay. The first one to stabilize reads it and clears it. The second one used to crash
+  // instead of just skipping replay.
+  it('should not crash initEventReplay when two apps share the same APP_ID', async () => {
+    const appId = 'shared-app-id';
+
+    @Component({
+      selector: 'app',
+      template: ` <button id="btn-1" (click)="onClick()"></button> `,
+    })
+    class AppComponent_1 {
+      onClick() {}
+    }
+
+    @Component({
+      selector: 'app-2',
+      template: ` <button id="btn-2" (click)="onClick()"></button> `,
+    })
+    class AppComponent_2 {
+      onClick() {}
+    }
+
+    const hydrationFeatures = () => [withEventReplay()];
+    const docHtml = `
+      <html>
+      <head></head>
+      <body>
+        ${EVENT_DISPATCH_SCRIPT}
+        <app></app>
+        <app-2></app-2>
+      </body>
+      </html>
+    `;
+    const html = await ssr(AppComponent_1, {
+      hydrationFeatures,
+      doc: docHtml,
+      envProviders: [{provide: APP_ID, useValue: appId}],
+    });
+    const ssrContents = getAppContents(html);
+    const doc = getDocument();
+
+    prepareEnvironment(doc, ssrContents);
+    resetTViewsFor(AppComponent_1);
+
+    const recorder: string[] = [];
+    spyOn(console, 'warn').and.callFake((message: string) => {
+      recorder.push(message);
+    });
+
+    const onUnhandledRejection = (reason: unknown) => {
+      recorder.push(`rejected: ${reason}`);
+    };
+    process.on('unhandledRejection', onUnhandledRejection);
+    try {
+      // Start both apps before awaiting either one. If we await the first one alone, it
+      // already reaches stability and clears `_ejsas[appId]`, so app 2 never sees the bug.
+      const bootstrap1 = hydrate(doc, AppComponent_1, {
+        hydrationFeatures,
+        envProviders: [{provide: APP_ID, useValue: appId}],
+      });
+      const bootstrap2 = bootstrapApplication(AppComponent_2, {
+        providers: [provideClientHydration(withEventReplay()), {provide: APP_ID, useValue: appId}],
+      });
+      const [appRef1, appRef2] = await Promise.all([bootstrap1, bootstrap2]);
+
+      await appRef1.whenStable();
+      await appRef2.whenStable();
+      // Let the internal `whenStable().then(...)` callbacks run before we check for a
+      // rejection.
+      await Promise.resolve();
+      await Promise.resolve();
+    } finally {
+      process.off('unhandledRejection', onUnhandledRejection);
+    }
+
+    // Recorder without the guard:
+    // ["rejected: TypeError: Cannot read properties of undefined (reading 'c')"]
+    expect(recorder).toEqual([
+      `NG0511: Event replay was skipped for APP_ID "${appId}". Another application on this ` +
+        `page already consumed the early event contract for this APP_ID. APP_ID must be ` +
+        `unique per application when multiple Angular applications share a page.`,
+    ]);
   });
 
   it('should route to the appropriate component with content projection', async () => {
@@ -279,10 +408,9 @@ describe('event replay', () => {
 
       @Component({
         selector: 'app',
-        template: `
-          <ng-container add-listener>
-            <button id="click-me">Click me!</button>
-          </ng-container>`,
+        template: ` <ng-container add-listener>
+          <button id="click-me">Click me!</button>
+        </ng-container>`,
         imports: [AddGlobalListener],
       })
       class AppComponent {}
@@ -319,10 +447,9 @@ describe('event replay', () => {
 
       @Component({
         selector: 'app',
-        template: `
-          <ng-container add-listener>
-            <button id="click-me">Click me!</button>
-          </ng-container>`,
+        template: ` <ng-container add-listener>
+          <button id="click-me">Click me!</button>
+        </ng-container>`,
         imports: [AddGlobalListener],
       })
       class AppComponent {}
@@ -359,10 +486,9 @@ describe('event replay', () => {
 
       @Component({
         selector: 'app',
-        template: `
-          <ng-container add-listener>
-            <button id="click-me">Click me!</button>
-          </ng-container>`,
+        template: ` <ng-container add-listener>
+          <button id="click-me">Click me!</button>
+        </ng-container>`,
         imports: [AddGlobalListener],
       })
       class AppComponent {}
@@ -391,11 +517,12 @@ describe('event replay', () => {
   it('should remove jsaction attributes, but continue listening to events.', async () => {
     @Component({
       selector: 'app',
+
       template: `
-            <div (click)="onClick()" id="1">
-              <div (click)="onClick()" id="2"></div>
-            </div>
-          `,
+        <div (click)="onClick()" id="1">
+          <div (click)="onClick()" id="2"></div>
+        </div>
+      `,
     })
     class SimpleComponent {
       onClick() {}
@@ -419,10 +546,10 @@ describe('event replay', () => {
     @Component({
       selector: 'app',
       template: `
-            <div (click)="onClick()">
-                <div (blur)="onClick()"></div>
-            </div>
-          `,
+        <div (click)="onClick()">
+          <div (blur)="onClick()"></div>
+        </div>
+      `,
     })
     class SimpleComponent {
       onClick() {}
@@ -445,9 +572,8 @@ describe('event replay', () => {
 
     @Component({
       selector: 'app',
-      template: `
-        <button id="btn" (click)="onClick()"></button>
-      `,
+
+      template: ` <button id="btn" (click)="onClick()"></button> `,
     })
     class AppComponent {
       constructor() {
@@ -503,11 +629,12 @@ describe('event replay', () => {
       const onClickSpy = jasmine.createSpy();
       @Component({
         selector: 'app',
+
         template: `
-            <div id="top" (click)="onClick()">
-                <div id="bottom" (click)="onClick()"></div>
-            </div>
-          `,
+          <div id="top" (click)="onClick()">
+            <div id="bottom" (click)="onClick()"></div>
+          </div>
+        `,
       })
       class SimpleComponent {
         onClick = onClickSpy;
@@ -534,11 +661,12 @@ describe('event replay', () => {
     it('should not propagate events if stopPropagation is called', async () => {
       @Component({
         selector: 'app',
+
         template: `
-            <div id="top" (click)="onClick($event)">
-                <div id="bottom" (click)="onClick($event)"></div>
-            </div>
-          `,
+          <div id="top" (click)="onClick($event)">
+            <div id="bottom" (click)="onClick($event)"></div>
+          </div>
+        `,
       })
       class SimpleComponent {
         onClick(e: Event) {
@@ -567,11 +695,12 @@ describe('event replay', () => {
       let latestCurrentTarget: EventTarget | null = null;
       @Component({
         selector: 'app',
+
         template: `
-            <div id="top" (click)="onClick($event)">
-                <div id="bottom" (click)="onClick($event)"></div>
-            </div>
-          `,
+          <div id="top" (click)="onClick($event)">
+            <div id="bottom" (click)="onClick($event)"></div>
+          </div>
+        `,
       })
       class SimpleComponent {
         onClick(event: Event) {
@@ -608,6 +737,7 @@ describe('event replay', () => {
     it('should not be present on a page when hydration is disabled', async () => {
       @Component({
         selector: 'app',
+
         template: '<input (click)="onClick()" />',
       })
       class SimpleComponent {
@@ -624,6 +754,7 @@ describe('event replay', () => {
     it('should not be present on a page if there are no events to replay', async () => {
       @Component({
         selector: 'app',
+
         template: 'Some text',
       })
       class SimpleComponent {}
@@ -651,6 +782,7 @@ describe('event replay', () => {
     it('should not replay mouse events', async () => {
       @Component({
         selector: 'app',
+
         template: '<div (mouseenter)="doThing()"><div>',
       })
       class SimpleComponent {
@@ -668,13 +800,16 @@ describe('event replay', () => {
     it('should not be present on a page where event replay is not enabled', async () => {
       @Component({
         selector: 'app',
+
         template: '<input (click)="onClick()" />',
       })
       class SimpleComponent {
         onClick() {}
       }
 
-      const html = await ssr(SimpleComponent, {});
+      const html = await ssr(SimpleComponent, {
+        hydrationFeatures: () => [withNoIncrementalHydration()],
+      });
       const ssrContents = getAppContents(html);
 
       // Expect that there are no JSAction artifacts in the HTML
@@ -687,6 +822,7 @@ describe('event replay', () => {
     it('should be retained if there are events to replay', async () => {
       @Component({
         selector: 'app',
+
         template: '<input (click)="onClick()" />',
       })
       class SimpleComponent {
@@ -708,6 +844,153 @@ describe('event replay', () => {
         `<script type="text/javascript" id="ng-event-dispatch-contract"></script>` +
           `<script>window.__jsaction_bootstrap(document.body,"ng",["click"],[]);</script>`,
       );
+    });
+  });
+
+  describe('event replay queue', () => {
+    it('should be empty on init', async () => {
+      @Component({
+        selector: 'app',
+
+        template: '<input (click)="onClick()" />',
+      })
+      class SimpleComponent {
+        onClick() {}
+      }
+
+      const hydrationFeatures = () => [withEventReplay()];
+      const html = await ssr(SimpleComponent, {hydrationFeatures});
+      const ssrContents = getAppContents(html);
+      const doc = getDocument();
+      prepareEnvironment(doc, ssrContents);
+      resetTViewsFor(SimpleComponent);
+      const appRef = await hydrate(doc, SimpleComponent, {hydrationFeatures});
+      const queue = appRef.injector.get(EVENT_REPLAY_QUEUE);
+      expect(queue.length).toBe(0);
+    });
+
+    it('should be different for different apps', async () => {
+      @Component({
+        selector: 'app',
+
+        template: '<input (click)="onClick()" />',
+      })
+      class SimpleComponent {
+        onClick() {}
+      }
+
+      const hydrationFeatures = () => [withEventReplay()];
+      const html = await ssr(SimpleComponent, {hydrationFeatures});
+      const ssrContents = getAppContents(html);
+      const doc = getDocument();
+      prepareEnvironment(doc, ssrContents);
+      resetTViewsFor(SimpleComponent);
+
+      const appRef1 = await hydrate(doc, SimpleComponent, {hydrationFeatures});
+      const queue1 = appRef1.injector.get(EVENT_REPLAY_QUEUE);
+
+      const appRef2 = await hydrate(doc, SimpleComponent, {hydrationFeatures});
+      const queue2 = appRef2.injector.get(EVENT_REPLAY_QUEUE);
+
+      expect(queue1).not.toBe(queue2);
+    });
+
+    it('should clear the queue after events are replayed', async () => {
+      @Component({
+        selector: 'app',
+        template: `
+          @defer (on interaction(trigger)) {
+            <div id="content" (click)="onClick()"></div>
+          } @placeholder {
+            <button id="trigger">Trigger</button>
+          }
+        `,
+      })
+      class SimpleComponent {
+        onClick() {}
+      }
+
+      const hydrationFeatures = () => [withEventReplay()];
+      const html = await ssr(SimpleComponent, {hydrationFeatures});
+      const ssrContents = getAppContents(html);
+      const doc = getDocument();
+      prepareEnvironment(doc, ssrContents);
+      resetTViewsFor(SimpleComponent);
+
+      const appRef = await hydrate(doc, SimpleComponent, {hydrationFeatures});
+      const queue = appRef.injector.get(EVENT_REPLAY_QUEUE);
+      const trigger = doc.getElementById('trigger')!;
+      // This should queue the event
+      trigger.click();
+
+      // Wait for hydration to complete
+      await appRef.whenStable();
+
+      // The queue should be cleared after replay/hydration cycle completion
+      // Note: We might need to wait for idle/microtasks if the replay is async.
+      // But verify expectation:
+      // The current implementation requeues if not hydrated.
+      // But here we expect it to hydrate.
+
+      // For this test to trigger replay we need to ensure the block hydrates.
+      // interaction(trigger) hydrates on click.
+
+      // Check that queue is handled.
+      // queue size initially should be 0.
+      // After click, it might briefly be 1 if we inspect synchronously?
+      // but `triggerHydrationFromBlockName` is called.
+      // Eventually it should be empty again.
+      // Since `invokeRegisteredReplayListeners` triggers hydration directly and pushes to queue.
+
+      // wait for replay
+      const start = Date.now();
+      while (queue.length > 0 && Date.now() - start < 1_000) {
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
+      expect(queue.length).toBe(0);
+    });
+
+    it('should release event queue references on app destroy', async () => {
+      let appRef: any;
+      const appId = 'app-id-for-memory-test';
+      {
+        @Component({
+          selector: 'app',
+          template: '<input (click)="onClick()" />',
+        })
+        class SimpleComponent {
+          onClick() {}
+        }
+
+        const providers = [{provide: APP_ID, useValue: appId}];
+        const hydrationFeatures = () => [withEventReplay()];
+        const html = await ssr(SimpleComponent, {
+          hydrationFeatures,
+          envProviders: providers,
+        });
+        const ssrContents = getAppContents(html);
+        const doc = getDocument();
+        prepareEnvironment(doc, ssrContents);
+        resetTViewsFor(SimpleComponent);
+
+        appRef = await hydrate(doc, SimpleComponent, {
+          hydrationFeatures,
+          envProviders: providers,
+        });
+
+        // Access queue to make sure it exists
+        const queue = appRef.injector.get(EVENT_REPLAY_QUEUE);
+        expect(queue).toBeInstanceOf(Array);
+
+        // Simulate event in queue
+        queue.push({event: new Event('click'), currentTarget: doc.createElement('div')});
+        expect(queue.length).toBe(1);
+
+        appRef.destroy();
+      }
+
+      // Verify global cleanup
+      expect(window._ejsas![appId]).toBeUndefined();
     });
   });
 });

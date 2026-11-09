@@ -1,137 +1,138 @@
-<!-- ia-translate: true -->
-
 # Directive composition API
 
-As directives do Angular oferecem uma ótima maneira de encapsular comportamentos reutilizáveis — directives podem aplicar atributos, classes CSS e event listeners a um elemento.
+Angular directives offer a great way to encapsulate reusable behaviors. Directives can apply attributes, CSS classes, and event listeners to an element.
 
-A _directive composition API_ permite que você aplique directives ao elemento host de um component de _dentro_ da classe TypeScript do component.
+The _directive composition API_ lets you apply directives to a component's host element from _within_ the component TypeScript class.
 
-## Adicionando directives a um component
+## Adding directives to a component
 
-Você aplica directives a um component adicionando uma propriedade `hostDirectives` ao decorator do component. Chamamos essas directives de _host directives_.
+You apply directives to a component by adding a `hostDirectives` property to a component's decorator. Such directives are called _host directives_.
 
-Neste exemplo, aplicamos a directive `MenuBehavior` ao elemento host de `AdminMenu`. Isso funciona de forma similar a aplicar o `MenuBehavior` ao elemento `<admin-menu>` em um template.
+In this example, the `MenuBehavior` directive is applied to the host element of `AdminMenu`. This works similarly to applying the `MenuBehavior` to the `<admin-menu>` element in a template.
 
-```typescript
+```ts
 @Component({
   selector: 'admin-menu',
-  template: 'admin-menu.html',
+  templateUrl: './admin-menu.html',
   hostDirectives: [MenuBehavior],
 })
-export class AdminMenu { }
+export class AdminMenu {}
 ```
 
-Quando o framework renderiza um component, o Angular também cria uma instância de cada host directive. Os host bindings das directives se aplicam ao elemento host do component. Por padrão, inputs e outputs de host directive não são expostos como parte da API pública do component. Veja [Incluindo inputs e outputs](#including-inputs-and-outputs) abaixo para mais informações.
+When the framework renders a component, Angular also creates an instance of each host directive. The directives' host bindings apply to the component's host element. By default, host directive inputs and outputs are not exposed as part of the component's public API. See [Including inputs and outputs](#including-inputs-and-outputs) below for more information.
 
-**O Angular aplica host directives estaticamente em tempo de compilação.** Você não pode adicionar directives dinamicamente em runtime.
+Host directives come with the following constraints:
 
-**Directives usadas em `hostDirectives` não podem especificar `standalone: false`.**
+- **Angular applies host directives statically at compile time.** You cannot dynamically add
+  directives at runtime.
+- **Directives used in `hostDirectives` may not specify `standalone: false`.**
+- **Angular ignores the `selector` of directives applied in the `hostDirectives` property.**
 
-**O Angular ignora o `selector` de directives aplicadas na propriedade `hostDirectives`.**
+## Including inputs and outputs
 
-## Incluindo inputs e outputs {#including-inputs-and-outputs}
+When you apply `hostDirectives` to your component, the inputs and outputs from the host directives are not included in your component's API by default. You can explicitly include inputs and outputs in your component's API by expanding the entry in `hostDirectives`:
 
-Quando você aplica `hostDirectives` ao seu component, os inputs e outputs das host directives não são incluídos na API do seu component por padrão. Você pode incluir explicitamente inputs e outputs na API do seu component expandindo a entrada em `hostDirectives`:
-
-```typescript
+```ts
 @Component({
   selector: 'admin-menu',
-  template: 'admin-menu.html',
-  hostDirectives: [{
-    directive: MenuBehavior,
-    inputs: ['menuId'],
-    outputs: ['menuClosed'],
-  }],
+  templateUrl: './admin-menu.html',
+  hostDirectives: [
+    {
+      directive: MenuBehavior,
+      inputs: ['menuId'],
+      outputs: ['menuClosed'],
+    },
+  ],
 })
-export class AdminMenu { }
+export class AdminMenu {}
 ```
 
-Ao especificar explicitamente os inputs e outputs, consumidores do component com `hostDirective` podem fazer binding deles em um template:
+By explicitly specifying the inputs and outputs, consumers of the component with `hostDirectives` can bind them in a template:
 
 ```angular-html
-
-<admin-menu menuId="top-menu" (menuClosed)="logMenuClosed()">
+<admin-menu menuId="top-menu" (menuClosed)="logMenuClosed()"></admin-menu>
 ```
 
-Além disso, você pode criar alias para inputs e outputs de `hostDirective` para personalizar a API do seu component:
+Furthermore, you can alias inputs and outputs from a host directive to customize the API of your component:
 
-```typescript
+```ts
 @Component({
   selector: 'admin-menu',
-  template: 'admin-menu.html',
-  hostDirectives: [{
-    directive: MenuBehavior,
-    inputs: ['menuId: id'],
-    outputs: ['menuClosed: closed'],
-  }],
+  templateUrl: './admin-menu.html',
+  hostDirectives: [
+    {
+      directive: MenuBehavior,
+      inputs: ['menuId: id'],
+      outputs: ['menuClosed: closed'],
+    },
+  ],
 })
-export class AdminMenu { }
+export class AdminMenu {}
 ```
 
 ```angular-html
-
-<admin-menu id="top-menu" (closed)="logMenuClosed()">
+<admin-menu id="top-menu" (closed)="logMenuClosed()"></admin-menu>
 ```
 
-## Adicionando directives a outra directive
+## Adding directives to another directive
 
-Você também pode adicionar `hostDirectives` a outras directives, além de components. Isso permite a agregação transitiva de múltiplos comportamentos.
+You can also add `hostDirectives` to other directives, in addition to components. This enables the transitive aggregation of multiple behaviors.
 
-No exemplo a seguir, definimos duas directives, `Menu` e `Tooltip`. Então, compomos o comportamento dessas duas directives em `MenuWithTooltip`. Finalmente, aplicamos `MenuWithTooltip` a `SpecializedMenuWithTooltip`.
+The following example defines two directives, `Menu` and `Tooltip`, then composes their behavior in `MenuWithTooltip`. Finally, it applies `MenuWithTooltip` to `SpecializedMenuWithTooltip`.
 
-Quando `SpecializedMenuWithTooltip` é usado em um template, ele cria instâncias de todos `Menu`, `Tooltip` e `MenuWithTooltip`. Os host bindings de cada uma dessas directives se aplicam ao elemento host de `SpecializedMenuWithTooltip`.
+When `SpecializedMenuWithTooltip` is used in a template, it creates instances of all of `Menu`, `Tooltip`, and `MenuWithTooltip`. Each of these directives' host bindings apply to the host element of `SpecializedMenuWithTooltip`.
 
-```typescript
-@Directive({...})
-export class Menu { }
+```ts
+@Directive({/* ... */})
+export class Menu {}
 
-@Directive({...})
-export class Tooltip { }
+@Directive({/* ... */})
+export class Tooltip {}
 
-// MenuWithTooltip pode compor comportamentos de múltiplas outras directives
+// MenuWithTooltip can compose behaviors from multiple other directives
 @Directive({
   hostDirectives: [Tooltip, Menu],
 })
-export class MenuWithTooltip { }
+export class MenuWithTooltip {}
 
-// CustomWidget pode aplicar os comportamentos já compostos de MenuWithTooltip
+// CustomWidget can apply the already-composed behaviors from MenuWithTooltip
 @Directive({
   hostDirectives: [MenuWithTooltip],
 })
-export class SpecializedMenuWithTooltip { }
+export class SpecializedMenuWithTooltip {}
 ```
 
-## Semântica de host directive
+## Host directive semantics
 
-### Ordem de execução de directive
+### Directive execution order
 
-Host directives passam pelo mesmo ciclo de vida que components e directives usadas diretamente em um template. No entanto, host directives sempre executam seu constructor, lifecycle hooks e bindings _antes_ do component ou directive no qual são aplicadas.
+Host directives go through the same lifecycle as components and directives used directly in a template. However, host directives always execute their constructor, lifecycle hooks, and bindings _before_ the component or directive on which they are applied.
 
-O exemplo a seguir mostra uso mínimo de uma host directive:
+The following example shows minimal use of a host directive:
 
-```typescript
+```ts
 @Component({
   selector: 'admin-menu',
-  template: 'admin-menu.html',
+  templateUrl: './admin-menu.html',
   hostDirectives: [MenuBehavior],
 })
-export class AdminMenu { }
+export class AdminMenu {}
 ```
 
-A ordem de execução aqui é:
+The order of execution here is:
 
-1. `MenuBehavior` instanciada
-2. `AdminMenu` instanciado
-3. `MenuBehavior` recebe inputs (`ngOnInit`)
-4. `AdminMenu` recebe inputs (`ngOnInit`)
-5. `MenuBehavior` aplica host bindings
-6. `AdminMenu` aplica host bindings
+1. `MenuBehavior` instantiated
+2. `AdminMenu` instantiated
+3. `MenuBehavior` receives inputs (`ngOnInit`)
+4. `AdminMenu` receives inputs (`ngOnInit`)
+5. `MenuBehavior` applies host bindings
+6. `AdminMenu` applies host bindings
 
-Esta ordem de operações significa que components com `hostDirectives` podem sobrescrever quaisquer host bindings especificados por uma host directive.
+This order of operations means that components with `hostDirectives` can override any host bindings specified by a host directive.
 
-Esta ordem de operações se estende a cadeias aninhadas de host directives, como mostrado no exemplo a seguir.
+This order of operations extends to nested chains of host directives, as shown in the following example.
 
-```typescript
+```ts
 @Directive({...})
 export class Tooltip { }
 
@@ -146,22 +147,127 @@ export class CustomTooltip { }
 export class EvenMoreCustomTooltip { }
 ```
 
-No exemplo acima, a ordem de execução é:
+In the example above, the order of execution is:
 
-1. `Tooltip` instanciada
-2. `CustomTooltip` instanciada
-3. `EvenMoreCustomTooltip` instanciada
-4. `Tooltip` recebe inputs (`ngOnInit`)
-5. `CustomTooltip` recebe inputs (`ngOnInit`)
-6. `EvenMoreCustomTooltip` recebe inputs (`ngOnInit`)
-7. `Tooltip` aplica host bindings
-8. `CustomTooltip` aplica host bindings
-9. `EvenMoreCustomTooltip` aplica host bindings
+1. `Tooltip` instantiated
+2. `CustomTooltip` instantiated
+3. `EvenMoreCustomTooltip` instantiated
+4. `Tooltip` receives inputs (`ngOnInit`)
+5. `CustomTooltip` receives inputs (`ngOnInit`)
+6. `EvenMoreCustomTooltip` receives inputs (`ngOnInit`)
+7. `Tooltip` applies host bindings
+8. `CustomTooltip` applies host bindings
+9. `EvenMoreCustomTooltip` applies host bindings
 
 ### Dependency injection
 
-Um component ou directive que especifica `hostDirectives` pode injetar as instâncias dessas host directives e vice-versa.
+A component or directive that specifies `hostDirectives` can inject the instances of those host directives and vice versa.
 
-Ao aplicar host directives a um component, tanto o component quanto as host directives podem definir providers.
+When applying host directives to a component, both the component and host directives can define providers.
 
-Se um component ou directive com `hostDirectives` e essas host directives ambos fornecem o mesmo injection token, os providers definidos pela classe com `hostDirectives` têm precedência sobre os providers definidos pelas host directives.
+If a component or directive with `hostDirectives` and those host directives both provide the same injection token, the providers defined by class with `hostDirectives` take precedence over providers defined by the host directives.
+
+### Host directive de-duplication
+
+When the same directive appears more than once in the resolved host directive tree, it is automatically de-duplicated rather than throwing an error. Two deterministic rules are used to decide which match survives.
+
+#### Template match takes precedence
+
+If a directive matches an element once through a **template selector** and also appears as a **host directive**, Angular keeps only the template match and discards all host directive matches.
+
+The mental model is that a host directive match represents `Partial<YourDirective>`, a partial application where only the inputs and outputs explicitly listed in `hostDirectives` are exposed, while a template match represents the full directive with its complete public API.
+
+@Directive({selector: '[hoverable]'})
+export class Hoverable {}
+
+```ts
+@Component({
+  selector: 'app-button',
+  hostDirectives: [Hoverable],
+})
+export class Button {}
+```
+
+```angular-html
+<!-- Hoverable is matched by selector AND as a host directive of Button. -->
+<!-- Angular keeps only the selector match, which has the full public API. -->
+<app-button hoverable></app-button>
+```
+
+#### Multiple host directive matches are merged
+
+If the same directive appears **more than once as a host directive**, for example, when two directives both declare a common dependency in their `hostDirectives`, Angular merges all instances into a single directive instance. The input and output mappings from all instances are combined.
+
+This resolves the classic [diamond problem](https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem) in host directive composition:
+
+```ts
+// A shared behavior that both triggers need
+@Directive({
+  host: {
+    '[attr.data-trigger-id]': 'triggerId()',
+  },
+})
+export class TriggerRef {
+  readonly triggerId = input(`trigger-${crypto.randomUUID()}`);
+}
+
+// Two separate triggers, each declaring TriggerRef as a host directive
+@Directive({
+  selector: '[popoverTrigger]',
+  hostDirectives: [TriggerRef],
+})
+export class PopoverTrigger {
+  readonly triggerRef = inject(TriggerRef);
+}
+
+@Directive({
+  selector: '[dropdownTrigger]',
+  hostDirectives: [TriggerRef],
+})
+export class DropdownTrigger {
+  readonly triggerRef = inject(TriggerRef);
+}
+```
+
+```angular-html
+<!-- Angular keeps one TriggerRef instance, shared by both triggers. -->
+<button popoverTrigger dropdownTrigger>Actions</button>
+```
+
+HELPFUL: Because Angular produces only one instance of the shared directive, both `PopoverTrigger` and `DropdownTrigger` receive the same `TriggerRef` instance when they inject it.
+
+#### Conflicting aliases
+
+When Angular merges duplicate host directive matches it also merges their input and output mappings.
+
+If two instances of the same host directive expose the **same input or output under different aliases**, Angular throws an error at compile time ([NG8024](errors/NG8024)).
+
+```ts
+@Directive({
+  selector: '[popoverTrigger]',
+  hostDirectives: [{directive: TriggerRef, inputs: ['triggerId: popoverTriggerId']}],
+})
+export class PopoverTrigger {}
+
+@Directive({
+  selector: '[dropdownTrigger]',
+  hostDirectives: [
+    {directive: TriggerRef, inputs: ['triggerId: dropdownTriggerId']}, // different alias!
+  ],
+})
+export class DropdownTrigger {}
+```
+
+```angular-html
+<!-- Error: triggerId is exposed as both "popoverTriggerId" and "dropdownTriggerId". -->
+<button popoverTrigger dropdownTrigger></button>
+```
+
+To resolve this, ensure that both paths expose the shared input or output under the same alias, or do not expose it at all.
+
+## What's next
+
+<docs-pill-row>
+  <docs-pill href="guide/directives/structural-directives" title="Structural directives"/>
+  <docs-pill href="guide/components/host-elements" title="Component host elements"/>
+</docs-pill-row>

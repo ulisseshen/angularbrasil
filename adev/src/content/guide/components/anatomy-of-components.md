@@ -1,64 +1,69 @@
-<!-- ia-translate: true -->
-<docs-decorative-header title="Anatomia de um component" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="Anatomy of a component" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
+TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
 
-Todo component deve ter:
+Every component must have:
 
-- Uma classe TypeScript com _comportamentos_ como manipulação de entrada do usuário e busca de dados de um servidor
-- Um template HTML que controla o que é renderizado no DOM
-- Um [seletor CSS](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) que define como o component é usado no HTML
+- A TypeScript class with _behaviors_ such as handling user input and fetching data from a server
+- An HTML template that controls what renders into the DOM
+- A [CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) that defines how the component is used in HTML
 
-Você fornece informações específicas do Angular para um component adicionando um [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) `@Component` no topo da classe TypeScript:
+You provide Angular-specific information for a component by adding a `@Component` [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) on top of the TypeScript class:
 
-<docs-code language="angular-ts" highlight="[1, 2, 3, 4]">
+```angular-ts {highlight: [1, 2, 3, 4]}
 @Component({
   selector: 'profile-photo',
-  template: `<img src="profile-photo.jpg" alt="Your profile photo">`,
+  template: `<img src="profile-photo.jpg" alt="Your profile photo" />`,
 })
-export class ProfilePhoto { }
-</docs-code>
+export class ProfilePhoto {}
+```
 
-Para detalhes completos sobre como escrever templates Angular, incluindo data binding, manipulação de eventos e controle de fluxo, consulte o [guia de Templates](guide/templates).
+For full details on writing Angular templates, including data binding, event handling, and control flow, see the [Templates guide](guide/templates).
 
-O objeto passado para o decorator `@Component` é chamado de **metadata** do component. Isso inclui o `selector`, `template` e outras propriedades descritas ao longo deste guia.
+The object passed to the `@Component` decorator is called the component's **metadata**. This includes the `selector`, `template`, and other properties described throughout this guide.
 
-Components podem opcionalmente incluir uma lista de estilos CSS que se aplicam ao DOM daquele component:
+Components can optionally include a list of CSS styles that apply to that component's DOM:
 
-<docs-code language="angular-ts" highlight="[4]">
+```angular-ts {highlight: [4]}
 @Component({
   selector: 'profile-photo',
-  template: `<img src="profile-photo.jpg" alt="Your profile photo">`,
-  styles: `img { border-radius: 50%; }`,
+  template: `<img src="profile-photo.jpg" alt="Your profile photo" />`,
+  styles: `
+    img {
+      border-radius: 50%;
+    }
+  `,
 })
-export class ProfilePhoto { }
-</docs-code>
+export class ProfilePhoto {}
+```
 
-Por padrão, os estilos de um component afetam apenas os elementos definidos no template daquele component. Consulte [Estilizando Components](guide/components/styling) para detalhes sobre a abordagem do Angular para estilização.
+By default, a component's styles only affect elements defined in that component's template. See [Styling Components](guide/components/styling) for details on Angular's approach to styling.
 
-Você pode alternativamente optar por escrever seu template e estilos em arquivos separados:
+You can alternatively choose to write your template and styles in separate files:
 
-<docs-code language="angular-ts" highlight="[3, 4]">
+```ts {highlight: [3,4]}
 @Component({
   selector: 'profile-photo',
   templateUrl: 'profile-photo.html',
   styleUrl: 'profile-photo.css',
 })
-export class ProfilePhoto { }
-</docs-code>
+export class ProfilePhoto {}
+```
 
-Isso pode ajudar a separar as preocupações de _apresentação_ de _comportamento_ em seu projeto. Você pode escolher uma abordagem para todo o seu projeto, ou decidir qual usar para cada component.
+This can help separate the concerns of _presentation_ from _behavior_ in your project. You can choose one approach for your entire project, or you can decide which to use for each component.
 
-Tanto `templateUrl` quanto `styleUrl` são relativos ao diretório no qual o component reside.
+Both `templateUrl` and `styleUrl` are relative to the directory in which the component resides.
 
-## Usando components
+## Using components
 
-### Imports no decorator `@Component`
+### Imports in the `@Component` decorator
 
-Para usar um component, [directive](guide/directives) ou [pipe](guide/templates/pipes), você deve adicioná-lo ao array `imports` no decorator `@Component`:
+To use a component, [directive](guide/directives), or [pipe](guide/templates/pipes), you must add
+it to the `imports` array in the `@Component` decorator:
 
 ```ts
+import {Component} from '@angular/core';
 import {ProfilePhoto} from './profile-photo';
 
 @Component({
@@ -67,47 +72,48 @@ import {ProfilePhoto} from './profile-photo';
   imports: [ProfilePhoto],
   /* ... */
 })
-export class UserProfile { }
+export class UserProfile {}
 ```
 
-Por padrão, components Angular são _standalone_, o que significa que você pode adicioná-los diretamente ao array `imports` de outros components. Components criados com uma versão anterior do Angular podem, em vez disso, especificar `standalone: false` em seu decorator `@Component`. Para esses components, você deve importar o `NgModule` no qual o component está definido. Consulte o [guia completo do `NgModule`](guide/ngmodules) para detalhes.
+By default, Angular components are _standalone_, meaning that you can directly add them to the `imports` array of other components. Components created with an earlier version of Angular may instead specify `standalone: false` in their `@Component` decorator. For these components, you instead import the `NgModule` in which the component is defined. See the full [`NgModule` guide](guide/ngmodules/overview) for details.
 
-Important: Nas versões do Angular anteriores à 19.0.0, a opção `standalone` tem como padrão `false`.
+IMPORTANT: In Angular versions before 19.0.0, the `standalone` option defaults to `false`.
 
-### Mostrando components em um template
+### Showing components in a template
 
-Todo component define um [seletor CSS](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors):
+Every component defines a [CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors):
 
-<docs-code language="angular-ts" highlight="[2]">
+```angular-ts {highlight: [2]}
 @Component({
   selector: 'profile-photo',
   ...
 })
 export class ProfilePhoto { }
-</docs-code>
+```
 
-Consulte [Seletores de Components](guide/components/selectors) para detalhes sobre quais tipos de seletores o Angular suporta e orientações sobre como escolher um seletor.
+See [Component Selectors](guide/components/selectors) for details about which types of selectors Angular supports and guidance on choosing a selector.
 
-Você mostra um component criando um elemento HTML correspondente no template de _outros_ components:
+You show a component by creating a matching HTML element in the template of _other_ components:
 
-<docs-code language="angular-ts" highlight="[8]">
+```angular-ts {highlight: [8]}
 @Component({
   selector: 'profile-photo',
 })
-export class ProfilePhoto { }
+export class ProfilePhoto {}
 
 @Component({
-imports: [ProfilePhoto],
-template: `<profile-photo />`
+  imports: [ProfilePhoto],
+  template: `<profile-photo />`,
 })
-export class UserProfile { }
-</docs-code>
+export class UserProfile {}
+```
 
-O Angular cria uma instância do component para cada elemento HTML correspondente que encontra. O elemento DOM que corresponde ao seletor de um component é referido como o **elemento host** daquele component. O conteúdo do template de um component é renderizado dentro de seu elemento host.
+Angular creates an instance of the component for every matching HTML element it encounters. The DOM element that matches a component's selector is referred to as that component's **host element**. The contents of a component's template are rendered inside its host element.
 
-O DOM renderizado por um component, correspondente ao template daquele component, é chamado de **view** daquele component.
+The DOM rendered by a component, corresponding to that component's template, is called that
+component's **view**.
 
-Ao compor components dessa maneira, **você pode pensar em sua aplicação Angular como uma árvore de components**.
+In composing components in this way, **you can think of your Angular application as a tree of components**.
 
 ```mermaid
 flowchart TD
@@ -120,4 +126,4 @@ flowchart TD
     E[UserBio]
 ```
 
-Essa estrutura de árvore é importante para entender vários outros conceitos do Angular, incluindo [injeção de dependência](guide/di) e [consultas filhas](guide/components/queries).
+This tree structure is important to understanding several other Angular concepts, including [dependency injection](guide/di) and [child queries](guide/components/queries).

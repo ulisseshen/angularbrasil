@@ -12,7 +12,12 @@ import ts from 'typescript';
 import {NgCompilerOptions} from '../../../../core/api';
 import {ErrorCode, ExtendedTemplateDiagnosticName} from '../../../../diagnostics';
 import {NgTemplateDiagnostic} from '../../../api';
-import {TemplateCheckFactory, TemplateCheckWithVisitor, TemplateContext} from '../../api';
+import {
+  TemplateCheckFactory,
+  TemplateCheckWithVisitor,
+  TemplateContext,
+  formatExtendedError,
+} from '../../api';
 
 /**
  * The list of known control flow directives present in the `CommonModule`,
@@ -67,19 +72,22 @@ class MissingControlFlowDirectiveCheck extends TemplateCheckWithVisitor<ErrorCod
     );
     if (!controlFlowAttr) return [];
 
-    const symbol = ctx.templateTypeChecker.getSymbolOfNode(node, component);
-    if (symbol === null || symbol.directives.length > 0) {
+    const directives = ctx.templateTypeChecker.getDirectivesOfNode(component, node);
+    if (directives?.length) {
       return [];
     }
 
     const sourceSpan = controlFlowAttr.keySpan || controlFlowAttr.sourceSpan;
     const directiveAndBuiltIn = KNOWN_CONTROL_FLOW_DIRECTIVES.get(controlFlowAttr.name);
-    const errorMessage =
+    const errorMessage = formatExtendedError(
+      ErrorCode.MISSING_CONTROL_FLOW_DIRECTIVE,
       `The \`*${controlFlowAttr.name}\` directive was used in the template, ` +
-      `but neither the \`${directiveAndBuiltIn?.directive}\` directive nor the \`CommonModule\` was imported. ` +
-      `Use Angular's built-in control flow ${directiveAndBuiltIn?.builtIn} or ` +
-      `make sure that either the \`${directiveAndBuiltIn?.directive}\` directive or the \`CommonModule\` ` +
-      `is included in the \`@Component.imports\` array of this component.`;
+        `but neither the \`${directiveAndBuiltIn?.directive}\` directive nor the \`CommonModule\` was imported. ` +
+        `Use Angular's built-in control flow ${directiveAndBuiltIn?.builtIn} or ` +
+        `make sure that either the \`${directiveAndBuiltIn?.directive}\` directive or the \`CommonModule\` ` +
+        `is included in the \`@Component.imports\` array of this component.`,
+    );
+
     const diagnostic = ctx.makeTemplateDiagnostic(sourceSpan, errorMessage);
     return [diagnostic];
   }

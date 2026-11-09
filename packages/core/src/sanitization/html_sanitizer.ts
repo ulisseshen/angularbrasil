@@ -7,23 +7,26 @@
  */
 
 import {XSS_SECURITY_URL} from '../error_details_base_url';
+import {getFirstChild, getNextSibling, getNodeName} from '../util/dom';
 import {TrustedHTML} from '../util/security/trusted_type_defs';
 import {trustedHTMLFromString} from '../util/security/trusted_types';
 
 import {getInertBodyHelper, InertBodyHelper} from './inert_body';
 import {_sanitizeUrl} from './url_sanitizer';
 
-function tagSet(tags: string): {[k: string]: boolean} {
-  const res: {[k: string]: boolean} = {};
+type BooleanRecord = Record<string, boolean>;
+
+function tagSet(tags: string): BooleanRecord {
+  const res: BooleanRecord = Object.create(null);
   for (const t of tags.split(',')) res[t] = true;
   return res;
 }
 
-function merge(...sets: {[k: string]: boolean}[]): {[k: string]: boolean} {
-  const res: {[k: string]: boolean} = {};
+function merge(...sets: BooleanRecord[]): BooleanRecord {
+  const res: BooleanRecord = Object.create(null);
   for (const s of sets) {
     for (const v in s) {
-      if (s.hasOwnProperty(v)) res[v] = true;
+      if (Object.hasOwn(s, v)) res[v] = true;
     }
   }
   return res;
@@ -66,7 +69,7 @@ const INLINE_ELEMENTS = merge(
   ),
 );
 
-export const VALID_ELEMENTS: {[k: string]: boolean} = merge(
+export const VALID_ELEMENTS: BooleanRecord = merge(
   VOID_ELEMENTS,
   BLOCK_ELEMENTS,
   INLINE_ELEMENTS,
@@ -74,7 +77,7 @@ export const VALID_ELEMENTS: {[k: string]: boolean} = merge(
 );
 
 // Attributes that have href and hence need to be sanitized
-export const URI_ATTRS: {[k: string]: boolean} = tagSet(
+const URI_ATTRS: BooleanRecord = tagSet(
   'background,cite,href,itemtype,longdesc,poster,src,xlink:href',
 );
 
@@ -105,7 +108,7 @@ const ARIA_ATTRS = tagSet(
 // can be sanitized, but they increase security surface area without a legitimate use case, so they
 // are left out here.
 
-export const VALID_ATTRS: {[k: string]: boolean} = merge(URI_ATTRS, HTML_ATTRS, ARIA_ATTRS);
+export const VALID_ATTRS: BooleanRecord = merge(URI_ATTRS, HTML_ATTRS, ARIA_ATTRS);
 
 // Elements whose content should not be traversed/preserved, if the elements themselves are invalid.
 //
@@ -177,9 +180,9 @@ class SanitizingHtmlSerializer {
    */
   private startElement(element: Element): boolean {
     const tagName = getNodeName(element).toLowerCase();
-    if (!VALID_ELEMENTS.hasOwnProperty(tagName)) {
+    if (!Object.hasOwn(VALID_ELEMENTS, tagName)) {
       this.sanitizedSomething = true;
-      return !SKIP_TRAVERSING_CONTENT_IF_INVALID_ELEMENTS.hasOwnProperty(tagName);
+      return !Object.hasOwn(SKIP_TRAVERSING_CONTENT_IF_INVALID_ELEMENTS, tagName);
     }
     this.buf.push('<');
     this.buf.push(tagName);
@@ -188,7 +191,7 @@ class SanitizingHtmlSerializer {
       const elAttr = elAttrs.item(i);
       const attrName = elAttr!.name;
       const lower = attrName.toLowerCase();
-      if (!VALID_ATTRS.hasOwnProperty(lower)) {
+      if (!Object.hasOwn(VALID_ATTRS, lower)) {
         this.sanitizedSomething = true;
         continue;
       }
@@ -203,7 +206,7 @@ class SanitizingHtmlSerializer {
 
   private endElement(current: Element) {
     const tagName = getNodeName(current).toLowerCase();
-    if (VALID_ELEMENTS.hasOwnProperty(tagName) && !VOID_ELEMENTS.hasOwnProperty(tagName)) {
+    if (Object.hasOwn(VALID_ELEMENTS, tagName) && !Object.hasOwn(VOID_ELEMENTS, tagName)) {
       this.buf.push('</');
       this.buf.push(tagName);
       this.buf.push('>');
@@ -213,58 +216,6 @@ class SanitizingHtmlSerializer {
   private chars(chars: string) {
     this.buf.push(encodeEntities(chars));
   }
-}
-
-/**
- * Verifies whether a given child node is a descendant of a given parent node.
- * It may not be the case when properties like `.firstChild` are clobbered and
- * accessing `.firstChild` results in an unexpected node returned.
- */
-function isClobberedElement(parentNode: Node, childNode: Node): boolean {
-  return (
-    (parentNode.compareDocumentPosition(childNode) & Node.DOCUMENT_POSITION_CONTAINED_BY) !==
-    Node.DOCUMENT_POSITION_CONTAINED_BY
-  );
-}
-
-/**
- * Retrieves next sibling node and makes sure that there is no
- * clobbering of the `nextSibling` property happening.
- */
-function getNextSibling(node: Node): Node | null {
-  const nextSibling = node.nextSibling;
-  // Make sure there is no `nextSibling` clobbering: navigating to
-  // the next sibling and going back to the previous one should result
-  // in the original node.
-  if (nextSibling && node !== nextSibling.previousSibling) {
-    throw clobberedElementError(nextSibling);
-  }
-  return nextSibling;
-}
-
-/**
- * Retrieves first child node and makes sure that there is no
- * clobbering of the `firstChild` property happening.
- */
-function getFirstChild(node: Node): Node | null {
-  const firstChild = node.firstChild;
-  if (firstChild && isClobberedElement(node, firstChild)) {
-    throw clobberedElementError(firstChild);
-  }
-  return firstChild;
-}
-
-/** Gets a reasonable nodeName, even for clobbered nodes. */
-export function getNodeName(node: Node): string {
-  const nodeName = node.nodeName;
-  // If the property is clobbered, assume it is an `HTMLFormElement`.
-  return typeof nodeName === 'string' ? nodeName : 'FORM';
-}
-
-function clobberedElementError(node: Node) {
-  return new Error(
-    `Failed to sanitize html because the element is clobbered: ${(node as Element).outerHTML}`,
-  );
 }
 
 // Regular Expressions for parsing tags and attributes

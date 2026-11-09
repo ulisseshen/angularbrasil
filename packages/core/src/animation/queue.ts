@@ -7,13 +7,14 @@
  */
 
 import {afterNextRender} from '../render3/after_render/hooks';
-import {InjectionToken, Injector} from '../di';
+import {InjectionToken, EnvironmentInjector, Injector, inject} from '../di';
 import {AnimationLViewData, EnterNodeAnimations} from './interfaces';
 
 export interface AnimationQueue {
   queue: Set<VoidFunction>;
   isScheduled: boolean;
   scheduler: typeof initializeAnimationQueueScheduler | null;
+  injector: EnvironmentInjector;
 }
 
 /**
@@ -23,21 +24,25 @@ export const ANIMATION_QUEUE = new InjectionToken<AnimationQueue>(
   typeof ngDevMode !== 'undefined' && ngDevMode ? 'AnimationQueue' : '',
   {
     factory: () => {
+      const injector = inject(EnvironmentInjector);
+      const queue = new Set<VoidFunction>();
+      injector.onDestroy(() => queue.clear());
       return {
-        queue: new Set(),
+        queue,
         isScheduled: false,
         scheduler: null,
+        injector, // should be the root injector
       };
     },
   },
 );
 
 export function addToAnimationQueue(
+  animationQueue: AnimationQueue,
   injector: Injector,
   animationFns: VoidFunction | VoidFunction[],
   animationData?: AnimationLViewData,
 ) {
-  const animationQueue = injector.get(ANIMATION_QUEUE);
   if (Array.isArray(animationFns)) {
     for (const animateFn of animationFns) {
       animationQueue.queue.add(animateFn);
@@ -54,6 +59,19 @@ export function addToAnimationQueue(
     animationData?.detachedLeaveAnimationFns?.push(animationFns);
   }
   animationQueue.scheduler && animationQueue.scheduler(injector);
+}
+
+export function removeAnimationsFromQueue(
+  animationQueue: AnimationQueue,
+  animationFns: VoidFunction | VoidFunction[],
+) {
+  if (Array.isArray(animationFns)) {
+    for (const animateFn of animationFns) {
+      animationQueue.queue.delete(animateFn);
+    }
+  } else {
+    animationQueue.queue.delete(animationFns);
+  }
 }
 
 export function removeFromAnimationQueue(injector: Injector, animationData: AnimationLViewData) {
@@ -78,7 +96,7 @@ export function scheduleAnimationQueue(injector: Injector) {
         }
         animationQueue.queue.clear();
       },
-      {injector},
+      {injector: animationQueue.injector},
     );
     animationQueue.isScheduled = true;
   }
@@ -94,7 +112,9 @@ export function queueEnterAnimations(
   injector: Injector,
   enterAnimations: Map<number, EnterNodeAnimations>,
 ) {
+  const queue = injector.get(ANIMATION_QUEUE);
+
   for (const [_, nodeAnimations] of enterAnimations) {
-    addToAnimationQueue(injector, nodeAnimations.animateFns);
+    addToAnimationQueue(queue, injector, nodeAnimations.animateFns);
   }
 }

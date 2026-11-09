@@ -7,8 +7,8 @@
  */
 
 import {ɵRuntimeError as RuntimeError} from '@angular/core';
-
 import {RuntimeErrorCode} from '../errors';
+import type {AbstractControl} from '../model/abstract_model';
 
 import {
   formArrayNameExample,
@@ -16,6 +16,7 @@ import {
   formGroupNameExample,
   ngModelGroupExample,
 } from './error_examples';
+import {VERSION} from '../version';
 
 export function controlParentException(nameOrIndex: string | number | null): Error {
   return new RuntimeError(
@@ -54,17 +55,6 @@ export function ngModelGroupException(): Error {
       Option 2: Use ngModel instead of formControlName (template-driven strategy)
 
       ${ngModelGroupExample}`,
-  );
-}
-
-export function missingFormException(): Error {
-  return new RuntimeError(
-    RuntimeErrorCode.FORM_GROUP_MISSING_INSTANCE,
-    `formGroup expects a FormGroup instance. Please pass one in.
-
-      Example:
-
-      ${formControlNameExample}`,
   );
 }
 
@@ -126,6 +116,8 @@ export const asyncValidatorsDroppedWithOptsWarning = `
 `;
 
 export function ngModelWarning(directiveName: string): string {
+  const versionSubDomain = VERSION.major !== '0' ? `v${VERSION.major}.` : '';
+
   return `
   It looks like you're using ngModel on the same form field as ${directiveName}.
   Support for using the ngModel input property and ngModelChange event with
@@ -133,9 +125,9 @@ export function ngModelWarning(directiveName: string): string {
   in a future version of Angular.
 
   For more information on this, see our API docs here:
-  https://angular.io/api/forms/${
+  https://${versionSubDomain}angular.dev/api/forms/${
     directiveName === 'formControl' ? 'FormControlDirective' : 'FormControlName'
-  }#use-with-ngmodel
+  }
   `;
 }
 
@@ -158,4 +150,15 @@ export function missingControlError(isFormGroup: boolean, key: string | number):
 
 export function missingControlValueError(isFormGroup: boolean, key: string | number): string {
   return `Must supply a value for form control ${describeKey(isFormGroup, key)}`;
+}
+
+/** Message for a `formControlName` whose path does not match any control in the form model. */
+export function missingControlForPathError(form: AbstractControl, path: string[]): string {
+  const parent = path.length > 1 ? form.get(path.slice(0, -1)) : form;
+  const controls = parent && (parent as any).controls;
+  const siblingKeys = controls ? Object.keys(controls) : [];
+  const siblings = siblingKeys.length
+    ? `Controls that do exist at this level: ${siblingKeys.join(', ')}.`
+    : `No controls are registered at this level.`;
+  return `Cannot find control with path: '${path.join(' -> ')}'. ${siblings}`;
 }

@@ -33,7 +33,7 @@ export const REDIRECT_ROUTES: Route[] = [
   },
   {
     path: 'guide/components/importing',
-    redirectTo: '/guide/components/anatomy-of-components#using-components',
+    redirectTo: '/guide/components#using-components',
   },
   {
     path: 'guide/templates/attribute-binding',
@@ -89,15 +89,11 @@ export const REDIRECT_ROUTES: Route[] = [
   },
   {
     path: 'guide/signals/model',
-    redirectTo: '/guide/signals/inputs',
+    redirectTo: '/guide/components/inputs',
   },
   {
     path: 'guide/signals/inputs',
     redirectTo: '/guide/components/inputs',
-  },
-  {
-    path: 'guide/ngmodules',
-    redirectTo: '/guide/ngmodules/overview',
   },
   {
     path: 'guide/ngmodules/providers',
@@ -132,13 +128,8 @@ export const REDIRECT_ROUTES: Route[] = [
     redirectTo: '/tools/cli/build-system-migration#hot-module-replacement',
   },
   {
-    path: 'guide',
-    children: [
-      {
-        path: 'pipes',
-        redirectTo: '/guide/templates/pipes',
-      },
-    ],
+    path: 'guide/pipes',
+    redirectTo: '/guide/templates/pipes',
   },
   {
     path: 'guide/experimental/zoneless',
@@ -154,7 +145,7 @@ export const REDIRECT_ROUTES: Route[] = [
   },
   {
     path: 'guide/animations/transitions-and-triggers',
-    redirectTo: '/guide/legacy-animations/transitions-and-triggers',
+    redirectTo: '/guide/legacy-animations/transition-and-triggers',
   },
   {
     path: 'guide/animations/complex-sequences',
@@ -163,5 +154,25 @@ export const REDIRECT_ROUTES: Route[] = [
   {
     path: 'guide/animations/reusable-animations',
     redirectTo: '/guide/legacy-animations/reusable-animations',
+  },
+  {
+    path: 'guide/aria',
+    redirectTo: '/guide/aria/overview',
+  },
+  {
+    path: 'signal-forms',
+    redirectTo: '/playground?templateId=4-signal-forms',
+  },
+  {
+    path: 'guide/http/security',
+    redirectTo: '/best-practices/security',
+  },
+  {
+    path: 'reference/concepts',
+    redirectTo: '/guide/ngmodules/overview',
+  },
+  {
+    path: 'guide/ngmodules',
+    redirectTo: '/guide/ngmodules/overview',
   },
 ];

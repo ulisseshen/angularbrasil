@@ -1,34 +1,33 @@
-<!-- ia-translate: true -->
 <docs-decorative-header title="Next Steps" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Agora que você foi apresentado aos principais conceitos do Angular - você está pronto para colocar o que aprendeu em prática com nossos tutoriais interativos e aprender mais com nossos guias detalhados.
+Now that you have been introduced to the main concepts of Angular - you're ready to put what you learned into practice with our interactive tutorials and learn more with our in-depth guides.
 
 ## Playground
 
-Experimente o Angular em um editor de código interativo para explorar ainda mais os conceitos que você aprendeu.
+Try out Angular in an interactive code editor to further explore the concepts you've learned.
 
 <docs-pill-row>
-  <docs-pill title="Brinque com Angular!" href="playground" />
+  <docs-pill title="Play with Angular!" href="playground" />
 </docs-pill-row>
 
-## Tutoriais
+## Tutorials
 
-Coloque esses conceitos principais em prática com nosso tutorial no navegador ou construa seu primeiro aplicativo localmente com o Angular CLI.
+Put these main concepts into practice with our in-browser tutorial or build your first app locally with the Angular CLI.
 
 <docs-pill-row>
-  <docs-pill title="Aprenda os fundamentos do Angular" href="tutorials/learn-angular" />
-  <docs-pill title="Construa seu primeiro aplicativo Angular" href="tutorials/first-app" />
+  <docs-pill title="Learn Angular's fundamentals" href="tutorials/learn-angular" />
+  <docs-pill title="Build your first Angular app" href="tutorials/first-app" />
 </docs-pill-row>
 
-## Guias Detalhados
+## In-depth Guides
 
-Aqui estão alguns guias detalhados que você pode se interessar em ler:
+Here are some in-depth guides you might be interested in reading:
 
 <docs-pill-row>
-  <docs-pill title="Guia Detalhado de Components" href="guide/components/importing" />
-  <docs-pill title="Guia Detalhado de Template" href="guide/templates" />
-  <docs-pill title="Guia Detalhado de Forms" href="/guide/forms" />
+  <docs-pill title="Components In-depth Guide" href="guide/components" />
+  <docs-pill title="Template In-depth Guide" href="guide/templates" />
+  <docs-pill title="Forms In-depth Guide" href="/guide/forms" />
 </docs-pill-row>
 
-Para ver o restante dos nossos guias detalhados, consulte a navegação principal.
+To see the rest of our in-depth guides, check out the main navigation.

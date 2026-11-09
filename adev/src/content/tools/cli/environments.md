@@ -1,15 +1,13 @@
-<!-- ia-translate: true -->
+# Configuring application environments
 
-# Configurando ambientes de aplicação
+You can define different named build configurations for your project, such as `development` and `staging`, with different defaults.
 
-Você pode definir diferentes configurações de build nomeadas para seu projeto, como `development` e `staging`, com diferentes padrões.
+Each named configuration can have defaults for any of the options that apply to the various builder targets, such as `build`, `serve`, and `test`.
+The [Angular CLI](tools/cli) `build`, `serve`, and `test` commands can then replace files with appropriate versions for your intended target environment.
 
-Cada configuração nomeada pode ter padrões para qualquer uma das opções que se aplicam aos vários targets de builder, como `build`, `serve` e `test`.
-Os comandos `build`, `serve` e `test` do [Angular CLI](tools/cli) podem então substituir arquivos pelas versões apropriadas para seu ambiente de destino pretendido.
+## Angular CLI configurations
 
-## Configurações do Angular CLI
-
-Os builders do Angular CLI suportam um objeto `configurations`, que permite sobrescrever opções específicas para um builder com base na configuração fornecida na linha de comando.
+Angular CLI builders support a `configurations` object, which allows overwriting specific options for a builder based on the configuration provided on the command line.
 
 ```json
 
@@ -18,13 +16,13 @@ Os builders do Angular CLI suportam um objeto `configurations`, que permite sobr
     "my-app": {
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            // Por padrão, desabilitar geração de source map.
+            // By default, disable source map generation.
             "sourceMap": false
           },
           "configurations": {
-            // Para a configuração `debug`, habilitar source maps.
+            // For the `debug` configuration, enable source maps.
             "debug": {
               "sourceMap": true
             }
@@ -38,7 +36,7 @@ Os builders do Angular CLI suportam um objeto `configurations`, que permite sobr
 
 ```
 
-Você pode escolher qual configuração usar com a opção `--configuration`.
+You can choose which configuration to use with the `--configuration` option.
 
 ```shell
 
@@ -46,7 +44,7 @@ ng build --configuration debug
 
 ```
 
-Configurações podem ser aplicadas a qualquer builder do Angular CLI. Múltiplas configurações podem ser especificadas com um separador de vírgula. As configurações são aplicadas em ordem, com opções conflitantes usando o valor da última configuração.
+Configurations can be applied to any Angular CLI builder. Multiple configurations can be specified with a comma separator. The configurations are applied in order, with conflicting options using the value from the last configuration.
 
 ```shell
 
@@ -54,12 +52,12 @@ ng build --configuration debug,production,customer-facing
 
 ```
 
-## Configurar padrões específicos de ambiente
+## Configure environment-specific defaults
 
-`@angular-devkit/build-angular:browser` suporta substituições de arquivo, uma opção para substituir arquivos fonte antes de executar um build.
-Usar isso em combinação com `--configuration` fornece um mecanismo para configurar dados específicos de ambiente em sua aplicação.
+`@angular/build:application` supports file replacements, an option for substituting source files before executing a build.
+Using this in combination with `--configuration` provides a mechanism for configuring environment-specific data in your application.
 
-Comece [gerando environments](cli/generate/environments) para criar o diretório `src/environments/` e configurar o projeto para usar substituições de arquivo.
+Start by [generating environments](cli/generate/environments) to create the `src/environments/` directory and configure the project to use file replacements.
 
 ```shell
 
@@ -67,10 +65,10 @@ ng generate environments
 
 ```
 
-O diretório `src/environments/` do projeto contém o arquivo de configuração base, `environment.ts`, que fornece a configuração padrão para produção.
-Você pode sobrescrever valores padrão para ambientes adicionais, como `development` e `staging`, em arquivos de configuração específicos de target.
+The project's `src/environments/` directory contains the base configuration file, `environment.ts`, which provides the default configuration for production.
+You can override default values for additional environments, such as `development` and `staging`, in target-specific configuration files.
 
-Por exemplo:
+For example:
 
 ```text
 
@@ -81,70 +79,62 @@ my-app/src/environments
 
 ```
 
-O arquivo base `environment.ts`, contém as configurações de ambiente padrão.
-Por exemplo:
+The base file `environment.ts`, contains the default environment settings.
+For example:
 
 ```ts
-
-export const environment = {
-  production: true
-};
-
-```
-
-O comando `build` usa isso como target de build quando nenhum ambiente é especificado.
-Você pode adicionar mais variáveis, seja como propriedades adicionais no objeto environment, ou como objetos separados.
-Por exemplo, o seguinte adiciona um padrão para uma variável ao ambiente padrão:
-
-```ts
-
 export const environment = {
   production: true,
-  apiUrl: 'http://my-prod-url'
 };
-
 ```
 
-Você pode adicionar arquivos de configuração específicos de target, como `environment.development.ts`.
-O seguinte conteúdo define valores padrão para o target de build development:
+The `build` command uses this as the build target when no environment is specified.
+You can add further variables, either as additional properties on the environment object, or as separate objects.
+For example, the following adds a default for a variable to the default environment:
 
 ```ts
+export const environment = {
+  production: true,
+  apiUrl: 'http://my-prod-url',
+};
+```
 
+CRITICAL: Files in `src/environments/` are bundled into your client-side application and visible to anyone who loads the page. Never store secrets such as API keys here. Use a server-side proxy or a secrets manager instead.
+
+You can add target-specific configuration files, such as `environment.development.ts`.
+The following content sets default values for the development build target:
+
+```ts
 export const environment = {
   production: false,
-  apiUrl: 'http://my-dev-url'
+  apiUrl: 'http://my-dev-url',
 };
-
 ```
 
-## Usando variáveis específicas de ambiente na sua aplicação
+## Using environment-specific variables in your app
 
-Para usar as configurações de ambiente que você definiu, seus components devem importar o arquivo environments original:
+To use the environment configurations you have defined, your components must import the original environments file:
 
 ```ts
-
-import { environment } from './environments/environment';
-
+import {environment} from './environments/environment';
 ```
 
-Isso garante que os comandos build e serve possam encontrar as configurações para targets de build específicos.
+This ensures that the build and serve commands can find the configurations for specific build targets.
 
-O código a seguir no arquivo do component (`app.component.ts`) usa uma variável de ambiente definida nos arquivos de configuração.
+The following code in the component file (`app.ts`) uses an environment variable defined in the configuration files.
 
 ```ts
+import {environment} from './../environments/environment';
 
-import { environment } from './../environments/environment';
-
-// Busca de `http://my-prod-url` em produção, `http://my-dev-url` em desenvolvimento.
+// Fetches from `http://my-prod-url` in production, `http://my-dev-url` in development.
 fetch(environment.apiUrl);
-
 ```
 
-O arquivo de configuração principal do CLI, `angular.json`, contém uma seção `fileReplacements` na configuração para cada target de build, que permite substituir qualquer arquivo no programa TypeScript por uma versão específica de target desse arquivo.
-Isso é útil para incluir código ou variáveis específicas de target em um build que tem como alvo um ambiente específico, como produção ou staging.
+The main CLI configuration file, `angular.json`, contains a `fileReplacements` section in the configuration for each build target, which lets you replace any file in the TypeScript program with a target-specific version of that file.
+This is useful for including target-specific code or variables in a build that targets a specific environment, such as production or staging.
 
-Por padrão nenhum arquivo é substituído, no entanto `ng generate environments` configura essa configuração automaticamente.
-Você pode alterar ou adicionar substituições de arquivo para targets de build específicos editando a configuração `angular.json` diretamente.
+By default no files are replaced, however `ng generate environments` sets up this configuration automatically.
+You can change or add file replacements for specific build targets by editing the `angular.json` configuration directly.
 
 ```json
 
@@ -160,9 +150,9 @@ Você pode alterar ou adicionar substituições de arquivo para targets de build
 
 ```
 
-Isso significa que quando você constrói sua configuração de desenvolvimento com `ng build --configuration development`, o arquivo `src/environments/environment.ts` é substituído pela versão específica de target do arquivo, `src/environments/environment.development.ts`.
+This means that when you build your development configuration with `ng build --configuration development`, the `src/environments/environment.ts` file is replaced with the target-specific version of the file, `src/environments/environment.development.ts`.
 
-Para adicionar um ambiente staging, crie uma cópia de `src/environments/environment.ts` chamada `src/environments/environment.staging.ts`, então adicione uma configuração `staging` ao `angular.json`:
+To add a staging environment, create a copy of `src/environments/environment.ts` called `src/environments/environment.staging.ts`, then add a `staging` configuration to `angular.json`:
 
 ```json
 
@@ -181,10 +171,10 @@ Para adicionar um ambiente staging, crie uma cópia de `src/environments/environ
 
 ```
 
-Você pode adicionar mais opções de configuração a este ambiente de target também.
-Qualquer opção que seu build suporte pode ser sobrescrita em uma configuração de target de build.
+You can add more configuration options to this target environment as well.
+Any option that your build supports can be overridden in a build target configuration.
 
-Para construir usando a configuração staging, execute o seguinte comando:
+To build using the staging configuration, run the following command:
 
 ```shell
 
@@ -192,21 +182,21 @@ ng build --configuration staging
 
 ```
 
-Por padrão, o target `build` inclui configurações `production` e `development` e `ng serve` usa o build de desenvolvimento da aplicação.
-Você também pode configurar `ng serve` para usar a configuração de build direcionada se definir a opção `buildTarget`:
+By default, the `build` target includes `production` and `development` configurations and `ng serve` uses the development build of the application.
+You can also configure `ng serve` to use the targeted build configuration if you set the `buildTarget` option:
 
 ```json
 
   "serve": {
-    "builder": "@angular-devkit/build-angular:dev-server",
+    "builder": "@angular/build:dev-server",
     "options": { … },
     "configurations": {
       "development": {
-        // Usar a configuração `development` do target `build`.
+        // Use the `development` configuration of the `build` target.
         "buildTarget": "my-app:build:development"
       },
       "production": {
-        // Usar a configuração `production` do target `build`.
+        // Use the `production` configuration of the `build` target.
         "buildTarget": "my-app:build:production"
       }
     },
@@ -215,5 +205,5 @@ Você também pode configurar `ng serve` para usar a configuração de build dir
 
 ```
 
-A opção `defaultConfiguration` especifica qual configuração é usada por padrão.
-Quando `defaultConfiguration` não está definida, `options` são usadas diretamente sem modificação.
+The `defaultConfiguration` option specifies which configuration is used by default.
+When `defaultConfiguration` is not set, `options` are used directly without modification.

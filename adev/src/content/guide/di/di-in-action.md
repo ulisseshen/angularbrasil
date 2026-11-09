@@ -1,53 +1,83 @@
-<!-- ia-translate: true -->
-# DI em ação
+# DI in action
 
-Este guia explora recursos adicionais de dependency injection no Angular.
+This guide explores additional features of dependency injection (DI) in Angular.
 
-NOTA: Para cobertura abrangente de InjectionToken e providers customizados, veja o [guia de definição de providers de dependência](guide/di/defining-dependency-providers#injection-tokens).
+NOTE: For comprehensive coverage of InjectionToken and custom providers, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injection-tokens).
 
-## Injetar o elemento DOM do component
+## Inject the component's DOM element
 
-Embora desenvolvedores se esforcem para evitar isso, alguns efeitos visuais e ferramentas de terceiros requerem acesso direto ao DOM.
-Como resultado, você pode precisar acessar o elemento DOM de um component.
+Although developers generally avoid it, some visual effects and third-party tools require you to access the DOM directly.
+In such cases, you may need to access a component's DOM element.
 
-O Angular expõe o elemento subjacente de um `@Component` ou `@Directive` via injeção usando o token de injeção `ElementRef`:
+Angular exposes the underlying DOM element of a `@Component` or `@Directive` through injection using the `ElementRef` token:
 
-<docs-code language="typescript" highlight="[7]">
-import { Directive, ElementRef } from '@angular/core';
+```ts {highlight:[7]}
+import {Directive, ElementRef, inject} from '@angular/core';
 
 @Directive({
-selector: '[appHighlight]'
+  selector: '[appHighlight]',
 })
 export class HighlightDirective {
-private element = inject(ElementRef)
+  private element = inject(ElementRef);
 
-update() {
-this.element.nativeElement.style.color = 'red';
+  update() {
+    this.element.nativeElement.style.color = 'red';
+  }
 }
+```
+
+## Inject the host element's tag name
+
+To get the tag name of a host element, inject it using the `HOST_TAG_NAME` token.
+
+```ts
+import {Directive, HOST_TAG_NAME, inject} from '@angular/core';
+
+@Directive({
+  selector: '[roleButton]',
+})
+export class RoleButtonDirective {
+  private tagName = inject(HOST_TAG_NAME);
+
+  onAction() {
+    switch (this.tagName) {
+      case 'button':
+        // Handle button action
+        break;
+      case 'a':
+        // Handle anchor action
+        break;
+      default:
+        // Handle other elements
+        break;
+    }
+  }
 }
-</docs-code>
+```
 
-## Resolver dependências circulares com uma referência forward
+NOTE: If the host element might not have a tag name (e.g., `ng-container` or `ng-template`), make the injection optional.
 
-A ordem de declaração de classe importa no TypeScript.
-Você não pode se referir diretamente a uma classe até que ela tenha sido definida.
+## Resolve circular dependencies with a forward reference
 
-Isso geralmente não é um problema, especialmente se você adere à regra recomendada de _uma classe por arquivo_.
-Mas às vezes referências circulares são inevitáveis.
-Por exemplo, quando a classe 'A' se refere à classe 'B' e 'B' se refere a 'A', uma delas tem que ser definida primeiro.
+In TypeScript, the order of class declarations matters.
+You cannot reference a class directly until you define it.
 
-A função `forwardRef()` do Angular cria uma referência _indireta_ que o Angular pode resolver posteriormente.
+This isn't usually a problem, especially if you adhere to the recommended _one class per file_ rule.
+However, in some cases, circular references are unavoidable.
+For example, if class 'A' refers to class 'B' and class 'B' refers to class 'A', one of them must be defined first.
 
-Você enfrenta um problema similar quando uma classe faz _uma referência a si mesma_.
-Por exemplo, no seu array `providers`.
-O array `providers` é uma propriedade da função decorator `@Component()`, que deve aparecer antes da definição da classe.
-Você pode quebrar tais referências circulares usando `forwardRef`.
+The Angular `forwardRef()` function creates an _indirect_ reference that Angular can resolve later.
 
-<docs-code header="app.component.ts" language="typescript" highlight="[4]">
+You face a similar problem when a class makes _a reference to itself_.
+For example, in its `providers` array.
+The `providers` array is a property of the `@Component()` decorator function, which must appear before the class definition.
+Such circular references can be resolved using `forwardRef`.
+
+```typescript {header: 'app.component.ts', highlight: [4]}
 providers: [
   {
     provide: PARENT_MENU_ITEM,
     useExisting: forwardRef(() => MenuItem),
   },
 ],
-</docs-code>
+```

@@ -1,91 +1,87 @@
-<!-- ia-translate: true -->
+# Hierarchical injectors
 
-# Injectors hierárquicos
+This guide provides in-depth coverage of Angular's hierarchical dependency injection system, including resolution rules, modifiers, and advanced patterns.
 
-Este guia fornece cobertura aprofundada do sistema de dependency injection hierárquico do Angular, incluindo regras de resolução, modificadores e padrões avançados.
+NOTE: For basic concepts about injector hierarchy and provider scoping, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injector-hierarchy-in-angular).
 
-NOTA: Para conceitos básicos sobre hierarquia de injector e escopo de provider, veja o [guia de definição de providers de dependência](guide/di/defining-dependency-providers#injector-hierarchy-in-angular).
+## Types of injector hierarchies
 
-## Tipos de hierarquias de injector
+Angular has two injector hierarchies:
 
-O Angular tem duas hierarquias de injector:
+| Injector hierarchies            | Details                                                                                                                                                                   |
+| :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `EnvironmentInjector` hierarchy | Configure an `EnvironmentInjector` in this hierarchy using `@Service()` or `providers` array in `ApplicationConfig`.                                                      |
+| `ElementInjector` hierarchy     | Created implicitly at each DOM element. An `ElementInjector` is empty by default unless you configure it in the `providers` property on `@Directive()` or `@Component()`. |
 
-| Hierarquias de injector          | Detalhes                                                                                                                                                                         |
-| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hierarquia `EnvironmentInjector` | Configure um `EnvironmentInjector` nesta hierarquia usando `@Injectable()` ou array `providers` em `ApplicationConfig`.                                                          |
-| Hierarquia `ElementInjector`     | Criado implicitamente em cada elemento DOM. Um `ElementInjector` é vazio por padrão a menos que você o configure na propriedade `providers` em `@Directive()` ou `@Component()`. |
-
-<docs-callout title="Aplicações Baseadas em NgModule">
-Para aplicações baseadas em `NgModule`, você pode fornecer dependências com a hierarquia `ModuleInjector` usando uma anotação `@NgModule()` ou `@Injectable()`.
+<docs-callout title="NgModule Based Applications">
+For `NgModule` based applications, you can provide dependencies with the `ModuleInjector` hierarchy using an `@NgModule()` or `@Injectable()` annotation.
 </docs-callout>
 
 ### `EnvironmentInjector`
 
-O `EnvironmentInjector` pode ser configurado de uma das duas maneiras usando:
+The `EnvironmentInjector` can be configured in one of two ways by using:
 
-- A propriedade `providedIn` do `@Injectable()` para se referir a `root` ou `platform`
-- O array `providers` do `ApplicationConfig`
+- The `@Service()`
+- The `ApplicationConfig` `providers` array
 
-<docs-callout title="Tree-shaking e @Injectable()">
+<docs-callout title="Tree-shaking and @Service()">
 
-Usar a propriedade `providedIn` do `@Injectable()` é preferível a usar o array `providers` do `ApplicationConfig`. Com `@Injectable()` `providedIn`, ferramentas de otimização podem realizar tree-shaking, que remove services que sua aplicação não está usando. Isso resulta em tamanhos de bundle menores.
+Using the `@Service()` decorator is preferable to using the `ApplicationConfig` `providers` array. With `@Service`, optimization tools can perform tree-shaking, which removes services that your application isn't using. This results in smaller bundle sizes.
 
-Tree-shaking é especialmente útil para uma biblioteca porque a aplicação que usa a biblioteca pode não ter necessidade de injetá-la.
+Tree-shaking is especially useful for a library because the application which uses the library may not have a need to inject it.
 
 </docs-callout>
 
-`EnvironmentInjector` é configurado pelo `ApplicationConfig.providers`.
+`EnvironmentInjector` is configured by the `ApplicationConfig.providers`.
 
-Forneça services usando `providedIn` do `@Injectable()` da seguinte forma:
+Provide services using `@Service()` as follows:
 
 ```ts {highlight:[4]}
-import { Injectable } from '@angular/core';
+import {Service} from '@angular/core';
 
-@Injectable({
-  providedIn: 'root' // <--provides this service in the root EnvironmentInjector
-})
+@Service() // <--provides this service in the root EnvironmentInjector
 export class ItemService {
   name = 'telephone';
 }
 ```
 
-O decorator `@Injectable()` identifica uma classe de service.
-A propriedade `providedIn` configura um `EnvironmentInjector` específico, aqui `root`, que torna o service disponível no `EnvironmentInjector` `root`.
+The `@Service()` or `@Injectable()` decorators identify a service class.
 
 ### ModuleInjector
 
-No caso de aplicações baseadas em `NgModule`, o ModuleInjector pode ser configurado de uma das duas maneiras usando:
+In the case of `NgModule` based applications, the ModuleInjector can be configured in one of two ways by using:
 
-- A propriedade `providedIn` do `@Injectable()` para se referir a `root` ou `platform`
-- O array `providers` do `@NgModule()`
+- The `@Service()` decorator,
+- The `@Injectable()` `providedIn` property to refer to `root` or `platform`
+- The `@NgModule()` `providers` array
 
-`ModuleInjector` é configurado pelas propriedades `@NgModule.providers` e `NgModule.imports`. `ModuleInjector` é um achatamento de todos os arrays de providers que podem ser alcançados seguindo `NgModule.imports` recursivamente.
+`ModuleInjector` is configured by the `@NgModule.providers` and `NgModule.imports` property. `ModuleInjector` is a flattening of all the providers arrays that can be reached by following the `NgModule.imports` recursively.
 
-Hierarquias filhas de `ModuleInjector` são criadas ao fazer lazy loading de outros `@NgModules`.
+Child `ModuleInjector` hierarchies are created when lazy loading other `@NgModules`.
 
 ### Platform injector
 
-Existem mais dois injectors acima de `root`, um `EnvironmentInjector` adicional e `NullInjector()`.
+There are two more injectors above `root`, an additional `EnvironmentInjector` and `NullInjector()`.
 
-Considere como o Angular inicializa a aplicação com o seguinte em `main.ts`:
+Consider how Angular bootstraps the application with the following in `main.ts`:
 
 ```ts
-bootstrapApplication(AppComponent, appConfig);
+bootstrapApplication(App, appConfig);
 ```
 
-O método `bootstrapApplication()` cria um injector filho do platform injector que é configurado pela instância `ApplicationConfig`.
-Este é o `EnvironmentInjector` `root`.
+The `bootstrapApplication()` method creates a child injector of the platform injector which is configured by the `ApplicationConfig` instance.
+This is the `root` `EnvironmentInjector`.
 
-O método `platformBrowserDynamic()` cria um injector configurado por um `PlatformModule`, que contém dependências específicas da plataforma.
-Isso permite que múltiplas aplicações compartilhem uma configuração de plataforma.
-Por exemplo, um browser tem apenas uma barra de URL, não importa quantas aplicações você tenha executando.
-Você pode configurar providers adicionais específicos da plataforma no nível da plataforma fornecendo `extraProviders` usando a função `platformBrowser()`.
+The `bootstrapApplication()` method also creates (or reuses) the platform injector, which contains platform-specific dependencies.
+This allows multiple applications to share a platform configuration.
+For example, a browser has only one URL bar, no matter how many applications you have running.
+You can configure additional platform-specific providers at the platform level by supplying `extraProviders` using the `platformBrowser()` function.
 
-O próximo injector pai na hierarquia é o `NullInjector()`, que é o topo da árvore.
-Se você subiu tanto na árvore que está procurando um service no `NullInjector()`, você receberá um erro a menos que tenha usado `@Optional()` porque, em última análise, tudo termina no `NullInjector()` e ele retorna um erro ou, no caso de `@Optional()`, `null`.
-Para mais informações sobre `@Optional()`, veja a seção [`@Optional()`](#optional) deste guia.
+The next parent injector in the hierarchy is the `NullInjector()`, which is the top of the tree.
+If you've gone so far up the tree that you are looking for a service in the `NullInjector()`, you'll get an error unless you've used `@Optional()` because ultimately, everything ends at the `NullInjector()` and it returns an error or, in the case of `@Optional()`, `null`.
+For more information on `@Optional()`, see the [`@Optional()` section](#optional) of this guide.
 
-O diagrama a seguir representa a relação entre o `ModuleInjector` `root` e seus injectors pais conforme os parágrafos anteriores descrevem.
+The following diagram represents the relationship between the `root` `ModuleInjector` and its parent injectors as the previous paragraphs describe.
 
 ```mermaid
 stateDiagram-v2
@@ -98,34 +94,32 @@ stateDiagram-v2
     elementInjector --> nullInjector
 ```
 
-Embora o nome `root` seja um alias especial, outras hierarquias `EnvironmentInjector` não têm aliases.
-Você tem a opção de criar hierarquias `EnvironmentInjector` sempre que um component carregado dinamicamente for criado, como com o Router, que criará hierarquias filhas de `EnvironmentInjector`.
+While the name `root` is a special alias, other `EnvironmentInjector` hierarchies don't have aliases.
+You have the option to create `EnvironmentInjector` hierarchies whenever a dynamically loaded component is created, such as with the Router, which will create child `EnvironmentInjector` hierarchies.
 
-Todas as requisições encaminham até o root injector, quer você o tenha configurado com a instância `ApplicationConfig` passada para o método `bootstrapApplication()`, ou registrado todos os providers com `root` em seus próprios services.
+All requests forward up to the root injector, whether you configured it with the `ApplicationConfig` instance passed to the `bootstrapApplication()` method, or registered all providers with `root` in their own services.
 
 <docs-callout title="@Injectable() vs. ApplicationConfig">
 
-Se você configurar um provider em toda a aplicação no `ApplicationConfig` de `bootstrapApplication`, ele sobrescreve um configurado para `root` nos metadados `@Injectable()`.
-Você pode fazer isso para configurar um provider não-padrão de um service que é compartilhado com múltiplas aplicações.
+If you configure an app-wide provider in the `ApplicationConfig` of `bootstrapApplication`, it overrides one configured for `root` in the `@Injectable()` metadata.
+You can do this to configure a non-default provider of a service that is shared with multiple applications.
 
-Aqui está um exemplo do caso onde a configuração do router de component inclui uma [estratégia de localização](guide/routing#location-strategy) não-padrão listando seu provider na lista `providers` do `ApplicationConfig`.
+Here is an example of the case where the component router configuration includes a non-default [location strategy](guide/routing/common-router-tasks#locationstrategy-and-browser-url-styles) by listing its provider in the `providers` list of the `ApplicationConfig`.
 
 ```ts
-providers: [
-  { provide: LocationStrategy, useClass: HashLocationStrategy }
-]
+providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}];
 ```
 
-Para aplicações baseadas em `NgModule`, configure providers em toda a aplicação no `AppModule` `providers`.
+For `NgModule` based applications, configure app-wide providers in the `AppModule` `providers`.
 
 </docs-callout>
 
 ### `ElementInjector`
 
-O Angular cria hierarquias `ElementInjector` implicitamente para cada elemento DOM.
+Angular creates `ElementInjector` hierarchies implicitly for each DOM element.
 
-Fornecer um service no decorator `@Component()` usando sua propriedade `providers` ou `viewProviders` configura um `ElementInjector`.
-Por exemplo, o seguinte `TestComponent` configura o `ElementInjector` fornecendo o service da seguinte forma:
+Providing a service in the `@Component()` decorator using its `providers` or `viewProviders` property configures an `ElementInjector`.
+For example, the following `TestComponent` configures the `ElementInjector` by providing the service as follows:
 
 ```ts {highlight:[3]}
 @Component({
@@ -135,153 +129,154 @@ Por exemplo, o seguinte `TestComponent` configura o `ElementInjector` fornecendo
 export class TestComponent
 ```
 
-ÚTIL: Veja a seção [regras de resolução](#resolution-rules) para entender a relação entre a árvore `EnvironmentInjector`, o `ModuleInjector` e a árvore `ElementInjector`.
+HELPFUL: See the [resolution rules](#resolution-rules) section to understand the relationship between the `EnvironmentInjector` tree, the `ModuleInjector` and the `ElementInjector` tree.
 
-Quando você fornece services em um component, esse service fica disponível através do `ElementInjector` naquela instância de component.
-Ele também pode estar visível em components/directives filhos baseado nas regras de visibilidade descritas na seção [regras de resolução](#resolution-rules).
+When you provide services in a component, that service is available by way of the `ElementInjector` at that component instance.
+It may also be visible at child component/directives based on visibility rules described in the [resolution rules](#resolution-rules) section.
 
-Quando a instância do component é destruída, a instância do service também é.
+When the component instance is destroyed, so is that service instance.
 
-#### `@Directive()` e `@Component()`
+#### `@Directive()` and `@Component()`
 
-Um component é um tipo especial de directive, o que significa que assim como `@Directive()` tem uma propriedade `providers`, `@Component()` também tem.
-Isso significa que directives assim como components podem configurar providers, usando a propriedade `providers`.
-Quando você configura um provider para um component ou directive usando a propriedade `providers`, esse provider pertence ao `ElementInjector` daquele component ou directive.
-Components e directives no mesmo elemento compartilham um injector.
+A component is a special type of directive, which means that just as `@Directive()` has a `providers` property, `@Component()` does too.
+This means that directives as well as components can configure providers, using the `providers` property.
+When you configure a provider for a component or directive using the `providers` property, that provider belongs to the `ElementInjector` of that component or directive.
+Components and directives on the same element share an injector.
 
-## Regras de resolução {#resolution-rules}
+## Resolution rules
 
-Ao resolver um token para um component/directive, o Angular o resolve em duas fases:
+When resolving a token for a component/directive, Angular resolves it in two phases:
 
-1. Contra seus pais na hierarquia `ElementInjector`.
-2. Contra seus pais na hierarquia `EnvironmentInjector`.
+1. Against its parents in the `ElementInjector` hierarchy.
+2. Against its parents in the `EnvironmentInjector` hierarchy.
 
-Quando um component declara uma dependência, o Angular tenta satisfazer essa dependência com seu próprio `ElementInjector`.
-Se o injector do component não tem o provider, ele passa a requisição para o `ElementInjector` do component pai.
+When a component declares a dependency, Angular tries to satisfy that dependency with its own `ElementInjector`.
+If the component's injector lacks the provider, it passes the request up to its parent component's `ElementInjector`.
 
-As requisições continuam sendo encaminhadas até que o Angular encontre um injector que possa lidar com a requisição ou fique sem hierarquias ancestrais de `ElementInjector`.
+The requests keep forwarding up until Angular finds an injector that can handle the request or runs out of ancestor `ElementInjector` hierarchies.
 
-Se o Angular não encontrar o provider em nenhuma hierarquia de `ElementInjector`, ele volta para o elemento onde a requisição se originou e procura na hierarquia `EnvironmentInjector`.
-Se o Angular ainda não encontrar o provider, ele lança um erro.
+If Angular doesn't find the provider in any `ElementInjector` hierarchies, it goes back to the element where the request originated and looks in the `EnvironmentInjector` hierarchy.
+If Angular still doesn't find the provider, it throws an error.
 
-Se você registrou um provider para o mesmo token DI em diferentes níveis, o primeiro que o Angular encontrar é o que ele usa para resolver a dependência.
-Se, por exemplo, um provider for registrado localmente no component que precisa de um service,
-o Angular não procura por outro provider do mesmo service.
+If you have registered a provider for the same DI token at different levels, the first one Angular encounters is the one it uses to resolve the dependency.
+If, for example, a provider is registered locally in the component that needs a service,
+Angular doesn't look for another provider of the same service.
 
-ÚTIL: Para aplicações baseadas em `NgModule`, o Angular procurará na hierarquia `ModuleInjector` se não conseguir encontrar um provider nas hierarquias `ElementInjector`.
+HELPFUL: For `NgModule` based applications, Angular will search the `ModuleInjector` hierarchy if it cannot find a provider in the `ElementInjector` hierarchies.
 
-## Modificadores de resolução
+## Resolution modifiers
 
-O comportamento de resolução do Angular pode ser modificado com `optional`, `self`, `skipSelf` e `host`.
-Importe cada um deles de `@angular/core` e use cada um na configuração do `inject` quando você injetar seu service.
+Angular's resolution behavior can be modified with `optional`, `self`, `skipSelf` and `host`.
+Import each of them from `@angular/core` and use each in the [`inject`](/api/core/inject) configuration when you inject your service.
 
-### Tipos de modificadores
+### Types of modifiers
 
-Modificadores de resolução se enquadram em três categorias:
+Resolution modifiers fall into three categories:
 
-- O que fazer se o Angular não encontrar o que você está procurando, ou seja `optional`
-- Onde começar a procurar, ou seja `skipSelf`
-- Onde parar de procurar, `host` e `self`
+- What to do if Angular doesn't find what you're looking for, that is `optional`
+- Where to start looking, that is `skipSelf`
+- Where to stop looking, `host` and `self`
 
-Por padrão, o Angular sempre começa no `Injector` atual e continua procurando até o topo.
-Modificadores permitem que você mude a localização inicial, ou _self_, e a localização final.
+By default, Angular always starts at the current `Injector` and keeps searching all the way up.
+Modifiers allow you to change the starting, or _self_, location and the ending location.
 
-Além disso, você pode combinar todos os modificadores exceto:
+Additionally, you can combine all of the modifiers except:
 
-- `host` e `self`
-- `skipSelf` e `self`.
+- `host` and `self`
+- `skipSelf` and `self`.
 
 ### `optional`
 
-`optional` permite ao Angular considerar um service que você injeta como opcional.
-Dessa forma, se ele não puder ser resolvido em tempo de execução, o Angular resolve o service como `null`, ao invés de lançar um erro.
-No exemplo a seguir, o service, `OptionalService`, não é fornecido no service, `ApplicationConfig`, `@NgModule()`, ou classe de component, então ele não está disponível em nenhum lugar na aplicação.
+`optional` allows Angular to consider a service you inject to be optional.
+This way, if it can't be resolved at runtime, Angular resolves the service as `null`, rather than throwing an error.
+In the following example, the service, `OptionalService`, isn't provided in the service, `ApplicationConfig`, `@NgModule()`, or component class, so it isn't available anywhere in the app.
 
-```ts {header:"src/app/optional/optional.component.ts"}
-export class OptionalComponent {
+```ts {header:"src/app/optional/optional.ts"}
+export class Optional {
   public optional? = inject(OptionalService, {optional: true});
 }
 ```
 
 ### `self`
 
-Use `self` para que o Angular procure apenas no `ElementInjector` do component ou directive atual.
+Use `self` so that Angular will only look at the `ElementInjector` for the current component or directive.
 
-Um bom caso de uso para `self` é injetar um service mas apenas se ele estiver disponível no elemento host atual.
-Para evitar erros nesta situação, combine `self` com `optional`.
+A good use case for `self` is to inject a service but only if it is available on the current host element.
+To avoid errors in this situation, combine `self` with `optional`.
 
-Por exemplo, no seguinte `SelfNoDataComponent`, observe o `LeafService` injetado como uma propriedade.
+For example, in the following `SelfNoData`, notice the injected `LeafService` as a property.
 
-```ts {header:"src/app/self-no-data/self-no-data.component.ts", highlight=[7]}>
+```ts {header: 'self-no-data.ts', highlight: [7]}
 @Component({
   selector: 'app-self-no-data',
-  templateUrl: './self-no-data.component.html',
-  styleUrls: ['./self-no-data.component.css']
+  templateUrl: './self-no-data.html',
+  styleUrls: ['./self-no-data.css'],
 })
-export class SelfNoDataComponent {
+export class SelfNoData {
   public leaf = inject(LeafService, {optional: true, self: true});
 }
 ```
 
-Neste exemplo, há um provider pai e injetar o service retornará o valor, no entanto, injetar o service com `self` e `optional` retornará `null` porque `self` diz ao injector para parar de procurar no elemento host atual.
+In this example, there is a parent provider and injecting the service will return the value, however, injecting the service with `self` and `optional` will return `null` because `self` tells the injector to stop searching in the current host element.
 
-Outro exemplo mostra a classe de component com um provider para `FlowerService`.
-Neste caso, o injector não procura além do `ElementInjector` atual porque encontra o `FlowerService` e retorna a tulipa 🌷.
+Another example shows the component class with a provider for `FlowerService`.
+In this case, the injector looks no further than the current `ElementInjector` because it finds the `FlowerService` and returns the tulip 🌷.
 
-```ts {header:"src/app/self/self.component.ts"}
+```ts {header:"src/app/self/self.ts"}
 @Component({
   selector: 'app-self',
-  templateUrl: './self.component.html',
-  styleUrls: ['./self.component.css'],
+  templateUrl: './self.html',
+  styleUrls: ['./self.css'],
   providers: [{provide: FlowerService, useValue: {emoji: '🌷'}}],
 })
-export class SelfComponent {
-  constructor(@Self() public flower: FlowerService) {}
+export class Self {
+  public flower = inject(FlowerService, {self: true});
 }
 ```
 
 ### `skipSelf`
 
-`skipSelf` é o oposto de `self`.
-Com `skipSelf`, o Angular inicia sua busca por um service no `ElementInjector` pai, ao invés do atual.
-Então, se o `ElementInjector` pai estivesse usando o valor samambaia <code>🌿</code> para `emoji`, mas você tivesse folha de bordo <code>🍁</code> no array `providers` do component, o Angular ignoraria a folha de bordo <code>🍁</code> e usaria samambaia <code>🌿</code>.
+`skipSelf` is the opposite of `self`.
+With `skipSelf`, Angular starts its search for a service in the parent `ElementInjector`, rather than in the current one.
+So if the parent `ElementInjector` were using the fern <code>🌿</code> value for `emoji`, but you had maple leaf <code>🍁</code> in the component's `providers` array, Angular would ignore maple leaf <code>🍁</code> and use fern <code>🌿</code>.
 
-Para ver isso em código, assuma que o seguinte valor para `emoji` é o que o component pai estava usando, como neste service:
+To see this in code, assume that the following value for `emoji` is what the parent component were using, as in this service:
 
-```ts {header:"src/app/leaf.service.ts"}
+```ts {header: 'leaf.service.ts'}
 export class LeafService {
   emoji = '🌿';
 }
 ```
 
-Imagine que no component filho, você tivesse um valor diferente, folha de bordo 🍁, mas quisesse usar o valor do pai. É quando você usaria `skipSelf`:
+Imagine that in the child component, you had a different value, maple leaf 🍁 but you wanted to use the parent's value instead.
+This is when you'd use `skipSelf`:
 
-```ts {header:"src/app/skipself/skipself.component.ts" highlight:[[6],[10]]}
+```ts {header:"skipself.ts" highlight:[[6],[10]]}
 @Component({
   selector: 'app-skipself',
-  templateUrl: './skipself.component.html',
-  styleUrls: ['./skipself.component.css'],
+  templateUrl: './skipself.html',
+  styleUrls: ['./skipself.css'],
   // Angular would ignore this LeafService instance
-  providers: [{ provide: LeafService, useValue: { emoji: '🍁' } }]
+  providers: [{provide: LeafService, useValue: {emoji: '🍁'}}],
 })
-export class SkipselfComponent {
+export class Skipself {
   // Use skipSelf as inject option
   public leaf = inject(LeafService, {skipSelf: true});
 }
 ```
 
-Neste caso, o valor que você obteria para `emoji` seria samambaia <code>🌿</code>, não folha de bordo <code>🍁</code>.
+In this case, the value you'd get for `emoji` would be fern <code>🌿</code>, not maple leaf <code>🍁</code>.
 
-#### Opção `skipSelf` com `optional`
+#### `skipSelf` option with `optional`
 
-Use a opção `skipSelf` com `optional` para prevenir um erro se o valor for `null`.
+Use the `skipSelf` option with `optional` to prevent an error if the value is `null`.
 
-No exemplo a seguir, o service `Person` é injetado durante a inicialização da propriedade.
-`skipSelf` diz ao Angular para pular o injector atual e `optional` prevenirá um erro caso o service `Person` seja `null`.
+In the following example, the `Person` service is injected during property initialization.
+`skipSelf` tells Angular to skip the current injector and `optional` will prevent an error should the `Person` service be `null`.
 
 ```ts
 class Person {
-  parent = inject(Person, {optional: true, skipSelf: true})
+  parent = inject(Person, {optional: true, skipSelf: true});
 }
 ```
 
@@ -289,59 +284,57 @@ class Person {
 
 <!-- TODO: Remove ambiguity between host and self. -->
 
-`host` permite que você designe um component como a última parada na árvore de injector ao procurar por providers.
+`host` lets you designate a component as the last stop in the injector tree when searching for providers.
 
-Mesmo se houver uma instância de service mais acima na árvore, o Angular não continuará procurando.
-Use `host` da seguinte forma:
+Even if there is a service instance further up the tree, Angular won't continue looking.
+Use `host` as follows:
 
-```ts {header:"src/app/host/host.component.ts" highlight:[[6],[10]]}
+```ts {header:"host.ts" highlight:[[6],[9]]}
 @Component({
-selector: 'app-host',
-templateUrl: './host.component.html',
-styleUrls: ['./host.component.css'],
-// provide the service
-providers: [{ provide: FlowerService, useValue: { emoji: '🌷' } }]
+  selector: 'app-host',
+  templateUrl: './host.html',
+  styleUrls: ['./host.css'],
+  // provide the service
+  providers: [{provide: FlowerService, useValue: {emoji: '🌷'}}],
 })
-export class HostComponent {
-// use host when injecting the service
-flower = inject(FlowerService, {host: true, optional: true});
+export class Host {
+  // use host when injecting the service
+  flower = inject(FlowerService, {host: true, optional: true});
 }
 ```
 
-Como `HostComponent` tem a opção `host`, não importa o que o pai de `HostComponent` possa ter como valor `flower.emoji`, o `HostComponent` usará tulipa <code>🌷</code>.
+Since `Host` has the `host` option, no matter what the parent of `Host` might have as a `flower.emoji` value, the `Host` will use tulip <code>🌷</code>.
 
-### Modificadores com injeção via constructor
+### Modifiers with constructor injection
 
-Similarmente como apresentado antes, o comportamento da injeção via constructor pode ser modificado com `@Optional()`, `@Self()`, `@SkipSelf()` e `@Host()`.
+Similarly as presented before, the behavior of constructor injection can be modified with `@Optional()`, `@Self()`, `@SkipSelf()` and `@Host()`.
 
-Importe cada um deles de `@angular/core` e use cada um no constructor da classe de component quando você injetar seu service.
+Import each of them from `@angular/core` and use each in the component class constructor when you inject your service.
 
-```ts {header:"src/app/self-no-data/self-no-data.component.ts" highlight:[3]}
-export class SelfNoDataComponent {
-  constructor(@Self() @Optional() public leaf?: LeafService) { }
+```ts {header:"self-no-data.ts" highlight:[2]}
+export class SelfNoData {
+  constructor(@Self() @Optional() public leaf?: LeafService) {}
 }
 ```
 
-## Estrutura lógica do template
+## Logical structure of the template
 
-Quando você fornece services na classe de component, services ficam visíveis dentro da árvore `ElementInjector` relativo a onde e como você fornece esses services.
+When you provide services in the component class, services are visible within the `ElementInjector` tree relative to where and how you provide those services.
 
-Entender a estrutura lógica subjacente do template Angular lhe dará uma base para configurar services e, por sua vez, controlar sua visibilidade.
+Understanding the underlying logical structure of the Angular template will give you a foundation for configuring services and in turn control their visibility.
 
-Components são usados em seus templates, como no exemplo a seguir:
+Components are used in your templates, as in the following example:
 
 ```html
-<app-root>
-  <app-child></app-child>;
-</app-root>
+<app-root> <app-child />; </app-root>
 ```
 
-ÚTIL: Normalmente, você declara os components e seus templates em arquivos separados.
-Para os propósitos de entender como o sistema de injeção funciona, é útil olhá-los do ponto de vista de uma árvore lógica combinada.
-O termo _lógica_ o distingue da árvore de renderização, que é a árvore DOM da sua aplicação.
-Para marcar as localizações de onde os templates de component estão localizados, este guia usa o pseudo-elemento `<#VIEW>`, que não existe realmente na árvore de renderização e está presente apenas para propósitos de modelo mental.
+HELPFUL: Usually, you declare the components and their templates in separate files.
+For the purposes of understanding how the injection system works, it is useful to look at them from the point of view of a combined logical tree.
+The term _logical_ distinguishes it from the render tree, which is your application's DOM tree.
+To mark the locations of where the component templates are located, this guide uses the `<#VIEW>` pseudo-element, which doesn't actually exist in the render tree and is present for mental model purposes only.
 
-O seguinte é um exemplo de como as árvores de view `<app-root>` e `<app-child>` são combinadas em uma única árvore lógica:
+The following is an example of how the `<app-root>` and `<app-child>` view trees are combined into a single logical tree:
 
 ```html
 <app-root>
@@ -355,62 +348,60 @@ O seguinte é um exemplo de como as árvores de view `<app-root>` e `<app-child>
 </app-root>
 ```
 
-Entender a ideia da demarcação `<#VIEW>` é especialmente significativo quando você configura services na classe de component.
+Understanding the idea of the `<#VIEW>` demarcation is especially significant when you configure services in the component class.
 
-## Exemplo: Fornecendo services em `@Component()`
+## Example: Providing services in `@Component()`
 
-Como você fornece services usando um decorator `@Component()` (ou `@Directive()`) determina sua visibilidade.
-As seções a seguir demonstram `providers` e `viewProviders` juntamente com maneiras de modificar a visibilidade do service com `skipSelf` e `host`.
+How you provide services using a `@Component()` (or `@Directive()`) decorator determines their visibility.
+The following sections demonstrate `providers` and `viewProviders` along with ways to modify service visibility with `skipSelf` and `host`.
 
-Uma classe de component pode fornecer services de duas maneiras:
+A component class can provide services in two ways:
 
-| Arrays                       | Detalhes                                       |
+| Arrays                       | Details                                        |
 | :--------------------------- | :--------------------------------------------- |
-| Com um array `providers`     | `@Component({ providers: [SomeService] })`     |
-| Com um array `viewProviders` | `@Component({ viewProviders: [SomeService] })` |
+| With a `providers` array     | `@Component({ providers: [SomeService] })`     |
+| With a `viewProviders` array | `@Component({ viewProviders: [SomeService] })` |
 
-Nos exemplos abaixo, você verá a árvore lógica de uma aplicação Angular.
-Para ilustrar como o injector funciona no contexto de templates, a árvore lógica representará a estrutura HTML da aplicação.
-Por exemplo, a árvore lógica mostrará que `<child-component>` é um filho direto de `<parent-component>`.
+In the examples below, you will see the logical tree of an Angular application.
+To illustrate how the injector works in the context of templates, the logical tree will represent the HTML structure of the application.
+For example, the logical tree will show that `<child-component>` is a direct child of `<parent-component>`.
 
-Na árvore lógica, você verá atributos especiais: `@Provide`, `@Inject`, e `@ApplicationConfig`.
-Estes não são atributos reais mas estão aqui para demonstrar o que está acontecendo por baixo dos panos.
+In the logical tree, you will see special attributes: `@Provide`, `@Inject`, and `@ApplicationConfig`.
+These aren't real attributes but are here to demonstrate what is going on under the hood.
 
-| Atributo de service Angular | Detalhes                                                                             |
-| :-------------------------- | :----------------------------------------------------------------------------------- |
-| `@Inject(Token)=>Value`     | Se `Token` for injetado nesta localização na árvore lógica, seu valor seria `Value`. |
-| `@Provide(Token=Value)`     | Indica que `Token` é fornecido com `Value` nesta localização na árvore lógica.       |
-| `@ApplicationConfig`        | Demonstra que um `EnvironmentInjector` de fallback deve ser usado nesta localização. |
+| Angular service attribute | Details                                                                                  |
+| :------------------------ | :--------------------------------------------------------------------------------------- |
+| `@Inject(Token)=>Value`   | If `Token` is injected at this location in the logical tree, its value would be `Value`. |
+| `@Provide(Token=Value)`   | Indicates that `Token` is provided with `Value` at this location in the logical tree.    |
+| `@ApplicationConfig`      | Demonstrates that a fallback `EnvironmentInjector` should be used at this location.      |
 
-### Estrutura de aplicação de exemplo
+### Example app structure
 
-A aplicação de exemplo tem um `FlowerService` fornecido em `root` com um valor `emoji` de hibisco vermelho <code>🌺</code>.
+The example application has a `FlowerService` provided in `root` with an `emoji` value of red hibiscus <code>🌺</code>.
 
-```ts {header:"src/app/flower.service.ts"}
-@Injectable({
-  providedIn: 'root'
-})
+```ts {header:"flower.service.ts"}
+@Service()
 export class FlowerService {
   emoji = '🌺';
 }
 ```
 
-Considere uma aplicação com apenas um `AppComponent` e um `ChildComponent`.
-A view renderizada mais básica seria como elementos HTML aninhados como o seguinte:
+Consider an application with only an `App` and a `Child`.
+The most basic rendered view would look like nested HTML elements such as the following:
 
 ```html
-<app-root> <!-- AppComponent selector -->
-<app-child> <!-- ChildComponent selector -->
-</app-child>
+<app-root>
+  <!-- App selector -->
+  <app-child> <!-- Child selector --> </app-child>
 </app-root>
 ```
 
-No entanto, nos bastidores, o Angular usa uma representação lógica de view da seguinte forma ao resolver requisições de injeção:
+However, behind the scenes, Angular uses a logical view representation as follows when resolving injection requests:
 
 ```html
-<app-root> <!-- AppComponent selector -->
+<app-root> <!-- App selector -->
   <#VIEW>
-    <app-child> <!-- ChildComponent selector -->
+    <app-child> <!-- Child selector -->
       <#VIEW>
       </#VIEW>
     </app-child>
@@ -418,32 +409,32 @@ No entanto, nos bastidores, o Angular usa uma representação lógica de view da
 </app-root>
 ```
 
-O `<#VIEW>` aqui representa uma instância de um template.
-Observe que cada component tem seu próprio `<#VIEW>`.
+The `<#VIEW>` here represents an instance of a template.
+Notice that each component has its own `<#VIEW>`.
 
-Conhecimento desta estrutura pode informar como você fornece e injeta seus services, e lhe dar controle completo da visibilidade do service.
+Knowledge of this structure can inform how you provide and inject your services, and give you complete control of service visibility.
 
-Agora, considere que `<app-root>` injeta o `FlowerService`:
+Now, consider that `<app-root>` injects the `FlowerService`:
 
 ```typescript
-export class AppComponent  {
+export class App {
   flower = inject(FlowerService);
 }
 ```
 
-Adicione um binding ao template `<app-root>` para visualizar o resultado:
+Add a binding to the `<app-root>` template to visualize the result:
 
 ```html
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 ```
 
-A saída na view seria:
+The output in the view would be:
 
-```shell
+```text {hideCopy}
 Emoji from FlowerService: 🌺
 ```
 
-Na árvore lógica, isso seria representado da seguinte forma:
+In the logical tree, this would be represented as follows:
 
 ```html
 <app-root @ApplicationConfig
@@ -458,243 +449,242 @@ Na árvore lógica, isso seria representado da seguinte forma:
 </app-root>
 ```
 
-Quando `<app-root>` solicita o `FlowerService`, é trabalho do injector resolver o token `FlowerService`.
-A resolução do token acontece em duas fases:
+When `<app-root>` requests the `FlowerService`, it is the injector's job to resolve the `FlowerService` token.
+The resolution of the token happens in two phases:
 
-1. O injector determina a localização inicial na árvore lógica e uma localização final da busca.
-   O injector começa com a localização inicial e procura pelo token em cada nível de view na árvore lógica.
-   Se o token for encontrado, ele é retornado.
+1. The injector determines the starting location in the logical tree and an ending location of the search.
+   The injector begins with the starting location and looks for the token at each view level in the logical tree.
+   If the token is found it is returned.
 
-1. Se o token não for encontrado, o injector procura pelo `EnvironmentInjector` pai mais próximo para delegar a requisição.
+1. If the token is not found, the injector looks for the closest parent `EnvironmentInjector` to delegate the request to.
 
-No caso de exemplo, as restrições são:
+In the example case, the constraints are:
 
-1. Comece com `<#VIEW>` pertencente a `<app-root>` e termine com `<app-root>`.
-   - Normalmente o ponto inicial para busca é no ponto de injeção.
-     No entanto, neste caso `<app-root>` é um component. `@Component`s são especiais pois também incluem seus próprios `viewProviders`, que é por isso que a busca começa em `<#VIEW>` pertencente a `<app-root>`.
-     Este não seria o caso para uma directive correspondida na mesma localização.
-   - A localização final acontece de ser a mesma que o próprio component, porque é o component mais alto nesta aplicação.
+1. Start with `<#VIEW>` belonging to `<app-root>` and end with `<app-root>`.
+   - Normally the starting point for search is at the point of injection.
+     However, in this case `<app-root>` is a component. `@Component`s are special in that they also include their own `viewProviders`, which is why the search starts at `<#VIEW>` belonging to `<app-root>`.
+     This would not be the case for a directive matched at the same location.
+   - The ending location happens to be the same as the component itself, because it is the topmost component in this application.
 
-1. O `EnvironmentInjector` fornecido pelo `ApplicationConfig` atua como o injector de fallback quando o token de injeção não pode ser encontrado nas hierarquias `ElementInjector`.
+1. The `EnvironmentInjector` provided by the `ApplicationConfig` acts as the fallback injector when the injection token can't be found in the `ElementInjector` hierarchies.
 
-### Usando o array `providers`
+### Using the `providers` array
 
-Agora, na classe `ChildComponent`, adicione um provider para `FlowerService` para demonstrar regras de resolução mais complexas nas próximas seções:
+Now, in the `Child` class, add a provider for `FlowerService` to demonstrate more complex resolution rules in the upcoming sections:
 
-```typescript
+```ts
 @Component({
-selector: 'app-child',
-templateUrl: './child.component.html',
-styleUrls: ['./child.component.css'],
-// use the providers array to provide a service
-providers: [{ provide: FlowerService, useValue: { emoji: '🌻' } }]
+  selector: 'app-child',
+  templateUrl: './child.html',
+  styleUrls: ['./child.css'],
+  // use the providers array to provide a service
+  providers: [{provide: FlowerService, useValue: {emoji: '🌻'}}],
 })
-export class ChildComponent {
-// inject the service
-flower = inject(FlowerService);
+export class Child {
+  // inject the service
+  flower = inject(FlowerService);
 }
 ```
 
-Agora que o `FlowerService` é fornecido no decorator `@Component()`, quando o `<app-child>` solicita o service, o injector tem apenas que procurar até o `ElementInjector` no `<app-child>`.
-Ele não terá que continuar a busca através da árvore de injector.
+Now that the `FlowerService` is provided in the `@Component()` decorator, when the `<app-child>` requests the service, the injector has only to look as far as the `ElementInjector` in the `<app-child>`.
+It won't have to continue the search any further through the injector tree.
 
-O próximo passo é adicionar um binding ao template `ChildComponent`.
+The next step is to add a binding to the `Child` template.
 
 ```html
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 ```
 
-Para renderizar os novos valores, adicione `<app-child>` no final do template `AppComponent` para que a view também exiba o girassol:
+To render the new values, add `<app-child>` to the bottom of the `App` template so the view also displays the sunflower:
 
-```shell
+```text {hideCopy}
 Child Component
 Emoji from FlowerService: 🌻
 ```
 
-Na árvore lógica, isso é representado da seguinte forma:
+In the logical tree, this is represented as follows:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(FlowerService) flower=>"🌺">
-<#VIEW>
+          @Inject(FlowerService) flower=>"🌺">
+  <#VIEW>
 
-<p>Emoji from FlowerService: {{flower.emoji}} (🌺)</p>
-<app-child @Provide(FlowerService="🌻")
-@Inject(FlowerService)=>"🌻"> <!-- search ends here -->
-<#VIEW> <!-- search starts here -->
-<h2>Child Component</h2>
-<p>Emoji from FlowerService: {{flower.emoji}} (🌻)</p>
-</#VIEW>
-</app-child>
+  <p>Emoji from FlowerService: {{flower.emoji}} (🌺)</p>
+  <app-child @Provide(FlowerService="🌻" )
+             @Inject(FlowerService)=>"🌻"> <!-- search ends here -->
+    <#VIEW> <!-- search starts here -->
+    <h2>Child Component</h2>
+    <p>Emoji from FlowerService: {{flower.emoji}} (🌻)</p>
+  </
+  #VIEW>
+  </app-child>
 </#VIEW>
 </app-root>
 ```
 
-Quando `<app-child>` solicita o `FlowerService`, o injector começa sua busca no `<#VIEW>` pertencente a `<app-child>` \(`<#VIEW>` é incluído porque é injetado de `@Component()`\) e termina com `<app-child>`.
-Neste caso, o `FlowerService` é resolvido no array `providers` com girassol <code>🌻</code> do `<app-child>`.
-O injector não tem que procurar mais adiante na árvore de injector.
-Ele para assim que encontra o `FlowerService` e nunca vê o hibisco vermelho <code>🌺</code>.
+When `<app-child>` requests the `FlowerService`, the injector begins its search at the `<#VIEW>` belonging to `<app-child>` \(`<#VIEW>` is included because it is injected from `@Component()`\) and ends with `<app-child>`.
+In this case, the `FlowerService` is resolved in the `providers` array with sunflower <code>🌻</code> of the `<app-child>`.
+The injector doesn't have to look any further in the injector tree.
+It stops as soon as it finds the `FlowerService` and never sees the red hibiscus <code>🌺</code>.
 
-### Usando o array `viewProviders`
+### Using the `viewProviders` array
 
-Use o array `viewProviders` como outra maneira de fornecer services no decorator `@Component()`.
-Usar `viewProviders` torna services visíveis no `<#VIEW>`.
+Use the `viewProviders` array as another way to provide services in the `@Component()` decorator.
+Using `viewProviders` makes services visible in the `<#VIEW>`.
 
-ÚTIL: Os passos são os mesmos que usar o array `providers`, com a exceção de usar o array `viewProviders`.
+HELPFUL: The steps are the same as using the `providers` array, with the exception of using the `viewProviders` array instead.
 
-Para instruções passo a passo, continue com esta seção.
-Se você conseguir configurá-lo sozinho, pule para [Modificando disponibilidade de service](#visibility-of-provided-tokens).
+For step-by-step instructions, continue with this section.
+If you can set it up on your own, skip ahead to [Modifying service availability](#visibility-of-provided-tokens).
 
-Para demonstração, estamos construindo um `AnimalService` para demonstrar `viewProviders`.
-Primeiro, crie um `AnimalService` com uma propriedade `emoji` de baleia <code>🐳</code>:
+For demonstration, we are building an `AnimalService` to demonstrate `viewProviders`.
+First, create an `AnimalService` with an `emoji` property of whale <code>🐳</code>:
 
 ```typescript
-import { Injectable } from '@angular/core';
+import {Service} from '@angular/core';
 
-@Injectable({
-providedIn: 'root'
-})
+@Service()
 export class AnimalService {
-emoji = '🐳';
+  emoji = '🐳';
 }
 ```
 
-Seguindo o mesmo padrão que com o `FlowerService`, injete o `AnimalService` na classe `AppComponent`:
+Following the same pattern as with the `FlowerService`, inject the `AnimalService` in the `App` class:
 
-```typescript
-export class AppComponent {
-    public flower = inject(FlowerService);
-    public animal = inject(AnimalService);
+```ts
+export class App {
+  public flower = inject(FlowerService);
+  public animal = inject(AnimalService);
 }
 ```
 
-ÚTIL: Você pode deixar todo o código relacionado ao `FlowerService` no lugar pois permitirá uma comparação com o `AnimalService`.
+HELPFUL: You can leave all the `FlowerService` related code in place as it will allow a comparison with the `AnimalService`.
 
-Adicione um array `viewProviders` e injete o `AnimalService` na classe `<app-child>` também, mas dê ao `emoji` um valor diferente.
-Aqui, ele tem um valor de cachorro 🐶.
+Add a `viewProviders` array and inject the `AnimalService` in the `<app-child>` class, too, but give `emoji` a different value.
+Here, it has a value of dog 🐶.
 
 ```typescript
 @Component({
-selector: 'app-child',
-templateUrl: './child.component.html',
-styleUrls: ['./child.component.css'],
-// provide services
-providers: [{ provide: FlowerService, useValue: { emoji: '🌻' } }],
-viewProviders: [{ provide: AnimalService, useValue: { emoji: '🐶' } }]
+  selector: 'app-child',
+  templateUrl: './child.html',
+  styleUrls: ['./child.css'],
+  // provide services
+  providers: [{provide: FlowerService, useValue: {emoji: '🌻'}}],
+  viewProviders: [{provide: AnimalService, useValue: {emoji: '🐶'}}],
 })
-export class ChildComponent {
-// inject services
-flower = inject(FlowerService);
-animal = inject(AnimalService)
-...
+export class Child {
+  // inject services
+  flower = inject(FlowerService);
+  animal = inject(AnimalService);
 }
 ```
 
-Adicione bindings aos templates `ChildComponent` e `AppComponent`.
-No template `ChildComponent`, adicione o seguinte binding:
+Add bindings to the `Child` and the `App` templates.
+In the `Child` template, add the following binding:
 
 ```html
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 ```
 
-Adicionalmente, adicione o mesmo ao template `AppComponent`:
+Additionally, add the same to the `App` template:
 
 ```html
-<p>Emoji from AnimalService: {{animal.emoji}}</p>s
+<p>Emoji from AnimalService: {{animal.emoji}}</p>
 ```
 
-Agora você deve ver ambos os valores no browser:
+Now you should see both values in the browser:
 
-```shell
-AppComponent
+```text {hideCopy}
+App
 Emoji from AnimalService: 🐳
 
 Child Component
 Emoji from AnimalService: 🐶
 ```
 
-A árvore lógica para este exemplo de `viewProviders` é a seguinte:
+The logic tree for this example of `viewProviders` is as follows:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(AnimalService) animal=>"🐳">
-<#VIEW>
-<app-child>
-<#VIEW @Provide(AnimalService="🐶")
-@Inject(AnimalService=>"🐶")>
+          @Inject(AnimalService) animal=>"🐳">
+  <#VIEW>
+  <app-child>
+    <#VIEW @Provide(AnimalService="🐶")
+    @Inject(AnimalService=>"🐶")>
 
-<!-- ^^using viewProviders means AnimalService is available in <#VIEW>-->
-<p>Emoji from AnimalService: {{animal.emoji}} (🐶)</p>
-</#VIEW>
-</app-child>
+    <!-- ^^using viewProviders means AnimalService is available in <#VIEW>-->
+    <p>Emoji from AnimalService: {{animal.emoji}} (🐶)</p>
+  </
+  #VIEW>
+  </app-child>
 </#VIEW>
 </app-root>
 ```
 
-Assim como com o exemplo `FlowerService`, o `AnimalService` é fornecido no decorator `@Component()` do `<app-child>`.
-Isso significa que, uma vez que o injector primeiro procura no `ElementInjector` do component, ele encontra o valor `AnimalService` de cachorro <code>🐶</code>.
-Ele não precisa continuar procurando na árvore `ElementInjector`, nem precisa procurar no `ModuleInjector`.
+Just as with the `FlowerService` example, the `AnimalService` is provided in the `<app-child>` `@Component()` decorator.
+This means that since the injector first looks in the `ElementInjector` of the component, it finds the `AnimalService` value of dog <code>🐶</code>.
+It doesn't need to continue searching the `ElementInjector` tree, nor does it need to search the `ModuleInjector`.
 
 ### `providers` vs. `viewProviders`
 
-O campo `viewProviders` é conceitualmente similar a `providers`, mas há uma diferença notável.
-Providers configurados em `viewProviders` não são visíveis para conteúdo projetado que acaba como filho lógico do component.
+The `viewProviders` field is conceptually similar to `providers`, but there is one notable difference.
+Providers in `viewProviders` are only visible inside the component's own view — content projected into the component via `<ng-content>` cannot see them.
 
-Para ver a diferença entre usar `providers` e `viewProviders`, adicione outro component ao exemplo e chame-o de `InspectorComponent`.
-`InspectorComponent` será um filho do `ChildComponent`.
-Em `inspector.component.ts`, injete o `FlowerService` e `AnimalService` durante a inicialização da propriedade:
+To see the difference between using `providers` and `viewProviders`, add another component to the example and call it `Inspector`.
+`Inspector` will be a child of the `Child`.
+In `inspector.ts`, inject the `FlowerService` and `AnimalService` during property initialization:
 
 ```typescript
-export class InspectorComponent {
+export class Inspector {
   flower = inject(FlowerService);
   animal = inject(AnimalService);
 }
 ```
 
-Você não precisa de um array `providers` ou `viewProviders`.
-A seguir, em `inspector.component.html`, adicione a mesma marcação dos components anteriores:
+You do not need a `providers` or `viewProviders` array.
+Next, in `inspector.html`, add the same markup from previous components:
 
 ```html
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 ```
 
-Lembre-se de adicionar o `InspectorComponent` ao array `imports` do `ChildComponent`.
+Remember to add the `Inspector` to the `Child` `imports` array.
 
-```typescript
+```ts
 @Component({
-...
-imports: [InspectorComponent]
+  ...
+  imports: [Inspector]
 })
 ```
 
-A seguir, adicione o seguinte a `child.component.html`:
+Next, add the following to `child.html`:
 
 ```html
 ...
 
 <div class="container">
   <h3>Content projection</h3>
-  <ng-content></ng-content>
+  <ng-content />
 </div>
 <h3>Inside the view</h3>
 
-<app-inspector></app-inspector>
+<app-inspector />
 ```
 
-`<ng-content>` permite que você projete conteúdo, e `<app-inspector>` dentro do template `ChildComponent` torna o `InspectorComponent` um component filho de `ChildComponent`.
+`<ng-content>` allows you to project content, and `<app-inspector>` inside the `Child` template makes the `Inspector` a child component of `Child`.
 
-A seguir, adicione o seguinte a `app.component.html` para aproveitar a projeção de conteúdo.
+Next, add the following to `app.html` to take advantage of content projection.
 
 ```html
 <app-child>
-  <app-inspector></app-inspector>
+  <app-inspector />
 </app-child>
 ```
 
-O browser agora renderiza o seguinte, omitindo os exemplos anteriores para brevidade:
+The browser now renders the following, omitting the previous examples for brevity:
 
-```shell
+```text {hideCopy}
 ...
 Content projection
 
@@ -705,112 +695,158 @@ Emoji from FlowerService: 🌻
 Emoji from AnimalService: 🐶
 ```
 
-Esses quatro bindings demonstram a diferença entre `providers` e `viewProviders`.
-Lembre-se de que o emoji de cachorro <code>🐶</code> é declarado dentro do `<#VIEW>` de `ChildComponent` e não é visível para o conteúdo projetado.
-Em vez disso, o conteúdo projetado vê a baleia <code>🐳</code>.
+These four bindings demonstrate the difference between `providers` and `viewProviders`.
+Remember that the dog emoji <code>🐶</code> is declared inside the `<#VIEW>` of `Child` and isn't visible to the projected content.
+Instead, the projected content sees the whale <code>🐳</code>.
 
-No entanto, na próxima seção de saída, o `InspectorComponent` é um component filho real de `ChildComponent`, `InspectorComponent` está dentro do `<#VIEW>`, então quando ele pede o `AnimalService`, ele vê o cachorro <code>🐶</code>.
+You might wonder why the projected `<app-inspector>` can still see <code>🐳</code>, which is the root-provided `AnimalService`.
+The reason is that Angular DI tracks **where a component was declared**, not where it ends up being rendered.
+`<app-inspector>` lives in `App`'s template, inside `App`'s `<#VIEW>`, so its lookup never goes through `Child`'s `<#VIEW>`.
+Projecting it into `Child` cuts off access to `Child`'s `viewProviders` (<code>🐶</code>), but the root `AnimalService` (<code>🐳</code>) is still reachable up the tree.
 
-O `AnimalService` na árvore lógica seria assim:
+However, in the next output section though, the `Inspector` is an actual child component of `Child`, `Inspector` is inside the `<#VIEW>`, so when it asks for the `AnimalService`, it sees the dog <code>🐶</code>.
+
+The `AnimalService` in the logical tree would look like this:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(AnimalService) animal=>"🐳">
-<#VIEW>
-<app-child>
-<#VIEW @Provide(AnimalService="🐶")
-@Inject(AnimalService=>"🐶")>
+          @Inject(AnimalService) animal=>"🐳">
+  <#VIEW>
+  <app-child>
+    <#VIEW @Provide(AnimalService="🐶")
+    @Inject(AnimalService=>"🐶")>
 
-<!-- ^^using viewProviders means AnimalService is available in <#VIEW>-->
-<p>Emoji from AnimalService: {{animal.emoji}} (🐶)</p>
+    <!-- ^^using viewProviders means AnimalService is available in <#VIEW>-->
+    <p>Emoji from AnimalService: {{animal.emoji}} (🐶)</p>
 
-        <div class="container">
-          <h3>Content projection</h3>
-          <app-inspector @Inject(AnimalService) animal=>"🐳">
-            <p>Emoji from AnimalService: {{animal.emoji}} (🐳)</p>
-          </app-inspector>
-        </div>
+    <div class="container">
+      <h3>Content projection</h3>
+      <app-inspector @Inject(AnimalService) animal=>"🐳">
+        <p>Emoji from AnimalService: {{animal.emoji}} (🐳)</p>
+      </app-inspector>
+    </div>
 
-        <app-inspector>
-          <#VIEW @Inject(AnimalService) animal=>"🐶">
-            <p>Emoji from AnimalService: {{animal.emoji}} (🐶)</p>
-          </#VIEW>
-        </app-inspector>
-      </#VIEW>
-    </app-child>
+    <app-inspector>
+      <#VIEW @Inject(AnimalService) animal=>"🐶">
+      <p>Emoji from AnimalService: {{animal.emoji}} (🐶)</p>
+    </
+    #VIEW>
+    </app-inspector>
+  </
+  #VIEW>
+  </app-child>
 
 </#VIEW>
 </app-root>
 ```
 
-O conteúdo projetado de `<app-inspector>` vê a baleia <code>🐳</code>, não o cachorro <code>🐶</code>, porque o cachorro <code>🐶</code> está dentro do `<#VIEW>` do `<app-child>`.
-O `<app-inspector>` só pode ver o cachorro <code>🐶</code> se também estiver dentro do `<#VIEW>`.
+The projected `<app-inspector>` gets <code>🐳</code> because <code>🐶</code> belongs to `Child`'s view and projected content can't reach it.
+<code>🐳</code> is accessible because `<app-inspector>` was declared in `App`'s template, so it can still walk up to the root `AnimalService`.
 
-### Visibilidade de tokens fornecidos {#visibility-of-provided-tokens}
+The `<app-inspector>` that lives directly inside `Child`'s template (not projected) gets <code>🐶</code> — it's inside the `<#VIEW>`, so no boundary to cross.
 
-Decorators de visibilidade influenciam onde a busca pelo token de injeção começa e termina na árvore lógica.
-Para fazer isso, coloque a configuração de visibilidade no ponto de injeção, ou seja, ao invocar `inject()`, ao invés de em um ponto de declaração.
+### Giving projected content access to a view injector
 
-Para alterar onde o injector começa a procurar por `FlowerService`, adicione `skipSelf` à invocação `inject()` do `<app-child>` onde `FlowerService` é injetado.
-Esta invocação é um inicializador de propriedade do `<app-child>` como mostrado em `child.component.ts`:
+Content projected with `<ng-content>` can't see a component's `viewProviders`, because Angular resolves injection against the injector where the content is declared, not where it renders.
 
-```typescript
-flower = inject(FlowerService, { skipSelf: true })
+When you specifically want projected content to reach a view-level service — or the projecting component instance itself — accept the content as a template instead of `<ng-content>` and render it with an explicit injector.
+
+Update `Child` to provide `AnimalService` in `viewProviders`, query the projected template, and render it through [`NgTemplateOutlet`](/api/common/NgTemplateOutlet) with `ngTemplateOutletInjector` set to an injector that can see that service:
+
+```ts
+@Component({
+  selector: 'app-child',
+  viewProviders: [AnimalService],
+  imports: [NgTemplateOutlet],
+  template: `
+    <ng-container [ngTemplateOutlet]="content()" [ngTemplateOutletInjector]="injector" />
+  `,
+})
+export class Child {
+  readonly content = contentChild.required(TemplateRef);
+  readonly injector = inject(Injector);
+}
 ```
 
-Com `skipSelf`, o injector `<app-child>` não procura em si mesmo pelo `FlowerService`.
-Em vez disso, o injector começa a procurar pelo `FlowerService` no `ElementInjector` do `<app-root>`, onde não encontra nada.
-Então, ele volta para o `ModuleInjector` do `<app-child>` e encontra o valor hibisco vermelho <code>🌺</code>, que está disponível porque `<app-child>` e `<app-root>` compartilham o mesmo `ModuleInjector`.
-A UI renderiza o seguinte:
+The consumer wraps the projected markup in an `<ng-template>`:
 
-```shell
+```html
+<app-child>
+  <ng-template>
+    <app-inspector />
+  </ng-template>
+</app-child>
+```
+
+`Child` now creates `<app-inspector>` at the outlet using its own injector, so `AnimalService` resolves to the dog <code>🐶</code> even though the markup is written in `App`'s template. The cost is a little extra markup on both sides compared with `<ng-content>`.
+
+### Visibility of provided tokens
+
+Visibility decorators influence where the search for the injection token begins and ends in the logic tree.
+To do this, place visibility configuration at the point of injection, that is, when invoking `inject()`, rather than at a point of declaration.
+
+To alter where the injector starts looking for `FlowerService`, add `skipSelf` to the `<app-child>` `inject()` invocation where `FlowerService` is injected.
+This invocation is a property initializer in `<app-child>` as shown in `child.ts`:
+
+```typescript
+flower = inject(FlowerService, {skipSelf: true});
+```
+
+With `skipSelf`, the `<app-child>` injector doesn't look to itself for the `FlowerService`.
+Instead, the injector starts looking for the `FlowerService` at the `ElementInjector` of the `<app-root>`, where it finds nothing.
+Then, it goes back to the `<app-child>` `ModuleInjector` and finds the red hibiscus <code>🌺</code> value, which is available because `<app-child>` and `<app-root>` share the same `ModuleInjector`.
+The UI renders the following:
+
+```text {hideCopy}
 Emoji from FlowerService: 🌺
 ```
 
-Em uma árvore lógica, esta mesma ideia pode parecer assim:
+In a logical tree, this same idea might look like this:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(FlowerService) flower=>"🌺">
-<#VIEW>
-<app-child @Provide(FlowerService="🌻")>
-<#VIEW @Inject(FlowerService, SkipSelf)=>"🌺">
+          @Inject(FlowerService) flower=>"🌺">
+  <#VIEW>
+  <app-child @Provide(FlowerService="🌻" )>
+    <#VIEW @Inject(FlowerService, SkipSelf)=>"🌺">
 
-<!-- With SkipSelf, the injector looks to the next injector up the tree (app-root) -->
+    <!-- With SkipSelf, the injector looks to the next injector up the tree (app-root) -->
 
-</#VIEW>
-</app-child>
+  </
+  #VIEW>
+  </app-child>
 </#VIEW>
 </app-root>
 ```
 
-Embora `<app-child>` forneça o girassol <code>🌻</code>, a aplicação renderiza o hibisco vermelho <code>🌺</code> porque `skipSelf` faz com que o injector atual (`app-child`) se pule e procure em seu pai.
+Though `<app-child>` provides the sunflower <code>🌻</code>, the application renders the red hibiscus <code>🌺</code> because `skipSelf` causes the current injector (`app-child`) to skip itself and look to its parent.
 
-Se você agora adicionar `host` (além do `skipSelf`), o resultado será `null`.
-Isso é porque `host` limita o limite superior da busca ao `<#VIEW>` do `app-child`.
-Aqui está a ideia na árvore lógica:
+If you now add `host` (in addition to the `skipSelf`), the result will be `null`.
+This is because `host` limits the upper bound of the search to the `app-child` `<#VIEW>`.
+Here's the idea in the logical tree:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(FlowerService) flower=>"🌺">
-<#VIEW> <!-- end search here with null-->
-<app-child @Provide(FlowerService="🌻")> <!-- start search here -->
-<#VIEW inject(FlowerService, {skipSelf: true, host: true, optional:true})=>null>
-</#VIEW>
-</app-parent>
+          @Inject(FlowerService) flower=>"🌺">
+  <#VIEW> <!-- end search here with null-->
+  <app-child @Provide(FlowerService="🌻" )> <!-- start search here -->
+    <#VIEW inject(FlowerService, {skipSelf: true, host: true, optional:true})=>null>
+  </
+  #VIEW>
+  </app-parent>
 </#VIEW>
 </app-root>
 ```
 
-Aqui, os services e seus valores são os mesmos, mas `host` impede o injector de procurar além do `<#VIEW>` por `FlowerService`, então ele não o encontra e retorna `null`.
+Here, the services and their values are the same, but `host` stops the injector from looking any further than the `<#VIEW>` for `FlowerService`, so it doesn't find it and returns `null`.
 
-### `skipSelf` e `viewProviders`
+### `skipSelf` and `viewProviders`
 
-Lembre-se, `<app-child>` fornece o `AnimalService` no array `viewProviders` com o valor de cachorro <code>🐶</code>.
-Como o injector tem apenas que procurar no `ElementInjector` do `<app-child>` pelo `AnimalService`, ele nunca vê a baleia <code>🐳</code>.
+Remember, `<app-child>` provides the `AnimalService` in the `viewProviders` array with the value of dog <code>🐶</code>.
+Because the injector has only to look at the `ElementInjector` of the `<app-child>` for the `AnimalService`, it never sees the whale <code>🐳</code>.
 
-Como no exemplo `FlowerService`, se você adicionar `skipSelf` ao `inject()` de `AnimalService`, o injector não procurará no `ElementInjector` do `<app-child>` atual pelo `AnimalService`.
-Em vez disso, o injector começará no `ElementInjector` do `<app-root>`.
+As in the `FlowerService` example, if you add `skipSelf` to the `inject()` of `AnimalService`, the injector won't look in the `ElementInjector` of the current `<app-child>` for the `AnimalService`.
+Instead, the injector will begin at the `<app-root>` `ElementInjector`.
 
 ```typescript
 @Component({
@@ -822,31 +858,32 @@ Em vez disso, o injector começará no `ElementInjector` do `<app-root>`.
 })
 ```
 
-A árvore lógica se parece com isso com `skipSelf` em `<app-child>`:
+The logical tree looks like this with `skipSelf` in `<app-child>`:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(AnimalService=>"🐳")>
-<#VIEW><!-- search begins here -->
-<app-child>
-<#VIEW @Provide(AnimalService="🐶")
-@Inject(AnimalService, SkipSelf=>"🐳")>
+          @Inject(AnimalService=>"🐳")>
+  <#VIEW><!-- search begins here -->
+  <app-child>
+    <#VIEW @Provide(AnimalService="🐶")
+    @Inject(AnimalService, SkipSelf=>"🐳")>
 
-<!--Add skipSelf -->
+    <!--Add skipSelf -->
 
-</#VIEW>
-</app-child>
+  </
+  #VIEW>
+  </app-child>
 </#VIEW>
 </app-root>
 ```
 
-Com `skipSelf` no `<app-child>`, o injector começa sua busca pelo `AnimalService` no `ElementInjector` do `<app-root>` e encontra baleia 🐳.
+With `skipSelf` in the `<app-child>`, the injector begins its search for the `AnimalService` in the `<app-root>` `ElementInjector` and finds whale 🐳.
 
-### `host` e `viewProviders`
+### `host` and `viewProviders`
 
-Se você apenas usar `host` para a injeção de `AnimalService`, o resultado é cachorro <code>🐶</code> porque o injector encontra o `AnimalService` no próprio `<#VIEW>` do `<app-child>`.
-O `ChildComponent` configura os `viewProviders` para que o emoji de cachorro seja fornecido como valor `AnimalService`.
-Você também pode ver `host` no `inject()`:
+If you just use `host` for the injection of `AnimalService`, the result is dog <code>🐶</code> because the injector finds the `AnimalService` in the `<app-child>` `<#VIEW>` itself.
+The `Child` configures the `viewProviders` so that the dog emoji is provided as `AnimalService` value.
+You can also see `host` the `inject()`:
 
 ```typescript
 @Component({
@@ -856,45 +893,46 @@ Você também pode ver `host` no `inject()`:
     { provide: AnimalService, useValue: { emoji: '🐶' } },
   ]
 })
-export class ChildComponent {
+export class Child {
   animal = inject(AnimalService, { host: true })
 }
 ```
 
-`host: true` faz com que o injector procure até encontrar a borda do `<#VIEW>`.
+`host: true` causes the injector to look until it encounters the edge of the `<#VIEW>`.
 
 ```html
 <app-root @ApplicationConfig
-@Inject(AnimalService=>"🐳")>
-<#VIEW>
-<app-child>
-<#VIEW @Provide(AnimalService="🐶")
-inject(AnimalService, {host: true}=>"🐶")> <!-- host stops search here -->
-</#VIEW>
-</app-child>
+          @Inject(AnimalService=>"🐳")>
+  <#VIEW>
+  <app-child>
+    <#VIEW @Provide(AnimalService="🐶")
+    inject(AnimalService, {host: true}=>"🐶")> <!-- host stops search here -->
+  </
+  #VIEW>
+  </app-child>
 </#VIEW>
 </app-root>
 ```
 
-Adicione um array `viewProviders` com um terceiro animal, ouriço <code>🦔</code>, aos metadados `@Component()` do `app.component.ts`:
+Add a `viewProviders` array with a third animal, hedgehog <code>🦔</code>, to the `app.ts` `@Component()` metadata:
 
 ```typescript
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: [ './app.component.css' ],
+  templateUrl: './app.html',
+  styleUrls: [ './app.css' ],
   viewProviders: [
     { provide: AnimalService, useValue: { emoji: '🦔' } },
   ],
 })
 ```
 
-A seguir, adicione `skipSelf` junto com `host` ao `inject()` para a injeção de `AnimalService` em `child.component.ts`.
-Aqui estão `host` e `skipSelf` na inicialização da propriedade `animal`:
+Next, add `skipSelf` along with `host` to the `inject()` for the `AnimalService` injection in `child.ts`.
+Here are `host` and `skipSelf` in the `animal` property initialization:
 
 ```typescript
-export class ChildComponent {
-  animal = inject(AnimalService, { host: true, skipSelf: true });
+export class Child {
+  animal = inject(AnimalService, {host: true, skipSelf: true});
 }
 ```
 
@@ -902,202 +940,201 @@ export class ChildComponent {
   and how `host` works.
  -->
 
-Quando `host` e `skipSelf` foram aplicados ao `FlowerService`, que está no array `providers`, o resultado foi `null` porque `skipSelf` inicia sua busca no injector `<app-child>`, mas `host` para de procurar em `<#VIEW>` —onde não há `FlowerService`
-Na árvore lógica, você pode ver que o `FlowerService` é visível em `<app-child>`, não em seu `<#VIEW>`.
+When `host` and `skipSelf` were applied to the `FlowerService`, which is in the `providers` array, the result was `null` because `skipSelf` starts its search in the `<app-child>` injector, but `host` stops searching at `<#VIEW>` —where there is no `FlowerService`
+In the logical tree, you can see that the `FlowerService` is visible in `<app-child>`, not its `<#VIEW>`.
 
-No entanto, o `AnimalService`, que é fornecido no array `viewProviders` do `AppComponent`, é visível.
+However, the `AnimalService`, which is provided in the `App` `viewProviders` array, is visible.
 
-A representação da árvore lógica mostra por que isso acontece:
+The logical tree representation shows why this is:
 
 ```html
 <app-root @ApplicationConfig
-@Inject(AnimalService=>"🐳")>
-<#VIEW @Provide(AnimalService="🦔")
-@Inject(AnimalService, @Optional)=>"🦔">
+          @Inject(AnimalService=>"🐳")>
+  <#VIEW @Provide(AnimalService="🦔")
+  @Inject(AnimalService, @Optional)=>"🦔">
 
-<!-- ^^skipSelf starts here,  host stops here^^ -->
-<app-child>
-<#VIEW @Provide(AnimalService="🐶")
-inject(AnimalService, {skipSelf:true, host: true, optional: true})=>"🦔">
-<!-- Add skipSelf ^^-->
-</#VIEW>
-</app-child>
+  <!-- ^^skipSelf starts here,  host stops here^^ -->
+  <app-child>
+    <#VIEW @Provide(AnimalService="🐶")
+    inject(AnimalService, {skipSelf:true, host: true, optional: true})=>"🦔">
+    <!-- Add skipSelf ^^-->
+  </
+  #VIEW>
+  </app-child>
 </#VIEW>
 </app-root>
 ```
 
-`skipSelf`, faz com que o injector inicie sua busca pelo `AnimalService` no `<app-root>`, não no `<app-child>`, onde a requisição se origina, e `host` para a busca no `<#VIEW>` do `<app-root>`.
-Como `AnimalService` é fornecido através do array `viewProviders`, o injector encontra ouriço <code>🦔</code> no `<#VIEW>`.
+`skipSelf`, causes the injector to start its search for the `AnimalService` at the `<app-root>`, not the `<app-child>`, where the request originates, and `host` stops the search at the `<app-root>` `<#VIEW>`.
+Since `AnimalService` is provided by way of the `viewProviders` array, the injector finds hedgehog <code>🦔</code> in the `<#VIEW>`.
 
-## Exemplo: casos de uso de `ElementInjector`
+## Example: `ElementInjector` use cases
 
-A habilidade de configurar um ou mais providers em diferentes níveis abre possibilidades úteis.
+The ability to configure one or more providers at different levels opens up useful possibilities.
 
-### Cenário: isolamento de service
+### Scenario: service isolation
 
-Razões arquiteturais podem levá-lo a restringir acesso a um service ao domínio da aplicação onde ele pertence.
-Por exemplo, considere que construímos um `VillainsListComponent` que exibe uma lista de vilões.
-Ele obtém esses vilões de um `VillainsService`.
+Architectural reasons may lead you to restrict access to a service to the application domain where it belongs.
+For example, consider we build a `VillainsList` that displays a list of villains.
+It gets those villains from a `VillainsService`.
 
-Se você fornecer `VillainsService` no `AppModule` raiz, ele tornará `VillainsService` visível em todos os lugares na aplicação.
-Se você posteriormente modificar o `VillainsService`, você poderia quebrar algo em outros components que começaram a depender deste service por acidente.
+If you provide `VillainsService` in the root `AppModule`, it will make `VillainsService` visible everywhere in the application.
+If you later modify the `VillainsService`, you could break something in other components that started depending on this service by accident.
 
-Em vez disso, você deve fornecer o `VillainsService` nos metadados `providers` do `VillainsListComponent` assim:
+Instead, you should provide the `VillainsService` in the `providers` metadata of the `VillainsList` like this:
 
 ```typescript
 @Component({
-selector: 'app-villains-list',
-templateUrl: './villains-list.component.html',
-providers: [VillainsService]
+  selector: 'app-villains-list',
+  templateUrl: './villains-list.html',
+  providers: [VillainsService],
 })
-export class VillainsListComponent {}
+export class VillainsList {}
 ```
 
-Ao fornecer `VillainsService` nos metadados `VillainsListComponent` e em nenhum outro lugar, o service torna-se disponível apenas no `VillainsListComponent` e sua subárvore de components.
+By providing `VillainsService` in the `VillainsList` metadata and nowhere else, the service becomes available only in the `VillainsList` and its subcomponent tree.
 
-`VillainService` é um singleton com respeito a `VillainsListComponent` porque é onde ele é declarado.
-Contanto que `VillainsListComponent` não seja destruído, será a mesma instância de `VillainService`, mas se houver múltiplas instâncias de `VillainsListComponent`, então cada instância de `VillainsListComponent` terá sua própria instância de `VillainService`.
+`VillainsService` is a singleton with respect to `VillainsList` because that is where it is declared.
+As long as `VillainsList` does not get destroyed it will be the same instance of `VillainsService` but if there are multiple instances of `VillainsList`, then each instance of `VillainsList` will have its own instance of `VillainsService`.
 
-### Cenário: múltiplas sessões de edição
+### Scenario: multiple edit sessions
 
-Muitas aplicações permitem que usuários trabalhem em várias tarefas abertas ao mesmo tempo.
-Por exemplo, em uma aplicação de preparação de impostos, o preparador poderia estar trabalhando em várias declarações fiscais, alternando de uma para outra ao longo do dia.
+Many applications allow users to work on several open tasks at the same time.
+For example, in a tax preparation application, the preparer could be working on several tax returns, switching from one to the other throughout the day.
 
-Para demonstrar esse cenário, imagine um `HeroListComponent` que exibe uma lista de super-heróis.
+To demonstrate that scenario, imagine a `HeroList` that displays a list of super heroes.
 
-Para abrir a declaração fiscal de um herói, o preparador clica em um nome de herói, que abre um component para editar aquela declaração.
-Cada declaração fiscal de herói selecionado abre em seu próprio component e múltiplas declarações podem estar abertas ao mesmo tempo.
+To open a hero's tax return, the preparer clicks on a hero name, which opens a component for editing that return.
+Each selected hero tax return opens in its own component and multiple returns can be open at the same time.
 
-Cada component de declaração fiscal tem as seguintes características:
+Each tax return component has the following characteristics:
 
-- É sua própria sessão de edição de declaração fiscal
-- Pode alterar uma declaração fiscal sem afetar uma declaração em outro component
-- Tem a habilidade de salvar as mudanças em sua declaração fiscal ou cancelá-las
+- Is its own tax return editing session
+- Can change a tax return without affecting a return in another component
+- Has the ability to save the changes to its tax return or cancel them
 
-Suponha que o `HeroTaxReturnComponent` tivesse lógica para gerenciar e restaurar mudanças.
-Isso seria uma tarefa direta para uma declaração fiscal de herói.
-No mundo real, com um modelo de dados de declaração fiscal rico, o gerenciamento de mudanças seria complicado.
-Você poderia delegar esse gerenciamento a um service auxiliar, como este exemplo faz.
+Suppose that the `HeroTaxReturnEditor` had logic to manage and restore changes.
+That would be a straightforward task for a hero tax return.
+In the real world, with a rich tax return data model, the change management would be tricky.
+You could delegate that management to a helper service, as this example does.
 
-O `HeroTaxReturnService` armazena em cache um único `HeroTaxReturn`, rastreia mudanças naquela declaração e pode salvá-la ou restaurá-la.
-Ele também delega ao singleton `HeroService` em toda a aplicação, que ele obtém por injeção.
+The `HeroTaxReturnService` caches a single `HeroTaxReturn`, tracks changes to that return, and can save or restore it.
+It also delegates to the application-wide singleton `HeroService`, which it gets by injection.
 
 ```typescript
-import { Injectable } from '@angular/core';
-import { HeroTaxReturn } from './hero';
-import { HeroesService } from './heroes.service';
+import {inject, Service} from '@angular/core';
+import {HeroTaxReturn} from './hero';
+import {HeroesService} from './heroes.service';
 
-@Injectable()
+@Service({autoProvided: false})
 export class HeroTaxReturnService {
-private currentTaxReturn!: HeroTaxReturn;
-private originalTaxReturn!: HeroTaxReturn;
+  private currentTaxReturn!: HeroTaxReturn;
+  private originalTaxReturn!: HeroTaxReturn;
 
-private heroService = inject(HeroesService);
+  private heroService = inject(HeroesService);
 
-set taxReturn(htr: HeroTaxReturn) {
-this.originalTaxReturn = htr;
-this.currentTaxReturn = htr.clone();
-}
+  set taxReturn(htr: HeroTaxReturn) {
+    this.originalTaxReturn = htr;
+    this.currentTaxReturn = htr.clone();
+  }
 
-get taxReturn(): HeroTaxReturn {
-return this.currentTaxReturn;
-}
+  get taxReturn(): HeroTaxReturn {
+    return this.currentTaxReturn;
+  }
 
-restoreTaxReturn() {
-this.taxReturn = this.originalTaxReturn;
-}
+  restoreTaxReturn() {
+    this.taxReturn = this.originalTaxReturn;
+  }
 
-saveTaxReturn() {
-this.taxReturn = this.currentTaxReturn;
-this.heroService.saveTaxReturn(this.currentTaxReturn).subscribe();
-}
+  saveTaxReturn() {
+    this.taxReturn = this.currentTaxReturn;
+    this.heroService.saveTaxReturn(this.currentTaxReturn).subscribe();
+  }
 }
 ```
 
-Aqui está o `HeroTaxReturnComponent` que faz uso de `HeroTaxReturnService`.
+Here is the `HeroTaxReturnEditor` that makes use of `HeroTaxReturnService`.
 
 ```typescript
-import { Component, EventEmitter, input, output } from '@angular/core';
-import { HeroTaxReturn } from './hero';
-import { HeroTaxReturnService } from './hero-tax-return.service';
+import {Component, effect, inject, input, output} from '@angular/core';
+import {HeroTaxReturn} from './hero';
+import {HeroTaxReturnService} from './hero-tax-return.service';
 
 @Component({
-selector: 'app-hero-tax-return',
-templateUrl: './hero-tax-return.component.html',
-styleUrls: [ './hero-tax-return.component.css' ],
-providers: [ HeroTaxReturnService ]
+  selector: 'app-hero-tax-return',
+  templateUrl: './hero-tax-return.html',
+  styleUrls: ['./hero-tax-return.css'],
+  providers: [HeroTaxReturnService],
 })
-export class HeroTaxReturnComponent {
-message = '';
+export class HeroTaxReturnEditor {
+  message = '';
 
-close = output<void>();
+  close = output<void>();
 
-get taxReturn(): HeroTaxReturn {
-return this.heroTaxReturnService.taxReturn;
-}
+  taxReturn = input.required<HeroTaxReturn>();
 
-taxReturn = input.required<HeroTaxReturn>();
+  private heroTaxReturnService = inject(HeroTaxReturnService);
 
-constructor() {
-effect(() => {
-this.heroTaxReturnService.taxReturn = this.taxReturn();
-})
-}
+  constructor() {
+    effect(() => {
+      this.heroTaxReturnService.taxReturn = this.taxReturn();
+    });
+  }
 
-private heroTaxReturnService = inject(HeroTaxReturnService);
+  onCanceled() {
+    this.flashMessage('Canceled');
+    this.heroTaxReturnService.restoreTaxReturn();
+  }
 
-onCanceled() {
-this.flashMessage('Canceled');
-this.heroTaxReturnService.restoreTaxReturn();
-}
+  onClose() {
+    this.close.emit();
+  }
 
-onClose() { this.close.emit(); }
+  onSaved() {
+    this.flashMessage('Saved');
+    this.heroTaxReturnService.saveTaxReturn();
+  }
 
-onSaved() {
-this.flashMessage('Saved');
-this.heroTaxReturnService.saveTaxReturn();
-}
-
-flashMessage(msg: string) {
-this.message = msg;
-setTimeout(() => this.message = '', 500);
-}
+  flashMessage(msg: string) {
+    this.message = msg;
+    setTimeout(() => (this.message = ''), 500);
+  }
 }
 ```
 
-A _tax-return-to-edit_ chega através da propriedade `input`, que é implementada com getters e setters.
-O setter inicializa a própria instância do component do `HeroTaxReturnService` com a declaração recebida.
-O getter sempre retorna o que aquele service diz que é o estado atual do herói.
-O component também pede ao service para salvar e restaurar esta declaração fiscal.
+The _tax-return-to-edit_ arrives by way of the `taxReturn` signal input.
+An `effect` initializes the component's own instance of the `HeroTaxReturnService` with the incoming return whenever the input changes.
+The service's getter always returns what the service says is the current state of the hero.
+The component also asks the service to save and restore this tax return.
 
-Isso não funcionará se o service for um singleton em toda a aplicação.
-Cada component compartilharia a mesma instância de service, e cada component sobrescreveria a declaração fiscal que pertenceu a outro herói.
+This won't work if the service is an application-wide singleton.
+Every component would share the same service instance, and each component would overwrite the tax return that belonged to another hero.
 
-Para evitar isso, configure o injector de nível de component de `HeroTaxReturnComponent` para fornecer o service, usando a propriedade `providers` nos metadados do component.
+To prevent this, configure the component-level injector of `HeroTaxReturnEditor` to provide the service, using the `providers` property in the component metadata.
 
 ```typescript
-providers: [HeroTaxReturnService]
+providers: [HeroTaxReturnService];
 ```
 
-O `HeroTaxReturnComponent` tem seu próprio provider do `HeroTaxReturnService`.
-Lembre-se que cada _instância_ de component tem seu próprio injector.
-Fornecer o service no nível do component garante que _cada_ instância do component obtenha uma instância privada do service. Isso garante que nenhuma declaração fiscal seja sobrescrita.
+The `HeroTaxReturnEditor` has its own provider of the `HeroTaxReturnService`.
+Recall that every component _instance_ has its own injector.
+Providing the service at the component level ensures that _every_ instance of the component gets a private instance of the service. This makes sure that no tax return gets overwritten.
 
-ÚTIL: O resto do código do cenário depende de outros recursos e técnicas do Angular que você pode aprender em outros lugares na documentação.
+HELPFUL: The rest of the scenario code relies on other Angular features and techniques that you can learn about elsewhere in the documentation.
 
-### Cenário: providers especializados
+### Scenario: specialized providers
 
-Outra razão para fornecer um service novamente em outro nível é substituir uma implementação _mais especializada_ daquele service, mais profundamente na árvore de components.
+Another reason to provide a service again at another level is to substitute a _more specialized_ implementation of that service, deeper in the component tree.
 
-Por exemplo, considere um component `Car` que inclui informações de serviço de pneus e depende de outros services para fornecer mais detalhes sobre o carro.
+For example, consider a `Car` component that includes tire service information and depends on other services to provide more details about the car.
 
-O injector raiz, marcado como (A), usa providers _genéricos_ para detalhes sobre `CarService` e `EngineService`.
+The root injector, marked as (A), uses _generic_ providers for details about `CarService` and `EngineService`.
 
-1. Component `Car` (A). Component (A) exibe dados de serviço de pneus sobre um carro e especifica services genéricos para fornecer mais informações sobre o carro.
+1. `Car` component (A). Component (A) displays tire service data about a car and specifies generic services to provide more information about the car.
 
-2. Component filho (B). Component (B) define seus próprios providers _especializados_ para `CarService` e `EngineService` que têm capacidades especiais adequadas para o que está acontecendo no component (B).
+2. Child component (B). Component (B) defines its own, _specialized_ providers for `CarService` and `EngineService` that have special capabilities suitable for what's going on in component (B).
 
-3. Component filho (C) como filho do Component (B). Component (C) define seu próprio provider ainda _mais especializado_ para `CarService`.
+3. Child component (C) as a child of Component (B). Component (C) defines its own, even _more specialized_ provider for `CarService`.
 
 ```mermaid
 graph TD;
@@ -1114,13 +1151,13 @@ classDef noShadow filter:none
 class COMPONENT_A,COMPONENT_B,COMPONENT_C noShadow
 ```
 
-Nos bastidores, cada component configura seu próprio injector com zero, um ou mais providers definidos para aquele próprio component.
+Behind the scenes, each component sets up its own injector with zero, one, or more providers defined for that component itself.
 
-Quando você resolve uma instância de `Car` no component mais profundo (C), seu injector produz:
+When you resolve an instance of `Car` at the deepest component (C), its injector produces:
 
-- Uma instância de `Car` resolvida pelo injector (C)
-- Um `Engine` resolvido pelo injector (B)
-- Seus `Tires` resolvidos pelo injector raiz (A).
+- An instance of `Car` resolved by injector (C)
+- An `Engine` resolved by injector (B)
+- Its `Tires` resolved by the root injector (A).
 
 ```mermaid
 graph BT;
@@ -1161,8 +1198,8 @@ style tires fill:#BDD7EE,color:#000
 style RootInjector fill:#BDD7EE,color:#000
 ```
 
-## Mais sobre dependency injection
+## More on dependency injection
 
 <docs-pill-row>
-  <docs-pill href="/guide/di/dependency-injection-providers" title="DI Providers"/>
+  <docs-pill href="/guide/di/defining-dependency-providers" title="DI Providers"/>
 </docs-pill-row>

@@ -1,21 +1,20 @@
-<!-- ia-translate: true -->
-# Visão Geral de Forms
+# Forms Overview
 
-Forms são uma grande parte de muitas aplicações porque permitem que sua aplicação aceite entrada do usuário. Vamos aprender sobre como forms são tratados no Angular.
+Forms are a big part of many apps because they enable your app to accept user input. Let's learn about how forms are handled in Angular.
 
-No Angular, existem dois tipos de forms: template-driven e reactive. Você aprenderá sobre ambos nas próximas atividades.
+In Angular, there are two types of forms: template-driven and reactive. You'll learn about both over the next few activities.
 
-Nota: Saiba mais sobre [forms no Angular no guia detalhado](/guide/forms).
+NOTE: Learn more about [forms in Angular in the in-depth guide](/guide/forms).
 
-Nesta atividade, você aprenderá como configurar um form usando uma abordagem template-driven.
+In this activity, you'll learn how to set up a form using a template-driven approach.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Crie um campo input">
+<docs-step title="Create an input field">
 
-Em `user.ts`, atualize o template adicionando um input de texto com o `id` definido como `framework`, tipo definido como `text`.
+In `user.ts`, update the template by adding a text input with the `id` set to `framework`, type set to `text`.
 
 ```angular-html
 <label for="framework">
@@ -26,13 +25,13 @@ Em `user.ts`, atualize o template adicionando um input de texto com o `id` defin
 
 </docs-step>
 
-<docs-step title="Importe `FormsModule`">
+<docs-step title="Import `FormsModule`">
 
-Para que este form use recursos do Angular que habilitam data binding para forms, você precisará importar o `FormsModule`.
+For this form to use Angular features that enable data binding to forms, you'll need to import the `FormsModule`.
 
-Importe o `FormsModule` de `@angular/forms` e adicione-o ao array `imports` do `User`.
+Import the `FormsModule` from `@angular/forms` and add it to the `imports` array of the `User`.
 
-<docs-code language="ts" highlight="[2, 7]">
+```ts {highlight:[[2],[6]]}
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
@@ -41,31 +40,31 @@ import {FormsModule} from '@angular/forms';
 imports: [FormsModule],
 })
 export class User {}
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Adicione binding ao valor do input">
+<docs-step title="Add binding to the value of the input">
 
-O `FormsModule` tem uma directive chamada `ngModel` que vincula o valor do input a uma propriedade em sua classe.
+The `FormsModule` has a directive called `ngModel` that binds the value of the input to a property in your class.
 
-Atualize o input para usar a directive `ngModel`, especificamente com a seguinte sintaxe `[(ngModel)]="favoriteFramework"` para vincular à propriedade `favoriteFramework`.
+Update the input to use the `ngModel` directive, specifically with the following syntax `[(ngModel)]="favoriteFramework"` to bind to the `favoriteFramework` property.
 
-<docs-code language="html" highlight="[3]">
+```html {highlight:[3]}
 <label for="framework">
   Favorite Framework:
   <input id="framework" type="text" [(ngModel)]="favoriteFramework" />
 </label>
-</docs-code>
+```
 
-Depois de fazer as alterações, tente inserir um valor no campo de input. Observe como ele atualiza na tela (sim, muito legal).
+After you've made changes, try entering a value in the input field. Notice how it updates on the screen (yes, very cool).
 
-NOTA: A sintaxe `[()]` é conhecida como "banana in a box" mas representa two-way binding: property binding e event binding. Saiba mais na [documentação do Angular sobre two-way data binding](guide/templates/two-way-binding).
+NOTE: The syntax `[()]` is known as "banana in a box" but it represents two-way binding: property binding and event binding. Learn more in the [Angular docs about two-way data binding](guide/templates/two-way-binding).
 
 </docs-step>
 
 </docs-workflow>
 
-Você deu um importante primeiro passo para construir forms com Angular.
+You've now taken an important first step towards building forms with Angular.
 
-Bom trabalho. Vamos manter o momentum!
+Nice work. Let's keep the momentum going!

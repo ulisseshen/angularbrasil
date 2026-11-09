@@ -11,12 +11,9 @@ import {PROVIDED_NG_ZONE} from '../change_detection/scheduling/ng_zone_schedulin
 import {R3Injector} from '../di/r3_injector';
 import {INTERNAL_APPLICATION_ERROR_HANDLER} from '../error_handler';
 import {formatRuntimeError, RuntimeError, RuntimeErrorCode} from '../errors';
-import {DEFAULT_LOCALE_ID} from '../i18n/localization';
-import {LOCALE_ID} from '../i18n/tokens';
 import {ImagePerformanceWarning} from '../image_performance_warning';
 import {Type} from '../interface/type';
 import {PLATFORM_DESTROY_LISTENERS} from './platform_destroy_listeners';
-import {setLocaleId} from '../render3/i18n/i18n_locale_id';
 import {NgZone} from '../zone/ng_zone';
 
 import {ApplicationInitStatus} from '../application/application_init';
@@ -27,8 +24,6 @@ import {InternalNgModuleRef, NgModuleRef} from '../linker/ng_module_factory';
 import {stringify} from '../util/stringify';
 import {isPromise} from '../util/lang';
 import {PendingTasksInternal} from '../pending_tasks_internal';
-
-const REQUIRE_ONE_CD_PROVIDER_BOOTSTRAP_MODULE = false;
 
 /**
  * InjectionToken to control root component bootstrap behavior.
@@ -51,7 +46,7 @@ const REQUIRE_ONE_CD_PROVIDER_BOOTSTRAP_MODULE = false;
  * from component rendering.
  */
 export const ENABLE_ROOT_COMPONENT_BOOTSTRAP = new InjectionToken<boolean>(
-  typeof ngDevMode !== undefined && ngDevMode ? 'ENABLE_ROOT_COMPONENT_BOOTSTRAP' : '',
+  typeof ngDevMode !== 'undefined' && ngDevMode ? 'ENABLE_ROOT_COMPONENT_BOOTSTRAP' : '',
 );
 
 export interface BootstrapConfig {
@@ -104,15 +99,6 @@ export function bootstrap<M>(
           ),
         );
       }
-      if (!envInjector.get(PROVIDED_ZONELESS) && !envInjector.get(PROVIDED_NG_ZONE)) {
-        if (REQUIRE_ONE_CD_PROVIDER_BOOTSTRAP_MODULE && !isApplicationBootstrapConfig(config)) {
-          throw new Error(
-            'Missing change detection configuration: ' +
-              'please add either `provideZoneChangeDetection()` or `provideZonelessChangeDetection()` ' +
-              "to the list of root providers in your application's bootstrap code.",
-          );
-        }
-      }
     }
 
     let onErrorSubscription: Subscription;
@@ -153,10 +139,6 @@ export function bootstrap<M>(
 
       return initStatus.donePromise
         .then(() => {
-          // If the `LOCALE_ID` provider is defined at bootstrap then we set the value for ivy
-          const localeId = envInjector.get(LOCALE_ID, DEFAULT_LOCALE_ID);
-          setLocaleId(localeId || DEFAULT_LOCALE_ID);
-
           const enableRootComponentbootstrap = envInjector.get(
             ENABLE_ROOT_COMPONENT_BOOTSTRAP,
             true,

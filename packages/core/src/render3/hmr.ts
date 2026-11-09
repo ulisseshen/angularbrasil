@@ -23,10 +23,12 @@ import {
   CHILD_TAIL,
   CONTEXT,
   ENVIRONMENT,
+  FLAGS,
   HEADER_OFFSET,
   HOST,
   INJECTOR,
   LView,
+  LViewFlags,
   NEXT,
   PARENT,
   RENDERER,
@@ -34,6 +36,7 @@ import {
   TVIEW,
 } from './interfaces/view';
 import {assertTNodeType} from './node_assert';
+import {cleanupLView as cleanupDehydratedLView} from '../hydration/cleanup';
 import {destroyLView, removeViewFromDOM} from './node_manipulation';
 import {RendererFactory} from './interfaces/renderer';
 import {NgZone} from '../zone';
@@ -69,7 +72,7 @@ export function ɵɵgetReplaceMetadataURL(id: string, timestamp: string, base: s
  * Replaces the metadata of a component type and re-renders all live instances of the component.
  * @param type Class whose metadata will be replaced.
  * @param applyMetadata Callback that will apply a new set of metadata on the `type` when invoked.
- * @param environment Syntehtic namespace imports that need to be passed along to the callback.
+ * @param environment Synthetic namespace imports that need to be passed along to the callback.
  * @param locals Local symbols from the source location that have to be exposed to the callback.
  * @param importMeta `import.meta` from the call site of the replacement function. Optional since
  *   it isn't used internally.
@@ -279,6 +282,12 @@ function recreateLView(
     // Destroy the detached LView.
     destroyLView(lView[TVIEW], lView);
 
+    // Clean up any dehydrated views left over from SSR hydration.
+    // Neither destroyLView nor removeViewFromDOM handle DOM nodes
+    // stored in LContainer[DEHYDRATED_VIEWS], which causes duplicated
+    // content when the view is re-rendered during HMR.
+    cleanupDehydratedLView(lView);
+
     // Always force the creation of a new renderer to ensure state captured during construction
     // stays consistent with the new component definition by clearing any old ached factories.
     const rendererFactory = lView[ENVIRONMENT].rendererFactory;
@@ -300,7 +309,9 @@ function recreateLView(
     // Creation pass for the new view.
     renderView(newTView, newLView, instance);
 
-    // Update pass for the new view.
+    // Consume the initial refresh flag before updating, as in normal change detection,
+    // so views dirtied during this pass (e.g. by an error boundary) can schedule a refresh.
+    newLView[FLAGS] &= ~LViewFlags.RefreshView;
     refreshView(newTView, newLView, newTView.template, instance);
   };
 

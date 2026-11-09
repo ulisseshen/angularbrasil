@@ -9,7 +9,7 @@
 import {APP_ID} from './application/application_tokens';
 import {inject} from './di/injector_compatibility';
 import {ɵɵdefineInjectable} from './di/interface/defs';
-import {getDocument} from './render3/interfaces/document';
+import {DOCUMENT} from './document';
 
 /**
  * A type-safe key to use with `TransferState`.
@@ -48,13 +48,9 @@ export function makeStateKey<T = void>(key: string): StateKey<T> {
   return key as StateKey<T>;
 }
 
-function initTransferState(): TransferState {
-  const transferState = new TransferState();
-  if (typeof ngServerMode === 'undefined' || !ngServerMode) {
-    transferState.store = retrieveTransferredState(getDocument(), inject(APP_ID));
-  }
-
-  return transferState;
+export function createDictionary<T>(): Record<string, T> {
+  // StateKey can be any string, including names of special Object prototype properties.
+  return Object.create(null);
 }
 
 /**
@@ -63,8 +59,6 @@ function initTransferState(): TransferState {
  *
  * The `TransferState` is available as an injectable token.
  * On the client, just inject this token using DI and use it, it will be lazily initialized.
- * On the server it's already included if `renderApplication` function is used. Otherwise, import
- * the `ServerTransferStateModule` module to make the `TransferState` available.
  *
  * The values in the store are serialized/deserialized using JSON.stringify/JSON.parse. So only
  * boolean, number, string, null and non-class objects will be serialized and deserialized in a
@@ -77,19 +71,31 @@ export class TransferState {
   static ɵprov = /** @pureOrBreakMyCode */ /* @__PURE__ */ ɵɵdefineInjectable({
     token: TransferState,
     providedIn: 'root',
-    factory: initTransferState,
+    factory: () => {
+      const transferState = new TransferState();
+      if (typeof ngServerMode === 'undefined' || !ngServerMode) {
+        transferState.store = retrieveTransferredState(inject(DOCUMENT), inject(APP_ID));
+      }
+
+      return transferState;
+    },
   });
 
   /** @internal */
-  store: Record<string, unknown | undefined> = {};
+  store: Record<string, unknown | undefined> = createDictionary();
 
-  private onSerializeCallbacks: {[k: string]: () => unknown | undefined} = {};
+  private onSerializeCallbacks: {[k: string]: () => unknown | undefined} = createDictionary();
 
   /**
    * Get the value corresponding to a key. Return `defaultValue` if key is not found.
    */
   get<T>(key: StateKey<T>, defaultValue: T): T {
-    return this.store[key] !== undefined ? (this.store[key] as T) : defaultValue;
+    if (!Object.hasOwn(this.store, key)) {
+      return defaultValue;
+    }
+
+    const value = this.store[key];
+    return value !== undefined ? (value as T) : defaultValue;
   }
 
   /**
@@ -110,7 +116,7 @@ export class TransferState {
    * Test whether a key exists in the store.
    */
   hasKey<T>(key: StateKey<T>): boolean {
-    return this.store.hasOwnProperty(key);
+    return Object.hasOwn(this.store, key);
   }
 
   /**
@@ -133,7 +139,7 @@ export class TransferState {
   toJson(): string {
     // Call the onSerialize callbacks and put those values into the store.
     for (const key in this.onSerializeCallbacks) {
-      if (this.onSerializeCallbacks.hasOwnProperty(key)) {
+      if (Object.hasOwn(this.onSerializeCallbacks, key)) {
         try {
           this.store[key] = this.onSerializeCallbacks[key]();
         } catch (e) {
@@ -144,7 +150,8 @@ export class TransferState {
 
     // Escape script tag to avoid break out of <script> tag in serialized output.
     // Encoding of `<` is the same behaviour as G3 script_builders.
-    return JSON.stringify(this.store).replace(/</g, '\\u003C');
+    // Encoding of `/` prevents crawlers from incorrectly indexing relative URLs in inline JSON.
+    return JSON.stringify(this.store).replace(/</g, '\\u003C').replace(/\//g, '\\u002F');
   }
 }
 
@@ -155,16 +162,19 @@ export function retrieveTransferredState(
   // Locate the script tag with the JSON data transferred from the server.
   // The id of the script tag is set to the Angular appId + 'state'.
   const script = doc.getElementById(appId + '-state');
-  if (script?.textContent) {
+  if (script?.tagName === 'SCRIPT' && script.textContent) {
     try {
       // Avoid using any here as it triggers lint errors in google3 (any is not allowed).
       // Decoding of `<` is done of the box by browsers and node.js, same behaviour as G3
       // script_builders.
-      return JSON.parse(script.textContent) as {};
+      return Object.assign(
+        createDictionary<unknown | undefined>(),
+        JSON.parse(script.textContent) as {},
+      );
     } catch (e) {
       console.warn('Exception while restoring TransferState for app ' + appId, e);
     }
   }
 
-  return {};
+  return createDictionary();
 }

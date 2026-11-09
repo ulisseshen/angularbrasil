@@ -1,21 +1,20 @@
-<!-- ia-translate: true -->
 # Two-way binding
 
-**Two way binding** é um atalho para simultaneamente vincular um valor a um elemento, enquanto também dá a esse elemento a capacidade de propagar mudanças de volta através desse binding.
+**Two way binding** is a shorthand to simultaneously bind a value into an element, while also giving that element the ability to propagate changes back through this binding.
 
-## Sintaxe
+## Syntax
 
-A sintaxe para two-way binding é uma combinação de colchetes e parênteses, `[()]`. Ela combina a sintaxe de property binding, `[]`, e a sintaxe de event binding, `()`. A comunidade Angular informalmente se refere a essa sintaxe como "banana-in-a-box".
+The syntax for two-way binding is a combination of square brackets and parentheses, `[()]`. It combines the syntax from property binding, `[]`, and the syntax from event binding, `()`. The Angular community informally refers to this syntax as "banana-in-a-box".
 
-## Two-way binding com form controls
+## Two-way binding with form controls
 
-Desenvolvedores comumente usam two-way binding para manter os dados do component sincronizados com um form control enquanto o usuário interage com o control. Por exemplo, quando um usuário preenche um input de texto, ele deve atualizar o estado no component.
+Developers commonly use two-way binding to keep component data in sync with a form control as a user interacts with the control. For example, when a user fills out a text input, it should update the state in the component.
 
-O exemplo a seguir atualiza dinamicamente o atributo `firstName` na página:
+The following example dynamically updates the `firstName` attribute on the page:
 
 ```angular-ts
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   imports: [FormsModule],
@@ -24,37 +23,36 @@ import { FormsModule } from '@angular/forms';
       <h2>Hello {{ firstName }}!</h2>
       <input type="text" [(ngModel)]="firstName" />
     </main>
-  `
+  `,
 })
-export class AppComponent {
+export class App {
   firstName = 'Ada';
 }
 ```
 
-Para usar two-way binding com form controls nativos, você precisa:
+To use two-way binding with native form controls, you need to:
 
-1. Importar o `FormsModule` de `@angular/forms`
-1. Usar a directive `ngModel` com a sintaxe de two-way binding (ex., `[(ngModel)]`)
-1. Atribuí-lo ao estado que você quer atualizar (ex., `firstName`)
+1. Import the `FormsModule` from `@angular/forms`
+1. Use the `ngModel` directive with the two-way binding syntax (e.g., `[(ngModel)]`)
+1. Assign it the state that you want it to update (e.g., `firstName`)
 
-Uma vez configurado, o Angular garantirá que quaisquer atualizações no input de texto sejam refletidas corretamente dentro do estado do component!
+Once that is set up, Angular will ensure that any updates in the text input will reflect correctly inside of the component state!
 
-Saiba mais sobre [`NgModel`](guide/directives#displaying-and-updating-properties-with-ngmodel) na documentação oficial.
+Learn more about [`NgModel`](/api/forms/NgModel) in the official docs.
 
-## Two-way binding entre components
+## Two-way binding between components
 
-Aproveitar two-way binding entre um component pai e filho requer mais configuração comparado a elementos de formulário.
+Leveraging two-way binding between a parent and child component requires more configuration compared to form elements.
 
-Aqui está um exemplo onde o `AppComponent` é responsável por definir o estado inicial do count, mas a lógica para atualizar e renderizar a UI do contador reside principalmente dentro do seu component filho `CounterComponent`.
+Here is an example where the `App` is responsible for setting the initial count state, but the logic for updating and rendering the UI for the counter primarily resides inside its child `Counter`.
 
-```angular-ts
-// ./app.component.ts
-import { Component } from '@angular/core';
-import { CounterComponent } from './counter/counter.component';
+```angular-ts {header: 'app.ts'}
+import {Component} from '@angular/core';
+import {Counter} from './counter';
 
 @Component({
   selector: 'app-root',
-  imports: [CounterComponent],
+  imports: [Counter],
   template: `
     <main>
       <h1>Counter: {{ initialCount }}</h1>
@@ -62,14 +60,13 @@ import { CounterComponent } from './counter/counter.component';
     </main>
   `,
 })
-export class AppComponent {
+export class App {
   initialCount = 18;
 }
 ```
 
-```angular-ts
-// './counter/counter.component.ts';
-import { Component, model } from '@angular/core';
+```angular-ts {header: 'counter.ts'}
+import {Component, model} from '@angular/core';
 
 @Component({
   selector: 'app-counter',
@@ -79,59 +76,59 @@ import { Component, model } from '@angular/core';
     <button (click)="updateCount(+1)">+</button>
   `,
 })
-export class CounterComponent {
+export class Counter {
   count = model<number>(0);
 
   updateCount(amount: number): void {
-    this.count.update(currentCount => currentCount + amount);
+    this.count.update((currentCount) => currentCount + amount);
   }
 }
 ```
 
-### Habilitando two-way binding entre components
+### Enabling two-way binding between components
 
-Se quebrarmos o exemplo acima em sua essência, cada two-way binding para components requer o seguinte:
+If we break down the example above to its core, each two-way binding for components requires the following:
 
-O component filho deve conter uma propriedade `model`.
+The child component must contain a `model` property.
 
-Aqui está um exemplo simplificado:
+Here is a simplified example:
 
-```angular-ts
-// './counter/counter.component.ts';
-import { Component, model } from '@angular/core';
+```angular-ts {header: 'counter.ts'}
+import {Component, model} from '@angular/core';
 
-@Component({ /* Omitido para brevidade */ })
-export class CounterComponent {
+@Component({
+  /* Omitted for brevity */
+})
+export class Counter {
   count = model<number>(0);
 
   updateCount(amount: number): void {
-    this.count.update(currentCount => currentCount + amount);
+    this.count.update((currentCount) => currentCount + amount);
   }
 }
 ```
 
-O component pai deve:
+The parent component must:
 
-1. Envolver o nome da propriedade `model` na sintaxe de two-way binding.
-1. Atribuir uma propriedade ou um signal à propriedade `model`.
+1. Wrap the `model` property name in the two-way binding syntax.
+1. Assign a property or a signal to the `model` property.
 
-Aqui está um exemplo simplificado:
+Here is a simplified example:
 
-```angular-ts
-// ./app.component.ts
-import { Component } from '@angular/core';
-import { CounterComponent } from './counter/counter.component';
+```angular-ts {header: 'app.ts'}
+import {Component} from '@angular/core';
+import {Counter} from './counter';
 
 @Component({
   selector: 'app-root',
-  imports: [CounterComponent],
+  imports: [Counter],
   template: `
     <main>
       <app-counter [(count)]="initialCount"></app-counter>
     </main>
   `,
 })
-export class AppComponent {
+export class App {
   initialCount = 18;
 }
 ```

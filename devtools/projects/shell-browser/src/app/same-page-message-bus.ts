@@ -12,34 +12,50 @@ type AnyEventCallback<Ev> = <E extends keyof Ev>(topic: E, args: Parameters<Ev[E
 
 type ListenerFn = (e: MessageEvent) => void;
 
+// We use a bus status to know if we should send the message between the context
+// eg: We don't want to send events until the devtools tab has been focused to present spaming the message bus
+// init: initial state, until the backend is ready
+// waiting: blocking message, until we see the 'enableFrameConnection' event
+// ready: we send every message through the bus
+export type BusStatus = 'init' | 'waiting' | 'ready';
+
+/**
+ * Note: This Bus implementation implements a filter based of topic. It might not be suitable for others messages than the ones currently used.
+ */
 export class SamePageMessageBus extends MessageBus<Events> {
-  private _listeners: ListenerFn[] = [];
+  private status: BusStatus = 'init';
+  private listeners: ListenerFn[] = [];
 
   constructor(
-    private _source: string,
-    private _destination: string,
+    private debugName: string,
+    private source: string,
+    private destination: string,
   ) {
     super();
   }
 
   onAny(cb: AnyEventCallback<Events>): () => void {
     const listener: ListenerFn = (e) => {
-      if (e.source !== window || !e.data || !e.data.topic || e.data.source !== this._destination) {
+      this.updateStatus(e.data?.topic);
+
+      if (e.source !== window || !e.data || !e.data.topic || e.data.source !== this.destination) {
         return;
       }
       cb(e.data.topic, e.data.args);
     };
     window.addEventListener('message', listener);
-    this._listeners.push(listener);
+    this.listeners.push(listener);
     return () => {
-      this._listeners.splice(this._listeners.indexOf(listener), 1);
+      this.listeners.splice(this.listeners.indexOf(listener), 1);
       window.removeEventListener('message', listener);
     };
   }
 
   override on<E extends keyof Events>(topic: E, cb: Events[E]): () => void {
     const listener: ListenerFn = (e) => {
-      if (e.source !== window || !e.data || e.data.source !== this._destination || !e.data.topic) {
+      this.updateStatus(e.data?.topic);
+
+      if (e.source !== window || !e.data || e.data.source !== this.destination || !e.data.topic) {
         return;
       }
       if (e.data.topic === topic) {
@@ -47,16 +63,16 @@ export class SamePageMessageBus extends MessageBus<Events> {
       }
     };
     window.addEventListener('message', listener);
-    this._listeners.push(listener);
+    this.listeners.push(listener);
     return () => {
-      this._listeners.splice(this._listeners.indexOf(listener), 1);
+      this.listeners.splice(this.listeners.indexOf(listener), 1);
       window.removeEventListener('message', listener);
     };
   }
 
   override once<E extends keyof Events>(topic: E, cb: Events[E]): void {
     const listener: ListenerFn = (e) => {
-      if (e.source !== window || !e.data || e.data.source !== this._destination || !e.data.topic) {
+      if (e.source !== window || !e.data || e.data.source !== this.destination || !e.data.topic) {
         return;
       }
       if (e.data.topic === topic) {
@@ -68,9 +84,13 @@ export class SamePageMessageBus extends MessageBus<Events> {
   }
 
   override emit<E extends keyof Events>(topic: E, args?: Parameters<Events[E]>): boolean {
+    if (this.shouldSkipMessage(topic)) {
+      return false;
+    }
+
     window.postMessage(
       {
-        source: this._source,
+        source: this.source,
         topic,
         args,
         __ignore_ng_zone__: true,
@@ -82,7 +102,19 @@ export class SamePageMessageBus extends MessageBus<Events> {
   }
 
   override destroy(): void {
-    this._listeners.forEach((l) => window.removeEventListener('message', l));
-    this._listeners = [];
+    this.listeners.forEach((l) => window.removeEventListener('message', l));
+    this.listeners = [];
+  }
+
+  private shouldSkipMessage(topic: string): boolean {
+    return this.status === 'waiting' && topic !== 'enableFrameConnection';
+  }
+
+  private updateStatus(topic: string): void {
+    if (topic === 'enableFrameConnection') {
+      this.status = 'ready';
+    } else if (topic === 'backendReady') {
+      this.status = 'waiting';
+    }
   }
 }

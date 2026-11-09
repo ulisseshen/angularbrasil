@@ -1,19 +1,37 @@
-<!-- ia-translate: true -->
-# Descubra quanto código você está testando
+# Code coverage
 
-A Angular CLI pode executar unit tests e criar relatórios de cobertura de código.
-Relatórios de cobertura de código mostram quaisquer partes da sua base de código que podem não estar devidamente testadas pelos seus unit tests.
+Code coverage reports show you any parts of your code base that might not be properly tested by your unit tests.
 
-Para gerar um relatório de cobertura, execute o seguinte comando na raiz do seu projeto.
+## Prerequisites
+
+To generate code coverage reports with Vitest, you must install the `@vitest/coverage-v8` package:
+
+<docs-code-multifile>
+  <docs-code header="npm" language="shell">
+    npm install --save-dev @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="yarn" language="shell">
+    yarn add --dev @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="pnpm" language="shell">
+    pnpm add -D @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="bun" language="shell">
+    bun add --dev @vitest/coverage-v8
+  </docs-code>
+</docs-code-multifile>
+
+## Generating a report
+
+To generate a coverage report, add the `--coverage` flag to the `ng test` command:
 
 ```shell
-ng test --no-watch --coverage
+ng test --coverage
 ```
 
-Quando os testes forem concluídos, o comando cria um novo diretório `/coverage` no projeto.
-Abra o arquivo `index.html` para ver um relatório com seu código fonte e valores de cobertura de código.
+After the tests run, the command creates a new `coverage/` directory in the project. Open the `index.html` file to see a report with your source code and code coverage values.
 
-Se você quiser criar relatórios de cobertura de código toda vez que testar, defina a seguinte opção no arquivo de configuração da Angular CLI, `angular.json`:
+If you want to create code-coverage reports every time you test, you can set the `coverage` option to `true` in your `angular.json` file:
 
 ```json
 {
@@ -21,6 +39,7 @@ Se você quiser criar relatórios de cobertura de código toda vez que testar, d
     "your-project-name": {
       "architect": {
         "test": {
+          "builder": "@angular/build:unit-test",
           "options": {
             "coverage": true
           }
@@ -31,13 +50,11 @@ Se você quiser criar relatórios de cobertura de código toda vez que testar, d
 }
 ```
 
-## Aplicação de cobertura de código
+## Enforcing code coverage thresholds
 
-As porcentagens de cobertura de código permitem estimar quanto do seu código está testado.
-Se sua equipe decidir sobre uma quantidade mínima definida para ser testada por unit tests, você pode aplicar esse mínimo diretamente na sua configuração da Angular CLI.
+The code coverage percentages let you estimate how much of your code is tested. If your team decides on a minimum amount to be unit tested, you can enforce this minimum in your configuration.
 
-Por exemplo, suponha que você queira que a base de código tenha um mínimo de 80% de cobertura de código.
-Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverageThresholds` à sua configuração de teste:
+For example, suppose you want the code base to have a minimum of 80% code coverage. To enable this, add the `coverageThresholds` option to your `angular.json` file:
 
 ```json
 {
@@ -45,6 +62,7 @@ Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverag
     "your-project-name": {
       "architect": {
         "test": {
+          "builder": "@angular/build:unit-test",
           "options": {
             "coverage": true,
             "coverageThresholds": {
@@ -61,4 +79,37 @@ Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverag
 }
 ```
 
-Agora, quando você executar `ng test`, a ferramenta lançará um erro se a cobertura cair abaixo de 80%.
+Now, if your coverage drops below 80% when you run your tests, the command will fail.
+
+## Advanced configuration
+
+You can configure several other coverage options in your `angular.json` file:
+
+- `coverageInclude`: Glob patterns of files to include in the coverage report.
+- `coverageExclude`: Glob patterns of files to exclude in the coverage report.
+- `coverageReporters`: An array of reporters to use (e.g., `html`, `lcov`, `json`).
+- `coverageWatermarks`: An object specifying `[low, high]` watermarks for the HTML reporter, which can affect the color-coding of the report.
+
+```json
+{
+  "projects": {
+    "your-project-name": {
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverage": true,
+            "coverageReporters": ["html", "lcov"],
+            "coverageWatermarks": {
+              "statements": [50, 80],
+              "branches": [50, 80],
+              "functions": [50, 80],
+              "lines": [50, 80]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```

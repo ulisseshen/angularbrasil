@@ -1,220 +1,256 @@
-<!-- ia-translate: true -->
-<docs-decorative-header title="Combobox">
-</docs-decorative-header>
+# Combobox
 
-## Visão Geral
+<docs-pill-row>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Combobox ARIA pattern"/>
+  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Combobox API Reference"/>
+</docs-pill-row>
 
-Uma directive que coordena um input de texto com um popup, fornecendo a directive primitiva para padrões de autocomplete, select e multiselect.
+## Overview
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/basic/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/basic/app/app.ts"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/basic/app/app.html"/>
-  <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/basic/app/app.css"/>
-</docs-code-multifile>
+A directive that coordinates a trigger element (such as a text input, button, or `div`) with a popup, providing the primitive directive for autocomplete, select, and multiselect patterns.
 
-## Uso
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Combobox é a directive primitiva que coordena um input de texto com um popup. Ela fornece a base para padrões de autocomplete, select e multiselect. Considere usar combobox diretamente quando:
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-- **Construindo padrões de autocomplete personalizados** - Criando comportamento especializado de filtragem ou sugestão
-- **Criando componentes de seleção personalizados** - Desenvolvendo dropdowns com requisitos únicos
-- **Coordenando input com popup** - Pareando input de texto com conteúdo de listbox, tree ou dialog
-- **Implementando modos de filtro específicos** - Usando comportamentos manual, de seleção automática ou de destaque
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-Use padrões documentados em vez disso quando:
+## Usage
 
-- Autocomplete padrão com filtragem for necessário - Veja o [padrão Autocomplete](guide/aria/autocomplete) para exemplos prontos para uso
-- Dropdowns de seleção única forem necessários - Veja o [padrão Select](guide/aria/select) para implementação completa de dropdown
-- Dropdowns de seleção múltipla forem necessários - Veja o [padrão Multiselect](guide/aria/multiselect) para multi-seleção com exibição compacta
+Combobox is the primitive directive that coordinates an interactive trigger element (such as a text input, button, or `div`) with a popup. It provides the foundation for autocomplete, select, and multiselect patterns. Consider using combobox directly when:
 
-Nota: Os guias de [Autocomplete](guide/aria/autocomplete), [Select](guide/aria/select) e [Multiselect](guide/aria/multiselect) mostram padrões documentados que combinam esta directive com [Listbox](guide/aria/listbox) para casos de uso específicos.
+- **Building custom autocomplete patterns** - Creating specialized filtering or suggestion behavior
+- **Creating custom selection components** - Developing dropdowns with unique requirements
+- **Coordinating input with popup** - Pairing text input with listbox, tree, or dialog content
+- **Implementing custom filtering** - Filtering and orchestrating matching options in user space
 
-## Recursos
+Use documented patterns instead when:
 
-O combobox do Angular fornece um sistema de coordenação input-popup totalmente acessível com:
+- Standard autocomplete with filtering is needed - See the [Autocomplete pattern](guide/aria/autocomplete) for ready-to-use examples
+- Single-selection dropdowns are needed - See the [Select pattern](guide/aria/select) for complete dropdown implementation
+- Multiple-selection dropdowns are needed - See the [Multiselect pattern](guide/aria/multiselect) for multi-select with compact display
 
-- **Input de Texto com Popup** - Coordena campo de input com conteúdo de popup
-- **Três Modos de Filtro** - Comportamentos manual, de seleção automática ou de destaque
-- **Navegação por Teclado** - Tratamento das setas, Enter e Escape
-- **Suporte para Leitores de Tela** - Atributos ARIA integrados incluindo role="combobox" e aria-expanded
-- **Gerenciamento de Popup** - Mostrar/ocultar automático baseado em interação do usuário
-- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
+NOTE: The [Autocomplete](guide/aria/autocomplete), [Select](guide/aria/select), and [Multiselect](guide/aria/multiselect) guides show documented patterns that combine this directive with [Listbox](guide/aria/listbox) for specific use cases.
 
-## Exemplos
+## Features
 
-### Modo de filtro manual
+Angular's combobox provides a fully accessible input-popup coordination system with:
 
-Aplicações precisam de controle sobre o comportamento de filtragem e seleção. O modo manual fornece controle total onde os usuários selecionam opções explicitamente e a aplicação gerencia a lógica de filtragem.
+- **Trigger Element with Popup** - Coordinates trigger element with popup content
+- **Flexible Coordination** - Integrates seamlessly with standard layouts (listbox, tree, grid, or dialog)
+- **Keyboard Navigation** - Arrow keys, Enter, Escape handling
+- **Screen Reader Support** - Built-in ARIA attributes including role="combobox" and aria-expanded
+- **Popup Management** - Automatic show/hide based on user interaction
+- **Signal-Based Reactivity** - Reactive state management using Angular signals
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/basic/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/basic/app/app.ts" visibleLines="[18,26,30,40]"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/basic/app/app.html" visibleLines="[1,6,10,15]"/>
-</docs-code-multifile>
+## Examples
 
-A configuração `filterMode="manual"` dá controle completo sobre filtragem e seleção. O input atualiza um signal que filtra a lista de opções. Os usuários navegam com as setas e selecionam com Enter ou clique. Este modo fornece a maior flexibilidade para lógica de filtragem personalizada. Veja o [guia de Autocomplete](guide/aria/autocomplete) para padrões completos de filtragem e exemplos.
+### Autocomplete
 
-### Modo de seleção automática
+An accessible input field that filters and suggests options as users type, helping them find and select values from a list.
 
-Formulários às vezes se beneficiam de selecionar automaticamente a primeira opção correspondente conforme os usuários digitam. O modo de seleção automática atualiza o valor do input para corresponder à primeira opção, fornecendo interação mais rápida.
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/auto-select/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/auto-select/app/app.ts" visibleLines="[18,26,30,40]"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/auto-select/app/app.html" visibleLines="[1,6]"/>
-</docs-code-multifile>
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-A configuração `filterMode="auto-select"` atualiza automaticamente o valor do input para a primeira opção correspondente. O input `firstMatch` fornece coordenação entre a lógica de filtragem e a seleção. Este modo funciona bem quando a primeira correspondência é tipicamente o que os usuários querem. Veja o [guia de Autocomplete](guide/aria/autocomplete#auto-select-mode) para exemplos detalhados.
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-### Modo somente leitura
+Filtering is managed in user space by updating a signal that reactively filters the options list. Users navigate with arrow keys and select with Enter or click. This provides complete control and maximum flexibility for custom selection logic. See the [Autocomplete guide](guide/aria/autocomplete) for complete filtering patterns and examples.
 
-O atributo `readonly` impede digitação no campo de input. O popup abre ao clicar ou usar as setas. Os usuários navegam pelas opções com o teclado e selecionam com Enter ou clique.
+### Readonly mode
 
-Esta configuração fornece a base para os padrões [Select](guide/aria/select) e [Multiselect](guide/aria/multiselect). Veja esses guias para implementações completas de dropdown com triggers e posicionamento de overlay.
+A pattern that combines a readonly combobox with listbox to create single-selection dropdowns with keyboard navigation and screen reader support.
 
-### Popup de diálogo
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Popups às vezes precisam de comportamento modal com backdrop e focus trap. A directive de dialog do combobox fornece este padrão para casos de uso especializados.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/dialog/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/dialog/app/app.ts" visibleLines="[18,26]"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/dialog/app/app.html" visibleLines="[1,5]"/>
-</docs-code-multifile>
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-A directive `ngComboboxDialog` cria um popup modal usando o elemento dialog nativo. Isso fornece comportamento de backdrop e focus trapping. Use popups de dialog quando a interface de seleção requer interação modal ou quando o conteúdo do popup é complexo o suficiente para garantir foco em tela cheia.
+Triggering a dropdown without text input can be achieved using a button as the host trigger, or applying the native HTML `readonly` attribute to the input trigger. The popup opens on click or arrow keys.
 
-## Showcase
+This configuration provides the foundation for the [Select](guide/aria/select) and [Multiselect](guide/aria/multiselect) patterns. See those guides for complete dropdown implementations with triggers and overlay positioning.
 
-TBD
+### Datepicker grid
 
-## APIs
+Combobox can coordinate with a two-dimensional grid to create accessible datepickers. Users navigate dates inside the calendar grid table using directional arrow keys and confirm selection with click, Enter, or Spacebar.
 
-### Combobox Directive
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/datepicker/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/datepicker/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/datepicker/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/datepicker/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-A directive `ngCombobox` coordena um input de texto com um popup.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/datepicker/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/datepicker/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/datepicker/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/datepicker/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-#### Inputs
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/datepicker/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/datepicker/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/datepicker/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/datepicker/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-| Property         | Type                                           | Default    | Description                                          |
-| ---------------- | ---------------------------------------------- | ---------- | ---------------------------------------------------- |
-| `filterMode`     | `'manual'` \| `'auto-select'` \| `'highlight'` | `'manual'` | Controla o comportamento de seleção                  |
-| `disabled`       | `boolean`                                      | `false`    | Desabilita o combobox                                |
-| `readonly`       | `boolean`                                      | `false`    | Torna o combobox somente leitura (para Select/Multiselect) |
-| `firstMatch`     | `V`                                            | -          | Valor do primeiro item correspondente para seleção automática |
-| `alwaysExpanded` | `boolean`                                      | `false`    | Mantém o popup sempre aberto                         |
+### Dialog popup
 
-**Modos de Filtro:**
+Dialog popups combine the combobox trigger with standard dialog layouts and focus traps (such as CDK's `cdkTrapFocus`). Use dialog popups when the overlay requires modal behavior or backdrop interaction.
 
-- **`'manual'`** - Usuário controla filtragem e seleção explicitamente. O popup mostra opções baseadas em sua lógica de filtragem. Os usuários selecionam com Enter ou clique. Este modo fornece a maior flexibilidade.
-- **`'auto-select'`** - O valor do input atualiza automaticamente para a primeira opção correspondente conforme os usuários digitam. Requer o input `firstMatch` para coordenação. Veja o [guia de Autocomplete](guide/aria/autocomplete#auto-select-mode) para exemplos.
-- **`'highlight'`** - Destaca texto correspondente sem alterar o valor do input. Os usuários navegam com as setas e selecionam com Enter.
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/dialog/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/dialog/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/dialog/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/dialog/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-#### Signals
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/dialog/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/dialog/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/dialog/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/dialog/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-| Property   | Type              | Description                     |
-| ---------- | ----------------- | ------------------------------- |
-| `expanded` | `Signal<boolean>` | Se o popup está atualmente aberto |
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/combobox/src/dialog/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/combobox/src/dialog/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/combobox/src/dialog/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/combobox/src/dialog/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-#### Methods
+## Testing
 
-| Method     | Parameters | Description            |
-| ---------- | ---------- | ---------------------- |
-| `open`     | none       | Abre o combobox        |
-| `close`    | none       | Fecha o combobox       |
-| `expand`   | none       | Expande o combobox     |
-| `collapse` | none       | Recolhe o combobox     |
+Angular Aria provides a `ComboboxHarness` for testing combobox components.
+Here is an example of how to use the harness in a component test:
 
-### ComboboxInput Directive
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComboboxHarness} from '@angular/aria/combobox/testing';
+import {MyComboboxComponent} from './my-combobox'; // Your component
 
-A directive `ngComboboxInput` conecta um elemento input ao combobox.
+describe('MyComboboxComponent', () => {
+  let fixture: ComponentFixture<MyComboboxComponent>;
+  let loader: HarnessLoader;
 
-#### Model
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyComboboxComponent],
+    });
 
-| Property | Type     | Description                                      |
-| -------- | -------- | ------------------------------------------------ |
-| `value`  | `string` | Valor bidirecional vinculável usando `[(value)]` |
+    fixture = TestBed.createComponent(MyComboboxComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-O elemento input recebe tratamento de teclado e atributos ARIA automaticamente.
+  it('should allow opening and closing the popup', async () => {
+    const combobox = await loader.getHarness(ComboboxHarness);
 
-### ComboboxPopup Directive
+    // Verify initial state
+    expect(await combobox.isOpen()).toBe(false);
 
-A directive `ngComboboxPopup` (host directive) gerencia visibilidade e coordenação do popup. Tipicamente usada com `ngComboboxPopupContainer` em um `ng-template` ou com CDK Overlay.
+    // Open the popup
+    await combobox.open();
+    expect(await combobox.isOpen()).toBe(true);
 
-### ComboboxPopupContainer Directive
-
-A directive `ngComboboxPopupContainer` marca um `ng-template` como o conteúdo do popup.
-
-```html
-<ng-template ngComboboxPopupContainer>
-  <div ngListbox>...</div>
-</ng-template>
+    // Close the popup
+    await combobox.close();
+    expect(await combobox.isOpen()).toBe(false);
+  });
+});
 ```
 
-Usado com Popover API ou CDK Overlay para posicionamento.
+## API reference
 
-### ComboboxDialog Directive
+For detailed API documentation, inspect the following API references:
 
-A directive `ngComboboxDialog` cria um popup modal de combobox.
+- [`Combobox`](/api/aria/combobox/Combobox)
+- [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
+- [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
 
-```html
-<dialog ngComboboxDialog>
-  <div ngListbox>...</div>
-</dialog>
-```
+### Related patterns and directives
 
-Use para comportamento de popup modal com backdrop e focus trap.
+Combobox is the primitive directive for these documented patterns:
 
-### Padrões e directives relacionados
+- [Autocomplete](guide/aria/autocomplete) - Filtering and suggestions pattern (coordinates input typing with options list)
+- [Select](guide/aria/select) - Single selection dropdown pattern (applied directly on non-editable button triggers)
+- [Multiselect](guide/aria/multiselect) - Multiple selection pattern (applied on non-editable triggers with multi-enabled Listbox)
 
-Combobox é a directive primitiva para estes padrões documentados:
+Combobox typically combines with:
 
-- **[Autocomplete](guide/aria/autocomplete)** - Padrão de filtragem e sugestões (usa Combobox com modos de filtro)
-- **[Select](guide/aria/select)** - Padrão de dropdown de seleção única (usa Combobox com `readonly`)
-- **[Multiselect](guide/aria/multiselect)** - Padrão de seleção múltipla (usa Combobox com `readonly` + Listbox com multi habilitado)
-
-Combobox tipicamente combina com:
-
-- **[Listbox](guide/aria/listbox)** - Conteúdo de popup mais comum
-- **[Tree](guide/aria/tree)** - Conteúdo de popup hierárquico (veja o guia de Tree para exemplos)
-
-## Estilização
-
-As directives de combobox não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
-
-### Estilizando o container do combobox
-
-A directive `ngCombobox` adiciona automaticamente o atributo `ngCombobox` ao seu elemento host, permitindo que você o alveje com seletores de atributo. A directive `ngComboboxInput` adiciona similarmente o atributo `ngComboboxInput` ao elemento input.
-
-```css
-[ngCombobox] {
-  position: relative;
-  display: inline-block;
-}
-```
-
-### Estilizando o estado expandido
-
-```css
-[ngCombobox][data-expanded="true"] .combobox-icon {
-  transform: rotate(180deg);
-}
-```
-
-### Estilizando o input
-
-```css
-[ngComboboxInput] {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-[ngComboboxInput]:focus {
-  outline: 2px solid blue;
-  border-color: blue;
-}
-```
-
-Para padrões completos de estilização com popups e opções, veja:
-
-- [Estilização de Autocomplete](guide/aria/autocomplete#styling) - Input com sugestões
-- [Estilização de Select](guide/aria/select#styling) - Trigger de dropdown e popup
-- [Estilização de Listbox](guide/aria/listbox#styling) - Estilização de opções
+- [Listbox](guide/aria/listbox) - Most common popup content
+- [Tree](guide/aria/tree) - Hierarchical popup content (see Tree guide for examples)

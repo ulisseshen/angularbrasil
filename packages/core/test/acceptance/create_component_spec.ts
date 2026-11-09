@@ -36,15 +36,14 @@ import {
 } from '../../src/core';
 import {stringifyForError} from '../../src/render3/util/stringify_utils';
 import {TestBed} from '../../testing';
-import {ChangeDetectionStrategy} from '@angular/compiler';
 
 describe('createComponent', () => {
   it('should create an instance of a standalone component', () => {
     @Component({
-      template: 'Hello {{ name }}!',
+      template: 'Hello {{ name() }}!',
     })
     class StandaloneComponent {
-      name = 'Angular';
+      name = signal('Angular');
     }
 
     const hostElement = document.createElement('div');
@@ -55,7 +54,7 @@ describe('createComponent', () => {
     expect(hostElement.textContent).toBe('Hello Angular!');
 
     // Verify basic change detection works.
-    componentRef.instance.name = 'ZoneJS';
+    componentRef.instance.name.set('ZoneJS');
     componentRef.changeDetectorRef.detectChanges();
     expect(hostElement.textContent).toBe('Hello ZoneJS!');
     componentRef.destroy();
@@ -63,11 +62,11 @@ describe('createComponent', () => {
 
   it('should create an instance of an NgModule-based component', () => {
     @Component({
-      template: 'Hello {{ name }}!',
+      template: 'Hello {{ name() }}!',
       standalone: false,
     })
     class NgModuleBasedComponent {
-      name = 'Angular';
+      name = signal('Angular');
     }
 
     @NgModule({
@@ -86,7 +85,7 @@ describe('createComponent', () => {
     expect(hostElement.textContent).toBe('Hello Angular!');
 
     // Verify basic change detection works.
-    componentRef.instance.name = 'ZoneJS';
+    componentRef.instance.name.set('ZoneJS');
     componentRef.changeDetectorRef.detectChanges();
     expect(hostElement.textContent).toBe('Hello ZoneJS!');
   });
@@ -94,8 +93,7 @@ describe('createComponent', () => {
   it('should render projected content', () => {
     @Component({
       template: `
-        <ng-content></ng-content>|
-        <ng-content></ng-content>|
+        <ng-content></ng-content>| <ng-content></ng-content>|
         <ng-content></ng-content>
       `,
     })
@@ -387,7 +385,6 @@ describe('createComponent', () => {
       }
 
       @Component({
-        selector: 'my-comp',
         template: '',
         hostDirectives: [Chain1, Chain2, Chain3],
       })
@@ -640,7 +637,9 @@ describe('createComponent', () => {
 
   describe('root component inputs', () => {
     it('should be able to bind to inputs of the root component', () => {
-      @Component({template: '{{one}} - {{two}} - {{other}}'})
+      @Component({
+        template: '{{one}} - {{two}} - {{other}}',
+      })
       class RootComp {
         @Input() one = '';
         @Input({alias: 'twoAlias'}) two = '';
@@ -1115,7 +1114,6 @@ describe('createComponent', () => {
 
     it('should update view of component set with the onPush strategy after input change', () => {
       @Component({
-        changeDetection: ChangeDetectionStrategy.OnPush,
         template: 'Value: {{ value }}',
       })
       class DisplayOnPushComponent {
@@ -1138,6 +1136,34 @@ describe('createComponent', () => {
       valueSignal.set(20);
       componentRef.changeDetectorRef.detectChanges();
       expect(hostElement.textContent).toBe('Value: 20');
+    });
+
+    it(`should support input bindings named 'formField'`, () => {
+      // Angular has specialized support for binding to form controls (e.g. `[formField]="field"`).
+      // This test ensures that dynamic input bindings can still target arbitrary inputs with the
+      // same name.
+
+      @Component({template: ''})
+      class RootComp {
+        @Input() formField = '';
+      }
+
+      const hostElement = document.createElement('div');
+      const environmentInjector = TestBed.inject(EnvironmentInjector);
+      const valueSignal = signal('hello');
+
+      const ref = createComponent(RootComp, {
+        hostElement,
+        environmentInjector,
+        bindings: [inputBinding('formField', valueSignal)],
+      });
+
+      ref.changeDetectorRef.detectChanges();
+      expect(ref.instance.formField).toBe('hello');
+
+      valueSignal.set('goodbye');
+      ref.changeDetectorRef.detectChanges();
+      expect(ref.instance.formField).toBe('goodbye');
     });
   });
 

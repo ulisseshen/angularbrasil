@@ -28,6 +28,7 @@ import {
   DECLARATION_COMPONENT_VIEW,
   HEADER_OFFSET,
   HYDRATION,
+  ID,
   INJECTOR,
   LView,
   TVIEW,
@@ -40,8 +41,8 @@ import {NO_CHANGE} from '../tokens';
 import {getConstant, getTNode} from '../util/view_utils';
 import {createAndRenderEmbeddedLView, shouldAddViewToDom} from '../view_manipulation';
 
-import {AnimationLViewData} from '../../animation/interfaces';
 import {removeDehydratedViews} from '../../hydration/cleanup';
+import {clearViewDetachAnimations, initViewDetachAnimations} from '../node_animations';
 import {
   addLViewToLContainer,
   detachView,
@@ -49,8 +50,6 @@ import {
   removeLViewFromLContainer,
 } from '../view/container';
 import {declareNoDirectiveHostTemplate} from './template';
-import {removeFromAnimationQueue} from '../../animation/queue';
-import {allLeavingAnimations} from '../../animation/longest_animation';
 
 /**
  * Creates an LContainer for an ng-template representing a root node
@@ -129,6 +128,32 @@ export function ɵɵconditionalBranchCreate(
   localRefExtractor?: LocalRefExtractor,
 ): typeof ɵɵconditionalBranchCreate {
   performanceMarkFeature('NgControlFlow');
+  createControlFlowBranch(
+    index,
+    templateFn,
+    decls,
+    vars,
+    tagName,
+    attrsIndex,
+    localRefsIndex,
+    localRefExtractor,
+  );
+  return ɵɵconditionalBranchCreate;
+}
+
+/**
+ * Shared internal function to create a control flow branch (e.g. for @case, @else, @error).
+ */
+export function createControlFlowBranch(
+  index: number,
+  templateFn: ComponentTemplate<any> | null,
+  decls: number,
+  vars: number,
+  tagName?: string | null,
+  attrsIndex?: number | null,
+  localRefsIndex?: number | null,
+  localRefExtractor?: LocalRefExtractor,
+) {
   const lView = getLView();
   const tView = getTView();
   const attrs = getConstant<TAttributes>(tView.consts, attrsIndex);
@@ -146,7 +171,6 @@ export function ɵɵconditionalBranchCreate(
     localRefsIndex,
     localRefExtractor,
   );
-  return ɵɵconditionalBranchCreate;
 }
 
 /**
@@ -440,13 +464,13 @@ class LiveCollectionLContainerImpl extends LiveCollection<
       new RepeaterContext(this.lContainer, value, index),
       {dehydratedView},
     );
-    this.operationsCounter?.recordCreate();
+    ngDevMode && this.operationsCounter?.recordCreate();
 
     return embeddedLView;
   }
   override destroy(lView: LView<RepeaterContext<unknown>>): void {
     destroyLView(lView[TVIEW], lView);
-    this.operationsCounter?.recordDestroy();
+    ngDevMode && this.operationsCounter?.recordDestroy();
   }
   override updateValue(index: number, value: unknown): void {
     this.getLView(index)[CONTEXT].$implicit = value;
@@ -454,7 +478,7 @@ class LiveCollectionLContainerImpl extends LiveCollection<
 
   reset(): void {
     this.needsIndexUpdate = false;
-    this.operationsCounter?.reset();
+    ngDevMode && this.operationsCounter?.reset();
   }
 
   updateIndexes(): void {
@@ -567,7 +591,7 @@ export function ɵɵrepeater(collection: Iterable<unknown> | undefined | null): 
   }
 }
 
-function getLContainer(lView: LView, index: number): LContainer {
+export function getLContainer(lView: LView, index: number): LContainer {
   const lContainer = lView[index];
   ngDevMode && assertLContainer(lContainer);
 
@@ -578,20 +602,9 @@ function clearDetachAnimationList(lContainer: LContainer, index: number): void {
   if (lContainer.length <= CONTAINER_HEADER_OFFSET) return;
 
   const indexInContainer = CONTAINER_HEADER_OFFSET + index;
-  const viewToDetach = lContainer[indexInContainer];
-  const animations = viewToDetach
-    ? (viewToDetach[ANIMATIONS] as AnimationLViewData | undefined)
-    : undefined;
-  if (
-    viewToDetach &&
-    animations &&
-    animations.detachedLeaveAnimationFns &&
-    animations.detachedLeaveAnimationFns.length > 0
-  ) {
-    const injector = viewToDetach[INJECTOR];
-    removeFromAnimationQueue(injector, animations);
-    allLeavingAnimations.delete(viewToDetach);
-    animations.detachedLeaveAnimationFns = undefined;
+  const viewToDetach = lContainer[indexInContainer] as LView;
+  if (viewToDetach) {
+    clearViewDetachAnimations(viewToDetach);
   }
 }
 
@@ -601,12 +614,9 @@ function maybeInitDetachAnimationList(lContainer: LContainer, index: number): vo
   if (lContainer.length <= CONTAINER_HEADER_OFFSET) return;
 
   const indexInContainer = CONTAINER_HEADER_OFFSET + index;
-  const viewToDetach = lContainer[indexInContainer];
-  const animations = viewToDetach
-    ? (viewToDetach[ANIMATIONS] as AnimationLViewData | undefined)
-    : undefined;
-  if (animations && animations.leave && animations.leave.size > 0) {
-    animations.detachedLeaveAnimationFns = [];
+  const viewToDetach = lContainer[indexInContainer] as LView;
+  if (viewToDetach) {
+    initViewDetachAnimations(viewToDetach);
   }
 }
 
@@ -624,7 +634,7 @@ function getExistingLViewFromLContainer<T>(lContainer: LContainer, index: number
   return existingLView!;
 }
 
-function getExistingTNode(tView: TView, index: number): TNode {
+export function getExistingTNode(tView: TView, index: number): TNode {
   const tNode = getTNode(tView, index);
   ngDevMode && assertTNode(tNode);
 

@@ -6,11 +6,11 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {getDocument} from '../interfaces/document';
 import {Injector} from '../../di';
 import {isInternalHydrationTransferStateKey} from '../../hydration/utils';
 import {APP_ID} from '../../application/application_tokens';
-import {retrieveTransferredState} from '../../transfer_state';
+import {createDictionary, retrieveTransferredState} from '../../transfer_state';
+import {DOCUMENT} from '../../document';
 
 /**
  * Retrieves transfer state data from the DOM using the provided injector to get APP_ID.
@@ -22,13 +22,14 @@ import {retrieveTransferredState} from '../../transfer_state';
  * @returns The transfer state data as an object, or empty object if not available
  */
 export function getTransferState(injector: Injector): Record<string, unknown> {
-  const doc = getDocument();
+  const doc = injector.get(DOCUMENT);
   const appId = injector.get(APP_ID);
 
   const transferState = retrieveTransferredState(doc, appId);
 
-  // Strip internal keys
-  const filteredEntries: Record<string, unknown> = {};
+  // Strip internal keys. Keys are taken verbatim from the serialized state, so they can name
+  // `Object.prototype` properties like `__proto__`; a dictionary keeps them as ordinary entries.
+  const filteredEntries = createDictionary<unknown>();
   for (const [key, value] of Object.entries(transferState)) {
     if (!isInternalHydrationTransferStateKey(key)) {
       filteredEntries[key] = value;

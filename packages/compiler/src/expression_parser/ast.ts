@@ -47,7 +47,7 @@ export abstract class ASTWithName extends AST {
 
 export class EmptyExpr extends AST {
   override visit(visitor: AstVisitor, context: any = null) {
-    // do nothing
+    return visitor.visitEmptyExpr?.(this, context);
   }
 }
 
@@ -57,15 +57,7 @@ export class ImplicitReceiver extends AST {
   }
 }
 
-/**
- * Receiver when something is accessed through `this` (e.g. `this.foo`). Note that this class
- * inherits from `ImplicitReceiver`, because accessing something through `this` is treated the
- * same as accessing it implicitly inside of an Angular template (e.g. `[attr.title]="this.title"`
- * is the same as `[attr.title]="title"`.). Inheriting allows for the `this` accesses to be treated
- * the same as implicit ones, except for a couple of exceptions like `$event` and `$any`.
- * TODO: we should find a way for this class not to extend from `ImplicitReceiver` in the future.
- */
-export class ThisReceiver extends ImplicitReceiver {
+export class ThisReceiver extends AST {
   override visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitThisReceiver?.(this, context);
   }
@@ -78,7 +70,7 @@ export class Chain extends AST {
   constructor(
     span: ParseSpan,
     sourceSpan: AbsoluteSourceSpan,
-    public expressions: any[],
+    public expressions: AST[],
   ) {
     super(span, sourceSpan);
   }
@@ -181,7 +173,7 @@ export class BindingPipe extends ASTWithName {
     sourceSpan: AbsoluteSourceSpan,
     public exp: AST,
     public name: string,
-    public args: any[],
+    public args: AST[],
     readonly type: BindingPipeType,
     nameSpan: AbsoluteSourceSpan,
   ) {
@@ -196,7 +188,7 @@ export class LiteralPrimitive extends AST {
   constructor(
     span: ParseSpan,
     sourceSpan: AbsoluteSourceSpan,
-    public value: any,
+    public value: string | number | boolean | null | undefined,
   ) {
     super(span, sourceSpan);
   }
@@ -209,7 +201,7 @@ export class LiteralArray extends AST {
   constructor(
     span: ParseSpan,
     sourceSpan: AbsoluteSourceSpan,
-    public expressions: any[],
+    public expressions: AST[],
   ) {
     super(span, sourceSpan);
   }
@@ -218,18 +210,42 @@ export class LiteralArray extends AST {
   }
 }
 
-export type LiteralMapKey = {
+export class SpreadElement extends AST {
+  constructor(
+    span: ParseSpan,
+    sourceSpan: AbsoluteSourceSpan,
+    readonly expression: AST,
+  ) {
+    super(span, sourceSpan);
+  }
+  override visit(visitor: AstVisitor, context: any = null): any {
+    return visitor.visitSpreadElement(this, context);
+  }
+}
+
+export interface LiteralMapPropertyKey {
+  kind: 'property';
   key: string;
   quoted: boolean;
+  span: ParseSpan;
+  sourceSpan: AbsoluteSourceSpan;
   isShorthandInitialized?: boolean;
-};
+}
+
+export interface LiteralMapSpreadKey {
+  kind: 'spread';
+  span: ParseSpan;
+  sourceSpan: AbsoluteSourceSpan;
+}
+
+export type LiteralMapKey = LiteralMapPropertyKey | LiteralMapSpreadKey;
 
 export class LiteralMap extends AST {
   constructor(
     span: ParseSpan,
     sourceSpan: AbsoluteSourceSpan,
     public keys: LiteralMapKey[],
-    public values: any[],
+    public values: AST[],
   ) {
     super(span, sourceSpan);
   }
@@ -252,11 +268,41 @@ export class Interpolation extends AST {
   }
 }
 
+export type AssignmentOperation =
+  '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '**=' | '&&=' | '||=' | '??=';
+type BinaryOperation =
+  | AssignmentOperation
+  // Logical
+  | '&&'
+  | '||'
+  | '??'
+  // Equality
+  | '=='
+  | '!='
+  | '==='
+  | '!=='
+  // Relational
+  | '<'
+  | '>'
+  | '<='
+  | '>='
+  | 'in'
+  | 'instanceof'
+  // Additive
+  | '+'
+  | '-'
+  // Multiplicative
+  | '*'
+  | '%'
+  | '/'
+  // Exponentiation
+  | '**';
+
 export class Binary extends AST {
   constructor(
     span: ParseSpan,
     sourceSpan: AbsoluteSourceSpan,
-    public operation: string,
+    public operation: BinaryOperation,
     public left: AST,
     public right: AST,
   ) {
@@ -266,7 +312,7 @@ export class Binary extends AST {
     return visitor.visitBinary(this, context);
   }
 
-  static isAssignmentOperation(op: string): boolean {
+  static isAssignmentOperation(op: string): op is AssignmentOperation {
     return (
       op === '=' ||
       op === '+=' ||
@@ -294,34 +340,46 @@ export class Unary extends Binary {
   override right: never = null as never;
   override operation: never = null as never;
 
-  /**
-   * Creates a unary minus expression "-x", represented as `Binary` using "0 - x".
-   */
-  static createMinus(span: ParseSpan, sourceSpan: AbsoluteSourceSpan, expr: AST): Unary {
-    return new Unary(
-      span,
-      sourceSpan,
-      '-',
-      expr,
-      '-',
-      new LiteralPrimitive(span, sourceSpan, 0),
-      expr,
-    );
+  static isUpdateOperation(op: string): op is '++' | '--' {
+    return op === '++' || op === '--';
   }
 
   /**
-   * Creates a unary plus expression "+x", represented as `Binary` using "x - 0".
+   * Creates a unary minus expression (e.g. `-x`).
+   */
+  static createMinus(span: ParseSpan, sourceSpan: AbsoluteSourceSpan, expr: AST): Unary {
+    return new Unary(span, sourceSpan, '-', expr);
+  }
+
+  /**
+   * Creates a unary plus expression (e.g. `+x`).
    */
   static createPlus(span: ParseSpan, sourceSpan: AbsoluteSourceSpan, expr: AST): Unary {
-    return new Unary(
-      span,
-      sourceSpan,
-      '+',
-      expr,
-      '-',
-      expr,
-      new LiteralPrimitive(span, sourceSpan, 0),
-    );
+    return new Unary(span, sourceSpan, '+', expr);
+  }
+
+  /**
+   * Creates a prefix expression (e.g. `++x` or `--y`).
+   */
+  static createPrefixUpdate(
+    span: ParseSpan,
+    sourceSpan: AbsoluteSourceSpan,
+    operator: '++' | '--',
+    expr: AST,
+  ): Unary {
+    return new Unary(span, sourceSpan, operator, expr, true);
+  }
+
+  /**
+   * Creates a postfix expression (e.g. `x++` or `y--`).
+   */
+  static createPostfixUpdate(
+    span: ParseSpan,
+    sourceSpan: AbsoluteSourceSpan,
+    operator: '++' | '--',
+    expr: AST,
+  ): Unary {
+    return new Unary(span, sourceSpan, operator, expr, false);
   }
 
   /**
@@ -331,13 +389,11 @@ export class Unary extends Binary {
   private constructor(
     span: ParseSpan,
     sourceSpan: AbsoluteSourceSpan,
-    public operator: string,
+    public operator: '+' | '-' | '++' | '--',
     public expr: AST,
-    binaryOp: string,
-    binaryLeft: AST,
-    binaryRight: AST,
+    public isPrefix = true,
   ) {
-    super(span, sourceSpan, binaryOp, binaryLeft, binaryRight);
+    super(span, sourceSpan, null!, null!, null!);
   }
 
   override visit(visitor: AstVisitor, context: any = null): any {
@@ -488,6 +544,42 @@ export class ParenthesizedExpression extends AST {
   }
 }
 
+/**
+ * Unwraps any parentheses and non-null assertions around the target of a write operation.
+ */
+export function unwrapWriteTarget(ast: AST): AST {
+  let current = ast;
+  while (current instanceof ParenthesizedExpression || current instanceof NonNullAssert) {
+    current = current.expression;
+  }
+  return current;
+}
+
+export class ArrowFunctionIdentifierParameter {
+  constructor(
+    public name: string,
+    public span: ParseSpan,
+    public sourceSpan: AbsoluteSourceSpan,
+  ) {}
+}
+
+export type ArrowFunctionParameter = ArrowFunctionIdentifierParameter; // TODO(crisbeto): also rest parameters?
+
+export class ArrowFunction extends AST {
+  constructor(
+    span: ParseSpan,
+    sourceSpan: AbsoluteSourceSpan,
+    public parameters: ArrowFunctionParameter[],
+    public body: AST,
+  ) {
+    super(span, sourceSpan);
+  }
+
+  override visit(visitor: AstVisitor, context?: any) {
+    return visitor.visitArrowFunction(this, context);
+  }
+}
+
 export class RegularExpressionLiteral extends AST {
   constructor(
     span: ParseSpan,
@@ -632,8 +724,11 @@ export interface AstVisitor {
   visitTemplateLiteralElement(ast: TemplateLiteralElement, context: any): any;
   visitTaggedTemplateLiteral(ast: TaggedTemplateLiteral, context: any): any;
   visitParenthesizedExpression(ast: ParenthesizedExpression, context: any): any;
+  visitArrowFunction(ast: ArrowFunction, context: any): any;
   visitRegularExpressionLiteral(ast: RegularExpressionLiteral, context: any): any;
+  visitSpreadElement(ast: SpreadElement, context: any): any;
   visitASTWithSource?(ast: ASTWithSource, context: any): any;
+  visitEmptyExpr?(ast: EmptyExpr, context: any): any;
   /**
    * This function is optionally defined to allow classes that implement this
    * interface to selectively decide if the specified `ast` should be visited.
@@ -735,7 +830,14 @@ export class RecursiveAstVisitor implements AstVisitor {
   visitParenthesizedExpression(ast: ParenthesizedExpression, context: any) {
     this.visit(ast.expression, context);
   }
+  visitArrowFunction(ast: ArrowFunction, context: any): any {
+    this.visit(ast.body, context);
+  }
   visitRegularExpressionLiteral(ast: RegularExpressionLiteral, context: any) {}
+  visitSpreadElement(ast: SpreadElement, context: any) {
+    this.visit(ast.expression, context);
+  }
+  visitEmptyExpr(ast: EmptyExpr, context: any): any {}
   // This is not part of the AstVisitor interface, just a helper method
   visitAll(asts: AST[], context: any): any {
     for (const ast of asts) {

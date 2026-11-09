@@ -5,12 +5,14 @@ TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials).
 
 Components Angular podem definir eventos personalizados atribuindo uma propriedade à função `output`:
 
-<docs-code language="ts" highlight="3">
-@Component({/*...*/})
+```ts {highlight:[5]}
+@Component({
+  /*...*/
+})
 export class ExpandablePanel {
   panelClosed = output<void>();
 }
-</docs-code>
+```
 
 ```angular-html
 <expandable-panel (panelClosed)="savePanelState()" />
@@ -19,7 +21,7 @@ export class ExpandablePanel {
 A função `output` retorna um `OutputEmitterRef`. Você pode emitir um evento chamando o método `emit` no `OutputEmitterRef`:
 
 ```ts
-  this.panelClosed.emit();
+this.panelClosed.emit();
 ```
 
 O Angular se refere a propriedades inicializadas com a função `output` como **outputs**. Você pode usar outputs para disparar eventos personalizados, semelhantes a eventos nativos do navegador como `click`.
@@ -44,7 +46,7 @@ this.valueChanged.emit(7);
 this.thumbDropped.emit({
   pointerX: 123,
   pointerY: 456,
-})
+});
 ```
 
 Ao definir um event listener em um template, você pode acessar os dados do evento a partir da variável `$event`:
@@ -72,7 +74,7 @@ export class App {
 A função `output` aceita um parâmetro que permite especificar um nome diferente para o evento em um template:
 
 ```ts
-@Component({/*...*/})
+@Component(/* ... */)
 export class CustomSlider {
   changed = output({alias: 'valueChanged'});
 }
@@ -93,7 +95,7 @@ Ao criar um component dinamicamente, você pode programaticamente assinar evento
 ```ts
 const someComponentRef: ComponentRef<SomeComponent> = viewContainerRef.createComponent(/*...*/);
 
-someComponentRef.instance.someEventProperty.subscribe(eventData => {
+someComponentRef.instance.someEventProperty.subscribe((eventData) => {
   console.log(eventData);
 });
 ```
@@ -101,7 +103,7 @@ someComponentRef.instance.someEventProperty.subscribe(eventData => {
 O Angular automaticamente limpa as assinaturas de eventos quando destrói components com assinantes. Alternativamente, você pode cancelar manualmente a assinatura de um evento. A função `subscribe` retorna um `OutputRefSubscription` com um método `unsubscribe`:
 
 ```ts
-const eventSubscription = someComponent.someEventProperty.subscribe(eventData => {
+const eventSubscription = someComponent.someEventProperty.subscribe((eventData) => {
   console.log(eventData);
 });
 
@@ -129,7 +131,7 @@ TIP: Embora a equipe do Angular recomende usar a função `output` para novos pr
 Você pode alternativamente definir eventos personalizados atribuindo uma propriedade a um novo `EventEmitter` e adicionando o decorator `@Output`:
 
 ```ts
-@Component({/*...*/})
+@Component(/* ... */)
 export class ExpandablePanel {
   @Output() panelClosed = new EventEmitter<void>();
 }
@@ -142,7 +144,7 @@ Você pode emitir um evento chamando o método `emit` no `EventEmitter`.
 O decorator `@Output` aceita um parâmetro que permite especificar um nome diferente para o evento em um template:
 
 ```ts
-@Component({/*...*/})
+@Component(/* ... */)
 export class CustomSlider {
   @Output('valueChanged') changed = new EventEmitter<number>();
 }

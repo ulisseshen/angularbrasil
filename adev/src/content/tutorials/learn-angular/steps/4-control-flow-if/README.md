@@ -1,19 +1,18 @@
-<!-- ia-translate: true -->
-# Control Flow em Components - `@if`
+# Control Flow in Components - `@if`
 
-Decidir o que exibir na tela para um usuário é uma tarefa comum no desenvolvimento de aplicações. Muitas vezes, a decisão é tomada programaticamente usando condições.
+Deciding what to display on the screen for a user is a common task in application development. Many times, the decision is made programmatically using conditions.
 
-Para expressar exibições condicionais em templates, o Angular usa a sintaxe de template `@if`.
+To express conditional displays in templates, Angular uses the `@if` template syntax.
 
-Nota: Saiba mais sobre [control flow no guia de fundamentos](/essentials/templates#control-flow-with-if-and-for).
+NOTE: Learn more about [control flow in the essentials guide](/essentials/templates#control-flow-with-if-and-for).
 
-Nesta atividade, você aprenderá como usar condicionais em templates.
+In this activity, you'll learn how to use conditionals in templates.
 
 <hr/>
 
-A sintaxe que habilita a exibição condicional de elementos em um template é `@if`.
+The syntax that enables the conditional display of elements in a template is `@if`.
 
-Aqui está um exemplo de como usar a sintaxe `@if` em um component:
+Here's an example of how to use the `@if` syntax in a component:
 
 ```angular-ts
 @Component({
@@ -29,38 +28,41 @@ export class App {
 }
 ```
 
-Duas coisas a se observar:
+Two things to take note of:
 
-- Há um prefixo `@` para o `if` porque é um tipo especial de sintaxe chamada [sintaxe de template do Angular](guide/templates)
-- Para aplicações usando v16 e versões anteriores, consulte a [documentação do Angular para NgIf](guide/directives/structural-directives) para mais informações.
+- There is an `@` prefix for the `if` because it is a special type of syntax called [Angular template syntax](guide/templates)
+- For applications that still use `*ngIf`, please refer to the [Angular documentation for NgIf](guide/directives/structural-directives) for more information.
 
 <docs-workflow>
 
-<docs-step title="Criar uma propriedade chamada `isServerRunning`">
-Na classe `App`, adicione uma propriedade `boolean` chamada `isServerRunning`, defina o valor inicial como `true`.
+<docs-step title="Create a property called `isServerRunning`">
+In the `App` class, add a `boolean` property called `isServerRunning`, set the initial value to `true`.
 </docs-step>
 
-<docs-step title="Usar `@if` no template">
-Atualize o template para exibir a mensagem `Yes, the server is running` se o valor de `isServerRunning` for `true`.
+<docs-step title="Use `@if` in the template">
+Update the template to display the message `Yes, the server is running` if the value of `isServerRunning` is `true`.
 
 </docs-step>
 
-<docs-step title="Usar `@else` no template">
-Agora o Angular suporta sintaxe de template nativa para definir o caso else com a sintaxe `@else`. Atualize o template para exibir a mensagem `No, the server is not running` como o caso else.
+<docs-step title="Use `@else` in the template">
+Now Angular supports native template syntax for defining the else case with the `@else` syntax. Update the template to display the message `No, the server is not running` as the else case.
 
-Aqui está um exemplo:
+Here's an example:
 
-```angular-ts
+```angular-html
 template: `
-  @if (isServerRunning) { ... }
-  @else { ... }
+@if (isServerRunning) {
+  ...
+} @else {
+  ...
+}
 `;
 ```
 
-Adicione seu código para preencher a marcação faltante.
+Add your code to fill in the missing markup.
 
 </docs-step>
 
 </docs-workflow>
 
-Este tipo de funcionalidade é chamado de conditional control flow. A seguir, você aprenderá como repetir itens em um template.
+This type of functionality is called conditional control flow. Next you'll learn how to repeat items in a template.

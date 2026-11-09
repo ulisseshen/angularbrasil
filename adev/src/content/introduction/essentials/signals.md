@@ -21,7 +21,7 @@ firstName.set('Jaime');
 
 // You can also use the `update` method to change the value
 // based on the previous value.
-firstName.update(name => name.toUpperCase());
+firstName.update((name) => name.toUpperCase());
 ```
 
 O Angular rastreia onde os signals são lidos e quando são atualizados. O framework usa essa informação para realizar trabalhos adicionais, como atualizar o DOM com o novo estado. Essa capacidade de responder a valores de signal que mudam ao longo do tempo é conhecida como _reatividade_.
@@ -56,8 +56,10 @@ console.log(firstNameCapitalized()); // JAIME
 
 Use `signal` e `computed` dentro de seus components para criar e gerenciar estado:
 
-```typescript
-@Component({/* ... */})
+```ts
+@Component({
+  /* ... */
+})
 export class UserProfile {
   isTrial = signal(false);
   isTrialExpired = signal(false);

@@ -1,17 +1,14 @@
-<!-- ia-translate: true -->
-# Busca de dados reativa com `httpResource`
+# Reactive data fetching with `httpResource`
 
-IMPORTANT: `httpResource` é [experimental](reference/releases#experimental). Está pronto para você experimentar, mas pode mudar antes de ser estável.
+`httpResource` is a reactive wrapper around `HttpClient` that gives you the request status and response as signals. You can thus use these signals with `computed`, `effect`, `linkedSignal`, or any other reactive API. Because it's built on top of `HttpClient`, `httpResource` supports all the same features, such as interceptors.
 
-`httpResource` é um wrapper reativo em torno do `HttpClient` que fornece o status da requisição e a resposta como signals. Você pode, assim, usar esses signals com `computed`, `effect`, `linkedSignal`, ou qualquer outra API reativa. Por ser construído em cima do `HttpClient`, `httpResource` suporta todos os mesmos recursos, como interceptors.
+For more about Angular's `resource` pattern, see [Async reactivity with `resource`](/guide/signals/resource).
 
-Para mais sobre o padrão `resource` do Angular, veja [Reatividade assíncrona com `resource`](/guide/signals/resource).
+## `Using httpResource`
 
-## `Usando httpResource`
+TIP: `httpResource` uses the globally available `HttpClient`. Use `provideHttpClient(...)` only when you need to configure HTTP features, such as interceptors or XSRF options. See [Setting up HttpClient](/guide/http/setup) for details.
 
-TIP: Certifique-se de incluir `provideHttpClient` nos providers da sua aplicação. Veja [Configurando HttpClient](/guide/http/setup) para detalhes.
-
-Você pode definir um HTTP resource retornando uma url:
+You can define an HTTP resource by returning a url:
 
 ```ts
 userId = input.required<string>();
@@ -19,13 +16,13 @@ userId = input.required<string>();
 user = httpResource(() => `/api/user/${userId()}`); // A reactive function as argument
 ```
 
-`httpResource` é reativo, significando que sempre que um dos signals dos quais depende muda (como `userId`), o resource emitirá uma nova requisição http.
-Se uma requisição já estiver pendente, o resource cancela a requisição pendente antes de emitir uma nova.
+`httpResource` is reactive, meaning that whenever one of the signals it depends on changes (like `userId`), the resource will emit a new http request.
+If a request is already pending, the resource cancels the outstanding request before issuing a new one.
 
-HELPFUL: `httpResource` difere do `HttpClient` pois inicia a requisição _ansiosamente_. Em contraste, o `HttpClient` inicia requisições apenas mediante inscrição no `Observable` retornado.
+HELPFUL: `httpResource` differs from the `HttpClient` as it initiates the request _eagerly_. In contrast, the `HttpClient` only initiates requests upon subscription to the returned `Observable`.
 
-Para requisições mais avançadas, você pode definir um objeto de requisição similar à requisição aceita pelo `HttpClient`.
-Cada propriedade do objeto de requisição que deve ser reativa deve ser composta por um signal.
+For more advanced requests, you can define a request object similar to the request taken by `HttpClient`.
+Each property of the request object that should be reactive should be composed by a signal.
 
 ```ts
 user = httpResource(() => ({
@@ -43,21 +40,21 @@ user = httpResource(() => ({
   mode: 'cors',
   redirect: 'error',
   priority: 'high',
-  cache : 'force-cache',
+  cache: 'force-cache',
   credentials: 'include',
   referrer: 'no-referrer',
   integrity: 'sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GhEXAMPLEKEY=',
-  referrerPolicy: 'no-referrer'
+  referrerPolicy: 'no-referrer',
 }));
 ```
 
-TIP: Evite usar `httpResource` para _mutações_ como `POST` ou `PUT`. Em vez disso, prefira usar diretamente as APIs do `HttpClient` subjacente.
+TIP: Avoid using `httpResource` for _mutations_ like `POST` or `PUT`. Instead, prefer directly using the underlying `HttpClient` APIs.
 
-Os signals do `httpResource` podem ser usados no template para controlar quais elementos devem ser exibidos.
+The signals of the `httpResource` can be used in the template to control which elements should be displayed.
 
 ```angular-html
-@if(user.hasValue()) {
-  <user-details [user]="user.value()">
+@if (user.hasValue()) {
+  <user-details [user]="user.value()" />
 } @else if (user.error()) {
   <div>Could not load user information</div>
 } @else if (user.isLoading()) {
@@ -65,11 +62,11 @@ Os signals do `httpResource` podem ser usados no template para controlar quais e
 }
 ```
 
-HELPFUL: Ler o signal `value` em um `resource` que está em estado de erro lança em tempo de execução. É recomendado proteger leituras de `value` com `hasValue()`.
+HELPFUL: Reading the `value` signal on a `resource` that is in error state throws at runtime. It is recommended to guard `value` reads with `hasValue()`.
 
-### Tipos de resposta
+### Response types
 
-Por padrão, `httpResource` retorna e analisa a resposta como JSON. No entanto, você pode especificar retorno alternativo com funções adicionais em `httpResource`:
+By default, `httpResource` returns and parses the response as JSON. However, you can specify an alternate return type with additional functions on `httpResource`:
 
 ```ts
 httpResource.text(() => ({ … })); // returns a string in value()
@@ -79,16 +76,31 @@ httpResource.blob(() => ({ … })); // returns a Blob object in value()
 httpResource.arrayBuffer(() => ({ … })); // returns an ArrayBuffer in value()
 ```
 
-## Análise e validação de resposta
+### Tracking download progress
 
-Ao buscar dados, você pode querer validar respostas contra um schema predefinido, frequentemente usando bibliotecas populares de código aberto como [Zod](https://zod.dev) ou [Valibot](https://valibot.dev). Você pode integrar bibliotecas de validação como esta com `httpResource` especificando uma opção `parse`. O tipo de retorno da função `parse` determina o tipo do `value` do resource.
+Set `reportProgress: true` in the request object to track the download progress of the response. The latest `HttpProgressEvent` is available through the `progress` signal of the resource:
 
-O exemplo a seguir usa Zod para analisar e validar a resposta da [StarWars API](https://swapi.info/). O resource é então tipado da mesma forma que o tipo de saída da análise do Zod.
+```ts
+file = httpResource.blob(() => ({
+  url: `/api/files/${fileId()}`,
+  reportProgress: true,
+}));
+
+downloaded = computed(() => this.file.progress()?.loaded ?? 0);
+```
+
+NOTE: Unlike `HttpClient`, where `reportProgress` is deprecated in favor of `reportUploadProgress` and `reportDownloadProgress`, `httpResource` keeps the single `reportProgress` option. It only enables download progress events.
+
+## Response parsing and validation
+
+When fetching data, you may want to validate responses against a predefined schema, often using popular open-source libraries like [Zod](https://zod.dev) or [Valibot](https://valibot.dev). You can integrate validation libraries like this with `httpResource` by specifying a `parse` option. The return type of the `parse` function determines the type of the resource's `value`.
+
+The following example uses Zod to parse and validate the response from the [StarWars API](https://swapi.info/). The resource is then typed the same as the output type of Zod’s parsing.
 
 ```ts
 const starWarsPersonSchema = z.object({
   name: z.string(),
-  height: z.number({ coerce: true }),
+  height: z.number({coerce: true}),
   edited: z.string().datetime(),
   films: z.array(z.string()),
 });
@@ -96,25 +108,21 @@ const starWarsPersonSchema = z.object({
 export class CharacterViewer {
   id = signal(1);
 
-  swPersonResource = httpResource(
-    () => `https://swapi.info/api/people/${this.id()}`,
-    { parse: starWarsPersonSchema.parse }
-  );
+  swPersonResource = httpResource(() => `https://swapi.info/api/people/${this.id()}`, {
+    parse: starWarsPersonSchema.parse,
+  });
 }
 ```
 
-## Testando um httpResource
+## Testing an httpResource
 
-Como `httpResource` é um wrapper em torno do `HttpClient`, você pode testar `httpResource` com exatamente as mesmas APIs que `HttpClient`. Veja [HttpClient Testing](/guide/http/testing) para detalhes.
+Because `httpResource` is a wrapper around `HttpClient`, you can test `httpResource` with the exact same APIs as `HttpClient`. See [HttpClient Testing](/guide/http/testing) for details.
 
-O exemplo a seguir mostra um teste unitário para código usando `httpResource`.
+The following example shows a unit test for code using `httpResource`.
 
 ```ts
 TestBed.configureTestingModule({
-  providers: [
-    provideHttpClient(),
-    provideHttpClientTesting(),
-  ],
+  providers: [provideHttpClientTesting()],
 });
 
 const id = signal(0);

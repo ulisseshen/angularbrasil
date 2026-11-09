@@ -29,16 +29,14 @@ describe('standalone injector', () => {
     class ModuleWithAService {}
 
     @Component({
-      selector: 'standalone',
       imports: [ModuleWithAService],
-      template: `({{service.value}})`,
+      template: `({{ service.value }})`,
     })
     class TestComponent {
       constructor(readonly service: Service) {}
     }
 
     @Component({
-      selector: 'app',
       template: `<ng-template #insert></ng-template>`,
       standalone: false,
     })
@@ -79,16 +77,15 @@ describe('standalone injector', () => {
     class ModuleWithAService {}
 
     @Component({
-      selector: 'standalone',
       imports: [ModuleWithAService],
-      template: `{{service.value}}`,
+      template: `{{ service.value }}`,
     })
     class DynamicComponent {
       constructor(readonly service: Service) {}
     }
 
     @Component({
-      standalone: false,
+      template: '',
     })
     class AppComponent {}
 

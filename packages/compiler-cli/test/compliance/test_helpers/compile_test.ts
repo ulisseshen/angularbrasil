@@ -15,9 +15,11 @@ import {
 } from '../../../src/ngtsc/file_system';
 import {initMockFileSystem} from '../../../src/ngtsc/file_system/testing';
 import {
+  isNgpTestMode,
   loadStandardTestFiles,
   loadTestDirectory,
   NgtscTestCompilerHost,
+  performNgpCompilationSync,
 } from '../../../src/ngtsc/testing';
 import {performCompilation} from '../../../src/perform_compile';
 import {CompilerOptions} from '../../../src/transformers/api';
@@ -62,8 +64,25 @@ export function compileTest(
 ): CompileResult {
   const rootDir = getRootDirectory(fs);
   const outDir = getBuildOutputDirectory(fs);
-  const options = getOptions(rootDir, outDir, compilerOptions, angularCompilerOptions);
+  const options = getOptions(rootDir, outDir, compilerOptions, {
+    ...angularCompilerOptions,
+    // TODO: Do we want to enable strictTemplates for compliance tests?
+    strictTemplates: false,
+  });
   const rootNames = files.map((f) => fs.resolve(f));
+  if (isNgpTestMode()) {
+    const {diagnostics, emittedFiles} = performNgpCompilationSync({
+      fs,
+      basePath: rootDir,
+      tsconfigPath: fs.resolve(rootDir, 'tsconfig.json'),
+      rootNames,
+      options,
+      emit: true,
+      complianceMode: true,
+    });
+    const errors = parseDiagnostics(diagnostics);
+    return {errors, emittedFiles};
+  }
   const host = new NgtscTestCompilerHost(fs, options);
   const {diagnostics, emitResult} = performCompilation({rootNames, host, options});
   const emittedFiles = emitResult
@@ -103,7 +122,7 @@ export function getBuildOutputDirectory(fs: PathManipulation): AbsoluteFsPath {
  * @param compilerOptions Additional options for the TypeScript compiler.
  * @param angularCompilerOptions Additional options for the Angular compiler.
  */
-function getOptions(
+export function getOptions(
   rootDir: AbsoluteFsPath,
   outDir: AbsoluteFsPath,
   compilerOptions: ConfigOptions | undefined,
@@ -126,10 +145,9 @@ function getOptions(
     strictNullChecks: true,
     outDir,
     rootDir,
-    baseUrl: '.',
     allowJs: true,
     declaration: true,
-    target: ts.ScriptTarget.ES2015,
+    target: ts.ScriptTarget.ES2022,
     newLine: ts.NewLineKind.LineFeed,
     module: ts.ModuleKind.ES2015,
     moduleResolution: ts.ModuleResolutionKind.Bundler,

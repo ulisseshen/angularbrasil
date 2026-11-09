@@ -1,39 +1,38 @@
-<!-- ia-translate: true -->
-# Animations reutilizáveis
+# Reusable animations
 
-IMPORTANTE: O pacote `@angular/animations` agora está depreciado. A equipe Angular recomenda usar CSS nativo com `animate.enter` e `animate.leave` para animations em todo código novo. Saiba mais no novo [guia de animations](guide/animations/enter-and-leave) de entrada e saída. Veja também [Migrando do pacote de Animations do Angular](guide/animations/migration) para aprender como você pode começar a migrar para animations CSS puras em suas aplicações.
+IMPORTANT: The `@angular/animations` package is now deprecated. The Angular team recommends using native CSS with `animate.enter` and `animate.leave` for animations for all new code. Learn more at the new enter and leave [animation guide](guide/animations). Also see [Migrating away from Angular's Animations package](guide/animations/migration) to learn how you can start migrating to pure CSS animations in your apps.
 
-Este tópico fornece alguns exemplos de como criar animations reutilizáveis.
+This topic provides examples of how to create reusable animations.
 
-## Criar animations reutilizáveis
+## Create reusable animations
 
-Para criar uma animation reutilizável, use a função [`animation()`](api/animations/animation) para definir uma animation em um arquivo `.ts` separado e declare esta definição de animation como uma variável `const` exportada.
-Você pode então importar e reutilizar esta animation em qualquer um dos components da sua aplicação usando a função [`useAnimation()`](api/animations/useAnimation).
+To create a reusable animation, use the [`animation()`](api/animations/animation) function to define an animation in a separate `.ts` file and declare this animation definition as a `const` export variable.
+You can then import and reuse this animation in your application components using the [`useAnimation()`](api/animations/useAnimation) function.
 
-<docs-code header="animations.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="animation-const"/>
+<docs-code header="animations.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" region="animation-const"/>
 
-No trecho de código anterior, `transitionAnimation` é tornado reutilizável ao declará-lo como uma variável exportada.
+In the preceding code snippet, `transitionAnimation` is made reusable by declaring it as an export variable.
 
-ÚTIL: Os inputs `height`, `opacity`, `backgroundColor` e `time` são substituídos durante o runtime.
+HELPFUL: The `height`, `opacity`, `backgroundColor`, and `time` inputs are replaced during runtime.
 
-Você também pode exportar parte de uma animation.
-Por exemplo, o seguinte trecho exporta o `trigger` de animation.
+You can also export a part of an animation.
+For example, the following snippet exports the animation `trigger`.
 
-<docs-code header="animations.1.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="trigger-const"/>
+<docs-code header="animations.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" region="trigger-const"/>
 
-A partir deste ponto, você pode importar variáveis de animation reutilizáveis na classe do seu component.
-Por exemplo, o seguinte trecho de código importa a variável `transitionAnimation` e a usa através da função `useAnimation()`.
+From this point, you can import reusable animation variables into your component class.
+For example, the following code snippet imports the `transitionAnimation` variable and uses it via the `useAnimation()` function.
 
-<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.3.ts" visibleRegion="reusable"/>
+<docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.3.ts" region="reusable"/>
 
-## Mais sobre animations do Angular
+## More on Angular animations
 
-Você também pode estar interessado em:
+You might also be interested in the following:
 
 <docs-pill-row>
-  <docs-pill href="guide/legacy-animations" title="Introdução às animations do Angular"/>
-  <docs-pill href="guide/legacy-animations/transition-and-triggers" title="Transition e triggers"/>
-  <docs-pill href="guide/legacy-animations/complex-sequences" title="Sequências complexas de animations"/>
-  <docs-pill href="guide/routing/route-transition-animations" title="Animations de transição de rotas"/>
-  <docs-pill href="guide/animations/migration" title="Migrando para Animations CSS Nativas"/>
+  <docs-pill href="guide/legacy-animations" title="Introduction to Angular animations"/>
+  <docs-pill href="guide/legacy-animations/transition-and-triggers" title="Transition and triggers"/>
+  <docs-pill href="guide/legacy-animations/complex-sequences" title="Complex animation sequences"/>
+  <docs-pill href="guide/routing/route-transition-animations" title="Route transition animations"/>
+  <docs-pill href="guide/animations/migration" title="Migrating to Native CSS Animations"/>
 </docs-pill-row>

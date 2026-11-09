@@ -1,42 +1,57 @@
-<!-- ia-translate: true -->
-# Migration de NgStyle para style bindings
+# Migration from NgStyle to style bindings
 
-Este schematic migra usos da directive NgStyle para style bindings em sua aplicação.
-Ele migrará apenas os usos que são considerados seguros para migração.
+This schematic migrates NgStyle directive usages to style bindings in your application.
+It will only migrate usages that are considered safe to migrate.
 
-Execute o schematic usando o seguinte comando:
+Run the schematic using the following command:
 
 ```bash
 ng generate @angular/core:ngstyle-to-style
 ```
 
-#### Antes
+An object with a single key becomes a binding to that one style property.
+
+#### Before
 
 ```html
-<div [ngStyle]="{'background-color': 'red'}">
+<div [ngStyle]="{'background-color': 'red'}"></div>
 ```
 
-#### Depois
+#### After
 
 ```html
-<div [style]="{'background-color': 'red'}">
+<div [style.background-color]="'red'"></div>
 ```
 
-## Opções de configuração
+An object with more than one key becomes a single `[style]` binding.
 
-A migration suporta algumas opções para ajustar a migration às suas necessidades específicas.
+#### Before {#multiple-keys-before}
+
+```html
+<div [ngStyle]="{'color': 'blue', 'font-weight': 'bold'}"></div>
+```
+
+#### After {#multiple-keys-after}
+
+```html
+<div [style]="{'color': 'blue', 'font-weight': 'bold'}"></div>
+```
+
+## Configuration options
+
+The migration supports a few options for fine tuning the migration to your specific needs.
 
 ### `--best-effort-mode`
 
-Por padrão, a migration evita migrar usos de referências de object do `NgStyle`
-Quando a flag `--best-effort-mode` está habilitada, instâncias de `ngStyle` vinculadas a referências de object também são migradas.
-Isso pode não ser seguro para migração, por exemplo, se o object vinculado for mutado.
+By default, the migration avoids migrating object references usages of `NgStyle`
+When the `--best-effort-mode` flag is enabled, `ngStyle` instances binded to object references are also migrated.
+This can be unsafe to migrate, for example if the binded object is mutated.
 
 ```html
 <div [ngStyle]="styleObject"></div>
 ```
 
-para
+to
 
 ```html
 <div [style]="styleObject"></div>

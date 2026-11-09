@@ -6,11 +6,11 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
+import {Component, ɵdefaultKeyValueDiffers as defaultKeyValueDiffers} from '@angular/core';
+import {TestBed} from '@angular/core/testing';
 import {KeyValuePipe} from '../../index';
 import {JsonPipe} from '../../public_api';
 import {defaultComparator} from '../../src/pipes/keyvalue_pipe';
-import {Component, ɵdefaultKeyValueDiffers as defaultKeyValueDiffers} from '@angular/core';
-import {TestBed} from '@angular/core/testing';
 
 describe('KeyValuePipe', () => {
   it('should return null when given null', () => {
@@ -100,6 +100,38 @@ describe('KeyValuePipe', () => {
       expect(pipe.transform(value)).toEqual(null);
     });
 
+    it('should preserve a literal key union instead of widening it to string', () => {
+      const pipe = new KeyValuePipe(defaultKeyValueDiffers);
+      const input: Record<'a' | 'b', number> = {a: 1, b: 2};
+      const result = pipe.transform(input);
+
+      // Compile-time check: if `key` had widened back to plain `string`, this
+      // assignment would fail to compile — that's the actual bug from #43883.
+      const key: 'a' | 'b' = result[0].key;
+
+      expect(key).toBe('a');
+      expect(result).toEqual([
+        {key: 'a', value: 1},
+        {key: 'b', value: 2},
+      ]);
+    });
+
+    it('should still collapse a numerically-keyed object to string keys', () => {
+      const pipe = new KeyValuePipe(defaultKeyValueDiffers);
+      const input: Record<1 | 2, string> = {1: 'one', 2: 'two'};
+      const result = pipe.transform(input);
+
+      // Numeric keys become strings at runtime (Object.keys() always returns
+      // strings), so `key` should stay `string`, not narrow to `1 | 2`.
+      const key: string = result[0].key;
+
+      expect(key).toBe('1');
+      expect(result).toEqual([
+        {key: '1', value: 'one'},
+        {key: '2', value: 'two'},
+      ]);
+    });
+
     it('should accept an object with optional keys', () => {
       interface MyInterface {
         one: string;
@@ -122,7 +154,7 @@ describe('KeyValuePipe', () => {
       expect(pipe.transform(myData, differ)?.length).toEqual(3);
     });
 
-    it('should accept an nullable object with optional keys', () => {
+    it('should accept an nullable object with optional keys (null)', () => {
       interface MyInterface {
         one?: string;
         two?: string;
@@ -134,7 +166,7 @@ describe('KeyValuePipe', () => {
       expect(pipe.transform(value)).toEqual(null);
     });
 
-    it('should accept an nullable object with optional keys', () => {
+    it('should accept an nullable object with optional keys (non-null)', () => {
       interface MyInterface {
         one?: string;
         two?: string;
@@ -269,9 +301,8 @@ describe('KeyValuePipe', () => {
     });
   });
 
-  it('should be available as a standalone pipe', () => {
+  it('should be available as a standalone pipe', async () => {
     @Component({
-      selector: 'test-component',
       imports: [KeyValuePipe, JsonPipe],
       template: '{{ value | keyvalue | json }}',
     })
@@ -280,7 +311,7 @@ describe('KeyValuePipe', () => {
     }
 
     const fixture = TestBed.createComponent(TestComponent);
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const content = fixture.nativeElement.textContent;
     expect(content.replace(/\s/g, '')).toBe('[{"key":"a","value":2},{"key":"b","value":1}]');

@@ -7,19 +7,20 @@ Por padrão, templates Angular não preservam whitespace que o framework conside
 
 A maioria dos desenvolvedores prefere formatar seus templates com quebras de linha e indentação para tornar o template legível:
 
-```angular-html
+```html
 <section>
   <h3>User profile</h3>
   <label>
     User name
-    <input>
+    <input />
   </label>
 </section>
 ```
 
 Este template contém whitespace entre todos os elementos. O seguinte trecho mostra o mesmo HTML com cada caractere de whitespace substituído pelo caractere hash (`#`) para destacar quanto whitespace está presente:
 
-```angular-html
+<!-- prettier-ignore -->
+```html
 <!-- Total Whitespace: 20 -->
 <section>###<h3>User profile</h3>###<label>#####User name#####<input>###</label>#</section>
 ```
@@ -30,7 +31,8 @@ Preservar o whitespace como escrito no template resultaria em muitos [nós de te
 
 Quando seu navegador web renderiza HTML em uma página, ele colapsa múltiplos caracteres de whitespace consecutivos em um único caractere:
 
-```angular-html
+<!-- prettier-ignore -->
+```html
 <!-- What it looks like in the template -->
 <p>Hello         world</p>
 ```

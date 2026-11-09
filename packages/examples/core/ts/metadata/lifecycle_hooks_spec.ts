@@ -22,14 +22,13 @@ import {
 } from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 
-(function () {
+(async function () {
   describe('lifecycle hooks examples', () => {
-    it('should work with ngOnInit', () => {
+    it('should work with ngOnInit', async () => {
       // #docregion OnInit
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements OnInit {
         ngOnInit() {
@@ -38,15 +37,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngOnInit', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngOnInit', []]]);
     });
 
-    it('should work with ngDoCheck', () => {
+    it('should work with ngDoCheck', async () => {
       // #docregion DoCheck
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements DoCheck {
         ngDoCheck() {
@@ -55,15 +53,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngDoCheck', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngDoCheck', []]]);
     });
 
-    it('should work with ngAfterContentChecked', () => {
+    it('should work with ngAfterContentChecked', async () => {
       // #docregion AfterContentChecked
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements AfterContentChecked {
         ngAfterContentChecked() {
@@ -72,15 +69,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngAfterContentChecked', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngAfterContentChecked', []]]);
     });
 
-    it('should work with ngAfterContentInit', () => {
+    it('should work with ngAfterContentInit', async () => {
       // #docregion AfterContentInit
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements AfterContentInit {
         ngAfterContentInit() {
@@ -89,15 +85,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngAfterContentInit', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngAfterContentInit', []]]);
     });
 
-    it('should work with ngAfterViewChecked', () => {
+    it('should work with ngAfterViewChecked', async () => {
       // #docregion AfterViewChecked
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements AfterViewChecked {
         ngAfterViewChecked() {
@@ -106,15 +101,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngAfterViewChecked', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngAfterViewChecked', []]]);
     });
 
-    it('should work with ngAfterViewInit', () => {
+    it('should work with ngAfterViewInit', async () => {
       // #docregion AfterViewInit
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements AfterViewInit {
         ngAfterViewInit() {
@@ -123,15 +117,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngAfterViewInit', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngAfterViewInit', []]]);
     });
 
-    it('should work with ngOnDestroy', () => {
+    it('should work with ngOnDestroy', async () => {
       // #docregion OnDestroy
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements OnDestroy {
         ngOnDestroy() {
@@ -140,15 +133,14 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      expect(createAndLogComponent(MyComponent)).toEqual([['ngOnDestroy', []]]);
+      expect(await createAndLogComponent(MyComponent)).toEqual([['ngOnDestroy', []]]);
     });
 
-    it('should work with ngOnChanges', () => {
+    it('should work with ngOnChanges', async () => {
       // #docregion OnChanges
       @Component({
         selector: 'my-cmp',
         template: `...`,
-        standalone: false,
       })
       class MyComponent implements OnChanges {
         @Input() prop: number = 0;
@@ -159,7 +151,7 @@ import {TestBed} from '@angular/core/testing';
       }
       // #enddocregion
 
-      const log = createAndLogComponent(MyComponent, ['prop']);
+      const log = await createAndLogComponent(MyComponent, ['prop']);
       expect(log.length).toBe(1);
       expect(log[0][0]).toBe('ngOnChanges');
       const changes: SimpleChanges = log[0][1][0];
@@ -167,7 +159,7 @@ import {TestBed} from '@angular/core/testing';
     });
   });
 
-  function createAndLogComponent(clazz: Type<any>, inputs: string[] = []): any[] {
+  async function createAndLogComponent(clazz: Type<any>, inputs: string[] = []): Promise<any[]> {
     const log: any[] = [];
     createLoggingSpiesFromProto(clazz, log);
 
@@ -175,14 +167,14 @@ import {TestBed} from '@angular/core/testing';
 
     @Component({
       template: `<my-cmp ${inputBindings}></my-cmp>`,
-      standalone: false,
+      imports: [clazz],
     })
     class ParentComponent {}
 
     const fixture = TestBed.configureTestingModule({
-      declarations: [ParentComponent, clazz],
+      imports: [ParentComponent],
     }).createComponent(ParentComponent);
-    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.destroy();
     return log;
   }

@@ -6,11 +6,25 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {MemberEntry, MemberTags, MemberType, type DocEntry} from '../entities.mjs';
+import {
+  MemberEntry,
+  MemberTags,
+  MemberType,
+  type DocEntry,
+  type FunctionSignatureMetadata,
+  type MethodEntry,
+} from '../entities.mjs';
 import {isHiddenEntry} from '../entities/categorization.mjs';
 import type {MemberEntryRenderable} from '../entities/renderables.mjs';
 
-import {HasMembers, HasModuleName, HasRenderableMembers, HasRepo} from '../entities/traits.mjs';
+import {
+  HasMembers,
+  HasModuleName,
+  HasPropertyMembers,
+  HasRenderableMembers,
+  HasRenderablePropertyMembers,
+  HasRepo,
+} from '../entities/traits.mjs';
 import {addRenderableCodeToc} from './code-transforms.mjs';
 
 import {
@@ -73,6 +87,47 @@ export function mergeGettersAndSetters(members: MemberEntry[]): MemberEntry[] {
   );
 }
 
+export function mergeDuplicateMembers(members: MemberEntry[]): MemberEntry[] {
+  const merged: MemberEntry[] = [];
+  const indexByKey = new Map<string, number>();
+
+  for (const member of members) {
+    const key = `${member.memberType}:${member.name}`;
+    const index = indexByKey.get(key);
+    if (index === undefined) {
+      indexByKey.set(key, merged.length);
+      merged.push(member);
+      continue;
+    }
+    if (member.memberType !== MemberType.Method) {
+      continue;
+    }
+
+    const existing = merged[index] as MethodEntry;
+    const seen = new Set<string>();
+    const signatures = [...getSignatures(existing), ...getSignatures(member as MethodEntry)].filter(
+      (signature) => {
+        const serialized = JSON.stringify(signature);
+        return !seen.has(serialized) && !!seen.add(serialized);
+      },
+    );
+    merged[index] = {
+      ...existing,
+      implementation: signatures[0] ?? existing.implementation,
+      signatures: signatures.length > 1 ? signatures : [],
+    } as MethodEntry;
+  }
+
+  return merged;
+}
+
+function getSignatures(method: MethodEntry): FunctionSignatureMetadata[] {
+  if (method.signatures?.length) {
+    return method.signatures;
+  }
+  return method.implementation ? [method.implementation] : [];
+}
+
 function addDisplayName<T extends MemberEntryRenderable>(entry: T, parentName: string): T {
   return entry.memberType === MemberType.Interface || entry.memberType === MemberType.TypeAlias
     ? {...entry, displayName: `${parentName}.${entry.name}`}
@@ -85,8 +140,7 @@ export async function addRenderableMembers<T extends HasMembers & HasModuleName 
 ): Promise<T & HasRenderableMembers> {
   const members = (
     await Promise.all(
-      // TODO: remove `?? []` when components repo is updated to include members array on type aliases.
-      (entry.members ?? [])
+      mergeDuplicateMembers(entry.members)
         .filter((member) => !isHiddenEntry(member))
         .map((member) => {
           if (member.memberType === MemberType.Interface) {
@@ -110,5 +164,13 @@ export async function addRenderableMembers<T extends HasMembers & HasModuleName 
   return {
     ...entry,
     members,
+  };
+}
+
+export async function addRenderablePropertyMembers<
+  T extends HasPropertyMembers & HasModuleName & HasRepo,
+>(entry: T, parentName: string): Promise<T & HasRenderablePropertyMembers> {
+  return {
+    ...((await addRenderableMembers(entry, parentName)) as T & HasRenderablePropertyMembers),
   };
 }

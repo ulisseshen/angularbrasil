@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {Fragment, h} from 'preact';
+import {Fragment, h, HTMLAttributes} from 'preact';
 import {EntryType, isDocEntryWithSourceInfo, PipeEntry} from '../entities.mjs';
 import {DocEntryRenderable, PipeEntryRenderable} from '../entities/renderables.mjs';
 import {
@@ -21,6 +21,7 @@ import {DocsPillRow} from './docs-pill-row';
 export function HeaderApi(props: {
   entry: DocEntryRenderable | PipeEntryRenderable;
   showFullDescription?: boolean;
+  hideDescription?: boolean;
 }) {
   const entry = props.entry;
 
@@ -60,12 +61,14 @@ export function HeaderApi(props: {
         )}
       </div>
 
-      <section
-        className={'docs-reference-description'}
-        dangerouslySetInnerHTML={{
-          __html: props.showFullDescription ? entry.htmlDescription : entry.shortHtmlDescription,
-        }}
-      ></section>
+      {!props.hideDescription && (
+        <section
+          className={'docs-reference-description'}
+          dangerouslySetInnerHTML={{
+            __html: props.showFullDescription ? entry.htmlDescription : entry.shortHtmlDescription,
+          }}
+        ></section>
+      )}
 
       <DocsPillRow links={entry.additionalLinks} />
     </header>
@@ -73,13 +76,13 @@ export function HeaderApi(props: {
 }
 
 function statusTag(entry: DocEntryRenderable) {
-  let tag: h.JSX.HTMLAttributes<HTMLDivElement> | null = null;
+  let tag: HTMLAttributes<HTMLDivElement> | null = null;
 
   // Cascading Deprecated > Stable > Developer Preview > Experimental
 
   if (entry.deprecated) {
     tag = (
-      <div className={`${HEADER_ENTRY_LABEL} type-stable full`}>
+      <div className={`${HEADER_ENTRY_LABEL} type-deprecated full`}>
         {tagInVersionString('deprecated', entry.deprecated)}
       </div>
     );
@@ -121,13 +124,6 @@ function tagInVersionString(label: string, tag: {version: string | undefined} | 
   }
 
   return <>{label}</>;
-}
-
-function tagInVersionTooltip(
-  label: string,
-  tag: {version: string | undefined} | undefined,
-): string {
-  return tag?.version ? `${label} since ${tag.version}` : label;
 }
 
 function getEntryTypeDisplayName(entryType: EntryType | string): string {

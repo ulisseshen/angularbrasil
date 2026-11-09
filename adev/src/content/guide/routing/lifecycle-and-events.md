@@ -1,55 +1,54 @@
-<!-- ia-translate: true -->
+# Router Lifecycle and Events
 
-# Ciclo de Vida do Router e Eventos
+Angular Router provides a comprehensive set of lifecycle hooks and events that allow you to respond to navigation changes and execute custom logic during the routing process.
 
-O Router Angular fornece um conjunto abrangente de hooks de ciclo de vida e eventos que permitem que você responda a mudanças de navegação e execute lógica customizada durante o processo de roteamento.
+## Common router events
 
-## Eventos comuns do router
+The Angular Router emits navigation events that you can subscribe to in order to track the navigation lifecycle. These events are available through the `Router.events` observable. This section covers common routing lifecycle events for navigation and error tracking (in chronological order).
 
-O Router Angular emite eventos de navegação que você pode fazer subscription para rastrear o ciclo de vida da navegação. Estes eventos estão disponíveis através do observable `Router.events`. Esta seção cobre eventos comuns de ciclo de vida de roteamento para navegação e rastreamento de erros (em ordem cronológica).
+| Events                                              | Description                                                                                              |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| [`NavigationStart`](api/router/NavigationStart)     | Occurs when navigation begins and contains the requested URL.                                            |
+| [`RoutesRecognized`](api/router/RoutesRecognized)   | Occurs after the router determines which route matches the URL and contains the route state information. |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)   | Begins the route guard phase. The router evaluates route guards like `canActivate` and `canDeactivate`.  |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)       | Signals completion of guard evaluation. Contains the result (allowed/denied).                            |
+| [`ResolveStart`](api/router/ResolveStart)           | Begins the data resolution phase. Route resolvers and resources start fetching data.                     |
+| [`ResolveEnd`](api/router/ResolveEnd)               | Data resolution completes. All required data and blocking resources become available.                    |
+| [`NavigationEnd`](api/router/NavigationEnd)         | Final event when navigation completes successfully. The router updates the URL.                          |
+| [`NavigationSkipped`](api/router/NavigationSkipped) | Occurs when the router skips navigation (e.g., same URL navigation).                                     |
 
-| Eventos                                             | Descrição                                                                                                     |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)     | Ocorre quando a navegação começa e contém a URL requisitada.                                                  |
-| [`RoutesRecognized`](api/router/RoutesRecognized)   | Ocorre depois que o router determina qual route corresponde à URL e contém as informações de estado da route. |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)   | Inicia a fase de guard de route. O router avalia guards de route como `canActivate` e `canDeactivate`.        |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)       | Sinaliza a conclusão da avaliação de guards. Contém o resultado (permitido/negado).                           |
-| [`ResolveStart`](api/router/ResolveStart)           | Inicia a fase de resolução de dados. Resolvers de route começam a buscar dados.                               |
-| [`ResolveEnd`](api/router/ResolveEnd)               | A resolução de dados é concluída. Todos os dados necessários ficam disponíveis.                               |
-| [`NavigationEnd`](api/router/NavigationEnd)         | Evento final quando a navegação é concluída com sucesso. O router atualiza a URL.                             |
-| [`NavigationSkipped`](api/router/NavigationSkipped) | Ocorre quando o router pula a navegação (ex: navegação para a mesma URL).                                     |
+The following are common error events:
 
-Os seguintes são eventos de erro comuns:
+| Event                                             | Description                                                                                                    |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [`NavigationCancel`](api/router/NavigationCancel) | Occurs when the router cancels navigation. Often due to a guard returning false.                               |
+| [`NavigationError`](api/router/NavigationError)   | Occurs when navigation fails. Could be due to invalid routes, resolver errors, or rejected blocking resources. |
 
-| Evento                                            | Descrição                                                                                    |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`NavigationCancel`](api/router/NavigationCancel) | Ocorre quando o router cancela a navegação. Frequentemente devido a um guard retornar false. |
-| [`NavigationError`](api/router/NavigationError)   | Ocorre quando a navegação falha. Pode ser devido a routes inválidas ou erros de resolver.    |
+For a list of all lifecycle events, check out the [complete table of this guide](#all-router-events).
 
-Para uma lista de todos os eventos de ciclo de vida, confira a [tabela completa deste guia](#all-router-events).
+## How to subscribe to router events
 
-## Como fazer subscription em eventos do router
-
-Quando você deseja executar código durante eventos específicos do ciclo de vida de navegação, você pode fazer isso fazendo subscription em `router.events` e verificando a instância do evento:
+When you want to run code during specific navigation lifecycle events, you can do so by subscribing to the `router.events` and checking the instance of the event:
 
 ```ts
-// Exemplo de fazer subscription em eventos do router
-import { Component, inject, signal, effect } from '@angular/core';
-import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
+// Example of subscribing to router events
+import {Component, inject, signal, effect} from '@angular/core';
+import {Event, Router, NavigationStart, NavigationEnd} from '@angular/router';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
-@Component({ ... })
-export class RouterEventsComponent {
+@Component(/* ... */)
+export class RouterEvents {
   private readonly router = inject(Router);
 
   constructor() {
-    // Fazer subscription em eventos do router e reagir a eventos
+    // Subscribe to router events and react to events
     this.router.events.pipe(takeUntilDestroyed()).subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        // Navegação iniciando
+        // Navigation starting
         console.log('Navigation starting:', event.url);
       }
       if (event instanceof NavigationEnd) {
-        // Navegação concluída
+        // Navigation completed
         console.log('Navigation completed:', event.url);
       }
     });
@@ -57,102 +56,100 @@ export class RouterEventsComponent {
 }
 ```
 
-Nota: O tipo [`Event`](api/router/Event) de `@angular/router` tem o mesmo nome que o tipo global regular [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event), mas é diferente do tipo [`RouterEvent`](api/router/RouterEvent).
+NOTE: The [`Event`](api/router/Event) type from `@angular/router` is named the same as the regular global [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event) type, but it is different from the [`RouterEvent`](api/router/RouterEvent) type.
 
-## Como debugar eventos de roteamento
+## How to debug routing events
 
-Debugar problemas de navegação do router pode ser desafiador sem visibilidade na sequência de eventos. O Angular fornece um recurso de debugging integrado que registra todos os eventos do router no console, ajudando você a entender o fluxo de navegação e identificar onde os problemas ocorrem.
+Debugging router navigation issues can be challenging without visibility into the event sequence. Angular provides a built-in debugging feature that logs all router events to the console, helping you understand the navigation flow and identify where issues occur.
 
-Quando você precisa inspecionar uma sequência de eventos do Router, você pode habilitar logging para eventos internos de navegação para debugging. Você pode configurar isso passando uma opção de configuração (`withDebugTracing()`) que habilita logging detalhado no console de todos os eventos de roteamento.
+When you need to inspect a Router event sequence, you can enable logging for internal navigation events for debugging. You can configure this by passing a configuration option (`withDebugTracing()`) that enables detailed console logging of all routing events.
 
 ```ts
-import { provideRouter, withDebugTracing } from '@angular/router';
+import {provideRouter, Routes, withDebugTracing} from '@angular/router';
+import {bootstrapApplication} from '@angular/platform-browser';
 
 const appRoutes: Routes = [];
-bootstrapApplication(AppComponent,
-  {
-    providers: [
-      provideRouter(appRoutes, withDebugTracing())
-    ]
-  }
-);
+bootstrapApplication(App, {
+  providers: [provideRouter(appRoutes, withDebugTracing())],
+});
 ```
 
-Para mais informações, confira a documentação oficial sobre [`withDebugTracing`](api/router/withDebugTracing).
+For more information, check out the official docs on [`withDebugTracing`](api/router/withDebugTracing).
 
-## Casos de uso comuns
+## Common use cases
 
-Eventos do router habilitam muitos recursos práticos em aplicações do mundo real. Aqui estão alguns padrões comuns que são usados com eventos do router.
+Router events enable many practical features in real-world applications. Here are some common patterns that are used with router events.
 
-### Indicadores de carregamento
+### Loading indicators
 
-Mostrar indicadores de carregamento durante a navegação:
+Show loading indicators during navigation:
 
 ```angular-ts
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
+import {Component, computed, inject} from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
 
 @Component({
-  selector: 'app-loading',
+  selector: 'app-root',
+  imports: [RouterOutlet],
   template: `
-    @if (loading()) {
-      <div class="loading-spinner">Loading...</div>
+    @if (isNavigating()) {
+      <div class="loading-bar">Loading...</div>
     }
-  `
+    <router-outlet />
+  `,
 })
-export class AppComponent {
+export class App {
   private router = inject(Router);
-
-  readonly loading = toSignal(
-    this.router.events.pipe(
-      map(() => !!this.router.getCurrentNavigation())
-    ),
-    { initialValue: false }
-  );
+  isNavigating = computed(() => !!this.router.currentNavigation());
 }
 ```
 
-### Rastreamento de analytics
+### Analytics tracking
 
-Rastrear visualizações de página para analytics:
+Track page views for analytics:
 
 ```ts
-import { Component, inject, signal, effect } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {inject, DestroyRef, Service} from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AnalyticsService {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
   startTracking() {
-    this.router.events.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(event => {
-        // Rastrear visualizações de página quando a URL muda
-        if (event instanceof NavigationEnd) {
-           // Enviar visualização de página para analytics
-          this.analytics.trackPageView(url);
-        }
-      });
+    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
+      // Track page views when URL changes
+      if (event instanceof NavigationEnd) {
+        // Send page view to analytics
+        this.analytics.trackPageView(event.url);
+      }
+    });
   }
 
   private analytics = {
     trackPageView: (url: string) => {
       console.log('Page view tracked:', url);
-    }
+    },
   };
 }
 ```
 
-### Tratamento de erros
+### Error handling
 
-Lidar com erros de navegação graciosamente e fornecer feedback ao usuário:
+Handle navigation errors gracefully and provide user feedback:
 
 ```angular-ts
-import { Component, inject, signal } from '@angular/core';
-import { Router, NavigationStart, NavigationError, NavigationCancel, NavigationCancellationCode } from '@angular/router';
+import {Component, inject, signal} from '@angular/core';
+import {
+  Router,
+  NavigationStart,
+  NavigationError,
+  NavigationCancel,
+  NavigationCancellationCode,
+} from '@angular/router';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-error-handler',
@@ -163,14 +160,14 @@ import { Router, NavigationStart, NavigationError, NavigationCancel, NavigationC
         <button (click)="dismissError()">Dismiss</button>
       </div>
     }
-  `
+  `,
 })
-export class ErrorHandlerComponent {
+export class ErrorHandler {
   private router = inject(Router);
   readonly errorMessage = signal('');
 
   constructor() {
-    this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.errorMessage.set('');
       } else if (event instanceof NavigationError) {
@@ -178,7 +175,7 @@ export class ErrorHandlerComponent {
         this.errorMessage.set('Failed to load page. Please try again.');
       } else if (event instanceof NavigationCancel) {
         console.warn('Navigation cancelled:', event.reason);
-        if (event.reason === NavigationCancellationCode.GuardRejected) {
+        if (event.code === NavigationCancellationCode.GuardRejected) {
           this.errorMessage.set('Access denied. Please check your permissions.');
         }
       }
@@ -191,55 +188,55 @@ export class ErrorHandlerComponent {
 }
 ```
 
-## Todos os eventos do router
+## All router events
 
-Para referência, aqui está a lista completa de todos os eventos do router disponíveis no Angular. Estes eventos são organizados por categoria e listados na ordem em que tipicamente ocorrem durante a navegação.
+For reference, here is the complete list of all router events available in Angular. These events are organized by category and listed in the order they typically occur during navigation.
 
-### Eventos de navegação
+### Navigation events
 
-Estes eventos rastreiam o processo de navegação principal desde o início através do reconhecimento de route, verificações de guard e resolução de dados. Eles fornecem visibilidade em cada fase do ciclo de vida de navegação.
+These events track the core navigation process from start through route recognition, guard checks, and data resolution. They provide visibility into each phase of the navigation lifecycle.
 
-| Evento                                                    | Descrição                                                            |
-| --------------------------------------------------------- | -------------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)           | Ocorre quando a navegação inicia                                     |
-| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Ocorre antes de fazer lazy loading de uma configuração de route      |
-| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Ocorre depois que uma configuração de route com lazy loading carrega |
-| [`RoutesRecognized`](api/router/RoutesRecognized)         | Ocorre quando o router analisa a URL e reconhece as routes           |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Ocorre no início da fase de guard                                    |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Ocorre no final da fase de guard                                     |
-| [`ResolveStart`](api/router/ResolveStart)                 | Ocorre no início da fase de resolve                                  |
-| [`ResolveEnd`](api/router/ResolveEnd)                     | Ocorre no final da fase de resolve                                   |
+| Event                                                     | Description                                                     |
+| --------------------------------------------------------- | --------------------------------------------------------------- |
+| [`NavigationStart`](api/router/NavigationStart)           | Occurs when navigation starts                                   |
+| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Occurs before lazy loading a route configuration                |
+| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Occurs after a lazy-loaded route configuration loads            |
+| [`RoutesRecognized`](api/router/RoutesRecognized)         | Occurs when the router parses the URL and recognizes the routes |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Occurs at the start of the guard phase                          |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Occurs at the end of the guard phase                            |
+| [`ResolveStart`](api/router/ResolveStart)                 | Occurs at the start of the resolve phase                        |
+| [`ResolveEnd`](api/router/ResolveEnd)                     | Occurs at the end of the resolve phase                          |
 
-### Eventos de ativação {#all-router-events}
+### Activation events
 
-Estes eventos ocorrem durante a fase de ativação quando components de route estão sendo instanciados e inicializados. Eventos de ativação disparam para cada route na árvore de routes, incluindo routes pai e filha.
+These events occur during the activation phase when route components are being instantiated and initialized. Activation events fire for each route in the route tree, including parent and child routes.
 
-| Evento                                                    | Descrição                                   |
-| --------------------------------------------------------- | ------------------------------------------- |
-| [`ActivationStart`](api/router/ActivationStart)           | Ocorre no início da ativação de route       |
-| [`ChildActivationStart`](api/router/ChildActivationStart) | Ocorre no início da ativação de route filha |
-| [`ActivationEnd`](api/router/ActivationEnd)               | Ocorre no final da ativação de route        |
-| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Ocorre no final da ativação de route filha  |
+| Event                                                     | Description                                   |
+| --------------------------------------------------------- | --------------------------------------------- |
+| [`ActivationStart`](api/router/ActivationStart)           | Occurs at the start of route activation       |
+| [`ChildActivationStart`](api/router/ChildActivationStart) | Occurs at the start of child route activation |
+| [`ActivationEnd`](api/router/ActivationEnd)               | Occurs at the end of route activation         |
+| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Occurs at the end of child route activation   |
 
-### Eventos de conclusão de navegação
+### Navigation completion events
 
-Estes eventos representam o resultado final de uma tentativa de navegação. Toda navegação terminará com exatamente um destes eventos, indicando se teve sucesso, foi cancelada, falhou ou foi pulada.
+These events represent the final outcome of a navigation attempt. Every navigation will end with exactly one of these events, indicating whether it succeeded, was cancelled, failed, or was skipped.
 
-| Evento                                              | Descrição                                                                |
-| --------------------------------------------------- | ------------------------------------------------------------------------ |
-| [`NavigationEnd`](api/router/NavigationEnd)         | Ocorre quando a navegação termina com sucesso                            |
-| [`NavigationCancel`](api/router/NavigationCancel)   | Ocorre quando o router cancela a navegação                               |
-| [`NavigationError`](api/router/NavigationError)     | Ocorre quando a navegação falha devido a um erro inesperado              |
-| [`NavigationSkipped`](api/router/NavigationSkipped) | Ocorre quando o router pula a navegação (ex: navegação para a mesma URL) |
+| Event                                               | Description                                                         |
+| --------------------------------------------------- | ------------------------------------------------------------------- |
+| [`NavigationEnd`](api/router/NavigationEnd)         | Occurs when navigation ends successfully                            |
+| [`NavigationCancel`](api/router/NavigationCancel)   | Occurs when the router cancels navigation                           |
+| [`NavigationError`](api/router/NavigationError)     | Occurs when navigation fails due to an unexpected error             |
+| [`NavigationSkipped`](api/router/NavigationSkipped) | Occurs when the router skips navigation (e.g., same URL navigation) |
 
-### Outros eventos
+### Other events
 
-Há um evento adicional que ocorre fora do ciclo de vida principal de navegação, mas ainda é parte do sistema de eventos do router.
+There is one additional event that occurs outside the main navigation lifecycle, but it is still part of the router's event system.
 
-| Evento                        | Descrição                |
-| ----------------------------- | ------------------------ |
-| [`Scroll`](api/router/Scroll) | Ocorre durante a rolagem |
+| Event                         | Description             |
+| ----------------------------- | ----------------------- |
+| [`Scroll`](api/router/Scroll) | Occurs during scrolling |
 
-## Próximos passos
+## Next steps
 
-Saiba mais sobre [guards de route](/guide/routing/route-guards) e [tarefas comuns do router](/guide/routing/common-router-tasks).
+Learn more about [route guards](/guide/routing/route-guards), [data fetching with resources](/guide/routing/data-fetching-with-resources), and [common router tasks](/guide/routing/common-router-tasks).

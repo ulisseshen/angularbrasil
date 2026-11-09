@@ -1,32 +1,31 @@
-<!-- ia-translate: true -->
-# Migração para a função output
+# Migration to output function
 
-O Angular introduziu uma API aprimorada para outputs na v17.3 que é considerada
-pronta para produção a partir da v19. Esta API imita a API `input()` mas não é baseada em Signals.
-Leia mais sobre a função output de eventos customizados e seus benefícios no [guia dedicado](guide/components/outputs).
+Angular introduced an improved API for outputs in v17.3 that is considered
+production ready as of v19. This API mimics the `input()` API but is not based on Signals.
+Read more about custom events output function and its benefits in the [dedicated guide](guide/components/outputs).
 
-Para dar suporte a projetos existentes que gostariam de usar a função output, o time do Angular
-fornece uma migração automatizada que converte eventos customizados `@Output` para a nova API `output()`.
+To support existing projects that would like to use output function, the Angular team
+provides an automated migration that converts `@Output` custom events to the new `output()` API.
 
-Execute o schematic usando o seguinte comando:
+Run the schematic using the following command:
 
 ```bash
 ng generate @angular/core:output-migration
 ```
 
-## O que a migração modifica?
+## What does the migration change?
 
-1. Membros de classe `@Output()` são atualizados para seu equivalente `output()`.
-2. Imports no arquivo de components ou diretivas, no nível de módulo TypeScript, também são atualizados.
-3. Migra as funções de API como `event.next()`, cujo uso não é recomendado, para `event.emit()` e remove chamadas `event.complete()`.
+1. `@Output()` class members are updated to their `output()` equivalent.
+2. Imports in the file of components or directives, at TypeScript module level, are updated as well.
+3. Migrates API calls like `event.next()`, whose use is not recommended, to `event.emit()` and removes `event.complete()` calls.
 
-**Antes**
+**Before**
 
 ```typescript
 import {Component, Output, EventEmitter} from '@angular/core';
 
 @Component({
-  template: `<button (click)="someMethod('test')">emit</button>`
+  template: `<button (click)="someMethod('test')">emit</button>`,
 })
 export class MyComponent {
   @Output() someChange = new EventEmitter<string>();
@@ -37,13 +36,13 @@ export class MyComponent {
 }
 ```
 
-**Depois**
+**After**
 
 ```typescript
 import {Component, output} from '@angular/core';
 
 @Component({
-  template: `<button (click)="someMethod('test')">emit</button>`
+  template: `<button (click)="someMethod('test')">emit</button>`,
 })
 export class MyComponent {
   readonly someChange = output<string>();
@@ -54,35 +53,35 @@ export class MyComponent {
 }
 ```
 
-## Opções de configuração
+## Configuration options
 
-A migração suporta algumas opções para ajustar a migração às suas necessidades específicas.
+The migration supports a few options for fine tuning the migration to your specific needs.
 
 ### `--path`
 
-Se não especificado, a migração perguntará por um caminho e atualizará todo o seu workspace do Angular CLI.
-Você pode limitar a migração a um subdiretório específico usando esta opção.
+If not specified, the migration will ask you for a path and update your whole Angular CLI workspace.
+You can limit the migration to a specific sub-directory using this option.
 
 ### `--analysis-dir`
 
-Em projetos grandes, você pode usar esta opção para reduzir a quantidade de arquivos sendo analisados.
-Por padrão, a migração analisa todo o workspace, independentemente da opção `--path`, a
-fim de atualizar todas as referências afetadas por uma migração de `@Output()`.
+In large projects you may use this option to reduce the amount of files being analyzed.
+By default, the migration analyzes the whole workspace, regardless of the `--path` option, in
+order to update all references affected by an `@Output()` migration.
 
-Com esta opção, você pode limitar a análise a uma subpasta. Note que isso significa que qualquer
-referência fora deste diretório será silenciosamente pulada, potencialmente quebrando sua build.
+With this option, you can limit analysis to a sub-folder. Note that this means that any
+references outside this directory are silently skipped, potentially breaking your build.
 
-Use estas opções como mostrado abaixo:
+Use these options as shown below:
 
 ```bash
 ng generate @angular/core:output-migration --path src/app/sub-folder
 ```
 
-## Exceções
+## Exceptions
 
-Em alguns casos, a migração não tocará o código.
-Uma dessas exceções é o caso onde o evento é usado com um método `pipe()`.
-O seguinte código não será migrado:
+In some cases, the migration will not touch the code.
+One of these exceptions is the case where the event is used with a `pipe()` method outside a test file.
+The following code won't be migrated:
 
 ```typescript
 export class MyDialogComponent {
@@ -95,3 +94,7 @@ export class MyDialogComponent {
   }
 }
 ```
+
+In a test file the migration rewrites the usage instead of skipping the output, so `this.close.pipe(…)` becomes `outputToObservable(this.close).pipe(…)`.
+
+NOTE: The migration recognizes a test file by looking for an import whose path contains `jasmine` or `catalyst`. It does not recognize a file that only imports Jest or Vitest, so it skips the output there instead of rewriting it.

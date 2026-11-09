@@ -1,11 +1,10 @@
-<!-- ia-translate: true -->
-<h1 align="center">Angular - A plataforma do desenvolvedor web moderno</h1>
+<h1 align="center">Angular - The modern web developer's platform</h1>
 
 <p align="center">
   <img src="adev/src/assets/images/press-kit/angular_icon_gradient.gif" alt="angular-logo" width="120px" height="120px"/>
   <br>
-  <em>Angular é uma plataforma de desenvolvimento para construir aplicações web mobile e desktop
-    <br> usando TypeScript/JavaScript e outras linguagens.</em>
+  <em>Angular is a development platform for building mobile and desktop web applications
+    <br> using TypeScript/JavaScript and other languages.</em>
   <br>
 </p>
 
@@ -15,9 +14,9 @@
 </p>
 
 <p align="center">
-  <a href="CONTRIBUTING.md">Diretrizes de Contribuição</a>
+  <a href="CONTRIBUTING.md">Contributing Guidelines</a>
   ·
-  <a href="https://github.com/angular/angular/issues">Reportar um Problema</a>
+  <a href="https://github.com/angular/angular/issues">Submit an Issue</a>
   ·
   <a href="https://blog.angular.dev/">Blog</a>
   <br>
@@ -32,17 +31,17 @@
 
 <hr>
 
-## Documentação
+## Documentation
 
-Comece com Angular, aprenda os fundamentos e explore tópicos avançados em nosso site de documentação.
+Get started with Angular, learn the fundamentals and explore advanced topics on our documentation website.
 
-- [Começando][quickstart]
-- [Arquitetura][architecture]
-- [Components e Templates][componentstemplates]
+- [Getting Started][quickstart]
+- [Architecture][architecture]
+- [Components and Templates][componentstemplates]
 - [Forms][forms]
 - [API][api]
 
-### Avançado
+### Advanced
 
 - [Angular Elements][angularelements]
 - [Server Side Rendering][ssr]
@@ -50,44 +49,44 @@ Comece com Angular, aprenda os fundamentos e explore tópicos avançados em noss
 - [Lazy Loading][lazyloading]
 - [Animations][animations]
 
-### Desenvolvimento Local
+### Local Development
 
-Para contribuir com a documentação do Angular, confira o [Angular.dev README](adev/README.md)
+To contribute to the Angular Docs, check out the [Angular.dev README](adev/README.md)
 
-## Configuração de Desenvolvimento
+## Development Setup
 
-### Pré-requisitos
+### Prerequisites
 
-- Instale o [Node.js] que inclui o [Node Package Manager][npm]
+- Install [Node.js] which includes [Node Package Manager][npm]
 
-### Configurando um Projeto
+### Setting Up a Project
 
-Instale o Angular CLI globalmente:
+Install the Angular CLI globally:
 
 ```
 npm install -g @angular/cli
 ```
 
-Crie um workspace:
+Create a workspace:
 
 ```
-ng new [NOME DO PROJETO]
+ng new [PROJECT NAME]
 ```
 
-Execute a aplicação:
+Run the application:
 
 ```
-cd [NOME DO PROJETO]
+cd [PROJECT NAME]
 ng serve
 ```
 
-Angular é multiplataforma, rápido, escalável, possui ferramentas incríveis e é amado por milhões.
+Angular is cross-platform, fast, scalable, has incredible tooling, and is loved by millions.
 
-## Início Rápido
+## Quickstart
 
-[Comece em 5 minutos][quickstart].
+[Get started in 5 minutes][quickstart].
 
-## Ecossistema
+## Ecosystem
 
 <p>
   <img src="/contributing-docs/images/angular-ecosystem-logos.png" alt="angular ecosystem logos" width="500px" height="auto">
@@ -96,42 +95,42 @@ Angular é multiplataforma, rápido, escalável, possui ferramentas incríveis e
 - [Angular Command Line (CLI)][cli]
 - [Angular Material][angularmaterial]
 
-## Registro de Alterações
+## Changelog
 
-[Saiba mais sobre as últimas melhorias][changelog].
+[Learn about the latest improvements][changelog].
 
-## Atualizando
+## Upgrading
 
-Confira nosso [guia de atualização](https://angular.dev/update-guide/) para descobrir a melhor forma de atualizar seu projeto.
+Check out our [upgrade guide](https://angular.dev/update-guide/) to find out the best way to upgrade your project.
 
-## Contribuindo
+## Contributing
 
-### Diretrizes de Contribuição
+### Contributing Guidelines
 
-Leia nossas [diretrizes de contribuição][contributing] para aprender sobre nosso processo de submissão, regras de código e mais.
+Read through our [contributing guidelines][contributing] to learn about our submission process, coding rules, and more.
 
-### Quer Ajudar?
+### Want to Help?
 
-Quer reportar um bug, contribuir com código ou melhorar a documentação? Excelente! Leia nossas diretrizes de [contribuição][contributing] e depois confira uma de nossas issues marcadas como <kbd>[help wanted](https://github.com/angular/angular/labels/help%20wanted)</kbd> ou <kbd>[good first issue](https://github.com/angular/angular/labels/good%20first%20issue)</kbd>.
+Want to report a bug, contribute some code, or improve the documentation? Excellent! Read up on our guidelines for [contributing][contributing] and then check out one of our issues labeled as <kbd>[help wanted](https://github.com/angular/angular/labels/help%20wanted)</kbd> or <kbd>[good first issue](https://github.com/angular/angular/labels/good%20first%20issue)</kbd>.
 
-### Código de Conduta
+### Code of Conduct
 
-Ajude-nos a manter o Angular aberto e inclusivo. Por favor, leia e siga nosso [Código de Conduta][codeofconduct].
+Help us keep Angular open and inclusive. Please read and follow our [Code of Conduct][codeofconduct].
 
-## Comunidade
+## Community
 
-Participe da conversa e ajude a comunidade.
+Join the conversation and help the community.
 
-- [X (antigo Twitter)][X (formerly Twitter)]
+- [X (formerly Twitter)][X (formerly Twitter)]
 - [Bluesky][bluesky]
 - [Discord][discord]
 - [YouTube][youtube]
 - [StackOverflow][stackoverflow]
-- Encontre um [Meetup][meetup] local
+- Find a Local [Meetup][meetup]
 
 [![Love Angular badge](https://img.shields.io/badge/angular-love-blue?logo=angular&angular=love)](https://www.github.com/angular/angular)
 
-**Ama Angular? Dê uma estrela ao nosso repositório :star: :arrow_up:.**
+**Love Angular? Give our repo a star :star: :arrow_up:.**
 
 [contributing]: CONTRIBUTING.md
 [quickstart]: https://angular.dev/tutorials/learn-angular
@@ -147,11 +146,11 @@ Participe da conversa e ajude a comunidade.
 [angularelements]: https://angular.dev/guide/elements
 [ssr]: https://angular.dev/guide/ssr
 [schematics]: https://angular.dev/tools/cli/schematics
-[lazyloading]: https://angular.dev/guide/ngmodules/lazy-loading
+[lazyloading]: https://angular.dev/guide/routing/define-routes#lazily-loaded-components
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/get-npm
 [codeofconduct]: CODE_OF_CONDUCT.md
-[X (formerly Twitter)]: https://www.twitter.com/angular
+[X (formerly Twitter)]: https://www.x.com/angular
 [bluesky]: https://bsky.app/profile/angular.dev
 [discord]: https://discord.gg/angular
 [stackoverflow]: https://stackoverflow.com/questions/tagged/angular

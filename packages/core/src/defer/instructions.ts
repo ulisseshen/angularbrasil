@@ -29,7 +29,7 @@ import {performanceMarkFeature} from '../util/performance';
 import {invokeAllTriggerCleanupFns, storeTriggerCleanupFn} from './cleanup';
 import {onViewportWrapper, registerDomTrigger} from './dom_triggers';
 import {onHover, onInteraction} from '../../primitives/defer/src/triggers';
-import {onIdle} from './idle_scheduler';
+import {onIdleWrapper} from './idle_scheduler';
 import {
   DEFER_BLOCK_STATE,
   DeferBlockInternalState,
@@ -131,7 +131,7 @@ export function ɵɵdefer(
   errorTmplIndex?: number | null,
   loadingConfigIndex?: number | null,
   placeholderConfigIndex?: number | null,
-  enableTimerScheduling?: typeof ɵɵdeferEnableTimerScheduling,
+  enableTimerScheduling?: typeof ɵɵdeferEnableTimerScheduling | null,
   flags?: TDeferDetailsFlags | null,
 ) {
   const lView = getLView();
@@ -307,14 +307,13 @@ export function ɵɵdeferHydrateWhen(rawValue: unknown) {
 
   if (!shouldAttachTrigger(TriggerType.Hydrate, lView, tNode)) return;
 
-  // TODO(incremental-hydration): audit all defer instructions to reduce unnecessary work by
-  // moving function calls inside their relevant control flow blocks
   const bindingIndex = nextBindingIndex();
-  const tView = getTView();
-  const hydrateTriggers = getHydrateTriggers(tView, tNode);
-  hydrateTriggers.set(DeferBlockTrigger.When, null);
 
   if (bindingUpdated(lView, bindingIndex, rawValue)) {
+    const tView = getTView();
+    const hydrateTriggers = getHydrateTriggers(tView, tNode);
+    hydrateTriggers.set(DeferBlockTrigger.When, null);
+
     if (typeof ngServerMode !== 'undefined' && ngServerMode) {
       // We are on the server and SSR for defer blocks is enabled.
       triggerDeferBlock(TriggerType.Hydrate, lView, tNode);
@@ -366,46 +365,48 @@ export function ɵɵdeferHydrateNever() {
  * Sets up logic to handle the `on idle` deferred trigger.
  * @codeGenApi
  */
-export function ɵɵdeferOnIdle() {
+export function ɵɵdeferOnIdle(timeout?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
-
   if (ngDevMode) {
-    trackTriggerForDebugging(lView[TVIEW], tNode, 'on idle');
+    const expression = timeout ? `on idle(${timeout})` : 'on idle';
+    trackTriggerForDebugging(lView[TVIEW], tNode, expression);
   }
 
   if (!shouldAttachTrigger(TriggerType.Regular, lView, tNode)) return;
 
-  scheduleDelayedTrigger(onIdle);
+  scheduleDelayedTrigger(onIdleWrapper({timeout}));
 }
 
 /**
  * Sets up logic to handle the `prefetch on idle` deferred trigger.
  * @codeGenApi
  */
-export function ɵɵdeferPrefetchOnIdle() {
+export function ɵɵdeferPrefetchOnIdle(timeout?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 
   if (ngDevMode) {
-    trackTriggerForDebugging(lView[TVIEW], tNode, 'prefetch on idle');
+    const expression = timeout ? `prefetch on idle(${timeout})` : 'prefetch on idle';
+    trackTriggerForDebugging(lView[TVIEW], tNode, expression);
   }
 
   if (!shouldAttachTrigger(TriggerType.Prefetch, lView, tNode)) return;
 
-  scheduleDelayedPrefetching(onIdle);
+  scheduleDelayedPrefetching(onIdleWrapper({timeout}));
 }
 
 /**
  * Sets up logic to handle the `on idle` deferred trigger.
  * @codeGenApi
  */
-export function ɵɵdeferHydrateOnIdle() {
+export function ɵɵdeferHydrateOnIdle(timeout?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 
   if (ngDevMode) {
-    trackTriggerForDebugging(lView[TVIEW], tNode, 'hydrate on idle');
+    const expression = timeout ? `hydrate on idle(${timeout})` : 'hydrate on idle';
+    trackTriggerForDebugging(lView[TVIEW], tNode, expression);
   }
 
   if (!shouldAttachTrigger(TriggerType.Hydrate, lView, tNode)) return;
@@ -417,7 +418,7 @@ export function ɵɵdeferHydrateOnIdle() {
     // We are on the server and SSR for defer blocks is enabled.
     triggerDeferBlock(TriggerType.Hydrate, lView, tNode);
   } else {
-    scheduleDelayedHydrating(onIdle, lView, tNode);
+    scheduleDelayedHydrating(onIdleWrapper({timeout}), lView, tNode);
   }
 }
 
@@ -562,7 +563,7 @@ export function ɵɵdeferHydrateOnTimer(delay: number) {
  * @param walkUpTimes Number of times to walk up/down the tree hierarchy to find the trigger.
  * @codeGenApi
  */
-export function ɵɵdeferOnHover(triggerIndex: number, walkUpTimes?: number) {
+export function ɵɵdeferOnHover(triggerIndex: number | null, walkUpTimes?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 
@@ -598,7 +599,7 @@ export function ɵɵdeferOnHover(triggerIndex: number, walkUpTimes?: number) {
  * @param walkUpTimes Number of times to walk up/down the tree hierarchy to find the trigger.
  * @codeGenApi
  */
-export function ɵɵdeferPrefetchOnHover(triggerIndex: number, walkUpTimes?: number) {
+export function ɵɵdeferPrefetchOnHover(triggerIndex: number | null, walkUpTimes?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 
@@ -659,7 +660,7 @@ export function ɵɵdeferHydrateOnHover() {
  * @param walkUpTimes Number of times to walk up/down the tree hierarchy to find the trigger.
  * @codeGenApi
  */
-export function ɵɵdeferOnInteraction(triggerIndex: number, walkUpTimes?: number) {
+export function ɵɵdeferOnInteraction(triggerIndex: number | null, walkUpTimes?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 
@@ -695,7 +696,7 @@ export function ɵɵdeferOnInteraction(triggerIndex: number, walkUpTimes?: numbe
  * @param walkUpTimes Number of times to walk up/down the tree hierarchy to find the trigger.
  * @codeGenApi
  */
-export function ɵɵdeferPrefetchOnInteraction(triggerIndex: number, walkUpTimes?: number) {
+export function ɵɵdeferPrefetchOnInteraction(triggerIndex: number | null, walkUpTimes?: number) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 
@@ -757,9 +758,9 @@ export function ɵɵdeferHydrateOnInteraction() {
  * @codeGenApi
  */
 export function ɵɵdeferOnViewport(
-  triggerIndex: number,
+  triggerIndex: number | null,
   walkUpTimes?: number | null,
-  options?: IntersectionObserverInit,
+  options?: unknown,
 ) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
@@ -793,7 +794,7 @@ export function ɵɵdeferOnViewport(
       onViewportWrapper,
       () => triggerDeferBlock(TriggerType.Regular, lView, tNode),
       TriggerType.Regular,
-      options,
+      options as IntersectionObserverInit,
     );
   }
 }
@@ -805,9 +806,9 @@ export function ɵɵdeferOnViewport(
  * @codeGenApi
  */
 export function ɵɵdeferPrefetchOnViewport(
-  triggerIndex: number,
+  triggerIndex: number | null,
   walkUpTimes?: number | null,
-  options?: IntersectionObserverInit,
+  options?: unknown,
 ) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
@@ -841,7 +842,7 @@ export function ɵɵdeferPrefetchOnViewport(
       onViewportWrapper,
       () => triggerPrefetching(tDetails, lView, tNode),
       TriggerType.Prefetch,
-      options,
+      options as IntersectionObserverInit,
     );
   }
 }
@@ -850,7 +851,7 @@ export function ɵɵdeferPrefetchOnViewport(
  * Creates runtime data structures for the `on viewport` hydrate trigger.
  * @codeGenApi
  */
-export function ɵɵdeferHydrateOnViewport(options?: IntersectionObserverInit) {
+export function ɵɵdeferHydrateOnViewport(options?: unknown) {
   const lView = getLView();
   const tNode = getCurrentTNode()!;
 

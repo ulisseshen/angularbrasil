@@ -1,23 +1,22 @@
-<!-- ia-translate: true -->
 # Deferrable Views
 
-Às vezes, no desenvolvimento de aplicações, você acaba com muitos components que precisa referenciar em sua aplicação, mas alguns deles não precisam ser carregados imediatamente por várias razões.
+Sometimes in app development, you end up with a lot of components that you need to reference in your app, but some of those don't need to be loaded right away for various reasons.
 
-Talvez eles estejam abaixo da dobra visível ou sejam components pesados com os quais não se interage até mais tarde. Nesse caso, podemos carregar alguns desses recursos mais tarde com deferrable views.
+Maybe they are below the visible fold or are heavy components that aren't interacted with until later. In that case, we can load some of those resources later with deferrable views.
 
-Nota: Saiba mais sobre [carregamento adiado com @defer no guia detalhado](/guide/templates/defer).
+NOTE: Learn more about [deferred loading with @defer in the in-depth guide](/guide/templates/defer).
 
-Nesta atividade, você aprenderá como usar deferrable views para adiar o carregamento de uma seção do template do seu component.
+In this activity, you'll learn how to use deferrable views to defer load a section of your component template.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Adicione um bloco `@defer` em torno do component de comentários">
+<docs-step title="Add a `@defer` block around the comments component">
 
-Em sua aplicação, a página de post do blog tem um component de comentários após os detalhes do post.
+In your app, the blog post page has a comment component after the post details.
 
-Envolva o component de comentários com um bloco `@defer` para adiar o carregamento.
+Wrap the comment component with a `@defer` block to defer load it.
 
 ```angular-html
 @defer {
@@ -25,29 +24,29 @@ Envolva o component de comentários com um bloco `@defer` para adiar o carregame
 }
 ```
 
-O código acima é um exemplo de como usar um bloco `@defer` básico. Por padrão, `@defer` carregará o component `comments` quando o browser estiver ocioso.
+The code above is an example of how to use a basic `@defer` block. By default `@defer` will load the `comments` component when the browser is idle.
 
 </docs-step>
 
-<docs-step title="Adicione um placeholder">
+<docs-step title="Add a placeholder">
 
-Adicione um bloco `@placeholder` ao bloco `@defer`. O bloco `@placeholder` é onde você coloca html que será mostrado antes do início do carregamento adiado. O conteúdo em blocos `@placeholder` é carregado de forma eager.
+Add a `@placeholder` block to the `@defer` block. The `@placeholder` block is where you put html that will show before the deferred loading starts. The content in `@placeholder` blocks is eagerly loaded.
 
-<docs-code language="angular-html" highlight="[3,4,5]">
+```angular-html {highlight:[3,4,5]}
 @defer {
   <comments />
 } @placeholder {
   <p>Future comments</p>
 }
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Adicione um bloco de loading">
+<docs-step title="Add a loading block">
 
-Adicione um bloco `@loading` ao bloco `@defer`. O bloco `@loading` é onde você coloca html que será mostrado _enquanto_ o conteúdo adiado está sendo buscado ativamente, mas ainda não terminou. O conteúdo em blocos `@loading` é carregado de forma eager.
+Add a `@loading` block to the `@defer` block. The `@loading` block is where you put html that will show _while_ the deferred content is actively being fetched, but hasn't finished yet. The content in `@loading` blocks is eagerly loaded.
 
-<docs-code language="angular-html" highlight="[5,6,7]">
+```angular-html {highlight:[5,6,7]}
 @defer {
   <comments />
 } @placeholder {
@@ -55,15 +54,15 @@ Adicione um bloco `@loading` ao bloco `@defer`. O bloco `@loading` é onde você
 } @loading {
   <p>Loading comments...</p>
 }
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Adicione uma duração mínima">
+<docs-step title="Add a minimum duration">
 
-Ambas as seções `@placeholder` e `@loading` têm parâmetros opcionais para evitar que ocorra cintilação quando o carregamento acontece rapidamente. `@placeholder` tem `minimum` e `@loading` tem `minimum` e `after`. Adicione uma duração `minimum` ao bloco `@loading` para que seja renderizado por pelo menos 2 segundos.
+Both `@placeholder` and `@loading` sections have optional parameters to prevent flickering from occurring when loading happens quickly. `@placeholder` has `minimum` and `@loading` has `minimum` and `after`. Add a `minimum` duration to the `@loading` block so it will be rendered for at least 2 seconds.
 
-<docs-code language="angular-html" highlight="[5]">
+```angular-html {highlight:[5]}
 @defer {
   <comments />
 } @placeholder {
@@ -71,45 +70,82 @@ Ambas as seções `@placeholder` e `@loading` têm parâmetros opcionais para ev
 } @loading (minimum 2s) {
   <p>Loading comments...</p>
 }
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Adicione um trigger de viewport">
+<docs-step title="Add a viewport trigger">
 
-Deferrable views têm várias opções de trigger. Adicione um trigger de viewport para que o conteúdo seja carregado de forma adiada quando entrar no viewport.
+Deferrable views have a number of trigger options. Add a viewport trigger so the content will defer load once it enters the viewport.
 
-<docs-code language="angular-html" highlight="[1]">
+```angular-html {highlight:[1]}
 @defer (on viewport) {
   <comments />
+} @placeholder {
+  <p>Future comments</p>
+} @loading (minimum 2s) {
+  <p>Loading comments...</p>
 }
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Adicione conteúdo">
+<docs-step title="Add content">
 
-Um trigger de viewport é melhor usado quando você está adiando conteúdo que está longe o suficiente na página que precisa ser rolado para ser visto. Então vamos adicionar algum conteúdo ao nosso post do blog. Você pode escrever o seu próprio, ou pode copiar o conteúdo abaixo e colocá-lo dentro do elemento `<article>`.
+A viewport trigger is best used when you're deferring content that's far enough down the page that it needs to be scrolled to see. So let's add some content to our blog post. You can either write your own, or you can copy the content below and put it inside the `<article>` element.
 
-<docs-code language="html" highlight="[1]">
+```html {highlight:[1]}
 <article>
-  <p>Angular is my favorite framework, and this is why. Angular has the coolest deferrable view feature that makes defer loading content the easiest and most ergonomic it could possibly be. The Angular community is also filled with amazing contributors and experts that create excellent content. The community is welcoming and friendly, and it really is the best community out there.</p>
-  <p>I can't express enough how much I enjoy working with Angular. It offers the best developer experience I've ever had. I love that the Angular team puts their developers first and takes care to make us very happy. They genuinely want Angular to be the best framework it can be, and they're doing such an amazing job at it, too. This statement comes from my heart and is not at all copied and pasted. In fact, I think I'll say these exact same things again a few times.</p>
-  <p>Angular is my favorite framework, and this is why. Angular has the coolest deferrable view feature that makes defer loading content the easiest and most ergonomic it could possibly be. The Angular community is also filled with amazing contributors and experts that create excellent content. The community is welcoming and friendly, and it really is the best community out there.</p>
-  <p>I can't express enough how much I enjoy working with Angular. It offers the best developer experience I've ever had. I love that the Angular team puts their developers first and takes care to make us very happy. They genuinely want Angular to be the best framework it can be, and they're doing such an amazing job at it, too. This statement comes from my heart and is not at all copied and pasted. In fact, I think I'll say these exact same things again a few times.</p>
-  <p>Angular is my favorite framework, and this is why. Angular has the coolest deferrable view feature that makes defer loading content the easiest and most ergonomic it could possibly be. The Angular community is also filled with amazing contributors and experts that create excellent content. The community is welcoming and friendly, and it really is the best community out there.</p>
-  <p>I can't express enough how much I enjoy working with Angular. It offers the best developer experience I've ever had. I love that the Angular team puts their developers first and takes care to make us very happy. They genuinely want Angular to be the best framework it can be, and they're doing such an amazing job at it, too. This statement comes from my heart and is not at all copied and pasted.</p>
+  <p>
+    Angular is my favorite framework, and this is why. Angular has the coolest deferrable view
+    feature that makes defer loading content the easiest and most ergonomic it could possibly be.
+    The Angular community is also filled with amazing contributors and experts that create excellent
+    content. The community is welcoming and friendly, and it really is the best community out there.
+  </p>
+  <p>
+    I can't express enough how much I enjoy working with Angular. It offers the best developer
+    experience I've ever had. I love that the Angular team puts their developers first and takes
+    care to make us very happy. They genuinely want Angular to be the best framework it can be, and
+    they're doing such an amazing job at it, too. This statement comes from my heart and is not at
+    all copied and pasted. In fact, I think I'll say these exact same things again a few times.
+  </p>
+  <p>
+    Angular is my favorite framework, and this is why. Angular has the coolest deferrable view
+    feature that makes defer loading content the easiest and most ergonomic it could possibly be.
+    The Angular community is also filled with amazing contributors and experts that create excellent
+    content. The community is welcoming and friendly, and it really is the best community out there.
+  </p>
+  <p>
+    I can't express enough how much I enjoy working with Angular. It offers the best developer
+    experience I've ever had. I love that the Angular team puts their developers first and takes
+    care to make us very happy. They genuinely want Angular to be the best framework it can be, and
+    they're doing such an amazing job at it, too. This statement comes from my heart and is not at
+    all copied and pasted. In fact, I think I'll say these exact same things again a few times.
+  </p>
+  <p>
+    Angular is my favorite framework, and this is why. Angular has the coolest deferrable view
+    feature that makes defer loading content the easiest and most ergonomic it could possibly be.
+    The Angular community is also filled with amazing contributors and experts that create excellent
+    content. The community is welcoming and friendly, and it really is the best community out there.
+  </p>
+  <p>
+    I can't express enough how much I enjoy working with Angular. It offers the best developer
+    experience I've ever had. I love that the Angular team puts their developers first and takes
+    care to make us very happy. They genuinely want Angular to be the best framework it can be, and
+    they're doing such an amazing job at it, too. This statement comes from my heart and is not at
+    all copied and pasted.
+  </p>
 </article>
-</docs-code>
+```
 
-Uma vez que você tenha adicionado este código, agora role para baixo para ver o conteúdo adiado carregar quando você o rolar para dentro do viewport.
+Once you've added this code, now scroll down to see the deferred content load once you scroll it into the viewport.
 
 </docs-step>
 
 </docs-workflow>
 
-Na atividade, você aprendeu como usar deferrable views em suas aplicações. Ótimo trabalho. 🙌
+In the activity, you've learned how to use deferrable views in your applications. Great work. 🙌
 
-Há ainda mais que você pode fazer com elas, como diferentes triggers, prefetching e blocos `@error`.
+There's even more you can do with them, like different triggers, prefetching, and `@error` blocks.
 
-Se você quiser aprender mais, confira a [documentação para Deferrable views](guide/defer).
+If you would like to learn more, check out the [documentation for Deferrable views](/guide/templates/defer).

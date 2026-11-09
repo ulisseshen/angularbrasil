@@ -15,6 +15,7 @@ import {
   AUTO_STYLE,
   group,
   keyframes,
+  ɵPRE_STYLE as PRE_STYLE,
   query,
   sequence,
   state,
@@ -22,22 +23,9 @@ import {
   transition,
   trigger,
   useAnimation,
-  ɵPRE_STYLE as PRE_STYLE,
 } from '@angular/animations';
 import {AnimationDriver, NoopAnimationDriver, ɵAnimationEngine} from '@angular/animations/browser';
 import {MockAnimationDriver, MockAnimationPlayer} from '@angular/animations/browser/testing';
-import {
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  HostListener,
-  Inject,
-  RendererFactory2,
-  ViewChild,
-  ViewContainerRef,
-  provideZoneChangeDetection,
-} from '../../src/core';
-import {fakeAsync, flushMicrotasks, TestBed} from '../../testing';
 import {ɵDomRendererFactory2} from '@angular/platform-browser';
 import {
   ANIMATION_MODULE_TYPE,
@@ -45,6 +33,19 @@ import {
   NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
 import {hasStyle, isNode} from '@angular/private/testing';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  HostListener,
+  Inject,
+  provideZoneChangeDetection,
+  RendererFactory2,
+  ViewChild,
+  ViewContainerRef,
+} from '../../src/core';
+import {TestBed} from '../../testing';
 
 const DEFAULT_NAMESPACE_ID = 'id';
 const DEFAULT_COMPONENT_ID = '1';
@@ -109,6 +110,7 @@ const DEFAULT_COMPONENT_ID = '1';
     });
 
     @Component({
+      changeDetection: ChangeDetectionStrategy.Eager,
       template: '<p>template text</p>',
       standalone: false,
     })
@@ -119,11 +121,16 @@ const DEFAULT_COMPONENT_ID = '1';
     }
 
     describe('fakeAsync testing', () => {
-      it('should only require one flushMicrotasks call to kick off animation callbacks', fakeAsync(() => {
+      it('should only require one flushMicrotasks call to kick off animation callbacks', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
           template: `
-            <div [@myAnimation]="exp" (@myAnimation.start)="cb('start')" (@myAnimation.done)="cb('done')"></div>
+            <div
+              [@myAnimation]="exp"
+              (@myAnimation.start)="cb('start')"
+              (@myAnimation.done)="cb('done')"
+            ></div>
           `,
           animations: [
             trigger('myAnimation', [
@@ -147,7 +154,7 @@ const DEFAULT_COMPONENT_ID = '1';
         fixture.detectChanges();
         expect(cmp.status).toEqual('');
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.status).toEqual('start');
 
         let player = MockAnimationDriver.log.pop()!;
@@ -162,15 +169,20 @@ const DEFAULT_COMPONENT_ID = '1';
         player = MockAnimationDriver.log.pop()!;
         player.finish();
         expect(cmp.status).toEqual('');
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.status).toEqual('done');
-      }));
+      });
 
-      it('should always run .start callbacks before .done callbacks even for noop animations', fakeAsync(() => {
+      it('should always run .start callbacks before .done callbacks even for noop animations', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
           template: `
-                <div [@myAnimation]="exp" (@myAnimation.start)="cb('start')" (@myAnimation.done)="cb('done')"></div>
+            <div
+              [@myAnimation]="exp"
+              (@myAnimation.start)="cb('start')"
+              (@myAnimation.done)="cb('done')"
+            ></div>
           `,
           animations: [trigger('myAnimation', [transition('* => go', [])])],
           standalone: false,
@@ -190,15 +202,20 @@ const DEFAULT_COMPONENT_ID = '1';
         fixture.detectChanges();
         expect(cmp.log).toEqual([]);
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log).toEqual(['start', 'done']);
-      }));
+      });
 
-      it('should emit the correct totalTime value for a noop-animation', fakeAsync(() => {
+      it('should emit the correct totalTime value for a noop-animation', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
           template: `
-                <div [@myAnimation]="exp" (@myAnimation.start)="cb($event)" (@myAnimation.done)="cb($event)"></div>
+            <div
+              [@myAnimation]="exp"
+              (@myAnimation.start)="cb($event)"
+              (@myAnimation.done)="cb($event)"
+            ></div>
           `,
           animations: [
             trigger('myAnimation', [transition('* => go', [animate('1s', style({opacity: 0}))])]),
@@ -224,22 +241,21 @@ const DEFAULT_COMPONENT_ID = '1';
         fixture.detectChanges();
         expect(cmp.log).toEqual([]);
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log.length).toEqual(2);
         const [start, end] = cmp.log;
         expect(start.totalTime).toEqual(1000);
         expect(end.totalTime).toEqual(1000);
-      }));
+      });
     });
 
     describe('component fixture integration', () => {
       describe('whenRenderingDone', () => {
-        it('should wait until the animations are finished until continuing', fakeAsync(() => {
+        it('should wait until the animations are finished until continuing', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'cmp',
-            template: `
-              <div [@myAnimation]="exp"></div>
-            `,
+            template: ` <div [@myAnimation]="exp"></div> `,
             animations: [
               trigger('myAnimation', [transition('* => on', [animate(1000, style({opacity: 1}))])]),
             ],
@@ -268,16 +284,15 @@ const DEFAULT_COMPONENT_ID = '1';
           players[0].finish();
           expect(isDone).toBe(false);
 
-          flushMicrotasks();
+          await Promise.resolve();
           expect(isDone).toBe(true);
-        }));
+        });
 
-        it('should wait for a noop animation to finish before continuing', fakeAsync(() => {
+        it('should wait for a noop animation to finish before continuing', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'cmp',
-            template: `
-              <div [@myAnimation]="exp"></div>
-            `,
+            template: ` <div [@myAnimation]="exp"></div> `,
             animations: [
               trigger('myAnimation', [transition('* => on', [animate(1000, style({opacity: 1}))])]),
             ],
@@ -305,16 +320,15 @@ const DEFAULT_COMPONENT_ID = '1';
           engine.flush();
           expect(isDone).toBe(false);
 
-          flushMicrotasks();
+          await Promise.resolve();
           expect(isDone).toBe(true);
-        }));
+        });
 
-        it('should wait for active animations to finish even if they have already started', fakeAsync(() => {
+        it('should wait for active animations to finish even if they have already started', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'cmp',
-            template: `
-                <div [@myAnimation]="exp"></div>
-              `,
+            template: ` <div [@myAnimation]="exp"></div> `,
             animations: [
               trigger('myAnimation', [transition('* => on', [animate(1000, style({opacity: 1}))])]),
             ],
@@ -337,23 +351,22 @@ const DEFAULT_COMPONENT_ID = '1';
 
           let isDone = false;
           fixture.whenRenderingDone().then(() => (isDone = true));
-          flushMicrotasks();
+          await Promise.resolve();
           expect(isDone).toBe(false);
 
           players[0].finish();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(isDone).toBe(true);
-        }));
+        });
       });
     });
 
     describe('animation triggers', () => {
       it('should trigger a state change animation from void => state', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-          <div *ngIf="exp" [@myAnimation]="exp"></div>
-        `,
+          template: ` <div *ngIf="exp" [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('void => *', [
@@ -402,10 +415,9 @@ const DEFAULT_COMPONENT_ID = '1';
         ];
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-          <div @myAnimation></div>
-        `,
+          template: ` <div @myAnimation></div> `,
           animations: [REUSABLE_ANIMATION],
           standalone: false,
         })
@@ -440,6 +452,7 @@ const DEFAULT_COMPONENT_ID = '1';
         };
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: '<div #element [@myAnimation]="exp"></div>',
           animations: [
@@ -488,6 +501,7 @@ const DEFAULT_COMPONENT_ID = '1';
         };
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: '<div [@myAnimation]="{value:exp, params: {doMatch:doMatch}}"></div>',
           animations: [
@@ -525,10 +539,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should allow a state value to be `0`', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-            <div [@myAnimation]="exp"></div>
-          `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('0 => 1', [
@@ -563,12 +576,17 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(player.duration).toEqual(1234);
       });
 
-      it('should always cancel the previous transition if a follow-up transition is not matched', fakeAsync(() => {
+      it('should always cancel the previous transition if a follow-up transition is not matched', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-          <div [@myAnimation]="exp" (@myAnimation.start)="callback($event)" (@myAnimation.done)="callback($event)"></div>
-        `,
+            <div
+              [@myAnimation]="exp"
+              (@myAnimation.start)="callback($event)"
+              (@myAnimation.done)="callback($event)"
+            ></div>
+          `,
           animations: [
             trigger('myAnimation', [
               transition('a => b', [
@@ -605,7 +623,7 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(getLog().length).toEqual(0);
         expect(engine.players.length).toEqual(0);
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.startEvent.toState).toEqual('a');
         expect(cmp.startEvent.totalTime).toEqual(0);
         expect(cmp.startEvent.toState).toEqual('a');
@@ -620,7 +638,7 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(players.length).toEqual(1);
         expect(engine.players.length).toEqual(1);
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.startEvent.toState).toEqual('b');
         expect(cmp.startEvent.totalTime).toEqual(500);
         expect(cmp.startEvent.toState).toEqual('b');
@@ -637,23 +655,28 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(engine.players.length).toEqual(0);
         expect(getLog().length).toEqual(0);
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.startEvent.toState).toEqual('c');
         expect(cmp.startEvent.totalTime).toEqual(0);
         expect(cmp.startEvent.toState).toEqual('c');
         expect(cmp.startEvent.totalTime).toEqual(0);
 
         expect(completed).toBe(true);
-      }));
+      });
 
-      it('should always fire inner callbacks even if no animation is fired when a view is inserted', fakeAsync(() => {
+      it('should always fire inner callbacks even if no animation is fired when a view is inserted', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-          <div *ngIf="exp">
-            <div @myAnimation (@myAnimation.start)="track($event)" (@myAnimation.done)="track($event)"></div>
-          </div>
-        `,
+            <div *ngIf="exp">
+              <div
+                @myAnimation
+                (@myAnimation.start)="track($event)"
+                (@myAnimation.done)="track($event)"
+              ></div>
+            </div>
+          `,
           animations: [trigger('myAnimation', [])],
           standalone: false,
         })
@@ -671,23 +694,22 @@ const DEFAULT_COMPONENT_ID = '1';
         const fixture = TestBed.createComponent(Cmp);
         const cmp = fixture.componentInstance;
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual([]);
 
         cmp.exp = true;
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual(['myAnimation-start', 'myAnimation-done']);
-      }));
+      });
 
       it('should only turn a view removal as into `void` state transition', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-          <div *ngIf="exp1" [@myAnimation]="exp2"></div>
-        `,
+          template: ` <div *ngIf="exp1" [@myAnimation]="exp2"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('void <=> *', [
@@ -826,10 +848,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should stringify boolean triggers to `1` and `0`', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('void => 1', [style({opacity: 0}), animate(1000, style({opacity: 1}))]),
@@ -881,10 +902,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should understand boolean values as `true` and `false` for transition animations', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('true => false', [
@@ -924,10 +944,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should understand boolean values as `true` and `false` for transition animations and apply the corresponding state() value', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               state('true', style({color: 'red'})),
@@ -975,6 +994,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should not throw an error if a trigger with the same name exists in separate components', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp1',
           template: '...',
           animations: [trigger('trig', [])],
@@ -983,6 +1003,7 @@ const DEFAULT_COMPONENT_ID = '1';
         class Cmp1 {}
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp2',
           template: '...',
           animations: [trigger('trig', [])],
@@ -996,8 +1017,9 @@ const DEFAULT_COMPONENT_ID = '1';
       });
 
       describe('host bindings', () => {
-        it('should trigger a state change animation from state => state on the component host element', fakeAsync(() => {
+        it('should trigger a state change animation from state => state on the component host element', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'my-cmp',
             template: '...',
             animations: [
@@ -1040,14 +1062,13 @@ const DEFAULT_COMPONENT_ID = '1';
               ['opacity', '1'],
             ]),
           ]);
-        }));
+        });
 
-        it('should trigger a leave animation when the inner has ViewContainerRef injected', fakeAsync(() => {
+        it('should trigger a leave animation when the inner has ViewContainerRef injected', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
-            template: `
-             <child-cmp *ngIf="exp"></child-cmp>
-           `,
+            template: ` <child-cmp *ngIf="exp"></child-cmp> `,
             standalone: false,
           })
           class ParentCmp {
@@ -1055,6 +1076,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '...',
             animations: [
@@ -1099,14 +1121,13 @@ const DEFAULT_COMPONENT_ID = '1';
 
           player.finish();
           expect(fixture.debugElement.nativeElement.children.length).toBe(0);
-        }));
+        });
 
-        it('should trigger a leave animation when the inner components host binding updates', fakeAsync(() => {
+        it('should trigger a leave animation when the inner components host binding updates', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
-            template: `
-                <child-cmp *ngIf="exp"></child-cmp>
-              `,
+            template: ` <child-cmp *ngIf="exp"></child-cmp> `,
             standalone: false,
           })
           class ParentCmp {
@@ -1114,6 +1135,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '...',
             animations: [
@@ -1157,10 +1179,11 @@ const DEFAULT_COMPONENT_ID = '1';
 
           player.finish();
           expect(fixture.debugElement.nativeElement.children.length).toBe(0);
-        }));
+        });
 
-        it('should wait for child animations before removing parent', fakeAsync(() => {
+        it('should wait for child animations before removing parent', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             template: '<child-cmp *ngIf="exp" @parentTrigger></child-cmp>',
             animations: [
               trigger('parentTrigger', [
@@ -1174,6 +1197,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '<p @childTrigger>Hello there</p>',
             animations: [
@@ -1213,22 +1237,21 @@ const DEFAULT_COMPONENT_ID = '1';
           ]);
 
           player.finish();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(fixture.nativeElement.children.length).toBe(0);
-        }));
+        });
 
         // animationRenderer => nonAnimationRenderer
-        it('should trigger a leave animation when the outer components element binding updates on the host component element', fakeAsync(() => {
+        it('should trigger a leave animation when the outer components element binding updates on the host component element', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
             animations: [
               trigger('host', [
                 transition(':leave', [style({opacity: 1}), animate(1000, style({opacity: 0}))]),
               ]),
             ],
-            template: `
-                <child-cmp *ngIf="exp" @host></child-cmp>
-              `,
+            template: ` <child-cmp *ngIf="exp" @host></child-cmp> `,
             standalone: false,
           })
           class ParentCmp {
@@ -1236,6 +1259,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '...',
             standalone: false,
@@ -1271,12 +1295,13 @@ const DEFAULT_COMPONENT_ID = '1';
           ]);
 
           player.finish();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(fixture.debugElement.nativeElement.children.length).toBe(0);
-        }));
+        });
 
-        it('should trigger a leave animation when both the inner and outer components trigger on the same element', fakeAsync(() => {
+        it('should trigger a leave animation when both the inner and outer components trigger on the same element', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
             animations: [
               trigger('host', [
@@ -1286,9 +1311,7 @@ const DEFAULT_COMPONENT_ID = '1';
                 ]),
               ]),
             ],
-            template: `
-                <child-cmp *ngIf="exp" @host></child-cmp>
-              `,
+            template: ` <child-cmp *ngIf="exp" @host></child-cmp> `,
             standalone: false,
           })
           class ParentCmp {
@@ -1296,6 +1319,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '...',
             animations: [
@@ -1353,16 +1377,15 @@ const DEFAULT_COMPONENT_ID = '1';
 
           p1.finish();
           p2.finish();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(fixture.debugElement.nativeElement.children.length).toBe(0);
-        }));
+        });
 
-        it('should not throw when the host element is removed and no animation triggers', fakeAsync(() => {
+        it('should not throw when the host element is removed and no animation triggers', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
-            template: `
-                <child-cmp *ngIf="exp"></child-cmp>
-              `,
+            template: ` <child-cmp *ngIf="exp"></child-cmp> `,
             standalone: false,
           })
           class ParentCmp {
@@ -1370,6 +1393,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '...',
             animations: [trigger('host', [transition('a => b', [style({height: '100px'})])])],
@@ -1393,20 +1417,19 @@ const DEFAULT_COMPONENT_ID = '1';
           cmp.exp = false;
           fixture.detectChanges();
           engine.flush();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(getLog().length).toEqual(0);
           expect(fixture.debugElement.nativeElement.children.length).toBe(0);
 
-          flushMicrotasks();
+          await Promise.resolve();
           expect(fixture.debugElement.nativeElement.children.length).toBe(0);
-        }));
+        });
 
-        it('should properly evaluate pre/auto-style values when components are inserted/removed which contain host animations', fakeAsync(() => {
+        it('should properly evaluate pre/auto-style values when components are inserted/removed which contain host animations', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
-            template: `
-                <child-cmp *ngFor="let item of items"></child-cmp>
-              `,
+            template: ` <child-cmp *ngFor="let item of items"></child-cmp> `,
             standalone: false,
           })
           class ParentCmp {
@@ -1414,6 +1437,7 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
             template: '... child ...',
             animations: [
@@ -1441,15 +1465,14 @@ const DEFAULT_COMPONENT_ID = '1';
             const item = items[i];
             expect(item.style['display']).toBeFalsy();
           }
-        }));
+        });
       });
 
       it('should cancel and merge in mid-animation styles into the follow-up animation, but only for animation keyframes that start right away', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('a => b', [
@@ -1503,10 +1526,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should provide the styling of previous players that are grouped', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('1 => 2', [
@@ -1566,12 +1588,13 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should provide the styling of previous players that are grouped and queried and make sure match the players with the correct elements', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
-          <div class="container" [@myAnimation]="exp">
-            <div class="inner"></div>
-          </div>
-        `,
+            <div class="container" [@myAnimation]="exp">
+              <div class="inner"></div>
+            </div>
+          `,
           animations: [
             trigger('myAnimation', [
               transition('1 => 2', [
@@ -1629,10 +1652,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should properly balance styles between states even if there are no destination state styles', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div @myAnimation *ngIf="exp"></div>
-          `,
+          template: ` <div @myAnimation *ngIf="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               state('void', style({opacity: 0, width: '0px', height: '0px'})),
@@ -1674,10 +1696,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should not apply the destination styles if the final animate step already contains styles', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div @myAnimation *ngIf="exp"></div>
-          `,
+          template: ` <div @myAnimation *ngIf="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               state('void', style({color: 'red'})),
@@ -1724,10 +1745,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should invoke an animation trigger that is state-less', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div *ngFor="let item of items" @myAnimation></div>
-          `,
+          template: ` <div *ngFor="let item of items" @myAnimation></div> `,
           animations: [
             trigger('myAnimation', [
               transition(':enter', [style({opacity: 0}), animate(1000, style({opacity: 1}))]),
@@ -1768,10 +1788,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should retain styles on the element once the animation is complete', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div #green @green></div>
-          `,
+          template: ` <div #green @green></div> `,
           animations: [
             trigger('green', [
               state('*', style({backgroundColor: 'green'})),
@@ -1800,6 +1819,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should retain state styles when the underlying DOM structure changes even if there are no insert/remove animations', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
             <div class="item" *ngFor="let item of items" [@color]="colorExp">
@@ -1851,6 +1871,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should retain state styles when the underlying DOM structure changes even if there are insert/remove animations', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
             <div class="item" *ngFor="let item of items" [@color]="colorExp">
@@ -1909,15 +1930,19 @@ const DEFAULT_COMPONENT_ID = '1';
         }
       });
 
-      it('should keep/restore the trigger value when there are move operations (with *ngFor + trackBy)', fakeAsync(() => {
+      it('should keep/restore the trigger value when there are move operations (with *ngFor + trackBy)', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
-          <div *ngFor="let item of items, trackBy: trackItem"
-               @myAnimation (@myAnimation.start)="cb($event)">
-            item{{ item }}
-          </div>
-        `,
+            <div
+              *ngFor="let item of items; trackBy: trackItem"
+              @myAnimation
+              (@myAnimation.start)="cb($event)"
+            >
+              item{{ item }}
+            </div>
+          `,
           animations: [trigger('myAnimation', [])],
           standalone: false,
         })
@@ -1952,15 +1977,15 @@ const DEFAULT_COMPONENT_ID = '1';
         const cmp = fixture.componentInstance;
         fixture.detectChanges();
 
-        const completeAnimations = () => {
+        const completeAnimations = async () => {
           fixture.detectChanges();
-          flushMicrotasks();
+          await Promise.resolve();
           engine.players.forEach((player) => player.finish());
         };
 
         cmp.log = [];
         [0, 1, 2].forEach(() => cmp.addItem());
-        completeAnimations();
+        await completeAnimations();
         expect(cmp.log).toEqual([
           '[item0] void => null',
           '[item1] void => null',
@@ -1968,24 +1993,23 @@ const DEFAULT_COMPONENT_ID = '1';
         ]);
 
         cmp.reverseItems();
-        completeAnimations();
+        await completeAnimations();
 
         cmp.log = [];
         [0, 1, 2].forEach(() => cmp.removeItem());
-        completeAnimations();
+        await completeAnimations();
         expect(cmp.log).toEqual([
           '[item2] null => void',
           '[item1] null => void',
           '[item0] null => void',
         ]);
-      }));
+      });
 
       it('should animate removals of nodes to the `void` state for each animation trigger, but treat all auto styles as pre styles', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div *ngIf="exp" class="ng-if" [@trig1]="exp2" @trig2></div>
-          `,
+          template: ` <div *ngIf="exp" class="ng-if" [@trig1]="exp2" @trig2></div> `,
           animations: [
             trigger('trig1', [transition('state => void', [animate(1000, style({opacity: 0}))])]),
             trigger('trig2', [transition(':leave', [animate(1000, style({width: '0px'}))])]),
@@ -2050,10 +2074,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should properly cancel all existing animations when a removal occurs', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div *ngIf="exp" [@myAnimation]="exp"></div>
-          `,
+          template: ` <div *ngIf="exp" [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('* => go', [
@@ -2096,9 +2119,10 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should not run inner child animations when a parent is set to be removed', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
-            <div *ngIf="exp" class="parent" >
+            <div *ngIf="exp" class="parent">
               <div [@myAnimation]="exp2"></div>
             </div>
           `,
@@ -2133,6 +2157,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should cancel all active inner child animations when a parent removal animation is set to go', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
             <div *ngIf="exp1" @parent>
@@ -2188,6 +2213,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should destroy inner animations when a parent node is set for removal', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
             <div #parent class="parent">
@@ -2248,6 +2274,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should allow inner removals to happen when a non removal-based parent animation is set to animate', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
             <div #parent [@parent]="exp1" class="parent">
@@ -2305,6 +2332,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should make inner removals wait until a parent based removal animation has finished', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `
             <div #parent *ngIf="exp1" @parent class="parent">
@@ -2364,10 +2392,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should detect trigger changes based on object.value properties', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div [@myAnimation]="{value:exp}"></div>
-          `,
+          template: ` <div [@myAnimation]="{value: exp}"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('* => 1', [animate(1234, style({opacity: 0}))]),
@@ -2404,10 +2431,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should not render animations when the object expression value is the same as it was previously', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div [@myAnimation]="{value:exp,params:params}"></div>
-          `,
+          template: ` <div [@myAnimation]="{value: exp, params: params}"></div> `,
           animations: [
             trigger('myAnimation', [transition('* => *', [animate(1234, style({opacity: 0}))])]),
           ],
@@ -2441,12 +2467,11 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(players.length).toEqual(0);
       });
 
-      it("should update the final state styles when params update even if the expression hasn't changed", fakeAsync(() => {
+      it("should update the final state styles when params update even if the expression hasn't changed", async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div [@myAnimation]="{value:exp,params:{color:color}}"></div>
-          `,
+          template: ` <div [@myAnimation]="{value: exp, params: {color: color}}"></div> `,
           animations: [
             trigger('myAnimation', [
               state('*', style({color: '{{ color }}'}), {params: {color: 'black'}}),
@@ -2473,7 +2498,7 @@ const DEFAULT_COMPONENT_ID = '1';
         const element = player.element;
         player.finish();
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(hasStyle(element, 'color', 'red')).toBeTruthy();
 
         cmp.exp = '1';
@@ -2481,7 +2506,7 @@ const DEFAULT_COMPONENT_ID = '1';
         fixture.detectChanges();
         resetLog();
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(hasStyle(element, 'color', 'blue')).toBeTruthy();
 
         cmp.exp = '1';
@@ -2489,16 +2514,15 @@ const DEFAULT_COMPONENT_ID = '1';
         fixture.detectChanges();
         resetLog();
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(hasStyle(element, 'color', 'black')).toBeTruthy();
-      }));
+      });
 
       it('should substitute in values if the provided state match is an object with values', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div [@myAnimation]="exp"></div>
-          `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition(
@@ -2541,12 +2565,11 @@ const DEFAULT_COMPONENT_ID = '1';
         ]);
       });
 
-      it('should retain substituted styles on the element once the animation is complete if referenced in the final state', fakeAsync(() => {
+      it('should retain substituted styles on the element once the animation is complete if referenced in the final state', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div [@myAnimation]="{value:exp, params: { color: color }}"></div>
-          `,
+          template: ` <div [@myAnimation]="{value: exp, params: {color: color}}"></div> `,
           animations: [
             trigger('myAnimation', [
               state(
@@ -2609,19 +2632,18 @@ const DEFAULT_COMPONENT_ID = '1';
 
         const element = p1.element;
         p1.finish();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(hasStyle(element, 'color', 'blue')).toBeTruthy();
         expect(hasStyle(element, 'fontSize', '50px')).toBeTruthy();
         expect(hasStyle(element, 'width', '888px')).toBeTruthy();
-      }));
+      });
 
-      it('should only evaluate final state param substitutions from the expression and state values and not from the transition options ', fakeAsync(() => {
+      it('should only evaluate final state param substitutions from the expression and state values and not from the transition options ', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
-          template: `
-            <div [@myAnimation]="exp"></div>
-          `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               state(
@@ -2683,14 +2705,15 @@ const DEFAULT_COMPONENT_ID = '1';
 
         const element = p1.element;
         p1.finish();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(hasStyle(element, 'width', '100px')).toBeTruthy();
         expect(hasStyle(element, 'height', '100px')).toBeTruthy();
-      }));
+      });
 
       it('should apply default params when resolved animation value is null or undefined', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'ani-cmp',
           template: `<div [@myAnimation]="exp"></div>`,
           animations: [
@@ -2737,6 +2760,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should not flush animations twice when an inner component runs change detection', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'outer-cmp',
           template: `
             <div *ngIf="exp" @outer></div>
@@ -2765,10 +2789,9 @@ const DEFAULT_COMPONENT_ID = '1';
         }
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'inner-cmp',
-          template: `
-            <div *ngIf="exp" @inner></div>
-          `,
+          template: ` <div *ngIf="exp" @inner></div> `,
           animations: [
             trigger('inner', [
               transition(':enter', [style({opacity: 0}), animate('1s', style({opacity: 1}))]),
@@ -2804,10 +2827,9 @@ const DEFAULT_COMPONENT_ID = '1';
         describe(':increment', () => {
           it('should detect when a value has incremented', () => {
             @Component({
+              changeDetection: ChangeDetectionStrategy.Eager,
               selector: 'if-cmp',
-              template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+              template: ` <div [@myAnimation]="exp"></div> `,
               animations: [
                 trigger('myAnimation', [
                   transition(':increment', [animate(1234, style({background: 'red'}))]),
@@ -2844,10 +2866,9 @@ const DEFAULT_COMPONENT_ID = '1';
         describe(':decrement', () => {
           it('should detect when a value has decremented', () => {
             @Component({
+              changeDetection: ChangeDetectionStrategy.Eager,
               selector: 'if-cmp',
-              template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+              template: ` <div [@myAnimation]="exp"></div> `,
               animations: [
                 trigger('myAnimation', [
                   transition(':decrement', [animate(1234, style({background: 'red'}))]),
@@ -2884,14 +2905,15 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should animate nodes properly when they have been re-ordered', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-                <div *ngFor="let item of items" [class]="'class-' + item.value">
-                  <div [@myAnimation]="item.count">
-                    {{ item.value }}
-                  </div>
-                </div>
-              `,
+            <div *ngFor="let item of items" [class]="'class-' + item.value">
+              <div [@myAnimation]="item.count">
+                {{ item.value }}
+              </div>
+            </div>
+          `,
           animations: [
             trigger('myAnimation', [
               state('0', style({opacity: 0})),
@@ -2948,6 +2970,7 @@ const DEFAULT_COMPONENT_ID = '1';
       // any `insertBefore` is a move and tries to animate it.
       // NOTE: This test was extracted from `g3`
       @Component({
+        changeDetection: ChangeDetectionStrategy.Eager,
         template: `<div i18n>Hello <span>World</span>!</div>`,
         animations: [trigger('myAnimation', [transition('* => *', [animate(1000)])])],
         standalone: false,
@@ -2965,12 +2988,13 @@ const DEFAULT_COMPONENT_ID = '1';
     });
 
     describe('animation listeners', () => {
-      it('should trigger a `start` state change listener for when the animation changes state from void => state', fakeAsync(() => {
+      it('should trigger a `start` state change listener for when the animation changes state from void => state', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-          <div *ngIf="exp" [@myAnimation]="exp" (@myAnimation.start)="callback($event)"></div>
-        `,
+            <div *ngIf="exp" [@myAnimation]="exp" (@myAnimation.start)="callback($event)"></div>
+          `,
           animations: [
             trigger('myAnimation', [
               transition('void => *', [
@@ -2997,21 +3021,26 @@ const DEFAULT_COMPONENT_ID = '1';
         const cmp = fixture.componentInstance;
         cmp.exp = 'true';
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.event?.triggerName).toEqual('myAnimation');
         expect(cmp.event?.phaseName).toEqual('start');
         expect(cmp.event?.totalTime).toEqual(500);
         expect(cmp.event?.fromState).toEqual('void');
         expect(cmp.event?.toState).toEqual('true');
-      }));
+      });
 
-      it('should trigger a `done` state change listener for when the animation changes state from a => b', fakeAsync(() => {
+      it('should trigger a `done` state change listener for when the animation changes state from a => b', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-          <div *ngIf="exp" [@myAnimation123]="exp" (@myAnimation123.done)="callback($event)"></div>
-        `,
+            <div
+              *ngIf="exp"
+              [@myAnimation123]="exp"
+              (@myAnimation123.done)="callback($event)"
+            ></div>
+          `,
           animations: [
             trigger('myAnimation123', [
               transition('* => b', [
@@ -3045,22 +3074,23 @@ const DEFAULT_COMPONENT_ID = '1';
 
         const player = engine.players.pop()!;
         player.finish();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.event?.triggerName).toEqual('myAnimation123');
         expect(cmp.event?.phaseName).toEqual('done');
         expect(cmp.event?.totalTime).toEqual(999);
         expect(cmp.event?.fromState).toEqual('void');
         expect(cmp.event?.toState).toEqual('b');
-      }));
+      });
 
-      it('should handle callbacks for multiple triggers running simultaneously', fakeAsync(() => {
+      it('should handle callbacks for multiple triggers running simultaneously', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-          <div [@ani1]="exp1" (@ani1.done)="callback1($event)"></div>
-          <div [@ani2]="exp2" (@ani2.done)="callback2($event)"></div>
-        `,
+            <div [@ani1]="exp1" (@ani1.done)="callback1($event)"></div>
+            <div [@ani2]="exp2" (@ani2.done)="callback2($event)"></div>
+          `,
           animations: [
             trigger('ani1', [
               transition('* => a', [
@@ -3112,17 +3142,23 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(cmp.event1).toBeFalsy();
         expect(cmp.event2).toBeFalsy();
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.event1?.triggerName).toBeTruthy('ani1');
         expect(cmp.event2?.triggerName).toBeTruthy('ani2');
-      }));
+      });
 
-      it('should handle callbacks for multiple triggers running simultaneously on the same element', fakeAsync(() => {
+      it('should handle callbacks for multiple triggers running simultaneously on the same element', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
           template: `
-          <div [@ani1]="exp1" (@ani1.done)="callback1($event)" [@ani2]="exp2" (@ani2.done)="callback2($event)"></div>
-        `,
+            <div
+              [@ani1]="exp1"
+              (@ani1.done)="callback1($event)"
+              [@ani2]="exp2"
+              (@ani2.done)="callback2($event)"
+            ></div>
+          `,
           animations: [
             trigger('ani1', [
               transition('* => a', [
@@ -3174,17 +3210,16 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(cmp.event1).toBeFalsy();
         expect(cmp.event2).toBeFalsy();
 
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.event1?.triggerName).toBeTruthy('ani1');
         expect(cmp.event2?.triggerName).toBeTruthy('ani2');
-      }));
+      });
 
-      it('should handle a leave animation for multiple triggers even if not all triggers have their own leave transition specified', fakeAsync(() => {
+      it('should handle a leave animation for multiple triggers even if not all triggers have their own leave transition specified', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'if-cmp',
-          template: `
-               <div *ngIf="exp" @foo @bar>123</div>
-             `,
+          template: ` <div *ngIf="exp" @foo @bar>123</div> `,
           animations: [
             trigger('foo', [
               transition(':enter', [style({opacity: 0}), animate(1000, style({opacity: 1}))]),
@@ -3209,7 +3244,7 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(players.length).toEqual(1);
         let [p1] = players;
         p1.finish();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(elm.innerText.trim()).toEqual('123');
 
         resetLog();
@@ -3220,12 +3255,13 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(players.length).toEqual(1);
         [p1] = players;
         p1.finish();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(elm.innerText.trim()).toEqual('');
-      }));
+      });
 
-      it('should trigger a state change listener for when the animation changes state from void => state on the host element', fakeAsync(() => {
+      it('should trigger a state change listener for when the animation changes state from void => state on the host element', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'my-cmp',
           template: `...`,
           animations: [
@@ -3256,21 +3292,26 @@ const DEFAULT_COMPONENT_ID = '1';
         const cmp = fixture.componentInstance;
         cmp.exp = 'TRUE';
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.event?.triggerName).toEqual('myAnimation2');
         expect(cmp.event?.phaseName).toEqual('start');
         expect(cmp.event?.totalTime).toEqual(1000);
         expect(cmp.event?.fromState).toEqual('void');
         expect(cmp.event?.toState).toEqual('TRUE');
-      }));
+      });
 
-      it('should always fire callbacks even when a transition is not detected', fakeAsync(() => {
+      it('should always fire callbacks even when a transition is not detected', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'my-cmp',
           template: `
-              <div [@myAnimation]="exp" (@myAnimation.start)="callback($event)" (@myAnimation.done)="callback($event)"></div>
-            `,
+            <div
+              [@myAnimation]="exp"
+              (@myAnimation.start)="callback($event)"
+              (@myAnimation.done)="callback($event)"
+            ></div>
+          `,
           animations: [trigger('myAnimation', [])],
           standalone: false,
         })
@@ -3290,23 +3331,29 @@ const DEFAULT_COMPONENT_ID = '1';
 
         cmp.exp = 'a';
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log).toEqual(['start => a', 'done => a']);
 
         cmp.log = [];
         cmp.exp = 'b';
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual(['start => b', 'done => b']);
-      }));
+      });
 
-      it('should fire callback events for leave animations even if there is no leave transition', fakeAsync(() => {
+      it('should fire callback events for leave animations even if there is no leave transition', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'my-cmp',
           template: `
-              <div *ngIf="exp" @myAnimation (@myAnimation.start)="callback($event)" (@myAnimation.done)="callback($event)"></div>
-            `,
+            <div
+              *ngIf="exp"
+              @myAnimation
+              (@myAnimation.start)="callback($event)"
+              (@myAnimation.done)="callback($event)"
+            ></div>
+          `,
           animations: [trigger('myAnimation', [])],
           standalone: false,
         })
@@ -3329,32 +3376,37 @@ const DEFAULT_COMPONENT_ID = '1';
 
         cmp.exp = true;
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log).toEqual(['start => _default_', 'done => _default_']);
 
         cmp.log = [];
 
         cmp.exp = false;
         fixture.detectChanges();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual(['start => void', 'done => void']);
-      }));
+      });
 
-      it('should fire callbacks on a sub animation once it starts and finishes', fakeAsync(() => {
+      it('should fire callbacks on a sub animation once it starts and finishes', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'my-cmp',
           template: `
-              <div class="parent"
-                  [@parent]="exp1"
-                  (@parent.start)="cb('parent-start',$event)"
-                  (@parent.done)="cb('parent-done', $event)">
-                <div class="child"
-                  [@child]="exp2"
-                  (@child.start)="cb('child-start',$event)"
-                  (@child.done)="cb('child-done', $event)"></div>
-              </div>
-            `,
+            <div
+              class="parent"
+              [@parent]="exp1"
+              (@parent.start)="cb('parent-start', $event)"
+              (@parent.done)="cb('parent-done', $event)"
+            >
+              <div
+                class="child"
+                [@child]="exp2"
+                (@child.start)="cb('child-start', $event)"
+                (@child.done)="cb('child-done', $event)"
+              ></div>
+            </div>
+          `,
           animations: [
             trigger('parent', [
               transition('* => go', [
@@ -3392,7 +3444,7 @@ const DEFAULT_COMPONENT_ID = '1';
         cmp.exp2 = 'go';
         fixture.detectChanges();
         engine.flush();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual(['parent-start', 'child-start']);
         cmp.log = [];
@@ -3409,32 +3461,35 @@ const DEFAULT_COMPONENT_ID = '1';
         const [_scp, pp1, pcp, pp2] = players;
 
         pp1.finish();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log).toEqual([]);
 
         pcp.finish();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log).toEqual([]);
 
         pp2.finish();
-        flushMicrotasks();
+        await Promise.resolve();
         expect(cmp.log).toEqual(['parent-done', 'child-done']);
-      }));
+      });
 
-      it('should fire callbacks and collect the correct the totalTime and element details for any queried sub animations', fakeAsync(() => {
+      it('should fire callbacks and collect the correct the totalTime and element details for any queried sub animations', async () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'my-cmp',
           template: `
-              <div class="parent" [@parent]="exp" (@parent.done)="cb('all','done', $event)">
-                <div *ngFor="let item of items"
-                     class="item item-{{ item }}"
-                     @child
-                     (@child.start)="cb('c-' + item, 'start', $event)"
-                     (@child.done)="cb('c-' + item, 'done', $event)">
-                  {{ item }}
-                </div>
+            <div class="parent" [@parent]="exp" (@parent.done)="cb('all', 'done', $event)">
+              <div
+                *ngFor="let item of items"
+                class="item item-{{ item }}"
+                @child
+                (@child.start)="cb('c-' + item, 'start', $event)"
+                (@child.done)="cb('c-' + item, 'done', $event)"
+              >
+                {{ item }}
               </div>
-            `,
+            </div>
+          `,
           animations: [
             trigger('parent', [
               transition('* => go', [
@@ -3470,7 +3525,7 @@ const DEFAULT_COMPONENT_ID = '1';
         cmp.exp = 'go';
         fixture.detectChanges();
         engine.flush();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual(['c-0-start', 'c-1-start', 'c-2-start', 'c-3-start']);
         cmp.log = [];
@@ -3507,14 +3562,14 @@ const DEFAULT_COMPONENT_ID = '1';
         pc2p1.finish();
         pc3p1.finish();
         pc4p1.finish();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual([]);
         pc1p2.finish();
         pc2p2.finish();
         pc3p2.finish();
         pc4p2.finish();
-        flushMicrotasks();
+        await Promise.resolve();
 
         expect(cmp.log).toEqual(['all-done', 'c-0-done', 'c-1-done', 'c-2-done', 'c-3-done']);
 
@@ -3528,13 +3583,14 @@ const DEFAULT_COMPONENT_ID = '1';
         expect(cmp.events['c-2'].element.innerText.trim()).toEqual('2');
         expect(cmp.events['c-3'].totalTime).toEqual(1500);
         expect(cmp.events['c-3'].element.innerText.trim()).toEqual('3');
-      }));
+      });
     });
 
     describe('animation control flags', () => {
       describe('[@.disabled]', () => {
         it('should disable child animations when set to true', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'if-cmp',
             template: `
               <div [@.disabled]="disableExp">
@@ -3578,6 +3634,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
         it('should ensure state() values are applied when an animation is disabled', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'if-cmp',
             template: `
               <div [@.disabled]="disableExp">
@@ -3632,10 +3689,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
         it('should disable animations for the element that they are disabled on', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'if-cmp',
-            template: `
-              <div [@.disabled]="disableExp" [@myAnimation]="exp"></div>
-            `,
+            template: ` <div [@.disabled]="disableExp" [@myAnimation]="exp"></div> `,
             animations: [
               trigger('myAnimation', [
                 transition('* => 1, * => 2', [animate(1234, style({width: '100px'}))]),
@@ -3674,6 +3730,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
         it('should respect inner disabled nodes once a parent becomes enabled', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'if-cmp',
             template: `
               <div [@.disabled]="disableParentExp">
@@ -3740,6 +3797,7 @@ const DEFAULT_COMPONENT_ID = '1';
               ]),
             ],
             standalone: false,
+            changeDetection: ChangeDetectionStrategy.Eager,
           })
           class Cmp {
             @ViewChild('parent') public parentElm: any;
@@ -3768,12 +3826,17 @@ const DEFAULT_COMPONENT_ID = '1';
           expect(parent.childElementCount).toEqual(0);
         });
 
-        it('should properly resolve animation event listeners when disabled', fakeAsync(() => {
+        it('should properly resolve animation event listeners when disabled', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'if-cmp',
             template: `
               <div [@.disabled]="disableExp">
-                <div [@myAnimation]="exp" (@myAnimation.start)="startEvent=$event" (@myAnimation.done)="doneEvent=$event"></div>
+                <div
+                  [@myAnimation]="exp"
+                  (@myAnimation.start)="startEvent = $event"
+                  (@myAnimation.done)="doneEvent = $event"
+                ></div>
               </div>
             `,
             animations: [
@@ -3805,7 +3868,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
           cmp.exp = '1';
           fixture.detectChanges();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(cmp.startEvent?.totalTime).toEqual(9876);
           expect(cmp.startEvent?.disabled).toBeTruthy();
           expect(cmp.doneEvent?.totalTime).toEqual(9876);
@@ -3814,20 +3877,21 @@ const DEFAULT_COMPONENT_ID = '1';
           cmp.exp = '2';
           cmp.disableExp = false;
           fixture.detectChanges();
-          flushMicrotasks();
+          await Promise.resolve();
           expect(cmp.startEvent?.totalTime).toEqual(9876);
           expect(cmp.startEvent?.disabled).toBeFalsy();
           // the done event isn't fired because it's an actual animation
-        }));
+        });
 
         it('should work when there are no animations on the component handling the disable/enable flag', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
             template: `
               <div [@.disabled]="disableExp">
                 <child-cmp #child></child-cmp>
               </div>
-                `,
+            `,
             standalone: false,
           })
           class ParentCmp {
@@ -3836,10 +3900,9 @@ const DEFAULT_COMPONENT_ID = '1';
           }
 
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'child-cmp',
-            template: `
-                <div [@myAnimation]="exp"></div>
-                `,
+            template: ` <div [@myAnimation]="exp"></div> `,
             animations: [
               trigger('myAnimation', [
                 transition('* => go, * => goAgain', [
@@ -3877,6 +3940,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
         it('should treat the property as true when the expression is missing', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
             animations: [
               trigger('myAnimation', [
@@ -3887,7 +3951,7 @@ const DEFAULT_COMPONENT_ID = '1';
               <div @.disabled>
                 <div [@myAnimation]="exp"></div>
               </div>
-                `,
+            `,
             standalone: false,
           })
           class Cmp {
@@ -3906,8 +3970,9 @@ const DEFAULT_COMPONENT_ID = '1';
           expect(getLog().length).toEqual(0);
         });
 
-        it('should respect parent/sub animations when the respective area in the DOM is disabled', fakeAsync(() => {
+        it('should respect parent/sub animations when the respective area in the DOM is disabled', async () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             selector: 'parent-cmp',
             animations: [
               trigger('parent', [
@@ -3922,10 +3987,15 @@ const DEFAULT_COMPONENT_ID = '1';
             template: `
               <div [@.disabled]="disableExp" #container>
                 <div [@parent]="exp" (@parent.done)="onDone($event)">
-                  <div class="item" *ngFor="let item of items" @child (@child.done)="onDone($event)"></div>
+                  <div
+                    class="item"
+                    *ngFor="let item of items"
+                    @child
+                    (@child.done)="onDone($event)"
+                  ></div>
                 </div>
               </div>
-                `,
+            `,
             standalone: false,
           })
           class Cmp {
@@ -3948,29 +4018,28 @@ const DEFAULT_COMPONENT_ID = '1';
           cmp.disableExp = true;
           cmp.items = [0, 1, 2, 3, 4];
           fixture.detectChanges();
-          flushMicrotasks();
+          await Promise.resolve();
 
           cmp.exp = 'empty';
           cmp.items = [];
           cmp.doneLog = [];
           fixture.detectChanges();
-          flushMicrotasks();
+          await Promise.resolve();
 
           const elms = cmp.container.nativeElement.querySelectorAll('.item');
           expect(elms.length).toEqual(0);
 
           expect(cmp.doneLog.length).toEqual(6);
-        }));
+        });
       });
     });
 
     describe('animation normalization', () => {
       it('should convert hyphenated properties to camelcase by default', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-               <div [@myAnimation]="exp"></div>
-             `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('* => go', [
@@ -4014,10 +4083,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
       it('should convert hyphenated properties to camelCase by default that are auto/pre style properties', () => {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-               <div [@myAnimation]="exp"></div>
-             `,
+          template: ` <div [@myAnimation]="exp"></div> `,
           animations: [
             trigger('myAnimation', [
               transition('* => go', [
@@ -4057,10 +4125,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
     it('should throw neither state() or transition() are used inside of trigger()', () => {
       @Component({
+        changeDetection: ChangeDetectionStrategy.Eager,
         selector: 'if-cmp',
-        template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+        template: ` <div [@myAnimation]="exp"></div> `,
         animations: [trigger('myAnimation', [animate(1000, style({width: '100px'}))])],
         standalone: false,
       })
@@ -4085,11 +4152,9 @@ const DEFAULT_COMPONENT_ID = '1';
         );
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-         <div @anim *ngIf="exp">
-         </div>
-       `,
+          template: ` <div @anim *ngIf="exp"></div> `,
           animations: [trigger('anim', [transition(':enter', useAnimation(animationMetaData))])],
           standalone: false,
         })
@@ -4131,11 +4196,9 @@ const DEFAULT_COMPONENT_ID = '1';
         );
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-         <div @anim *ngIf="exp">
-         </div>
-       `,
+          template: ` <div @anim *ngIf="exp"></div> `,
           animations: [trigger('anim', [transition(':enter', useAnimation(animationMetaData))])],
           standalone: false,
         })
@@ -4177,11 +4240,9 @@ const DEFAULT_COMPONENT_ID = '1';
         ]);
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-         <div @anim *ngIf="exp">
-         </div>
-       `,
+          template: ` <div @anim *ngIf="exp"></div> `,
           animations: [
             trigger('anim', [transition(':enter', useAnimation(animationMetaData, {delay: 1500}))]),
           ],
@@ -4225,11 +4286,9 @@ const DEFAULT_COMPONENT_ID = '1';
         ]);
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-         <div @anim *ngIf="exp">
-         </div>
-       `,
+          template: ` <div @anim *ngIf="exp"></div> `,
           animations: [
             trigger('anim', [
               transition(
@@ -4281,11 +4340,9 @@ const DEFAULT_COMPONENT_ID = '1';
         );
 
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
-          template: `
-         <div @anim *ngIf="exp">
-         </div>
-       `,
+          template: ` <div @anim *ngIf="exp"></div> `,
           animations: [
             trigger('anim', [
               transition(':enter', useAnimation(animationMetaData, {delay: 34}), {delay: 200}),
@@ -4327,10 +4384,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
     it('should combine multiple errors together into one exception when an animation fails to be built', () => {
       @Component({
+        changeDetection: ChangeDetectionStrategy.Eager,
         selector: 'if-cmp',
-        template: `
-          <div [@foo]="fooExp" [@bar]="barExp"></div>
-        `,
+        template: ` <div [@foo]="fooExp" [@bar]="barExp"></div> `,
         animations: [
           trigger('foo', [
             transition(':enter', []),
@@ -4373,10 +4429,9 @@ const DEFAULT_COMPONENT_ID = '1';
 
     it('should not throw an error if styles overlap in separate transitions', () => {
       @Component({
+        changeDetection: ChangeDetectionStrategy.Eager,
         selector: 'if-cmp',
-        template: `
-          <div [@myAnimation]="exp"></div>
-        `,
+        template: ` <div [@myAnimation]="exp"></div> `,
         animations: [
           trigger('myAnimation', [
             transition('void => *', [style({opacity: 0}), animate('0.5s 1s', style({opacity: 1}))]),
@@ -4401,12 +4456,13 @@ const DEFAULT_COMPONENT_ID = '1';
 
     it("should add the transition provided delay to all the transition's timelines", () => {
       @Component({
+        changeDetection: ChangeDetectionStrategy.Eager,
         selector: 'cmp',
         template: `
-       <div @parent *ngIf="exp">
-         <div @child *ngIf="exp"></div>
-       </div>
-     `,
+          <div @parent *ngIf="exp">
+            <div @child *ngIf="exp"></div>
+          </div>
+        `,
         animations: [
           trigger('parent', [
             transition(
@@ -4466,6 +4522,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
     it('should keep (transition from/to) styles defined in different timelines', () => {
       @Component({
+        changeDetection: ChangeDetectionStrategy.Eager,
         selector: 'cmp',
         template: '<div @animation *ngIf="exp"></div>',
         animations: [
@@ -4532,6 +4589,7 @@ const DEFAULT_COMPONENT_ID = '1';
       describe('when modules are missing', () => {
         it('should throw when using an @prop binding without the animation module', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             template: `<div [@myAnimation]="true"></div>`,
             standalone: false,
           })
@@ -4546,6 +4604,7 @@ const DEFAULT_COMPONENT_ID = '1';
 
         it('should throw when using an @prop listener without the animation module', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             template: `<div (@myAnimation.start)="a = true"></div>`,
             standalone: false,
           })
@@ -4564,6 +4623,7 @@ const DEFAULT_COMPONENT_ID = '1';
       describe('when modules are present, but animations are missing', () => {
         it('should throw when using an @prop property, BrowserAnimationModule is imported, but there is no animation rule', () => {
           @Component({
+            changeDetection: ChangeDetectionStrategy.Eager,
             template: `<div [@myAnimation]="true"></div>`,
             standalone: false,
           })
@@ -4578,7 +4638,8 @@ const DEFAULT_COMPONENT_ID = '1';
 
         it('should throw when using an @prop listener, BrowserAnimationModule is imported, but there is no animation rule', () => {
           @Component({
-            template: `<div (@myAnimation.start)="true"></div>`,
+            changeDetection: ChangeDetectionStrategy.Eager,
+            template: `<div (@myAnimation.start)="(true)"></div>`,
             standalone: false,
           })
           class Cmp {}
@@ -4595,12 +4656,13 @@ const DEFAULT_COMPONENT_ID = '1';
     describe('non-animatable css props', () => {
       function buildAndAnimateSimpleTestComponent(triggerAnimationData: AnimationMetadata[]) {
         @Component({
+          changeDetection: ChangeDetectionStrategy.Eager,
           selector: 'cmp',
           template: `
-          <div *ngIf="exp" [@myAnimation]="exp">
-            <p *ngIf="exp"></p>
-          </div>
-        `,
+            <div *ngIf="exp" [@myAnimation]="exp">
+              <p *ngIf="exp"></p>
+            </div>
+          `,
           animations: [trigger('myAnimation', [transition('void => *', triggerAnimationData)])],
           standalone: false,
         })

@@ -1,53 +1,188 @@
-<!-- ia-translate: true -->
-# Testes de Attribute Directives
+# Testing Attribute Directives
 
-Uma _attribute directive_ modifica o comportamento de um elemento, component ou outra directive.
-Seu nome reflete a maneira como a directive é aplicada: como um atributo em um elemento host.
+An _attribute directive_ modifies the behavior of an element, component or another directive.
+Its name reflects the way the directive is applied: as an attribute on a host element.
 
-## Testes da `HighlightDirective`
+## Testing the `Highlight` directive
 
-A `HighlightDirective` da aplicação de exemplo define a cor de fundo de um elemento com base em uma cor vinculada por data ou uma cor padrão \(lightgray\).
-Ela também define uma propriedade personalizada do elemento \(`customProperty`\) para `true` por nenhuma outra razão além de mostrar que pode.
+The sample application's `Highlight` directive sets the background color of an element based on either a data bound color or a default color \(lightgray\).
+It also sets a custom property of the element \(`customProperty`\) to `true` for no reason other than to show that it can.
 
-<docs-code header="app/shared/highlight.directive.ts" path="adev/src/content/examples/testing/src/app/shared/highlight.directive.ts"/>
+```ts
+import {Directive, inject, input} from '@angular/core';
 
-Ela é usada em toda a aplicação, talvez mais simplesmente no `AboutComponent`:
+/**
+ * Set backgroundColor for the attached element to highlight color
+ * and set the element's customProperty attribute to true
+ */
+@Directive({
+  selector: '[highlight]',
+  host: {
+    '[style.backgroundColor]': 'bgColor() || defaultColor',
+  },
+})
+export class Highlight {
+  readonly defaultColor = 'rgb(211, 211, 211)'; // lightgray
 
-<docs-code header="app/about/about.component.ts" path="adev/src/content/examples/testing/src/app/about/about.component.ts"/>
+  readonly bgColor = input('', {alias: 'highlight'});
+}
+```
 
-Testar o uso específico da `HighlightDirective` dentro do `AboutComponent` requer apenas as técnicas exploradas na seção ["Testes de components aninhados"](guide/testing/components-scenarios#nested-component-tests) de [Cenários de testes de components](guide/testing/components-scenarios).
+It's used throughout the application, perhaps most simply in the `About` component:
 
-<docs-code header="app/about/about.component.spec.ts" path="adev/src/content/examples/testing/src/app/about/about.component.spec.ts" visibleRegion="tests"/>
+```ts
+@Component({
+  imports: [Twain, Highlight],
+  template: `
+    <h2 highlight="skyblue">About</h2>
+    <h3>Quote of the day:</h3>
+    <twain-quote />
+  `,
+})
+export class About {}
+```
 
-No entanto, testar um único caso de uso é improvável de explorar toda a gama de capacidades de uma directive.
-Encontrar e testar todos os components que usam a directive é tedioso, frágil e quase tão improvável de proporcionar cobertura total.
+Testing the specific use of the `Highlight` directive within the `About` component requires only the techniques explored in the ["Nested component tests"](guide/testing/components-scenarios#nested-component-tests) section of [Component testing scenarios](guide/testing/components-scenarios).
 
-_Testes somente de classe_ podem ser úteis, mas attribute directives como esta tendem a manipular o DOM.
-Testes de unidade isolados não tocam o DOM e, portanto, não inspiram confiança na eficácia da directive.
+```ts
+let fixture: ComponentFixture<About>;
 
-Uma solução melhor é criar um component de teste artificial que demonstre todas as maneiras de aplicar a directive.
+beforeEach(async () => {
+  TestBed.configureTestingModule({
+    providers: [TwainService, UserService],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  });
+  fixture = TestBed.createComponent(About);
+  await fixture.whenStable();
+});
 
-<docs-code header="app/shared/highlight.directive.spec.ts (TestComponent)" path="adev/src/content/examples/testing/src/app/shared/highlight.directive.spec.ts" visibleRegion="test-component"/>
+it('should have skyblue <h2>', () => {
+  const h2: HTMLElement = fixture.nativeElement.querySelector('h2');
+  const bgColor = h2.style.backgroundColor;
+  expect(bgColor).toBe('skyblue');
+});
+```
+
+However, testing a single use case is unlikely to explore the full range of a directive's capabilities.
+Finding and testing all components that use the directive is tedious, brittle, and almost as unlikely to afford full coverage.
+
+_Class-only tests_ might be helpful, but attribute directives like this one tend to manipulate the DOM.
+Isolated unit tests don't touch the DOM and, therefore, do not inspire confidence in the directive's efficacy.
+
+A better solution is to create an artificial test component that demonstrates all ways to apply the directive.
+
+```angular-ts
+@Component({
+  imports: [Highlight],
+  template: `
+    <h2 highlight="yellow">Something Yellow</h2>
+    <h2 highlight>The Default (Gray)</h2>
+    <h2>No Highlight</h2>
+    <input #box [highlight]="box.value" value="cyan" />
+  `,
+})
+class Test {}
+```
 
 <img alt="HighlightDirective spec in action" src="assets/images/guide/testing/highlight-directive-spec.png">
 
-ÚTIL: O caso `<input>` vincula a `HighlightDirective` ao nome de um valor de cor na caixa de input.
-O valor inicial é a palavra "cyan" que deve ser a cor de fundo da caixa de input.
+HELPFUL: The `<input>` case binds the `Highlight` to the name of a color value in the input box.
+The initial value is the word "cyan" which should be the background color of the input box.
 
-Aqui estão alguns testes deste component:
+Here are some tests of this component:
 
-<docs-code header="app/shared/highlight.directive.spec.ts (selected tests)" path="adev/src/content/examples/testing/src/app/shared/highlight.directive.spec.ts" visibleRegion="selected-tests"/>
+```ts
+let fixture: ComponentFixture<Test>;
+let des: DebugElement[]; // the three elements w/ the directive
 
-Algumas técnicas são notáveis:
+beforeEach(async () => {
+  fixture = TestBed.createComponent(Test);
+  await fixture.whenStable();
 
-- O predicate `By.directive` é uma ótima maneira de obter os elementos que têm esta directive _quando seus tipos de elementos são desconhecidos_
-- A [pseudo-classe `:not`](https://developer.mozilla.org/docs/Web/CSS/:not) em `By.css('h2:not([highlight])')` ajuda a encontrar elementos `<h2>` que _não_ têm a directive.
-  `By.css('*:not([highlight])')` encontra _qualquer_ elemento que não tenha a directive.
+  // all elements with an attached Highlight
+  des = fixture.debugElement.queryAll(By.directive(Highlight));
+});
 
-- `DebugElement.styles` proporciona acesso aos estilos do elemento mesmo na ausência de um browser real, graças à abstração `DebugElement`.
-  Mas sinta-se livre para explorar o `nativeElement` quando isso parecer mais fácil ou mais claro do que a abstração.
+// color tests
+it('should have three highlighted elements', () => {
+  expect(des.length).toBe(3);
+});
 
-- O Angular adiciona uma directive ao injector do elemento ao qual ela é aplicada.
-  O teste para a cor padrão usa o injector do segundo `<h2>` para obter sua instância `HighlightDirective` e sua `defaultColor`.
+it('should color 1st <h2> background "yellow"', () => {
+  const bgColor = des[0].nativeElement.style.backgroundColor;
+  expect(bgColor).toBe('yellow');
+});
 
-- `DebugElement.properties` proporciona acesso à propriedade personalizada artificial que é definida pela directive
+it('should color 2nd <h2> background w/ default color', () => {
+  const dir = des[1].injector.get(Highlight);
+  const bgColor = des[1].nativeElement.style.backgroundColor;
+  expect(bgColor).toBe(dir.defaultColor);
+});
+
+it('should bind <input> background to value color', async () => {
+  // easier to work with nativeElement
+  const input = des[2].nativeElement as HTMLInputElement;
+  expect(input.style.backgroundColor, 'initial backgroundColor').toBe('cyan');
+
+  input.value = 'green';
+
+  // Dispatch a DOM event so that Angular responds to the input value change.
+  input.dispatchEvent(new Event('input'));
+  await fixture.whenStable();
+
+  expect(input.style.backgroundColor, 'changed backgroundColor').toBe('green');
+});
+
+it('bare <h2> should not have a backgroundColor', () => {
+  // the h2 without the Highlight directive
+  const bareH2 = fixture.debugElement.query(By.css('h2:not([highlight])'));
+
+  expect(bareH2.styles.backgroundColor).toBeUndefined();
+});
+```
+
+A few techniques are noteworthy:
+
+- The `By.directive` predicate is a great way to get the elements that have this directive _when their element types are unknown_
+- The [`:not` pseudo-class](https://developer.mozilla.org/docs/Web/CSS/:not) in `By.css('h2:not([highlight])')` helps find `<h2>` elements that _do not_ have the directive.
+  `By.css('*:not([highlight])')` finds _any_ element that does not have the directive.
+
+- `DebugElement.styles` affords access to element styles even in the absence of a real browser, thanks to the `DebugElement` abstraction.
+  But feel free to exploit the `nativeElement` when that seems easier or more clear than the abstraction.
+
+- Angular adds a directive to the injector of the element to which it is applied.
+  The test for the default color uses the injector of the second `<h2>` to get its `Highlight` instance and its `defaultColor`.
+
+- `DebugElement.properties` affords access to the artificial custom property that is set by the directive
+
+## Testing a directive in isolation
+
+A directive can be created on its own with `TestBed.createDirective()`, which returns a `DirectiveFixture`. Alternatively, you can render it through a component's template.
+The `Highlight` directive can be tested this way, using a local test component's input to control the directive.
+
+```ts
+@Component({
+  imports: [Highlight],
+  template: `<p [highlight]="color()">{{ color() }}</p>`,
+})
+class Test {
+  readonly color = input('');
+}
+
+describe('Highlight', () => {
+  let fixture: ComponentFixture<Test>;
+
+  beforeEach(async () => {
+    fixture = TestBed.createComponent(Test);
+    await fixture.whenStable();
+  });
+
+  it('should use the specified color once an input is provided', async () => {
+    fixture.componentRef.setInput('color', 'blue');
+    await fixture.whenStable();
+
+    const p = fixture.nativeElement.querySelector('p');
+    expect(p.style.backgroundColor).toBe('blue');
+  });
+});
+```

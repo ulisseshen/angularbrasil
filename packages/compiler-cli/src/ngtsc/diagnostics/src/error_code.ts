@@ -6,11 +6,15 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
+// THIS CODE IS GENERATED - DO NOT EDIT.
+// Source of truth: packages/compiler-cli/preprocessor/ng-analyze/src/types/error_code.rs
+// Regenerate with: pnpm bazel run //packages/compiler-cli/src/ngtsc/diagnostics:sync_error_code
+
 /**
  * @publicApi
  */
 export enum ErrorCode {
-  DECORATOR_ARG_NOT_LITERAL = 1001,
+  DECORATOR_ARG_NOT_LITERAL = -1001,
   DECORATOR_ARITY_WRONG = 1002,
   DECORATOR_NOT_CALLED = 1003,
   DECORATOR_UNEXPECTED = 1005,
@@ -22,7 +26,6 @@ export enum ErrorCode {
 
   VALUE_HAS_WRONG_TYPE = 1010,
   VALUE_NOT_LITERAL = 1011,
-
   DUPLICATE_DECORATED_PROPERTIES = 1012,
 
   /**
@@ -53,6 +56,11 @@ export enum ErrorCode {
   INITIALIZER_API_DISALLOWED_MEMBER_VISIBILITY = 1053,
 
   /**
+   * Raised whenever there are duplicate binding property names for outputs, inputs & models.
+   */
+  DUPLICATE_BINDING_NAME = 1054,
+
+  /**
    * An Angular feature, like inputs, outputs or queries is incorrectly
    * declared on a static member.
    */
@@ -60,10 +68,12 @@ export enum ErrorCode {
 
   COMPONENT_MISSING_TEMPLATE = 2001,
   PIPE_MISSING_NAME = 2002,
-  PARAM_MISSING_TOKEN = 2003,
+  PARAM_MISSING_TOKEN = -2003,
   DIRECTIVE_MISSING_SELECTOR = 2004,
 
-  /** Raised when an undecorated class is passed in as a provider to a module or a directive. */
+  /**
+   * Raised when an undecorated class is passed in as a provider to a module or a directive.
+   */
   UNDECORATED_PROVIDER = 2005,
 
   /**
@@ -88,7 +98,7 @@ export enum ErrorCode {
    * Raised when a component uses `ShadowDom` view encapsulation, but its selector
    * does not match the shadow DOM tag name requirements.
    */
-  COMPONENT_INVALID_SHADOW_DOM_SELECTOR = 2009,
+  COMPONENT_INVALID_SHADOW_DOM_SELECTOR = -2009,
 
   /**
    * Raised when a component has `imports` but is not marked as `standalone: true`.
@@ -127,7 +137,9 @@ export enum ErrorCode {
    */
   INJECTABLE_INHERITS_INVALID_CONSTRUCTOR = 2016,
 
-  /** Raised when a host tries to alias a host directive binding that does not exist. */
+  /**
+   * Raised when a host tries to alias a host directive binding that does not exist.
+   */
   HOST_DIRECTIVE_UNDEFINED_BINDING = 2017,
 
   /**
@@ -148,7 +160,9 @@ export enum ErrorCode {
    */
   CONFLICTING_INPUT_TRANSFORM = 2020,
 
-  /** Raised when a component has both `styleUrls` and `styleUrl`. */
+  /**
+   * Raised when a component has both `styleUrls` and `styleUrl`.
+   */
   COMPONENT_INVALID_STYLE_URLS = 2021,
 
   /**
@@ -184,12 +198,18 @@ export enum ErrorCode {
    */
   COMPONENT_ANIMATIONS_CONFLICT = 2027,
 
+  /**
+   * Raised when an `@Service` class is using constructor dependency injection.
+   */
+  SERVICE_CONSTRUCTOR_DI = 2028,
+
   SYMBOL_NOT_EXPORTED = 3001,
+
   /**
    * Raised when a relationship between directives and/or pipes would cause a cyclic import to be
    * created that cannot be handled, such as in partial compilation mode.
    */
-  IMPORT_CYCLE_DETECTED = 3003,
+  IMPORT_CYCLE_DETECTED = -3003,
 
   /**
    * Raised when the compiler is unable to generate an import statement for a reference.
@@ -267,27 +287,22 @@ export enum ErrorCode {
    * disabled explicitly in the compiler, that was originally based on a misunderstanding of
    * `NgModule.id`.
    */
-  WARN_NGMODULE_ID_UNNECESSARY = 6100,
-
-  /**
-   * 6999 was previously assigned to NGMODULE_VE_DEPENDENCY_ON_IVY_LIB
-   * To prevent any confusion, let's not reassign it.
-   */
+  WARN_NGMODULE_ID_UNNECESSARY = -6100,
 
   /**
    * An element name failed validation against the DOM schema.
    */
-  SCHEMA_INVALID_ELEMENT = 8001,
+  SCHEMA_INVALID_ELEMENT = -8001,
 
   /**
    * An element's attribute name failed validation against the DOM schema.
    */
-  SCHEMA_INVALID_ATTRIBUTE = 8002,
+  SCHEMA_INVALID_ATTRIBUTE = -8002,
 
   /**
    * No matching directive was found for a `#ref="target"` expression.
    */
-  MISSING_REFERENCE_TARGET = 8003,
+  MISSING_REFERENCE_TARGET = -8003,
 
   /**
    * No matching pipe was found for a
@@ -368,7 +383,7 @@ export enum ErrorCode {
    * </comp>
    * ```
    */
-  CONTROL_FLOW_PREVENTING_CONTENT_PROJECTION = 8011,
+  CONTROL_FLOW_PREVENTING_CONTENT_PROJECTION = -8011,
 
   /**
    * A pipe imported via `@Component.deferredImports` is
@@ -388,13 +403,19 @@ export enum ErrorCode {
    */
   DEFERRED_DEPENDENCY_IMPORTED_EAGERLY = 8014,
 
-  /** An expression is trying to write to an `@let` declaration. */
+  /**
+   * An expression is trying to write to an `@let` declaration.
+   */
   ILLEGAL_LET_WRITE = 8015,
 
-  /** An expression is trying to read an `@let` before it has been defined. */
+  /**
+   * An expression is trying to read an `@let` before it has been defined.
+   */
   LET_USED_BEFORE_DEFINITION = 8016,
 
-  /** A `@let` declaration conflicts with another symbol in the same scope. */
+  /**
+   * A `@let` declaration conflicts with another symbol in the same scope.
+   */
   CONFLICTING_LET_DECLARATION = 8017,
 
   /**
@@ -406,7 +427,7 @@ export enum ErrorCode {
   /**
    * An `@defer` block with an implicit trigger does not have a placeholder, for example:
    *
-   * ```
+   * ```angular-html
    * @defer(on viewport) {
    *   Hello
    * }
@@ -417,7 +438,7 @@ export enum ErrorCode {
   /**
    * The `@placeholder` for an implicit `@defer` trigger is not set up correctly, for example:
    *
-   * ```
+   * ```angular-html
    * @defer(on viewport) {
    *   Hello
    * } @placeholder {
@@ -436,8 +457,58 @@ export enum ErrorCode {
    */
   DEFER_TRIGGER_MISCONFIGURATION = 8021,
 
-  /** Raised when the user has an unsupported binding on a `Field` directive. */
+  /**
+   * Raised when the user has an unsupported binding on a `FormField` directive.
+   */
   FORM_FIELD_UNSUPPORTED_BINDING = 8022,
+
+  /**
+   * Raised when multiple components in the compilation scope match a given element in a template.
+   */
+  MULTIPLE_MATCHING_COMPONENTS = -8023,
+
+  /**
+   * Raised when a host directive input/output is exposed multiple times under the same name.
+   */
+  CONFLICTING_HOST_DIRECTIVE_BINDING = -8024,
+
+  /**
+   * Raised when a foreign component node has an unsupported Angular binding.
+   */
+  FOREIGN_COMPONENT_UNSUPPORTED_BINDING = 8025,
+
+  /**
+   * Raised when a `@content` block is not used as a direct child of a foreign component.
+   */
+  INVALID_CONTENT_PLACEMENT = 8026,
+
+  /**
+   * Raised when a `@content` block is named 'children', which is unnecessary because children should be passed
+   * implicitly.
+   */
+  FOREIGN_COMPONENT_CONTENT_UNNECESSARY_FOR_CHILDREN = 8027,
+
+  /**
+   * Raised when multiple `@content` blocks with the same name are defined for a foreign component.
+   */
+  CONFLICTING_CONTENT_DECLARATION = 8028,
+
+  /**
+   * Raised when a `@content` block name conflicts with an input binding on the parent foreign component.
+   */
+  CONFLICTING_CONTENT_AND_PROPERTY = 8029,
+
+  /**
+   * An event binding on an element with matched directives refers to an event which is neither
+   * an output of the matched directives nor a known native DOM event. For example:
+   *
+   * ```html
+   * <some-cmp (outputTypo)="handle()"></some-cmp>
+   * ```
+   *
+   * This is only reported when `strictUnclaimedEventNames` is enabled.
+   */
+  UNCLAIMED_EVENT_BINDING = 8030,
 
   /**
    * A two way binding in a template has an incorrect syntax,
@@ -492,6 +563,7 @@ export enum ErrorCode {
    * ```
    */
   MISSING_NGFOROF_LET = 8105,
+
   /**
    * Indicates that the binding suffix is not supported
    *
@@ -640,8 +712,28 @@ export enum ErrorCode {
    *  constructor() {
    *    this.myInput(); // Error
    *  }
+   * }
+   * ```
    */
   FORBIDDEN_REQUIRED_INITIALIZER_INVOCATION = 8118,
+
+  /**
+   * A numeric value is bound to a CSS property that requires a unit.
+   *
+   * For example:
+   * ```html
+   * <div [style.width]="200"></div>
+   * ```
+   *
+   * This will not have the intended effect since CSS requires units for length values.
+   * It should be:
+   * ```html
+   * <div [style.width.px]="200"></div>
+   * <!-- OR -->
+   * <div [style.width]="'200px'"></div>
+   * ```
+   */
+  NUMERIC_CSS_PROPERTY_REQUIRES_UNIT = 8119,
 
   /**
    * The template type-checking engine would need to generate an inline type check block for a
@@ -659,10 +751,6 @@ export enum ErrorCode {
    * An injectable already has a `ɵprov` property.
    */
   INJECTABLE_DUPLICATE_PROV = 9001,
-
-  // 10XXX error codes are reserved for diagnostics with categories other than
-  // `ts.DiagnosticCategory.Error`. These diagnostics are generated by the compiler when configured
-  // to do so by a tool such as the Language Service, or by the Language Service itself.
 
   /**
    * Suggest users to enable `strictTemplates` to make use of full capabilities
@@ -692,4 +780,19 @@ export enum ErrorCode {
    * Meanwhile, this error is thrown to indicate a current unavailability.
    */
   LOCAL_COMPILATION_UNSUPPORTED_EXPRESSION = 11003,
+
+  /**
+   * Raised when a `@defer` block is missing a `name` parameter but `deferredImports` is an object.
+   */
+  DEFER_BLOCK_MISSING_NAME_PARAMETER = 11100,
+
+  /**
+   * Raised when a `@defer` block specifies a `name` parameter that does not match any entry in `deferredImports`.
+   */
+  DEFER_BLOCK_UNKNOWN_NAME_PARAMETER = 11101,
+
+  /**
+   * Raised when a `@defer` block specifies a `name` parameter but `deferredImports` is not an object.
+   */
+  DEFER_BLOCK_INVALID_NAME_PARAMETER = 11102,
 }
