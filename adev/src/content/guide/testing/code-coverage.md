@@ -1,10 +1,11 @@
-# Code coverage
+<!-- ia-translate: true -->
+# Cobertura de código {#code-coverage}
 
-Code coverage reports show you any parts of your code base that might not be properly tested by your unit tests.
+Relatórios de cobertura de código mostram quaisquer partes da sua base de código que podem não estar devidamente testadas pelos seus unit tests.
 
-## Prerequisites
+## Pré-requisitos {#prerequisites}
 
-To generate code coverage reports with Vitest, you must install the `@vitest/coverage-v8` package:
+Para gerar relatórios de cobertura de código com o Vitest, você precisa instalar o pacote `@vitest/coverage-v8`:
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -21,17 +22,17 @@ To generate code coverage reports with Vitest, you must install the `@vitest/cov
   </docs-code>
 </docs-code-multifile>
 
-## Generating a report
+## Gerando um relatório {#generating-a-report}
 
-To generate a coverage report, add the `--coverage` flag to the `ng test` command:
+Para gerar um relatório de cobertura, adicione a flag `--coverage` ao comando `ng test`:
 
 ```shell
 ng test --coverage
 ```
 
-After the tests run, the command creates a new `coverage/` directory in the project. Open the `index.html` file to see a report with your source code and code coverage values.
+Depois que os testes forem executados, o comando cria um novo diretório `coverage/` no projeto. Abra o arquivo `index.html` para ver um relatório com o seu código-fonte e os valores de cobertura de código.
 
-If you want to create code-coverage reports every time you test, you can set the `coverage` option to `true` in your `angular.json` file:
+Se você quiser criar relatórios de cobertura de código toda vez que executar os testes, pode definir a opção `coverage` como `true` no seu arquivo `angular.json`:
 
 ```json
 {
@@ -50,11 +51,11 @@ If you want to create code-coverage reports every time you test, you can set the
 }
 ```
 
-## Enforcing code coverage thresholds
+## Aplicando limites de cobertura de código {#enforcing-code-coverage-thresholds}
 
-The code coverage percentages let you estimate how much of your code is tested. If your team decides on a minimum amount to be unit tested, you can enforce this minimum in your configuration.
+As porcentagens de cobertura de código permitem estimar quanto do seu código está testado. Se a sua equipe decidir um valor mínimo de código coberto por unit tests, você pode aplicar esse mínimo na sua configuração.
 
-For example, suppose you want the code base to have a minimum of 80% code coverage. To enable this, add the `coverageThresholds` option to your `angular.json` file:
+Por exemplo, suponha que você queira que a base de código tenha um mínimo de 80% de cobertura de código. Para habilitar isso, adicione a opção `coverageThresholds` ao seu arquivo `angular.json`:
 
 ```json
 {
@@ -79,16 +80,16 @@ For example, suppose you want the code base to have a minimum of 80% code covera
 }
 ```
 
-Now, if your coverage drops below 80% when you run your tests, the command will fail.
+Agora, se a sua cobertura cair abaixo de 80% ao executar os testes, o comando falhará.
 
-## Advanced configuration
+## Configuração avançada {#advanced-configuration}
 
-You can configure several other coverage options in your `angular.json` file:
+Você pode configurar várias outras opções de cobertura no seu arquivo `angular.json`:
 
-- `coverageInclude`: Glob patterns of files to include in the coverage report.
-- `coverageExclude`: Glob patterns of files to exclude in the coverage report.
-- `coverageReporters`: An array of reporters to use (e.g., `html`, `lcov`, `json`).
-- `coverageWatermarks`: An object specifying `[low, high]` watermarks for the HTML reporter, which can affect the color-coding of the report.
+- `coverageInclude`: padrões glob dos arquivos a serem incluídos no relatório de cobertura.
+- `coverageExclude`: padrões glob dos arquivos a serem excluídos do relatório de cobertura.
+- `coverageReporters`: um array de reporters a serem usados (por exemplo, `html`, `lcov`, `json`).
+- `coverageWatermarks`: um objeto que especifica marcas d'água `[low, high]` para o reporter HTML, o que pode afetar a codificação de cores do relatório.
 
 ```json
 {
