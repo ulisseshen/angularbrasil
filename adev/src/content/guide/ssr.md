@@ -209,7 +209,7 @@ export const serverRoutes: ServerRoute[] = [
 
 Como [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') se aplica exclusivamente a [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), essa função sempre executa em _build-time_. `getPrerenderParams` não deve depender de APIs específicas do navegador ou do servidor para obter dados.
 
-IMPORTANT: Ao usar [`inject`](api/core/inject 'API reference') dentro de `getPrerenderParams`, lembre-se de que `inject` deve ser usado de forma síncrona. Ele não pode ser invocado dentro de callbacks assíncronos nem depois de qualquer `await`. Para mais informações, consulte [`runInInjectionContext`](api/core/runInInjectionContext 'API reference').
+IMPORTANT: Ao usar [`inject`](api/core/inject 'API reference') dentro de `getPrerenderParams`, lembre-se de que `inject` deve ser usado de forma síncrona. Ele não pode ser invocado dentro de callbacks assíncronos nem depois de qualquer `await`. Para mais informações, consulte `runInInjectionContext`.
 
 #### Estratégias de fallback {#fallback-strategies}
 

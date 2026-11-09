@@ -1,7 +1,7 @@
 <!-- ia-translate: true -->
 # NgModules
 
-IMPORTANT: A equipe Angular recomenda usar [components standalone](guide/components/anatomy-of-components#-imports-in-the-component-decorator) em vez de `NgModule` para todo código novo. Use este guia para entender código existente construído com `@NgModule`.
+IMPORTANT: A equipe Angular recomenda usar [components standalone](guide/components) em vez de `NgModule` para todo código novo. Use este guia para entender código existente construído com `@NgModule`.
 
 Um NgModule é uma classe marcada pelo decorator `@NgModule`. Esse decorator aceita _metadata_ que informa ao Angular como compilar templates de component e configurar a injeção de dependência.
 

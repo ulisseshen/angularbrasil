@@ -4,7 +4,7 @@
 
 A directive `NgOptimizedImage` facilita a adoção de boas práticas de performance para carregamento de imagens.
 
-A directive garante que o carregamento da imagem [Largest Contentful Paint (LCP)](http://web.dev/lcp) seja priorizado ao:
+A directive garante que o carregamento da imagem [Largest Contentful Paint (LCP)](https://web.dev/lcp) seja priorizado ao:
 
 - Configurar automaticamente o atributo `fetchpriority` na tag `<img>`
 - Fazer lazy loading de outras imagens por padrão
