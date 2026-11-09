@@ -1,17 +1,21 @@
-# Route transition animations
+<!-- ia-translate: true -->
 
-Route transition animations enhance user experience by providing smooth visual transitions when navigating between different views in your Angular application. [Angular Router](/guide/routing) includes built-in support for the browser's View Transitions API, enabling seamless animations between route changes in supported browsers.
+# Animações de transição de routes {#route-transition-animations}
 
-## How View Transitions work
+As animações de transição de routes melhoram a experiência do usuário ao oferecer transições visuais suaves ao navegar entre diferentes views na sua aplicação Angular. O [Angular Router](/guide/routing) inclui suporte nativo à API View Transitions do navegador, o que permite animações fluidas entre as mudanças de route em navegadores compatíveis.
 
-View transitions use the browser's native [`document.startViewTransition` API](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition) to create smooth animations between different states of your application. The API works by:
+HELPFUL: A integração nativa de View Transitions do Router está atualmente em [developer preview](/reference/releases#developer-preview). View Transitions nativas são um recurso relativamente novo dos navegadores, com suporte limitado entre eles.
 
-1. **Capturing the current state** - The browser takes a screenshot of the current page
-2. **Executing the DOM update** - Your callback function runs to update the DOM
-3. **Capturing the new state** - The browser captures the updated page state
-4. **Playing the transition** - The browser animates between the old and new states
+## Como funcionam as View Transitions {#how-view-transitions-work}
 
-Here's the basic structure of the `startViewTransition` API:
+As view transitions usam a API nativa do navegador [`document.startViewTransition`](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition) para criar animações suaves entre diferentes estados da sua aplicação. A API funciona da seguinte forma:
+
+1. **Capturando o estado atual**: o navegador tira uma captura de tela da página atual
+2. **Executando a atualização do DOM**: sua função de callback é executada para atualizar o DOM
+3. **Capturando o novo estado**: o navegador captura o estado atualizado da página
+4. **Reproduzindo a transição**: o navegador anima a passagem entre os estados antigo e novo
+
+Esta é a estrutura básica da API `startViewTransition`:
 
 ```ts
 document.startViewTransition(async () => {
@@ -19,24 +23,24 @@ document.startViewTransition(async () => {
 });
 ```
 
-For more details about the browser API, see the [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions).
+Para mais detalhes sobre a API do navegador, veja o [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions).
 
-## How the Router uses view transitions
+## Como o Router usa as view transitions {#how-the-router-uses-view-transitions}
 
-Angular Router integrates view transitions into the navigation lifecycle to create seamless route changes. During navigation, the Router:
+O Angular Router integra as view transitions ao ciclo de vida da navegação para criar mudanças de route fluidas. Durante a navegação, o Router:
 
-1. **Completes navigation preparation** - Route matching, [lazy loading](guide/routing/loading-strategies#lazily-loaded-components-and-routes), [guards](/guide/routing/route-guards), [resources](/guide/routing/data-fetching-with-resources), and [resolvers](/guide/routing/data-resolvers) execute
-2. **Initiates the view transition** - Router calls `startViewTransition` when routes are ready for activation
-3. **Updates the DOM** - Router activates new routes and deactivates old ones within the transition callback
-4. **Finalizes the transition** - The transition Promise resolves when Angular completes rendering
+1. **Conclui a preparação da navegação**: correspondência de routes, [lazy loading](guide/routing/loading-strategies#lazily-loaded-components-and-routes), [guards](/guide/routing/route-guards), [resources](/guide/routing/data-fetching-with-resources) e [resolvers](/guide/routing/data-resolvers) são executados
+2. **Inicia a view transition**: o Router chama `startViewTransition` quando as routes estão prontas para ativação
+3. **Atualiza o DOM**: o Router ativa as novas routes e desativa as antigas dentro do callback da transição
+4. **Finaliza a transição**: a Promise da transição é resolvida quando o Angular conclui a renderização
 
-The Router's view transition integration acts as a [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement). When browsers don't support the View Transitions API, the Router performs normal DOM updates without animation, ensuring your application works across all browsers.
+A integração de view transitions do Router funciona como um [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement). Quando os navegadores não suportam a API View Transitions, o Router realiza atualizações normais do DOM, sem animação, garantindo que sua aplicação funcione em todos os navegadores.
 
-## Enabling View Transitions in the Router
+## Habilitando View Transitions no Router {#enabling-view-transitions-in-the-router}
 
-Enable view transitions by adding the `withViewTransitions` feature to your [router configuration](/guide/routing/define-routes#adding-the-router-to-your-application). Angular supports both standalone and NgModule bootstrap approaches:
+Habilite as view transitions adicionando o recurso `withViewTransitions` à sua [configuração do router](/guide/routing/define-routes#adding-the-router-to-your-application). O Angular oferece suporte tanto à abordagem de bootstrap standalone quanto à de NgModule:
 
-### Standalone bootstrap
+### Bootstrap standalone {#standalone-bootstrap}
 
 ```ts
 import {bootstrapApplication} from '@angular/platform-browser';
@@ -48,7 +52,7 @@ bootstrapApplication(MyApp, {
 });
 ```
 
-### NgModule bootstrap
+### Bootstrap com NgModule {#ngmodule-bootstrap}
 
 ```ts
 import {NgModule} from '@angular/core';
@@ -60,21 +64,21 @@ import {RouterModule} from '@angular/router';
 export class AppRouting {}
 ```
 
-[Try the "count" example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-2dnvtm?file=src%2Fmain.ts)
+[Experimente o exemplo "count" no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-2dnvtm?file=src%2Fmain.ts)
 
-This example demonstrates how router navigation can replace direct `startViewTransition` calls for counter updates.
+Este exemplo demonstra como a navegação do router pode substituir chamadas diretas a `startViewTransition` para atualizações de contador.
 
-## Customizing transitions with CSS
+## Personalizando as transições com CSS {#customizing-transitions-with-css}
 
-You can customize view transitions using CSS to create unique animation effects. The browser creates separate transition elements that you can target with CSS selectors.
+Você pode personalizar as view transitions usando CSS para criar efeitos de animação exclusivos. O navegador cria elementos de transição separados, que podem ser direcionados com seletores CSS.
 
-To create custom transitions:
+Para criar transições personalizadas:
 
-1. **Add view-transition-name** - Assign unique names to elements you want to animate
-2. **Define global animations** - Create CSS animations in your global styles
-3. **Target transition pseudo-elements** - Use `::view-transition-old()` and `::view-transition-new()` selectors
+1. **Adicione view-transition-name**: atribua nomes exclusivos aos elementos que você quer animar
+2. **Defina animações globais**: crie animações CSS nos seus estilos globais
+3. **Direcione os pseudo-elementos de transição**: use os seletores `::view-transition-old()` e `::view-transition-new()`
 
-Here's an example that adds a rotation effect to a counter element:
+Veja um exemplo que adiciona um efeito de rotação a um elemento de contador:
 
 ```css
 /* Define keyframe animations */
@@ -102,21 +106,21 @@ Here's an example that adds a rotation effect to a counter element:
 }
 ```
 
-IMPORTANT: Define view transition animations in your global styles file, not in component styles. Angular's [view encapsulation](/guide/components/styling#style-scoping) scopes component styles, which prevents them from targeting the transition pseudo-elements correctly.
+IMPORTANT: Defina as animações de view transition no seu arquivo de estilos globais, não nos estilos de component. O [view encapsulation](/guide/components/styling#style-scoping) do Angular limita o escopo dos estilos de component, o que impede que eles direcionem corretamente os pseudo-elementos de transição.
 
-[Try the updated “count” example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
+[Experimente o exemplo "count" atualizado no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
 
-## Advanced transition control with onViewTransitionCreated
+## Controle avançado de transição com onViewTransitionCreated {#advanced-transition-control-with-onviewtransitioncreated}
 
-The `withViewTransitions` feature accepts an options object with an `onViewTransitionCreated` callback for advanced control over view transitions. This callback:
+O recurso `withViewTransitions` aceita um objeto de opções com um callback `onViewTransitionCreated`, para controle avançado sobre as view transitions. Este callback:
 
-- Runs in an [injection context](/guide/di/dependency-injection-context#run-within-an-injection-context)
-- Receives a [`ViewTransitionInfo`](/api/router/ViewTransitionInfo) object containing:
-  - The `ViewTransition` instance from `startViewTransition`
-  - The [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) for the route being navigated from
-  - The [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) for the route being navigated to
+- É executado em um [injection context](/guide/di/dependency-injection-context#run-within-an-injection-context)
+- Recebe um objeto [`ViewTransitionInfo`](/api/router/ViewTransitionInfo) contendo:
+  - A instância de `ViewTransition` retornada por `startViewTransition`
+  - O [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) da route de onde a navegação parte
+  - O [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) da route para onde a navegação vai
 
-Use this callback to customize transition behavior based on navigation context. For example, you can skip transitions for specific navigation types:
+Use este callback para personalizar o comportamento da transição com base no contexto da navegação. Por exemplo, você pode pular transições para tipos específicos de navegação:
 
 ```ts
 import {inject} from '@angular/core';
@@ -144,11 +148,11 @@ withViewTransitions({
 });
 ```
 
-This example skips the view transition when navigation only changes the [URL fragment or query parameters](/guide/routing/read-route-state#query-parameters) (such as anchor links within the same page). The `skipTransition()` method prevents the animation while still allowing the navigation to complete.
+Este exemplo pula a view transition quando a navegação altera apenas o [fragmento da URL ou os query parameters](/guide/routing/read-route-state#query-parameters) (como links âncora dentro da mesma página). O método `skipTransition()` impede a animação, mas ainda permite que a navegação seja concluída.
 
-## Respecting the user's motion preferences
+## Respeitando as preferências de movimento do usuário {#respecting-the-users-motion-preferences}
 
-The Router runs view transitions regardless of the user's [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) setting. A preference for reduced motion doesn't necessarily mean the user wants no motion at all, so the framework leaves the choice to the application: you can [provide more subtle animations](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#react_to_the_reduced_motion_preference) for these users, or skip the transition entirely with the `onViewTransitionCreated` callback:
+O Router executa as view transitions independentemente da configuração [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) do usuário. Uma preferência por movimento reduzido não significa necessariamente que o usuário não quer nenhum movimento, por isso o framework deixa a escolha para a aplicação: você pode [oferecer animações mais sutis](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#react_to_the_reduced_motion_preference) para esses usuários ou pular a transição por completo com o callback `onViewTransitionCreated`:
 
 ```ts
 withViewTransitions({
@@ -160,56 +164,56 @@ withViewTransitions({
 });
 ```
 
-## Examples from the Chrome explainer adapted to Angular
+## Exemplos do Chrome explainer adaptados para Angular {#examples-from-the-chrome-explainer-adapted-to-angular}
 
-The following examples demonstrate various view transition techniques adapted from the Chrome team's documentation for use with Angular Router:
+Os exemplos a seguir demonstram várias técnicas de view transition adaptadas da documentação da equipe do Chrome para uso com o Angular Router:
 
-### Transitioning elements don't need to be the same DOM element
+### Elementos em transição não precisam ser o mesmo elemento DOM {#transitioning-elements-dont-need-to-be-the-same-dom-element}
 
-Elements can transition smoothly between different DOM elements as long as they share the same `view-transition-name`.
+Elementos podem transicionar suavemente entre diferentes elementos DOM, desde que compartilhem o mesmo `view-transition-name`.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#transitioning_elements_dont_need_to_be_the_same_dom_element)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-dh8npr?file=src%2Fmain.ts)
+- [Exemplo Angular no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-dh8npr?file=src%2Fmain.ts)
 
-### Custom entry and exit animations
+### Animações personalizadas de entrada e saída {#custom-entry-and-exit-animations}
 
-Create unique animations for elements entering and leaving the viewport during route transitions.
+Crie animações exclusivas para elementos que entram e saem da viewport durante as transições de route.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#custom_entry_and_exit_transitions)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-8kly3o)
+- [Exemplo Angular no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-8kly3o)
 
-### Async DOM updates and waiting for content
+### Atualizações assíncronas do DOM e espera por conteúdo {#async-dom-updates-and-waiting-for-content}
 
-Angular Router prioritizes immediate transitions over waiting for additional content to load.
+O Angular Router prioriza transições imediatas em vez de esperar que conteúdo adicional seja carregado.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#async_dom_updates_and_waiting_for_content)
 
-NOTE: Angular Router does not provide a way to delay view transitions. This design choice prevents pages from becoming non-interactive while waiting for additional content. As the Chrome documentation notes: "During this time, the page is frozen, so delays here should be kept to a minimum…in some cases it's better to avoid the delay altogether, and use the content you already have."
+NOTE: O Angular Router não oferece uma forma de atrasar as view transitions. Essa decisão de design evita que as páginas fiquem não interativas enquanto aguardam conteúdo adicional. Como observa a documentação do Chrome: "Durante esse tempo, a página fica congelada, então os atrasos devem ser mantidos no mínimo… em alguns casos, é melhor evitar o atraso por completo e usar o conteúdo que você já tem."
 
-### Handle multiple view transition styles with view transition types
+### Lidando com múltiplos estilos de view transition com view transition types {#handle-multiple-view-transition-styles-with-view-transition-types}
 
-Use view transition types to apply different animation styles based on navigation context.
+Use view transition types para aplicar diferentes estilos de animação com base no contexto da navegação.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#view-transition-types)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-vxzcam)
+- [Exemplo Angular no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-vxzcam)
 
-### Handle multiple view transition styles with a class name on the view transition root (deprecated)
+### Lidando com múltiplos estilos de view transition com um nome de classe na raiz da view transition (descontinuado) {#handle-multiple-view-transition-styles-with-a-class-name-on-the-view-transition-root-deprecated}
 
-This approach uses CSS classes on the transition root element to control animation styles.
+Esta abordagem usa classes CSS no elemento raiz da transição para controlar os estilos de animação.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#changing-on-navigation-type)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-nmnzzg?file=src%2Fmain.ts)
+- [Exemplo Angular no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-nmnzzg?file=src%2Fmain.ts)
 
-### Transitioning without freezing other animations
+### Transicionando sem congelar outras animações {#transitioning-without-freezing-other-animations}
 
-Maintain other page animations during view transitions to create more dynamic user experiences.
+Mantenha outras animações da página durante as view transitions para criar experiências de usuário mais dinâmicas.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#transitioning-without-freezing)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-76kgww)
+- [Exemplo Angular no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-76kgww)
 
-### Animating with JavaScript
+### Animando com JavaScript {#animating-with-javascript}
 
-Control view transitions programmatically using JavaScript APIs for complex animation scenarios.
+Controle as view transitions programaticamente usando APIs JavaScript para cenários de animação complexos.
 
 - [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#animating-with-javascript)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-cklnkm)
+- [Exemplo Angular no StackBlitz](https://stackblitz.com/edit/stackblitz-starters-cklnkm)
