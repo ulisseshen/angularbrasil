@@ -2,59 +2,57 @@
 <docs-decorative-header title="Forms with Angular Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-CRITICAL: Signal Forms são [experimentais](/reference/releases#experimental). A API pode mudar em versões futuras. Evite usar APIs experimentais em aplicações de produção sem entender os riscos.
-
-Signal Forms é uma biblioteca experimental que permite gerenciar o estado do formulário em aplicações Angular construindo sobre a base reativa de signals. Com vinculação bidirecional automática, acesso a campos type-safe e validação baseada em schema, Signal Forms ajudam você a criar formulários robustos.
+Signal Forms é uma biblioteca que permite gerenciar o state de formulários em aplicações Angular, construindo sobre a base reativa dos signals. Com two-way binding automático, acesso a fields type-safe e validação baseada em schema, Signal Forms ajudam você a criar formulários robustos.
 
 TIP: Para uma introdução rápida ao Signal Forms, veja o [guia essencial de Signal Forms](essentials/signal-forms).
 
-## Por que Signal Forms?
+## Por que Signal Forms? {#why-signal-forms}
 
-Construir formulários em aplicações web envolve gerenciar várias preocupações interconectadas: rastrear valores de campos, validar entrada do usuário, lidar com estados de erro e manter a UI sincronizada com seu modelo de dados. Gerenciar essas preocupações separadamente cria código boilerplate e complexidade.
+Construir formulários em aplicações web envolve gerenciar várias preocupações interconectadas: rastrear os valores dos fields, validar a entrada do usuário, tratar os states de erro e manter a UI sincronizada com o seu model de dados. Gerenciar essas preocupações separadamente cria código repetitivo (boilerplate) e complexidade.
 
-Signal Forms abordam esses desafios ao:
+Signal Forms resolve esses desafios:
 
-- **Sincronizar estado automaticamente** - Sincroniza automaticamente o modelo de dados do formulário com os campos de formulário vinculados
-- **Fornecer type safety** - Suporta schemas totalmente type safe e vinculações entre seus controles de UI e modelo de dados
-- **Centralizar lógica de validação** - Defina todas as regras de validação em um só lugar usando um schema de validação
+- **Sincronizando o state automaticamente** - Sincroniza automaticamente o model de dados do formulário com os fields vinculados
+- **Oferecendo type safety** - Suporta schemas e vínculos totalmente type-safe entre os controles da UI e o model de dados
+- **Centralizando a lógica de validação** - Defina todas as regras de validação em um só lugar, usando um schema de validação
 
-Signal Forms funcionam melhor em novas aplicações construídas com signals. Se você está trabalhando com uma aplicação existente que usa reactive forms, ou se você precisa de garantias de estabilidade de produção, reactive forms permanecem uma escolha sólida.
+Signal Forms funcionam melhor em aplicações novas construídas com signals. Se você está trabalhando em uma aplicação existente que usa reactive forms, reactive forms continuam sendo uma escolha sólida.
 
-<!-- TODO: UNCOMMENT SECTION BELOW WHEN AVAILABLE -->
-<!-- NOTE: If you're coming from template or reactive forms, you may be interested in our [comparison guide](guide/forms/signal-forms/comparison). -->
+NOTE: Se você vem de template forms ou reactive forms, pode se interessar pelo [guia de comparação](guide/forms/signals/comparison).
 
-## Pré-requisitos
+## Pré-requisitos {#prerequisites}
 
-Signal Forms requerem:
+Signal Forms requer:
 
 - Angular v21 ou superior
 
-## Configuração
+## Configuração {#setup}
 
 Signal Forms já estão incluídos no pacote `@angular/forms`. Importe as funções e directives necessárias de `@angular/forms/signals`:
 
 ```ts
-import { form, Field, required, email } from '@angular/forms/signals'
+import {form, FormField, required, email} from '@angular/forms/signals';
 ```
 
-A directive `Field` deve ser importada em qualquer component que vincule campos de formulário a inputs HTML:
+A directive `FormField` deve ser importada em qualquer component que vincule fields de formulário a inputs HTML:
 
 ```ts
 @Component({
   // ...
-  imports: [Field],
+  imports: [FormField],
 })
 ```
 
-<!-- TODO: UNCOMMENT SECTION BELOW WHEN AVAILABLE -->
-<!-- ## Next steps
+## Próximos passos {#next-steps}
 
-To learn more about how Signal Forms work, check out the following guides:
+Para saber mais sobre como o Signal Forms funciona, confira os guias a seguir:
 
 <docs-pill-row>
   <docs-pill href="essentials/signal-forms" title="Signal forms essentials" />
-  <docs-pill href="guide/forms/signal-forms/models" title="Form models" />
-  <docs-pill href="guide/forms/signal-forms/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signal-forms/validation" title="Validation" />
-  <docs-pill href="guide/forms/signal-forms/custom-controls" title="Custom controls" />
-</docs-pill-row> -->
+  <docs-pill href="guide/forms/signals/models" title="Form models" />
+  <docs-pill href="guide/forms/signals/model-design" title="Designing your form model" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
+  <docs-pill href="guide/forms/signals/validation" title="Validation" />
+  <docs-pill href="guide/forms/signals/custom-controls" title="Custom controls" />
+  <docs-pill href="guide/forms/signals/comparison" title="Comparison with other form systems" />
+</docs-pill-row>

@@ -6,8 +6,8 @@ generate_guides(
     srcs = glob([
         "*.md",
     ]),
-    api_manifest = "//adev/src/assets:docs_api_manifest",
     data = [
+        "//adev/src/assets/images:i18n.svg",
         "//adev/src/content/examples",
     ],
     visibility = ["//adev:__subpackages__"],

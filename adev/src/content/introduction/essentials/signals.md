@@ -21,12 +21,12 @@ firstName.set('Jaime');
 
 // You can also use the `update` method to change the value
 // based on the previous value.
-firstName.update(name => name.toUpperCase());
+firstName.update((name) => name.toUpperCase());
 ```
 
 O Angular rastreia onde os signals são lidos e quando são atualizados. O framework usa essa informação para realizar trabalhos adicionais, como atualizar o DOM com o novo estado. Essa capacidade de responder a valores de signal que mudam ao longo do tempo é conhecida como _reatividade_.
 
-## Expressões computed
+## Expressões computed {#computed-expressions}
 
 Um `computed` é um signal que produz seu valor com base em outros signals.
 
@@ -52,12 +52,14 @@ firstName.set('Jaime');
 console.log(firstNameCapitalized()); // JAIME
 ```
 
-## Usando signals em components
+## Usando signals em components {#using-signals-in-components}
 
 Use `signal` e `computed` dentro de seus components para criar e gerenciar estado:
 
-```typescript
-@Component({/* ... */})
+```ts
+@Component({
+  /* ... */
+})
 export class UserProfile {
   isTrial = signal(false);
   isTrialExpired = signal(false);
@@ -71,7 +73,7 @@ export class UserProfile {
 
 DICA: Quer saber mais sobre Angular Signals? Consulte o [guia detalhado de Signals](guide/signals) para todos os detalhes.
 
-## Próximo Passo
+## Próximo Passo {#next-step}
 
 Agora que você aprendeu como declarar e gerenciar dados dinâmicos, é hora de aprender como usar esses dados dentro de templates.
 

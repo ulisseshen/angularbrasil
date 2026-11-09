@@ -10,13 +10,46 @@
 // Example when there is a conflict between API entries and compiler features.
 // eg: "animate" is both an Animation API entry and an template instruction "animation.enter"
 // or "style" is a generic term but also an Animation API entry.
-const LINK_EXEMPT = new Set(['animate', 'animate.enter', 'animate.leave', 'style']);
+const LINK_EXEMPT = new Set([
+  'animate',
+  'animate.enter',
+  'animate.leave',
+  'style',
+  'readonly',
+  'disabled',
+  'hidden',
+  'state',
+  'group',
+  'animation',
+  'transition',
+  'trigger',
+  'group()',
+  'keyframes',
+  '@keyframes',
+  'input',
+  'Event',
+  'form',
+  'type',
+  'Host',
+  'filter',
+  'required',
+  'pattern',
+  'min',
+  'max',
+  'minLength',
+  'maxLength',
+  'query',
+]);
 
 export function shouldLinkSymbol(symbol: string): boolean {
   return !LINK_EXEMPT.has(symbol);
 }
 
-export type ApiEntries = Record<string, string>; // symbolName -> moduleName (without @angular/ prefix)
+// symbolName -> symbol info with moduleName and optional targetSymbol for aliases
+export type ApiEntries = Record<
+  string,
+  {moduleName: string; targetSymbol?: string; entryType?: string}
+>;
 
 /**
  * Extracts the symbol name and property name from a symbol string.
@@ -43,19 +76,39 @@ export function extractFromSymbol(symbol: string): {propName: string | null; sym
     [symbolName, propName] = symbolName.split('.');
   }
 
-  return {propName: propName ?? null, symbolName: symbolName};
+  return {propName: propName?.replace(/[(<!].*$/, '') ?? null, symbolName: symbolName};
 }
 
 export function getSymbolUrl(symbol: string, apiEntries: ApiEntries): string | undefined {
-  if (hasMoreThanOneDot(symbol) || !shouldLinkSymbol(symbol)) {
+  if (!shouldLinkSymbol(symbol)) {
+    return undefined;
+  }
+
+  return resolveSymbolUrl(symbol, apiEntries);
+}
+
+export function resolveSymbolUrl(symbol: string, apiEntries: ApiEntries): string | undefined {
+  if (hasMoreThanOneDot(symbol)) {
     return undefined;
   }
 
   const {symbolName, propName} = extractFromSymbol(symbol);
   // We don't want to match entries like "constructor"
-  const apiEntry = Object.hasOwn(apiEntries, symbolName) && apiEntries[symbolName];
+  if (!Object.hasOwn(apiEntries, symbolName)) {
+    return undefined;
+  }
 
-  return apiEntry ? `/api/${apiEntry}/${symbolName}${propName ? `#${propName}` : ''}` : undefined;
+  const apiEntry = apiEntries[symbolName];
+  if (propName && apiEntry.entryType === 'function') {
+    return undefined;
+  }
+
+  const moduleName = apiEntry.moduleName;
+  const targetSymbol = apiEntry.targetSymbol ?? symbolName;
+  const fragment =
+    propName && apiEntry.entryType !== 'initializer_api_function' ? `#${propName}` : '';
+
+  return `/api/${moduleName}/${targetSymbol}${fragment}`;
 }
 
 function hasMoreThanOneDot(str: string) {

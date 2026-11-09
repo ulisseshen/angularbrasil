@@ -20,14 +20,18 @@ import {TestBed} from '@angular/core/testing';
 import {withBody} from '@angular/private/testing';
 import {BehaviorSubject} from 'rxjs';
 
-import {provideClientHydration, withNoHttpTransferCache} from '../public_api';
+import {
+  provideClientHydration,
+  withIncrementalHydration,
+  withNoHttpTransferCache,
+  withNoIncrementalHydration,
+} from '../public_api';
 import {withHttpTransferCacheOptions} from '../src/hydration';
 
 describe('provideClientHydration', () => {
   @Component({
     selector: 'test-hydrate-app',
     template: '',
-    standalone: false,
   })
   class SomeComponent {}
 
@@ -71,7 +75,6 @@ describe('provideClientHydration', () => {
           TestBed.resetTestingModule();
 
           TestBed.configureTestingModule({
-            declarations: [SomeComponent],
             providers: [
               {provide: PLATFORM_ID, useValue: 'server'},
               {provide: DOCUMENT, useFactory: () => document},
@@ -103,7 +106,6 @@ describe('provideClientHydration', () => {
           TestBed.resetTestingModule();
 
           TestBed.configureTestingModule({
-            declarations: [SomeComponent],
             providers: [
               {provide: PLATFORM_ID, useValue: 'server'},
               {provide: DOCUMENT, useFactory: () => document},
@@ -135,7 +137,6 @@ describe('provideClientHydration', () => {
           TestBed.resetTestingModule();
 
           TestBed.configureTestingModule({
-            declarations: [SomeComponent],
             providers: [
               {provide: PLATFORM_ID, useValue: 'server'},
               {provide: DOCUMENT, useFactory: () => document},
@@ -162,6 +163,14 @@ describe('provideClientHydration', () => {
 
       TestBed.inject(HttpClient).post(url, body).subscribe();
       TestBed.inject(HttpTestingController).expectNone(url);
+    });
+  });
+
+  describe('incremental hydration conflicts', () => {
+    it('should throw when both withIncrementalHydration and withNoIncrementalHydration are provided', () => {
+      expect(() => {
+        provideClientHydration(withIncrementalHydration(), withNoIncrementalHydration());
+      }).toThrowError(/Configuration error: found both withIncrementalHydration/);
     });
   });
 });

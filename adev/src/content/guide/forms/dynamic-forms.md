@@ -27,7 +27,7 @@ Ele tem um botão Submit que só é habilitado quando toda a entrada do usuário
 
 A versão básica pode evoluir para suportar uma variedade mais rica de perguntas, renderização mais elegante e experiência de usuário superior.
 
-## Habilitar reactive forms para seu projeto
+## Habilitar reactive forms para seu projeto {#enable-reactive-forms-for-your-project}
 
 Formulários dinâmicos são baseados em reactive forms.
 
@@ -38,7 +38,7 @@ Para dar ao aplicativo acesso às directives de reactive forms, importe `Reactiv
     <docs-code header="dynamic-form-question.component.ts" path="adev/src/content/examples/dynamic-form/src/app/dynamic-form-question.component.ts"/>
 </docs-code-multifile>
 
-## Criar um modelo de objeto de formulário
+## Criar um modelo de objeto de formulário {#create-a-form-object-model}
 
 Um formulário dinâmico requer um modelo de objeto que possa descrever todos os cenários necessários pela funcionalidade do formulário.
 O formulário de exemplo de aplicação de herói é um conjunto de perguntas — isto é, cada controle no formulário deve fazer uma pergunta e aceitar uma resposta.
@@ -50,7 +50,7 @@ A seguinte `QuestionBase` é uma classe base para um conjunto de controles que p
 
 <docs-code header="question-base.ts" path="adev/src/content/examples/dynamic-form/src/app/question-base.ts"/>
 
-### Definir classes de controle
+### Definir classes de controle {#define-control-classes}
 
 A partir desta base, o exemplo deriva duas novas classes, `TextboxQuestion` e `DropdownQuestion`, que representam diferentes tipos de controle.
 Quando você criar o template do formulário no próximo passo, você instanciará esses tipos de pergunta específicos para renderizar os controles apropriados dinamicamente.
@@ -63,7 +63,7 @@ O tipo de controle `DropdownQuestion` apresenta uma lista de escolhas em uma cai
 
  <docs-code header="question-dropdown.ts" path="adev/src/content/examples/dynamic-form/src/app/question-dropdown.ts"/>
 
-### Compor grupos de formulário
+### Compor grupos de formulário {#compose-form-groups}
 
 Um formulário dinâmico usa um service para criar conjuntos agrupados de controles de entrada, baseados no modelo de formulário.
 O seguinte `QuestionControlService` coleta um conjunto de instâncias `FormGroup` que consomem os metadados do modelo de pergunta.
@@ -71,7 +71,7 @@ Você pode especificar valores padrão e regras de validação.
 
 <docs-code header="question-control.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question-control.service.ts"/>
 
-## Compor conteúdo de formulário dinâmico
+## Compor conteúdo de formulário dinâmico {#compose-dynamic-form-contents}
 
 O formulário dinâmico em si é representado por um component contêiner, que você adiciona em uma etapa posterior.
 Cada pergunta é representada no template do component do formulário por uma tag `<app-question>`, que corresponde a uma instância de `DynamicFormQuestionComponent`.
@@ -91,7 +91,7 @@ O bloco `@switch` no template determina qual tipo de pergunta exibir.
 O switch usa directives com os seletores [`formControlName`](api/forms/FormControlName 'FormControlName directive API reference') e [`formGroup`](api/forms/FormGroupDirective 'FormGroupDirective API reference').
 Ambas as directives são definidas em `ReactiveFormsModule`.
 
-### Fornecer dados
+### Fornecer dados {#supply-data}
 
 Outro service é necessário para fornecer um conjunto específico de perguntas a partir das quais construir um formulário individual.
 Para este exercício, você cria o `QuestionService` para fornecer este array de perguntas a partir dos dados de exemplo codificados.
@@ -103,7 +103,7 @@ O `QuestionService` fornece um conjunto de perguntas na forma de um array vincul
 
 <docs-code header="question.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question.service.ts"/>
 
-## Criar um template de formulário dinâmico
+## Criar um template de formulário dinâmico {#create-a-dynamic-form-template}
 
 O component `DynamicFormComponent` é o ponto de entrada e o contêiner principal para o formulário, que é representado usando `<app-dynamic-form>` em um template.
 
@@ -114,7 +114,7 @@ O component `DynamicFormComponent` apresenta uma lista de perguntas vinculando c
     <docs-code header="dynamic-form.component.ts" path="adev/src/content/examples/dynamic-form/src/app/dynamic-form.component.ts"/>
 </docs-code-multifile>
 
-### Exibir o formulário
+### Exibir o formulário {#display-the-form}
 
 Para exibir uma instância do formulário dinâmico, o template shell do `AppComponent` passa o array `questions` retornado pelo `QuestionService` para o component contêiner do formulário, `<app-dynamic-form>`.
 
@@ -122,7 +122,7 @@ Para exibir uma instância do formulário dinâmico, o template shell do `AppCom
 
 Esta separação de modelo e dados permite reutilizar os components para qualquer tipo de pesquisa, desde que seja compatível com o modelo de objeto _question_.
 
-### Garantir dados válidos
+### Garantir dados válidos {#ensuring-valid-data}
 
 O template do formulário usa vinculação de dados dinâmica de metadados para renderizar o formulário sem fazer suposições codificadas sobre perguntas específicas.
 Ele adiciona tanto metadados de controle quanto critérios de validação dinamicamente.
@@ -134,7 +134,7 @@ A figura a seguir mostra o formulário final.
 
 <img alt="Dynamic-Form" src="assets/images/guide/dynamic-form/dynamic-form.png">
 
-## Próximos passos
+## Próximos passos {#next-steps}
 
 <docs-pill-row>
   <docs-pill title="Validating form input" href="guide/forms/reactive-forms#validating-form-input" />

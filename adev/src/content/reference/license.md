@@ -2,7 +2,7 @@
 
 # A Licença MIT
 
-Copyright (c) 2010-2025 Google LLC. https://angular.dev/license
+Copyright (c) 2010-2026 Google LLC. [https://angular.dev/license](/license)
 
 É concedida permissão, gratuitamente, a qualquer pessoa que obtenha uma cópia deste software e arquivos de documentação associados (o "Software"), para lidar com o Software sem restrições, incluindo, sem limitação, os direitos de usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do Software, e permitir que pessoas a quem o Software é fornecido o façam, sujeito às seguintes condições:
 

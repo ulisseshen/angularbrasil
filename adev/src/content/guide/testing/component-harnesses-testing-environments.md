@@ -1,11 +1,11 @@
 <!-- ia-translate: true -->
 # Adicionando suporte de harness para ambientes de teste adicionais
 
-## Antes de começar
+## Antes de começar {#before-you-start}
 
 TIP: Este guia assume que você já leu o [guia de visão geral de component harnesses](guide/testing/component-harnesses-overview). Leia-o primeiro se você é novo em usar component harnesses.
 
-### Quando adicionar suporte para um ambiente de teste faz sentido?
+### Quando adicionar suporte para um ambiente de teste faz sentido? {#when-does-adding-support-for-a-test-environment-make-sense}
 
 Para usar component harnesses nos seguintes ambientes, você pode usar os dois ambientes integrados do Angular CDK:
 
@@ -16,15 +16,15 @@ Para usar um ambiente de teste suportado, leia o [guia Criando harnesses para se
 
 Caso contrário, para adicionar suporte para outros ambientes, você precisa definir como interagir com um elemento DOM e como as interações DOM funcionam em seu ambiente. Continue lendo para saber mais.
 
-### Instalação do CDK
+### Instalação do CDK {#cdk-installation}
 
 O [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) é um conjunto de primitivas de comportamento para construir components. Para usar os component harnesses, primeiro instale `@angular/cdk` do npm. Você pode fazer isso do seu terminal usando o Angular CLI:
 
-<docs-code language="shell">
-  ng add @angular/cdk
-</docs-code>
+```shell
+ng add @angular/cdk
+```
 
-## Criando uma implementação de `TestElement`
+## Criando uma implementação de `TestElement` {#creating-a-testelement-implementation}
 
 Cada ambiente de teste deve definir uma implementação de `TestElement`. A interface `TestElement` serve como uma representação agnóstica de ambiente de um elemento DOM. Ela permite que harnesses interajam com elementos DOM independentemente do ambiente subjacente. Como alguns ambientes não suportam interagir com elementos DOM de forma síncrona (por exemplo, WebDriver), todos os métodos `TestElement` são assíncronos, retornando uma `Promise` com o resultado da operação.
 
@@ -34,7 +34,7 @@ A interface `TestElement` consiste principalmente de métodos que se assemelham 
 
 As implementações [UnitTestElement](/api/cdk/testing/testbed/UnitTestElement) e [SeleniumWebDriverElement](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverElement) no Angular CDK servem como bons exemplos de implementações desta interface.
 
-## Criando uma implementação de `HarnessEnvironment`
+## Criando uma implementação de `HarnessEnvironment` {#creating-a-harnessenvironment-implementation}
 
 Autores de teste usam `HarnessEnvironment` para criar instâncias de component harness para uso em testes. `HarnessEnvironment` é uma classe abstrata que deve ser estendida para criar uma subclasse concreta para o novo ambiente. Ao suportar um novo ambiente de teste, crie uma subclasse `HarnessEnvironment` que adicione implementações concretas para todos os membros abstratos.
 
@@ -55,7 +55,7 @@ Além de implementar os métodos faltantes, esta classe deve fornecer uma maneir
 
 As implementações [`TestbedHarnessEnvironment`](/api/cdk/testing/testbed/TestbedHarnessEnvironment) e [SeleniumWebDriverHarnessEnvironment](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverHarnessEnvironment) no Angular CDK servem como bons exemplos de implementações desta interface.
 
-## Lidando com detecção automática de mudanças
+## Lidando com detecção automática de mudanças {#handling-auto-change-detection}
 
 Para suportar as APIs `manualChangeDetection` e parallel, seu ambiente deve instalar um handler para o status de detecção automática de mudanças.
 

@@ -1,43 +1,37 @@
 <!-- ia-translate: true -->
 # Criando um service injetável
 
-Injeção de dependência (DI) no Angular é uma das funcionalidades mais poderosas do framework. Considere a injeção de dependência como a capacidade do Angular de _fornecer_ recursos que você precisa para sua aplicação em tempo de execução. Uma dependência pode ser um service ou algum outro recurso.
+A injeção de dependência (DI) no Angular é um dos recursos mais poderosos do framework. Considere a injeção de dependência como a capacidade do Angular de _fornecer_ os recursos de que sua aplicação precisa em tempo de execução. Uma dependência pode ser um service ou algum outro recurso.
 
-Nota: Saiba mais sobre [injeção de dependência no guia essencial](/essentials/dependency-injection).
+NOTE: Saiba mais sobre [injeção de dependência no guia essencial](/essentials/dependency-injection).
 
 Nesta atividade, você aprenderá como criar um service `injectable`.
 
 <hr>
 
-Uma forma de usar um service é agir como uma maneira de interagir com dados e APIs. Para tornar um service reutilizável, você deve manter a lógica no service e compartilhá-la por toda a aplicação quando necessário.
+Uma forma de usar um service é atuar como uma maneira de interagir com dados e APIs. Para tornar um service reutilizável, mantenha a lógica no service e compartilhe-a por toda a aplicação quando for necessário.
 
-Para tornar um service elegível para ser injetado pelo sistema de DI, use o decorator `@Injectable`. Por exemplo:
+Para tornar uma classe elegível para ser injetada pelo sistema de DI, use o decorator `@Service`. Por exemplo:
 
-<docs-code language="ts" highlight="[1, 2, 3]">
-@Injectable({
-  providedIn: 'root'
-})
+```ts {highlight:[1]}
+@Service()
 class UserService {
   // methods to retrieve and return data
 }
-</docs-code>
+```
 
-O decorator `@Injectable` notifica o sistema de DI que o `UserService` está disponível para ser requisitado em uma classe. `providedIn` define o escopo no qual este recurso está disponível. Por enquanto, é suficiente entender que `providedIn: 'root'` significa que o `UserService` está disponível para toda a aplicação.
+O decorator `@Service` marca a classe como um service e notifica o sistema de DI de que o `UserService` pode ser acessado em qualquer parte da aplicação. Por padrão, o Angular fornece o service em toda a aplicação, então você não precisa escrever nenhuma configuração extra.
 
-Certo, agora é com você:
+NOTE: Por padrão, `@Service` fornece a classe no root injector. Se você quiser fornecê-la manualmente, por exemplo, para restringi-la a uma rota ou component específico, defina `autoProvided: false`. Saiba mais no [guia sobre como criar e usar services](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator).
+
+Certo, agora é sua vez:
 
 <docs-workflow>
 
-<docs-step title="Adicionar o decorator `@Injectable`">
-Atualize o código em `car.service.ts` adicionando o decorator `@Injectable`.
-</docs-step>
+<docs-step title="Adicione o decorator `@Service` {#add-the-service-decorator}">
+Atualize o código em `car.service.ts` adicionando o decorator `@Service()` à classe `CarService`.
 
-<docs-step title="Configurar o decorator">
-Os valores no objeto passado para o decorator são considerados a configuração para o decorator.
-<br>
-Atualize o decorator `@Injectable` em `car.service.ts` para incluir a configuração para `providedIn: 'root'`.
-
-DICA: Use o exemplo acima para encontrar a sintaxe correta.
+TIP: Use o exemplo acima para encontrar a sintaxe correta.
 
 </docs-step>
 

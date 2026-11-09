@@ -3,13 +3,13 @@
 Uma breve introdução a alguns dos principais conceitos do Angular.
 </docs-decorative-header>
 
-## Interessado em Angular?
+## Interessado em Angular? {#interested-in-angular}
 
 Bem-vindo! Este guia _Essentials_ explica alguns dos principais conceitos do Angular, ajudando você a entender como é usar o framework. Este guia foca em apenas alguns blocos de construção como uma breve introdução. Se você está procurando documentação profunda e abrangente, você pode navegar para _Guias Detalhados_ específicos a partir da [página inicial da documentação](overview).
 
 Se você prefere começar a escrever código imediatamente, você pode [pular direto para o tutorial prático](tutorials/learn-angular).
 
-### Antes de começar
+### Antes de começar {#before-you-start}
 
 Este site espera que você esteja familiarizado com HTML, CSS e TypeScript. Se você é totalmente novo em desenvolvimento web, você deve procurar algum conteúdo mais introdutório antes de voltar aqui.
 
@@ -19,7 +19,7 @@ Em particular, você deve estar familiarizado com os seguintes conceitos:
 - [Fundamentos de TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 - [Decorators TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html)
 
-## Próximo Passo
+## Próximo Passo {#next-step}
 
 Pronto para mergulhar? É hora de aprender sobre components no Angular!
 

@@ -3,7 +3,7 @@
 
 Este guia ajuda você a escolher a estratégia de renderização certa para diferentes partes da sua aplicação Angular.
 
-## O que são estratégias de renderização?
+## O que são estratégias de renderização? {#what-are-rendering-strategies}
 
 Estratégias de renderização determinam quando e onde o conteúdo HTML da sua aplicação Angular é gerado. Cada estratégia oferece diferentes compensações entre desempenho de carregamento inicial da página, interatividade, capacidades de SEO e uso de recursos do servidor.
 
@@ -17,7 +17,7 @@ O Angular suporta três estratégias de renderização principais:
 
 **CSR é o padrão do Angular.** O conteúdo renderiza inteiramente no navegador após o JavaScript carregar.
 
-### Quando usar CSR
+### Quando usar CSR {#when-to-use-csr}
 
 ✅ Pode ser uma boa opção para:
 
@@ -31,7 +31,7 @@ O Angular suporta três estratégias de renderização principais:
 - Conteúdo público que precisa de SEO
 - Páginas onde o desempenho de carregamento inicial é crítico
 
-### Compensações do CSR
+### Compensações do CSR {#csr-trade-offs}
 
 | Aspect            | Impact                                                           |
 | :---------------- | :--------------------------------------------------------------- |
@@ -45,7 +45,7 @@ O Angular suporta três estratégias de renderização principais:
 
 **SSG pré-renderiza páginas no momento da build** em arquivos HTML estáticos. O servidor envia HTML pré-construído para o carregamento inicial da página. Após a hidratação, sua aplicação roda inteiramente no navegador como uma SPA tradicional - navegação subsequente, mudanças de route e chamadas de API acontecem todas do lado do cliente sem renderização do servidor.
 
-### Quando usar SSG
+### Quando usar SSG {#when-to-use-ssg}
 
 ✅ Pode ser uma boa opção para:
 
@@ -60,7 +60,7 @@ O Angular suporta três estratégias de renderização principais:
 - Dados que mudam frequentemente
 - Informações em tempo real
 
-### Compensações do SSG
+### Compensações do SSG {#ssg-trade-offs}
 
 | Aspect              | Impact                                          |
 | :------------------ | :---------------------------------------------- |
@@ -79,7 +79,7 @@ O Angular suporta três estratégias de renderização principais:
 
 Uma vez que o cliente renderiza a página, o Angular [hidrata](/guide/hydration#what-is-hydration) a aplicação e ela então roda inteiramente no navegador como uma SPA tradicional - navegação subsequente, mudanças de route e chamadas de API acontecem todas do lado do cliente sem renderização adicional do servidor.
 
-### Quando usar SSR
+### Quando usar SSR {#when-to-use-ssr}
 
 ✅ Pode ser uma boa opção para:
 
@@ -92,7 +92,7 @@ Uma vez que o cliente renderiza a página, o Angular [hidrata](/guide/hydration#
 - Conteúdo estático (use SSG em vez disso)
 - Quando custos de servidor são uma preocupação
 
-### Compensações do SSR
+### Compensações do SSR {#ssr-trade-offs}
 
 | Aspect              | Impact                                                       |
 | :------------------ | :----------------------------------------------------------- |
@@ -105,9 +105,9 @@ Uma vez que o cliente renderiza a página, o Angular [hidrata](/guide/hydration#
 
 📖 **Implementação:** Veja [Server routing](guide/ssr#server-routing) e [Criando components compatíveis com servidor](guide/ssr#authoring-server-compatible-components) no guia de SSR.
 
-## Escolhendo a Estratégia Certa
+## Escolhendo a Estratégia Certa {#choosing-the-right-strategy}
 
-### Matriz de decisão
+### Matriz de decisão {#decision-matrix}
 
 | Se você precisa...             | Use esta estratégia | Por quê                                              |
 | :----------------------------- | :------------------ | :--------------------------------------------------- |
@@ -116,7 +116,7 @@ Uma vez que o cliente renderiza a página, o Angular [hidrata](/guide/hydration#
 | **Sem SEO + Interatividade**   | CSR                 | Mais simples, não precisa de servidor                |
 | **Requisitos mistos**          | Híbrido             | Estratégias diferentes por route                     |
 
-## Tornando SSR/SSG Interativo com Hydration
+## Tornando SSR/SSG Interativo com Hydration {#making-ssr-ssg-interactive-with-hydration}
 
 Ao usar SSR ou SSG, o Angular "hidrata" o HTML renderizado no servidor para torná-lo interativo.
 
@@ -131,7 +131,7 @@ Ao usar SSR ou SSG, o Angular "hidrata" o HTML renderizado no servidor para torn
 - [Guia de Hydration](guide/hydration) - Configuração completa de hydration
 - [Incremental hydration](guide/incremental-hydration) - Hydration avançada com blocos `@defer`
 
-## Próximos passos
+## Próximos passos {#next-steps}
 
 <docs-pill-row>
   <docs-pill href="/guide/ssr" title="Server-Side Rendering"/>

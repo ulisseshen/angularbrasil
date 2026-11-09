@@ -5,60 +5,56 @@ Esta migração ajuda projetos a remover imports do `CommonModule` dentro de com
 
 Execute o schematic usando o seguinte comando:
 
-<docs-code language="shell">
-
+```shell
 ng generate @angular/core:common-to-standalone
+```
 
-</docs-code>
-
-## Opções
+## Opções {#options}
 
 | Opção  | Detalhes                                                                                                                        |
 | :----- | :------------------------------------------------------------------------------------------------------------------------------ |
 | `path` | O caminho (relativo à raiz do projeto) a ser migrado. O padrão é `./`. Use isto para migrar incrementalmente um subconjunto do seu projeto. |
 
-## Exemplo
+## Exemplo {#example}
 
 Antes:
 
 ```angular-ts
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-example',
-  standalone: true,
   imports: [CommonModule],
   template: `
     <div *ngIf="show">
       {{ data | async | json }}
     </div>
-  `
+  `,
 })
-export class ExampleComponent {
+export class Example {
   show = true;
-  data = Promise.resolve({ message: 'Hello' });
+  data = Promise.resolve({message: 'Hello'});
 }
 ```
 
 Depois de executar a migração (imports do component adicionados, CommonModule removido):
 
 ```angular-ts
-import { Component } from '@angular/core';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import {Component} from '@angular/core';
+import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-example',
-  standalone: true,
   imports: [AsyncPipe, JsonPipe, NgIf],
   template: `
     <div *ngIf="show">
       {{ data | async | json }}
     </div>
-  `
+  `,
 })
-export class ExampleComponent {
+export class Example {
   show = true;
-  data = Promise.resolve({ message: 'Hello' });
+  data = Promise.resolve({message: 'Hello'});
 }
 ```

@@ -1,82 +1,97 @@
 <!-- ia-translate: true -->
-# Sintaxe de Expressão
+# Sintaxe de expressão
 
-Expressões Angular são baseadas em JavaScript, mas diferem de algumas maneiras importantes. Este guia percorre as semelhanças e diferenças entre expressões Angular e JavaScript padrão.
+As expressões do Angular são baseadas em JavaScript, mas diferem em alguns pontos importantes. Este guia percorre as semelhanças e diferenças entre as expressões do Angular e o JavaScript padrão.
 
-## Literais de valor
+## Literais de valor {#value-literals}
 
-O Angular suporta um subconjunto de [valores literais](https://developer.mozilla.org/en-US/docs/Glossary/Literal) do JavaScript.
+O Angular suporta um subconjunto dos [valores literais](https://developer.mozilla.org/en-US/docs/Glossary/Literal) do JavaScript.
 
-### Literais de valor suportados
+### Literais de valor suportados {#supported-value-literals}
 
-| Tipo de literal | Valores de exemplo                |
-| --------------- | --------------------------------- |
-| String          | `'Hello'`, `"World"`              |
-| Boolean         | `true`, `false`                   |
-| Number          | `123`, `3.14`                     |
-| Object          | `{name: 'Alice'}`                 |
-| Array           | `['Onion', 'Cheese', 'Garlic']`   |
-| null            | `null`                            |
-| Template string | `` `Hello ${name}` ``             |
-| RegExp          | `/\d+/`                           |
+| Tipo de literal          | Valores de exemplo              |
+| ------------------------ | ------------------------------- |
+| String                   | `'Hello'`, `"World"`            |
+| Boolean                  | `true`, `false`                 |
+| Number                   | `123`, `3.14`                   |
+| Object                   | `{name: 'Alice'}`               |
+| Array                    | `['Onion', 'Cheese', 'Garlic']` |
+| null                     | `null`                          |
+| RegExp                   | `/\d+/`                         |
+| Template string          | `` `Hello ${name}` ``           |
+| Tagged template string   | `` tag`Hello ${name}` ``        |
 
-### Literais de valor não suportados
+### Literais de valor não suportados {#unsupported-value-literals}
 
 | Tipo de literal | Valores de exemplo |
 | --------------- | ------------------ |
 | BigInt          | `1n`               |
 
-## Globais
+## Globais {#globals}
 
-Expressões Angular suportam os seguintes [globais](https://developer.mozilla.org/en-US/docs/Glossary/Global_object):
+As expressões do Angular suportam os seguintes [globais](https://developer.mozilla.org/en-US/docs/Glossary/Global_object):
 
 - [undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
 - [$any](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any)
 
-Nenhum outro global JavaScript é suportado. Globais JavaScript comuns incluem `Number`, `Boolean`, `NaN`, `Infinity`, `parseInt`, e mais.
+Nenhum outro global do JavaScript é suportado. Globais comuns do JavaScript incluem `Number`, `Boolean`, `NaN`, `Infinity`, `parseInt` e outros.
 
-## Variáveis locais
+## Variáveis locais {#local-variables}
 
-O Angular automaticamente disponibiliza variáveis locais especiais para uso em expressões em contextos específicos. Essas variáveis especiais sempre começam com o caractere de cifrão (`$`).
+O Angular disponibiliza automaticamente variáveis locais especiais para uso em expressões em contextos específicos. Essas variáveis especiais sempre começam com o caractere de cifrão (`$`).
 
-Por exemplo, blocos `@for` disponibilizam várias variáveis locais correspondentes a informações sobre o loop, como `$index`.
+Por exemplo, blocos `@for` criam várias variáveis locais correspondentes a informações sobre o loop, como `$index`.
 
-## Quais operadores são suportados?
+## Quais operadores são suportados? {#what-operators-are-supported}
 
-### Operadores suportados
+### Operadores suportados {#supported-operators}
 
 O Angular suporta os seguintes operadores do JavaScript padrão.
 
-| Operador                         | Exemplo(s)                                     |
-| -------------------------------- | ---------------------------------------------- |
-| Adicionar / Concatenar           | `1 + 2`                                        |
-| Subtrair                         | `52 - 3`                                       |
-| Multiplicar                      | `41 * 6`                                       |
-| Dividir                          | `20 / 4`                                       |
-| Resto (Módulo)                   | `17 % 5`                                       |
-| Exponenciação                    | `10 ** 3`                                      |
-| Parênteses                       | `9 * (8 + 4)`                                  |
-| Condicional (Ternário)           | `a > b ? true : false`                         |
-| And (Lógico)                     | `&&`                                           |
-| Or (Lógico)                      | `\|\|`                                         |
-| Not (Lógico)                     | `!`                                            |
-| Nullish Coalescing               | `possiblyNullValue ?? 'default'`               |
-| Operadores de Comparação         | `<`, `<=`, `>`, `>=`, `==`, `===`, `!==`, `!=` |
-| Negação Unária                   | `-x`                                           |
-| Plus Unário                      | `+y`                                           |
-| Property Accessor                | `person['name']`                               |
-| Atribuição                       | `a = b`                                        |
-| Atribuição de Adição             | `a += b`                                       |
-| Atribuição de Subtração          | `a -= b`                                       |
-| Atribuição de Multiplicação      | `a *= b`                                       |
-| Atribuição de Divisão            | `a /= b`                                       |
-| Atribuição de Resto              | `a %= b`                                       |
-| Atribuição de Exponenciação      | `a **= b`                                      |
-| Atribuição AND Lógico            | `a &&= b`                                      |
-| Atribuição OR Lógico             | `a \|\|= b`                                    |
-| Atribuição Nullish Coalescing    | `a ??= b`                                      |
+| Operador                      | Exemplo(s)                                     |
+| ----------------------------- | ---------------------------------------------- |
+| Add / Concatenate             | `1 + 2`                                        |
+| Subtract                      | `52 - 3`                                       |
+| Multiply                      | `41 * 6`                                       |
+| Divide                        | `20 / 4`                                       |
+| Remainder (Modulo)            | `17 % 5`                                       |
+| Exponentiation                | `10 ** 3`                                      |
+| Parenthesis                   | `9 * (8 + 4)`                                  |
+| Conditional (Ternary)         | `a > b ? true : false`                         |
+| And (Logical)                 | `&&`                                           |
+| Or (Logical)                  | `\|\|`                                         |
+| Not (Logical)                 | `!`                                            |
+| Nullish Coalescing            | `possiblyNullValue ?? 'default'`               |
+| Comparison Operators          | `<`, `<=`, `>`, `>=`, `==`, `===`, `!==`, `!=` |
+| Unary Negation                | `-x`                                           |
+| Unary Plus                    | `+y`                                           |
+| Property Accessor             | `person['name']`                               |
+| typeof                        | `typeof 42`                                    |
+| void                          | `void 1`                                       |
+| in                            | `'model' in car`                               |
+| instanceof                    | `car instanceof Automobile`                    |
+| Assignment                    | `a = b`                                        |
+| Increment                     | `a++`, `++a`                                   |
+| Decrement                     | `a--`, `--a`                                   |
+| Addition Assignment           | `a += b`                                       |
+| Subtraction Assignment        | `a -= b`                                       |
+| Multiplication Assignment     | `a *= b`                                       |
+| Division Assignment           | `a /= b`                                       |
+| Remainder Assignment          | `a %= b`                                       |
+| Exponentiation Assignment     | `a **= b`                                      |
+| Logical AND Assignment        | `a &&= b`                                      |
+| Logical OR Assignment         | `a \|\|= b`                                    |
+| Nullish Coalescing Assignment | `a ??= b`                                      |
+| Spread in object literals     | `{...obj, foo: 'bar'}`                         |
+| Spread in array literals      | `[...arr, 1, 2, 3]`                            |
+| Rest in function calls        | `fn(...args)`                                  |
+| Arrow function                | `items.filter((i) => i.active)`                |
 
-Expressões Angular adicionalmente também suportam os seguintes operadores não-padrão:
+NOTE: Os operadores de atribuição e de incremento/decremento são válidos apenas em [instruções de event listener](#event-listener-statements). Usá-los em um binding ou em uma interpolação é um erro de compilação, a menos que estejam dentro de uma arrow function.
+
+Arrow functions devem ter um corpo de expressão. Pipes não podem ser usados dentro de uma arrow function, mas você pode passar uma arrow function como argumento para um pipe.
+
+As expressões do Angular também suportam os seguintes operadores não padrão:
 
 | Operador                        | Exemplo(s)                     |
 | ------------------------------- | ------------------------------ |
@@ -84,39 +99,51 @@ Expressões Angular adicionalmente também suportam os seguintes operadores não
 | Optional chaining\*             | `someObj.someProp?.nestedProp` |
 | Non-null assertion (TypeScript) | `someObj!.someProp`            |
 
-NOTE: Optional chaining se comporta de forma diferente da versão JavaScript padrão em que se o lado esquerdo do operador optional chaining do Angular for `null` ou `undefined`, ele retorna `null` ao invés de `undefined`.
+### Migração da navegação segura {#safe-navigation-migration}
 
-### Operadores não suportados
+Antes do Angular 22, o operador de optional chaining (`?.`) retornava `null` quando o lado esquerdo era `null` ou `undefined`, enquanto o `?.` do JavaScript padrão retorna `undefined`.
+A partir do Angular 22, o comportamento do operador de optional chaining nas expressões do Angular está alinhado com o comportamento padrão do JavaScript.
 
-| Operador                      | Exemplo(s)                        |
-| ----------------------------- | --------------------------------- |
-| Todos operadores bitwise      | `&`, `&=`, `~`, `\|=`, `^=`, etc. |
-| Desestruturação de objeto     | `const { name } = person`         |
-| Desestruturação de array      | `const [firstItem] = items`       |
-| Operador vírgula              | `x = (x++, x)`                    |
-| instanceof                    | `car instanceof Automobile`       |
-| new                           | `new Car()`                       |
+Durante a migração para a v22, os schematics do `ng update` adicionam uma função `$safeNavigationMigration` às expressões existentes para preservar o comportamento anterior.
 
-## Contexto léxico para expressões
+```html
+{{ $safeNavigationMigration(foo?.bar) }}
+```
 
-Expressões Angular são avaliadas dentro do contexto da classe do component, bem como quaisquer [variáveis de template](/guide/templates/variables), locais e globais relevantes.
+`$safeNavigationMigration` é apenas um **auxiliar temporário de migração**. Ele instrui o compilador a compilar a expressão de navegação segura envolvida usando a semântica legada, que retorna `null`, em vez da semântica padrão do `?.` do JavaScript. Não se trata de uma função real e não pode ser chamada a partir do TypeScript.
 
-Ao se referir a membros da classe do component, `this` está sempre implícito. No entanto, se um template declara uma [variável de template](guide/templates/variables) com o mesmo nome que um membro, a variável sombreia aquele membro. Você pode referenciar inequivocamente tal membro da classe usando explicitamente `this.`. Isso pode ser útil ao criar uma declaração `@let` que sombreia um membro da classe, por exemplo, para fins de narrowing de signal.
+NOTE: Prefira migrar as expressões para que deixem de depender da distinção entre `null` e `undefined`, de modo que `$safeNavigationMigration` possa ser removido. Essa função pode ser removida em uma versão futura do Angular.
 
-## Declarações
+### Operadores não suportados {#unsupported-operators}
 
-De modo geral, declarações não são suportadas em expressões Angular. Isso inclui, mas não está limitado a:
+| Operador              | Exemplo(s)                        |
+| --------------------- | --------------------------------- |
+| All bitwise operators | `&`, `&=`, `~`, `\|=`, `^=`, etc. |
+| Object destructuring  | `const { name } = person`         |
+| Array destructuring   | `const [firstItem] = items`       |
+| Comma operator        | `x = (x++, x)`                    |
+| new                   | `new Car()`                       |
 
-| Declarações    | Exemplo(s)                                  |
-| -------------- | ------------------------------------------- |
-| Variáveis      | `let label = 'abc'`, `const item = 'apple'` |
-| Funções        | `function myCustomFunction() { }`           |
-| Arrow Functions| `() => { }`                                 |
-| Classes        | `class Rectangle { }`                       |
+## Contexto léxico para expressões {#lexical-context-for-expressions}
 
-# Instruções de event listener
+As expressões do Angular são avaliadas no contexto da classe do component, bem como em quaisquer [variáveis de template](/guide/templates/variables), locais e globais relevantes.
 
-Event handlers são **instruções** ao invés de expressões. Embora eles suportem toda a mesma sintaxe que expressões Angular, existem duas diferenças principais:
+Ao se referir a membros da classe do component, `this` é sempre implícito. No entanto, se um template declarar uma [variável de template](guide/templates/variables) com o mesmo nome de um membro, a variável sombreia esse membro. Você pode referenciar inequivocamente esse membro da classe usando `this.` explicitamente. Isso pode ser útil ao criar uma declaração `@let` que sombreia um membro da classe, por exemplo, para fins de narrowing de signals.
 
-1. Instruções **suportam** operadores de atribuição (mas não atribuições de desestruturação)
+## Declarações {#declarations}
+
+De modo geral, declarações não são suportadas nas expressões do Angular. Isso inclui, mas não se limita a:
+
+| Declarações                       | Exemplo(s)                                  |
+| --------------------------------- | ------------------------------------------- |
+| Variáveis                         | `let label = 'abc'`, `const item = 'apple'` |
+| Funções                           | `function myCustomFunction() { }`           |
+| Arrow functions com corpo de bloco | `() => { }`                                 |
+| Classes                           | `class Rectangle { }`                       |
+
+## Instruções de event listener {#event-listener-statements}
+
+Event handlers são **instruções** em vez de expressões. Embora suportem toda a mesma sintaxe das expressões do Angular, há duas diferenças principais:
+
+1. Instruções **suportam** operadores de atribuição (mas não atribuições por desestruturação)
 1. Instruções **não suportam** pipes

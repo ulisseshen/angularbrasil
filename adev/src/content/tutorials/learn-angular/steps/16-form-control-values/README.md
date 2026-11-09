@@ -3,7 +3,7 @@
 
 Agora que seus forms estão configurados com o Angular, o próximo passo é acessar os valores dos form controls.
 
-Nota: Saiba mais sobre [adicionar um form control básico no guia detalhado](/guide/forms/reactive-forms#adding-a-basic-form-control).
+NOTE: Saiba mais sobre [adicionar um form control básico no guia detalhado](/guide/forms/reactive-forms#adding-a-basic-form-control).
 
 Nesta atividade, você aprenderá como obter o valor do seu input de form.
 
@@ -11,11 +11,11 @@ Nesta atividade, você aprenderá como obter o valor do seu input de form.
 
 <docs-workflow>
 
-<docs-step title="Mostre o valor do campo input no template">
+<docs-step title="Mostre o valor do campo de input no template {#show-the-value-of-the-input-field-in-the-template}">
 
-Para exibir o valor do input em um template, você pode usar a sintaxe de interpolação `{{}}` assim como qualquer outra propriedade de classe do component:
+Para exibir o valor do input em um template, você pode usar a sintaxe de interpolação `{{}}`, assim como qualquer outra propriedade de classe do component:
 
-<docs-code language="angular-ts" highlight="[5]">
+```angular-ts {highlight:[5]}
 @Component({
   selector: 'app-user',
   template: `
@@ -30,15 +30,15 @@ Para exibir o valor do input em um template, você pode usar a sintaxe de interp
 export class User {
   favoriteFramework = '';
 }
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Recupere o valor de um campo input">
+<docs-step title="Recupere o valor de um campo de input {#retrieve-the-value-of-an-input-field}">
 
-Quando você precisa referenciar o valor do campo input na classe do component, você pode fazer isso acessando a propriedade da classe com a sintaxe `this`.
+Quando você precisar referenciar o valor do campo de input na classe do component, pode fazer isso acessando a propriedade da classe com a sintaxe `this`.
 
-<docs-code language="angular-ts" highlight="[15]">
+```angular-ts {highlight:[15]}
 ...
 @Component({
   selector: 'app-user',
@@ -52,16 +52,16 @@ export class User {
   favoriteFramework = '';
   ...
 
-showFramework() {
-alert(this.favoriteFramework);
+  showFramework() {
+    alert(this.favoriteFramework);
+  }
 }
-}
-</docs-code>
+```
 
 </docs-step>
 
 </docs-workflow>
 
-Ótimo trabalho aprendendo como exibir os valores do input no seu template e acessá-los programaticamente.
+Ótimo trabalho aprendendo a exibir os valores dos inputs no seu template e a acessá-los programaticamente.
 
-Hora de progredir para a próxima forma de gerenciar forms com Angular: reactive forms. Se você quiser aprender mais sobre template-driven forms, consulte a [documentação de forms do Angular](guide/forms/template-driven-forms).
+Hora de avançar para a próxima forma de gerenciar forms com Angular: reactive forms. Se quiser aprender mais sobre template-driven forms, consulte a [documentação de forms do Angular](guide/forms/template-driven-forms).

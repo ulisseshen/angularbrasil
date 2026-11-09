@@ -13,23 +13,23 @@ Você tem um app gerenciador de tema com signals já configurados. Agora você a
 
 <docs-workflow>
 
-<docs-step title="Importe a função effect">
+<docs-step title="Importe a função effect {#import-effect-function}">
 Adicione `effect` aos seus imports existentes.
 
 ```ts
-// Add effect to existing imports
+// Adicione effect aos imports existentes
 import {Component, signal, computed, effect, ChangeDetectionStrategy} from '@angular/core';
 ```
 
 A função `effect` cria um efeito colateral reativo que executa automaticamente quando quaisquer signals que ele lê mudam.
 </docs-step>
 
-<docs-step title="Crie um effect para local storage">
+<docs-step title="Crie um effect para o local storage {#create-an-effect-for-local-storage}">
 Adicione um effect que salva automaticamente o tema no local storage quando ele muda.
 
 ```ts
 constructor() {
-  // Save theme to localStorage whenever it changes
+  // Salva o tema no localStorage sempre que ele muda
   effect(() => {
     localStorage.setItem('theme', this.theme());
     console.log('Theme saved to localStorage:', this.theme());
@@ -37,17 +37,17 @@ constructor() {
 }
 ```
 
-Este effect executa sempre que o signal theme muda, persistindo automaticamente a preferência do usuário.
+Este effect executa sempre que o signal `theme` muda, persistindo automaticamente a preferência do usuário.
 </docs-step>
 
-<docs-step title="Crie um effect para logging de atividade do usuário">
+<docs-step title="Crie um effect para logging de atividade do usuário {#create-an-effect-for-logging-user-activity}">
 Adicione um effect que registra quando o usuário faz login ou logout.
 
 ```ts
 constructor() {
-  // ... previous effect
+  // ... effect anterior
 
-  // Log user activity changes
+  // Registra mudanças na atividade do usuário
   effect(() => {
     const status = this.isLoggedIn() ? 'logged in' : 'logged out';
     const user = this.username();
@@ -59,20 +59,20 @@ constructor() {
 Este effect demonstra como effects podem ler múltiplos signals e reagir a mudanças em qualquer um deles.
 </docs-step>
 
-<docs-step title="Crie um effect com cleanup">
-Adicione um effect que configura um timer e limpa quando o component é destruído.
+<docs-step title="Crie um effect com cleanup {#create-an-effect-with-cleanup}">
+Adicione um effect que configura um timer e faz a limpeza quando o component é destruído.
 
 ```ts
 constructor() {
-  // ... previous effects
+  // ... effects anteriores
 
-  // Timer effect with cleanup
+  // Effect de timer com cleanup
   effect((onCleanup) => {
     const interval = setInterval(() => {
       console.log('Timer tick - Current theme:', this.theme());
     }, 5000);
 
-    // Clean up the interval when the effect is destroyed
+    // Limpa o intervalo quando o effect é destruído
     onCleanup(() => {
       clearInterval(interval);
       console.log('Timer cleaned up');
@@ -81,32 +81,32 @@ constructor() {
 }
 ```
 
-Este effect demonstra como limpar recursos quando effects são destruídos ou re-executados.
+Este effect não lê nenhum signal durante a execução, porque `this.theme()` só é chamado depois, dentro do callback de `setInterval`. Ele executa uma vez e nunca é re-executado, então o cleanup só acontece quando o component é destruído, por exemplo quando a prévia é recarregada.
 </docs-step>
 
-<docs-step title="Teste os effects">
-Abra o console do browser e interaja com o app:
+<docs-step title="Teste os effects {#test-the-effects}">
+Abra o console do navegador e interaja com o app:
 
-- **Toggle Theme** - Veja salvamentos no localStorage e logs do timer
-- **Login/Logout** - Veja logging de atividade do usuário
-- **Watch Timer** - Veja logging periódico do tema a cada 5 segundos
+- **Toggle Theme** - Veja os salvamentos no localStorage
+- **Login/Logout** - Veja o logging de atividade do usuário
+- **Watch Timer** - Veja o logging periódico do tema a cada 5 segundos
 
-Os effects executam automaticamente sempre que seus signals rastreados mudam!
+Os effects executam uma vez quando o component é criado, então alguns desses logs aparecem antes de você clicar em qualquer coisa. Depois disso, eles executam novamente sempre que os signals que eles leem mudam.
 </docs-step>
 
 </docs-workflow>
 
-Excelente! Você agora aprendeu como usar effects com signals. Conceitos-chave para lembrar:
+Excelente! Agora você aprendeu como usar effects com signals. Conceitos-chave para lembrar:
 
 - **Effects são reativos**: Eles executam automaticamente quando qualquer signal que eles leem muda
 - **Somente efeitos colaterais**: Perfeitos para logging, manipulação do DOM, chamadas de API e sincronização com APIs imperativas
 - **Cleanup**: Use o callback `onCleanup` para limpar recursos como timers ou subscriptions
 - **Rastreamento automático**: Effects rastreiam automaticamente quais signals eles leem e re-executam quando esses signals mudam
 
-**Lembre-se: Use effects com moderação!** Os exemplos nesta lição (sincronização com localStorage, logging, timers) são usos apropriados. Evite effects para:
+**Lembre-se: use effects com moderação!** Os exemplos desta lição (sincronização com localStorage, logging, timers) são usos apropriados. Evite effects para:
 
 - Derivar valores de outros signals - use `computed()` em vez disso
-- Criar estado derivado modificável - use `linkedSignal()` em vez disso
+- Criar estado derivado gravável - use `linkedSignal()` em vez disso
 - Copiar dados entre signals - reestruture para usar uma fonte de verdade compartilhada
 
-Effects são poderosos, mas devem ser seu último recurso quando `computed()` e `linkedSignal()` não puderem resolver seu caso de uso.
+Effects são poderosos, mas devem ser seu último recurso quando `computed()` e `linkedSignal()` não conseguirem resolver seu caso de uso.

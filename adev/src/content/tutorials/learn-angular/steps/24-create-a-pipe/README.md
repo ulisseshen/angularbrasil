@@ -3,9 +3,9 @@
 
 Você pode criar pipes personalizados no Angular para atender às suas necessidades de transformação de dados.
 
-Nota: Saiba mais sobre [criação de pipes personalizados no guia detalhado](/guide/templates/pipes#creating-custom-pipes).
+NOTE: Saiba mais sobre [criação de pipes personalizados no guia detalhado](/guide/templates/pipes#creating-custom-pipes).
 
-Nesta atividade, você criará um pipe personalizado e o usará em seu template.
+Nesta atividade, você criará um pipe personalizado e o usará no seu template.
 
 <hr>
 
@@ -24,18 +24,18 @@ export class StarPipe implements PipeTransform {
 }
 ```
 
-O `StarPipe` aceita um valor string e retorna essa string com estrelas ao redor. Note que:
+O `StarPipe` aceita um valor string e retorna essa string com estrelas ao redor. Observe que:
 
-- o nome no decorator `@Pipe` é o que será usado no template
-- a função `transform` é onde você coloca sua lógica
+- o nome na configuração do decorator `@Pipe` é o que será usado no template
+- a função `transform` é onde você coloca a sua lógica
 
-Certo, agora é sua vez de experimentar — você criará o `ReversePipe`:
+Certo, agora é a sua vez de experimentar: você criará o `ReversePipe`.
 
 <docs-workflow>
 
-<docs-step title="Criar o `ReversePipe`">
+<docs-step title="Crie o `ReversePipe` {#create-the-reversepipe}">
 
-Em `reverse.pipe.ts` adicione o decorator `@Pipe` à classe `ReversePipe` e forneça a seguinte configuração:
+Em `reverse.pipe.ts`, adicione o decorator `@Pipe` à classe `ReversePipe` e forneça a seguinte configuração:
 
 ```ts
 @Pipe({
@@ -45,11 +45,11 @@ Em `reverse.pipe.ts` adicione o decorator `@Pipe` à classe `ReversePipe` e forn
 
 </docs-step>
 
-<docs-step title="Implementar a função `transform`">
+<docs-step title="Implemente a função `transform` {#implement-the-transform-function}">
 
 Agora a classe `ReversePipe` é um pipe. Atualize a função `transform` para adicionar a lógica de reversão:
 
-<docs-code language="ts" highlight="[3,4,5,6,7,8,9]">
+```ts {highlight:[3,4,5,6,7,8,9]}
 export class ReversePipe implements PipeTransform {
   transform(value: string): string {
     let reverse = '';
@@ -59,24 +59,25 @@ export class ReversePipe implements PipeTransform {
     }
 
     return reverse;
-
+  }
 }
-}
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Usar o `ReversePipe` no template"></docs-step>
-Com a lógica do pipe implementada, o passo final é usá-lo no template. Em `app.ts` inclua o pipe no template e adicione-o aos imports do component:
+<docs-step title="Use o `ReversePipe` no template {#use-the-reversepipe-in-the-template}">
+Com a lógica do pipe implementada, o passo final é usá-lo no template. Em `app.ts`, inclua o pipe no template e adicione-o aos imports do component:
 
-<docs-code language="angular-ts" highlight="[3,4]">
+```angular-ts {highlight:[3,4]}
 @Component({
   ...
-  template: `Reverse Machine: {{ word | reverse }}`
+  template: `Reverse Machine: {{ word | reverse }}`,
   imports: [ReversePipe]
 })
-</docs-code>
+```
+
+</docs-step>
 
 </docs-workflow>
 
-E com isso você conseguiu. Parabéns por completar esta atividade. Agora você sabe como usar pipes e até mesmo como implementar seus próprios pipes personalizados.
+E com isso você concluiu a atividade. Parabéns! Agora você sabe como usar pipes e até como implementar seus próprios pipes personalizados.

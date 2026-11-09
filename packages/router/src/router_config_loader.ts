@@ -10,19 +10,20 @@ import {
   Compiler,
   EnvironmentInjector,
   inject,
-  Injectable,
   InjectionToken,
   Injector,
+  ɵmaybeUnwrapDefaultExport as maybeUnwrapDefaultExport,
   NgModuleFactory,
-  runInInjectionContext,
-  Type,
   ɵresolveComponentResources as resolveComponentResources,
+  runInInjectionContext,
+  Service,
+  Type,
 } from '@angular/core';
 
-import {DefaultExport, LoadedRouterConfig, Route, Routes} from './models';
-import {assertStandalone, validateConfig} from './utils/config';
 import {standardizeConfig} from './components/empty_outlet';
+import {LoadedRouterConfig, Route, Routes} from './models';
 import {wrapIntoPromise} from './utils/collection';
+import {assertStandalone, validateConfig} from './utils/config';
 
 /**
  * The DI token for a router configuration.
@@ -35,17 +36,20 @@ import {wrapIntoPromise} from './utils/collection';
  * @publicApi
  */
 export const ROUTES = new InjectionToken<Route[][]>(
-  typeof ngDevMode !== undefined && ngDevMode ? 'ROUTES' : '',
+  typeof ngDevMode !== 'undefined' && ngDevMode ? 'ROUTES' : '',
 );
 
-@Injectable({providedIn: 'root'})
+@Service()
 export class RouterConfigLoader {
   private componentLoaders = new WeakMap<Route, Promise<Type<unknown>>>();
   private childrenLoaders = new WeakMap<Route, Promise<LoadedRouterConfig>>();
   onLoadStartListener?: (r: Route) => void;
   onLoadEndListener?: (r: Route) => void;
   private readonly compiler = inject(Compiler);
+  // TODO(v23): Run loadComponent and loadChildren in root environment injector in 3p as well.
+  // g3-only private readonly environmentInjector = inject(EnvironmentInjector);
 
+  // TODO(v23): Remove unused `injector` parameter once `loadComponent` uses `this.environmentInjector` in 3p.
   async loadComponent(injector: EnvironmentInjector, route: Route): Promise<Type<unknown>> {
     if (this.componentLoaders.get(route)) {
       return this.componentLoaders.get(route)!;
@@ -59,7 +63,8 @@ export class RouterConfigLoader {
     const loader = (async () => {
       try {
         const loaded = await wrapIntoPromise(
-          runInInjectionContext(injector, () => route.loadComponent!()),
+          // g3-only runInInjectionContext(this.environmentInjector, () => route.loadComponent!()),
+          runInInjectionContext(injector, () => route.loadComponent!()), // 3p-only
         );
         const component = await maybeResolveResources(maybeUnwrapDefaultExport(loaded));
 
@@ -95,9 +100,11 @@ export class RouterConfigLoader {
           this.compiler,
           parentInjector,
           this.onLoadEndListener,
+          // g3-only this.environmentInjector,
         );
         route._loadedRoutes = result.routes;
         route._loadedInjector = result.injector;
+        route._loadedNgModuleFactory = result.factory;
         return result;
       } finally {
         this.childrenLoaders.delete(route);
@@ -121,9 +128,12 @@ export async function loadChildren(
   compiler: Compiler,
   parentInjector: Injector,
   onLoadEndListener?: (r: Route) => void,
+  // TODO(v23): Update `@angular/build` route extractor to pass `environmentInjector` and make it required.
+  // g3-only environmentInjector?: EnvironmentInjector,
 ): Promise<LoadedRouterConfig> {
   const loaded = await wrapIntoPromise(
-    runInInjectionContext(parentInjector, () => route.loadChildren!()),
+    // g3-only runInInjectionContext(environmentInjector ?? parentInjector, () => route.loadChildren!()),
+    runInInjectionContext(parentInjector, () => route.loadChildren!()), // 3p-only
   );
   const t = await maybeResolveResources(maybeUnwrapDefaultExport(loaded));
 
@@ -142,11 +152,13 @@ export async function loadChildren(
   let injector: EnvironmentInjector | undefined;
   let rawRoutes: Route[];
   let requireStandaloneComponents = false;
+  let factory: NgModuleFactory<unknown> | undefined = undefined;
   if (Array.isArray(factoryOrRoutes)) {
     rawRoutes = factoryOrRoutes;
     requireStandaloneComponents = true;
   } else {
     injector = factoryOrRoutes.create(parentInjector).injector;
+    factory = factoryOrRoutes;
     // When loading a module that doesn't provide `RouterModule.forChild()` preloader
     // will get stuck in an infinite loop. The child module's Injector will look to
     // its parent `Injector` when it doesn't find any ROUTES so it will return routes
@@ -156,20 +168,7 @@ export async function loadChildren(
   const routes = rawRoutes.map(standardizeConfig);
   (typeof ngDevMode === 'undefined' || ngDevMode) &&
     validateConfig(routes, route.path, requireStandaloneComponents);
-  return {routes, injector};
-}
-
-function isWrappedDefaultExport<T>(value: T | DefaultExport<T>): value is DefaultExport<T> {
-  // We use `in` here with a string key `'default'`, because we expect `DefaultExport` objects to be
-  // dynamically imported ES modules with a spec-mandated `default` key. Thus we don't expect that
-  // `default` will be a renamed property.
-  return value && typeof value === 'object' && 'default' in value;
-}
-
-function maybeUnwrapDefaultExport<T>(input: T | DefaultExport<T>): T {
-  // As per `isWrappedDefaultExport`, the `default` key here is generated by the browser and not
-  // subject to property renaming, so we reference it with bracket access.
-  return isWrappedDefaultExport(input) ? input['default'] : input;
+  return {routes, injector, factory};
 }
 
 async function maybeResolveResources<T>(value: T): Promise<T> {

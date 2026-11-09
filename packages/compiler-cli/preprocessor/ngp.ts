@@ -1,0 +1,157 @@
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.dev/license
+ */
+
+// tslint:disable:no-console
+
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import {getDiagnosticPath, HybridCompiler, serializeDiagnostics} from './src/hybrid_compiler.js';
+import {AnalysisResult} from './src/types.js';
+import {ChunkContext} from './src/file_analysis.js';
+
+export interface RunOptions {
+  outDir?: string | null;
+  rootDir?: string;
+  inPlace?: boolean;
+  /** When set, writes `<tsconfig>.ngdiag.json` from `compiler.getDiagnostics()`. */
+  tsconfigPath?: string;
+  /** When true, leaves `compiler.analyzer` open so the caller can reuse it across runs. */
+  keepAnalyzerAlive?: boolean;
+}
+
+export async function run(compiler: HybridCompiler, options: RunOptions): Promise<void> {
+  const {outDir = null, rootDir = '', tsconfigPath} = options;
+  const results =
+    compiler.optimize && !compiler.emitDeclarationOnly
+      ? compiler.analyzeOptimized()
+      : compiler.analyze();
+  try {
+    for await (const chunk of results) {
+      // Pre-bind all files and analyze cycles in the chunk
+      const chunkContext = await compiler.prepareChunk(chunk);
+
+      await Promise.all(
+        chunk.files.map((file) =>
+          processFile(file, outDir, compiler, options, chunkContext, rootDir),
+        ),
+      );
+    }
+    // Unconditional: even when the analyzer produced no chunks, option diagnostics (which don't
+    // depend on any file) still have to make it into the `.ngdiag.json`.
+    await writeDiagnosticsFile(compiler, tsconfigPath);
+  } finally {
+    if (!options.keepAnalyzerAlive) {
+      compiler.analyzer.close();
+    }
+  }
+}
+
+async function writeDiagnosticsFile(
+  compiler: HybridCompiler,
+  tsconfigPath: string | undefined,
+): Promise<void> {
+  if (!tsconfigPath) {
+    return;
+  }
+  const diagPath = getDiagnosticPath(tsconfigPath);
+  const content = serializeDiagnostics(
+    tsconfigPath,
+    compiler.getDiagnostics(),
+    compiler.optionDiagnostics,
+  );
+  await fs.writeFile(diagPath, content, 'utf-8');
+}
+
+async function processFile(
+  file: AnalysisResult,
+  outDir: string | null,
+  compiler: HybridCompiler,
+  options: RunOptions,
+  chunkContext: ChunkContext,
+  rootDir: string,
+) {
+  const {filePath} = file;
+
+  // Declaration files are program inputs, not compilation outputs, so avoid emitting them.
+  if (filePath.endsWith('.d.ts')) {
+    return;
+  }
+
+  const content = await fs.readFile(filePath, 'utf-8');
+  const processed = await compiler.processFile(filePath, content, file, chunkContext);
+  const s = processed.magicString;
+
+  const writeOutput = outDir || options.inPlace;
+  const emitsTcb = compiler.optimize && !compiler.emitDeclarationOnly;
+
+  if (options.inPlace && !outDir && !s.hasChanged() && !processed.tcb?.code) {
+    return;
+  }
+
+  if (writeOutput) {
+    let outputPath: string;
+    let relativeSourcePath: string;
+
+    if (outDir) {
+      const normalizedRoot =
+        process.platform === 'win32' || process.platform === 'darwin'
+          ? rootDir.toLowerCase()
+          : rootDir;
+      const normalizedFile =
+        process.platform === 'win32' || process.platform === 'darwin'
+          ? filePath.toLowerCase()
+          : filePath;
+      const relativePath = path.relative(normalizedRoot, normalizedFile);
+      outputPath = path.join(outDir, relativePath);
+      relativeSourcePath = relativePath;
+    } else {
+      outputPath = filePath.replace(/\.ts$/, '.ng.ts');
+      relativeSourcePath = path.basename(filePath);
+    }
+
+    const outputDir = path.dirname(outputPath);
+    const mapPath = outputPath + '.map';
+
+    await fs.mkdir(outputDir, {recursive: true});
+
+    const map = processed.generateSourceMap({
+      source: relativeSourcePath,
+      file: path.basename(outputPath),
+      includeContent: true,
+    });
+
+    const sourceWithMap = s.toString() + `\n//# sourceMappingURL=${path.basename(mapPath)}\n`;
+
+    const writePromises: Array<Promise<void>> = [
+      fs.writeFile(outputPath, sourceWithMap),
+      fs.writeFile(mapPath, map.toString()),
+    ];
+
+    // Files without a TCB only get the empty placeholder with `--out`, since in-place mode
+    // shouldn't write `.ngtypecheck.ts` files for anything that has nothing to type-check.
+    if (emitsTcb && (processed.tcb?.code || outDir)) {
+      // Strip `.ng.ts` (--in-place) or `.ts` (--out) before appending `.ngtypecheck.ts`
+      // so the TCB never clobbers `outputPath`.
+      const tcbPath = outputPath.replace(/(\.ng)?\.ts$/, '.ngtypecheck.ts');
+      if (tcbPath === outputPath) {
+        throw new Error(
+          `Refusing to overwrite ${outputPath} with its type-check block ` +
+            `(unexpected output extension).`,
+        );
+      }
+      const tcbCode = processed.tcb?.code ?? '// Empty TCB\nexport const empty = true;\n';
+      writePromises.push(fs.writeFile(tcbPath, tcbCode));
+    }
+
+    await Promise.all(writePromises);
+  } else {
+    console.log(`--- ${filePath} ---`);
+    console.log(s.toString());
+    console.log('-------------------');
+  }
+}

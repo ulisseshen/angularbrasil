@@ -6,27 +6,31 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
+import {expect} from '@angular/private/testing/matchers';
 import {
   AbsoluteSourceSpan,
+  ArrowFunction,
   ASTWithSource,
   BindingPipe,
+  BindingPipeType,
   Call,
   EmptyExpr,
   Interpolation,
   LiteralMap,
+  LiteralMapPropertyKey,
+  ParseSpan,
   PropertyRead,
   TemplateBinding,
+  TemplateLiteral,
   VariableBinding,
-  BindingPipeType,
 } from '../../src/expression_parser/ast';
-import {ParseError} from '../../src/parse_util';
 import {Lexer} from '../../src/expression_parser/lexer';
 import {Parser, SplitInterpolation} from '../../src/expression_parser/parser';
-import {expect} from '@angular/private/testing/matchers';
+import {ParseError} from '../../src/parse_util';
 
+import {getFakeSpan} from './utils/span';
 import {unparse, unparseWithSpan} from './utils/unparser';
 import {validate} from './utils/validator';
-import {getFakeSpan} from './utils/span';
 
 describe('parser', () => {
   describe('parseAction', () => {
@@ -72,6 +76,26 @@ describe('parser', () => {
       checkAction('1*2**3', '1 * 2 ** 3');
     });
 
+    it('should allow ++ and -- on the left-hand side of **', () => {
+      checkAction('a++ ** 2');
+      checkAction('++a ** 2');
+      checkAction('a-- ** 2');
+      checkAction('--a ** 2');
+      checkAction('a.b++ ** 2');
+      checkAction('a[0]++ ** 2');
+      checkAction('2 ** a++');
+      checkAction('a ** b++ ** c');
+    });
+
+    it('should not allow other unary operators on the left-hand side of **', () => {
+      const error = 'Unary operator used immediately before exponentiation expression';
+      expectActionError('-a ** 2', error);
+      expectActionError('+a ** 2', error);
+      expectActionError('!a ** 2', error);
+      expectActionError('typeof a ** 2', error);
+      expectActionError('void a ** 2', error);
+    });
+
     it('should parse multiplicative expressions', () => {
       checkAction('3*4/2%5', '3 * 4 / 2 % 5');
     });
@@ -85,6 +109,8 @@ describe('parser', () => {
       checkAction('2 > 3');
       checkAction('2 <= 2');
       checkAction('2 >= 2');
+      checkAction(`"key" in obj`);
+      checkAction(`foo instanceof Foo`);
     });
 
     it('should parse equality expressions', () => {
@@ -121,10 +147,25 @@ describe('parser', () => {
     it('should parse in expressions', () => {
       checkAction(`'key' in obj`, `"key" in obj`);
       checkAction(`('key' in obj) && true`, `("key" in obj) && true`);
+      checkAction(`'in' in {in: foo}`, `"in" in {in: foo}`);
+    });
+
+    it('should throw on invalid in expressions', () => {
+      expectActionError('in', 'Unexpected token in');
+      expectActionError('in foo', 'Unexpected token in');
+      expectActionError(
+        `'foo' in`,
+        `Unexpected end of expression: 'foo' in at the end of the expression ['foo' in]`,
+      );
     });
 
     it('should ignore comments in expressions', () => {
       checkAction('a //comment', 'a');
+    });
+
+    it('should parse instanceof expressions', () => {
+      checkAction(`obj instanceof MyClass`, `obj instanceof MyClass`);
+      checkAction(`(obj instanceof MyClass) || false`, `(obj instanceof MyClass) || false`);
     });
 
     it('should retain // in string literals', () => {
@@ -159,6 +200,77 @@ describe('parser', () => {
       checkAction('a[0] &&= b');
       checkAction('a[0] ||= b');
       checkAction('a[0] ??= b');
+    });
+
+    it('should parse prefix ++ and --', () => {
+      checkAction('++a');
+      checkAction('--a');
+      checkAction('++a.b');
+      checkAction('--a.b');
+      checkAction('++a[0]');
+      checkAction('--a[0]');
+      checkAction('++this.a', '++a');
+      checkAction('--this.a', '--a');
+      checkAction('++a!');
+      checkAction('--a!');
+      checkAction('++(a)');
+      checkAction('--(a)');
+    });
+
+    it('should parse postfix ++ and --', () => {
+      checkAction('a++');
+      checkAction('a--');
+      checkAction('a.b++');
+      checkAction('a.b--');
+      checkAction('a[0]++');
+      checkAction('a[0]--');
+      checkAction('this.a++', 'a++');
+      checkAction('this.a--', 'a--');
+      checkAction('a!++');
+      checkAction('a!--');
+      checkAction('(a)++');
+      checkAction('(a)--');
+    });
+
+    it('should parse consecutive unary expressions', () => {
+      checkAction('- - foo++', '- -foo++');
+      checkAction('+ + foo++', '+ +foo++');
+      checkAction('- ++foo', '-++foo');
+      checkAction('+ --foo', '+--foo');
+      checkAction('a+++b', 'a++ + b');
+      checkAction('a---b', 'a-- - b');
+      checkAction('a+++b+++c', 'a++ + b++ + c');
+      checkAction('a+++ +b', 'a++ + +b');
+      checkAction('a+ ++b', 'a + ++b');
+      checkAction('a- --b', 'a - --b');
+      checkAction('a - -b');
+      checkAction('a + + b', 'a + +b');
+    });
+
+    it('should bind ++ and -- tighter than the other unary operators', () => {
+      checkAction('-a++');
+      checkAction('+a++');
+      checkAction('!a++');
+      checkAction('-a--');
+      checkAction('typeof a++');
+      checkAction('void a++');
+    });
+
+    it('should allow ++ and -- expressions as operands of other operators', () => {
+      checkAction('a++ instanceof b');
+      checkAction('a++ in o');
+      checkAction('a++ < 3');
+      checkAction('a++ * 2');
+      checkAction('a++ ?? b');
+      checkAction('a ? b++ : c--');
+      checkAction('o[a++]');
+      checkAction('f(a++)');
+      checkAction('[a++]');
+      checkAction('{x: a++}');
+      checkAction('c = a++');
+      checkAction('c += a++');
+      checkAction('a.b[c++].d++');
+      checkAction('a++ + ++a');
     });
 
     describe('literals', () => {
@@ -199,6 +311,21 @@ describe('parser', () => {
         expectActionError('{a.b}', 'expected } at column 3');
         expectActionError('{a["b"]}', 'expected } at column 3');
         expectActionError('{1234}', ' expected identifier, keyword, or string at column 2');
+      });
+
+      it('should parse spread assignments in object literals', () => {
+        checkAction('{...foo}');
+        checkAction('{one: 1, ...foo, two: 2}');
+        checkAction('{...foo, middle: true, ...bar}');
+        checkAction('{...{...{...{foo: 1}}}}');
+      });
+
+      it('should spread elements in array literals', () => {
+        checkAction('[...foo]');
+        checkAction('[1, ...foo, 2]');
+        checkAction('[...foo, middle, ...bar]');
+        checkAction('[...[...[...[1]]]]');
+        checkAction('[a, ...b, ...[1, 2, 3]]');
       });
     });
 
@@ -299,6 +426,20 @@ describe('parser', () => {
         checkAction('a?.add?.(1, 2)');
         checkAction('fn?.().add?.(1, 2)');
         checkAction('fn?.()?.(1, 2)');
+      });
+
+      it('should parse rest arguments in calls', () => {
+        checkAction('fn(...foo)');
+        checkAction('fn(1, ...foo, 2)');
+        checkAction('fn(...foo, middle, ...bar)');
+        checkAction('fn(a, ...b, ...[1, 2, 3])');
+      });
+
+      it('should parse rest arguments in safe calls', () => {
+        checkAction('fn?.(...foo)');
+        checkAction('fn?.(1, ...foo, 2)');
+        checkAction('fn?.(...foo, middle, ...bar)');
+        checkAction('fn?.(a, ...b, ...[1, 2, 3])');
       });
     });
 
@@ -431,6 +572,72 @@ describe('parser', () => {
       it('should support array updates', () => {
         checkAction('a[0] = 200');
       });
+
+      it('should report invalid increment/decrement expressions', () => {
+        expectActionError('-- foo++', 'cannot be used in the assignment');
+        expectActionError('++ foo--', 'cannot be used in the assignment');
+        expectActionError('a?.a++', 'cannot be used in the assignment');
+        expectActionError('++a?.a', 'cannot be used in the assignment');
+        expectActionError('a?.[0]++', 'cannot be used in the assignment');
+        expectActionError('++a?.[0]', 'cannot be used in the assignment');
+        expectActionError('5++', 'cannot be used in the assignment');
+        expectActionError('++5', 'cannot be used in the assignment');
+        expectActionError('foo()++', 'cannot be used in the assignment');
+        expectActionError('++foo()', 'cannot be used in the assignment');
+        expectActionError('---foo', 'cannot be used in the assignment');
+        expectActionError('+++foo', 'cannot be used in the assignment');
+        expectActionError('(foo++)++', 'cannot be used in the assignment');
+        expectActionError('++(foo++)', 'cannot be used in the assignment');
+        expectActionError('++foo++', 'cannot be used in the assignment');
+        expectActionError('--foo--', 'cannot be used in the assignment');
+        expectActionError('++foo--', 'cannot be used in the assignment');
+        expectActionError('--foo++', 'cannot be used in the assignment');
+        expectActionError('++ ++foo', 'cannot be used in the assignment');
+        expectActionError('-- --foo', 'cannot be used in the assignment');
+        expectActionError('++foo+++bar', 'cannot be used in the assignment');
+        expectActionError('(-foo)++', 'cannot be used in the assignment');
+        expectActionError('(foo + bar)++', 'cannot be used in the assignment');
+        expectActionError('++(foo + bar)', 'cannot be used in the assignment');
+        expectActionError('"foo"++', 'cannot be used in the assignment');
+      });
+
+      it('should report unexpected token for chained postfix operators', () => {
+        expectActionError('foo++ ++', "Unexpected token '++'");
+        expectActionError('foo-- --', "Unexpected token '--'");
+        expectActionError('foo+++++bar', "Unexpected token '++'");
+        expectActionError('foo-----bar', "Unexpected token '--'");
+      });
+
+      it('should report a dangling + or - left over after an update operator', () => {
+        expectActionError('a+++', 'Unexpected end of expression');
+        expectActionError('a---', 'Unexpected end of expression');
+        expectActionError('a++ +', 'Unexpected end of expression');
+        expectActionError('a++-', 'Unexpected end of expression');
+        expectActionError('++a+', 'Unexpected end of expression');
+        expectActionError('a+++b+', 'Unexpected end of expression');
+        expectActionError('foo.bar+++', 'Unexpected end of expression');
+        expectActionError('foo[0]+++', 'Unexpected end of expression');
+      });
+
+      it('should report a increment/decrement expression with no target', () => {
+        expectActionError('++', 'Unexpected end of expression');
+        expectActionError('--', 'Unexpected end of expression');
+        expectActionError('+++', 'Unexpected end of expression');
+      });
+
+      it('should not allow member access or calls after a postfix update', () => {
+        expectActionError('foo++.bar', "Unexpected token '.'");
+        expectActionError('foo++[0]', "Unexpected token '['");
+        expectActionError('foo++()', "Unexpected token '('");
+        expectActionError('foo--.bar', "Unexpected token '.'");
+        expectActionError('foo-- bar', "Unexpected token 'bar'");
+      });
+
+      it('should not allow assigning to an update expression', () => {
+        expectActionError('foo++ = 1', "Unexpected token '='");
+        expectActionError('++foo = 1', 'cannot be used in the assignment');
+        expectActionError('foo+++=bar', "Unexpected token '+='");
+      });
     });
 
     it('should error when using pipes', () => {
@@ -480,7 +687,70 @@ describe('parser', () => {
       });
 
       it('should report error if interpolation is empty', () => {
+        // Even though an empty interpolation should result in an error,
+        // we should retain the expression.
+        checkBinding('`hello ${}`');
         expectBindingError('`hello ${}`', 'Template literal interpolation cannot be empty');
+      });
+
+      it('should not report errors for valid interpolations', () => {
+        for (const text of [
+          '`${a}`',
+          '`${a + b}`',
+          '`${foo.bar}`',
+          '`${condition ? a : b}`',
+          '`${a?.b}`',
+          '`${fn(a, [b, c])}`',
+          '`${{a: 1}.a}`',
+          '`${() => a}`',
+          '`${a | pipe: b}`',
+          '`before ${a} and ${b} after`',
+          '`outer ${`inner ${a}`}`',
+          '{"key": `${a}`}',
+          'tag`${a}`',
+        ]) {
+          expect(parseBinding(text).errors).withContext(text).toEqual([]);
+        }
+      });
+
+      it('should report an error if an interpolation has unexpected tokens after the expression', () => {
+        expectBindingError('`hello ${a b} world`', 'Missing expected }');
+        // Operators that are not supported in Angular expressions.
+        expectBindingError('`hello ${a & b} world`', 'Missing expected }');
+        expectBindingError('`hello ${a, b} world`', 'Missing expected }');
+        // Interpolations that are nested inside of other constructs that expect a closing brace.
+        expectBindingError('`hello ${`nested ${a b}`} world`', 'Missing expected }');
+        expectBindingError('{"a": `hello ${b c}`}', 'Missing expected }');
+        expectBindingError('tag`hello ${a b} world`', 'Missing expected }');
+        expectBindingError('`hello ${a | pipe b} world`', 'Missing expected }');
+        expectActionError('`hello ${a; b} world`', 'Missing expected }');
+      });
+
+      it('should report an error if an interpolation is not closed', () => {
+        expectBindingError('`hello ${a', 'Missing expected } at the end of the expression');
+        expectBindingError('`hello ${a ', 'Missing expected } at the end of the expression');
+      });
+
+      it('should report an error if a template literal with an interpolation is not closed', () => {
+        expectBindingError('`hello ${a}', 'Unterminated template literal', 1);
+        expectBindingError('`hello ${a} world', 'Unterminated template literal', 1);
+        expectBindingError('`hello ${a} and ${b} world', 'Unterminated template literal', 1);
+      });
+
+      it('should retain all the elements and expressions of a malformed template literal', () => {
+        for (const text of [
+          '`before ${a b} after`',
+          '`before ${a b} ${c d} after`',
+          '`before ${a & b} after`',
+          '`before ${a; b} after`',
+        ]) {
+          const result = validate(parseAction(text));
+          const literal = result.ast as TemplateLiteral;
+          expect(result.errors.length).withContext(text).toBeGreaterThan(0);
+          expect(literal.elements.length)
+            .withContext(text)
+            .toBe(literal.expressions.length + 1);
+        }
       });
 
       it('should parse tagged template literals with no interpolations', () => {
@@ -526,6 +796,11 @@ describe('parser', () => {
         checkBinding('/abc/.test("foo")');
         checkBinding('"foo".match(/(abc)/)[1].toUpperCase()');
         checkBinding('/abc/.test("foo") && something || somethingElse');
+      });
+
+      it('should parse a regular expression literal that ends with an escaped slash', () => {
+        checkBinding('/^https?:\\/\\//');
+        checkBinding('url.replace(/^\\//, "") //comment', 'url.replace(/^\\//, "")');
       });
 
       it('should report invalid regular expression flag', () => {
@@ -718,6 +993,36 @@ describe('parser', () => {
       }
     });
 
+    it('should produce correct span for typeof expression', () => {
+      const ast = parseAction('foo = typeof bar');
+
+      expect(unparseWithSpan(ast)).toEqual([
+        ['foo = typeof bar', 'foo = typeof bar'],
+        ['foo', 'foo'],
+        ['foo', '[nameSpan] foo'],
+        ['', ''],
+        ['typeof bar', 'typeof bar'],
+        ['bar', 'bar'],
+        ['bar', '[nameSpan] bar'],
+        ['', ' '],
+      ]);
+    });
+
+    it('should produce correct span for void expression', () => {
+      const ast = parseAction('foo = void bar');
+
+      expect(unparseWithSpan(ast)).toEqual([
+        ['foo = void bar', 'foo = void bar'],
+        ['foo', 'foo'],
+        ['foo', '[nameSpan] foo'],
+        ['', ''],
+        ['void bar', 'void bar'],
+        ['bar', 'bar'],
+        ['bar', '[nameSpan] bar'],
+        ['', ' '],
+      ]);
+    });
+
     it('should record span for a regex without flags', () => {
       const ast = parseBinding('/^http:\\/\\/foo\\.bar/');
       expect(unparseWithSpan(ast)).toContain([
@@ -731,6 +1036,43 @@ describe('parser', () => {
       expect(unparseWithSpan(ast)).toContain([
         '/^http:\\/\\/foo\\.bar/gim',
         '/^http:\\/\\/foo\\.bar/gim',
+      ]);
+    });
+
+    it('should record span for literal map keys', () => {
+      const ast = parseBinding('{one: 1, two: "the number two", three, "four": 4, ...five}');
+      const literal = ast.ast as LiteralMap;
+      const getSource = (span: ParseSpan) => ast.source?.substring(span.start, span.end);
+
+      expect(getSource(literal.keys[0].span)).toBe('one');
+      expect(getSource(literal.keys[1].span)).toBe('two');
+      expect(getSource(literal.keys[2].span)).toBe('three');
+      expect(getSource(literal.keys[3].span)).toBe('"four"');
+      expect(getSource(literal.keys[4].span)).toBe('...');
+    });
+
+    it('should record span for spread elements', () => {
+      expect(unparseWithSpan(parseBinding('[...foo]'))).toEqual([
+        ['[...foo]', '[...foo]'],
+        ['...foo', '...foo'],
+        ['foo', 'foo'],
+        ['foo', '[nameSpan] foo'],
+        ['', ''],
+      ]);
+    });
+
+    it('should record span for rest arguments in functions', () => {
+      expect(unparseWithSpan(parseBinding('fn(1, ...foo)'))).toEqual([
+        ['fn(1, ...foo)', 'fn(1, ...foo)'],
+        ['fn(1, ...foo)', '[argumentSpan] 1, ...foo'],
+        ['fn', 'fn'],
+        ['fn', '[nameSpan] fn'],
+        ['', ''],
+        ['1', '1'],
+        ['...foo', '...foo'],
+        ['foo', 'foo'],
+        ['foo', '[nameSpan] foo'],
+        ['', ''],
       ]);
     });
   });
@@ -876,6 +1218,13 @@ describe('parser', () => {
       expectError(parseBinding('a=2'), 'contain assignments');
     });
 
+    it('should report update operators in bindings', () => {
+      expectError(parseBinding('a++'), 'contain assignments');
+      expectError(parseBinding('a--'), 'contain assignments');
+      expectError(parseBinding('++a'), 'contain assignments');
+      expectError(parseBinding('--a'), 'contain assignments');
+    });
+
     it('should report when encountering interpolation', () => {
       expectBindingError('{{a.b}}', 'Got interpolation ({{}}) where expression was expected');
     });
@@ -902,9 +1251,146 @@ describe('parser', () => {
     it('should expose object shorthand information in AST', () => {
       const parser = new Parser(new Lexer());
       const ast = parser.parseBinding('{bla}', getFakeSpan(), 0);
-      expect(ast.ast instanceof LiteralMap).toBe(true);
-      expect((ast.ast as LiteralMap).keys.length).toBe(1);
-      expect((ast.ast as LiteralMap).keys[0].isShorthandInitialized).toBe(true);
+      const map = ast.ast as LiteralMap;
+      expect(map instanceof LiteralMap).toBe(true);
+      expect(map.keys.length).toBe(1);
+      expect((map.keys[0] as LiteralMapPropertyKey).isShorthandInitialized).toBe(true);
+    });
+
+    describe('arrow functions', () => {
+      it('should parse a single-parameter arrow function', () => {
+        checkBinding('a => a');
+      });
+
+      it('should parse a single-parameter arrow function with parentheses', () => {
+        checkBinding('(a) => a', 'a => a');
+      });
+
+      it('should parse an arrow function with not parameters', () => {
+        checkBinding('() => 1');
+      });
+
+      it('should parse an arrow function with multiple parameters', () => {
+        checkBinding('(a, b, c, d, e) => a / b + c * d');
+      });
+
+      it('should parse an immediately-invoked arrow function', () => {
+        checkBinding('((a, b) => a + b)(1, 2)');
+      });
+
+      it('should parse an arrow function that returns other arrow functions', () => {
+        checkBinding('(a, b) => c => (d, e) => () => a + b + c + d + e');
+      });
+
+      it('should parse an arrow function that returns an object literal', () => {
+        checkBinding('() => ({a: 1, b: 2})');
+      });
+
+      it('should parse an arrow function containing an assignment', () => {
+        checkBinding('(a, b) => c = a + b');
+      });
+
+      it('should parse an arrow function containing update operators', () => {
+        checkBinding('a => a++');
+        checkBinding('a => a--');
+        checkBinding('a => ++a');
+        checkBinding('a => --a');
+        checkBinding('(a) => a++', 'a => a++');
+      });
+
+      it('should be able to pass an arrow function through a pipe', () => {
+        checkBinding('(a, b) => a + b | pipe', '((a, b) => a + b | pipe)');
+      });
+
+      it('should parse an arrow function that returns an array', () => {
+        checkBinding('(a, b) => [a, b, foo]');
+      });
+
+      describe('arrow function spans', () => {
+        it('should produce spans for the entire arrow function', () => {
+          expect(unparseWithSpan(parseBinding('a => a'))).toEqual([
+            ['a => a', 'a => a'],
+            ['a', 'a'],
+            ['a', '[nameSpan] a'],
+            ['', ' '],
+          ]);
+          expect(unparseWithSpan(parseBinding('(a, b, c) => a + b + c'))).toEqual([
+            ['(a, b, c) => a + b + c', '(a, b, c) => a + b + c'],
+            ['a + b + c', 'a + b + c'],
+            ['a + b', 'a + b'],
+            ['a', 'a'],
+            ['a', '[nameSpan] a'],
+            ['', ' '],
+            ['b', 'b'],
+            ['b', '[nameSpan] b'],
+            ['', ' '],
+            ['c', 'c'],
+            ['c', '[nameSpan] c'],
+            ['', ' '],
+          ]);
+        });
+
+        it('should produce spans for the arrow function parameters', () => {
+          const ast = parseBinding('(foo, bar, baz) => foo + bar + baz');
+          const arrowFn = ast.ast as ArrowFunction;
+          const getSource = (span: ParseSpan) => ast.source?.substring(span.start, span.end);
+
+          expect(getSource(arrowFn.parameters[0].span)).toBe('foo');
+          expect(getSource(arrowFn.parameters[1].span)).toBe('bar');
+          expect(getSource(arrowFn.parameters[2].span)).toBe('baz');
+        });
+      });
+
+      describe('arrow function validations', () => {
+        it('should not allow pipe to be used inside an arrow function', () => {
+          expectBindingError(
+            '(a, b) => (a + b | pipe)',
+            'Cannot have a pipe in an action expression',
+          );
+        });
+
+        it('should report an error for an arrow function with a body', () => {
+          expectBindingError('() => {}', 'Multi-line arrow functions are not supported');
+        });
+
+        it('should report missing comma between arrow function parameters', () => {
+          expectBindingError('(a b) => a + b', 'Missing expected ,');
+        });
+
+        it('should report arrow function parameter starting with a comma', () => {
+          expectBindingError('(, a) => a', 'Unexpected token ,');
+        });
+
+        it('should report arrow function parameter with a trailing comma', () => {
+          expectBindingError('(a, ) => a', 'Unexpected token )');
+        });
+
+        it('should report an arrow function without a closing paren', () => {
+          expectBindingError(
+            '(a => a + 1',
+            'Missing closing parentheses at the end of the expression',
+          );
+        });
+
+        it('should report an arrow function without an opening paren', () => {
+          expectBindingError('a) => a + 1', "Unexpected token ')'");
+        });
+
+        it('should report an error inside the arrow function expression', () => {
+          expectBindingError('(a) => a. + 1', 'Unexpected token +, expected identifier or keyword');
+        });
+
+        it('should report an error for chained expression in arrow function', () => {
+          expectBindingError(
+            '() => foo(); bar()',
+            'Binding expression cannot contain chained expression',
+          );
+          expectBindingError(
+            '() => (foo; bar)',
+            'Binding expression cannot contain chained expression',
+          );
+        });
+      });
     });
   });
 
@@ -1347,6 +1833,10 @@ describe('parser', () => {
         checkInterpolation(`{{ "a\'b\`" //comment}}`, `{{ "a\'b\`" }}`);
       });
 
+      it('should ignore escaped quotes when looking for comments', () => {
+        checkInterpolation(`{{ 'it\\'s // here' //comment }}`, `{{ "it's // here" }}`);
+      });
+
       it('should ignore quotes inside a comment', () => {
         checkInterpolation(`"{{name // " }}"`, `"{{ name }}"`);
       });
@@ -1381,8 +1871,12 @@ describe('parser', () => {
       expect(parseSimpleBinding(`'{{\\'}}'`).errors).toEqual([]);
     });
 
-    it('should report when encountering field write', () => {
+    it('should report when encountering field write or update operators', () => {
       expectError(validate(parseSimpleBinding('a = b')), 'Bindings cannot contain assignments');
+      expectError(validate(parseSimpleBinding('a++')), 'Bindings cannot contain assignments');
+      expectError(validate(parseSimpleBinding('a--')), 'Bindings cannot contain assignments');
+      expectError(validate(parseSimpleBinding('++a')), 'Bindings cannot contain assignments');
+      expectError(validate(parseSimpleBinding('--a')), 'Bindings cannot contain assignments');
     });
 
     it('should throw if a pipe is used inside a conditional', () => {
@@ -1600,8 +2094,8 @@ function expectActionError(text: string, message: string, errorCount?: number) {
   expectError(validate(parseAction(text)), message, errorCount);
 }
 
-function expectBindingError(text: string, message: string) {
-  expectError(validate(parseBinding(text)), message);
+function expectBindingError(text: string, message: string, errorCount?: number) {
+  expectError(validate(parseBinding(text)), message, errorCount);
 }
 
 /**

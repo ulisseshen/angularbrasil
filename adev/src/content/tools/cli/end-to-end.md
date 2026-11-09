@@ -3,7 +3,7 @@
 
 Testes end-to-end ou (E2E) são uma forma de teste usada para validar que sua aplicação inteira funciona como esperado do início ao fim ou _"end-to-end"_ (de ponta a ponta). Testes E2E diferem de testes unitários por serem completamente desacoplados dos detalhes de implementação subjacentes do seu código. Eles são tipicamente usados para validar uma aplicação de uma maneira que imita como um usuário interagiria com ela. Esta página serve como um guia para começar com testes end-to-end no Angular usando o Angular CLI.
 
-## Configurar Testes E2E
+## Configurar Testes E2E {#set-up-e2e-testing}
 
 O Angular CLI baixa e instala tudo que você precisa para executar testes end-to-end para sua aplicação Angular.
 
@@ -21,25 +21,25 @@ Cannot find "e2e" target for the specified project.
 You can add a package that implements these capabilities.
 
 For example:
+Playwright: ng add playwright-ng-schematics
 Cypress: ng add @cypress/schematic
 Nightwatch: ng add @nightwatch/schematics
 WebdriverIO: ng add @wdio/schematics
-Playwright: ng add playwright-ng-schematics
 Puppeteer: ng add @puppeteer/ng-schematics
 
 Would you like to add a package with "e2e" capabilities now?
 No
-❯ Cypress
+❯ Playwright
+Cypress
 Nightwatch
 WebdriverIO
-Playwright
 Puppeteer
 
 ```
 
 Se você não encontrar o test runner que gostaria de usar na lista acima, você pode adicionar manualmente um pacote usando `ng add`.
 
-## Executando Testes E2E
+## Executando Testes E2E {#running-e2e-tests}
 
 Agora que sua aplicação está configurada para testes end-to-end, podemos executar o mesmo comando para rodar seus testes.
 
@@ -51,7 +51,7 @@ ng e2e
 
 Note que não há nada "especial" sobre executar seus testes com qualquer um dos pacotes e2e integrados. O comando `ng e2e` está realmente apenas executando o builder `e2e` por baixo dos panos. Você sempre pode [criar seu próprio builder personalizado](tools/cli/cli-builder#creating-a-builder) chamado `e2e` e executá-lo usando `ng e2e`.
 
-## Mais informações sobre ferramentas de testes end-to-end
+## Mais informações sobre ferramentas de testes end-to-end {#more-information-on-end-to-end-testing-tools}
 
 | Ferramenta de Testes | Detalhes                                                                                                             |
 | :------------------- | :------------------------------------------------------------------------------------------------------------------- |

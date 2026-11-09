@@ -1,7 +1,7 @@
 <!-- ia-translate: true -->
 # Sequências complexas de animação
 
-IMPORTANTE: O package `@angular/animations` agora está deprecado. O time do Angular recomenda usar CSS nativo com `animate.enter` e `animate.leave` para animações em todo código novo. Saiba mais no novo [guia de animação](guide/animations/enter-and-leave) de enter e leave. Veja também [Migrando do package de Animations do Angular](guide/animations/migration) para aprender como você pode começar a migrar para animações CSS puras em suas aplicações.
+IMPORTANTE: O package `@angular/animations` agora está deprecado. O time do Angular recomenda usar CSS nativo com `animate.enter` e `animate.leave` para animações em todo código novo. Saiba mais no novo [guia de animação](/guide/animations) de enter e leave. Veja também [Migrando do package de Animations do Angular](guide/animations/migration) para aprender como você pode começar a migrar para animações CSS puras em suas aplicações.
 
 Até agora, aprendemos animações simples de elementos HTML individuais.
 O Angular também permite animar sequências coordenadas, como uma grade inteira ou lista de elementos conforme eles entram e saem de uma página.
@@ -16,9 +16,9 @@ As funções que controlam sequências complexas de animação são:
 | [`group()`](api/animations/group) | Executa múltiplas etapas de animação em paralelo.                           |
 | `sequence()`                      | Executa etapas de animação uma após a outra.                                |
 
-## A função query()
+## A função query() {#the-query-function}
 
-A maioria das animações complexas depende da função `query()` para encontrar elementos filhos e aplicar animações a eles, exemplos básicos disso são:
+A maioria das animações complexas depende da função `query()` para encontrar elementos filhos e aplicar animações a eles. Exemplos básicos disso são:
 
 | Exemplos                               | Detalhes                                                                                                                                                                                                                               |
 | :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -34,7 +34,7 @@ O primeiro argumento de `query()` é uma string de [seletor css](https://develop
 | `@*` <br /> `@triggerName` | Para elementos com qualquer—ou um—trigger específico. |
 | `:self`                    | O próprio elemento animando.                  |
 
-<docs-callout title="Elementos Entrando e Saindo">
+<docs-callout title="Elementos entrando e saindo">
 
 Nem todos os elementos filhos são realmente considerados como entrando/saindo; isso pode, às vezes, ser contraintuitivo e confuso. Por favor, veja a [documentação da api query](api/animations/query#entering-and-leaving-elements) para mais informações.
 
@@ -42,7 +42,7 @@ Você também pode ver uma ilustração disso no exemplo de animações \(introd
 
 </docs-callout>
 
-## Animar múltiplos elementos usando as funções query() e stagger()
+## Animar múltiplos elementos usando as funções query() e stagger() {#animate-multiple-elements-using-query-and-stagger-functions}
 
 Após ter consultado elementos filhos via `query()`, a função `stagger()` permite que você defina um intervalo de tempo entre cada item consultado que é animado e, assim, anima elementos com um atraso entre eles.
 
@@ -55,9 +55,9 @@ O exemplo a seguir demonstra como usar as funções `query()` e `stagger()` para
 - Use `stagger()` para atrasar cada animação em 30 milissegundos
 - Anime cada elemento na tela por 0,5 segundos usando uma curva de easing personalizada, simultaneamente fazendo fade in e desfazendo a transformação
 
-<docs-code header="hero-list-page.component.ts" path="adev/src/content/examples/animations/src/app/hero-list-page.component.ts" visibleRegion="page-animations"/>
+<docs-code header="hero-list-page.ts" path="adev/src/content/examples/animations/src/app/hero-list-page.ts" region="page-animations"/>
 
-## Animação paralela usando a função group()
+## Animação paralela usando a função group() {#parallel-animation-using-group-function}
 
 Você viu como adicionar um atraso entre cada animação sucessiva.
 Mas você também pode querer configurar animações que acontecem em paralelo.
@@ -68,9 +68,9 @@ Para isso, você pode usar a função de animação [`group()`](api/animations/g
 
 O exemplo a seguir usa [`group()`](api/animations/group)s tanto em `:enter` quanto em `:leave` para duas configurações de tempo diferentes, aplicando assim duas animações independentes ao mesmo elemento em paralelo.
 
-<docs-code header="hero-list-groups.component.ts (trecho)" path="adev/src/content/examples/animations/src/app/hero-list-groups.component.ts" visibleRegion="animationdef"/>
+<docs-code header="hero-list-groups.ts (trecho)" path="adev/src/content/examples/animations/src/app/hero-list-groups.ts" region="animationdef"/>
 
-## Animações sequenciais vs. paralelas
+## Animações sequenciais vs. paralelas {#sequential-vs-parallel-animations}
 
 Animações complexas podem ter muitas coisas acontecendo ao mesmo tempo.
 Mas e se você quiser criar uma animação envolvendo várias animações acontecendo uma após a outra? Anteriormente você usou [`group()`](api/animations/group) para executar múltiplas animações todas ao mesmo tempo, em paralelo.
@@ -81,22 +81,22 @@ Dentro de `sequence()`, as etapas de animação consistem em chamadas de funçã
 - Use `style()` para aplicar os dados de estilo fornecidos imediatamente.
 - Use `animate()` para aplicar dados de estilo durante um determinado intervalo de tempo.
 
-## Exemplo de animação de filtro
+## Exemplo de animação de filtro {#filter-animation-example}
 
 Dê uma olhada em outra animação na página de exemplo.
 Sob a aba Filter/Stagger, digite algum texto na caixa de texto **Search Heroes**, como `Magnet` ou `tornado`.
 
 O filtro funciona em tempo real conforme você digita.
 Os elementos saem da página conforme você digita cada nova letra e o filtro fica progressivamente mais rigoroso.
-A lista de heróis gradualmente reentra na página conforme você deleta cada letra na caixa de filtro.
+A lista de heróis gradualmente reentra na página conforme você apaga cada letra na caixa de filtro.
 
 O template HTML contém um trigger chamado `filterAnimation`.
 
-<docs-code header="hero-list-page.component.html" path="adev/src/content/examples/animations/src/app/hero-list-page.component.html" visibleRegion="filter-animations" language="angular-html"/>
+<docs-code header="hero-list-page.html" path="adev/src/content/examples/animations/src/app/hero-list-page.html" region="filter-animations" language="angular-html"/>
 
 O `filterAnimation` no decorator do component contém três transições.
 
-<docs-code header="hero-list-page.component.ts" path="adev/src/content/examples/animations/src/app/hero-list-page.component.ts" visibleRegion="filter-animations"/>
+<docs-code header="hero-list-page.ts" path="adev/src/content/examples/animations/src/app/hero-list-page.ts" region="filter-animations"/>
 
 O código neste exemplo executa as seguintes tarefas:
 
@@ -109,9 +109,9 @@ Para cada mudança:
 - Anima um elemento entrando no DOM ao longo de 300 milissegundos.
   Durante a animação, o elemento assume sua width e opacity padrão.
 
-- Se houver múltiplos elementos entrando ou saindo do DOM, escalonar cada animação começando no topo da página, com um atraso de 50 milissegundos entre cada elemento
+- Se houver múltiplos elementos entrando ou saindo do DOM, escalona cada animação começando no topo da página, com um atraso de 50 milissegundos entre cada elemento
 
-## Animando os itens de uma lista reordenada
+## Animando os itens de uma lista reordenada {#animating-the-items-of-a-reordering-list}
 
 Embora o Angular anime corretamente os itens de lista `*ngFor` de forma nativa, ele não será capaz de fazê-lo se a ordenação deles mudar.
 Isso ocorre porque ele perderá o rastreamento de qual elemento é qual, resultando em animações quebradas.
@@ -120,20 +120,20 @@ Isso garante que o Angular sempre saiba qual elemento é qual, permitindo que el
 
 IMPORTANTE: Se você precisar animar os itens de uma lista `*ngFor` e houver possibilidade de que a ordem de tais itens mude durante a execução, sempre use uma `TrackByFunction`.
 
-## Animações e View Encapsulation de Component
+## Animações e view encapsulation de component {#animations-and-component-view-encapsulation}
 
-As animações do Angular são baseadas na estrutura DOM dos components e não levam diretamente em conta o [View Encapsulation](guide/components/styling#style-scoping), isso significa que components usando `ViewEncapsulation.Emulated` se comportam exatamente como se estivessem usando `ViewEncapsulation.None` (`ViewEncapsulation.ShadowDom` e `ViewEncapsulation.ExperimentalIsolatedShadowDom` se comportam de forma diferente, como discutiremos em breve).
+As animações do Angular são baseadas na estrutura DOM dos components e não levam diretamente em conta o [View Encapsulation](guide/components/styling#style-scoping). Isso significa que components usando `ViewEncapsulation.Emulated` se comportam exatamente como se estivessem usando `ViewEncapsulation.None` (`ViewEncapsulation.ShadowDom` e `ViewEncapsulation.ExperimentalIsolatedShadowDom` se comportam de forma diferente, como discutiremos em breve).
 
 Por exemplo, se a função `query()` (que você verá mais no restante do guia de Animações) fosse aplicada no topo de uma árvore de components usando view encapsulation emulado, tal query seria capaz de identificar (e assim animar) elementos DOM em qualquer profundidade da árvore.
 
 Por outro lado, o `ViewEncapsulation.ShadowDom` e `ViewEncapsulation.ExperimentalIsolatedShadowDom` mudam a estrutura DOM do component "escondendo" elementos DOM dentro de elementos [`ShadowRoot`](https://developer.mozilla.org/docs/Web/API/ShadowRoot). Tais manipulações DOM impedem que algumas das implementações de animações funcionem adequadamente, pois dependem de estruturas DOM simples e não levam em conta elementos `ShadowRoot`. Portanto, é aconselhável evitar aplicar animações a views que incorporam components usando view encapsulation ShadowDom.
 
-## Resumo de sequência de animação
+## Resumo de sequência de animação {#animation-sequence-summary}
 
 As funções do Angular para animar múltiplos elementos começam com `query()` para encontrar elementos internos; por exemplo, reunindo todas as imagens dentro de uma `<div>`.
 As funções restantes, `stagger()`, [`group()`](api/animations/group) e `sequence()`, aplicam cascatas ou permitem que você controle como múltiplas etapas de animação são aplicadas.
 
-## Mais sobre animações do Angular
+## Mais sobre animações do Angular {#more-on-angular-animations}
 
 Você também pode estar interessado em:
 
@@ -142,5 +142,5 @@ Você também pode estar interessado em:
   <docs-pill href="guide/legacy-animations/transition-and-triggers" title="Transição e triggers"/>
   <docs-pill href="guide/legacy-animations/reusable-animations" title="Animações reutilizáveis"/>
   <docs-pill href="guide/routing/route-transition-animations" title="Animações de transição de rota"/>
-  <docs-pill href="guide/animations/migration" title="Migrando para Animações CSS Nativas"/>
+  <docs-pill href="guide/animations/migration" title="Migrando para animações CSS nativas"/>
 </docs-pill-row>

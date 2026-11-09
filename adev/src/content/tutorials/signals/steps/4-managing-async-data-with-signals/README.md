@@ -1,5 +1,5 @@
 <!-- ia-translate: true -->
-# Gerenciando dados assíncronos com signals usando a API Resources
+# Gerenciando dados assíncronos com signals usando a API Resource
 
 Agora que você aprendeu [como derivar estado com linked signals](/tutorials/signals/3-deriving-state-with-linked-signals), vamos explorar como lidar com dados assíncronos com a API Resource. A API Resource fornece uma maneira poderosa de gerenciar operações assíncronas usando signals, com estados de carregamento integrados, tratamento de erros e gerenciamento de requisições.
 
@@ -9,34 +9,34 @@ Nesta atividade, você aprenderá como usar a função `resource()` para carrega
 
 <docs-workflow>
 
-<docs-step title="Importe a função resource e a API">
-Adicione `resource` aos seus imports existentes e importe a função da API simulada.
+<docs-step title="Importe a função resource e a API {#import-resource-function-and-api}">
+Adicione `resource` aos seus imports existentes e importe a função de API simulada.
 
 ```ts
 // Adicione resource aos imports existentes
 import {Component, signal, computed, resource, ChangeDetectionStrategy} from '@angular/core';
-// Importe a função da API simulada
-import {loadUser} from './user-api';
+// Importe a função de API simulada
+import {getUserData} from './user-api';
 ```
 
 </docs-step>
 
-<docs-step title="Crie um resource para dados de usuário">
-Adicione uma propriedade na classe do componente que cria um resource para carregar dados de usuário com base em um signal de ID de usuário.
+<docs-step title="Crie um resource para os dados do usuário {#create-a-resource-for-user-data}">
+Adicione uma propriedade na classe do component que cria um resource para carregar os dados do usuário com base em um signal de ID de usuário.
 
 ```ts
 userId = signal(1);
 
 userResource = resource({
-  params: () => ({ id: this.userId() }),
-  loader: (params) => loadUser(params.params.id)
+  params: () => ({id: this.userId()}),
+  loader: (params) => getUserData(params.params.id),
 });
 ```
 
 </docs-step>
 
-<docs-step title="Adicione métodos para interagir com o resource">
-Adicione métodos para mudar o ID do usuário e recarregar o resource.
+<docs-step title="Adicione métodos para interagir com o resource {#add-methods-to-interact-with-the-resource}">
+Adicione métodos para alterar o ID do usuário e recarregar o resource.
 
 ```ts
 loadUser(id: number) {
@@ -48,21 +48,21 @@ reloadUser() {
 }
 ```
 
-Mudar o signal params automaticamente dispara um reload, ou você pode recarregar manualmente com `reload()`.
+Alterar o signal de params dispara um reload automaticamente, ou você pode recarregar manualmente com `reload()`.
 </docs-step>
 
-<docs-step title="Crie computed signals para estados do resource">
-Adicione computed signals para acessar diferentes estados do resource.
+<docs-step title="Crie computed signals para os estados do resource {#create-computed-signals-for-resource-states}">
+Adicione computed signals para acessar os diferentes estados do resource.
 
 ```ts
-isLoading = computed(() => this.userResource.status() === 'loading');
+isLoading = this.userResource.isLoading;
 hasError = computed(() => this.userResource.status() === 'error');
 ```
 
-Resources fornecem um signal `status()` que pode ser 'loading', 'success' ou 'error', um signal `value()` para os dados carregados e um método `hasValue()` que verifica com segurança se os dados estão disponíveis.
+Resources fornecem um signal `status()` que pode ser `'loading'`, `'reloading'`, `'resolved'` ou `'error'`, um signal `value()` para os dados carregados e um método `hasValue()` que verifica com segurança se os dados estão disponíveis. O signal `isLoading()` é verdadeiro tanto para `'loading'` quanto para `'reloading'`.
 </docs-step>
 
-<docs-step title="Conecte os botões e exiba os estados do resource">
+<docs-step title="Conecte os botões e exiba os estados do resource {#wire-up-the-buttons-and-display-resource-states}">
 A estrutura do template já está fornecida. Agora conecte tudo:
 
 Parte 1. **Adicione manipuladores de clique aos botões:**
@@ -89,13 +89,13 @@ Parte 2. **Substitua o placeholder pelo tratamento de estado do resource:**
 }
 ```
 
-O resource fornece diferentes métodos para verificar seu estado:
+O resource fornece diferentes métodos para verificar o seu estado:
 
-- `isLoading()` - verdadeiro quando estiver buscando dados
+- `isLoading()` - verdadeiro quando está buscando dados
 - `hasError()` - verdadeiro quando ocorreu um erro
 - `userResource.hasValue()` - verdadeiro quando os dados estão disponíveis
 - `userResource.value()` - acessa os dados carregados
-- `userResource.error()` - acessa informações de erro
+- `userResource.error()` - acessa as informações de erro
 
 </docs-step>
 
@@ -104,8 +104,8 @@ O resource fornece diferentes métodos para verificar seu estado:
 Excelente! Agora você aprendeu como usar a API Resource com signals. Conceitos-chave para lembrar:
 
 - **Resources são reativos**: Eles recarregam automaticamente quando os params mudam
-- **Gerenciamento de estado integrado**: Resources fornecem signals `status()`, `value()` e `error()`
-- **Limpeza automática**: Resources lidam com cancelamento de requisições e limpeza automaticamente
+- **Gerenciamento de estado integrado**: Resources fornecem os signals `status()`, `value()` e `error()`
+- **Limpeza automática**: Resources cuidam do cancelamento de requisições e da limpeza automaticamente
 - **Controle manual**: Você pode recarregar ou abortar requisições manualmente quando necessário
 
 Na próxima lição, você aprenderá [como passar dados para componentes com input signals](/tutorials/signals/5-component-communication-with-signals)!

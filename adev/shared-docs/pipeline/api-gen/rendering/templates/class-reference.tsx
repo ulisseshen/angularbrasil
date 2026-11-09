@@ -28,6 +28,7 @@ import {RawHtml} from './raw-html';
 import {DeprecationWarning} from './deprecation-warning';
 import {codeToHtml} from '../../../shared/shiki.mjs';
 import {getHighlighterInstance} from '../shiki/shiki.mjs';
+import {getSymbolsAsApiEntries} from '../symbol-context.mjs';
 
 /** Component to render a class API reference document. */
 export function ClassReference(
@@ -41,11 +42,10 @@ export function ClassReference(
           <div className={SECTION_CONTAINER + ' docs-reference-api-section'}>
             <SectionHeading name="Pipe usage" />
             <RawHtml
-              value={codeToHtml(
-                getHighlighterInstance(),
-                (entry as PipeEntry).usage,
-                'angular-html',
-              )}
+              value={codeToHtml(getHighlighterInstance(), (entry as PipeEntry).usage, {
+                language: 'angular-html',
+                apiEntries: getSymbolsAsApiEntries(),
+              })}
             />
           </div>
         </>

@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {initMockFileSystem} from '@angular/compiler-cli/src/ngtsc/file_system/testing';
 import ts from 'typescript';
 
 import {
@@ -21,10 +20,6 @@ import {
 
 describe('find references and rename locations', () => {
   let env: LanguageServiceTestEnv;
-
-  beforeEach(() => {
-    initMockFileSystem('Native');
-  });
 
   afterEach(() => {
     // Clear env so it's not accidentally carried over to the next test.
@@ -822,7 +817,7 @@ describe('find references and rename locations', () => {
       });
     });
 
-    describe('when cursor is on property read of variable', () => {
+    describe('when cursor is on property read of variable (inside listener callback)', () => {
       let file: OpenBuffer;
       beforeEach(() => {
         const files = {
@@ -1688,6 +1683,82 @@ describe('find references and rename locations', () => {
     assertTextSpans(refs, ['signalModel']);
   });
 
+  describe('readonly inputs', () => {
+    // Note: this is a factory because `createModuleAndProjectWithDeclarations` adds the
+    // generated module to the passed-in files.
+    const getFiles = () => ({
+      'dir.ts': `
+        import {Directive, Input, input} from '@angular/core';
+
+        @Directive({
+          selector: '[readonly-dir]',
+          standalone: false,
+        })
+        export class ReadonlyDir {
+          readonly signalInput = input<string>();
+          @Input() readonly decoratorInput: string|undefined;
+        }`,
+      'app.ts': `
+        import {Component} from '@angular/core';
+
+        @Component({
+          template: '<div readonly-dir [signalInput]="title" [decoratorInput]="title"></div>',
+          standalone: false,
+        })
+        export class AppCmp {
+          title = 'title';
+        }`,
+    });
+
+    beforeEach(() => {
+      env = LanguageServiceTestEnv.setup();
+    });
+
+    it('should get references to readonly signal input from the template', () => {
+      const project = createModuleAndProjectWithDeclarations(env, 'test', getFiles());
+      const file = project.openFile('app.ts');
+      file.moveCursorToText('[signal¦Input]="title"');
+
+      const refs = getReferencesAtPosition(file)!;
+      expect(refs.length).toBe(2);
+      assertFileNames(refs, ['dir.ts', 'app.ts']);
+      assertTextSpans(refs, ['signalInput']);
+    });
+
+    it('should get references to readonly signal input from the class member', () => {
+      const project = createModuleAndProjectWithDeclarations(env, 'test', getFiles());
+      const file = project.openFile('dir.ts');
+      file.moveCursorToText('readonly signal¦Input = input');
+
+      const refs = getReferencesAtPosition(file)!;
+      expect(refs.length).toBe(2);
+      assertFileNames(refs, ['dir.ts', 'app.ts']);
+      assertTextSpans(refs, ['signalInput']);
+    });
+
+    it('should get references to readonly decorator input from the template', () => {
+      const project = createModuleAndProjectWithDeclarations(env, 'test', getFiles());
+      const file = project.openFile('app.ts');
+      file.moveCursorToText('[decorator¦Input]="title"');
+
+      const refs = getReferencesAtPosition(file)!;
+      expect(refs.length).toBe(2);
+      assertFileNames(refs, ['dir.ts', 'app.ts']);
+      assertTextSpans(refs, ['decoratorInput']);
+    });
+
+    it('should get references to readonly decorator input from the class member', () => {
+      const project = createModuleAndProjectWithDeclarations(env, 'test', getFiles());
+      const file = project.openFile('dir.ts');
+      file.moveCursorToText('readonly decorator¦Input');
+
+      const refs = getReferencesAtPosition(file)!;
+      expect(refs.length).toBe(2);
+      assertFileNames(refs, ['dir.ts', 'app.ts']);
+      assertTextSpans(refs, ['decoratorInput']);
+    });
+  });
+
   describe('directives', () => {
     describe('when cursor is on the directive class', () => {
       let file: OpenBuffer;
@@ -2111,7 +2182,6 @@ describe('find references and rename locations', () => {
     let project: Project;
 
     beforeEach(() => {
-      initMockFileSystem('Native');
       env = LanguageServiceTestEnv.setup();
       project = env.addProject(
         'test',
@@ -2305,7 +2375,6 @@ describe('find references and rename locations', () => {
     let project: Project;
 
     beforeEach(() => {
-      initMockFileSystem('Native');
       env = LanguageServiceTestEnv.setup();
       project = env.addProject(
         'test',
@@ -2497,7 +2566,6 @@ describe('find references and rename locations', () => {
     let project: Project;
 
     beforeEach(() => {
-      initMockFileSystem('Native');
       env = LanguageServiceTestEnv.setup();
       project = env.addProject(
         'test',
@@ -2549,6 +2617,70 @@ describe('find references and rename locations', () => {
       template.contents = '<div @AliasedDirective></div>';
       template.moveCursorToText('@AliasedDir¦ective');
       expect(getRenameLocationsAtPosition(template)).toBeUndefined();
+    });
+  });
+
+  describe('when cursor is on the target of an update expression', () => {
+    function setup(template: string, cursor: string): OpenBuffer {
+      env = LanguageServiceTestEnv.setup();
+      const project = createModuleAndProjectWithDeclarations(env, 'test', {
+        'app.ts': `
+          import {Component} from '@angular/core';
+
+          @Component({templateUrl: './app.html', standalone: false})
+          export class AppCmp {
+            counter = 0;
+          }`,
+        'app.html': template,
+      });
+      const file = project.openFile('app.html');
+      file.moveCursorToText(cursor);
+      return file;
+    }
+
+    it('gets member reference for a postfix update', () => {
+      const file = setup(`<div (click)="counter++"></div>`, 'coun¦ter++');
+      const refs = getReferencesAtPosition(file)!;
+      expect(refs.length).toBe(2);
+
+      assertFileNames(refs, ['app.ts', 'app.html']);
+      assertTextSpans(refs, ['counter']);
+    });
+
+    it('gets rename location for a postfix update', () => {
+      const file = setup(`<div (click)="counter++"></div>`, 'coun¦ter++');
+      const renameLocations = getRenameLocationsAtPosition(file)!;
+      expect(renameLocations.length).toBe(2);
+
+      assertFileNames(renameLocations, ['app.ts', 'app.html']);
+      assertTextSpans(renameLocations, ['counter']);
+    });
+
+    it('gets rename location for a prefix update', () => {
+      const file = setup(`<div (click)="--counter"></div>`, '--coun¦ter');
+      const renameLocations = getRenameLocationsAtPosition(file)!;
+      expect(renameLocations.length).toBe(2);
+
+      assertFileNames(renameLocations, ['app.ts', 'app.html']);
+      assertTextSpans(renameLocations, ['counter']);
+    });
+
+    it('gets rename location when the target is parenthesized', () => {
+      const file = setup(`<div (click)="(counter)++"></div>`, '(coun¦ter)++');
+      const renameLocations = getRenameLocationsAtPosition(file)!;
+      expect(renameLocations.length).toBe(2);
+
+      assertFileNames(renameLocations, ['app.ts', 'app.html']);
+      assertTextSpans(renameLocations, ['counter']);
+    });
+
+    it('gets rename location when the target has a non-null assertion', () => {
+      const file = setup(`<div (click)="counter!++"></div>`, 'coun¦ter!++');
+      const renameLocations = getRenameLocationsAtPosition(file)!;
+      expect(renameLocations.length).toBe(2);
+
+      assertFileNames(renameLocations, ['app.ts', 'app.html']);
+      assertTextSpans(renameLocations, ['counter']);
     });
   });
 

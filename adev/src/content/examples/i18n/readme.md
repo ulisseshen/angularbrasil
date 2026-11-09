@@ -1,20 +1,19 @@
 <!-- ia-translate: true -->
-
-# Exemplo de Internacionalização i18n do Angular
+# Exemplo de internacionalização (i18n) do Angular
 
 Este exemplo vem da página "[Exemplo de aplicação Angular de Internacionalização](https://angular.dev/guide/i18n/example)" da documentação do Angular.
 
-## Instalar e Executar o Download
+## Instalar e executar o download {#install-and-run-the-download}
 
-1. `npm install` os pacotes node_module
-2. `npm start` para vê-lo executar em inglês
-3. `npm run start:fr` para vê-lo executar com tradução em francês.
+1. `npm install` para instalar os pacotes node_module
+2. `npm start` para ver a aplicação executando em inglês
+3. `npm run start:fr` para ver a aplicação executando com a tradução para francês.
 
 > Veja os scripts em `package.json` para uma explicação desses comandos.
 
-## Executar no Stackblitz
+## Executar no StackBlitz {#run-in-stackblitz}
 
-Stackblitz compila e executa a versão em inglês por padrão.
+O StackBlitz compila e executa a versão em inglês por padrão.
 
 Para ver o exemplo traduzido para francês com Angular i18n:
 
@@ -26,4 +25,4 @@ Para ver o exemplo traduzido para francês com Angular i18n:
   }
 ```
 
-1. Clique no botão "Fork" no cabeçalho do stackblitz. Isso faz uma nova cópia para você com esta mudança e re-executa o exemplo em francês.
+1. Clique no botão "Fork" no cabeçalho do StackBlitz. Isso cria uma nova cópia para você com esta mudança e executa novamente o exemplo em francês.

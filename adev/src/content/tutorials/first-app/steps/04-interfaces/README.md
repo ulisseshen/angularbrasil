@@ -5,12 +5,12 @@ Esta lição do tutorial demonstra como criar uma interface e incluí-la em um c
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=YkFSeUeV8Ixtz8pm"/>
 
-## O que você vai aprender
+## O que você vai aprender {#what-youll-learn}
 
 - Sua aplicação tem uma nova interface que ela pode usar como um tipo de dado.
 - Sua aplicação tem uma instância da nova interface com dados de exemplo.
 
-## Prévia conceitual de interfaces
+## Prévia conceitual de interfaces {#conceptual-preview-of-interfaces}
 
 [Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) são tipos de dados customizados para sua aplicação.
 
@@ -22,7 +22,7 @@ Nesta lição, você criará uma interface para definir propriedades que represe
 
 <docs-workflow>
 
-<docs-step title="Crie uma nova interface Angular">
+<docs-step title="Crie uma nova interface Angular {#create-a-new-angular-interface}">
 Este passo cria uma nova interface na sua aplicação.
 
 No painel **Terminal** do seu IDE:
@@ -42,7 +42,7 @@ No painel **Terminal** do seu IDE:
    Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
-<docs-step title="Adicione propriedades à nova interface">
+<docs-step title="Adicione propriedades à nova interface {#add-properties-to-the-new-interface}">
 Este passo adiciona as propriedades à interface que sua aplicação precisa para representar uma localização de moradia.
 
 1. No painel **Terminal** do seu IDE, inicie o comando `ng serve`, se ele ainda não estiver rodando, para buildar a aplicação e servi-la em `http://localhost:4200`.
@@ -56,7 +56,7 @@ Este passo adiciona as propriedades à interface que sua aplicação precisa par
 Neste ponto, você definiu uma interface que representa dados sobre uma localização de moradia incluindo um `id`, `name` e informações de localização.
 </docs-step>
 
-<docs-step title="Crie uma casa de teste para sua aplicação">
+<docs-step title="Crie uma casa de teste para sua aplicação {#create-a-test-house-for-your-app}">
 Você tem uma interface, mas ainda não está usando ela.
 
 Neste passo, você cria uma instância da interface e atribui alguns dados de exemplo a ela.
@@ -71,24 +71,24 @@ Há mais algumas lições para completar antes que isso aconteça.
 
 1. Em `src/app/home/home.ts`, substitua a definição vazia `export class Home {}` com este código para criar uma única instância da nova interface no component.
 
-<docs-code language="angular-ts" header="Adicione dados de exemplo a src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[22,35]"/>
+<docs-code language="angular-ts" header="Adicione dados de exemplo a src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[21,34]"/>
 
 1. Confirme que seu arquivo `home.ts` corresponde a este exemplo.
 
-   <docs-code language="angular-ts" header="src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[[1,7],[9,36]]" />
+   <docs-code language="angular-ts" header="src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[1,34]" />
 
    Ao adicionar a propriedade `housingLocation` do tipo `HousingLocation` à classe `Home`, somos capazes de confirmar que os dados correspondem à descrição da interface. Se os dados não satisfizessem a descrição da interface, o IDE tem informação suficiente para nos dar erros úteis.
 
 1. Salve suas alterações e confirme que a aplicação não tem nenhum erro. Abra o browser e confirme que sua aplicação ainda exibe a mensagem "housing-location works!"
 
-<img alt="frame do browser da aplicação homes-app exibindo logo, campo de texto de filtro e botão de busca e a mensagem 'housing-location works!'" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
+   <img alt="frame do browser da aplicação homes-app exibindo logo, campo de texto de filtro e botão de busca e a mensagem 'housing-location works!'" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
 
 1. Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você criou uma interface que criou um novo tipo de dado para sua aplicação.
+SUMMARY: Nesta lição, você criou uma interface que criou um novo tipo de dado para sua aplicação.
 Este novo tipo de dado torna possível especificar onde dados de `HousingLocation` são necessários.
 Este novo tipo de dado também torna possível que seu IDE e o compilador TypeScript possam garantir que dados de `HousingLocation` sejam usados onde são necessários.
 

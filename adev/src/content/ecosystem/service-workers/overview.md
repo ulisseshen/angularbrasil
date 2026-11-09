@@ -21,7 +21,7 @@ Se o service worker for projetado para fazer isso, ele pode _satisfazer completa
 Mesmo em uma rede rápida e confiável, atrasos de ida e volta podem introduzir latência significativa ao carregar a aplicação.
 Usar um service worker para reduzir a dependência da rede pode melhorar significativamente a experiência do usuário.
 
-## Service workers no Angular
+## Service workers no Angular {#service-workers-in-angular}
 
 Aplicações Angular, como aplicações de página única, estão em uma posição privilegiada para se beneficiar das vantagens dos service workers. Angular já vem com uma implementação de service worker. Desenvolvedores Angular podem aproveitar este service worker e se beneficiar da maior confiabilidade e desempenho que ele fornece, sem precisar programar contra APIs de baixo nível.
 
@@ -53,7 +53,7 @@ Instalar o Angular service worker é tão simples quanto [executar um comando do
 Além de registrar o Angular service worker com o navegador, isso também torna alguns serviços disponíveis para injeção que interagem com o service worker e podem ser usados para controlá-lo.
 Por exemplo, uma aplicação pode pedir para ser notificada quando uma nova atualização se torna disponível, ou uma aplicação pode pedir ao service worker para verificar o servidor por atualizações disponíveis.
 
-## Antes de começar
+## Antes de começar {#before-you-start}
 
 Para fazer uso de todos os recursos dos Angular service workers, use as versões mais recentes do Angular e do [Angular CLI](tools/cli).
 
@@ -63,7 +63,7 @@ A razão é que service workers são bastante poderosos, então cuidado extra é
 
 Há uma exceção a esta regra: para tornar o desenvolvimento local mais direto, navegadores _não_ requerem uma conexão segura ao acessar uma aplicação em `localhost`.
 
-### Suporte de navegadores
+### Suporte de navegadores {#browser-support}
 
 Para se beneficiar do Angular service worker, sua aplicação deve rodar em um navegador web que suporte service workers em geral.
 Atualmente, service workers são suportados nas versões mais recentes do Chrome, Firefox, Edge, Safari, Opera, UC Browser (versão Android) e Samsung Internet.
@@ -74,7 +74,7 @@ Mais especificamente:
 
 - O navegador não baixa o script do service worker e o arquivo manifest `ngsw.json`
 - Tentativas ativas de interagir com o service worker, como chamar `SwUpdate.checkForUpdate()`, retornam promises rejeitadas
-- Os eventos observáveis de serviços relacionados, como `SwUpdate.available`, não são acionados
+- Os eventos observáveis de serviços relacionados, como `SwUpdate.versionUpdates`, não são acionados
 
 É altamente recomendado que você garanta que sua aplicação funcione mesmo sem suporte ao service worker no navegador.
 Embora um navegador sem suporte ignore o cache do service worker, ele ainda reporta erros se a aplicação tentar interagir com o service worker.
@@ -83,7 +83,7 @@ Para evitar tal erro, verifique se o Angular service worker está habilitado usa
 
 Para saber mais sobre outros navegadores que estão prontos para service worker, consulte a página [Can I Use](https://caniuse.com/#feat=serviceworkers) e [documentação MDN](https://developer.mozilla.org/docs/Web/API/Service_Worker_API).
 
-## Recursos relacionados
+## Recursos relacionados {#related-resources}
 
 O restante dos artigos nesta seção abordam especificamente a implementação Angular de service workers.
 
@@ -106,6 +106,6 @@ Para recomendações adicionais e exemplos, consulte:
   <docs-pill href="https://web.dev/creating-pwa-with-angular-cli" title="Creating a PWA with Angular CLI"/>
 </docs-pill-row>
 
-## Próximo passo
+## Próximo passo {#next-step}
 
 Para começar a usar Angular service workers, consulte [Começando com service workers](ecosystem/service-workers/getting-started).

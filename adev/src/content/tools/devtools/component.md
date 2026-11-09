@@ -1,79 +1,81 @@
 <!-- ia-translate: true -->
 # Inspecione a árvore de components
 
-## Debugar sua aplicação
+## Debugar sua aplicação {#debug-your-application}
 
 A aba **Components** permite explorar a estrutura da sua aplicação.
-Você pode visualizar as instâncias de components e directives no DOM e inspecionar ou modificar seu estado.
+Você pode visualizar as instâncias de components e directives no DOM e inspecionar ou modificar o estado delas.
 
-### Explorar a estrutura da aplicação
+### Explorar a estrutura da aplicação {#explore-the-application-structure}
 
-A árvore de components exibe uma relação hierárquica dos _components e directives_ dentro da sua aplicação.
+A árvore de components exibe a relação hierárquica dos _components e directives_ dentro da sua aplicação.
 
-<img src="assets/images/guide/devtools/component-explorer.png" alt="A screenshot of the 'Components' tab showing a tree of Angular components and directives starting the root of the application.">
+<img src="assets/images/guide/devtools/component-explorer.png" alt="Captura de tela da aba 'Components' mostrando uma árvore de components e directives do Angular, começando na raiz da aplicação.">
 
 Clique nos components ou directives individuais no explorador de components para selecioná-los e visualizar suas propriedades.
 O Angular DevTools exibe propriedades e metadados no lado direito da árvore de components.
 
-Para procurar um component ou directive por nome, use a caixa de busca acima da árvore de components.
+Para procurar um component ou directive pelo nome, use a caixa de busca acima da árvore de components.
 
-<img src="assets/images/guide/devtools/search.png" alt="A screenshot of the 'Components' tab. The filter bar immediately underneath the tab is searching for 'todo' and all components with 'todo' in the name are highlighted in the tree. `app-todos` is currently selected and a sidebar to the right displays information about the component's properties. This includes a section of `@Output` fields and another section for other properties.">
+<img src="assets/images/guide/devtools/search.png" alt="Captura de tela da aba 'Components'. A barra de filtro logo abaixo da aba está buscando 'todo', e todos os components com 'todo' no nome estão destacados na árvore. `app-todos` está selecionado no momento, e uma barra lateral à direita exibe informações sobre as propriedades do component. Isso inclui uma seção de campos `@Output` e outra seção para as demais propriedades.">
 
-### Navegar para o host node
+### Navegar para o host node {#navigate-to-the-host-node}
 
 Para ir ao elemento host de um component ou directive específico, clique duas vezes nele no explorador de components.
 O Angular DevTools abrirá a aba Elements no Chrome ou a aba Inspector no Firefox, e selecionará o nó DOM associado.
 
-### Navegar para o código-fonte
+### Navegar para o código-fonte {#navigate-to-source}
 
-Para components, o Angular DevTools permite navegar para a definição do component na aba Sources (Chrome) e aba Debugger (Firefox).
-Após selecionar um component específico, clique no ícone no canto superior direito da visualização de propriedades:
+Para components, o Angular DevTools permite navegar até a definição do component na aba Sources (Chrome) ou na aba Debugger (Firefox).
+Depois de selecionar um component específico, clique no ícone no canto superior direito da visualização de propriedades:
 
-<img src="assets/images/guide/devtools/navigate-source.png" alt="A screenshot of the 'Components' tab. The properties view on the right is visible for a component and the mouse rests in the upper right corner of that view on top of a `<>` icon. An adjacent tooltip reads 'Open component source'.">
+<img src="assets/images/guide/devtools/navigate-source.png" alt="Captura de tela da aba 'Components'. A visualização de propriedades à direita está visível para um component, e o mouse está posicionado no canto superior direito dessa visualização, sobre um ícone `<>`. Uma dica de ferramenta ao lado diz 'Open component source'.">
 
-### Atualizar valor de propriedade
+### Atualizar valor de propriedade {#update-property-value}
 
 Assim como as DevTools dos navegadores, a visualização de propriedades permite editar o valor de um input, output ou outras propriedades.
-Clique com o botão direito no valor da propriedade e, se a funcionalidade de edição estiver disponível para este tipo de valor, uma entrada de texto aparecerá.
-Digite o novo valor e pressione `Enter` para aplicar este valor à propriedade.
+Clique com o botão direito no valor da propriedade e, se a funcionalidade de edição estiver disponível para esse tipo de valor, um campo de texto aparecerá.
+Digite o novo valor e pressione `Enter` para aplicá-lo à propriedade.
 
-<img src="assets/images/guide/devtools/update-property.png" alt="A screenshot of the 'Components' tab with the properties view open for a component. An `@Input` named `todo` contains a `label` property which is currently selected and has been manually updated to the value 'Buy milk'.">
+<img src="assets/images/guide/devtools/update-property.png" alt="Captura de tela da aba 'Components' com a visualização de propriedades aberta para um component. Um `@Input` chamado `todo` contém uma propriedade `label`, que está selecionada e foi atualizada manualmente para o valor 'Buy milk'.">
 
-### Acessar component ou directive selecionado no console
+### Acessar component ou directive selecionado no console {#access-selected-component-or-directive-in-console}
 
-Como um atalho no console, o Angular DevTools fornece acesso a instâncias de components ou directives recentemente selecionados.
-Digite `$ng0` para obter uma referência à instância do component ou directive atualmente selecionado, e digite `$ng1` para a instância selecionada anteriormente, `$ng2` para a instância selecionada antes dela, e assim por diante.
+Como atalho no console, o Angular DevTools fornece acesso às instâncias dos components ou directives selecionados recentemente.
+Digite `$ng0` para obter uma referência à instância do component ou directive atualmente selecionado, `$ng1` para a instância selecionada anteriormente, `$ng2` para a instância selecionada antes dessa, e assim por diante.
 
-<img src="assets/images/guide/devtools/access-console.png" alt="A screenshot of the 'Components' tab with the browser console underneath. In the console, the user has typed three commands, `$ng0`, `$ng1`, and `$ng2` to view the three most recently selected elements. After each statement, the console prints a different component reference.">
+<img src="assets/images/guide/devtools/access-console.png" alt="Captura de tela da aba 'Components' com o console do navegador logo abaixo. No console, o usuário digitou três comandos, `$ng0`, `$ng1` e `$ng2`, para visualizar os três elementos selecionados mais recentemente. Após cada instrução, o console exibe uma referência de component diferente.">
 
-### Selecionar um directive ou component
+### Selecionar um directive ou component {#select-a-directive-or-component}
 
-Semelhante às DevTools dos navegadores, você pode inspecionar a página para selecionar um component ou directive específico.
-Clique no ícone **_Inspect element_** no canto superior esquerdo dentro do Angular DevTools e passe o mouse sobre um elemento DOM na página.
+Assim como nas DevTools dos navegadores, você pode inspecionar a página para selecionar um component ou directive específico.
+Clique no ícone **_Inspect element_** no canto superior esquerdo do Angular DevTools e passe o mouse sobre um elemento DOM na página.
 A extensão reconhece os directives e/ou components associados e permite selecionar o elemento correspondente na árvore de Components.
 
-<img src="assets/images/guide/devtools/inspect-element.png" alt="A screenshot of the 'Components' tab with an Angular todo application visible. In the very top-left corner of Angular DevTools, an icon of a screen with a mouse icon inside it is selected. The mouse rests on a todo element in the Angular application UI. The element is highlighted with a `<TodoComponent>` label displayed in an adjacent tooltip.">
+<img src="assets/images/guide/devtools/inspect-element.png" alt="Captura de tela da aba 'Components' com uma aplicação todo do Angular visível. No canto superior esquerdo do Angular DevTools, um ícone de tela com um ícone de mouse dentro está selecionado. O mouse está sobre um elemento todo na interface da aplicação Angular. O elemento está destacado com um rótulo `<TodoComponent>` exibido em uma dica de ferramenta ao lado.">
 
-## Inspecione seus injectors
+### Inspecionar views deferrable {#inspect-deferrable-views}
 
-NOTA: A Árvore de Injector está disponível para aplicações Angular construídas com a versão 17 ou superior.
+Junto com as directives, a árvore de directives também inclui os [blocos `@defer`](/guide/templates/defer).
 
-### Visualizar a hierarquia de injectors da sua aplicação
+<img src="assets/images/guide/devtools/defer-block.png" />
 
-A aba **Injector Tree** permite explorar a estrutura dos Injectors configurados na sua aplicação. Aqui você verá duas árvores representando a [hierarquia de injectors](guide/di/hierarchical-dependency-injection) da sua aplicação. Uma árvore é sua hierarquia de environment, a outra é sua hierarquia de element.
+Clicar em um bloco defer mostra mais detalhes na barra lateral de propriedades: os diferentes blocos opcionais (por exemplo, `@loading`, `@placeholder` e `@error`), os triggers configurados (triggers de defer, triggers de prefetch e triggers de hydrate) e opções de tempo, como os valores `minimum` e `after`.
 
-<img src="assets/images/guide/devtools/di-injector-tree.png" alt="A screenshot of the 'Profiler' tab displaying the injector tree tab in Angular Devtools visualizing the injector graph for an example application.">
+### Hidratação {#hydration}
 
-### Visualizar caminhos de resolução
+Quando a [hidratação](/guide/hydration) está habilitada na sua aplicação SSR/SSG, a árvore de directives mostra o status de hidratação de cada component.
 
-Quando um injector específico é selecionado, o caminho que o algoritmo de injeção de dependência do Angular percorre daquele injector até a raiz é destacado. Para element injectors, isso inclui destacar os environment injectors para os quais o algoritmo de injeção de dependência salta quando uma dependência não pode ser resolvida na hierarquia de element.
+Em caso de erros, uma mensagem de erro é exibida no component afetado.
 
-Veja [regras de resolução](guide/di/hierarchical-dependency-injection#resolution-rules) para mais detalhes sobre como o Angular resolve caminhos de resolução.
+<img src="assets/images/guide/devtools/hydration-status.png" />
 
-<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="A screenshot of the 'Profiler' tab displaying how the injector tree visualize highlights resolution paths when an injector is selected.">
+O status de hidratação também pode ser visualizado na própria aplicação, habilitando o overlay.
 
-### Visualizar providers do injector
+<img src="assets/images/guide/devtools/hydration-overlay-ecom.png" />
 
-Clicar em um injector que possui providers configurados exibirá esses providers em uma lista à direita da visualização da árvore de injector. Aqui você pode visualizar o token fornecido e seu tipo.
+Aqui está uma ilustração dos overlays de hidratação em um app de e-shop de exemplo do Angular.
 
-<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="A screenshot of the 'Profiler' tab displaying how providers are made visible when an injector is selected.">
+### Depurar o grafo de signals {#debug-the-signal-graph}
+
+Para visualizar como os signals, computeds e effects de um component dependem uns dos outros, veja [Depure o grafo de signals](tools/devtools/signals).

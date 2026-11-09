@@ -7,6 +7,7 @@
  */
 
 import {Component, Directive, forwardRef, Host, Inject, ViewChild} from '@angular/core';
+import {ERROR_DETAILS_PAGE_BASE_URL} from '../../src/error_details_base_url';
 import {TestBed} from '../../testing';
 
 // **NOTE**: More details on why tests relying on `forwardRef` are put into this
@@ -17,7 +18,6 @@ describe('di with forwardRef', () => {
     it('should throw if directives try to inject each other', () => {
       @Directive({
         selector: '[dirB]',
-        standalone: false,
       })
       class DirectiveB {
         constructor(@Inject(forwardRef(() => DirectiveA)) siblingDir: DirectiveA) {}
@@ -25,23 +25,21 @@ describe('di with forwardRef', () => {
 
       @Directive({
         selector: '[dirA]',
-        standalone: false,
       })
       class DirectiveA {
         constructor(siblingDir: DirectiveB) {}
       }
 
       @Component({
+        imports: [DirectiveA, DirectiveB],
         template: '<div dirA dirB></div>',
-        standalone: false,
       })
       class MyComp {}
 
-      TestBed.configureTestingModule({declarations: [DirectiveA, DirectiveB, MyComp]});
       expect(() => TestBed.createComponent(MyComp)).toThrowError(
         'NG0200: Circular dependency detected for `DirectiveA`. ' +
           'Path: DirectiveA -> DirectiveB -> DirectiveA. ' +
-          'Find more at https://angular.dev/errors/NG0200',
+          `Find more at ${ERROR_DETAILS_PAGE_BASE_URL}/NG0200`,
       );
     });
 
@@ -50,7 +48,6 @@ describe('di with forwardRef', () => {
         it('should find host component on the host itself', () => {
           @Directive({
             selector: '[dirComp]',
-            standalone: false,
           })
           class DirectiveComp {
             constructor(@Inject(forwardRef(() => MyComp)) @Host() public comp: MyComp) {}
@@ -59,7 +56,7 @@ describe('di with forwardRef', () => {
           @Component({
             selector: 'my-comp',
             template: '<div dirComp></div>',
-            standalone: false,
+            imports: [DirectiveComp],
           })
           class MyComp {
             @ViewChild(DirectiveComp) dirComp!: DirectiveComp;
@@ -68,13 +65,12 @@ describe('di with forwardRef', () => {
           @Component({
             template: '<my-comp></my-comp>',
             jit: true,
-            standalone: false,
+            imports: [MyComp],
           })
           class MyApp {
             @ViewChild(MyComp) myComp!: MyComp;
           }
 
-          TestBed.configureTestingModule({declarations: [DirectiveComp, MyComp, MyApp]});
           const fixture = TestBed.createComponent(MyApp);
           fixture.detectChanges();
 

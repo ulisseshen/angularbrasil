@@ -7,24 +7,24 @@ Até este ponto, sua aplicação leu dados de um array estático em um service A
 
 <docs-video src="https://www.youtube.com/embed/5K10oYJ5Y-E?si=TiuNKx_teR9baO7k"/>
 
-IMPORTANTE: Recomendamos usar seu ambiente local para esta etapa do tutorial.
+IMPORTANT: Recomendamos usar seu ambiente local para esta etapa do tutorial.
 
-## O que você aprenderá
+## O que você aprenderá {#what-youll-learn}
 
 Sua aplicação usará dados de um JSON server
 
 <docs-workflow>
 
-<docs-step title="Configure o JSON server">
+<docs-step title="Configure o JSON server {#configure-the-json-server}">
 JSON Server é uma ferramenta de código aberto usada para criar APIs REST simuladas. Você a usará para servir os dados de locais de moradia que estão atualmente armazenados no housing service.
 
 1. Instale o `json-server` do npm usando o seguinte comando.
 
    ```bash
-       npm install -g json-server
+   npm install -g json-server
    ```
 
-1. No diretório raiz do seu projeto, crie um arquivo chamado `db.json`. É aqui que você armazenará os dados para o `json-server`.
+1. Na raiz do seu projeto, crie um arquivo chamado `db.json`. É aqui que você armazenará os dados para o `json-server`.
 
 1. Abra `db.json` e copie o seguinte código para o arquivo
 
@@ -140,7 +140,7 @@ JSON Server é uma ferramenta de código aberto usada para criar APIs REST simul
 1. Hora de testar sua configuração. Na linha de comando, na raiz do seu projeto, execute os seguintes comandos.
 
    ```bash
-       json-server --watch db.json
+   json-server --watch db.json
    ```
 
 1. No seu navegador web, navegue até `http://localhost:3000/locations` e confirme que a resposta inclui os dados armazenados em `db.json`.
@@ -148,61 +148,61 @@ JSON Server é uma ferramenta de código aberto usada para criar APIs REST simul
 Se você tiver algum problema com sua configuração, pode encontrar mais detalhes na [documentação oficial](https://www.npmjs.com/package/json-server).
 </docs-step>
 
-<docs-step title="Atualize o service para usar o web server em vez do array local">
-A fonte de dados foi configurada, o próximo passo é atualizar sua aplicação web para se conectar a ela e usar os dados.
+<docs-step title="Atualize o service para usar o web server em vez do array local {#update-service-to-use-web-server-instead-of-local-array}">
+A fonte de dados foi configurada. O próximo passo é atualizar sua aplicação web para se conectar a ela e usar os dados.
 
-1. Em `src/app/housing.service.ts`, faça as seguintes alterações:
+1.  Em `src/app/housing.service.ts`, faça as seguintes alterações:
 
-1. Atualize o código para remover a propriedade `housingLocationList` e o array contendo os dados, bem como a propriedade `baseUrl`.
+1.  Atualize o código para remover a propriedade `housingLocationList`, o array que contém os dados e a propriedade `baseUrl`.
 
-1. Adicione uma propriedade string chamada `url` e defina seu valor como `'http://localhost:3000/locations'`
+1.  Adicione uma propriedade string chamada `url` e defina seu valor como `'http://localhost:3000/locations'`
 
-   <docs-code header="Adicione a propriedade url ao housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[8]"/>
+    <docs-code header="Adicione a propriedade url ao housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[6]"/>
 
-   Este código resultará em erros no restante do arquivo porque depende da propriedade `housingLocationList`. Vamos atualizar os métodos do service em seguida.
+    Este código resultará em erros no restante do arquivo porque depende da propriedade `housingLocationList`. Vamos atualizar os métodos do service em seguida.
 
-1. Atualize a função `getAllHousingLocations` para fazer uma chamada ao web server que você configurou.
+1.  Atualize a função `getAllHousingLocations` para fazer uma chamada ao web server que você configurou.
 
-    <docs-code header="Atualize o método getAllHousingLocations em housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[10,13]"/>
+     <docs-code header="Atualize o método getAllHousingLocations em housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[8,11]"/>
 
-   O código agora usa código assíncrono para fazer uma requisição **GET** via HTTP.
+    O código agora usa código assíncrono para fazer uma requisição **GET** via HTTP.
 
-   ÚTIL: Para este exemplo, o código usa `fetch`. Para casos de uso mais avançados, considere usar o `HttpClient` fornecido pelo Angular.
+    HELPFUL: Para este exemplo, o código usa `fetch`. Para casos de uso mais avançados, considere usar o `HttpClient` fornecido pelo Angular.
 
-1. Atualize a função `getHousingLocationsById` para fazer uma chamada ao web server que você configurou.
+1.  Atualize a função `getHousingLocationById` para fazer uma chamada ao web server que você configurou.
 
-   ÚTIL: Note que o método `fetch` foi atualizado para _consultar_ os dados de location com um valor de propriedade `id` correspondente. Veja [URL Search Parameter](https://developer.mozilla.org/en-US/docs/Web/API/URL/search) para mais informações.
+    HELPFUL: Observe que a URL do `fetch` agora anexa o `id` como segmento de caminho (`${this.url}/${id}`) para requisitar a location com um valor de propriedade `id` correspondente.
 
-    <docs-code header="Atualize o método getHousingLocationById em housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[15,19]"/>
+     <docs-code header="Atualize o método getHousingLocationById em housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[13,17]"/>
 
-1. Uma vez que todas as atualizações estejam completas, seu service atualizado deve corresponder ao seguinte código.
+1.  Quando todas as atualizações estiverem concluídas, seu service deve corresponder ao seguinte código.
 
-<docs-code header="Versão final de housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[1,25]" />
+     <docs-code header="Versão final de housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[1,23]" />
 
 </docs-step>
 
-<docs-step title="Atualize os componentes para usar chamadas assíncronas ao housing service">
+<docs-step title="Atualize os componentes para usar chamadas assíncronas ao housing service {#update-the-components-to-use-asynchronous-calls-to-the-housing-service}">
 O servidor agora está lendo dados da requisição HTTP, mas os componentes que dependem do service agora têm erros porque foram programados para usar a versão síncrona do service.
 
-1. Em `src/app/home/home.ts`, atualize o `constructor` para usar a nova versão assíncrona do método `getAllHousingLocations`.
+1.  Em `src/app/home/home.ts`, atualize o `constructor` para usar a nova versão assíncrona do método `getAllHousingLocations`. Como não usamos signals para nosso estado, você precisa notificar o Angular de que houve uma mudança que exige sincronização. Chame `this.changeDetectorRef.markForCheck()` para isso.
 
-<docs-code header="Atualize o constructor em home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/home/home.ts" visibleLines="[29,36]"/>
+      <docs-code header="Atualize o constructor em home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/home/home.ts" visibleLines="[30,38]"/>
 
-1. Em `src/app/details/details.ts`, atualize o `constructor` para usar a nova versão assíncrona do método `getHousingLocationById`.
+1.  Em `src/app/details/details.ts`, atualize o `constructor` para usar a nova versão assíncrona do método `getHousingLocationById`. Como antes, você também deve chamar `this.changeDetectorRef.markForCheck()` para notificar o Angular das mudanças.
 
-<docs-code header="Atualize o constructor em details.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/details/details.ts" visibleLines="[59,64]"/>
+      <docs-code header="Atualize o constructor em details.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/details/details.ts" visibleLines="[60,66]"/>
 
-1. Salve seu código.
+1.  Salve seu código.
 
-1. Abra a aplicação no navegador e confirme que ela funciona sem nenhum erro.
-   </docs-step>
+1.  Abra a aplicação no navegador e confirme que ela funciona sem nenhum erro.
+    </docs-step>
 
 </docs-workflow>
 
-NOTA: Esta lição depende da API `fetch` do navegador. Para o suporte de interceptors, consulte a [documentação do Http Client](/guide/http)
+NOTE: Esta lição depende da API `fetch` do navegador. Para o suporte a interceptors, consulte a [documentação do HTTP client](/guide/http)
 
-RESUMO: Nesta lição, você atualizou sua aplicação para usar um web server local (`json-server`) e usar métodos de service assíncronos para recuperar dados.
+SUMMARY: Nesta lição, você atualizou sua aplicação para usar um web server local (`json-server`) e usar métodos de service assíncronos para recuperar dados.
 
 Parabéns! Você concluiu com sucesso este tutorial e está pronto para continuar sua jornada construindo aplicações Angular ainda mais complexas.
 
-Se você gostaria de aprender mais, considere completar alguns dos outros [tutoriais](tutorials) e [guias](overview) para desenvolvedores do Angular.
+Se você quiser aprender mais, considere completar alguns dos outros [tutoriais](tutorials) e [guias](overview) de desenvolvedor do Angular.

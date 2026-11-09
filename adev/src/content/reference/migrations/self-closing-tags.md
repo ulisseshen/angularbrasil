@@ -7,24 +7,18 @@ Este schematic migra os templates em sua aplicação para usar self-closing tags
 
 Execute o schematic usando o seguinte comando:
 
-<docs-code language="shell">
-
+```shell
 ng generate @angular/core:self-closing-tag
+```
 
-</docs-code>
+#### Antes {#before}
 
-#### Antes
-
-<docs-code language="angular-html">
-
+```angular-html
 <hello-world></hello-world>
+```
 
-</docs-code>
+#### Depois {#after}
 
-#### Depois
-
-<docs-code language="angular-html">
-
+```angular-html
 <hello-world />
-
-</docs-code>
+```

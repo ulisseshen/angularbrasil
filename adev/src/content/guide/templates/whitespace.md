@@ -3,34 +3,36 @@
 
 Por padrão, templates Angular não preservam whitespace que o framework considera desnecessário. Isso ocorre comumente em duas situações: whitespace entre elementos e whitespace colapsável dentro de texto.
 
-## Whitespace entre elementos
+## Whitespace entre elementos {#whitespace-between-elements}
 
 A maioria dos desenvolvedores prefere formatar seus templates com quebras de linha e indentação para tornar o template legível:
 
-```angular-html
+```html
 <section>
   <h3>User profile</h3>
   <label>
     User name
-    <input>
+    <input />
   </label>
 </section>
 ```
 
 Este template contém whitespace entre todos os elementos. O seguinte trecho mostra o mesmo HTML com cada caractere de whitespace substituído pelo caractere hash (`#`) para destacar quanto whitespace está presente:
 
-```angular-html
+<!-- prettier-ignore -->
+```html
 <!-- Total Whitespace: 20 -->
 <section>###<h3>User profile</h3>###<label>#####User name#####<input>###</label>#</section>
 ```
 
 Preservar o whitespace como escrito no template resultaria em muitos [nós de texto](https://developer.mozilla.org/en-US/docs/Web/API/Text) desnecessários e aumentaria a sobrecarga de renderização da página. Ao ignorar esse whitespace entre elementos, o Angular realiza menos trabalho ao renderizar o template na página, melhorando o desempenho geral.
 
-## Whitespace colapsável dentro de texto
+## Whitespace colapsável dentro de texto {#collapsible-whitespace-inside-text}
 
 Quando seu navegador web renderiza HTML em uma página, ele colapsa múltiplos caracteres de whitespace consecutivos em um único caractere:
 
-```angular-html
+<!-- prettier-ignore -->
+```html
 <!-- What it looks like in the template -->
 <p>Hello         world</p>
 ```
@@ -46,7 +48,7 @@ Consulte [Como whitespace é tratado por HTML, CSS e no DOM](https://developer.m
 
 O Angular evita enviar esses caracteres de whitespace desnecessários para o navegador em primeiro lugar, colapsando-os em um único caractere quando compila o template.
 
-## Preservando whitespace
+## Preservando whitespace {#preserving-whitespace}
 
 Você pode instruir o Angular a preservar whitespace em um template especificando `preserveWhitespaces: true` no decorator `@Component` para um template.
 

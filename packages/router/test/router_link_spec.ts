@@ -6,27 +6,35 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {Component, inject, signal, provideZonelessChangeDetection} from '@angular/core';
+import {PlatformNavigation, ViewportScroller} from '@angular/common';
+import {Component, inject, signal} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {Router, RouterLink, RouterModule, provideRouter} from '../index';
+import {firstValueFrom} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {
+  Router,
+  RouterLink,
+  RouterModule,
+  Scroll,
+  provideRouter,
+  withExperimentalPlatformNavigation,
+  withInMemoryScrolling,
+} from '../index';
+import {ROUTER_SCROLLER} from '../src/router_scroller';
+import {RouterTestingHarness} from '../testing';
+import {useAutoTick} from '@angular/private/testing';
 
 describe('RouterLink', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({providers: [provideZonelessChangeDetection()]});
-  });
-
   it('does not modify tabindex if already set on non-anchor element', async () => {
     @Component({
       template: `<div [routerLink]="link" tabindex="1"></div>`,
-      standalone: false,
     })
     class LinkComponent {
       link: string | null | undefined = '/';
     }
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([])],
-      declarations: [LinkComponent],
     });
     const fixture = TestBed.createComponent(LinkComponent);
     await fixture.whenStable();
@@ -45,9 +53,10 @@ describe('RouterLink', () => {
           [routerLink]="link()"
           [preserveFragment]="preserveFragment()"
           [skipLocationChange]="skipLocationChange()"
-          [replaceUrl]="replaceUrl()"></div>
+          [replaceUrl]="replaceUrl()"
+        ></div>
       `,
-      standalone: false,
+      imports: [RouterLink],
     })
     class LinkComponent {
       link = signal<string | null | undefined>('/');
@@ -62,7 +71,6 @@ describe('RouterLink', () => {
     beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [RouterModule.forRoot([])],
-        declarations: [LinkComponent],
       });
       fixture = TestBed.createComponent(LinkComponent);
       await fixture.whenStable();
@@ -126,9 +134,10 @@ describe('RouterLink', () => {
             [routerLink]="link()"
             [preserveFragment]="preserveFragment()"
             [skipLocationChange]="skipLocationChange()"
-            [replaceUrl]="replaceUrl()"></a>
+            [replaceUrl]="replaceUrl()"
+          ></a>
         `,
-        standalone: false,
+        imports: [RouterLink],
       })
       class LinkComponent {
         link = signal<string | null | undefined>('/');
@@ -142,7 +151,6 @@ describe('RouterLink', () => {
       beforeEach(async () => {
         TestBed.configureTestingModule({
           imports: [RouterModule.forRoot([])],
-          declarations: [LinkComponent],
         });
         fixture = TestBed.createComponent(LinkComponent);
         await fixture.whenStable();
@@ -191,13 +199,12 @@ describe('RouterLink', () => {
     it('should handle routerLink in svg templates', async () => {
       @Component({
         template: `<svg><a routerLink="test"></a></svg>`,
-        standalone: false,
+        imports: [RouterLink],
       })
       class LinkComponent {}
 
       TestBed.configureTestingModule({
         imports: [RouterModule.forRoot([])],
-        declarations: [LinkComponent],
       });
       const fixture = TestBed.createComponent(LinkComponent);
       await fixture.whenStable();
@@ -246,10 +253,8 @@ describe('RouterLink', () => {
       }
 
       @Component({
-        template: `
-          <custom-anchor [routerLink]="link()"></custom-anchor>
-        `,
-        standalone: false,
+        template: ` <custom-anchor [routerLink]="link()"></custom-anchor> `,
+        imports: [RouterLink],
       })
       class LinkComponent {
         link = signal<string | null | undefined>('/');
@@ -260,7 +265,6 @@ describe('RouterLink', () => {
       beforeEach(async () => {
         TestBed.configureTestingModule({
           imports: [RouterModule.forRoot([])],
-          declarations: [LinkComponent],
         });
         fixture = TestBed.createComponent(LinkComponent);
         await fixture.whenStable();
@@ -314,5 +318,167 @@ describe('RouterLink', () => {
 
     const fixture = TestBed.createComponent(WithUrlTree);
     expect(() => fixture.changeDetectorRef.detectChanges()).toThrow();
+  });
+
+  it('correctly updates when relativeTo segments change', async () => {
+    @Component({
+      template: `<a [routerLink]="['./child']" queryParamsHandling="'replace'">link</a>`,
+      imports: [RouterLink],
+    })
+    class WithLink {}
+    TestBed.configureTestingModule({
+      providers: [provideRouter([{path: '**', component: WithLink}])],
+    });
+
+    const harness = await RouterTestingHarness.create('/initial');
+    const anchor = harness.fixture.nativeElement.querySelector('a');
+    expect(anchor.getAttribute('href')).toBe('/initial/child');
+    await harness.navigateByUrl('/different');
+    expect(anchor.getAttribute('href')).toBe('/different/child');
+  });
+
+  it('falls back to the root for a link that would generate a protocol-relative href', async () => {
+    @Component({
+      template: `<a [routerLink]="commands" queryParamsHandling="preserve">commands</a>`,
+      imports: [RouterLink],
+    })
+    class WithLink {
+      readonly commands = ['/', '', 'attacker.example', 'collect'];
+    }
+
+    TestBed.configureTestingModule({
+      providers: [provideRouter([{path: '', component: WithLink}])],
+    });
+    const warn = spyOn(console, 'warn');
+    const fixture = TestBed.createComponent(WithLink);
+
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe('/');
+    expect(warn).toHaveBeenCalledWith(
+      `NG04019: Cannot serialize a UrlTree that would produce a protocol-relative URL. Falling back to '/' instead.`,
+    );
+  });
+
+  it('preserves query params and fragment when falling back for a protocol-relative link', async () => {
+    @Component({
+      template: `<a [routerLink]="commands" [queryParams]="{ref: '123'}" fragment="section"
+        >commands</a
+      >`,
+      imports: [RouterLink],
+    })
+    class WithLink {
+      readonly commands = ['/', '', 'attacker.example', 'collect'];
+    }
+
+    TestBed.configureTestingModule({
+      providers: [provideRouter([{path: '', component: WithLink}])],
+    });
+    const warn = spyOn(console, 'warn');
+    const fixture = TestBed.createComponent(WithLink);
+
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe('/?ref=123#section');
+    expect(warn).toHaveBeenCalledWith(
+      `NG04019: Cannot serialize a UrlTree that would produce a protocol-relative URL. Falling back to '/' instead.`,
+    );
+  });
+
+  describe('scroll', () => {
+    useAutoTick();
+
+    @Component({
+      template: `
+        <a id="manual" routerLink="/a" scroll="manual">manual</a>
+        <a id="default" routerLink="/b">default</a>
+      `,
+      imports: [RouterLink],
+    })
+    class LinksWithScroll {}
+
+    function click(fixture: ComponentFixture<unknown>, id: string) {
+      fixture.nativeElement.querySelector(`#${id}`).click();
+    }
+
+    it('passes the scroll option to the navigation', async () => {
+      TestBed.configureTestingModule({providers: [provideRouter([{path: '**', children: []}])]});
+      const router = TestBed.inject(Router);
+      const fixture = TestBed.createComponent(LinksWithScroll);
+      await fixture.whenStable();
+
+      click(fixture, 'manual');
+      await fixture.whenStable();
+
+      expect(router.lastSuccessfulNavigation()?.extras.scroll).toBe('manual');
+    });
+
+    it('does not add the scroll option when the input is not set', async () => {
+      TestBed.configureTestingModule({providers: [provideRouter([{path: '**', children: []}])]});
+      const router = TestBed.inject(Router);
+      const navigateSpy = spyOn(router, 'navigateByUrl').and.callThrough();
+      const fixture = TestBed.createComponent(LinksWithScroll);
+      await fixture.whenStable();
+
+      click(fixture, 'default');
+      await fixture.whenStable();
+
+      expect(navigateSpy).toHaveBeenCalledTimes(1);
+      expect('scroll' in navigateSpy.calls.mostRecent().args[1]!).toBe(false);
+    });
+
+    it('skips scroll restoration for links with scroll="manual"', async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideRouter(
+            [{path: '**', children: []}],
+            withInMemoryScrolling({scrollPositionRestoration: 'top'}),
+          ),
+        ],
+      });
+      const router = TestBed.inject(Router);
+      const scrollToSpy = spyOn(TestBed.inject(ViewportScroller), 'scrollToPosition');
+      TestBed.inject(ROUTER_SCROLLER).init();
+      const fixture = TestBed.createComponent(LinksWithScroll);
+      await fixture.whenStable();
+      const nextScroll = () =>
+        firstValueFrom(router.events.pipe(filter((e): e is Scroll => e instanceof Scroll)));
+
+      let scroll = nextScroll();
+      click(fixture, 'manual');
+      expect((await scroll).scrollBehavior).toBe('manual');
+      expect(scrollToSpy).not.toHaveBeenCalled();
+
+      scroll = nextScroll();
+      click(fixture, 'default');
+      await scroll;
+      expect(scrollToSpy).toHaveBeenCalledWith([0, 0]);
+    });
+
+    it('passes the scroll option to NavigateEvent#intercept with platform navigation', async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideRouter([{path: '**', children: []}], withExperimentalPlatformNavigation()),
+        ],
+      });
+      const interceptedScroll: Array<string | undefined> = [];
+      // Added before the router's own listener so `intercept` is wrapped when the router calls it.
+      TestBed.inject(PlatformNavigation).addEventListener('navigate', (e: any) => {
+        const intercept = e.intercept;
+        e.intercept = function (options: {scroll?: string}) {
+          interceptedScroll.push(options.scroll);
+          intercept.call(this, options);
+        };
+      });
+      const fixture = TestBed.createComponent(LinksWithScroll);
+      await fixture.whenStable();
+
+      click(fixture, 'manual');
+      await fixture.whenStable();
+      click(fixture, 'default');
+      await fixture.whenStable();
+
+      expect(interceptedScroll).toEqual(['manual', 'after-transition']);
+    });
   });
 });

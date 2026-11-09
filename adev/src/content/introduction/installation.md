@@ -2,36 +2,34 @@
 <docs-decorative-header title="Instalação" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Comece com Angular rapidamente com starters online ou localmente com seu terminal.
+Comece a usar o Angular rapidamente com starters online ou localmente, pelo seu terminal.
 
-## Experimente Online
+## Experimente online {#play-online}
 
-Se você quer apenas experimentar o Angular no seu navegador sem configurar um projeto, você pode usar nossa sandbox online:
+Se você quer apenas experimentar o Angular no navegador, sem configurar um projeto, pode usar nossa sandbox online:
 
-<docs-card-container>
-  <docs-card title="" href="/playground" link="Abrir no Playground">
-  A maneira mais rápida de experimentar uma aplicação Angular. Nenhuma configuração necessária.
-  </docs-card>
-</docs-card-container>
+<docs-card title="Playground" href="/playground" link="Abrir no Playground" iconImgSrc="adev/src/assets/icons/playground.svg" titleInline>
+A forma mais rápida de experimentar uma aplicação Angular. Não é necessária nenhuma configuração.
+</docs-card>
 
-## Configure um novo projeto localmente
+## Configure um novo projeto localmente {#set-up-a-new-project-locally}
 
-Se você está iniciando um novo projeto, você provavelmente vai querer criar um projeto local para poder usar ferramentas como Git.
+Se você está começando um novo projeto, provavelmente vai querer criar um projeto local para poder usar ferramentas como o Git.
 
-### Pré-requisitos
+### Pré-requisitos {#prerequisites}
 
-- **Node.js** - [v20.19.0 ou mais recente](/reference/versions)
-- **Editor de texto** - Recomendamos [Visual Studio Code](https://code.visualstudio.com/)
-- **Terminal** - Necessário para executar comandos do Angular CLI
-- **Ferramenta de Desenvolvimento** - Para melhorar seu fluxo de trabalho de desenvolvimento, recomendamos o [Angular Language Service](/tools/language-service)
+- **Node.js** - [v22.22.3 ou mais recente](/reference/versions)
+- **Editor de texto** - Recomendamos o [Visual Studio Code](https://code.visualstudio.com/)
+- **Terminal** - Necessário para executar comandos do [Angular CLI](/tools/cli)
+- **Ferramenta de desenvolvimento** - Para melhorar seu fluxo de trabalho, recomendamos o [Angular Language Service](/tools/language-service)
 
-### Instruções
+### Instruções {#instructions}
 
-O guia a seguir vai orientá-lo na configuração de um projeto Angular local.
+O guia a seguir vai orientar você na configuração de um projeto Angular local.
 
-#### Instale o Angular CLI
+#### Instale o Angular CLI {#install-angular-cli}
 
-Abra um terminal (se você está usando [Visual Studio Code](https://code.visualstudio.com/), você pode abrir um [terminal integrado](https://code.visualstudio.com/docs/editor/integrated-terminal)) e execute o seguinte comando:
+Abra um terminal (se você estiver usando o [Visual Studio Code](https://code.visualstudio.com/), pode abrir um [terminal integrado](https://code.visualstudio.com/docs/editor/integrated-terminal)) e execute o seguinte comando:
 
 <docs-code-multifile>
   <docs-code
@@ -58,53 +56,46 @@ Abra um terminal (se você está usando [Visual Studio Code](https://code.visual
     >
     bun install -g @angular/cli
     </docs-code>
-
 </docs-code-multifile>
 
-Se você está tendo problemas para executar este comando no Windows ou Unix, consulte a [documentação do CLI](/tools/cli/setup-local#install-the-angular-cli) para mais informações.
+Se você tiver problemas para executar este comando no Windows ou no Unix, consulte a [documentação do CLI](/tools/cli/setup-local#install-the-angular-cli) para mais informações.
 
-#### Crie um novo projeto
+#### Crie um novo projeto {#create-a-new-project}
 
-No seu terminal, execute o comando `ng new` do CLI com o nome desejado do projeto. Nos exemplos a seguir, usaremos o nome de projeto de exemplo `my-first-angular-app`.
+No seu terminal, execute o comando do CLI [`ng new`](cli/new) com o nome desejado para o projeto. Nos exemplos a seguir, usaremos o nome de exemplo `my-first-angular-app`.
 
-<docs-code language="shell">
-
+```shell
 ng new <project-name>
+```
 
-</docs-code>
+Você verá algumas opções de configuração para o seu projeto. Use as teclas de seta e Enter para navegar e selecionar as opções que desejar.
 
-Você verá algumas opções de configuração para seu projeto. Use as teclas de seta e enter para navegar e selecionar as opções que você desejar.
+Se você não tiver preferências, basta pressionar Enter para aceitar as opções padrão e continuar com a configuração.
 
-Se você não tem preferências, apenas pressione a tecla enter para aceitar as opções padrão e continuar com a configuração.
-
-Depois que você selecionar as opções de configuração e o CLI executar a configuração, você deverá ver a seguinte mensagem:
+Depois que você selecionar as opções de configuração e o CLI concluir a configuração, você deverá ver a seguinte mensagem:
 
 ```text
 ✔ Packages installed successfully.
     Successfully initialized git.
 ```
 
-Neste ponto, você está pronto para executar seu projeto localmente!
+Neste ponto, você está pronto para executar o seu projeto localmente!
 
-#### Executando seu novo projeto localmente
+#### Executando seu novo projeto localmente {#running-your-new-project-locally}
 
 No seu terminal, mude para o seu novo projeto Angular.
 
-<docs-code language="shell">
-
+```shell
 cd my-first-angular-app
+```
 
-</docs-code>
+Todas as dependências devem estar instaladas neste ponto (o que você pode verificar conferindo se existe uma pasta `node_modules` no projeto), então você pode iniciar o projeto executando o comando:
 
-Todas as suas dependências devem estar instaladas neste ponto (o que você pode verificar checando a existência de uma pasta `node_modules` no seu projeto), então você pode iniciar seu projeto executando o comando:
-
-<docs-code language="shell">
-
+```shell
 npm start
+```
 
-</docs-code>
-
-Se tudo der certo, você deverá ver uma mensagem de confirmação similar no seu terminal:
+Se tudo der certo, você deverá ver uma mensagem de confirmação semelhante no seu terminal:
 
 ```text
 Watch mode enabled. Watching for file changes...
@@ -113,12 +104,12 @@ NOTE: Raw file sizes do not reflect development server per-request transformatio
   ➜  press h + enter to show help
 ```
 
-E agora você pode visitar o caminho em `Local` (por exemplo, `http://localhost:4200`) para ver sua aplicação. Bons códigos! 🎉
+Agora você pode acessar o endereço em `Local` (por exemplo, `http://localhost:4200`) para ver sua aplicação. Bons códigos! 🎉
 
-### Usando IA para Desenvolvimento
+### Usando IA para desenvolvimento {#using-ai-for-development}
 
-Para começar a construir no seu IDE preferido com suporte a IA, [confira as regras de prompt e boas práticas do Angular](/ai/develop-with-ai).
+Para começar a construir no seu IDE preferido com suporte a IA, [confira as regras de prompt e as boas práticas do Angular](/ai/develop-with-ai).
 
-## Próximos passos
+## Próximos passos {#next-steps}
 
-Agora que você criou seu projeto Angular, você pode aprender mais sobre Angular no nosso [guia Essentials](/essentials) ou escolher um tópico nos nossos guias detalhados!
+Agora que você criou seu projeto Angular, pode aprender mais sobre o Angular no nosso [guia Essentials](/essentials) ou escolher um tópico nos nossos guias detalhados!

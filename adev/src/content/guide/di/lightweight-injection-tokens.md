@@ -1,194 +1,187 @@
 <!-- ia-translate: true -->
 # Otimizando o tamanho da aplicação cliente com lightweight injection tokens
 
-Esta página fornece uma visão geral conceitual de uma técnica de dependency injection que é recomendada para desenvolvedores de bibliotecas.
-Projetar sua biblioteca com _lightweight injection tokens_ ajuda a otimizar o tamanho do bundle de aplicações cliente que usam sua biblioteca.
+Esta página fornece uma visão geral conceitual de uma técnica de injeção de dependência recomendada para desenvolvedores de bibliotecas.
+Projetar sua biblioteca com _lightweight injection tokens_ ajuda a otimizar o tamanho do bundle das aplicações cliente que usam sua biblioteca.
 
-Você pode gerenciar a estrutura de dependência entre seus components e injectable services para otimizar o tamanho do bundle usando tree-shakable providers.
-Isso normalmente garante que se um component ou service fornecido nunca for realmente usado pela aplicação, o compilador pode remover seu código do bundle.
+Você pode gerenciar a estrutura de dependências entre seus components e services injetáveis para otimizar o tamanho do bundle, usando tree-shakable providers.
+Isso normalmente garante que, se um component ou service fornecido nunca for realmente usado pela aplicação, o compilador pode remover o seu código do bundle.
 
-Devido à forma como o Angular armazena injection tokens, é possível que tal component ou service não utilizado acabe no bundle de qualquer forma.
-Esta página descreve um padrão de design de dependency injection que suporta tree-shaking adequado usando lightweight injection tokens.
+Devido à forma como o Angular armazena os injection tokens, é possível que um component ou service não utilizado acabe no bundle de qualquer forma.
+Esta página descreve um padrão de design de injeção de dependência que oferece suporte ao tree-shaking adequado, usando lightweight injection tokens.
 
 O padrão de design de lightweight injection token é especialmente importante para desenvolvedores de bibliotecas.
-Ele garante que quando uma aplicação usa apenas algumas das capacidades da sua biblioteca, o código não usado pode ser eliminado do bundle da aplicação cliente.
+Ele garante que, quando uma aplicação usa apenas algumas das capacidades da sua biblioteca, o código não utilizado pode ser eliminado do bundle da aplicação cliente.
 
-Quando uma aplicação usa sua biblioteca, pode haver alguns services que sua biblioteca fornece que a aplicação cliente não usa.
-Neste caso, o desenvolvedor da aplicação deve esperar que o service seja tree-shaken, e não contribua para o tamanho da aplicação compilada.
-Como o desenvolvedor da aplicação não pode saber sobre ou remediar um problema de tree-shaking na biblioteca, é responsabilidade do desenvolvedor da biblioteca fazê-lo.
-Para prevenir a retenção de components não usados, sua biblioteca deve usar o padrão de design de lightweight injection token.
+Quando uma aplicação usa sua biblioteca, pode haver alguns services fornecidos pela biblioteca que a aplicação cliente não usa.
+Nesse caso, o desenvolvedor da aplicação deve esperar que esse service sofra tree-shaking e não contribua para o tamanho da aplicação compilada.
+Como o desenvolvedor da aplicação não pode conhecer nem corrigir um problema de tree-shaking na biblioteca, cabe ao desenvolvedor da biblioteca resolvê-lo.
+Para evitar a retenção de components não utilizados, sua biblioteca deve usar o padrão de design de lightweight injection token.
 
-## Quando tokens são retidos
+## Quando tokens são retidos {#when-tokens-are-retained}
 
-Para explicar melhor a condição sob a qual a retenção de token ocorre, considere uma biblioteca que fornece um component library-card.
-Este component contém um corpo e pode conter um header opcional:
+Para explicar melhor a condição sob a qual a retenção de tokens ocorre, considere uma biblioteca que fornece um component library-card.
+Esse component contém um corpo e pode conter um header opcional:
 
-<docs-code language="html">
+```html
+<lib-card>
+  <lib-header>…</lib-header>
+</lib-card>
+```
 
-<lib-card>;
-<lib-header>…</lib-header>;
-</lib-card>;
+Em uma implementação provável, o component `<lib-card>` usa `contentChild` ou `contentChildren` para obter `<lib-header>` e `<lib-body>`, como no exemplo a seguir:
 
-</docs-code>
+```ts {highlight: [14]}
+import {Component, contentChild} from '@angular/core';
 
-Em uma implementação provável, o component `<lib-card>` usa `@ContentChild()` ou `@ContentChildren()` para obter `<lib-header>` e `<lib-body>`, como no seguinte:
-
-<docs-code language="typescript" highlight="[12]">
 @Component({
   selector: 'lib-header',
   …,
 })
-class LibHeaderComponent {}
+class LibHeader {}
 
 @Component({
-selector: 'lib-card',
-…,
+  selector: 'lib-card',
+  …,
 })
-class LibCardComponent {
-@ContentChild(LibHeaderComponent) header: LibHeaderComponent|null = null;
+class LibCard {
+  readonly header = contentChild(LibHeader);
 }
+```
 
-</docs-code>
+Como `<lib-header>` é opcional, o elemento pode aparecer no template em sua forma mínima, `<lib-card />`.
+Nesse caso, `<lib-header>` não é usado e você esperaria que sofresse tree-shaking, mas não é isso que acontece.
+Isso acontece porque `LibCard` na verdade contém duas referências a `LibHeader`:
 
-Como `<lib-header>` é opcional, o elemento pode aparecer no template em sua forma mínima, `<lib-card></lib-card>`.
-Neste caso, `<lib-header>` não é usado e você esperaria que fosse tree-shaken, mas isso não é o que acontece.
-Isso ocorre porque `LibCardComponent` na verdade contém duas referências ao `LibHeaderComponent`:
+```ts
+readonly header = contentChild(LibHeader);
+```
 
-<docs-code language="typescript">
-@ContentChild(LibHeaderComponent) header: LibHeaderComponent;
-</docs-code>
+- Uma dessas referências está na _posição de tipo_, ou seja, ela especifica `LibHeader` como um tipo: `readonly header: Signal<LibHeader|undefined>`.
+- A outra referência está na _posição de valor_, ou seja, `LibHeader` é o valor passado para a função `contentChild`: `contentChild(LibHeader)`.
 
-- Uma dessas referências está na _posição de tipo_-- ou seja, ela especifica `LibHeaderComponent` como um tipo: `header: LibHeaderComponent;`.
-- A outra referência está na _posição de valor_-- ou seja, LibHeaderComponent é o valor do parâmetro decorator `@ContentChild()`: `@ContentChild(LibHeaderComponent)`.
+O compilador trata as referências de token nessas posições de forma diferente:
 
-O compilador lida com referências de token nessas posições de forma diferente:
+- O compilador apaga as referências em _posição de tipo_ após a conversão do TypeScript, então elas não têm impacto no tree-shaking.
+- O compilador precisa manter as referências em _posição de valor_ em tempo de execução, o que **impede** o component de sofrer tree-shaking.
 
-- O compilador apaga referências de _posição de tipo_ após conversão do TypeScript, então elas não têm impacto no tree-shaking.
-- O compilador deve manter referências de _posição de valor_ em tempo de execução, o que **previne** o component de ser tree-shaken.
+No exemplo, o compilador retém o token `LibHeader` que ocorre na posição de valor.
+Isso impede que o component referenciado sofra tree-shaking, mesmo que a aplicação não use `<lib-header>` em lugar algum.
+Se o código, o template e os estilos de `LibHeader` juntos ficarem muito grandes, incluí-lo desnecessariamente pode aumentar significativamente o tamanho da aplicação cliente.
 
-No exemplo, o compilador retém o token `LibHeaderComponent` que ocorre na posição de valor.
-Isso previne o component referenciado de ser tree-shaken, mesmo se a aplicação não usar realmente `<lib-header>` em lugar algum.
-Se o código, template e estilos do `LibHeaderComponent` se combinarem para se tornar muito grandes, incluí-lo desnecessariamente pode aumentar significativamente o tamanho da aplicação cliente.
+## Quando usar o padrão de lightweight injection token {#when-to-use-the-lightweight-injection-token-pattern}
 
-## Quando usar o padrão de lightweight injection token
-
-O problema de tree-shaking surge quando um component é usado como um injection token.
-Há dois casos quando isso pode acontecer:
+O problema de tree-shaking surge quando um component é usado como injection token.
+Há dois casos em que isso pode acontecer:
 
 - O token é usado na posição de valor de uma [content query](guide/components/queries#content-queries).
-- O token é usado como um especificador de tipo para injeção de constructor.
+- O token é usado com a função `inject`.
 
-No exemplo a seguir, ambos os usos do token `OtherComponent` causam retenção de `OtherComponent`, prevenindo-o de ser tree-shaken quando não é usado:
+No exemplo a seguir, ambos os usos do token `CustomOther` causam a retenção de `CustomOther`, impedindo que ele sofra tree-shaking quando não é usado:
 
-<docs-code language="typescript" highlight="[[2],[4]]">
-class MyComponent {
-  constructor(@Optional() other: OtherComponent) {}
+```ts {highlight: [[2],[4]]}
+class App {
+  private readonly other = inject(CustomOther, {optional: true});
 
-@ContentChild(OtherComponent) other: OtherComponent|null;
+  readonly header = contentChild(CustomOther);
 }
-</docs-code>
+```
 
-Embora tokens usados apenas como especificadores de tipo sejam removidos quando convertidos para JavaScript, todos os tokens usados para dependency injection são necessários em tempo de execução.
-Estes efetivamente mudam `constructor(@Optional() other: OtherComponent)` para `constructor(@Optional() @Inject(OtherComponent) other)`.
-O token está agora em uma posição de valor, o que faz com que o tree-shaker mantenha a referência.
+Embora tokens usados apenas como especificadores de tipo sejam removidos na conversão para JavaScript, todos os tokens usados para injeção de dependência são necessários em tempo de execução.
+Ao usar `inject(CustomOther)`, `CustomOther` é passado como argumento de valor.
+O token passa a estar em uma posição de valor, o que faz o tree-shaker manter a referência.
 
-ÚTIL: Bibliotecas devem usar [tree-shakable providers](guide/di/dependency-injection#providing-dependency) para todos os services, fornecendo dependências no nível raiz ao invés de em components ou modules.
+HELPFUL: Bibliotecas devem usar [tree-shakable providers](guide/di/defining-dependency-providers) para todos os services, fornecendo as dependências no nível raiz, em vez de em components ou modules.
 
-## Usando lightweight injection tokens
+## Usando lightweight injection tokens {#using-lightweight-injection-tokens}
 
-O padrão de design de lightweight injection token consiste em usar uma pequena classe abstrata como um injection token, e fornecer a implementação real em um estágio posterior.
-A classe abstrata é retida, não tree-shaken, mas ela é pequena e não tem impacto material no tamanho da aplicação.
+O padrão de design de lightweight injection token consiste em usar uma pequena classe abstrata como injection token e fornecer a implementação real em uma etapa posterior.
+A classe abstrata é retida, não sofre tree-shaking, mas é pequena e não tem impacto material no tamanho da aplicação.
 
-O exemplo a seguir mostra como isso funciona para o `LibHeaderComponent`:
+O exemplo a seguir mostra como isso funciona para o `LibHeader`:
 
-<docs-code language="typescript" language="[[1],[6],[17]]">
+```ts {highlight: [[1],[5], [15]]}
 abstract class LibHeaderToken {}
 
 @Component({
-selector: 'lib-header',
-providers: [
-{provide: LibHeaderToken, useExisting: LibHeaderComponent}
-]
-…,
+  selector: 'lib-header',
+  providers: [{provide: LibHeaderToken, useExisting: LibHeader}],
+  …,
 })
-class LibHeaderComponent extends LibHeaderToken {}
+class LibHeader extends LibHeaderToken {}
 
 @Component({
-selector: 'lib-card',
-…,
+  selector: 'lib-card',
+  …,
 })
-class LibCardComponent {
-@ContentChild(LibHeaderToken) header: LibHeaderToken|null = null;
+class LibCard {
+  readonly header = contentChild(LibHeaderToken);
 }
-</docs-code>
+```
 
-Neste exemplo, a implementação de `LibCardComponent` não se refere mais a `LibHeaderComponent` nem na posição de tipo nem na posição de valor.
-Isso permite que o tree-shaking completo de `LibHeaderComponent` ocorra.
+Neste exemplo, a implementação de `LibCard` não se refere mais a `LibHeader`, nem na posição de tipo nem na posição de valor.
+Isso permite que `LibHeader` sofra tree-shaking completo.
 O `LibHeaderToken` é retido, mas é apenas uma declaração de classe, sem implementação concreta.
-É pequeno e não impacta materialmente o tamanho da aplicação quando retido após compilação.
+Ele é pequeno e não impacta materialmente o tamanho da aplicação quando retido após a compilação.
 
-Em vez disso, `LibHeaderComponent` em si implementa a classe abstrata `LibHeaderToken`.
-Você pode usar com segurança esse token como o provider na definição do component, permitindo que o Angular injete corretamente o tipo concreto.
+Em vez disso, o próprio `LibHeader` implementa a classe abstrata `LibHeaderToken`.
+Você pode usar com segurança esse token como provider na definição do component, permitindo que o Angular injete corretamente o tipo concreto.
 
-Para resumir, o padrão de lightweight injection token consiste do seguinte:
+Resumindo, o padrão de lightweight injection token consiste no seguinte:
 
-1. Um lightweight injection token que é representado como uma classe abstrata.
-1. Uma definição de component que implementa a classe abstrata.
-1. Injeção do padrão lightweight, usando `@ContentChild()` ou `@ContentChildren()`.
-1. Um provider na implementação do lightweight injection token que associa o lightweight injection token com a implementação.
+1. Um lightweight injection token, representado como uma classe abstrata.
+2. Uma definição de component que implementa a classe abstrata.
+3. A injeção do padrão lightweight, usando `contentChild` ou `contentChildren`.
+4. Um provider na implementação do lightweight injection token, que associa o lightweight injection token à implementação.
 
-### Use o lightweight injection token para definição de API
+### Use o lightweight injection token para definir a API {#use-the-lightweight-injection-token-for-api-definition}
 
-Um component que injeta um lightweight injection token pode precisar invocar um método na classe injetada.
-O token agora é uma classe abstrata. Como o component injetável implementa aquela classe, você também deve declarar um método abstrato na classe abstrata de lightweight injection token.
-A implementação do método, com toda sua sobrecarga de código, reside no component injetável que pode ser tree-shaken.
-Isso permite que o pai se comunique com o filho, se estiver presente, de maneira type-safe.
+Um component que injeta um lightweight injection token pode precisar invocar um método da classe injetada.
+O token agora é uma classe abstrata. Como o component injetável implementa essa classe, você também deve declarar um método abstrato na classe abstrata do lightweight injection token.
+A implementação do método, com toda a sua sobrecarga de código, reside no component injetável, que pode sofrer tree-shaking.
+Isso permite que o pai se comunique com o filho, se ele estiver presente, de forma type-safe.
 
-Por exemplo, o `LibCardComponent` agora consulta `LibHeaderToken` ao invés de `LibHeaderComponent`.
-O exemplo a seguir mostra como o padrão permite que `LibCardComponent` se comunique com o `LibHeaderComponent` sem realmente se referir a `LibHeaderComponent`:
+Por exemplo, o `LibCard` agora consulta `LibHeaderToken` em vez de `LibHeader`.
+O exemplo a seguir mostra como o padrão permite que `LibCard` se comunique com `LibHeader` sem se referir diretamente a `LibHeader`:
 
-<docs-code language="typescript" highlight="[[3],[13,16],[27]]">
+```ts {highlight: [[2],[7],[11],[19]]}
 abstract class LibHeaderToken {
   abstract doSomething(): void;
 }
 
 @Component({
-selector: 'lib-header',
-providers: [
-{provide: LibHeaderToken, useExisting: LibHeaderComponent}
-]
-…,
+  selector: 'lib-header',
+  providers: [{provide: LibHeaderToken, useExisting: LibHeader}],
 })
-class LibHeaderComponent extends LibHeaderToken {
-doSomething(): void {
-// Concrete implementation of `doSomething`
-}
+class LibHeader extends LibHeaderToken {
+  doSomething(): void {
+    // Implementação concreta de `doSomething`
+  }
 }
 
 @Component({
-selector: 'lib-card',
-…,
+  selector: 'lib-card',
 })
-class LibCardComponent implement AfterContentInit {
-@ContentChild(LibHeaderToken) header: LibHeaderToken|null = null;
+class LibCard implements AfterContentInit {
+  readonly header = contentChild(LibHeaderToken);
 
-ngAfterContentInit(): void {
-if (this.header !== null) {
-this.header?.doSomething();
+  ngAfterContentInit(): void {
+    if (this.header() !== undefined) {
+      this.header()!.doSomething();
+    }
+  }
 }
-}
-}
-</docs-code>
+```
 
-Neste exemplo, o pai consulta o token para obter o component filho, e armazena a referência do component resultante se estiver presente.
-Antes de chamar um método no filho, o component pai verifica se o component filho está presente.
-Se o component filho foi tree-shaken, não há referência em runtime a ele, e nenhuma chamada ao seu método.
+Neste exemplo, o pai consulta o token para obter o component filho e armazena a referência resultante, se ela estiver presente.
+Antes de chamar um método do filho, o component pai verifica se o component filho está presente.
+Se o component filho tiver sofrido tree-shaking, não há referência em tempo de execução a ele e nenhuma chamada ao seu método.
 
-### Nomeando seu lightweight injection token
+### Nomeando seu lightweight injection token {#naming-your-lightweight-injection-token}
 
 Lightweight injection tokens são úteis apenas com components.
-O guia de estilo do Angular sugere que você nomeie components usando o sufixo "Component".
-O exemplo "LibHeaderComponent" segue esta convenção.
+O [Guia de Estilo do Angular](style-guide) sugere que você nomeie components sem o sufixo `Component`.
+O exemplo `LibHeader` segue essa convenção.
 
-Você deve manter a relação entre o component e seu token enquanto ainda os distingue.
-O estilo recomendado é usar o nome base do component com o sufixo "`Token`" para nomear seus lightweight injection tokens: "`LibHeaderToken`."
+Você deve manter a relação entre o component e o seu token, mas ainda distinguindo um do outro.
+O estilo recomendado é usar o nome base do component com o sufixo `Token` para nomear seus lightweight injection tokens: `LibHeaderToken`.

@@ -5,7 +5,7 @@
   "author": "angular",
   "license": "MIT",
   "engines": {
-    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "exports": {
     "./schematics/*": {
@@ -18,10 +18,14 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
+  "devDependencies": {
+    "@mcp-b/webmcp-polyfill": "^5.0.0",
+    "webmcp-types": "0.1.10"
+  },
   "peerDependencies": {
     "@angular/compiler": "0.0.0-PLACEHOLDER",
     "rxjs": "^6.5.3 || ^7.4.0",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.15.0 || ~0.16.0"
   },
   "peerDependenciesMeta": {
     "@angular/compiler": {

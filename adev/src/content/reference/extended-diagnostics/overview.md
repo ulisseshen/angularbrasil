@@ -22,11 +22,13 @@ Atualmente, o Angular suporta os seguintes diagnósticos estendidos:
 | `NG8108` | [`skipHydrationNotStatic`](extended-diagnostics/NG8108)               |
 | `NG8109` | [`interpolatedSignalNotInvoked`](extended-diagnostics/NG8109)         |
 | `NG8111` | [`uninvokedFunctionInEventBinding`](extended-diagnostics/NG8111)      |
+| `NG8112` | [`unusedLetDeclaration`](extended-diagnostics/NG8112)                 |
 | `NG8113` | [`unusedStandaloneImports`](extended-diagnostics/NG8113)              |
 | `NG8114` | [`unparenthesizedNullishCoalescing`](extended-diagnostics/NG8114)     |
 | `NG8115` | [`uninvokedTrackFunction`](extended-diagnostics/NG8115)               |
 | `NG8116` | [`missingStructuralDirective`](extended-diagnostics/NG8116)           |
 | `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117) |
+| `NG8119` | [`numericCssPropertyRequiresUnit`](extended-diagnostics/NG8119)       |
 | `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)         |
 
 ## Configuração {#configuration}
@@ -42,23 +44,18 @@ Cada diagnóstico pode ser configurado como:
 
 A severidade da verificação pode ser configurada como uma [opção do compilador Angular](reference/configs/angular-compiler-options):
 
-<docs-code language="json">
+```json
 {
   "angularCompilerOptions": {
     "extendedDiagnostics": {
-      // As categorias a usar para diagnósticos específicos.
       "checks": {
-        // Mapeia nome da verificação para sua categoria.
         "invalidBananaInBox": "suppress"
       },
-
-      // A categoria a usar para quaisquer diagnósticos não listados em `checks` acima.
       "defaultCategory": "error"
     }
-
+  }
 }
-}
-</docs-code>
+```
 
 O campo `checks` mapeia o nome de diagnósticos individuais para sua categoria associada.
 Veja [Diagnósticos](#diagnostics) para uma lista completa de diagnósticos estendidos e o nome a usar para configurá-los.
@@ -69,7 +66,7 @@ Se não definido, tais diagnósticos serão tratados como `warning`.
 Diagnósticos estendidos serão emitidos quando [`strictTemplates`](tools/cli/template-typecheck#strict-mode) estiver habilitado.
 Isso é necessário para permitir que o compilador entenda melhor os tipos de template do Angular e forneça diagnósticos precisos e significativos.
 
-## Versionamento Semântico
+## Versionamento semântico {#semantic-versioning}
 
 O time do Angular pretende adicionar ou habilitar novos diagnósticos estendidos em versões **minor** do Angular (veja [semver](https://docs.npmjs.com/about-semantic-versioning)).
 Isso significa que atualizar o Angular pode mostrar novos avisos em sua base de código existente.
@@ -80,7 +77,7 @@ Isso pode fazer com que uma atualização de versão minor introduza erros de co
 Quaisquer novos diagnósticos podem ser suprimidos ou rebaixados para avisos através da [configuração](#configuration) acima, então o impacto de um novo diagnóstico deve ser mínimo para projetos que tratam diagnósticos estendidos como erros por padrão.
 Definir error como padrão é uma ferramenta muito poderosa; apenas esteja ciente desta ressalva de semver ao decidir se `error` é o padrão certo para seu projeto.
 
-## Novos Diagnósticos
+## Novos diagnósticos {#new-diagnostics}
 
 O time do Angular está sempre aberto a sugestões sobre novos diagnósticos que poderiam ser adicionados.
 Diagnósticos estendidos geralmente devem:

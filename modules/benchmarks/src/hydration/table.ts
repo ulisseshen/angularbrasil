@@ -15,7 +15,6 @@ let trustedEmptyColor: SafeStyle;
 let trustedGreyColor: SafeStyle;
 
 @Component({
-  standalone: true,
   selector: 'app',
   template: ``,
 })
@@ -27,19 +26,18 @@ export class AppComponent {
 }
 
 @Component({
-  standalone: true,
   selector: 'table-cmp',
   template: `
     <table>
       <tbody>
         @for (row of data; track $index) {
-        <tr>
-          @for (cell of row; track $index) {
-          <td [style.backgroundColor]="getColor(cell.row)">
-            {{ cell.value + '!' }}
-          </td>
-          }
-        </tr>
+          <tr>
+            @for (cell of row; track $index) {
+              <td [style.backgroundColor]="getColor(cell.row)">
+                {{ cell.value + '!' }}
+              </td>
+            }
+          </tr>
         }
       </tbody>
     </table>

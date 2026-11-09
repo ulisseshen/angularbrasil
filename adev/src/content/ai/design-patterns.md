@@ -3,7 +3,7 @@
 
 Interagir com IA e APIs de Modelos de Linguagem Grandes (LLM) introduz desafios únicos, como gerenciar operações assíncronas, lidar com dados de streaming e projetar uma experiência de usuário responsiva para requisições de rede potencialmente lentas ou não confiáveis. Os [signals](guide/signals) do Angular e a API [`resource`](guide/signals/resource) fornecem ferramentas poderosas para resolver esses problemas de forma elegante.
 
-## Disparando requisições com signals
+## Disparando requisições com signals {#triggering-requests-with-signals}
 
 Um padrão comum ao trabalhar com prompts fornecidos pelo usuário é separar a entrada ao vivo do usuário do valor submetido que dispara a chamada da API.
 
@@ -28,15 +28,18 @@ storyResource = resource({
   loader: ({params}): Promise<StoryData> => {
     // The params value is the current value of the storyInput signal
     const url = this.endpoint();
-    return runFlow({ url, input: {
-      userInput: params,
-      sessionId: this.storyService.sessionId() // Read from another signal
-    }});
-  }
+    return runFlow({
+      url,
+      input: {
+        userInput: params,
+        sessionId: this.storyService.sessionId(), // Read from another signal
+      },
+    });
+  },
 });
 ```
 
-## Preparando dados do LLM para templates
+## Preparando dados do LLM para templates {#preparing-llm-data-for-templates}
 
 Você pode configurar APIs de LLM para retornar dados estruturados. Tipar fortemente seu `resource` para corresponder à saída esperada do LLM fornece melhor segurança de tipo e autocompletar do editor.
 
@@ -57,11 +60,11 @@ storyParts = linkedSignal<string[], string[]>({
     const existingStoryParts = previous?.value || [];
     // Return a new array with the old and new parts
     return [...existingStoryParts, ...newStoryParts];
-  }
+  },
 });
 ```
 
-## Performance e experiência do usuário
+## Performance e experiência do usuário {#performance-and-user-experience}
 
 APIs de LLM podem ser mais lentas e mais propensas a erros do que APIs convencionais e mais determinísticas. Você pode usar vários recursos do Angular para construir uma interface performática e amigável ao usuário.
 
@@ -78,19 +81,19 @@ O exemplo a seguir demonstra como criar uma UI responsiva para exibir dinamicame
   <div class="img-placeholder">
     <mat-spinner [diameter]="50" />
   </div>
-<!-- Dynamically populates the src attribute with the generated image URL -->
+  <!-- Dynamically populates the src attribute with the generated image URL -->
 } @else if (imgResource.hasValue()) {
   <img [src]="imgResource.value()" />
-<!-- Provides a retry option if the request fails  -->
+  <!-- Provides a retry option if the request fails  -->
 } @else {
   <div class="img-placeholder" (click)="imgResource.reload()">
     <mat-icon fontIcon="refresh" />
-      <p>Failed to load image. Click to retry.</p>
+    <p>Failed to load image. Click to retry.</p>
   </div>
 }
 ```
 
-## Padrões de IA em ação: streaming de respostas de chat
+## Padrões de IA em ação: streaming de respostas de chat {#ai-patterns-in-action-streaming-chat-responses}
 
 Interfaces frequentemente exibem resultados parciais de APIs baseadas em LLM de forma incremental à medida que os dados de resposta chegam. A API resource do Angular fornece a capacidade de fazer streaming de respostas para suportar este tipo de padrão. A propriedade `stream` de `resource` aceita uma função assíncrona que você pode usar para aplicar atualizações a um valor de signal ao longo do tempo. O signal sendo atualizado representa os dados sendo transmitidos.
 
@@ -102,23 +105,23 @@ characters = resource({
     // exposed by the Genkit client SDK
     const response = streamFlow({
       url: '/streamCharacters',
-      input: 10
+      input: 10,
     });
 
     (async () => {
       for await (const chunk of response.stream) {
         data.update((prev) => {
           if ('value' in prev) {
-            return { value: `${prev.value} ${chunk}` };
+            return {value: `${prev.value} ${chunk}`};
           } else {
-            return { error: chunk as unknown as Error };
+            return {error: chunk as unknown as Error};
           }
         });
       }
     })();
 
     return data;
-  }
+  },
 });
 ```
 
@@ -128,47 +131,48 @@ O membro `characters` é atualizado de forma assíncrona e pode ser exibido no t
 @if (characters.isLoading()) {
   <p>Loading...</p>
 } @else if (characters.hasValue()) {
-  <p>{{characters.value()}}</p>
+  <p>{{ characters.value() }}</p>
 } @else {
-  <p>{{characters.error()}}</p>
+  <p>{{ characters.error() }}</p>
 }
 ```
 
 No lado do servidor, em `server.ts` por exemplo, o endpoint definido envia os dados a serem transmitidos para o cliente. O código a seguir usa Gemini com o framework Genkit, mas esta técnica é aplicável a outras APIs que suportam respostas de streaming de LLMs:
 
 ```ts
-import { startFlowServer } from '@genkit-ai/express';
-import { genkit } from "genkit/beta";
-import { googleAI, gemini20Flash } from "@genkit-ai/googleai";
+import {startFlowServer} from '@genkit-ai/express';
+import {genkit} from 'genkit/beta';
+import {googleAI, gemini20Flash} from '@genkit-ai/googleai';
 
-const ai = genkit({ plugins: [googleAI()] });
+const ai = genkit({plugins: [googleAI()]});
 
-export const streamCharacters = ai.defineFlow({
+export const streamCharacters = ai.defineFlow(
+  {
     name: 'streamCharacters',
     inputSchema: z.number(),
     outputSchema: z.string(),
     streamSchema: z.string(),
   },
-  async (count, { sendChunk }) => {
-    const { response, stream } = ai.generateStream({
-    model: gemini20Flash,
-    config: {
-      temperature: 1,
-    },
-    prompt: `Generate ${count} different RPG game characters.`,
-  });
+  async (count, {sendChunk}) => {
+    const {response, stream} = ai.generateStream({
+      model: gemini20Flash,
+      config: {
+        temperature: 1,
+      },
+      prompt: `Generate ${count} different RPG game characters.`,
+    });
 
-  (async () => {
-    for await (const chunk of stream) {
-      sendChunk(chunk.content[0].text!);
-    }
-  })();
+    (async () => {
+      for await (const chunk of stream) {
+        sendChunk(chunk.content[0].text!);
+      }
+    })();
 
-  return (await response).text;
-});
+    return (await response).text;
+  },
+);
 
 startFlowServer({
   flows: [streamCharacters],
 });
-
 ```

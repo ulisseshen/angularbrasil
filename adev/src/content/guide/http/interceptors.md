@@ -24,14 +24,17 @@ Você pode usar interceptors para implementar uma variedade de padrões comuns, 
 - Falhar automaticamente requisições após um prazo ou timeout configurável.
 - Consultar regularmente o servidor e atualizar resultados.
 
-## Definindo um interceptor
+## Definindo um interceptor {#defining-an-interceptor}
 
 A forma básica de um interceptor é uma função que recebe a `HttpRequest` de saída e uma função `next` representando o próximo passo de processamento na cadeia de interceptors.
 
 Por exemplo, este `loggingInterceptor` irá registrar a URL da requisição de saída no `console.log` antes de encaminhar a requisição:
 
 ```ts
-export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function loggingInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
   console.log(req.url);
   return next(req);
 }
@@ -39,37 +42,40 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 
 Para que este interceptor realmente intercepte requisições, você deve configurar o `HttpClient` para usá-lo.
 
-## Configurando interceptors
+## Configurando interceptors {#configuring-interceptors}
 
-Você declara o conjunto de interceptors a serem usados ao configurar o `HttpClient` através de dependency injection, usando a feature `withInterceptors`:
+Você declara o conjunto de interceptors a serem usados ao configurar o `HttpClient` através de injeção de dependência, usando a feature `withInterceptors`:
 
 ```ts
-bootstrapApplication(AppComponent, {providers: [
-  provideHttpClient(
-    withInterceptors([loggingInterceptor, cachingInterceptor]),
-  )
-]});
+bootstrapApplication(App, {
+  providers: [provideHttpClient(withInterceptors([loggingInterceptor, cachingInterceptor]))],
+});
 ```
 
 Os interceptors que você configura são encadeados na ordem em que você os listou nos providers. No exemplo acima, o `loggingInterceptor` processaria a requisição e então a encaminharia para o `cachingInterceptor`.
 
-### Interceptando eventos de resposta
+### Interceptando eventos de resposta {#intercepting-response-events}
 
 Um interceptor pode transformar o stream `Observable` de `HttpEvent`s retornado por `next` para acessar ou manipular a resposta. Como este stream inclui todos os eventos de resposta, inspecionar o `.type` de cada evento pode ser necessário para identificar o objeto de resposta final.
 
 ```ts
-export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  return next(req).pipe(tap(event => {
-    if (event.type === HttpEventType.Response) {
-      console.log(req.url, 'returned a response with status', event.status);
-    }
-  }));
+export function loggingInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    tap((event) => {
+      if (event.type === HttpEventType.Response) {
+        console.log(req.url, 'returned a response with status', event.status);
+      }
+    }),
+  );
 }
 ```
 
 DICA: Interceptors naturalmente associam respostas com suas requisições de saída, porque eles transformam o stream de resposta em um closure que captura o objeto da requisição.
 
-## Modificando requisições {#di-based-interceptors}
+## Modificando requisições {#modifying-requests}
 
 A maioria dos aspectos das instâncias de `HttpRequest` e `HttpResponse` são _imutáveis_, e interceptors não podem modificá-los diretamente. Em vez disso, interceptors aplicam mutações clonando esses objetos usando a operação `.clone()`, e especificando quais propriedades devem ser mutadas na nova instância. Isso pode envolver realizar atualizações imutáveis no próprio valor (como `HttpHeaders` ou `HttpParams`).
 
@@ -83,20 +89,20 @@ const reqWithHeader = req.clone({
 
 Esta imutabilidade permite que a maioria dos interceptors sejam idempotentes se a mesma `HttpRequest` for submetida à cadeia de interceptors múltiplas vezes. Isso pode acontecer por algumas razões, incluindo quando uma requisição é tentada novamente após falha.
 
-CRÍTICO: O body de uma requisição ou resposta **não** está protegido contra mutações profundas. Se um interceptor deve mutar o body, tenha cuidado ao lidar com execução múltipla na mesma requisição.
+CRITICAL: O body de uma requisição ou resposta **não** está protegido contra mutações profundas. Se um interceptor deve mutar o body, tenha cuidado ao lidar com execução múltipla na mesma requisição.
 
-## Dependency injection em interceptors
+## Dependency injection em interceptors {#dependency-injection-in-interceptors}
 
-Interceptors são executados no _contexto de injeção_ do injector que os registrou, e podem usar a API `inject` do Angular para recuperar dependências.
+Interceptors são executados no _contexto de injeção_ do injector que os registrou, e podem usar a API [`inject`](/api/core/inject) do Angular para recuperar dependências.
 
 Por exemplo, suponha que uma aplicação tenha um service chamado `AuthService`, que cria tokens de autenticação para requisições de saída. Um interceptor pode injetar e usar este service:
 
 ```ts
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
-  // Inject the current `AuthService` and use it to get an authentication token:
+  // Injeta o `AuthService` atual e o usa para obter um token de autenticação:
   const authToken = inject(AuthService).getAuthToken();
 
-  // Clone the request to add the authentication header.
+  // Clona a requisição para adicionar o header de autenticação.
   const newReq = req.clone({
     headers: req.headers.append('X-Authentication-Token', authToken),
   });
@@ -104,13 +110,13 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 }
 ```
 
-## Metadados de requisição e resposta
+## Metadados de requisição e resposta {#request-and-response-metadata}
 
 Frequentemente é útil incluir informações em uma requisição que não são enviadas para o backend, mas são especificamente destinadas a interceptors. `HttpRequest`s têm um objeto `.context` que armazena esse tipo de metadado como uma instância de `HttpContext`. Este objeto funciona como um mapa tipado, com chaves do tipo `HttpContextToken`.
 
 Para ilustrar como este sistema funciona, vamos usar metadados para controlar se um interceptor de caching está habilitado para uma determinada requisição.
 
-### Definindo tokens de contexto
+### Definindo tokens de contexto {#defining-context-tokens}
 
 Para armazenar se o interceptor de caching deve fazer cache de uma requisição específica no mapa `.context` dessa requisição, defina um novo `HttpContextToken` para atuar como uma chave:
 
@@ -120,23 +126,23 @@ export const CACHING_ENABLED = new HttpContextToken<boolean>(() => true);
 
 A função fornecida cria o valor padrão para o token para requisições que não definiram explicitamente um valor para ele. Usar uma função garante que se o valor do token for um objeto ou array, cada requisição obtenha sua própria instância.
 
-### Lendo o token em um interceptor
+### Lendo o token em um interceptor {#reading-the-token-in-an-interceptor}
 
 Um interceptor pode então ler o token e escolher aplicar lógica de caching ou não com base em seu valor:
 
 ```ts
 export function cachingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   if (req.context.get(CACHING_ENABLED)) {
-    // apply caching logic
+    // aplica a lógica de caching
     return ...;
   } else {
-    // caching has been disabled for this request
+    // o caching foi desabilitado para esta requisição
     return next(req);
   }
 }
 ```
 
-### Definindo tokens de contexto ao fazer uma requisição
+### Definindo tokens de contexto ao fazer uma requisição {#setting-context-tokens-when-making-a-request}
 
 Ao fazer uma requisição via API `HttpClient`, você pode fornecer valores para `HttpContextToken`s:
 
@@ -148,11 +154,11 @@ const data$ = http.get('/sensitive/data', {
 
 Interceptors podem ler esses valores do `HttpContext` da requisição.
 
-### O contexto da requisição é mutável
+### O contexto da requisição é mutável {#the-request-context-is-mutable}
 
 Diferentemente de outras propriedades de `HttpRequest`s, o `HttpContext` associado é _mutável_. Se um interceptor mudar o contexto de uma requisição que é tentada novamente mais tarde, o mesmo interceptor observará a mutação do contexto quando executar novamente. Isso é útil para passar estado através de múltiplas tentativas se necessário.
 
-## Respostas sintéticas
+## Respostas sintéticas {#synthetic-responses}
 
 A maioria dos interceptors simplesmente invocará o handler `next` enquanto transforma a requisição ou a resposta, mas isso não é estritamente um requisito. Esta seção discute várias das maneiras pelas quais um interceptor pode incorporar comportamento mais avançado.
 
@@ -166,44 +172,54 @@ const resp = new HttpResponse({
 });
 ```
 
-## Trabalhando com informações de redirecionamento
+## Trabalhando com informações de redirecionamento {#working-with-redirect-information}
 
-Ao usar `HttpClient` com o provider `withFetch`, as respostas incluem uma propriedade `redirected` que indica se a resposta foi o resultado de um redirecionamento. Esta propriedade se alinha com a especificação da API Fetch nativa e pode ser útil em interceptors para lidar com cenários de redirecionamento.
+Quando o `HttpClient` usa o backend fetch, as respostas incluem uma propriedade `redirected` que indica se a resposta foi o resultado de um redirecionamento. Esta propriedade se alinha com a especificação da API Fetch nativa e pode ser útil em interceptors para lidar com cenários de redirecionamento.
 
 Um interceptor pode acessar e agir sobre as informações de redirecionamento:
 
 ```ts
-export function redirectTrackingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  return next(req).pipe(tap(event => {
-    if (event.type === HttpEventType.Response && event.redirected) {
-      console.log('Request to', req.url, 'was redirected to', event.url);
-      // Handle redirect logic - maybe update analytics, security checks, etc.
-    }
-  }));
+export function redirectTrackingInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    tap((event) => {
+      if (event.type === HttpEventType.Response && event.redirected) {
+        console.log('Request to', req.url, 'was redirected to', event.url);
+        // Trata a lógica de redirecionamento - talvez atualizar analytics, verificações de segurança etc.
+      }
+    }),
+  );
 }
 ```
 
 Você também pode usar as informações de redirecionamento para implementar lógica condicional em seus interceptors:
 
 ```ts
-export function authRedirectInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  return next(req).pipe(tap(event => {
-    if (event.type === HttpEventType.Response && event.redirected) {
-      // Check if we were redirected to a login page
-      if (event.url?.includes('/login')) {
-        // Handle authentication redirect
-        handleAuthRedirect();
+export function authRedirectInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    tap((event) => {
+      if (event.type === HttpEventType.Response && event.redirected) {
+        // Verifica se fomos redirecionados para uma página de login
+        if (event.url?.includes('/login')) {
+          // Trata o redirecionamento de autenticação
+          handleAuthRedirect();
+        }
       }
-    }
-  }));
+    }),
+  );
 }
 ```
 
-## Trabalhando com tipos de resposta
+## Trabalhando com tipos de resposta {#working-with-response-types}
 
-Ao usar `HttpClient` com o provider `withFetch`, as respostas incluem uma propriedade `type` que indica como o browser lidou com a resposta com base em políticas CORS e modo de requisição. Esta propriedade se alinha com a especificação da API Fetch nativa e fornece insights valiosos para debugar problemas de CORS e entender a acessibilidade da resposta.
+Quando o `HttpClient` usa o backend fetch, as respostas incluem uma propriedade `responseType` que indica como o browser lidou com a resposta com base em políticas CORS e modo da requisição. Esta propriedade se alinha com a especificação da API Fetch nativa e fornece insights valiosos para debugar problemas de CORS e entender a acessibilidade da resposta.
 
-A propriedade `type` da resposta pode ter os seguintes valores:
+A propriedade `responseType` da resposta pode ter os seguintes valores:
 
 - `'basic'` - Resposta de mesma origem com todos os headers acessíveis
 - `'cors'` - Resposta de origem cruzada com headers CORS configurados adequadamente
@@ -214,30 +230,35 @@ A propriedade `type` da resposta pode ter os seguintes valores:
 Um interceptor pode usar informações de tipo de resposta para debugging de CORS e tratamento de erros:
 
 ```ts
-export function responseTypeInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  return next(req).pipe(map(event => {
-    if (event.type === HttpEventType.Response) {
-      // Handle different response types appropriately
-      switch (event.responseType) {
-        case 'opaque':
-          // Limited access to response data
-          console.warn('Limited response data due to CORS policy');
-          break;
-        case 'cors':
-        case 'basic':
-          // Full access to response data
-          break;
-        case 'error':
-          // Handle network errors
-          console.error('Network error in response');
-          break;
+export function responseTypeInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    tap((event) => {
+      if (event.type === HttpEventType.Response) {
+        // Trata os diferentes tipos de resposta de forma apropriada
+        switch (event.responseType) {
+          case 'opaque':
+            // Acesso limitado aos dados da resposta
+            console.warn('Limited response data due to CORS policy');
+            break;
+          case 'cors':
+          case 'basic':
+            // Acesso completo aos dados da resposta
+            break;
+          case 'error':
+            // Trata erros de rede
+            console.error('Network error in response');
+            break;
+        }
       }
-    }
-  }));
+    }),
+  );
 }
 ```
 
-## Interceptors baseados em DI
+## Interceptors baseados em DI {#di-based-interceptors}
 
 `HttpClient` também suporta interceptors que são definidos como classes injetáveis e configurados através do sistema de DI. As capacidades de interceptors baseados em DI são idênticas às de interceptors funcionais, mas o mecanismo de configuração é diferente.
 
@@ -256,14 +277,16 @@ export class LoggingInterceptor implements HttpInterceptor {
 Interceptors baseados em DI são configurados através de um multi-provider de dependency injection:
 
 ```ts
-bootstrapApplication(AppComponent, {providers: [
-  provideHttpClient(
-    // DI-based interceptors must be explicitly enabled.
-    withInterceptorsFromDi(),
-  ),
+bootstrapApplication(App, {
+  providers: [
+    provideHttpClient(
+      // Interceptors baseados em DI precisam ser habilitados explicitamente.
+      withInterceptorsFromDi(),
+    ),
 
-  {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
-]});
+    {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
+  ],
+});
 ```
 
 Interceptors baseados em DI executam na ordem em que seus providers são registrados. Em uma aplicação com uma configuração de DI extensa e hierárquica, esta ordem pode ser muito difícil de prever.

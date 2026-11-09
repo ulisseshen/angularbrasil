@@ -3,7 +3,7 @@
 
 Quando você estiver pronto para fazer o deploy da sua aplicação Angular em um servidor remoto, você tem várias opções.
 
-## Deploy automático com o CLI
+## Deploy automático com o CLI {#automatic-deployment-with-the-cli}
 
 O comando `ng deploy` do Angular CLI executa o [CLI builder](tools/cli/cli-builder) de `deploy` associado ao seu projeto.
 Vários builders de terceiros implementam capacidades de deployment para diferentes plataformas.
@@ -29,32 +29,37 @@ A tabela abaixo lista ferramentas que implementam funcionalidade de deployment p
 O comando `deploy` para cada package pode exigir diferentes opções de linha de comando.
 Você pode ler mais seguindo os links associados aos nomes dos packages abaixo:
 
-| Deployment para                                                   | Comando de Setup                                                                            |
+| Deployment para                                                   | Comando de setup                                                                            |
 | :---------------------------------------------------------------- | :------------------------------------------------------------------------------------------ |
-| [Firebase hosting](https://firebase.google.com/docs/hosting)      | [`ng add @angular/fire`](https://npmjs.org/package/@angular/fire)                           |
+| [Firebase hosting](https://firebase.google.com/docs/hosting)      | [`ng add @angular/fire`](https://www.npmjs.com/package/@angular/fire)                       |
 | [Vercel](https://vercel.com/solutions/angular)                    | [`vercel init angular`](https://github.com/vercel/vercel/tree/main/examples/angular)        |
-| [Netlify](https://www.netlify.com)                                | [`ng add @netlify-builder/deploy`](https://npmjs.org/package/@netlify-builder/deploy)       |
-| [GitHub pages](https://pages.github.com)                          | [`ng add angular-cli-ghpages`](https://npmjs.org/package/angular-cli-ghpages)               |
+| [Netlify](https://www.netlify.com)                                | [`ng add @netlify-builder/deploy`](https://www.npmjs.com/package/@netlify-builder/deploy)   |
+| [GitHub Pages](https://pages.github.com)                          | [`ng add angular-cli-ghpages`](https://www.npmjs.com/package/angular-cli-ghpages)           |
 | [Amazon Cloud S3](https://aws.amazon.com/s3/?nc2=h_ql_prod_st_s3) | [`ng add @jefiozie/ngx-aws-deploy`](https://www.npmjs.com/package/@jefiozie/ngx-aws-deploy) |
 
 Se você está fazendo deploy para um servidor auto-gerenciado ou não há um builder para sua plataforma de cloud favorita, você pode [criar um builder](tools/cli/cli-builder) que permita usar o comando `ng deploy`, ou ler este guia para aprender como fazer o deploy manual da sua aplicação.
 
-## Deploy manual para um servidor remoto
+## Deploy manual para um servidor remoto {#manual-deployment-to-a-remote-server}
 
-Para fazer o deploy manual da sua aplicação, crie um build de produção e copie o diretório de saída para um servidor web ou rede de distribuição de conteúdo (CDN).
+Para fazer o deploy manual da sua aplicação, crie um build de produção e copie os artefatos de saída para o seu ambiente de hospedagem.
 Por padrão, `ng build` usa a configuração `production`.
 Se você personalizou suas configurações de build, talvez queira confirmar se as [otimizações de produção](tools/cli/deployment#production-optimizations) estão sendo aplicadas antes de fazer o deploy.
 
-`ng build` gera os artefatos construídos em `dist/my-app/` por padrão, porém este caminho pode ser configurado com a opção `outputPath` no builder `@angular-devkit/build-angular:browser`.
-Copie este diretório para o servidor e configure-o para servir o diretório.
+`ng build` gera os artefatos construídos em `dist/my-app/` por padrão, porém este caminho pode ser configurado com a opção `outputPath` no builder `@angular/build:application`.
+O que você faz deploy depende de como sua aplicação é renderizada:
+
+- **Hospedagem estática (renderização no lado do cliente ou `outputMode: "static"`):** Copie o diretório `dist/my-app/browser/` para um servidor web ou rede de distribuição de conteúdo (CDN), e configure-o para servir esse diretório.
+- **Renderização no servidor (`outputMode: "server"`):** Copie os diretórios `dist/my-app/browser/` e `dist/my-app/server/` para o servidor e, em seguida, execute `node dist/my-app/server/server.mjs`.
+
+Para mais detalhes, veja [Renderização no servidor e híbrida](guide/ssr).
 
 Embora esta seja uma solução de deployment mínima, existem alguns requisitos para o servidor servir sua aplicação Angular corretamente.
 
-## Configuração do servidor
+## Configuração do servidor {#server-configuration}
 
 Esta seção cobre mudanças que você pode precisar configurar no servidor para executar sua aplicação Angular.
 
-### Aplicações com rotas devem redirecionar para `index.html`
+### Aplicações com rotas devem redirecionar para `index.html` {#routed-apps-must-fall-back-to-indexhtml}
 
 Aplicações Angular renderizadas no lado do cliente são candidatas perfeitas para servir com um servidor HTML estático porque todo o conteúdo é estático e gerado em tempo de build.
 
@@ -70,17 +75,19 @@ O Angular router realiza a navegação _no lado do cliente_ e não solicita uma 
 Mas clicar em um deep link em um email, digitá-lo na barra de endereços do browser, ou até mesmo atualizar o browser enquanto já estiver na página do deep link será tratado pelo próprio browser, _fora_ da aplicação em execução.
 O browser faz uma solicitação direta ao servidor para `/users/42`, ignorando o router do Angular.
 
-Um servidor estático rotineiramente retorna `index.html` quando recebe uma solicitação para `http://my-app.test/`.
-Mas a maioria dos servidores por padrão rejeitará `http://my-app.test/users/42` e retorna um erro `404 - Not Found` _a menos que_ seja configurado para retornar `index.html` em vez disso.
-Configure a rota de fallback ou página 404 para `index.html` no seu servidor, para que o Angular seja servido para deep links e possa exibir a rota correta.
+Um servidor estático normalmente retorna `index.html` quando recebe uma solicitação para `http://my-app.test/`.
+Mas a maioria dos servidores, por padrão, rejeitará `http://my-app.test/users/42` e retornará um erro `404 - Not Found` _a menos que_ seja configurado para retornar `index.html` em vez disso.
+Configure a rota de fallback ou a página 404 para `index.html` no seu servidor, para que o Angular seja servido para deep links e possa exibir a rota correta.
 Alguns servidores chamam esse comportamento de fallback de modo "Single-Page Application" (SPA).
 
-Uma vez que o browser carregue a aplicação, o Angular router lerá a URL para determinar em qual página está e exibirá `/users/42` corretamente.
+IMPORTANT: Ao fazer o prerender da sua aplicação com `outputMode: "static"`, configure seu servidor para usar `index.csr.html` como fallback em vez de `index.html`. O build grava a página host em `index.csr.html`, enquanto `index.html` (se gerado) contém o conteúdo pré-renderizado para a rota raiz (`/`).
 
-Para páginas 404 "reais" como `http://my-app.test/does-not-exist`, o servidor não requer nenhuma configuração adicional.
+Quando o browser carregar a aplicação, o Angular router lerá a URL para determinar em qual página está e exibirá `/users/42` corretamente.
+
+Para páginas 404 "reais", como `http://my-app.test/does-not-exist`, o servidor não requer nenhuma configuração adicional.
 [Páginas 404 implementadas no Angular router](guide/routing/common-router-tasks#displaying-a-404-page) serão exibidas corretamente.
 
-### Solicitando dados de um servidor diferente (CORS)
+### Solicitando dados de um servidor diferente (CORS) {#requesting-data-from-a-different-server-cors}
 
 Desenvolvedores web podem encontrar um erro de [_cross-origin resource sharing_](https://developer.mozilla.org/docs/Web/HTTP/CORS 'Cross-origin resource sharing') ao fazer uma solicitação de rede para um servidor diferente do servidor host da aplicação.
 Browsers proíbem tais solicitações a menos que o servidor as permita explicitamente.
@@ -89,7 +96,7 @@ Não há nada que o Angular ou a aplicação client possa fazer sobre esses erro
 O _servidor_ deve ser configurado para aceitar as solicitações da aplicação.
 Leia sobre como habilitar CORS para servidores específicos em [enable-cors.org](https://enable-cors.org/server.html 'Enabling CORS server').
 
-## Otimizações de produção
+## Otimizações de produção {#production-optimizations}
 
 `ng build` usa a configuração `production` a menos que configurado de outra forma. Esta configuração habilita os seguintes recursos de otimização de build.
 
@@ -104,20 +111,20 @@ Leia sobre como habilitar CORS para servidores específicos em [enable-cors.org]
 
 Veja [`ng build`](cli/build) para mais sobre as opções de build do CLI e seus efeitos.
 
-### Recursos apenas para desenvolvimento
+### Recursos apenas para desenvolvimento {#development-only-features}
 
 Quando você executa uma aplicação localmente usando `ng serve`, o Angular usa a configuração de desenvolvimento
-em tempo de execução que habilita:
+em tempo de execução, que habilita:
 
-- Verificações extras de segurança como a detecção de [`expression-changed-after-checked`](errors/NG0100).
+- Verificações extras de segurança, como a detecção de [`expression-changed-after-checked`](errors/NG0100).
 - Mensagens de erro mais detalhadas.
-- Utilitários adicionais de debug como a variável global `ng` com [funções de debug](api#core-global) e suporte para [Angular DevTools](tools/devtools).
+- Utilitários adicionais de debug, como a variável global `ng` com [funções de debug](api#angular_core_globals) e suporte para [Angular DevTools](tools/devtools).
 
 Esses recursos são úteis durante o desenvolvimento, mas eles exigem código extra na aplicação, o que é
 indesejável em produção. Para garantir que esses recursos não impactem negativamente o tamanho do bundle para os usuários finais, o Angular CLI
 remove código exclusivo de desenvolvimento do bundle ao fazer o build para produção.
 
-Fazer o build da sua aplicação com `ng build` por padrão usa a configuração `production` que remove esses recursos da saída para um tamanho de bundle otimizado.
+Fazer o build da sua aplicação com `ng build` por padrão usa a configuração `production`, que remove esses recursos da saída para um tamanho de bundle otimizado.
 
 ## `--deploy-url`
 
@@ -129,7 +136,7 @@ ng build --deploy-url /my/assets
 
 ```
 
-O efeito e propósito de `--deploy-url` se sobrepõe a [`<base href>`](guide/routing/common-router-tasks). Ambos podem ser usados para scripts iniciais, folhas de estilo, scripts lazy e recursos css.
+O efeito e o propósito de `--deploy-url` se sobrepõem a [`<base href>`](guide/routing/router-reference#base-href). Ambos podem ser usados para scripts iniciais, folhas de estilo, scripts lazy e recursos css.
 
-Diferente de `<base href>` que pode ser definido em um único lugar em tempo de execução, o `--deploy-url` precisa ser codificado na aplicação em tempo de build.
+Diferente de `<base href>`, que pode ser definido em um único lugar em tempo de execução, o `--deploy-url` precisa ser codificado na aplicação em tempo de build.
 Prefira `<base href>` quando possível.

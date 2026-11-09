@@ -6,7 +6,10 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {CommonModule, NgIfContext, ɵgetDOM as getDOM} from '@angular/common';
+import {CommonModule, ɵgetDOM as getDOM, NgIf, NgIfContext} from '@angular/common';
+import {By} from '@angular/platform-browser';
+import {createMouseEvent, hasClass} from '@angular/private/testing';
+import {expect} from '@angular/private/testing/matchers';
 import {
   Component,
   DebugElement,
@@ -15,25 +18,21 @@ import {
   ElementRef,
   EmbeddedViewRef,
   EventEmitter,
-  HostBinding,
-  Injectable,
+  forwardRef,
   Input,
   NgZone,
-  NO_ERRORS_SCHEMA,
   OnInit,
   Output,
-  provideZoneChangeDetection,
   Renderer2,
+  Service,
+  signal,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
 } from '../../src/core';
-import {ComponentFixture, TestBed, waitForAsync} from '../../testing';
-import {By} from '@angular/platform-browser';
-import {createMouseEvent, hasClass} from '@angular/private/testing';
-import {expect} from '@angular/private/testing/matchers';
+import {ComponentFixture, TestBed} from '../../testing';
 
-@Injectable()
+@Service()
 class Logger {
   logs: string[];
 
@@ -49,7 +48,6 @@ class Logger {
 @Directive({
   selector: '[message]',
   inputs: ['message'],
-  standalone: false,
 })
 class MessageDir {
   logger: Logger;
@@ -66,7 +64,6 @@ class MessageDir {
 @Directive({
   selector: '[with-title]',
   inputs: ['title'],
-  standalone: false,
 })
 class WithTitleDir {
   title = '';
@@ -75,10 +72,11 @@ class WithTitleDir {
 @Component({
   selector: 'child-comp',
   template: `<div class="child" message="child">
-               <span class="childnested" message="nestedchild">Child</span>
-             </div>
-             <span class="child" [innerHtml]="childBinding"></span>`,
-  standalone: false,
+      <span class="childnested" message="nestedchild">Child</span>
+    </div>
+    <span class="child" [innerHtml]="childBinding"></span>`,
+
+  imports: [MessageDir],
 })
 class ChildComp {
   childBinding: string;
@@ -92,11 +90,12 @@ class ChildComp {
   selector: 'parent-comp',
   viewProviders: [Logger],
   template: `<div class="parent" message="parent">
-               <span class="parentnested" message="nestedparent">Parent</span>
-             </div>
-             <span class="parent" [innerHtml]="parentBinding"></span>
-             <child-comp class="child-comp-class"></child-comp>`,
-  standalone: false,
+      <span class="parentnested" message="nestedparent">Parent</span>
+    </div>
+    <span class="parent" [innerHtml]="parentBinding"></span>
+    <child-comp class="child-comp-class"></child-comp>`,
+
+  imports: [MessageDir, ChildComp],
 })
 class ParentComp {
   parentBinding: string;
@@ -108,7 +107,6 @@ class ParentComp {
 @Directive({
   selector: 'custom-emitter',
   outputs: ['myevent'],
-  standalone: false,
 })
 class CustomEmitter {
   myevent: EventEmitter<any>;
@@ -121,8 +119,9 @@ class CustomEmitter {
 @Component({
   selector: 'events-comp',
   template: `<button (click)="handleClick()"></button>
-             <custom-emitter (myevent)="handleCustom()"></custom-emitter>`,
-  standalone: false,
+    <custom-emitter (myevent)="handleCustom()"></custom-emitter>`,
+
+  imports: [CustomEmitter],
 })
 class EventsComp {
   clicked: boolean;
@@ -145,21 +144,21 @@ class EventsComp {
 @Component({
   selector: 'cond-content-comp',
   viewProviders: [Logger],
-  template: `<div class="child" message="child" *ngIf="myBool"><ng-content></ng-content></div>`,
-  standalone: false,
+  template: `<div class="child" message="child" *ngIf="myBool()"><ng-content></ng-content></div>`,
+  imports: [NgIf, MessageDir],
 })
 class ConditionalContentComp {
-  myBool: boolean = false;
+  myBool = signal(false);
 }
 
 @Component({
   selector: 'conditional-parent-comp',
   viewProviders: [Logger],
   template: `<span class="parent" [innerHtml]="parentBinding"></span>
-            <cond-content-comp class="cond-content-comp-class">
-              <span class="from-parent"></span>
-            </cond-content-comp>`,
-  standalone: false,
+    <cond-content-comp class="cond-content-comp-class">
+      <span class="from-parent"></span>
+    </cond-content-comp>`,
+  imports: [ConditionalContentComp],
 })
 class ConditionalParentComp {
   parentBinding: string;
@@ -172,10 +171,11 @@ class ConditionalParentComp {
   selector: 'using-for',
   viewProviders: [Logger],
   template: `<span *ngFor="let thing of stuff" [innerHtml]="thing"></span>
-            <ul message="list">
-              <li *ngFor="let item of stuff" [innerHtml]="item"></li>
-            </ul>`,
-  standalone: false,
+    <ul message="list">
+      <li *ngFor="let item of stuff" [innerHtml]="item"></li>
+    </ul>`,
+
+  imports: [CommonModule, MessageDir],
 })
 class UsingFor {
   stuff: string[];
@@ -187,31 +187,25 @@ class UsingFor {
 @Directive({
   selector: '[mydir]',
   exportAs: 'mydir',
-  standalone: false,
 })
 class MyDir {}
 
 @Component({
   selector: 'locals-comp',
-  template: `
-   <div mydir #alice="mydir"></div>
- `,
-  standalone: false,
+  template: ` <div mydir #alice="mydir"></div> `,
+
+  imports: [MyDir],
 })
 class LocalsComp {}
 
 @Component({
   selector: 'bank-account',
-  template: `
-   Bank Name: {{bank}}
-   Account Id: {{id}}
- `,
+  template: ` Bank Name: {{ bank }} Account Id: {{ id }} `,
   host: {
     'class': 'static-class',
     '[class.absent-class]': 'false',
     '[class.present-class]': 'true',
   },
-  standalone: false,
 })
 class BankAccount {
   @Input() bank: string | undefined;
@@ -221,10 +215,7 @@ class BankAccount {
 }
 
 @Component({
-  template: `
-    <div class="content" #content>Some content</div>
- `,
-  standalone: false,
+  template: ` <div class="content" #content>Some content</div> `,
 })
 class SimpleContentComp {
   @ViewChild('content') content!: ElementRef;
@@ -233,14 +224,17 @@ class SimpleContentComp {
 @Component({
   selector: 'test-app',
   template: `
-   <bank-account bank="RBC"
-                 account="4747"
-                 [style.width.px]="width"
-                 [style.color]="color"
-                 [class.closed]="isClosed"
-                 [class.open]="!isClosed"></bank-account>
- `,
-  standalone: false,
+    <bank-account
+      bank="RBC"
+      account="4747"
+      [style.width.px]="width"
+      [style.color]="color"
+      [class.closed]="isClosed"
+      [class.open]="!isClosed"
+    ></bank-account>
+  `,
+
+  imports: [CommonModule, MyDir, BankAccount],
 })
 class TestApp {
   width = 200;
@@ -252,14 +246,14 @@ class TestApp {
 @Component({
   selector: 'test-cmpt',
   template: ``,
-  standalone: false,
+
+  imports: [CommonModule, ChildComp, ParentComp, MyDir],
 })
 class TestCmpt {}
 
 @Component({
   selector: 'test-cmpt-renderer',
   template: ``,
-  standalone: false,
 })
 class TestCmptWithRenderer {
   constructor(public renderer: Renderer2) {}
@@ -268,16 +262,17 @@ class TestCmptWithRenderer {
 @Component({
   selector: 'host-class-binding',
   template: '',
-  standalone: false,
+  host: {
+    '[class]': 'hostClasses()',
+  },
 })
 class HostClassBindingCmp {
-  @HostBinding('class') hostClasses = 'class-one class-two';
+  hostClasses = signal('class-one class-two');
 }
 
 @Component({
   selector: 'test-cmpt-vcref',
   template: `<div></div>`,
-  standalone: false,
 })
 class TestCmptWithViewContainerRef {
   constructor(private vcref: ViewContainerRef) {}
@@ -285,12 +280,8 @@ class TestCmptWithViewContainerRef {
 
 @Component({
   template: `
-  <button
-    [disabled]="disabled"
-    [tabIndex]="tabIndex"
-    [title]="title">Click me</button>
-`,
-  standalone: false,
+    <button [disabled]="disabled" [tabIndex]="tabIndex" [title]="title">Click me</button>
+  `,
 })
 class TestCmptWithPropBindings {
   disabled = true;
@@ -300,62 +291,36 @@ class TestCmptWithPropBindings {
 
 @Component({
   template: `
-  <button title="{{0}}"></button>
-  <button title="a{{1}}b"></button>
-  <button title="a{{1}}b{{2}}c"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d{{4}}e"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d{{4}}e{{5}}f"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d{{4}}e{{5}}f{{6}}g"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d{{4}}e{{5}}f{{6}}g{{7}}h"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d{{4}}e{{5}}f{{6}}g{{7}}h{{8}}i"></button>
-  <button title="a{{1}}b{{2}}c{{3}}d{{4}}e{{5}}f{{6}}g{{7}}h{{8}}i{{9}}j"></button>
-`,
-  standalone: false,
+    <button title="{{ 0 }}"></button>
+    <button title="a{{ 1 }}b"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d{{ 4 }}e"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d{{ 4 }}e{{ 5 }}f"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d{{ 4 }}e{{ 5 }}f{{ 6 }}g"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d{{ 4 }}e{{ 5 }}f{{ 6 }}g{{ 7 }}h"></button>
+    <button title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d{{ 4 }}e{{ 5 }}f{{ 6 }}g{{ 7 }}h{{ 8 }}i"></button>
+    <button
+      title="a{{ 1 }}b{{ 2 }}c{{ 3 }}d{{ 4 }}e{{ 5 }}f{{ 6 }}g{{ 7 }}h{{ 8 }}i{{ 9 }}j"
+    ></button>
+  `,
+
+  imports: [WithTitleDir],
 })
 class TestCmptWithPropInterpolation {}
 
 describe('debug element', () => {
   let fixture: ComponentFixture<any>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ChildComp,
-        ConditionalContentComp,
-        ConditionalParentComp,
-        CustomEmitter,
-        EventsComp,
-        LocalsComp,
-        MessageDir,
-        MyDir,
-        ParentComp,
-        TestApp,
-        UsingFor,
-        BankAccount,
-        TestCmpt,
-        HostClassBindingCmp,
-        TestCmptWithViewContainerRef,
-        SimpleContentComp,
-        TestCmptWithPropBindings,
-        TestCmptWithPropInterpolation,
-        TestCmptWithRenderer,
-        WithTitleDir,
-      ],
-      providers: [Logger, provideZoneChangeDetection()],
-      schemas: [NO_ERRORS_SCHEMA],
-    });
-  }));
-
-  it('should list all child nodes', () => {
+  it('should list all child nodes', async () => {
     fixture = TestBed.createComponent(ParentComp);
-    fixture.detectChanges();
+    await fixture.whenStable();
     expect(fixture.debugElement.childNodes.length).toEqual(3);
   });
 
-  it('should list all component child elements', () => {
+  it('should list all component child elements', async () => {
     fixture = TestBed.createComponent(ParentComp);
-    fixture.detectChanges();
+    await fixture.whenStable();
     const childEls = fixture.debugElement.children;
 
     // The root component has 3 elements in its view.
@@ -380,9 +345,9 @@ describe('debug element', () => {
     expect(hasClass(childNested[0].nativeElement, 'childnested')).toBe(true);
   });
 
-  it('should list conditional component child elements', () => {
+  it('should list conditional component child elements', async () => {
     fixture = TestBed.createComponent(ConditionalParentComp);
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const childEls = fixture.debugElement.children;
 
@@ -395,8 +360,8 @@ describe('debug element', () => {
 
     expect(conditionalContentComp.children.length).toEqual(0);
 
-    conditionalContentComp.componentInstance.myBool = true;
-    fixture.detectChanges();
+    conditionalContentComp.componentInstance.myBool.set(true);
+    await fixture.whenStable();
 
     expect(conditionalContentComp.children.length).toEqual(1);
   });
@@ -497,30 +462,26 @@ describe('debug element', () => {
   it('should query projected child elements by directive', () => {
     @Directive({
       selector: 'example-directive-a',
-      standalone: false,
     })
     class ExampleDirectiveA {}
 
     @Component({
       selector: 'wrapper-component',
-      template: `
-          <ng-content select="example-directive-a"></ng-content>
-        `,
-      standalone: false,
+      template: ` <ng-content select="example-directive-a"></ng-content> `,
+
+      imports: [ExampleDirectiveA],
     })
     class WrapperComponent {}
 
-    TestBed.configureTestingModule({
-      declarations: [WrapperComponent, ExampleDirectiveA],
-    });
-
-    TestBed.overrideTemplate(
-      TestApp,
-      `<wrapper-component>
+    TestBed.overrideComponent(TestApp, {
+      set: {
+        template: `<wrapper-component>
         <div></div>
         <example-directive-a></example-directive-a>
        </wrapper-component>`,
-    );
+        imports: [CommonModule, MyDir, BankAccount, WrapperComponent, ExampleDirectiveA],
+      },
+    });
 
     const fixture = TestBed.createComponent(TestApp);
     fixture.detectChanges();
@@ -532,42 +493,37 @@ describe('debug element', () => {
   it('should query re-projected child elements by directive', () => {
     @Directive({
       selector: 'example-directive-a',
-      standalone: false,
     })
     class ExampleDirectiveA {}
 
     @Component({
       selector: 'proxy-component',
-      template: `
-          <ng-content></ng-content>
-        `,
-      standalone: false,
+      template: ` <ng-content></ng-content> `,
     })
     class ProxyComponent {}
 
     @Component({
       selector: 'wrapper-component',
       template: `
-          <proxy-component>
-            <ng-content select="div"></ng-content>
-            <ng-content select="example-directive-a"></ng-content>
-          </proxy-component>
-        `,
-      standalone: false,
+        <proxy-component>
+          <ng-content select="div"></ng-content>
+          <ng-content select="example-directive-a"></ng-content>
+        </proxy-component>
+      `,
+
+      imports: [ProxyComponent, ExampleDirectiveA],
     })
     class WrapperComponent {}
 
-    TestBed.configureTestingModule({
-      declarations: [ProxyComponent, WrapperComponent, ExampleDirectiveA],
-    });
-
-    TestBed.overrideTemplate(
-      TestApp,
-      `<wrapper-component>
+    TestBed.overrideComponent(TestApp, {
+      set: {
+        template: `<wrapper-component>
         <div></div>
         <example-directive-a></example-directive-a>
        </wrapper-component>`,
-    );
+        imports: [CommonModule, MyDir, BankAccount, WrapperComponent, ExampleDirectiveA],
+      },
+    });
 
     const fixture = TestBed.createComponent(TestApp);
     fixture.detectChanges();
@@ -579,17 +535,17 @@ describe('debug element', () => {
   it('should query directives on containers before directives in a view', () => {
     @Directive({
       selector: '[text]',
-      standalone: false,
     })
     class TextDirective {
       @Input() text: string | undefined;
     }
 
-    TestBed.configureTestingModule({declarations: [TextDirective]});
-    TestBed.overrideTemplate(
-      TestApp,
-      `<ng-template text="first" [ngIf]="true"><div text="second"></div></ng-template>`,
-    );
+    TestBed.overrideComponent(TestApp, {
+      set: {
+        template: `<ng-template text="first" [ngIf]="true"><div text="second"></div></ng-template>`,
+        imports: [CommonModule, MyDir, BankAccount, TextDirective],
+      },
+    });
 
     const fixture = TestBed.createComponent(TestApp);
     fixture.detectChanges();
@@ -603,7 +559,6 @@ describe('debug element', () => {
   it('should query directives on views moved in the DOM', () => {
     @Directive({
       selector: '[text]',
-      standalone: false,
     })
     class TextDirective {
       @Input() text: string | undefined;
@@ -611,7 +566,6 @@ describe('debug element', () => {
 
     @Directive({
       selector: '[moveView]',
-      standalone: false,
     })
     class ViewManipulatingDirective {
       constructor(
@@ -631,11 +585,12 @@ describe('debug element', () => {
       }
     }
 
-    TestBed.configureTestingModule({declarations: [TextDirective, ViewManipulatingDirective]});
-    TestBed.overrideTemplate(
-      TestApp,
-      `<ng-template text="first" moveView><div text="second"></div></ng-template>`,
-    );
+    TestBed.overrideComponent(TestApp, {
+      set: {
+        template: `<ng-template text="first" moveView><div text="second"></div></ng-template>`,
+        imports: [CommonModule, MyDir, BankAccount, TextDirective, ViewManipulatingDirective],
+      },
+    });
 
     const fixture = TestBed.createComponent(TestApp);
     fixture.detectChanges();
@@ -668,10 +623,9 @@ describe('debug element', () => {
   it('DebugElement.query should work with dynamically created elements', () => {
     @Directive({
       selector: '[dir]',
-      standalone: false,
     })
     class MyDir {
-      @Input('dir') dir: number | undefined;
+      @Input('dir') dir: string | undefined;
 
       constructor(renderer: Renderer2, element: ElementRef) {
         const div = renderer.createElement('div');
@@ -681,13 +635,11 @@ describe('debug element', () => {
     }
 
     @Component({
-      selector: 'app-test',
       template: '<div dir></div>',
-      standalone: false,
+      imports: [MyDir],
     })
     class MyComponent {}
 
-    TestBed.configureTestingModule({declarations: [MyComponent, MyDir]});
     const fixture = TestBed.createComponent(MyComponent);
     fixture.detectChanges();
 
@@ -712,13 +664,12 @@ describe('debug element', () => {
 
   describe('DebugElement.query with dynamically created descendant elements', () => {
     let fixture: ComponentFixture<{}>;
-    beforeEach(() => {
+    beforeEach(async () => {
       @Directive({
         selector: '[dir]',
-        standalone: false,
       })
       class MyDir {
-        @Input('dir') dir: number | undefined;
+        @Input('dir') dir: string | undefined;
 
         constructor(renderer: Renderer2, element: ElementRef) {
           const outerDiv = renderer.createElement('div');
@@ -735,15 +686,12 @@ describe('debug element', () => {
       }
 
       @Component({
-        selector: 'app-test',
         template: '<div dir></div>',
-        standalone: false,
+        imports: [MyDir],
       })
       class MyComponent {}
-
-      TestBed.configureTestingModule({declarations: [MyComponent, MyDir]});
       fixture = TestBed.createComponent(MyComponent);
-      fixture.detectChanges();
+      await fixture.whenStable();
     });
 
     it('should find the dynamic elements from fixture root', () => {
@@ -760,7 +708,6 @@ describe('debug element', () => {
   describe("DebugElement.query doesn't fail on elements outside Angular context", () => {
     @Component({
       template: '<div></div>',
-      standalone: false,
     })
     class NativeEl {
       constructor(private elementRef: ElementRef) {}
@@ -774,9 +721,7 @@ describe('debug element', () => {
 
     let el: DebugElement;
     beforeEach(() => {
-      const fixture = TestBed.configureTestingModule({declarations: [NativeEl]}).createComponent(
-        NativeEl,
-      );
+      const fixture = TestBed.createComponent(NativeEl);
       fixture.detectChanges();
       el = fixture.debugElement;
     });
@@ -835,10 +780,9 @@ describe('debug element', () => {
   it('DebugElement.queryAll should pick up both elements inserted via the view and through Renderer2', () => {
     @Directive({
       selector: '[dir]',
-      standalone: false,
     })
     class MyDir {
-      @Input('dir') dir: number | undefined;
+      @Input('dir') dir: string | undefined;
 
       constructor(renderer: Renderer2, element: ElementRef) {
         const div = renderer.createElement('div');
@@ -850,11 +794,10 @@ describe('debug element', () => {
     @Component({
       selector: 'app-test',
       template: '<div dir></div><span class="myclass"></span>',
-      standalone: false,
+      imports: [MyDir],
     })
     class MyComponent {}
 
-    TestBed.configureTestingModule({declarations: [MyComponent, MyDir]});
     const fixture = TestBed.createComponent(MyComponent);
     fixture.detectChanges();
 
@@ -912,21 +855,21 @@ describe('debug element', () => {
   });
 
   describe('properties', () => {
-    it('should include classes in properties.className', () => {
+    it('should include classes in properties.className', async () => {
       fixture = TestBed.createComponent(HostClassBindingCmp);
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       const debugElement = fixture.debugElement;
 
       expect(debugElement.properties['className']).toBe('class-one class-two');
 
-      fixture.componentInstance.hostClasses = 'class-three';
-      fixture.detectChanges();
+      fixture.componentInstance.hostClasses.set('class-three');
+      await fixture.whenStable();
 
       expect(debugElement.properties['className']).toBe('class-three');
 
-      fixture.componentInstance.hostClasses = '';
-      fixture.detectChanges();
+      fixture.componentInstance.hostClasses.set('');
+      await fixture.whenStable();
 
       expect(debugElement.properties['className']).toBeFalsy();
     });
@@ -1012,7 +955,6 @@ describe('debug element', () => {
   it('should trigger events registered via Renderer2', () => {
     @Component({
       template: '',
-      standalone: false,
     })
     class TestComponent implements OnInit {
       count = 0;
@@ -1038,7 +980,6 @@ describe('debug element', () => {
       }
     }
 
-    TestBed.configureTestingModule({declarations: [TestComponent]});
     const fixture = TestBed.createComponent(TestComponent);
 
     // Ivy depends on `eventListeners` to pick up events that haven't been registered through
@@ -1058,7 +999,6 @@ describe('debug element', () => {
 
     @Component({
       template: '<button (click)="handleClick($event)"></button>',
-      standalone: false,
     })
     class TestComponent {
       handleClick(_event: any) {
@@ -1069,7 +1009,6 @@ describe('debug element', () => {
       }
     }
 
-    TestBed.configureTestingModule({declarations: [TestComponent]});
     const fixture = TestBed.createComponent(TestComponent);
     const button = fixture.debugElement.query(By.css('button'));
 
@@ -1137,12 +1076,17 @@ describe('debug element', () => {
       @Component({
         selector: 'example-component',
         template: '',
-        standalone: false,
+
+        imports: [CommonModule],
       })
       class ExampleComponent {}
 
-      TestBed.configureTestingModule({imports: [CommonModule], declarations: [ExampleComponent]});
-      TestBed.overrideTemplate(TestApp, '<example-component *ngIf="true"></example-component>');
+      TestBed.overrideComponent(TestApp, {
+        set: {
+          template: '<example-component *ngIf="true"></example-component>',
+          imports: [CommonModule, MyDir, BankAccount, ExampleComponent],
+        },
+      });
 
       const fixture = TestBed.createComponent(TestApp);
       fixture.detectChanges();
@@ -1163,7 +1107,6 @@ describe('debug element', () => {
     });
 
     it('should return the containing component if there is no structural directive or component on the node', () => {
-      TestBed.configureTestingModule({declarations: [MyDir]});
       TestBed.overrideTemplate(TestApp, '<span mydir></span>');
 
       const fixture = TestBed.createComponent(TestApp);
@@ -1227,34 +1170,31 @@ describe('debug element', () => {
 
   it('should not query the descendants of a sibling node', () => {
     @Component({
-      selector: 'my-comp',
       template: `
-          <div class="div.1">
-            <p class="p.1">
-              <span class="span.1">span.1</span>
-              <span class="span.2">span.2</span>
-            </p>
-            <p class="p.2">
-              <span class="span.3">span.3</span>
-              <span class="span.4">span.4</span>
-            </p>
-          </div>
-          <div class="div.2">
-            <p class="p.3">
-              <span class="span.5">span.5</span>
-              <span class="span.6">span.6</span>
-            </p>
-            <p class="p.4">
-              <span class="span.7">span.7</span>
-              <span class="span.8">span.8</span>
-            </p>
-          </div>
-        `,
-      standalone: false,
+        <div class="div.1">
+          <p class="p.1">
+            <span class="span.1">span.1</span>
+            <span class="span.2">span.2</span>
+          </p>
+          <p class="p.2">
+            <span class="span.3">span.3</span>
+            <span class="span.4">span.4</span>
+          </p>
+        </div>
+        <div class="div.2">
+          <p class="p.3">
+            <span class="span.5">span.5</span>
+            <span class="span.6">span.6</span>
+          </p>
+          <p class="p.4">
+            <span class="span.7">span.7</span>
+            <span class="span.8">span.8</span>
+          </p>
+        </div>
+      `,
     })
     class MyComp {}
 
-    TestBed.configureTestingModule({declarations: [MyComp]});
     const fixture = TestBed.createComponent(MyComp);
     fixture.detectChanges();
 
@@ -1273,18 +1213,17 @@ describe('debug element', () => {
     @Component({
       selector: 'my-icon',
       template: '',
-      standalone: false,
     })
     class Icon {
       @Input() svgIcon: any = '';
     }
     @Component({
       template: `<my-icon svgIcon="test"></my-icon>`,
-      standalone: false,
+
+      imports: [Icon],
     })
     class App {}
 
-    TestBed.configureTestingModule({declarations: [App, Icon]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const element = fixture.debugElement.children[0];
@@ -1299,11 +1238,9 @@ describe('debug element', () => {
   it('should include namespaced attributes in DebugNode.attributes', () => {
     @Component({
       template: `<div xlink:href="foo"></div>`,
-      standalone: false,
     })
     class Comp {}
 
-    TestBed.configureTestingModule({declarations: [Comp]});
     const fixture = TestBed.createComponent(Comp);
     fixture.detectChanges();
 
@@ -1313,13 +1250,11 @@ describe('debug element', () => {
   it('should include attributes added via Renderer2 in DebugNode.attributes', () => {
     @Component({
       template: '<div></div>',
-      standalone: false,
     })
     class Comp {
       constructor(public renderer: Renderer2) {}
     }
 
-    TestBed.configureTestingModule({declarations: [Comp]});
     const fixture = TestBed.createComponent(Comp);
     const div = fixture.debugElement.query(By.css('div'));
 
@@ -1333,7 +1268,6 @@ describe('debug element', () => {
     @Component({
       selector: 'cancel-button',
       template: '',
-      standalone: false,
     })
     class CancelButton {
       @Output() cancel = new EventEmitter<void>();
@@ -1341,7 +1275,8 @@ describe('debug element', () => {
 
     @Component({
       template: '<cancel-button *ngIf="visible" (cancel)="cancel()"></cancel-button>',
-      standalone: false,
+
+      imports: [CommonModule, CancelButton],
     })
     class App {
       visible = true;
@@ -1350,7 +1285,6 @@ describe('debug element', () => {
       }
     }
 
-    TestBed.configureTestingModule({declarations: [App, CancelButton]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -1370,13 +1304,10 @@ describe('debug element', () => {
   it('should not error when accessing node name', () => {
     @Component({
       template: '',
-      standalone: false,
     })
     class EmptyComponent {}
 
-    const fixture = TestBed.configureTestingModule({
-      declarations: [EmptyComponent],
-    }).createComponent(EmptyComponent);
+    const fixture = TestBed.createComponent(EmptyComponent);
     let node = fixture.debugElement;
     let superParentName = '';
     // Traverse upwards, all the way to #document, which is not a
@@ -1390,21 +1321,20 @@ describe('debug element', () => {
 
   it('should match node name with declared casing', () => {
     @Component({
-      template: `<div></div><myComponent></myComponent>`,
-      standalone: false,
+      template: `<div></div>
+        <myComponent></myComponent>`,
+
+      imports: [forwardRef(() => MyComponent)],
     })
     class Wrapper {}
 
     @Component({
       selector: 'myComponent',
       template: '',
-      standalone: false,
     })
     class MyComponent {}
 
-    const fixture = TestBed.configureTestingModule({
-      declarations: [Wrapper, MyComponent],
-    }).createComponent(Wrapper);
+    const fixture = TestBed.createComponent(Wrapper);
     expect(fixture.debugElement.query((e) => e.name === 'myComponent')).toBeTruthy();
     expect(fixture.debugElement.query((e) => e.name === 'div')).toBeTruthy();
   });
@@ -1417,7 +1347,6 @@ describe('debug element', () => {
     }
     @Component({
       template: '',
-      standalone: false,
     })
     class MyComp {
       constructor(
@@ -1430,9 +1359,7 @@ describe('debug element', () => {
         });
       }
     }
-    const fixture = TestBed.configureTestingModule({declarations: [MyComp]}).createComponent(
-      MyComp,
-    );
+    const fixture = TestBed.createComponent(MyComp);
     fixture.detectChanges();
     fixture.debugElement.triggerEventHandler('mouseenter', eventToTrigger);
     expect(listenerCalled).toBe(false);

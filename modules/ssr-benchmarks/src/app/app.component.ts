@@ -11,15 +11,14 @@ import {testData} from '../../test-data';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   template: `
     <table>
       <tbody>
-        @for(entry of data; track $index) {
-        <tr (click)="onClick()">
-          <td>{{ entry.id }}</td>
-          <td>{{ entry.name }}</td>
-        </tr>
+        @for (entry of data; track $index) {
+          <tr (click)="onClick()">
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.name }}</td>
+          </tr>
         }
       </tbody>
     </table>

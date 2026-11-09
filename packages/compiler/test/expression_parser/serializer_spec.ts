@@ -132,5 +132,24 @@ describe('serializer', () => {
     it('serializes in expressions', () => {
       expect(serialize(parse(' foo   in   bar '))).toBe('foo in bar');
     });
+
+    it('serializes instanceof expressions', () => {
+      expect(serialize(parse(' foo   instanceof   Bar '))).toBe('foo instanceof Bar');
+    });
+
+    it('should serialize prefix increment and decrement', () => {
+      expect(serialize(parseAction(' ++ foo '))).toBe('++foo');
+      expect(serialize(parseAction(' -- foo '))).toBe('--foo');
+    });
+
+    it('should serialize postfix increment and decrement', () => {
+      expect(serialize(parseAction(' foo ++ '))).toBe('foo++');
+      expect(serialize(parseAction(' foo -- '))).toBe('foo--');
+    });
+
+    it('should separate unary operators next to each other', () => {
+      expect(serialize(parseAction(' + ++foo '))).toBe('+ ++foo');
+      expect(serialize(parseAction(' - --foo '))).toBe('- --foo');
+    });
   });
 });

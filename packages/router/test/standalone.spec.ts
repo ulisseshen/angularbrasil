@@ -9,8 +9,8 @@
 import {Component, inject, Injectable, InjectionToken, NgModule} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {provideRoutes, Router, RouterModule, ROUTES} from '../index';
-import {timeout} from './helpers';
+import {timeout} from '@angular/private/testing';
+import {Router, RouterModule} from '../index';
 
 @Component({template: '<div>simple standalone</div>'})
 export class SimpleStandaloneComponent {}
@@ -113,8 +113,7 @@ describe('standalone in Router API', () => {
       }
 
       @Component({
-        template: `{{service.value}}`,
-        standalone: false,
+        template: `{{ service.value }}`,
       })
       class MyComponent {
         constructor(readonly service: Service) {}
@@ -124,7 +123,6 @@ describe('standalone in Router API', () => {
         imports: [
           RouterModule.forRoot([{path: 'home', providers: [Service], component: MyComponent}]),
         ],
-        declarations: [MyComponent],
       });
       const root = TestBed.createComponent(RootCmp);
 
@@ -145,8 +143,7 @@ describe('standalone in Router API', () => {
       class LazyModule {}
 
       @Component({
-        template: `{{service.value}}`,
-        standalone: false,
+        template: `{{ service.value }}`,
       })
       class MyComponent {
         constructor(readonly service: Service) {}
@@ -158,7 +155,6 @@ describe('standalone in Router API', () => {
             {path: 'home', loadChildren: () => LazyModule, component: MyComponent},
           ]),
         ],
-        declarations: [MyComponent],
       });
       const fixture = TestBed.createComponent(RootCmp);
 
@@ -174,15 +170,13 @@ describe('standalone in Router API', () => {
       }
 
       @Component({
-        template: `{{service.value}}`,
-        standalone: false,
+        template: `{{ service.value }}`,
       })
       class MyComponent {
         constructor(readonly service: Service) {}
       }
       @NgModule({
         providers: [Service],
-        declarations: [MyComponent],
         imports: [RouterModule.forChild([{path: '', component: MyComponent}])],
       })
       class LazyModule {}
@@ -225,14 +219,13 @@ describe('standalone in Router API', () => {
 
       @Component({
         template: `parent<router-outlet></router-outlet>`,
-        standalone: false,
+        imports: [RouterModule],
       })
       class ParentCmp {
         constructor(readonly service: ServiceBase) {}
       }
       @Component({
         template: `child`,
-        standalone: false,
       })
       class ChildCmp {
         constructor(readonly service: ServiceBase) {}
@@ -240,14 +233,12 @@ describe('standalone in Router API', () => {
 
       @Component({
         template: `child2`,
-        standalone: false,
       })
       class ChildCmp2 {
         constructor(readonly service: ServiceBase) {}
       }
       @NgModule({
         providers: [{provide: ServiceBase, useClass: Service2}],
-        declarations: [ChildCmp, ChildCmp2],
         imports: [
           RouterModule.forChild([
             {
@@ -281,7 +272,6 @@ describe('standalone in Router API', () => {
             },
           ]),
         ],
-        declarations: [ParentCmp],
       });
       const root = TestBed.createComponent(RootCmp);
 
@@ -546,16 +536,7 @@ describe('standalone in Router API', () => {
   });
 });
 
-describe('provideRoutes', () => {
-  it('warns if provideRoutes is used without provideRouter, RouterModule, or RouterModule.forRoot', () => {
-    spyOn(console, 'warn');
-    TestBed.configureTestingModule({providers: [provideRoutes([])]});
-    TestBed.inject(ROUTES);
-    expect(console.warn).toHaveBeenCalled();
-  });
-});
-
 async function advanceAsync(fixture: ComponentFixture<unknown>) {
   await timeout();
-  fixture.detectChanges();
+  await fixture.whenStable();
 }

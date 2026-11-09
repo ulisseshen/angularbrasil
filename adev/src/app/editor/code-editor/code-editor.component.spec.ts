@@ -13,13 +13,14 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatTabGroupHarness} from '@angular/material/tabs/testing';
 import {By} from '@angular/platform-browser';
 import {provideNoopAnimations} from '@angular/platform-browser/animations';
-import {NEVER} from 'rxjs';
+import {NEVER, Subject} from 'rxjs';
 
 import {EmbeddedTutorialManager} from '../embedded-tutorial-manager.service';
+import {NodeRuntimeSandbox} from '../node-runtime-sandbox.service';
 
 import {CodeEditor, REQUIRED_FILES} from './code-editor.component';
 import {CodeMirrorEditor} from './code-mirror-editor.service';
-import {FakeChangeDetectorRef, TutorialType} from '@angular/docs';
+import {TutorialType} from '@angular/docs';
 import {MatTooltipHarness} from '@angular/material/tooltip/testing';
 
 const files = [
@@ -43,16 +44,19 @@ class FakeCodeMirrorEditor implements Partial<CodeMirrorEditor> {
   files = signal(files);
   currentFile = signal(this.files()[0]);
   openFiles = this.files;
+  scrollToLine(line: number, character: number) {}
 }
 const codeMirrorEditorService = new FakeCodeMirrorEditor();
-const fakeChangeDetectorRef = new FakeChangeDetectorRef();
 
 describe('CodeEditor', () => {
   let component: CodeEditor;
   let fixture: ComponentFixture<CodeEditor>;
   let loader: HarnessLoader;
+  let previewUrl$: Subject<string | null>;
 
   beforeEach(async () => {
+    previewUrl$ = new Subject<string | null>();
+
     await TestBed.configureTestingModule({
       imports: [CodeEditor],
       providers: [
@@ -64,8 +68,10 @@ describe('CodeEditor', () => {
           useValue: codeMirrorEditorService,
         },
         {
-          provide: ChangeDetectorRef,
-          useValue: fakeChangeDetectorRef,
+          provide: NodeRuntimeSandbox,
+          useValue: {
+            previewUrl$,
+          },
         },
         {
           provide: EmbeddedTutorialManager,
@@ -93,7 +99,7 @@ describe('CodeEditor', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
 
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
@@ -105,7 +111,7 @@ describe('CodeEditor', () => {
     const codeMirrorEditorInitSpy = spyOn(codeMirrorEditorService, 'init');
 
     fixture = TestBed.createComponent(CodeEditor);
-    fixture.detectChanges();
+    await fixture.whenStable();
     component = fixture.componentInstance;
 
     expect(component.codeEditorWrapperRef()).toBeDefined();
@@ -237,5 +243,49 @@ describe('CodeEditor', () => {
       MatTooltipHarness.with({selector: '.adev-editor-download-button'}),
     );
     expect(await tooltip.getTooltipText()).toBe('');
+  });
+
+  describe('postMessage origin validation', () => {
+    const trustedOrigin = 'https://tutorial-id-5173.cdn.webcontainer.io';
+
+    function dispatchOpenFileMessage(origin: string) {
+      window.dispatchEvent(
+        new MessageEvent('message', {
+          origin,
+          data: {
+            type: 'openFileAtLocation',
+            file: '/app/app.component.ts',
+            line: 1,
+            character: 1,
+          },
+        }),
+      );
+    }
+
+    it('should open the file when the message comes from the preview origin', () => {
+      const changeCurrentFileSpy = spyOn(codeMirrorEditorService, 'changeCurrentFile');
+
+      previewUrl$.next(`${trustedOrigin}/`);
+      dispatchOpenFileMessage(trustedOrigin);
+
+      expect(changeCurrentFileSpy).toHaveBeenCalledWith('src/app/app.component.ts');
+    });
+
+    it('should ignore messages from untrusted origins', () => {
+      const changeCurrentFileSpy = spyOn(codeMirrorEditorService, 'changeCurrentFile');
+
+      previewUrl$.next(`${trustedOrigin}/`);
+      dispatchOpenFileMessage('https://evil.example.com');
+
+      expect(changeCurrentFileSpy).not.toHaveBeenCalled();
+    });
+
+    it('should ignore messages when the preview origin is not yet known', () => {
+      const changeCurrentFileSpy = spyOn(codeMirrorEditorService, 'changeCurrentFile');
+
+      dispatchOpenFileMessage(trustedOrigin);
+
+      expect(changeCurrentFileSpy).not.toHaveBeenCalled();
+    });
   });
 });

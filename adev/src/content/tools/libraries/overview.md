@@ -18,7 +18,7 @@ Veja [Usando Libraries Publicadas](tools/libraries/using-libraries).
 
 HELPFUL: Libraries são destinadas a serem usadas por aplicações Angular. Para adicionar recursos do Angular a aplicações web não-Angular, use [Angular custom elements](guide/elements).
 
-## Criando libraries
+## Criando libraries {#creating-libraries}
 
 Se você desenvolveu recursos adequados para reutilização, pode criar suas próprias libraries.
 Essas libraries podem ser usadas localmente no seu workspace, ou você pode publicá-las como [pacotes npm](reference/configs/npm-packages) para compartilhar com outros projetos ou outros desenvolvedores Angular.

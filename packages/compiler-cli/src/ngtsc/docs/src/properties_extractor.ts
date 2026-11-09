@@ -8,34 +8,14 @@
 
 import ts from 'typescript';
 
-import {Reference} from '../../imports';
-import {
-  DirectiveMeta,
-  InputMapping,
-  InputOrOutput,
-  MetadataReader,
-  NgModuleMeta,
-  PipeMeta,
-} from '../../metadata';
 import {ClassDeclaration} from '../../reflection';
 
-import {
-  ClassEntry,
-  DirectiveEntry,
-  EntryType,
-  InterfaceEntry,
-  MemberEntry,
-  MemberTags,
-  MemberType,
-  MethodEntry,
-  PipeEntry,
-  PropertyEntry,
-} from './entities';
+import {MemberEntry, MemberTags, MemberType, MethodEntry, PropertyEntry} from './entities';
 import {isAngularPrivateName} from './filters';
 import {FunctionExtractor} from './function_extractor';
 import {extractGenerics} from './generics_extractor';
 import {isInternal} from './internal';
-import {extractJsDocDescription, extractJsDocTags, extractRawJsDoc} from './jsdoc_extractor';
+import {extractJsDocDescription, extractJsDocTags} from './jsdoc_extractor';
 import {extractResolvedTypeString} from './type_extractor';
 
 // For the purpose of extraction, we can largely treat properties and accessors the same.
@@ -205,11 +185,22 @@ export abstract class PropertiesExtractor {
       tags.push(MemberTags.Optional);
     }
 
-    if (member.parent !== this.declaration) {
+    if (this.getDeclaringNode(member) !== this.declaration) {
       tags.push(MemberTags.Inherited);
     }
 
     return tags;
+  }
+
+  /**
+   * Gets the node a member is declared on. This is the member's parent, except for constructor
+   * parameter properties (e.g. `constructor(readonly foo: string) {}`) whose parent is the
+   * constructor rather than the class declaring it.
+   */
+  private getDeclaringNode(member: ts.Node): ts.Node | undefined {
+    return ts.isParameterPropertyDeclaration(member, member.parent)
+      ? member.parent.parent
+      : member.parent;
   }
 
   /** Computes all signature declarations of the class/interface. */

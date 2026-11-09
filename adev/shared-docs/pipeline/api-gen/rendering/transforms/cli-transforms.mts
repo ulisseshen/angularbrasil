@@ -21,13 +21,14 @@ import {getHighlighterInstance} from '../shiki/shiki.mjs';
 export function getCliRenderable(command: CliCommand): CliCommandRenderable {
   return {
     ...command,
+    builders: command.builders?.filter((builder) => builder.options.length > 0),
     subcommands: command.subcommands?.map((sub) => getCliRenderable(sub)),
     htmlDescription: parseMarkdown(command.longDescription ?? command.shortDescription, {
       highlighter: getHighlighterInstance(),
     }),
     cards: getCliCardsRenderable(command),
     argumentsLabel: getArgumentsLabel(command),
-    hasOptions: getOptions(command).length > 0,
+    optionsLabel: getOptionsLabel(command),
   };
 }
 
@@ -50,14 +51,26 @@ export function getCliCardsRenderable(command: CliCommand): CliCardRenderable[] 
     });
   }
 
+  for (const builder of command.builders ?? []) {
+    if (builder.options.length > 0) {
+      cards.push({
+        type: `${builder.name} builder options`,
+        items: getRenderableOptions(builder.options),
+      });
+    }
+  }
+
   return cards;
 }
+
+// Rewrite absolute angular.dev hrefs to root-relative so links stay in-site.
+const angularDevHrefRegex = /(href=["'])https?:\/\/angular\.dev\//g;
 
 function getRenderableOptions(items: CliOption[]): CliOptionRenderable[] {
   return items.map((option) => ({
     ...option,
     deprecated: option.deprecated ? {version: undefined} : undefined,
-    description: marked.parse(option.description) as string,
+    description: (marked.parse(option.description) as string).replace(angularDevHrefRegex, '$1/'),
   }));
 }
 
@@ -66,7 +79,15 @@ function getArgumentsLabel(command: CliCommand): string {
   if (args.length === 0) {
     return '';
   }
-  return command.command.replace(`${command.name} `, '');
+  const label = command.command.replace(/^ng\s+/, '').replace(`${command.name} `, '');
+  return ` ${label}`;
+}
+
+function getOptionsLabel(command: CliCommand): string {
+  const hasOptions =
+    getOptions(command).length > 0 ||
+    (command.builders?.some((b) => b.options.length > 0) ?? false);
+  return hasOptions ? ' [options]' : '';
 }
 
 function getArgs(command: CliCommand): CliOption[] {

@@ -5,20 +5,18 @@
 As tabelas a seguir descrevem as versões de Node.js, TypeScript e RxJS que cada versão do
 Angular requer.
 
-## Versões ativamente suportadas
+## Versões ativamente suportadas {#actively-supported-versions}
 
 Esta tabela cobre [versões do Angular sob suporte ativo](reference/releases#actively-supported-versions).
 
-| Angular            | Node.js                             | TypeScript     | RxJS               |
-| ------------------ | ----------------------------------- | -------------- | ------------------ |
-| 21.0.x             | ^20.19.0 \|\| ^22.12.0 \|\| ^24.0.0 | >=5.9.0 <6.0.0 | ^6.5.3 \|\| ^7.4.0 |
-| 20.2.x \|\| 20.3.x | ^20.19.0 \|\| ^22.12.0 \|\| ^24.0.0 | >=5.8.0 <6.0.0 | ^6.5.3 \|\| ^7.4.0 |
-| 20.0.x \|\| 20.1.x | ^20.19.0 \|\| ^22.12.0 \|\| ^24.0.0 | >=5.8.0 <5.9.0 | ^6.5.3 \|\| ^7.4.0 |
-| 19.2.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.9.0 | ^6.5.3 \|\| ^7.4.0 |
-| 19.1.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.8.0 | ^6.5.3 \|\| ^7.4.0 |
-| 19.0.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.7.0 | ^6.5.3 \|\| ^7.4.0 |
+| Angular                        | Node.js                             | TypeScript     | RxJS               |
+| ------------------------------ | ----------------------------------- | -------------- | ------------------ |
+| 22.0.x                         | ^22.22.3 \|\| ^24.15.0 \|\| ^26.0.0 | >=6.0.0 <6.1.0 | ^6.5.3 \|\| ^7.4.0 |
+| 21.0.x \|\| 21.1.x \|\| 21.2.x | ^20.19.0 \|\| ^22.12.0 \|\| ^24.0.0 | >=5.9.0 <6.0.0 | ^6.5.3 \|\| ^7.4.0 |
+| 20.2.x \|\| 20.3.x             | ^20.19.0 \|\| ^22.12.0 \|\| ^24.0.0 | >=5.8.0 <6.0.0 | ^6.5.3 \|\| ^7.4.0 |
+| 20.0.x \|\| 20.1.x             | ^20.19.0 \|\| ^22.12.0 \|\| ^24.0.0 | >=5.8.0 <5.9.0 | ^6.5.3 \|\| ^7.4.0 |
 
-## Versões não suportadas do Angular
+## Versões não suportadas do Angular {#unsupported-angular-versions}
 
 Esta tabela cobre versões do Angular que não estão mais sob suporte de longo prazo (LTS). Esta
 informação estava correta quando cada versão saiu de LTS e é fornecida sem quaisquer garantias adicionais.
@@ -26,6 +24,9 @@ Está listada aqui para referência histórica.
 
 | Angular            | Node.js                              | TypeScript     | RxJS               |
 | ------------------ | ------------------------------------ | -------------- | ------------------ |
+| 19.2.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0  | >=5.5.0 <5.9.0 | ^6.5.3 \|\| ^7.4.0 |
+| 19.1.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0  | >=5.5.0 <5.8.0 | ^6.5.3 \|\| ^7.4.0 |
+| 19.0.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0  | >=5.5.0 <5.7.0 | ^6.5.3 \|\| ^7.4.0 |
 | 18.1.x \|\| 18.2.x | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0  | >=5.4.0 <5.6.0 | ^6.5.3 \|\| ^7.4.0 |
 | 18.0.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0  | >=5.4.0 <5.5.0 | ^6.5.3 \|\| ^7.4.0 |
 | 17.3.x             | ^18.13.0 \|\| ^20.9.0                | >=5.2.0 <5.5.0 | ^6.5.3 \|\| ^7.4.0 |
@@ -52,7 +53,7 @@ Está listada aqui para referência histórica.
 | 9.1.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.9.0 | ^6.5.3             |
 | 9.0.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.8.0 | ^6.5.3             |
 
-### Antes da v9
+### Antes da v9 {#before-v9}
 
 Até o Angular v9, as versões Angular e Angular CLI não estavam sincronizadas.
 
@@ -71,7 +72,7 @@ Até o Angular v9, as versões Angular e Angular CLI não estavam sincronizadas.
 | 4.0.x \|\| 4.1.x            | 1.0.x \|\| 1.1.x \|\| 1.2.x | ^6.9.0              | >=2.1.6 <2.4.0 | ^5.0.1 |
 | 2.x                         | -                           | ^6.9.0              | >=1.8.0 <2.2.0 | ^5.0.1 |
 
-## Suporte de browsers
+## Suporte de browsers {#browser-support}
 
 Angular usa o ["widely available" Baseline](https://web.dev/baseline) para definir
 suporte de browser. Para cada versão principal, Angular suporta browsers incluídos na Baseline de uma
@@ -83,11 +84,13 @@ visa suportar aproximadamente 95% dos usuários da web.
 
 | Angular | Data do Baseline | Conjunto de Browsers                 |
 | ------- | ---------------- | ------------------------------------ |
+| v22     | 2026-05-07       | [Conjunto de Browsers][browsers-v22] |
 | v21     | 2025-10-20       | [Conjunto de Browsers][browsers-v21] |
 | v20     | 2025-04-30       | [Conjunto de Browsers][browsers-v20] |
 
-[browsers-v21]: https://web-platform-dx.github.io/web-features/supported-browsers/?widelyAvailableOnDate=2025-10-20&includeDownstream=false
-[browsers-v20]: https://web-platform-dx.github.io/web-features/supported-browsers/?widelyAvailableOnDate=2025-04-30&includeDownstream=false
+[browsers-v22]: https://web-platform-dx.github.io/supported-browsers/?widelyAvailableOnDate=2026-05-07&includeDownstream=false
+[browsers-v21]: https://web-platform-dx.github.io/supported-browsers/?widelyAvailableOnDate=2025-10-20&includeDownstream=false
+[browsers-v20]: https://web-platform-dx.github.io/supported-browsers/?widelyAvailableOnDate=2025-04-30&includeDownstream=false
 
 Versões do Angular anteriores à v20 suportam as seguintes versões específicas de browser:
 
@@ -107,12 +110,12 @@ Ter como alvo uma gama tão ampla de browsers é desafiador porque eles não sup
 Você compensa carregando scripts polyfill \("polyfills"\) para os browsers que você deve suportar.
 Veja instruções sobre como incluir polyfills em seu projeto abaixo.
 
-IMPORTANTE: Os polyfills sugeridos são aqueles que executam aplicações Angular completas.
+IMPORTANT: Os polyfills sugeridos são aqueles que executam aplicações Angular completas.
 Você pode precisar de polyfills adicionais para suportar recursos não cobertos por esta lista.
 
-ÚTIL: Polyfills não podem magicamente transformar um browser antigo e lento em um moderno e rápido.
+HELPFUL: Polyfills não podem magicamente transformar um browser antigo e lento em um moderno e rápido.
 
-## Habilitando polyfills com projetos CLI
+## Habilitando polyfills com projetos CLI {#enabling-polyfills-with-cli-projects}
 
 O [Angular CLI](tools/cli) fornece suporte para polyfills.
 Se você não está usando o CLI para criar seus projetos, veja [Instruções de polyfill para usuários não-CLI](#polyfills-for-non-cli-users).
@@ -122,7 +125,8 @@ relativo ao workspace atual ou especificador de módulo \(Exemplo: `zone.js`\).
 
 Se você criar um arquivo TypeScript, certifique-se de incluí-lo na propriedade `files` do seu arquivo `tsconfig`.
 
-<docs-code language="json">
+```json
+
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -134,7 +138,7 @@ Se você criar um arquivo TypeScript, certifique-se de incluí-lo na propriedade
   ]
   ...
 }
-</docs-code>
+```
 
 ## Polyfills para usuários não-CLI {#polyfills-for-non-cli-users}
 

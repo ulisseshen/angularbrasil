@@ -8,18 +8,21 @@
 
 import {state, style, transition, trigger} from '@angular/animations';
 import {CommonModule} from '@angular/common';
+import {By} from '@angular/platform-browser';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {
+  ChangeDetectionStrategy,
   AfterContentInit,
   Component,
   ComponentRef,
   ContentChildren,
   Directive,
   DoCheck,
+  forwardRef,
   HostBinding,
   HostListener,
   Injectable,
   Input,
-  NgModule,
   OnChanges,
   OnInit,
   provideZoneChangeDetection,
@@ -34,8 +37,6 @@ import {
   bypassSanitizationTrustUrl,
 } from '../../src/sanitization/bypass';
 import {TestBed} from '../../testing';
-import {By} from '@angular/platform-browser';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('host bindings', () => {
   beforeEach(() => {
@@ -46,14 +47,12 @@ describe('host bindings', () => {
   it('should render host bindings on the root component', () => {
     @Component({
       template: '...',
-      standalone: false,
     })
     class MyApp {
       @HostBinding('style') myStylesExp = {};
       @HostBinding('class') myClassesExp = {};
     }
 
-    TestBed.configureTestingModule({declarations: [MyApp]});
     const fixture = TestBed.createComponent(MyApp);
     const element = fixture.nativeElement;
     fixture.detectChanges();
@@ -80,18 +79,15 @@ describe('host bindings', () => {
       @Component({
         template: '...',
         host: {'class': 'foo bar'},
-        standalone: false,
       })
       class ParentCmp {}
 
       @Component({
         template: '...',
         host: {'class': 'foo baz'},
-        standalone: false,
       })
       class ChildCmp extends ParentCmp {}
 
-      TestBed.configureTestingModule({declarations: [ChildCmp]});
       const fixture = TestBed.createComponent(ChildCmp);
       fixture.detectChanges();
 
@@ -105,11 +101,9 @@ describe('host bindings', () => {
       @Component({
         template: '...',
         host: {class: 'foo', style: 'color: red'},
-        standalone: false,
       })
       class MyApp {}
 
-      TestBed.configureTestingModule({declarations: [MyApp]});
       const fixture = TestBed.createComponent(MyApp);
       const element = fixture.nativeElement;
       fixture.detectChanges();
@@ -137,25 +131,22 @@ describe('host bindings', () => {
        */
 
       @Component({
-        selector: 'child',
         template: `...`,
-        standalone: false,
       })
       class ChildCmp {}
 
       @Component({
         selector: 'parent',
         template: `
-        <div>
-          <div #template></div>
-          <p>{{prop}}</p>
-          <p>{{prop2}}</p>
-        </div>
-      `,
+          <div>
+            <div #template></div>
+            <p>{{ prop }}</p>
+            <p>{{ prop2 }}</p>
+          </div>
+        `,
         host: {
           '[style.color]': 'color',
         },
-        standalone: false,
       })
       class ParentCmp {
         private _prop = '';
@@ -188,14 +179,14 @@ describe('host bindings', () => {
 
       @Component({
         template: `<parent [prop]="prop" [prop2]="prop2"></parent>`,
-        standalone: false,
+
+        imports: [ParentCmp],
       })
       class App {
         prop = 'a';
         prop2 = 1;
       }
 
-      TestBed.configureTestingModule({declarations: [App, ParentCmp, ChildCmp]});
       const fixture = TestBed.createComponent(App);
       fixture.detectChanges();
 
@@ -209,22 +200,20 @@ describe('host bindings', () => {
     it('should work when directive contains synthetic props', () => {
       @Directive({
         selector: '[animationPropDir]',
-        standalone: false,
       })
       class AnimationPropDir {
         @HostBinding('@myAnimation') myAnimation: string = 'color';
       }
 
       @Component({
-        selector: 'my-comp',
         template: '<div animationPropDir>Some content</div>',
         animations: [trigger('myAnimation', [state('color', style({color: 'red'}))])],
-        standalone: false,
+
+        imports: [AnimationPropDir],
       })
       class Comp {}
 
       TestBed.configureTestingModule({
-        declarations: [Comp, AnimationPropDir],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(Comp);
@@ -236,7 +225,6 @@ describe('host bindings', () => {
     it('should work when directive contains synthetic props and directive is applied to a component', () => {
       @Directive({
         selector: '[animationPropDir]',
-        standalone: false,
       })
       class AnimationPropDir {
         @HostBinding('@myAnimation') myAnimation: string = 'color';
@@ -246,20 +234,18 @@ describe('host bindings', () => {
         selector: 'my-comp',
         template: 'Some content',
         animations: [trigger('myAnimation', [state('color', style({color: 'red'}))])],
-        standalone: false,
       })
       class Comp {}
 
       @Component({
-        selector: 'app',
         template: '<my-comp animationPropDir></my-comp>',
         animations: [trigger('myAnimation', [state('color', style({color: 'green'}))])],
-        standalone: false,
+
+        imports: [AnimationPropDir, Comp],
       })
       class App {}
 
       TestBed.configureTestingModule({
-        declarations: [App, Comp, AnimationPropDir],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(App);
@@ -270,17 +256,14 @@ describe('host bindings', () => {
 
     it('should work when component contains synthetic props', () => {
       @Component({
-        selector: 'my-comp',
         template: '<div>Some content/div>',
         animations: [trigger('myAnimation', [state('color', style({color: 'red'}))])],
-        standalone: false,
       })
       class Comp {
         @HostBinding('@myAnimation') myAnimation: string = 'color';
       }
 
       TestBed.configureTestingModule({
-        declarations: [Comp],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(Comp);
@@ -293,7 +276,6 @@ describe('host bindings', () => {
         selector: 'my-comp',
         template: '<div>Some content/div>',
         animations: [trigger('myAnimation', [state('color', style({color: 'red'}))])],
-        standalone: false,
       })
       class Comp {
         @HostBinding('@myAnimation') myAnimation: string = 'color';
@@ -301,12 +283,12 @@ describe('host bindings', () => {
 
       @Component({
         template: '<my-comp></my-comp>',
-        standalone: false,
+
+        imports: [Comp],
       })
       class App {}
 
       TestBed.configureTestingModule({
-        declarations: [App, Comp],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(App);
@@ -318,22 +300,18 @@ describe('host bindings', () => {
     it('should work when component extends a directive that contains synthetic props', () => {
       @Directive({
         selector: 'animation-dir',
-        standalone: false,
       })
       class AnimationDir {
         @HostBinding('@myAnimation') myAnimation: string = 'color';
       }
 
       @Component({
-        selector: 'my-comp',
         template: '<div>Some content</div>',
         animations: [trigger('myAnimation', [state('color', style({color: 'red'}))])],
-        standalone: false,
       })
       class Comp extends AnimationDir {}
 
       TestBed.configureTestingModule({
-        declarations: [Comp, AnimationDir],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(Comp);
@@ -346,7 +324,6 @@ describe('host bindings', () => {
 
       @Directive({
         selector: '[animationPropDir]',
-        standalone: false,
       })
       class AnimationPropDir {
         @HostBinding('@myAnimation') myAnimation: string = 'a';
@@ -363,17 +340,16 @@ describe('host bindings', () => {
       }
 
       @Component({
-        selector: 'my-comp',
         template: '<div animationPropDir>Some content</div>',
         animations: [
           trigger('myAnimation', [state('a', style({color: 'yellow'})), transition('* => a', [])]),
         ],
-        standalone: false,
+
+        imports: [AnimationPropDir],
       })
       class Comp {}
 
       TestBed.configureTestingModule({
-        declarations: [Comp, AnimationPropDir],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(Comp);
@@ -388,12 +364,10 @@ describe('host bindings', () => {
       const events: string[] = [];
 
       @Component({
-        selector: 'my-comp',
         template: '<div>Some content</div>',
         animations: [
           trigger('myAnimation', [state('a', style({color: 'yellow'})), transition('* => a', [])]),
         ],
-        standalone: false,
       })
       class Comp {
         @HostBinding('@myAnimation') myAnimation: string = 'a';
@@ -410,7 +384,6 @@ describe('host bindings', () => {
       }
 
       TestBed.configureTestingModule({
-        declarations: [Comp],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(Comp);
@@ -429,7 +402,6 @@ describe('host bindings', () => {
         animations: [
           trigger('myAnimation', [state('a', style({color: 'yellow'})), transition('* => a', [])]),
         ],
-        standalone: false,
       })
       class Comp {
         @HostBinding('@myAnimation') myAnimation: string = 'a';
@@ -447,12 +419,12 @@ describe('host bindings', () => {
 
       @Component({
         template: '<my-comp></my-comp>',
-        standalone: false,
+
+        imports: [Comp],
       })
       class App {}
 
       TestBed.configureTestingModule({
-        declarations: [App, Comp],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(App);
@@ -468,7 +440,6 @@ describe('host bindings', () => {
 
       @Directive({
         selector: 'animation-dir',
-        standalone: false,
       })
       class AnimationDir {
         @HostBinding('@myAnimation') myAnimation: string = 'a';
@@ -485,17 +456,14 @@ describe('host bindings', () => {
       }
 
       @Component({
-        selector: 'my-comp',
         template: '<div>Some content</div>',
         animations: [
           trigger('myAnimation', [state('a', style({color: 'yellow'})), transition('* => a', [])]),
         ],
-        standalone: false,
       })
       class Comp extends AnimationDir {}
 
       TestBed.configureTestingModule({
-        declarations: [Comp],
         imports: [NoopAnimationsModule],
       });
       const fixture = TestBed.createComponent(Comp);
@@ -509,16 +477,14 @@ describe('host bindings', () => {
   describe('via @HostBinding', () => {
     it('should render styling for parent and sub-classed components in order', () => {
       @Component({
-        template: `
-        <child-and-parent-cmp></child-and-parent-cmp>
-      `,
-        standalone: false,
+        template: ` <child-and-parent-cmp></child-and-parent-cmp> `,
+
+        imports: [forwardRef(() => ChildCmp)],
       })
       class MyApp {}
 
       @Component({
         template: '...',
-        standalone: false,
       })
       class ParentCmp {
         @HostBinding('style.width') width1 = '100px';
@@ -529,14 +495,12 @@ describe('host bindings', () => {
       @Component({
         selector: 'child-and-parent-cmp',
         template: '...',
-        standalone: false,
       })
       class ChildCmp extends ParentCmp {
         @HostBinding('style.width') width2 = '200px';
         @HostBinding('style.height') height2 = '200px';
       }
 
-      TestBed.configureTestingModule({declarations: [MyApp, ParentCmp, ChildCmp]});
       const fixture = TestBed.createComponent(MyApp);
       const element = fixture.nativeElement;
       fixture.detectChanges();
@@ -550,13 +514,13 @@ describe('host bindings', () => {
     it('should prioritize styling present in the order of directive hostBinding evaluation, but consider sub-classed directive styling to be the most important', () => {
       @Component({
         template: '<div child-dir sibling-dir></div>',
-        standalone: false,
+
+        imports: [forwardRef(() => SiblingDir), forwardRef(() => ChildDir)],
       })
       class MyApp {}
 
       @Directive({
         selector: '[parent-dir]',
-        standalone: false,
       })
       class ParentDir {
         @HostBinding('style.width')
@@ -577,7 +541,6 @@ describe('host bindings', () => {
 
       @Directive({
         selector: '[child-dir]',
-        standalone: false,
       })
       class ChildDir extends ParentDir {
         @HostBinding('style.width')
@@ -593,7 +556,6 @@ describe('host bindings', () => {
 
       @Directive({
         selector: '[sibling-dir]',
-        standalone: false,
       })
       class SiblingDir {
         @HostBinding('style.width')
@@ -617,7 +579,6 @@ describe('host bindings', () => {
         }
       }
 
-      TestBed.configureTestingModule({declarations: [MyApp, ParentDir, SiblingDir, ChildDir]});
       const fixture = TestBed.createComponent(MyApp);
       const element = fixture.nativeElement;
       fixture.detectChanges();
@@ -641,21 +602,20 @@ describe('host bindings', () => {
     it('should allow class-bindings to be placed on ng-container elements', () => {
       @Component({
         template: `
-        <ng-container [class.foo]="true" dir-that-adds-other-classes>...</ng-container>
-      `,
-        standalone: false,
+          <ng-container [class.foo]="true" dir-that-adds-other-classes>...</ng-container>
+        `,
+
+        imports: [forwardRef(() => DirThatAddsOtherClasses)],
       })
       class MyApp {}
 
       @Directive({
         selector: '[dir-that-adds-other-classes]',
-        standalone: false,
       })
       class DirThatAddsOtherClasses {
         @HostBinding('class.other-class') bool = true;
       }
 
-      TestBed.configureTestingModule({declarations: [MyApp, DirThatAddsOtherClasses]});
       expect(() => {
         const fixture = TestBed.createComponent(MyApp);
         fixture.detectChanges();
@@ -665,7 +625,6 @@ describe('host bindings', () => {
 
   @Directive({
     selector: '[hostBindingDir]',
-    standalone: false,
   })
   class HostBindingDir {
     @HostBinding() id = 'foo';
@@ -674,7 +633,6 @@ describe('host bindings', () => {
   it('should support host bindings in directives', () => {
     @Directive({
       selector: '[dir]',
-      standalone: false,
     })
     class Dir {
       @HostBinding('className') klass = 'foo';
@@ -682,13 +640,14 @@ describe('host bindings', () => {
 
     @Component({
       template: '<span dir></span>',
-      standalone: false,
+
+      imports: [Dir],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(Dir) directiveInstance!: Dir;
     }
 
-    TestBed.configureTestingModule({declarations: [App, Dir]});
     const fixture = TestBed.createComponent(App);
     const element = fixture.nativeElement;
     fixture.detectChanges();
@@ -704,13 +663,11 @@ describe('host bindings', () => {
   it('should support host bindings on root component', () => {
     @Component({
       template: '',
-      standalone: false,
     })
     class HostBindingComp {
       @HostBinding() title = 'my-title';
     }
 
-    TestBed.configureTestingModule({declarations: [HostBindingComp]});
     const fixture = TestBed.createComponent(HostBindingComp);
     const element = fixture.nativeElement;
     fixture.detectChanges();
@@ -737,7 +694,6 @@ describe('host bindings', () => {
     @Component({
       template: '',
       providers: [ServiceOne, ServiceTwo],
-      standalone: false,
     })
     class App {
       constructor(
@@ -748,7 +704,6 @@ describe('host bindings', () => {
       @HostBinding() title = 'my-title';
     }
 
-    TestBed.configureTestingModule({declarations: [App]});
     const fixture = TestBed.createComponent(App);
     const element = fixture.nativeElement;
     fixture.detectChanges();
@@ -765,14 +720,13 @@ describe('host bindings', () => {
   it('should support host bindings on multiple nodes', () => {
     @Directive({
       selector: '[someDir]',
-      standalone: false,
     })
     class SomeDir {}
 
     @Component({
       selector: 'host-title-comp',
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostTitleComp {
       @HostBinding() title = 'my-title';
@@ -780,17 +734,18 @@ describe('host bindings', () => {
 
     @Component({
       template: `
-          <div hostBindingDir></div>
-          <div someDir></div>
-          <host-title-comp></host-title-comp>
-        `,
-      standalone: false,
+        <div hostBindingDir></div>
+        <div someDir></div>
+        <host-title-comp></host-title-comp>
+      `,
+
+      imports: [SomeDir, HostTitleComp, HostBindingDir],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(HostBindingDir) hostBindingDir!: HostBindingDir;
     }
 
-    TestBed.configureTestingModule({declarations: [App, SomeDir, HostTitleComp, HostBindingDir]});
     const fixture = TestBed.createComponent(App);
     const element = fixture.nativeElement;
     fixture.detectChanges();
@@ -809,7 +764,7 @@ describe('host bindings', () => {
     @Component({
       selector: 'host-binding-comp',
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostBindingComp {
       @HostBinding() id = 'blue';
@@ -817,16 +772,17 @@ describe('host bindings', () => {
 
     @Component({
       template: `
-          <host-binding-comp></host-binding-comp>
-          <host-binding-comp></host-binding-comp>
-        `,
-      standalone: false,
+        <host-binding-comp></host-binding-comp>
+        <host-binding-comp></host-binding-comp>
+      `,
+
+      imports: [HostBindingComp],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChildren(HostBindingComp) hostBindingComp!: QueryList<HostBindingComp>;
     }
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingComp]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const comps = fixture.componentInstance.hostBindingComp.toArray();
@@ -854,19 +810,19 @@ describe('host bindings', () => {
   it('should support dirs with host bindings on the same node as dirs without host bindings', () => {
     @Directive({
       selector: '[someDir]',
-      standalone: false,
     })
     class SomeDir {}
 
     @Component({
       template: '<div someDir hostBindingDir></div>',
-      standalone: false,
+
+      imports: [SomeDir, HostBindingDir],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(HostBindingDir) hostBindingDir!: HostBindingDir;
     }
 
-    TestBed.configureTestingModule({declarations: [App, SomeDir, HostBindingDir]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -882,7 +838,7 @@ describe('host bindings', () => {
     @Component({
       template: '',
       selector: 'init-hook-comp',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class InitHookComp implements OnInit, OnChanges, DoCheck {
       @Input() inputValue = '';
@@ -911,13 +867,14 @@ describe('host bindings', () => {
 
     @Component({
       template: '<init-hook-comp [inputValue]="value"></init-hook-comp>',
-      standalone: false,
+
+      imports: [InitHookComp],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       value = 'input';
     }
 
-    TestBed.configureTestingModule({declarations: [App, InitHookComp]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -932,7 +889,6 @@ describe('host bindings', () => {
   it('should support host bindings with the same name as inputs', () => {
     @Directive({
       selector: '[hostBindingDir]',
-      standalone: false,
     })
     class HostBindingInputDir {
       @Input() disabled = false;
@@ -942,14 +898,15 @@ describe('host bindings', () => {
 
     @Component({
       template: '<input hostBindingDir [disabled]="isDisabled">',
-      standalone: false,
+
+      imports: [HostBindingInputDir, HostBindingDir],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(HostBindingInputDir) hostBindingInputDir!: HostBindingInputDir;
       isDisabled = true;
     }
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingInputDir]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const hostBindingInputDir = fixture.componentInstance.hostBindingInputDir;
@@ -973,20 +930,21 @@ describe('host bindings', () => {
     @Component({
       selector: 'parent',
       template: '<div hostBindingDir></div>',
-      standalone: false,
+
+      imports: [HostBindingDir],
     })
     class Parent {}
 
     @Component({
       template: `
-          <parent></parent>
-          <parent></parent>
-        `,
-      standalone: false,
+        <parent></parent>
+        <parent></parent>
+      `,
+
+      imports: [Parent],
     })
     class App {}
 
-    TestBed.configureTestingModule({declarations: [App, Parent, HostBindingDir]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -998,17 +956,17 @@ describe('host bindings', () => {
   it('should support host bindings in for loop', () => {
     @Component({
       template: `
-          <div *ngFor="let row of rows">
-            <p hostBindingDir></p>
-          </div>
-        `,
-      standalone: false,
+        <div *ngFor="let row of rows">
+          <p hostBindingDir></p>
+        </div>
+      `,
+
+      imports: [CommonModule, HostBindingDir],
     })
     class App {
       rows: number[] = [];
     }
 
-    TestBed.configureTestingModule({imports: [CommonModule], declarations: [App, HostBindingDir]});
     const fixture = TestBed.createComponent(App);
     fixture.componentInstance.rows = [1, 2, 3];
     fixture.detectChanges();
@@ -1023,7 +981,7 @@ describe('host bindings', () => {
     @Component({
       selector: 'host-binding-comp',
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostBindingComp {
       @HostBinding() id = 'my-id';
@@ -1032,7 +990,7 @@ describe('host bindings', () => {
     @Component({
       selector: 'name-comp',
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class NameComp {
       @Input() names!: string[];
@@ -1040,17 +998,18 @@ describe('host bindings', () => {
 
     @Component({
       template: `
-          <name-comp [names]="['Nancy', name, 'Ned']"></name-comp>
-          <host-binding-comp></host-binding-comp>
-        `,
-      standalone: false,
+        <name-comp [names]="['Nancy', name, 'Ned']"></name-comp>
+        <host-binding-comp></host-binding-comp>
+      `,
+
+      imports: [HostBindingComp, NameComp],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(NameComp) nameComp!: NameComp;
       name = '';
     }
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingComp, NameComp]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -1079,7 +1038,7 @@ describe('host bindings', () => {
     @Component({
       selector: 'name-comp',
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class NameComp {
       @Input() names!: string[];
@@ -1089,7 +1048,7 @@ describe('host bindings', () => {
       selector: 'host-binding-comp',
       host: {'[id]': `['red', id]`, '[dir]': `dir`, '[title]': `[title, otherTitle]`},
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostBindingComp {
       id = 'blue';
@@ -1100,10 +1059,12 @@ describe('host bindings', () => {
 
     @Component({
       template: `
-          <name-comp [names]="[name, 'Nancy', otherName]"></name-comp>
-          <host-binding-comp></host-binding-comp>
-        `,
-      standalone: false,
+        <name-comp [names]="[name, 'Nancy', otherName]"></name-comp>
+        <host-binding-comp></host-binding-comp>
+      `,
+
+      imports: [NameComp, HostBindingComp],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(HostBindingComp) hostBindingComp!: HostBindingComp;
@@ -1112,7 +1073,6 @@ describe('host bindings', () => {
       otherName = '';
     }
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingComp, NameComp]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const {nameComp, hostBindingComp} = fixture.componentInstance;
@@ -1146,7 +1106,6 @@ describe('host bindings', () => {
     @Directive({
       selector: '[hostDir]',
       host: {'[title]': `[title, 'other title']`},
-      standalone: false,
     })
     class HostBindingDir {
       title = 'my title';
@@ -1154,7 +1113,6 @@ describe('host bindings', () => {
 
     @Directive({
       selector: '[hostListenerDir]',
-      standalone: false,
     })
     class HostListenerDir {
       @HostListener('click')
@@ -1165,11 +1123,11 @@ describe('host bindings', () => {
 
     @Component({
       template: '<button hostListenerDir hostDir>Click</button>',
-      standalone: false,
+
+      imports: [HostBindingDir, HostListenerDir],
     })
     class App {}
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingDir, HostListenerDir]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -1184,7 +1142,7 @@ describe('host bindings', () => {
       selector: 'host-binding-comp',
       host: {'[id]': `['red', id]`},
       template: '',
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostBindingComp {
       id = 'blue';
@@ -1193,7 +1151,6 @@ describe('host bindings', () => {
     @Directive({
       selector: '[hostDir]',
       host: {'[title]': `[title, 'other title']`},
-      standalone: false,
     })
     class HostBindingDir {
       title = 'my title';
@@ -1201,14 +1158,15 @@ describe('host bindings', () => {
 
     @Component({
       template: '<host-binding-comp hostDir></host-binding-comp>',
-      standalone: false,
+
+      imports: [HostBindingComp, HostBindingDir],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(HostBindingComp) hostBindingComp!: HostBindingComp;
       @ViewChild(HostBindingDir) hostBindingDir!: HostBindingDir;
     }
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingComp, HostBindingDir]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const hostElement = fixture.nativeElement.querySelector('host-binding-comp') as HTMLElement;
@@ -1233,7 +1191,7 @@ describe('host bindings', () => {
         '[attr.id]': `condition ? ['red', id] : 'green'`,
         '[attr.title]': `otherCondition ? [title] : 'other title'`,
       },
-      standalone: false,
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class HostBindingComp {
       condition = true;
@@ -1244,14 +1202,15 @@ describe('host bindings', () => {
 
     @Component({
       template: `<host-binding-comp></host-binding-comp>{{ name }}`,
-      standalone: false,
+
+      imports: [HostBindingComp],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(HostBindingComp) hostBindingComp!: HostBindingComp;
       name = '';
     }
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingComp]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -1279,23 +1238,21 @@ describe('host bindings', () => {
     @Directive({
       selector: '[dir1]',
       host: {id: 'dir1'},
-      standalone: false,
     })
     class MyDir1 {}
     @Directive({
       selector: '[dir2]',
       host: {id: 'dir2'},
-      standalone: false,
     })
     class MyDir2 {}
 
     @Component({
       template: `<div dir1 dir2 id="tmpl"></div>`,
-      standalone: false,
+
+      imports: [MyDir1, MyDir2],
     })
     class MyComp {}
 
-    TestBed.configureTestingModule({declarations: [MyComp, MyDir1, MyDir2]});
     const fixture = TestBed.createComponent(MyComp);
     fixture.detectChanges();
     const div: HTMLElement = fixture.debugElement.nativeElement.firstChild;
@@ -1306,7 +1263,6 @@ describe('host bindings', () => {
     @Directive({
       selector: '[superDir]',
       host: {'[id]': 'id'},
-      standalone: false,
     })
     class SuperDirective {
       id = 'my-id';
@@ -1315,7 +1271,6 @@ describe('host bindings', () => {
     @Directive({
       selector: '[subDir]',
       host: {'[title]': 'title'},
-      standalone: false,
     })
     class SubDirective extends SuperDirective {
       title = 'my-title';
@@ -1326,14 +1281,15 @@ describe('host bindings', () => {
         <div subDir></div>
         <div superDir></div>
       `,
-      standalone: false,
+
+      imports: [SuperDirective, SubDirective],
+      changeDetection: ChangeDetectionStrategy.Eager,
     })
     class App {
       @ViewChild(SubDirective) subDir!: SubDirective;
       @ViewChild(SuperDirective) superDir!: SuperDirective;
     }
 
-    TestBed.configureTestingModule({declarations: [App, SuperDirective, SubDirective]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const els = fixture.nativeElement.querySelectorAll('div') as NodeListOf<HTMLElement>;
@@ -1367,17 +1323,16 @@ describe('host bindings', () => {
     @Directive({
       selector: '[hostAttributeDir]',
       host: {'role': 'listbox'},
-      standalone: false,
     })
     class HostAttributeDir {}
 
     @Component({
       template: '<div hostAttributeDir></div>',
-      standalone: false,
+
+      imports: [HostAttributeDir],
     })
     class App {}
 
-    TestBed.configureTestingModule({declarations: [App, HostAttributeDir]});
     const fixture = TestBed.createComponent(App);
     expect(fixture.nativeElement.innerHTML).toContain(`role="listbox"`);
   });
@@ -1387,7 +1342,6 @@ describe('host bindings', () => {
       selector: 'host-binding-comp',
       template: '<ng-content></ng-content>',
       host: {'[id]': 'foos.length'},
-      standalone: false,
     })
     class HostBindingWithContentChildren {
       @ContentChildren('foo') foos!: QueryList<any>;
@@ -1395,16 +1349,16 @@ describe('host bindings', () => {
 
     @Component({
       template: `
-          <host-binding-comp>
-            <div #foo></div>
-            <div #foo></div>
-          </host-binding-comp>
-        `,
-      standalone: false,
+        <host-binding-comp>
+          <div #foo></div>
+          <div #foo></div>
+        </host-binding-comp>
+      `,
+
+      imports: [HostBindingWithContentChildren],
     })
     class App {}
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingWithContentChildren]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -1417,7 +1371,6 @@ describe('host bindings', () => {
       selector: 'host-binding-comp',
       template: '',
       host: {'[id]': 'myValue'},
-      standalone: false,
     })
     class HostBindingWithContentHooks implements AfterContentInit {
       myValue = 'initial';
@@ -1429,11 +1382,11 @@ describe('host bindings', () => {
 
     @Component({
       template: '<host-binding-comp></host-binding-comp>',
-      standalone: false,
+
+      imports: [HostBindingWithContentHooks],
     })
     class App {}
 
-    TestBed.configureTestingModule({declarations: [App, HostBindingWithContentHooks]});
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
@@ -1447,7 +1400,7 @@ describe('host bindings', () => {
         selector: 'host-binding-to-styles',
         host: {'[style.width.px]': 'width'},
         template: '',
-        standalone: false,
+        changeDetection: ChangeDetectionStrategy.Eager,
       })
       class HostBindingToStyles {
         width = 2;
@@ -1455,13 +1408,14 @@ describe('host bindings', () => {
 
       @Component({
         template: '<host-binding-to-styles></host-binding-to-styles>',
-        standalone: false,
+
+        imports: [HostBindingToStyles],
+        changeDetection: ChangeDetectionStrategy.Eager,
       })
       class App {
         @ViewChild(HostBindingToStyles) hostBindingDir!: HostBindingToStyles;
       }
 
-      TestBed.configureTestingModule({declarations: [App, HostBindingToStyles]});
       const fixture = TestBed.createComponent(App);
       fixture.detectChanges();
 
@@ -1479,7 +1433,6 @@ describe('host bindings', () => {
       @Directive({
         selector: '[hostStyles]',
         host: {'[style.width.px]': 'width'},
-        standalone: false,
       })
       class HostBindingToStyles {
         width = 2;
@@ -1487,7 +1440,6 @@ describe('host bindings', () => {
 
       @Directive({
         selector: '[containerDir]',
-        standalone: false,
       })
       class ContainerDir {
         constructor(public vcr: ViewContainerRef) {}
@@ -1495,13 +1447,14 @@ describe('host bindings', () => {
 
       @Component({
         template: '<div hostStyles containerDir></div>',
-        standalone: false,
+
+        imports: [HostBindingToStyles, ContainerDir],
+        changeDetection: ChangeDetectionStrategy.Eager,
       })
       class App {
         @ViewChild(HostBindingToStyles) hostBindingDir!: HostBindingToStyles;
       }
 
-      TestBed.configureTestingModule({declarations: [App, HostBindingToStyles, ContainerDir]});
       const fixture = TestBed.createComponent(App);
       fixture.detectChanges();
 
@@ -1518,17 +1471,16 @@ describe('host bindings', () => {
         selector: 'static-host-class',
         host: {'class': 'mat-toolbar'},
         template: '',
-        standalone: false,
       })
       class StaticHostClass {}
 
       @Component({
         template: '<static-host-class></static-host-class>',
-        standalone: false,
+
+        imports: [StaticHostClass],
       })
       class App {}
 
-      TestBed.configureTestingModule({declarations: [App, StaticHostClass]});
       const fixture = TestBed.createComponent(App);
       fixture.detectChanges();
 
@@ -1550,13 +1502,12 @@ describe('host bindings', () => {
       isAttribute: boolean = true,
       throws: boolean = false,
     ) {
-      it(`should sanitize <${tag} ${prop}> ${isAttribute ? 'properties' : 'attributes'}`, () => {
+      it(`should sanitize <${tag} ${prop}> ${isAttribute ? 'properties' : 'attributes'} (value=${value})`, () => {
         @Directive({
           selector: '[unsafeUrlHostBindingDir]',
           host: {
             [`[${isAttribute ? 'attr.' : ''}${prop}]`]: 'value',
           },
-          standalone: false,
         })
         class UnsafeDir {
           value: any = value;
@@ -1564,13 +1515,14 @@ describe('host bindings', () => {
 
         @Component({
           template: `<${tag} unsafeUrlHostBindingDir></${tag}>`,
-          standalone: false,
+
+          imports: [UnsafeDir],
+          changeDetection: ChangeDetectionStrategy.Eager,
         })
         class App {
           @ViewChild(UnsafeDir) unsafeDir!: UnsafeDir;
         }
 
-        TestBed.configureTestingModule({declarations: [App, UnsafeDir]});
         const fixture = TestBed.createComponent(App);
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(tag)!;
@@ -1608,23 +1560,6 @@ describe('host bindings', () => {
       true,
     );
     verify(
-      'blockquote',
-      'cite',
-      'javascript:alert(2)',
-      'unsafe:javascript:alert(2)',
-      bypassSanitizationTrustUrl,
-    );
-    verify('blockquote', 'cite', 'javascript:alert(2.1)', 'unsafe:javascript:alert(2.1)', identity);
-    verify(
-      'blockquote',
-      'cite',
-      'javascript:alert(2.2)',
-      'unsafe:javascript:alert(2.2)',
-      bypassSanitizationTrustHtml,
-      true,
-      true,
-    );
-    verify(
       'b',
       'innerHTML',
       '<img src="javascript:alert(3)">',
@@ -1638,7 +1573,6 @@ describe('host bindings', () => {
     @Directive({
       selector: '[staticHostAtt]',
       host: {'static': 'attr'},
-      standalone: false,
     })
     class StaticHostAttr {
       constructor() {}
@@ -1647,7 +1581,6 @@ describe('host bindings', () => {
     @Directive({
       selector: '[dynamicHostAtt]',
       host: {'[attr.dynamic]': '"dynamic"'},
-      standalone: false,
     })
     class DynamicHostAttr {
       constructor() {}
@@ -1655,18 +1588,16 @@ describe('host bindings', () => {
 
     it('should fail with expected error with ng-container', () => {
       @Component({
-        selector: 'my-app',
         template: `
           <ng-template #ref></ng-template>
           <ng-container [ngTemplateOutlet]="ref" staticHostAtt dynamicHostAtt></ng-container>
         `,
-        standalone: false,
+
+        imports: [CommonModule, StaticHostAttr, DynamicHostAttr],
       })
       class App {}
 
-      const comp = TestBed.configureTestingModule({
-        declarations: [App, StaticHostAttr, DynamicHostAttr],
-      }).createComponent(App);
+      const comp = TestBed.createComponent(App);
       // TODO(FW-2202): binding static attrs won't throw an error. We should be more consistent.
       expect(() => comp.detectChanges()).toThrowError(
         /Attempted to set attribute `dynamic` on a container node. Host bindings are not valid on ng-container or ng-template./,
@@ -1675,15 +1606,13 @@ describe('host bindings', () => {
 
     it('should fail with expected error with ng-template', () => {
       @Component({
-        selector: 'my-app',
         template: ` <ng-template staticHostAtt dynamicHostAtt></ng-template> `,
-        standalone: false,
+
+        imports: [StaticHostAttr, DynamicHostAttr],
       })
       class App {}
 
-      const comp = TestBed.configureTestingModule({
-        declarations: [App, StaticHostAttr, DynamicHostAttr],
-      }).createComponent(App);
+      const comp = TestBed.createComponent(App);
       // TODO(FW-2202): binding static attrs won't throw an error. We should be more consistent.
       expect(() => comp.detectChanges()).toThrowError(
         /Attempted to set attribute `dynamic` on a container node. Host bindings are not valid on ng-container or ng-template./,
@@ -1699,7 +1628,6 @@ describe('host bindings', () => {
           '[class.a]': 'true',
           '[class.b]': 'false',
         },
-        standalone: false,
       })
       class MyDirective {
         @HostBinding('class.c') true: any;
@@ -1708,13 +1636,14 @@ describe('host bindings', () => {
 
       @Component({
         template: '<span dir></span>',
-        standalone: false,
+
+        imports: [MyDirective],
+        changeDetection: ChangeDetectionStrategy.Eager,
       })
       class MyApp {
         @ViewChild(MyDirective) dir!: MyDirective;
       }
 
-      TestBed.configureTestingModule({declarations: [MyApp, MyDirective]});
       const fixture = TestBed.createComponent(MyApp);
       fixture.detectChanges();
       const span = fixture.nativeElement.querySelector('span');
@@ -1730,7 +1659,6 @@ describe('host bindings', () => {
     it('should handle host bindings with quoted names', () => {
       @Directive({
         selector: '[dir]',
-        standalone: false,
       })
       class MyDirective {
         @HostBinding('class.a') 'is-a': any;
@@ -1740,13 +1668,14 @@ describe('host bindings', () => {
 
       @Component({
         template: '<span dir></span>',
-        standalone: false,
+
+        imports: [MyDirective],
+        changeDetection: ChangeDetectionStrategy.Eager,
       })
       class MyApp {
         @ViewChild(MyDirective) dir!: MyDirective;
       }
 
-      TestBed.configureTestingModule({declarations: [MyApp, MyDirective]});
       const fixture = TestBed.createComponent(MyApp);
       fixture.detectChanges();
       const span = fixture.nativeElement.querySelector('span');

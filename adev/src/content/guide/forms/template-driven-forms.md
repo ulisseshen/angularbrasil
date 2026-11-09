@@ -15,7 +15,7 @@ Você pode construir praticamente qualquer tipo de formulário com um template A
 Você pode dispor os controles de forma criativa e vinculá-los aos dados no seu modelo de objeto.
 Você pode especificar regras de validação e exibir erros de validação, permitir condicionalmente entrada de controles específicos, acionar feedback visual integrado e muito mais.
 
-## Objetivos
+## Objetivos {#objectives}
 
 Este tutorial ensina como fazer o seguinte:
 
@@ -25,7 +25,7 @@ Este tutorial ensina como fazer o seguinte:
 - Exibir erros de validação aos usuários e permitir condicionalmente entrada de controles de formulário com base no status do formulário
 - Compartilhar informações entre elementos HTML usando [variáveis de referência de template](guide/templates/variables#template-reference-variables)
 
-## Construir um formulário template-driven
+## Construir um formulário template-driven {#build-a-template-driven-form}
 
 Formulários template-driven dependem de directives definidas no `FormsModule`.
 
@@ -35,7 +35,7 @@ Formulários template-driven dependem de directives definidas no `FormsModule`.
 | `NgForm`       | Cria uma instância `FormGroup` de nível superior e a vincula a um elemento `<form>` para rastrear o valor agregado do formulário e o status de validação. Assim que você importa o `FormsModule`, esta directive se torna ativa por padrão em todas as tags `<form>`. Você não precisa adicionar um seletor especial. |
 | `NgModelGroup` | Cria e vincula uma instância `FormGroup` a um elemento DOM.                                                                                                                                                                                                                      |
 
-### Visão geral das etapas
+### Visão geral das etapas {#step-overview}
 
 No decorrer deste tutorial, você vincula um formulário de exemplo aos dados e lida com a entrada do usuário usando as seguintes etapas.
 
@@ -49,39 +49,39 @@ No decorrer deste tutorial, você vincula um formulário de exemplo aos dados e 
    - Adicionar CSS personalizado para fornecer feedback visual sobre o status
    - Mostrar e ocultar mensagens de erro de validação
 1. Responder a um evento de clique de botão HTML nativo adicionando aos dados do modelo.
-1. Lidar com o envio do formulário usando a propriedade de output [`ngSubmit`](api/forms/NgForm#properties) do formulário.
+1. Lidar com o envio do formulário usando a propriedade de output [`ngSubmit`](api/forms/NgForm#ngSubmit) do formulário.
    - Desabilitar o botão **Submit** até que o formulário seja válido
    - Após o envio, trocar o formulário concluído por conteúdo diferente na página
 
-## Construir o formulário
+## Construir o formulário {#build-the-form}
 
 <!-- TODO: link to preview -->
 <!-- <docs-code live/> -->
 
 1. O aplicativo de exemplo fornecido cria a classe `Actor` que define o modelo de dados refletido no formulário.
 
-<docs-code header="actor.ts" language="typescript" path="adev/src/content/examples/forms/src/app/actor.ts"/>
+   <docs-code header="actor.ts" language="typescript" path="adev/src/content/examples/forms/src/app/actor.ts"/>
 
 1. O layout e os detalhes do formulário são definidos na classe `ActorFormComponent`.
 
-   <docs-code header="actor-form.component.ts (v1)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="v1"/>
+   <docs-code header="actor-form.component.ts (v1)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" region="v1"/>
 
    O valor do `selector` do component "app-actor-form" significa que você pode colocar este formulário em um template pai usando a tag `<app-actor-form>`.
 
-2. O código a seguir cria uma nova instância de actor, para que o formulário inicial possa mostrar um actor de exemplo.
+1. O código a seguir cria uma nova instância de actor, para que o formulário inicial possa mostrar um actor de exemplo.
 
-   <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" visibleRegion="Marilyn"/>
+   <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" region="Marilyn"/>
 
    Esta demonstração usa dados fictícios para `model` e `skills`.
    Em um aplicativo real, você injetaria um service de dados para obter e salvar dados reais, ou exporia essas propriedades como inputs e outputs.
 
-3. O component habilita o recurso de Forms importando o módulo `FormsModule`.
+1. O component habilita o recurso de Forms importando o módulo `FormsModule`.
 
-   <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" visibleRegion="imports"/>
+   <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" region="imports"/>
 
-4. O formulário é exibido no layout do aplicativo definido pelo template do component raiz.
+1. O formulário é exibido no layout do aplicativo definido pelo template do component raiz.
 
-   <docs-code header="src/app/app.component.html" language="html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
+   <docs-code header="app.component.html" language="html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
 
    O template inicial define o layout para um formulário com dois grupos de formulário e um botão de envio.
    Os grupos de formulário correspondem a duas propriedades do modelo de dados Actor, name e studio.
@@ -92,20 +92,20 @@ No decorrer deste tutorial, você vincula um formulário de exemplo aos dados e 
    O botão **Submit** tem algumas classes nele para estilização.
    Neste ponto, o layout do formulário é todo HTML5 simples, sem vinculações ou directives.
 
-5. O formulário de exemplo usa algumas classes de estilo do [Twitter Bootstrap](https://getbootstrap.com/css): `container`, `form-group`, `form-control` e `btn`.
+1. O formulário de exemplo usa algumas classes de estilo do [Twitter Bootstrap](https://getbootstrap.com/css): `container`, `form-group`, `form-control` e `btn`.
    Para usar esses estilos, a folha de estilo do aplicativo importa a biblioteca.
 
-<docs-code header="src/styles.css" path="adev/src/content/examples/forms/src/styles.1.css"/>
+   <docs-code header="styles.css" path="adev/src/content/examples/forms/src/styles.1.css"/>
 
 1. O formulário requer que a habilidade de um actor seja escolhida de uma lista predefinida de `skills` mantida internamente em `ActorFormComponent`.
    O loop `@for` do Angular itera sobre os valores de dados para preencher o elemento `<select>`.
 
-<docs-code header="actor-form.component.html (skills)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="skills"/>
+   <docs-code header="actor-form.component.html (skills)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="skills"/>
 
 Se você executar o aplicativo agora, verá a lista de habilidades no controle de seleção.
 Os elementos de entrada ainda não estão vinculados a valores de dados ou eventos, portanto ainda estão em branco e não têm comportamento.
 
-## Vincular controles de entrada a propriedades de dados
+## Vincular controles de entrada a propriedades de dados {#bind-input-controls-to-data-properties}
 
 O próximo passo é vincular os controles de entrada às propriedades `Actor` correspondentes com vinculação de dados bidirecional, para que eles respondam à entrada do usuário atualizando o modelo de dados e também respondam a mudanças programáticas nos dados atualizando a exibição.
 
@@ -116,11 +116,11 @@ Quando você inclui a directive usando a sintaxe para vinculação de dados bidi
 1. Encontre a tag `<input>` ao lado do rótulo **Name**.
 1. Adicione a directive `ngModel`, usando a sintaxe de vinculação de dados bidirecional `[(ngModel)]="..."`.
 
-<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModelName-1"/>
+<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="ngModelName-1"/>
 
 HELPFUL: Este exemplo tem uma interpolação de diagnóstico temporária após cada tag de entrada, `{{model.name}}`, para mostrar o valor de dados atual da propriedade correspondente. O comentário lembra você de remover as linhas de diagnóstico quando terminar de observar a vinculação de dados bidirecional em funcionamento.
 
-### Acessar o status geral do formulário
+### Acessar o status geral do formulário {#access-the-overall-form-status}
 
 Quando você importou o `FormsModule` em seu component, o Angular criou e anexou automaticamente uma directive [NgForm](api/forms/NgForm) à tag `<form>` no template (porque `NgForm` tem o seletor `form` que corresponde aos elementos `<form>`).
 
@@ -129,7 +129,7 @@ Para obter acesso ao `NgForm` e ao status geral do formulário, declare uma [var
 1. Edite o arquivo de template `actor-form.component.html`.
 1. Atualize a tag `<form>` com uma variável de referência de template, `#actorForm`, e defina seu valor da seguinte forma.
 
-   <docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="template-variable"/>
+   <docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="template-variable"/>
 
    A variável de template `actorForm` agora é uma referência à instância da directive `NgForm` que governa o formulário como um todo.
 
@@ -140,7 +140,7 @@ Para obter acesso ao `NgForm` e ao status geral do formulário, declare uma [var
 
 A linha de diagnóstico que mostra valores interpolados demonstra que os valores estão realmente fluindo da caixa de entrada para o modelo e de volta novamente.
 
-### Nomear elementos de controle
+### Nomear elementos de controle {#naming-control-elements}
 
 Quando você usa `[(ngModel)]` em um elemento, deve definir um atributo `name` para esse elemento.
 O Angular usa o nome atribuído para registrar o elemento com a directive `NgForm` anexada ao elemento pai `<form>`.
@@ -154,7 +154,7 @@ Qualquer valor único serve, mas usar um nome descritivo é útil.
 
 Após essas revisões, o template do formulário deve se parecer com o seguinte:
 
-<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModel-2"/>
+<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="ngModel-2"/>
 
 Você notará que:
 
@@ -166,11 +166,11 @@ Você notará que:
 
 Quando você tiver observado os efeitos, pode excluir a vinculação de texto `{{ model | json }}`.
 
-## Rastrear estados do formulário
+## Rastrear estados do formulário {#track-form-states}
 
 O Angular aplica a classe `ng-submitted` aos elementos `form` após o formulário ter sido enviado. Esta classe pode ser usada para alterar o estilo do formulário após ele ter sido enviado.
 
-## Rastrear estados do controle
+## Rastrear estados do controle {#track-control-states}
 
 Adicionar a directive `NgModel` a um controle adiciona nomes de classe ao controle que descrevem seu estado.
 Essas classes podem ser usadas para alterar o estilo de um controle com base em seu estado.
@@ -188,7 +188,7 @@ mas não aos controles dentro do elemento `form`.
 
 Você usa essas classes CSS para definir os estilos para seu controle com base em seu status.
 
-### Observar estados do controle
+### Observar estados do controle {#observe-control-states}
 
 Para ver como as classes são adicionadas e removidas pelo framework, abra as ferramentas de desenvolvedor do navegador e inspecione o elemento `<input>` que representa o nome do actor.
 
@@ -197,11 +197,9 @@ Para ver como as classes são adicionadas e removidas pelo framework, abra as fe
 
 1. Quando você o abre pela primeira vez, as classes indicam que ele tem um valor válido, que o valor não foi alterado desde a inicialização ou redefinição, e que o controle não foi visitado desde a inicialização ou redefinição.
 
-   <docs-code language="html">
-
-   <input class="form-control ng-untouched ng-pristine ng-valid">;
-
-   </docs-code>
+   ```html
+   <input class="form-control ng-untouched ng-pristine ng-valid" />
+   ```
 
 1. Execute as seguintes ações na caixa `<input>` de **Name** e observe quais classes aparecem.
    - Olhe mas não toque.
@@ -216,7 +214,7 @@ Para ver como as classes são adicionadas e removidas pelo framework, abra as fe
    - Apague o nome.
      Isso torna o valor inválido, então a classe `ng-invalid` substitui a classe `ng-valid`.
 
-### Criar feedback visual para estados
+### Criar feedback visual para estados {#create-visual-feedback-for-states}
 
 O par `ng-valid`/`ng-invalid` é particularmente interessante, porque você quer enviar um
 sinal visual forte quando os valores são inválidos.
@@ -231,13 +229,13 @@ Para alterar a aparência dessa forma, execute as seguintes etapas.
 1. Adicione essas definições de classe a um novo arquivo `forms.css`.
 1. Adicione o novo arquivo ao projeto como irmão de `index.html`:
 
-<docs-code header="src/assets/forms.css" language="css" path="adev/src/content/examples/forms/src/assets/forms.css"/>
+   <docs-code header="forms.css" language="css" path="adev/src/content/examples/forms/src/assets/forms.css"/>
 
 1. No arquivo `index.html`, atualize a tag `<head>` para incluir a nova folha de estilo.
 
-<docs-code header="src/index.html (styles)" path="adev/src/content/examples/forms/src/index.html" visibleRegion="styles"/>
+   <docs-code header="index.html (styles)" path="adev/src/content/examples/forms/src/index.html" region="styles"/>
 
-### Mostrar e ocultar mensagens de erro de validação
+### Mostrar e ocultar mensagens de erro de validação {#show-and-hide-validation-error-messages}
 
 A caixa de entrada **Name** é obrigatória e limpá-la deixa a barra vermelha.
 Isso indica que algo está errado, mas o usuário não sabe o que está errado ou o que fazer a respeito.
@@ -248,26 +246,26 @@ A caixa de seleção **Skill** também é obrigatória, mas não precisa desse t
 Para definir e mostrar uma mensagem de erro quando apropriado, execute as seguintes etapas.
 
 <docs-workflow>
-<docs-step title="Adicionar uma referência local à entrada">
+<docs-step title="Adicionar uma referência local à entrada {#add-a-local-reference-to-the-input}">
 Estenda a tag `input` com uma variável de referência de template que você pode usar para acessar o controle Angular da caixa de entrada de dentro do template. No exemplo, a variável é `#name="ngModel"`.
 
 A variável de referência de template (`#name`) é definida como `"ngModel"` porque esse é o valor da propriedade [`NgModel.exportAs`](api/core/Directive#exportAs). Esta propriedade diz ao Angular como vincular uma variável de referência a uma directive.
 </docs-step>
 
-<docs-step title="Adicionar a mensagem de erro">
+<docs-step title="Adicionar a mensagem de erro {#add-the-error-message}">
 Adicione um `<div>` que contém uma mensagem de erro adequada.
 </docs-step>
 
-<docs-step title="Tornar a mensagem de erro condicional">
+<docs-step title="Tornar a mensagem de erro condicional {#make-the-error-message-conditional}">
 Mostre ou oculte a mensagem de erro vinculando propriedades do controle `name` à propriedade `hidden` do elemento `<div>` da mensagem.
 </docs-step>
 
-<docs-code header="actor-form.component.html (hidden-error-msg)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="hidden-error-msg"/>
+<docs-code header="actor-form.component.html (hidden-error-msg)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="hidden-error-msg"/>
 
-<docs-step title="Adicionar uma mensagem de erro condicional ao name">
+<docs-step title="Adicionar uma mensagem de erro condicional ao name {#add-a-conditional-error-message-to-name}">
 Adicione uma mensagem de erro condicional à caixa de entrada `name`, como no exemplo a seguir.
 
-<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="name-with-error-msg"/>
+<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="name-with-error-msg"/>
 </docs-step>
 </docs-workflow>
 
@@ -284,7 +282,7 @@ Você verá a importância dessa escolha quando adicionar um novo actor ao formu
 
 </docs-callout>
 
-## Adicionar um novo actor
+## Adicionar um novo actor {#add-a-new-actor}
 
 Este exercício mostra como você pode responder a um evento de clique de botão HTML nativo adicionando aos dados do modelo.
 Para permitir que os usuários do formulário adicionem um novo actor, você adicionará um botão **New Actor** que responde a um evento de clique.
@@ -292,11 +290,11 @@ Para permitir que os usuários do formulário adicionem um novo actor, você adi
 1. No template, coloque um elemento `<button>` "New Actor" na parte inferior do formulário.
 1. No arquivo do component, adicione o método de criação de actor ao modelo de dados de actor.
 
-<docs-code header="actor-form.component.ts (New Actor method)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="new-actor"/>
+   <docs-code header="actor-form.component.ts (New Actor method)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" region="new-actor"/>
 
 1. Vincule o evento de clique do botão a um método de criação de actor, `newActor()`.
 
-<docs-code header="actor-form.component.html (New Actor button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-no-reset"/>
+   <docs-code header="actor-form.component.html (New Actor button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="new-actor-button-no-reset"/>
 
 1. Execute o aplicativo novamente e clique no botão **New Actor**.
 
@@ -311,11 +309,11 @@ Para permitir que os usuários do formulário adicionem um novo actor, você adi
 
 1. Para restaurar o estado pristine dos controles do formulário, limpe todos os flags imperativamente chamando o método `reset()` do formulário após chamar o método `newActor()`.
 
-   <docs-code header="actor-form.component.html (Reset the form)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-form-reset"/>
+   <docs-code header="actor-form.component.html (Reset the form)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="new-actor-button-form-reset"/>
 
    Agora clicar em **New Actor** redefine tanto o formulário quanto seus flags de controle.
 
-## Enviar o formulário com `ngSubmit`
+## Enviar o formulário com `ngSubmit` {#submit-the-form-with-ngsubmit}
 
 O usuário deve ser capaz de enviar este formulário depois de preenchê-lo.
 O botão **Submit** na parte inferior do formulário não faz nada por si só, mas aciona um evento de envio de formulário por causa de seu tipo (`type="submit"`).
@@ -324,25 +322,25 @@ Para responder a este evento, execute as seguintes etapas.
 
 <docs-workflow>
 
-<docs-step title="Escutar ngOnSubmit">
+<docs-step title="Escutar ngOnSubmit {#listen-to-ngonsubmit}">
 Vincule a propriedade de evento [`ngSubmit`](api/forms/NgForm#properties) do formulário ao método `onSubmit()` do component actor-form.
 
-<docs-code header="actor-form.component.html (ngSubmit)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngSubmit"/>
+<docs-code header="actor-form.component.html (ngSubmit)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="ngSubmit"/>
 </docs-step>
 
-<docs-step title="Vincular a propriedade disabled">
+<docs-step title="Vincular a propriedade disabled {#bind-the-disabled-property}">
 Use a variável de referência de template, `#actorForm` para acessar o formulário que contém o botão **Submit** e criar uma vinculação de evento.
 
 Você vinculará a propriedade do formulário que indica sua validade geral à propriedade `disabled` do botão **Submit**.
 
-<docs-code header="actor-form.component.html (submit-button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submit-button"/>
+<docs-code header="actor-form.component.html (submit-button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="submit-button"/>
 </docs-step>
 
-<docs-step title="Executar o aplicativo">
+<docs-step title="Executar o aplicativo {#run-the-application}">
 Observe que o botão está habilitado — embora ainda não faça nada útil.
 </docs-step>
 
-<docs-step title="Excluir o valor Name">
+<docs-step title="Excluir o valor Name {#delete-the-name-value}">
 Isso viola a regra "obrigatória", então exibe a mensagem de erro — e observe que também desabilita o botão **Submit**.
 
 Você não precisou conectar explicitamente o estado habilitado do botão à validade do formulário.
@@ -350,39 +348,39 @@ O `FormsModule` fez isso automaticamente quando você definiu uma variável de r
 </docs-step>
 </docs-workflow>
 
-### Responder ao envio do formulário
+### Responder ao envio do formulário {#respond-to-form-submission}
 
 Para mostrar uma resposta ao envio do formulário, você pode ocultar a área de entrada de dados e exibir outra coisa em seu lugar.
 
 <docs-workflow>
-<docs-step title="Encapsular o formulário">
+<docs-step title="Encapsular o formulário {#wrap-the-form}">
 Envolva todo o formulário em um `<div>` e vincule sua propriedade `hidden` à propriedade `ActorFormComponent.submitted`.
 
-<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="edit-div"/>
+<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="edit-div"/>
 
 O formulário principal está visível desde o início porque a propriedade `submitted` é false até que você envie o formulário, como este fragmento do `ActorFormComponent` mostra:
 
-<docs-code header="actor-form.component.ts (submitted)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="submitted"/>
+<docs-code header="actor-form.component.ts (submitted)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" region="submitted"/>
 
 Quando você clica no botão **Submit**, o flag `submitted` se torna true e o formulário desaparece.
 </docs-step>
 
-<docs-step title="Adicionar o estado submitted">
+<docs-step title="Adicionar o estado submitted {#add-the-submitted-state}">
 Para mostrar outra coisa enquanto o formulário está no estado submitted, adicione o seguinte HTML abaixo do novo wrapper `<div>`.
 
-<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submitted"/>
+<docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="submitted"/>
 
 Este `<div>`, que mostra um actor somente leitura com vinculações de interpolação, aparece apenas enquanto o component está no estado submitted.
 
 A exibição alternativa inclui um botão _Edit_ cujo evento de clique está vinculado a uma expressão que limpa o flag `submitted`.
 </docs-step>
 
-<docs-step title="Testar o botão Edit">
+<docs-step title="Testar o botão Edit {#test-the-edit-button}">
 Clique no botão *Edit* para alternar a exibição de volta para o formulário editável.
 </docs-step>
 </docs-workflow>
 
-## Resumo
+## Resumo {#summary}
 
 O formulário Angular discutido nesta página aproveita os seguintes
 recursos do framework para fornecer suporte para modificação de dados, validação e muito mais.
@@ -400,8 +398,8 @@ recursos do framework para fornecer suporte para modificação de dados, valida�
 Aqui está o código para a versão final do aplicativo:
 
 <docs-code-multifile>
-    <docs-code header="actor-form.component.ts" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="final"/>
-    <docs-code header="actor-form.component.html" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="final"/>
+    <docs-code header="actor-form.component.ts" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" region="final"/>
+    <docs-code header="actor-form.component.html" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="final"/>
     <docs-code header="actor.ts" path="adev/src/content/examples/forms/src/app/actor.ts"/>
     <docs-code header="app.component.html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
     <docs-code header="app.component.ts" path="adev/src/content/examples/forms/src/app/app.component.ts"/>

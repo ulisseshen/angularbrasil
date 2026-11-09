@@ -39,9 +39,10 @@ adev/src/content/guide/signals/resource.md
 
 ## Dependency injection
 
-adev/src/content/guide/di/dependency-injection.md
-adev/src/content/guide/di/creating-injectable-service.md
-adev/src/content/guide/di/dependency-injection-providers.md
+adev/src/content/guide/di/overview.md
+adev/src/content/guide/di/creating-and-using-services.md
+adev/src/content/guide/di/defining-dependency-providers.md
+adev/src/content/guide/di/lazy-loading-services.md
 adev/src/content/guide/di/dependency-injection-context.md
 adev/src/content/guide/di/hierarchical-dependency-injection.md
 adev/src/content/guide/di/lightweight-injection-tokens.md
@@ -74,7 +75,6 @@ adev/src/content/guide/routing/show-routes-with-outlets.md
 adev/src/content/guide/routing/navigate-to-routes.md
 adev/src/content/guide/routing/read-route-state.md
 adev/src/content/guide/routing/common-router-tasks.md
-adev/src/content/guide/routing/router-tutorial.md
 adev/src/content/guide/routing/routing-with-urlmatcher.md
 
 ## SSR
@@ -108,5 +108,5 @@ adev/src/content/guide/animations/migration.md
 adev/src/content/guide/zoneless.md
 adev/src/content/reference/roadmap.md
 adev/src/content/best-practices/update.md
-adev/src/content/guide/http/security.md
 adev/src/content/guide/i18n/overview.md
+adev/src/content/guide/security.md

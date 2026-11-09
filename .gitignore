@@ -6,6 +6,9 @@
 *.log
 node_modules/
 modules/ssr-benchmarks/node_modules/
+/ngp-vscode-ng-language-service/dist/
+/.vscode-test/
+/.vscode-test-user-data/
 
 # Include when developing application packages.
 pubspec.lock
@@ -54,3 +57,9 @@ baseline.json
 
 # Ignore cache created with the Angular CLI.
 .angular/
+
+# pnpm store
+.pnpm-store
+
+# Cargo target directory
+target/

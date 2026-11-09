@@ -1,9 +1,10 @@
 <!-- ia-translate: true -->
+
 # Entendendo a comunicação com backend services usando HTTP
 
 A maioria das aplicações front-end precisa se comunicar com um servidor através do protocolo HTTP, para baixar ou enviar dados e acessar outros back-end services. O Angular fornece uma API HTTP client para aplicações Angular, a classe de service `HttpClient` em `@angular/common/http`.
 
-## Recursos do HTTP client service
+## Recursos do HTTP client service {#http-client-service-features}
 
 O HTTP client service oferece os seguintes recursos principais:
 
@@ -12,9 +13,9 @@ O HTTP client service oferece os seguintes recursos principais:
 - [Interceptação](guide/http/interceptors) de requisição e resposta
 - [Utilitários de teste](guide/http/testing) robustos
 
-## Próximos passos
+## Próximos passos {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="guide/http/setup" title="Setting up HttpClient"/>
-  <docs-pill href="guide/http/making-requests" title="Making HTTP requests"/>
+  <docs-pill href="guide/http/setup" title="Configurando o HttpClient"/>
+  <docs-pill href="guide/http/making-requests" title="Fazendo requisições HTTP"/>
 </docs-pill-row>

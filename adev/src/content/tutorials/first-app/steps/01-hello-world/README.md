@@ -6,22 +6,22 @@ Esta primeira lição serve como ponto de partida a partir do qual cada lição 
 
 <docs-video src="https://www.youtube.com/embed/UnOwDuliqZA?si=uML-cDRbrxmYdD_9"/>
 
-## O que você aprenderá
+## O que você aprenderá {#what-youll-learn}
 
-A aplicação atualizada que você terá após esta lição confirma que você e seu IDE estão prontos para começar a criar uma aplicação Angular.
+Se sua aplicação rodar com sucesso no navegador e exibir o conteúdo executado sem erros, isso confirma que seu ambiente de desenvolvimento e seu IDE estão configurados corretamente para começar a construir uma aplicação Angular.
 
-NOTA: Se você estiver trabalhando com o editor incorporado, pule para o [passo quatro](#create-hello-world).
+NOTE: Se você estiver trabalhando com o editor incorporado, pule para o [passo quatro](#create-hello-world).
 Ao trabalhar no playground do navegador, você não precisa executar `ng serve` para rodar a aplicação. Outros comandos como `ng generate` podem ser feitos na janela do console à sua direita.
 
 <docs-workflow>
 
-<docs-step title="Baixar a aplicação padrão">
+<docs-step title="Baixar a aplicação padrão {#download-the-default-app}">
 Comece clicando no ícone "Download" no painel superior direito do editor de código. Isso fará o download de um arquivo `.zip` contendo o código-fonte para este tutorial. Abra isso em seu Terminal e IDE local e prossiga para testar a aplicação padrão.
 
 Em qualquer etapa do tutorial, você pode clicar neste ícone para baixar o código-fonte da etapa e começar a partir daí.
 </docs-step>
 
-<docs-step title="Testar a aplicação padrão">
+<docs-step title="Testar a aplicação padrão {#test-the-default-app}">
 Neste passo, após baixar a aplicação inicial padrão, você constrói a aplicação Angular padrão.
 Isso confirma que seu ambiente de desenvolvimento tem o que você precisa para continuar o tutorial.
 
@@ -47,7 +47,7 @@ No painel **Terminal** do seu IDE:
 1. Você pode deixar o `ng serve` rodando enquanto completa os próximos passos.
    </docs-step>
 
-<docs-step title="Revisar os arquivos do projeto">
+<docs-step title="Revisar os arquivos do projeto {#review-the-files-in-the-project}">
 Neste passo, você conhece os arquivos que compõem uma aplicação Angular padrão.
 
 No painel **Explorer** do seu IDE:
@@ -69,7 +69,7 @@ No painel **Explorer** do seu IDE:
       1. `app.css` é a folha de estilo para este component.
       1. Novos components são adicionados a este diretório.
 
-   1. No explorador de arquivos, encontre o diretório de imagens (`/assets`) que contém imagens usadas pela aplicação.
+   1. No explorador de arquivos, encontre o diretório de imagens (`/public`) que contém imagens usadas pela aplicação.
    1. No explorador de arquivos, encontre os arquivos e diretórios que uma aplicação Angular precisa para construir e rodar, mas não são arquivos com os quais você normalmente interage.
       1. `.angular` tem arquivos necessários para construir a aplicação Angular.
       1. `.e2e` tem arquivos usados para testar a aplicação.
@@ -87,7 +87,7 @@ Neste passo, você atualiza os arquivos do projeto Angular para mudar o conteúd
 No seu IDE:
 
 1. Abra `first-app/src/index.html`.
-   NOTA: Este passo e o próximo são apenas para seu ambiente local!
+   NOTE: Este passo e o próximo são apenas para seu ambiente local!
 
 1. Em `index.html`, substitua o elemento `<title>` com este código para atualizar o título da aplicação.
 
@@ -98,11 +98,11 @@ No seu IDE:
 1. Em seguida, abra `first-app/src/app/app.ts`.
 1. Em `app.ts`, na definição do `@Component`, substitua a linha `template` com este código para alterar o texto no component da aplicação.
 
-   <docs-code language="angular-ts" header="Replace in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/02-Home/src/app/app.ts" visibleLines="[6,8]"/>
+   <docs-code language="angular-ts" header="Replace in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/02-Home/src/app/app.ts" visibleLines="[6]"/>
 
 1. Em `app.ts`, na definição da classe `App`, substitua a linha `title` com este código para alterar o título do component.
 
-   <docs-code header="Replace in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/02-Home/src/app/app.ts" visibleLines="[11,13]"/>
+   <docs-code header="Replace in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/02-Home/src/app/app.ts" visibleLines="[10]"/>
 
    Então, salve as alterações que você fez em `app.ts`.
 
@@ -113,7 +113,7 @@ No seu IDE:
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você atualizou uma aplicação Angular padrão para exibir _Hello world_.
+SUMMARY: Nesta lição, você atualizou uma aplicação Angular padrão para exibir _Hello world_.
 No processo, você aprendeu sobre o comando `ng serve` para servir sua aplicação localmente para testes.
 
 Para mais informações sobre os tópicos cobertos nesta lição, visite:

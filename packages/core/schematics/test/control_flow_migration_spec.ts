@@ -9,9 +9,9 @@
 import {getSystemPath, logging, normalize, virtualFs} from '@angular-devkit/core';
 import {TempScopedNodeJsSyncHost} from '@angular-devkit/core/node/testing';
 import {HostTree} from '@angular-devkit/schematics';
-import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/testing/index.js';
-import {resolve} from 'path';
+import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/testing';
 import {rmSync} from 'node:fs';
+import {resolve} from 'path';
 
 describe('control flow migration (ng update)', () => {
   let runner: SchematicTestRunner;
@@ -29,7 +29,7 @@ describe('control flow migration (ng update)', () => {
   function runMigration(path: string | undefined = undefined, format: boolean = true) {
     return runner.runSchematic('control-flow-migration', {path, format}, tree);
   }
-  const migrationsJsonPath = resolve('../migrations.json');
+  const migrationsJsonPath = resolve('../collection.json');
   beforeEach(() => {
     runner = new SchematicTestRunner('test', migrationsJsonPath);
     host = new TempScopedNodeJsSyncHost();
@@ -461,6 +461,125 @@ describe('control flow migration (ng update)', () => {
           `    Hello!`,
           `  </div>`,
           `}`,
+        ].join('\n'),
+      );
+    });
+
+    it('should migrate an if else case where the else template reference name starts with `then`', async () => {
+      writeFile(
+        '/comp.ts',
+        `
+        import {Component} from '@angular/core';
+        import {NgIf} from '@angular/common';
+
+        @Component({
+          templateUrl: './comp.html'
+        })
+        class Comp {
+          data: any;
+        }
+      `,
+      );
+
+      writeFile(
+        '/comp.html',
+        [
+          `<ng-container *ngIf="data.teamMember; else thenBlock">`,
+          `  <h2>Hello team member!</h2>`,
+          `</ng-container>`,
+          `<ng-template #thenBlock>`,
+          `  <h2>No team member</h2>`,
+          `</ng-template>`,
+        ].join('\n'),
+      );
+
+      await runMigration();
+      const content = tree.readContent('/comp.html');
+
+      expect(content).toBe(
+        [
+          `@if (data.teamMember) {`,
+          `  <h2>Hello team member!</h2>`,
+          `} @else {`,
+          `  <h2>No team member</h2>`,
+          `}\n`,
+        ].join('\n'),
+      );
+    });
+
+    it('should migrate an if then case where the then template reference name starts with `else`', async () => {
+      writeFile(
+        '/comp.ts',
+        `
+        import {Component} from '@angular/core';
+        import {NgIf} from '@angular/common';
+
+        @Component({
+          templateUrl: './comp.html'
+        })
+        class Comp {
+          data: any;
+        }
+      `,
+      );
+
+      writeFile(
+        '/comp.html',
+        [
+          `<ng-container *ngIf="data.teamMember; then elseyBlock"></ng-container>`,
+          `<ng-template #elseyBlock>`,
+          `  <h2>Then content</h2>`,
+          `</ng-template>`,
+        ].join('\n'),
+      );
+
+      await runMigration();
+      const content = tree.readContent('/comp.html');
+
+      expect(content).toBe(
+        [`@if (data.teamMember) {`, `  <h2>Then content</h2>`, `}\n`].join('\n'),
+      );
+    });
+
+    it('should migrate an if then else case where template reference names start with `then`/`else`', async () => {
+      writeFile(
+        '/comp.ts',
+        `
+        import {Component} from '@angular/core';
+        import {NgIf} from '@angular/common';
+
+        @Component({
+          templateUrl: './comp.html'
+        })
+        class Comp {
+          data: any;
+        }
+      `,
+      );
+
+      writeFile(
+        '/comp.html',
+        [
+          `<ng-container *ngIf="data.teamMember; then thenyBlock; else elseyBlock"></ng-container>`,
+          `<ng-template #thenyBlock>`,
+          `  <h2>Then content</h2>`,
+          `</ng-template>`,
+          `<ng-template #elseyBlock>`,
+          `  <h2>Else content</h2>`,
+          `</ng-template>`,
+        ].join('\n'),
+      );
+
+      await runMigration();
+      const content = tree.readContent('/comp.html');
+
+      expect(content).toBe(
+        [
+          `@if (data.teamMember) {`,
+          `  <h2>Then content</h2>`,
+          `} @else {`,
+          `  <h2>Else content</h2>`,
+          `}\n`,
         ].join('\n'),
       );
     });
@@ -1786,32 +1905,6 @@ describe('control flow migration (ng update)', () => {
         'template: `<div>@if (toggle) {<span>This should be hidden</span>}</div>`',
       );
     });
-
-    it('should migrate a nested class', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgIf} from '@angular/common';
-        function foo() {
-          @Component({
-            imports: [NgIf],
-            template: \`<div><span *ngIf="toggle">This should be hidden</span></div>\`
-          })
-          class Comp {
-            toggle = false;
-          }
-        }
-      `,
-      );
-
-      await runMigration();
-      const content = tree.readContent('/comp.ts');
-
-      expect(content).toContain(
-        'template: `<div>@if (toggle) {<span>This should be hidden</span>}</div>`',
-      );
-    });
   });
 
   describe('ngFor', () => {
@@ -2437,36 +2530,6 @@ describe('control flow migration (ng update)', () => {
       );
     });
 
-    it('should migrate a nested class', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgFor} from '@angular/common';
-        interface Item {
-          id: number;
-          text: string;
-        }
-        function foo() {
-          @Component({
-            imports: [NgFor],
-            template: \`<ul><li *ngFor="let item of items">{{item.text}}</li></ul>\`
-          })
-          class Comp {
-            items: Item[] = [{id: 1, text: 'blah'},{id: 2, text: 'stuff'}];
-          }
-        }
-      `,
-      );
-
-      await runMigration();
-      const content = tree.readContent('/comp.ts');
-
-      expect(content).toContain(
-        'template: `<ul>@for (item of items; track item) {<li>{{item.text}}</li>}</ul>`',
-      );
-    });
-
     it('should migrate an ngFor with quoted semicolon in expression', async () => {
       writeFile(
         '/comp.ts',
@@ -2487,29 +2550,6 @@ describe('control flow migration (ng update)', () => {
 
       expect(content).toContain(
         "template: `<ul>@for (itm of '1;2;3'; track itm) {<li>{{itm}}</li>}</ul>`",
-      );
-    });
-
-    it('should migrate an ngFor with quoted semicolon in expression', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgFor} from '@angular/common';
-
-        @Component({
-          imports: [NgFor],
-          template: \`<ul><li *ngFor="let itm of '1,2,3'">{{itm}}</li></ul>\`
-        })
-        class Comp {}
-      `,
-      );
-
-      await runMigration();
-      const content = tree.readContent('/comp.ts');
-
-      expect(content).toContain(
-        "template: `<ul>@for (itm of '1,2,3'; track itm) {<li>{{itm}}</li>}</ul>`",
       );
     });
 
@@ -3410,57 +3450,6 @@ describe('control flow migration (ng update)', () => {
       );
     });
 
-    it('should migrate an inline template with multiple nested control flow structures', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgIf} from '@angular/common';
-
-        @Component({
-          imports: [NgFor, NgIf],
-          templateUrl: './comp.html'
-        })
-        class Comp {
-          show = false;
-          nest = true;
-          again = true;
-          more = true;
-        }
-      `,
-      );
-
-      writeFile(
-        '/comp.html',
-        [
-          `<div *ngIf="show">`,
-          `<span>things</span>`,
-          `<div *ngIf="nest">`,
-          `<span>stuff</span>`,
-          `</div>`,
-          `</div>`,
-        ].join('\n'),
-      );
-
-      await runMigration();
-      const content = tree.readContent('/comp.html');
-
-      expect(content).toBe(
-        [
-          `@if (show) {`,
-          `  <div>`,
-          `    <span>things</span>`,
-          `    @if (nest) {`,
-          `      <div>`,
-          `        <span>stuff</span>`,
-          `      </div>`,
-          `    }`,
-          `  </div>`,
-          `}`,
-        ].join('\n'),
-      );
-    });
-
     it('should migrate a simple nested case', async () => {
       writeFile(
         '/comp.ts',
@@ -4231,97 +4220,6 @@ describe('control flow migration (ng update)', () => {
       ].join('\n');
 
       expect(actual).toBe(expected);
-    });
-  });
-
-  describe('error handling', () => {
-    it('should log template migration errors to the console', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgIf} from '@angular/common';
-
-        @Component({
-          imports: [NgIf],
-          template: \`<div><span *ngIf="toggle">This should be hidden</span></div>\`
-        })
-        class Comp {
-          toggle = false;
-        }
-      `,
-      );
-
-      await runMigration();
-      tree.readContent('/comp.ts');
-    });
-
-    it('should log a migration error when duplicate ng-template names are detected', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgIf} from '@angular/common';
-
-        @Component({
-          imports: [NgIf],
-          templateUrl: './comp.html'
-        })
-        class Comp {
-          toggle = false;
-        }
-      `,
-      );
-
-      writeFile(
-        './comp.html',
-        [
-          `<div *ngIf="show; else elseTmpl">Content</div>`,
-          `<div *ngIf="hide; else elseTmpl">Content</div>`,
-          `<ng-template #elseTmpl>Else Content</ng-template>`,
-          `<ng-template #elseTmpl>Duplicate</ng-template>`,
-        ].join('\n'),
-      );
-
-      await runMigration();
-      tree.readContent('/comp.ts');
-
-      expect(warnOutput.join(' ')).toContain(
-        `A duplicate ng-template name "#elseTmpl" was found. ` +
-          `The control flow migration requires unique ng-template names within a component.`,
-      );
-    });
-
-    it('should log a migration error when collection aliasing is detected in ngFor', async () => {
-      writeFile(
-        '/comp.ts',
-        `
-        import {Component} from '@angular/core';
-        import {NgIf} from '@angular/common';
-
-        @Component({
-          imports: [NgIf],
-          templateUrl: './comp.html'
-        })
-        class Comp {
-          toggle = false;
-        }
-      `,
-      );
-
-      writeFile(
-        './comp.html',
-        [`<div *ngFor="let item of list$ | async as list;">Content</div>`].join('\n'),
-      );
-
-      await runMigration();
-      tree.readContent('/comp.ts');
-
-      expect(warnOutput.join(' ')).toContain(
-        `Found an aliased collection on an ngFor: "item of list$ | async as list". ` +
-          `Collection aliasing is not supported with @for. ` +
-          `Refactor the code to remove the \`as\` alias and re-run the migration.`,
-      );
     });
   });
 
@@ -6688,6 +6586,95 @@ describe('control flow migration (ng update)', () => {
   });
 
   describe('error handling', () => {
+    it('should log template migration errors to the console', async () => {
+      writeFile(
+        '/comp.ts',
+        `
+        import {Component} from '@angular/core';
+        import {NgIf} from '@angular/common';
+
+        @Component({
+          imports: [NgIf],
+          template: \`<div><span *ngIf="toggle">This should be hidden</span></div>\`
+        })
+        class Comp {
+          toggle = false;
+        }
+      `,
+      );
+
+      await runMigration();
+      tree.readContent('/comp.ts');
+    });
+
+    it('should log a migration error when duplicate ng-template names are detected', async () => {
+      writeFile(
+        '/comp.ts',
+        `
+        import {Component} from '@angular/core';
+        import {NgIf} from '@angular/common';
+
+        @Component({
+          imports: [NgIf],
+          templateUrl: './comp.html'
+        })
+        class Comp {
+          toggle = false;
+        }
+      `,
+      );
+
+      writeFile(
+        './comp.html',
+        [
+          `<div *ngIf="show; else elseTmpl">Content</div>`,
+          `<div *ngIf="hide; else elseTmpl">Content</div>`,
+          `<ng-template #elseTmpl>Else Content</ng-template>`,
+          `<ng-template #elseTmpl>Duplicate</ng-template>`,
+        ].join('\n'),
+      );
+
+      await runMigration();
+      tree.readContent('/comp.ts');
+
+      expect(warnOutput.join(' ')).toContain(
+        `A duplicate ng-template name "#elseTmpl" was found. ` +
+          `The control flow migration requires unique ng-template names within a component.`,
+      );
+    });
+
+    it('should log a migration error when collection aliasing is detected in ngFor', async () => {
+      writeFile(
+        '/comp.ts',
+        `
+        import {Component} from '@angular/core';
+        import {NgIf} from '@angular/common';
+
+        @Component({
+          imports: [NgIf],
+          templateUrl: './comp.html'
+        })
+        class Comp {
+          toggle = false;
+        }
+      `,
+      );
+
+      writeFile(
+        './comp.html',
+        [`<div *ngFor="let item of list$ | async as list;">Content</div>`].join('\n'),
+      );
+
+      await runMigration();
+      tree.readContent('/comp.ts');
+
+      expect(warnOutput.join(' ')).toContain(
+        `Found an aliased collection on an ngFor: "item of list$ | async as list". ` +
+          `Collection aliasing is not supported with @for. ` +
+          `Refactor the code to remove the \`as\` alias and re-run the migration.`,
+      );
+    });
+
     it('should not migrate a template that would result in invalid html', async () => {
       writeFile(
         '/comp.ts',

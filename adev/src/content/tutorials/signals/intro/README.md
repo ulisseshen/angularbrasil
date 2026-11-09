@@ -1,9 +1,14 @@
 <!-- ia-translate: true -->
 # Aprenda Angular signals
 
+<div class="docs-tutorial-mascot">
+  <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">
+  <p class="docs-tutorial-mascot__bubble">Bem-vindo! Vamos explorar os signals.</p>
+</div>
+
 Este tutorial interativo ensinará os fundamentos de Angular signals e como usá-los para construir aplicações reativas.
 
-## Como usar este tutorial
+## Como usar este tutorial {#how-to-use-this-tutorial}
 
 Este tutorial pressupõe que você entende os conceitos centrais do Angular. Se você é novo no Angular, leia nosso [guia de fundamentos](/essentials).
 

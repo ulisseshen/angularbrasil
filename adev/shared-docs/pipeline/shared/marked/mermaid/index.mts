@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {DocsCodeToken} from '../extensions/docs-code/docs-code.mjs';
-import {chromium} from 'playwright-core';
 import {Mermaid, MermaidConfig} from 'mermaid';
-import {resolve, join} from 'path';
+import {join, resolve} from 'path';
+import {chromium} from 'playwright-core';
+import {DocsCodeToken} from '../extensions/docs-code/docs-code.mjs';
 
-const runfilesDir = process.env['RUNFILES']!;
+const runfilesDir = process.env['JS_BINARY__RUNFILES']!;
 // Declare mermarid in the context of this file so that typescript doesn't get upset when we
 // access it within the `page.evaluate` function. At runtime the context in with the method
 // is run difference than this file, but this makes typescript happy.
@@ -37,13 +37,27 @@ function getMermaidScriptTagData() {
   });
 }
 
+/**
+ * Tail of the queue of mermaid renders. Each render launches its own headless Chromium, so
+ * running them all concurrently (markdown files are parsed in parallel) can exhaust the memory
+ * of a CI runner. Renders are therefore chained and executed one at a time.
+ */
+let renderQueue: Promise<unknown> = Promise.resolve();
+
 /** Replace the code block content with the mermaid generated SVG element string in place. */
-export async function processMermaidCodeBlock(token: DocsCodeToken) {
+export function processMermaidCodeBlock(token: DocsCodeToken): Promise<void> {
   /**
    * The diagram source code contents. Marked reuses the token object, causing the need for
    * extracting the value before async actions occur in the function.
    */
   const diagram = token.code;
+  const result = renderQueue.then(() => renderMermaidCodeBlock(token, diagram));
+  // Keep the queue going even if a render fails; the failure is still surfaced via `result`.
+  renderQueue = result.catch(() => {});
+  return result;
+}
+
+async function renderMermaidCodeBlock(token: DocsCodeToken, diagram: string) {
   // TODO(josephperrott): Determine if we can reuse the browser across token processing.
   /** Browser instance to run mermaid within. */
   const browser = await chromium.launch({
@@ -62,7 +76,7 @@ export async function processMermaidCodeBlock(token: DocsCodeToken) {
     /** The generated SVG element string for the provided token's code. */
     let {svg} = await page.evaluate(
       ({diagram, config}) => {
-        mermaid.initialize(config);
+        mermaid.initialize(config as MermaidConfig);
 
         return mermaid.render('mermaid-generated-diagram', diagram);
       },

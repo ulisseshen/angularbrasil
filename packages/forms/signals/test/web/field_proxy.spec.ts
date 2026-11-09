@@ -6,28 +6,18 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  provideZonelessChangeDetection,
-  signal,
-} from '@angular/core';
+import {Component, input, signal} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 import {form, type FieldTree} from '../../public_api';
+import {act} from '@angular/private/testing';
 
 describe('field proxy', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection()],
-    });
-  });
-
   it('@for over array field should be reactive', () => {
     @Component({
       selector: 'iterate-field',
-      template: `@for (i of f(); track i) { <p>hi</p> }`,
-      changeDetection: ChangeDetectionStrategy.OnPush,
+      template: `@for (i of f(); track i) {
+        <p>hi</p>
+      }`,
     })
     class IterateFieldCmp {
       f = input.required<FieldTree<number[]>>();
@@ -39,7 +29,6 @@ describe('field proxy', () => {
         <button (click)="add()">add</button>
       `,
       imports: [IterateFieldCmp],
-      changeDetection: ChangeDetectionStrategy.OnPush,
     })
     class ParentCmp {
       f = form(signal([0]));
@@ -57,11 +46,3 @@ describe('field proxy', () => {
     expect(fix.nativeElement.querySelectorAll('p').length).toBe(2);
   });
 });
-
-function act<T>(fn: () => T): T {
-  try {
-    return fn();
-  } finally {
-    TestBed.tick();
-  }
-}

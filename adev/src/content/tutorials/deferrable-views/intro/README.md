@@ -3,7 +3,7 @@
 
 Este tutorial interativo consiste em lições que introduzem os conceitos de deferrable views do Angular.
 
-## Como usar este tutorial
+## Como usar este tutorial {#how-to-use-this-tutorial}
 
 Cada etapa representa um conceito em deferrable views do Angular. Você pode fazer uma ou todas elas.
 

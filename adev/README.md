@@ -7,7 +7,8 @@ O conteúdo é escrito principalmente em formato Markdown localizado em `src/con
 
 ## Desenvolvimento Local
 
-Para desenvolvimento local, [pnpm](https://pnpm.io/) é o gerenciador de pacotes preferido. Você pode configurar um ambiente local com os seguintes comandos:
+Para desenvolvimento local, [pnpm](https://pnpm.io/) é o gerenciador de pacotes preferido. Você pode configurar um ambiente local com os seguintes comandos
+:
 
 ```bash
 # Clone do repositório Angular
@@ -17,7 +18,7 @@ git clone https://github.com/angular/angular.git
 cd angular
 
 # Instale as dependências
-pnpm
+pnpm install
 
 # Compile e execute o servidor de desenvolvimento local
 # NOTA: A compilação inicial levará algum tempo
@@ -37,6 +38,8 @@ E se você é novo, confira uma de nossas issues marcadas como <kbd>[help wanted
 ### Código de Conduta
 
 Ajude-nos a manter o Angular aberto e inclusivo. Por favor, leia e siga nosso [Código de Conduta](/CODE_OF_CONDUCT.md).
+
+<a id="faqs"></a>
 
 ## Perguntas Frequentes
 

@@ -7,16 +7,16 @@ A aplicação permitirá que os usuários busquem pelos dados fornecidos pela su
 
 <docs-video src="https://www.youtube.com/embed/5K10oYJ5Y-E?si=TiuNKx_teR9baO7k&amp;start=457"/>
 
-IMPORTANTE: Recomendamos usar seu ambiente local para esta etapa do tutorial.
+IMPORTANT: Recomendamos usar seu ambiente local para esta etapa do tutorial.
 
-## O que você aprenderá
+## O que você aprenderá {#what-youll-learn}
 
 - Sua aplicação usará dados de um formulário para buscar locais de moradia correspondentes
 - Sua aplicação exibirá apenas os locais de moradia correspondentes
 
 <docs-workflow>
 
-<docs-step title="Atualize as propriedades do componente home">
+<docs-step title="Atualize as propriedades do componente home {#update-the-home-component-properties}">
 Nesta etapa, você atualizará a classe `Home` para armazenar dados em uma nova propriedade de array que você usará para filtragem.
 
 1. Em `src/app/home/home.ts`, adicione uma nova propriedade à classe chamada `filteredLocationList`.
@@ -31,7 +31,7 @@ Nesta etapa, você atualizará a classe `Home` para armazenar dados em uma nova 
 
 </docs-step>
 
-<docs-step title="Atualize o template do componente home">
+<docs-step title="Atualize o template do componente home {#update-the-home-component-template}">
 O componente `Home` já contém um campo de entrada que você usará para capturar a entrada do usuário. Esse texto será usado para filtrar os resultados.
 
 1. Atualize o template do `Home` para incluir uma variável de template no elemento `input` chamada `#filter`.
@@ -47,29 +47,30 @@ O componente `Home` já contém um campo de entrada que você usará para captur
 
 1. A última atualização do template é na diretiva `@for`. Atualize o `@for` para iterar sobre os valores do array `filteredLocationList`.
 
-   <docs-code header="Atualize a diretiva de template @for em home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[17,19]" language="html"/>
+   <docs-code language="angular-ts" header="Atualize a diretiva de template @for em home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[17,19]"/>
 
 </docs-step>
 
-<docs-step title="Implemente a função manipuladora de evento">
+<docs-step title="Implemente a função manipuladora de evento {#implement-the-event-handler-function}">
 O template foi atualizado para vincular a função `filterResults` ao evento `click`. Em seguida, sua tarefa é implementar a função `filterResults` na classe `Home`.
 
-1. Atualize a classe `Home` para incluir a implementação da função `filterResults`.
+1.  Atualize a classe `Home` para incluir a implementação da função `filterResults`.
 
-   <docs-code header="Adicione a implementação da função filterResults" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[34,43]"/>
+    <docs-code header="Adicione a implementação da função filterResults" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[35,44]"/>
 
-   Esta função usa a função `filter` de `String` para comparar o valor do parâmetro `text` com a propriedade `housingLocation.city`. Você pode atualizar esta função para corresponder a qualquer propriedade ou múltiplas propriedades como um exercício divertido.
+    Esta função usa a função `filter` de `String` para comparar o valor do parâmetro `text` com a propriedade `housingLocation.city`. Você pode atualizar esta função para corresponder a qualquer propriedade ou múltiplas propriedades como um exercício divertido.
 
-1. Salve seu código.
+1.  Salve seu código.
 
-1. Atualize o navegador e confirme que você pode buscar os dados de locais de moradia por cidade quando clicar no botão "Search" após inserir o texto.
+1.  Atualize o navegador e confirme que você pode buscar os dados de locais de moradia por cidade quando clicar no botão "Search" após inserir o texto.
 
-<img alt="resultados de busca filtrados baseados na entrada do usuário" src="assets/images/tutorials/first-app/homes-app-lesson-13-step-3.png">
-</docs-step>
+       <img alt="resultados de busca filtrados baseados na entrada do usuário" src="assets/images/tutorials/first-app/homes-app-lesson-13-step-3.png">
+
+    </docs-step>
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você atualizou sua aplicação para usar variáveis de template para interagir com valores de template, e adicionou funcionalidade de busca usando vinculação de eventos e funções de array.
+SUMMARY: Nesta lição, você atualizou sua aplicação para usar variáveis de template para interagir com valores de template, e adicionou funcionalidade de busca usando vinculação de eventos e funções de array.
 
 Para mais informações sobre os tópicos abordados nesta lição, visite:
 

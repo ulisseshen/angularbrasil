@@ -4,7 +4,7 @@
 
 Embora o service worker Angular forneça excelentes capacidades, você pode precisar adicionar funcionalidade personalizada, como lidar com notificações push, sincronização em segundo plano ou outros eventos de service worker. Você pode criar um script de service worker personalizado que importa e estende o service worker Angular.
 
-## Criando um service worker personalizado
+## Criando um service worker personalizado {#creating-a-custom-service-worker}
 
 Para criar um service worker personalizado que estende a funcionalidade do Angular:
 
@@ -75,8 +75,8 @@ importScripts('./ngsw-worker.js');
 3. Configure o registro do service worker para usar seu script personalizado:
 
 ```ts
-import { ApplicationConfig, isDevMode } from '@angular/core';
-import { provideServiceWorker } from '@angular/service-worker';
+import {ApplicationConfig, isDevMode} from '@angular/core';
+import {provideServiceWorker} from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -88,7 +88,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Boas práticas para service workers personalizados
+### Boas práticas para service workers personalizados {#best-practices-for-custom-service-workers}
 
 Ao estender o service worker Angular:
 
@@ -98,7 +98,7 @@ Ao estender o service worker Angular:
 - **Teste completamente** em ambientes de desenvolvimento e produção
 - **Lide com erros graciosamente** para evitar que seu código personalizado quebre a funcionalidade do service worker Angular
 
-### Casos de uso comuns
+### Casos de uso comuns {#common-use-cases}
 
 Service workers personalizados são comumente usados para:
 

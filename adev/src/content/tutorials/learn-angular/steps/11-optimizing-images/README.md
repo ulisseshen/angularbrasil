@@ -1,11 +1,11 @@
 <!-- ia-translate: true -->
 # Otimizando imagens
 
-Imagens são uma grande parte de muitas aplicações e podem ser um grande contribuinte para problemas de performance da aplicação, incluindo baixas pontuações de [Core Web Vitals](https://web.dev/explore/learn-core-web-vitals).
+Imagens são uma grande parte de muitas aplicações e podem ser um grande contribuinte para problemas de performance, incluindo pontuações baixas de [Core Web Vitals](https://web.dev/explore/learn-core-web-vitals).
 
-A otimização de imagens pode ser um tópico complexo, mas o Angular lida com a maior parte disso para você, com a directive `NgOptimizedImage`.
+A otimização de imagens pode ser um tema complexo, mas o Angular cuida da maior parte disso para você, com a directive `NgOptimizedImage`.
 
-Nota: Saiba mais sobre [otimização de imagens com NgOptimizedImage no guia detalhado](/guide/image-optimization).
+NOTE: Saiba mais sobre [otimização de imagens com NgOptimizedImage no guia detalhado](/guide/image-optimization).
 
 Nesta atividade, você aprenderá como usar `NgOptimizedImage` para garantir que suas imagens sejam carregadas de forma eficiente.
 
@@ -13,9 +13,9 @@ Nesta atividade, você aprenderá como usar `NgOptimizedImage` para garantir que
 
 <docs-workflow>
 
-<docs-step title="Importe a directive NgOptimizedImage">
+<docs-step title="Importe a directive NgOptimizedImage {#import-the-ngoptimizedimage-directive}">
 
-Para aproveitar a directive `NgOptimizedImage`, primeiro importe-a da biblioteca `@angular/common` e adicione-a ao array `imports` do component.
+Para usar a directive `NgOptimizedImage`, primeiro importe-a da biblioteca `@angular/common` e adicione-a ao array `imports` do component.
 
 ```ts
 import { NgOptimizedImage } from '@angular/common';
@@ -28,18 +28,18 @@ import { NgOptimizedImage } from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Atualize o atributo src para ser ngSrc">
+<docs-step title="Atualize o atributo src para ser ngSrc {#update-the-src-attribute-to-be-ngsrc}">
 
-Para habilitar a directive `NgOptimizedImage`, troque o atributo `src` por `ngSrc`. Isso se aplica tanto para fontes de imagens estáticas (ou seja, `src`) quanto para fontes de imagens dinâmicas (ou seja, `[src]`).
+Para habilitar a directive `NgOptimizedImage`, troque o atributo `src` por `ngSrc`. Isso se aplica tanto a fontes de imagem estáticas (ou seja, `src`) quanto a fontes de imagem dinâmicas (ou seja, `[src]`).
 
-<docs-code language="angular-ts" highlight="[[9], [13]]">
+```angular-ts {highlight:[[7],[11]]}
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
 template: `     ...
     <li>
       Static Image:
-      <img ngSrc="/assets/logo.svg" alt="Angular logo" width="32" height="32" />
+      <img ngSrc="/logo.svg" alt="Angular logo" width="32" height="32" />
     </li>
     <li>
       Dynamic Image:
@@ -49,29 +49,30 @@ template: `     ...
   `,
 imports: [NgOptimizedImage],
 })
-</docs-code>
+```
 
 </docs-step>
 
-<docs-step title="Adicione atributos de width e height">
+<docs-step title="Adicione atributos de width e height {#add-width-and-height-attributes}">
 
-Observe que no exemplo de código acima, cada imagem tem os atributos `width` e `height`. Para evitar [layout shift](https://web.dev/articles/cls), a directive `NgOptimizedImage` requer ambos os atributos de tamanho em cada imagem.
+Observe que, no exemplo de código acima, cada imagem tem os atributos `width` e `height`. Para evitar o [layout shift](https://web.dev/articles/cls), a directive `NgOptimizedImage` exige os dois atributos de tamanho em cada imagem.
 
-Em situações onde você não pode ou não quer especificar um `height` e `width` estáticos para imagens, você pode usar [o atributo `fill`](https://web.dev/articles/cls) para dizer à imagem para agir como uma "imagem de fundo", preenchendo seu elemento contêiner:
+Em situações em que você não pode ou não quer especificar um `height` e `width` estáticos para as imagens, pode usar [o atributo `fill`](/guide/image-optimization#using-fill-mode) para fazer a imagem agir como uma "imagem de fundo", preenchendo o elemento que a contém:
 
 ```angular-html
-<div class="image-container"> //Container div has 'position: "relative"'
+// Container div has 'position: "relative"'
+<div class="image-container">
   <img ngSrc="www.example.com/image.png" fill />
 </div>
 ```
 
-NOTA: Para que a imagem `fill` seja renderizada corretamente, seu elemento pai deve ser estilizado com `position: "relative"`, `position: "fixed"`, ou `position: "absolute"`.
+NOTE: Para que a imagem `fill` seja renderizada corretamente, seu elemento pai deve ter estilo `position: "relative"`, `position: "fixed"` ou `position: "absolute"`.
 
 </docs-step>
 
-<docs-step title="Priorize imagens importantes">
+<docs-step title="Priorize imagens importantes {#prioritize-important-images}">
 
-Uma das otimizações mais importantes para performance de carregamento é priorizar qualquer imagem que possa ser o ["elemento LCP"](https://web.dev/articles/optimize-lcp), que é o maior elemento gráfico na tela quando a página carrega. Para otimizar seus tempos de carregamento, certifique-se de adicionar o atributo `priority` à sua "imagem principal" ou quaisquer outras imagens que você acha que poderiam ser um elemento LCP.
+Uma das otimizações mais importantes para a performance de carregamento é priorizar qualquer imagem que possa ser o ["elemento LCP"](https://web.dev/articles/optimize-lcp), que é o maior elemento gráfico visível na tela quando a página carrega. Para otimizar seus tempos de carregamento, certifique-se de adicionar o atributo `priority` à sua "imagem principal" ou a quaisquer outras imagens que você acredite poderem ser um elemento LCP.
 
 ```ts
 <img ngSrc="www.example.com/image.png" height="600" width="800" priority />
@@ -79,14 +80,12 @@ Uma das otimizações mais importantes para performance de carregamento é prior
 
 </docs-step>
 
-<docs-step title="Opcional: Use um image loader">
+<docs-step title="Opcional: use um image loader {#optional-use-an-image-loader}">
 
-`NgOptimizedImage` permite que você especifique um [image loader](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage), que diz à directive como formatar URLs para suas imagens. Usar um loader permite que você defina suas imagens com URLs curtas e relativas:
+`NgOptimizedImage` permite que você especifique um [image loader](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage), que diz à directive como formatar as URLs das suas imagens. Usar um loader permite que você defina suas imagens com URLs curtas e relativas:
 
 ```ts
-providers: [
-  provideImgixLoader('https://my.base.url/'),
-]
+providers: [provideImgixLoader('https://my.base.url/')],
 ```
 
 A URL final será 'https://my.base.url/image.png'
@@ -95,12 +94,12 @@ A URL final será 'https://my.base.url/image.png'
 <img ngSrc="image.png" height="600" width="800" />
 ```
 
-Image loaders são mais do que apenas conveniência--eles permitem que você use as capacidades completas do `NgOptimizedImage`. Saiba mais sobre essas otimizações e os loaders integrados para CDNs populares [aqui](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage).
+Image loaders são mais do que apenas conveniência: eles permitem que você use todas as capacidades do `NgOptimizedImage`. Saiba mais sobre essas otimizações e sobre os loaders integrados para CDNs populares [aqui](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage).
 
 </docs-step>
 
 </docs-workflow>
 
-Ao adicionar esta directive ao seu fluxo de trabalho, suas imagens agora estão carregando usando as melhores práticas com a ajuda do Angular 🎉
+Ao adicionar esta directive ao seu fluxo de trabalho, suas imagens agora são carregadas seguindo as melhores práticas, com a ajuda do Angular 🎉
 
-Se você quiser aprender mais, confira a [documentação para `NgOptimizedImage`](guide/image-optimization). Continue o ótimo trabalho e vamos aprender sobre routing a seguir.
+Se quiser aprender mais, confira a [documentação do `NgOptimizedImage`](guide/image-optimization). Continue com o ótimo trabalho e vamos aprender sobre routing a seguir.

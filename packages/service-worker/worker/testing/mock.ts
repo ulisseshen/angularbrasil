@@ -141,16 +141,14 @@ export class MockServerState {
     private resources: Map<string, Response>,
     private errors: Set<string>,
   ) {
-    this.nextRequest = new Promise((resolve) => {
-      this.resolveNextRequest = resolve;
-    });
+    ({promise: this.nextRequest, resolve: this.resolveNextRequest} =
+      Promise.withResolvers<Request>());
   }
 
   async fetch(req: Request): Promise<Response> {
     this.resolveNextRequest?.(req);
-    this.nextRequest = new Promise((resolve) => {
-      this.resolveNextRequest = resolve;
-    });
+    ({promise: this.nextRequest, resolve: this.resolveNextRequest} =
+      Promise.withResolvers<Request>());
 
     await this.gate;
 
@@ -165,7 +163,11 @@ export class MockServerState {
     }
     const url = req.url.split('?')[0];
     if (this.resources.has(url)) {
-      return this.resources.get(url)!.clone();
+      const response = this.resources.get(url)!.clone();
+      if (response.redirected && req.redirect === 'error') {
+        throw new Error('Redirect disallowed by request policy.');
+      }
+      return response;
     }
     if (this.errors.has(url)) {
       throw new Error('Intentional failure!');
@@ -174,9 +176,7 @@ export class MockServerState {
   }
 
   pause(): void {
-    this.gate = new Promise((resolve) => {
-      this.resolve = resolve;
-    });
+    ({promise: this.gate, resolve: this.resolve} = Promise.withResolvers<void>());
   }
 
   unpause(): void {
@@ -232,9 +232,8 @@ export class MockServerState {
 
   reset(): void {
     this.clearRequests();
-    this.nextRequest = new Promise((resolve) => {
-      this.resolveNextRequest = resolve;
-    });
+    ({promise: this.nextRequest, resolve: this.resolveNextRequest} =
+      Promise.withResolvers<Request>());
     this.gate = Promise.resolve();
     this.resolve = null;
     this.online = true;

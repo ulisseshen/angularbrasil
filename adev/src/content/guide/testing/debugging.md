@@ -1,20 +1,22 @@
 <!-- ia-translate: true -->
+
 # Debug de testes
 
-Se seus testes não estão funcionando como você espera, você pode inspecioná-los e fazer debug deles no browser.
+Se seus testes não estiverem funcionando como você espera, você pode fazer debug deles tanto no ambiente Node.js padrão quanto em um browser real.
 
-NOTA: Este guia descreve debug com o test runner Karma.
+## Debug no Node.js {#debugging-in-nodejs}
 
-Para fazer debug de uma aplicação com o test runner Karma:
+Fazer debug no ambiente Node.js padrão costuma ser a forma mais rápida de diagnosticar problemas que não estão relacionados a APIs específicas do browser ou à renderização.
 
-1. Revele a janela do browser Karma.
-   Veja [Configurar testes](guide/testing#set-up-testing) se você precisar de ajuda com este passo.
+1.  Execute o comando `ng test` com a flag `--debug`:
+    ```shell
+    ng test --debug
+    ```
+2.  O test runner será iniciado no modo de debug e aguardará um debugger ser conectado.
+3.  Agora você pode conectar o debugger de sua preferência. Por exemplo, você pode usar o debugger nativo do Node.js no VS Code ou o Chrome DevTools para Node.js.
 
-1. Clique no botão **DEBUG** para abrir uma nova aba do browser e executar novamente os testes.
-1. Abra as **Ferramentas do Desenvolvedor** do browser. No Windows, pressione `Ctrl-Shift-I`. No macOS, pressione `Command-Option-I`.
-1. Escolha a seção **Sources**.
-1. Pressione `Control/Command-P` e então comece a digitar o nome do seu arquivo de teste para abri-lo.
-1. Defina um breakpoint no teste.
-1. Atualize o browser e observe como ele para no breakpoint.
+## Debug em um browser {#debugging-in-a-browser}
 
-<img alt="Karma debugging" src="assets/images/guide/testing/karma-1st-spec-debug.png">
+Da mesma forma que você inicia uma sessão de debug no Node, você pode usar `ng test` com a flag `--debug` com o Vitest e o [modo browser](/guide/testing/migrating-to-vitest#5-configure-browser-mode-optional).
+
+O test runner será iniciado no modo de debug e aguardará você abrir as ferramentas de desenvolvedor do browser para fazer o debug dos testes.

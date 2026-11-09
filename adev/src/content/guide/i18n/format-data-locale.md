@@ -11,35 +11,27 @@ Os pipes de transformação de dados usam o token [`LOCALE_ID`][ApiCoreLocaleId]
 | [`DecimalPipe`][ApiCommonDecimalpipe]   | Transforma um número em uma string de número decimal. |
 | [`PercentPipe`][ApiCommonPercentpipe]   | Transforma um número em uma string de porcentagem.    |
 
-## Usar DatePipe para exibir a data atual
+## Usar DatePipe para exibir a data atual {#use-datepipe-to-display-the-current-date}
 
 Para exibir a data atual no formato do locale atual, use o seguinte formato para o `DatePipe`.
 
-<!--todo: replace with docs-code -->
-
-<docs-code language="typescript">
-
+```angular-html
 {{ today | date }}
+```
 
-</docs-code>
-
-## Sobrescrever o locale atual para CurrencyPipe
+## Sobrescrever o locale atual para CurrencyPipe {#override-current-locale-for-currencypipe}
 
 Adicione o parâmetro `locale` ao pipe para sobrescrever o valor atual do token `LOCALE_ID`.
 
 Para forçar a moeda a usar Inglês Americano \(`en-US`\), use o seguinte formato para o `CurrencyPipe`
 
-<!--todo: replace with docs-code -->
-
-<docs-code language="typescript">
-
-{{ amount | currency : 'en-US' }}
-
-</docs-code>
+```angular-html
+{{ amount | currency: 'USD' : 'symbol' : '1.2-2' : 'en-US' }}
+```
 
 HELPFUL: O locale especificado para o `CurrencyPipe` sobrescreve o token `LOCALE_ID` global da sua aplicação.
 
-## Próximos passos
+## Próximos passos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/prepare" title="Preparar component para tradução"/>

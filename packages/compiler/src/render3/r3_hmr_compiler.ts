@@ -78,7 +78,11 @@ export function compileHmrInitializer(meta: R3HmrMetadata): o.Expression {
     ]);
 
   // (m) => m.default && ɵɵreplaceMetadata(...)
-  const replaceCallback = o.arrowFn([new o.FnParam(moduleName)], defaultRead.and(replaceCall));
+  const replaceCallback = o.arrowFn(
+    [new o.FnParam(moduleName, o.DYNAMIC_TYPE)],
+    defaultRead.and(replaceCall),
+    o.DYNAMIC_TYPE,
+  );
 
   // getReplaceMetadataURL(id, timestamp, import.meta.url)
   const url = o
@@ -94,7 +98,7 @@ export function compileHmrInitializer(meta: R3HmrMetadata): o.Expression {
   // }
   const importCallback = new o.DeclareFunctionStmt(
     importCallbackName,
-    [new o.FnParam(timestampName)],
+    [new o.FnParam(timestampName, o.DYNAMIC_TYPE)],
     [
       // The vite-ignore special comment is required to prevent Vite from generating a superfluous
       // warning for each usage within the development code. If Vite provides a method to
@@ -104,18 +108,19 @@ export function compileHmrInitializer(meta: R3HmrMetadata): o.Expression {
         .callFn([replaceCallback])
         .toStmt(),
     ],
-    null,
+    o.DYNAMIC_TYPE,
     o.StmtModifier.Final,
   );
 
   // (d) => d.id === id && Cmp_HmrLoad(d.timestamp)
   const updateCallback = o.arrowFn(
-    [new o.FnParam(dataName)],
+    [new o.FnParam(dataName, o.DYNAMIC_TYPE)],
     o
       .variable(dataName)
       .prop('id')
       .identical(o.variable(idName))
       .and(o.variable(importCallbackName).callFn([o.variable(dataName).prop('timestamp')])),
+    o.DYNAMIC_TYPE,
   );
 
   // Cmp_HmrLoad(Date.now());
@@ -152,6 +157,7 @@ export function compileHmrInitializer(meta: R3HmrMetadata): o.Expression {
         // ngDevMode && import.meta.hot && import.meta.hot.on(...)
         devOnlyGuardedExpression(hotRead.and(hotListener)).toStmt(),
       ],
+      o.DYNAMIC_TYPE,
     )
     .callFn([]);
 }
@@ -173,7 +179,7 @@ export function compileHmrUpdateCallback(
   const body: o.Statement[] = [];
 
   for (const local of meta.localDependencies) {
-    params.push(new o.FnParam(local.name));
+    params.push(new o.FnParam(local.name, o.DYNAMIC_TYPE));
   }
 
   // Declare variables that read out the individual namespaces.
@@ -204,7 +210,7 @@ export function compileHmrUpdateCallback(
     `${meta.className}_UpdateMetadata`,
     params,
     body,
-    null,
+    o.DYNAMIC_TYPE,
     o.StmtModifier.Final,
   );
 }

@@ -1,19 +1,38 @@
 <!-- ia-translate: true -->
-# Descubra quanto código você está testando
+# Cobertura de código
 
-A Angular CLI pode executar unit tests e criar relatórios de cobertura de código.
 Relatórios de cobertura de código mostram quaisquer partes da sua base de código que podem não estar devidamente testadas pelos seus unit tests.
 
-Para gerar um relatório de cobertura, execute o seguinte comando na raiz do seu projeto.
+## Pré-requisitos {#prerequisites}
+
+Para gerar relatórios de cobertura de código com o Vitest, você precisa instalar o pacote `@vitest/coverage-v8`:
+
+<docs-code-multifile>
+  <docs-code header="npm" language="shell">
+    npm install --save-dev @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="yarn" language="shell">
+    yarn add --dev @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="pnpm" language="shell">
+    pnpm add -D @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="bun" language="shell">
+    bun add --dev @vitest/coverage-v8
+  </docs-code>
+</docs-code-multifile>
+
+## Gerando um relatório {#generating-a-report}
+
+Para gerar um relatório de cobertura, adicione a flag `--coverage` ao comando `ng test`:
 
 ```shell
-ng test --no-watch --coverage
+ng test --coverage
 ```
 
-Quando os testes forem concluídos, o comando cria um novo diretório `/coverage` no projeto.
-Abra o arquivo `index.html` para ver um relatório com seu código fonte e valores de cobertura de código.
+Depois que os testes forem executados, o comando cria um novo diretório `coverage/` no projeto. Abra o arquivo `index.html` para ver um relatório com o seu código-fonte e os valores de cobertura de código.
 
-Se você quiser criar relatórios de cobertura de código toda vez que testar, defina a seguinte opção no arquivo de configuração da Angular CLI, `angular.json`:
+Se você quiser criar relatórios de cobertura de código toda vez que executar os testes, pode definir a opção `coverage` como `true` no seu arquivo `angular.json`:
 
 ```json
 {
@@ -21,6 +40,7 @@ Se você quiser criar relatórios de cobertura de código toda vez que testar, d
     "your-project-name": {
       "architect": {
         "test": {
+          "builder": "@angular/build:unit-test",
           "options": {
             "coverage": true
           }
@@ -31,13 +51,11 @@ Se você quiser criar relatórios de cobertura de código toda vez que testar, d
 }
 ```
 
-## Aplicação de cobertura de código
+## Aplicando limites de cobertura de código {#enforcing-code-coverage-thresholds}
 
-As porcentagens de cobertura de código permitem estimar quanto do seu código está testado.
-Se sua equipe decidir sobre uma quantidade mínima definida para ser testada por unit tests, você pode aplicar esse mínimo diretamente na sua configuração da Angular CLI.
+As porcentagens de cobertura de código permitem estimar quanto do seu código está testado. Se a sua equipe decidir um valor mínimo de código coberto por unit tests, você pode aplicar esse mínimo na sua configuração.
 
-Por exemplo, suponha que você queira que a base de código tenha um mínimo de 80% de cobertura de código.
-Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverageThresholds` à sua configuração de teste:
+Por exemplo, suponha que você queira que a base de código tenha um mínimo de 80% de cobertura de código. Para habilitar isso, adicione a opção `coverageThresholds` ao seu arquivo `angular.json`:
 
 ```json
 {
@@ -45,6 +63,7 @@ Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverag
     "your-project-name": {
       "architect": {
         "test": {
+          "builder": "@angular/build:unit-test",
           "options": {
             "coverage": true,
             "coverageThresholds": {
@@ -61,4 +80,37 @@ Para habilitar isso, abra o arquivo `angular.json` e adicione a opção `coverag
 }
 ```
 
-Agora, quando você executar `ng test`, a ferramenta lançará um erro se a cobertura cair abaixo de 80%.
+Agora, se a sua cobertura cair abaixo de 80% ao executar os testes, o comando falhará.
+
+## Configuração avançada {#advanced-configuration}
+
+Você pode configurar várias outras opções de cobertura no seu arquivo `angular.json`:
+
+- `coverageInclude`: padrões glob dos arquivos a serem incluídos no relatório de cobertura.
+- `coverageExclude`: padrões glob dos arquivos a serem excluídos do relatório de cobertura.
+- `coverageReporters`: um array de reporters a serem usados (por exemplo, `html`, `lcov`, `json`).
+- `coverageWatermarks`: um objeto que especifica marcas d'água `[low, high]` para o reporter HTML, o que pode afetar a codificação de cores do relatório.
+
+```json
+{
+  "projects": {
+    "your-project-name": {
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverage": true,
+            "coverageReporters": ["html", "lcov"],
+            "coverageWatermarks": {
+              "statements": [50, 80],
+              "branches": [50, 80],
+              "functions": [50, 80],
+              "lines": [50, 80]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```

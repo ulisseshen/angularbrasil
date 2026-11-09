@@ -5,13 +5,13 @@ Esta lição do tutorial demonstra como adicionar o component `HousingLocation` 
 
 <docs-video src="https://www.youtube.com/embed/R0nRX8jD2D0?si=U4ONEbPvtptdUHTt&amp;start=440"/>
 
-## O que você vai aprender
+## O que você vai aprender {#what-youll-learn}
 
 - Sua aplicação tem um novo component: `HousingLocation` e ele exibe uma mensagem confirmando que o component foi adicionado à sua aplicação.
 
 <docs-workflow>
 
-<docs-step title="Crie o `HousingLocation`">
+<docs-step title="Crie o `HousingLocation` {#create-the-housinglocation}">
 Neste passo, você cria um novo component para sua aplicação.
 
 No painel **Terminal** do seu IDE:
@@ -30,17 +30,17 @@ No painel **Terminal** do seu IDE:
    ng serve
    ```
 
-   NOTA: Este passo é apenas para seu ambiente local!
+   NOTE: Este passo é apenas para seu ambiente local!
 
 1. Abra um browser e navegue até `http://localhost:4200` para encontrar a aplicação.
 1. Confirme que a aplicação builda sem erro.
 
-   ÚTIL: Ela deve renderizar da mesma forma que na lição anterior porque, embora você tenha adicionado um novo component, você ainda não o incluiu em nenhum dos templates da aplicação.
+   HELPFUL: Ela deve renderizar da mesma forma que na lição anterior porque, embora você tenha adicionado um novo component, você ainda não o incluiu em nenhum dos templates da aplicação.
 
 1. Deixe o `ng serve` rodando enquanto você completa os próximos passos.
    </docs-step>
 
-<docs-step title="Adicione o novo component ao layout da sua aplicação">
+<docs-step title="Adicione o novo component ao layout da sua aplicação {#add-the-new-component-to-your-apps-layout}">
 Neste passo, você adiciona o novo component, `HousingLocation`, ao `Home` da sua aplicação, para que ele seja exibido no layout da sua aplicação.
 
 No painel **Edit** do seu IDE:
@@ -60,12 +60,12 @@ No painel **Edit** do seu IDE:
 
 </docs-step>
 
-<docs-step title="Adicione os estilos para o component">
+<docs-step title="Adicione os estilos para o component {#add-the-styles-for-the-component}">
 Neste passo, você vai copiar os estilos pré-escritos para o `HousingLocation` na sua aplicação para que a aplicação renderize adequadamente.
 
 1. Abra `src/app/housing-location/housing-location.css`, e cole os estilos abaixo no arquivo:
 
-   NOTA: No browser, estes podem ir em `src/app/housing-location/housing-location.ts` no array `styles`.
+   NOTE: No browser, estes podem ir em `src/app/housing-location/housing-location.ts` no array `styles`.
 
    <docs-code header="Adicione estilos CSS ao housing location no component em src/app/housing-location/housing-location.css" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/housing-location/housing-location.css"/>
 
@@ -77,4 +77,4 @@ Neste passo, você vai copiar os estilos pré-escritos para o `HousingLocation` 
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você criou um novo component para sua aplicação e o adicionou ao layout da aplicação.
+SUMMARY: Nesta lição, você criou um novo component para sua aplicação e o adicionou ao layout da aplicação.

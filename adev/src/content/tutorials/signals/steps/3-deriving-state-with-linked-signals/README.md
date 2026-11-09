@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como `linkedSignal()` difere de `computed()` a
 
 <docs-workflow>
 
-<docs-step title="Importe a função linkedSignal">
+<docs-step title="Importe a função linkedSignal {#import-linkedsignal-function}">
 Adicione `linkedSignal` aos seus imports existentes.
 
 ```ts
@@ -21,7 +21,7 @@ import {Component, signal, computed, linkedSignal, ChangeDetectionStrategy} from
 
 </docs-step>
 
-<docs-step title="Converta computed para linkedSignal com a mesma expressão">
+<docs-step title="Converta computed para linkedSignal com a mesma expressão {#convert-computed-to-linkedsignal-with-the-same-expression}">
 Substitua o `notificationsEnabled` computado por um linkedSignal usando exatamente a mesma expressão:
 
 ```ts
@@ -35,7 +35,7 @@ notificationsEnabled = linkedSignal(() => this.userStatus() === 'online');
 A expressão é idêntica, mas linkedSignal cria um signal gravável. Ele ainda se atualizará automaticamente quando `userStatus` mudar, mas você também pode defini-lo manualmente.
 </docs-step>
 
-<docs-step title="Adicione um método para alternar notificações manualmente">
+<docs-step title="Adicione um método para alternar notificações manualmente {#add-a-method-to-manually-toggle-notifications}">
 Adicione um método para demonstrar que linked signals podem ser escritos diretamente:
 
 ```ts
@@ -48,7 +48,7 @@ toggleNotifications() {
 Esta é a diferença chave: computed signals são somente leitura, mas linked signals podem ser atualizados manualmente enquanto ainda mantêm sua conexão reativa.
 </docs-step>
 
-<docs-step title="Atualize o template para adicionar controle manual de notificação">
+<docs-step title="Atualize o template para adicionar controle manual de notificação {#update-the-template-to-add-manual-notification-control}">
 Atualize seu template para adicionar um botão de alternância para notificações:
 
 ```angular-html
@@ -74,7 +74,7 @@ Atualize seu template para adicionar um botão de alternância para notificaçõ
 
 </docs-step>
 
-<docs-step title="Observe o comportamento reativo">
+<docs-step title="Observe o comportamento reativo {#observe-the-reactive-behavior}">
 Agora teste o comportamento:
 
 1. Mude o status do usuário - note como `notificationsEnabled` se atualiza automaticamente

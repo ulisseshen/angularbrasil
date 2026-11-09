@@ -13,11 +13,11 @@
  */
 
 // tslint:disable:no-console
-import {input} from '@inquirer/prompts';
+import {input, select} from '@inquirer/prompts';
 import chalk from 'chalk';
 import semver from 'semver';
 import {writeFile, readFile} from 'node:fs/promises';
-import {exec as nodeExec, spawn, SpawnOptions} from 'node:child_process';
+import {exec as nodeExec, spawn, type SpawnOptions} from 'node:child_process';
 import {promisify} from 'node:util';
 import {join} from 'node:path';
 
@@ -42,9 +42,6 @@ const packageJsonPath = 'vscode-ng-language-service/package.json';
 /** The path to the `CHANGELOG.md` file for the extension. */
 const changelogPath = 'vscode-ng-language-service/CHANGELOG.md';
 
-/** The remote URL for the angular/angular repository. */
-const angularRepoRemote = 'https://github.com/angular/angular.git';
-
 /**
  * The prefix for all release commits created by this script. This is used to filter commits when
  * determining the last release.
@@ -52,6 +49,9 @@ const angularRepoRemote = 'https://github.com/angular/angular.git';
 const releaseCommitPrefix = 'release: bump VSCode extension version to ';
 /** The path to the packaged VSCode extension file. */
 const extensionPath = join(rootPath, 'dist/bin/vscode-ng-language-service/ng-template.vsix');
+
+/** The marker used to split the changelog between releases. */
+const CHANGELOG_RELEASE_MARKER = '<!-- CHANGELOG SPLIT MARKER -->';
 
 /**
  * Orchestrates the release process of the VSCode extension.
@@ -65,6 +65,8 @@ async function main(): Promise<void> {
 
   // Ensure the user has a clean working directory before starting the release process.
   await checkCleanWorkingDirectory();
+  // Ensure there is a github token before starting the release process.
+  ensureGithubToken();
 
   let branchToReleaseFrom: string | undefined = process.env['BRANCH_TO_RELEASE'];
   if (!branchToReleaseFrom) {
@@ -76,22 +78,39 @@ async function main(): Promise<void> {
     throw new Error(`Cannot release from non releasable branch ${branchToReleaseFrom}.`);
   }
 
+  const upstreamRemote = await getUpstreamRemoteName();
+  const forkRemote = await getForkRemoteName();
+
+  console.log(chalk.blue(`Using upstream remote: ${upstreamRemote}`));
+  console.log(chalk.blue(`Using fork remote: ${forkRemote}`));
+
   console.log(chalk.blue(`Releasing from ${branchToReleaseFrom}.`));
-  await exec(`git fetch ${angularRepoRemote} ${branchToReleaseFrom}`);
+  await exec(`git fetch ${upstreamRemote} ${branchToReleaseFrom} --tags`);
 
   const currentVersion = await getCurrentVersion();
   const newVersion = await getNewVersion(currentVersion);
   const releaseBranch = await createReleaseBranch(newVersion);
-  await generateChangelog(currentVersion, newVersion);
+  const changelog = await generateChangelog(currentVersion, newVersion);
   await updatingPackageJsonVersion(newVersion);
 
   await installDependencies();
   await buildExtension();
 
-  await prepareReleasePullRequest(newVersion, releaseBranch);
-  await waitForPRToBeMergedAndTag(newVersion, branchToReleaseFrom);
+  await prepareReleasePullRequest(
+    releaseBranch,
+    `${releaseCommitPrefix}${newVersion}`,
+    [packageJsonPath, changelogPath],
+    forkRemote,
+  );
+  await waitForPRToBeMergedAndTag(newVersion, branchToReleaseFrom, upstreamRemote);
 
   await publishExtension();
+
+  await createGithubRelease(newVersion, changelog);
+
+  if (branchToReleaseFrom !== 'main') {
+    await cherryPickChangelog(changelog, newVersion, forkRemote, upstreamRemote);
+  }
 
   console.log(chalk.green('VSCode extension release process complete!'));
 }
@@ -194,27 +213,26 @@ async function getCurrentVersion(): Promise<string> {
 }
 
 /**
- * Creates the release commit and pushes the release branch to the user's fork.
- * This function stages the `package.json` and `CHANGELOG.md` files, creates a commit with a
- * standardized release message, and pushes the release branch to the `origin` remote. It then
- * provides a URL to create a pull request.
+ * Creates a commit and pushes the branch to the user's fork.
  *
- * @param newVersion The new version number to include in the commit message.
- * @param releaseBranch The name of the release branch to push.
+ * @param branch The name of the branch to push.
+ * @param commitMessage The commit message.
+ * @param files The files to commit.
  */
-async function prepareReleasePullRequest(newVersion: string, releaseBranch: string): Promise<void> {
-  await exec(
-    `git commit -m "${releaseCommitPrefix}${newVersion}" "${packageJsonPath}" "${changelogPath}"`,
-  );
-  await exec(`git push origin ${releaseBranch} --force-with-lease`);
-  const {stdout: remoteUrl} = await exec('git remote get-url origin');
-  const match = remoteUrl.trim().match(/github\.com[/:]([\w-]+)\/([\w-]+)/);
-  const originUser = match ? match[1] : 'angular';
-  const originRepo = match ? match[2] : 'angular';
+async function prepareReleasePullRequest(
+  branch: string,
+  commitMessage: string,
+  files: string[],
+  forkRemote: string,
+): Promise<void> {
+  await exec(`git commit -m "${commitMessage}" "${files.join('" "')}"`);
+  await exec(`git push ${forkRemote} ${branch} --force-with-lease`);
+  const {stdout: remoteUrl} = await exec(`git remote get-url ${forkRemote}`);
+  const {owner, repo} = getRepoDetails(remoteUrl);
 
   console.log(
     chalk.yellow(
-      `Please create a pull request by visiting: https://github.com/${originUser}/${originRepo}/pull/new/${releaseBranch}`,
+      `Please create a pull request by visiting: https://github.com/${owner}/${repo}/pull/new/${branch}`,
     ),
   );
 }
@@ -229,21 +247,51 @@ async function prepareReleasePullRequest(newVersion: string, releaseBranch: stri
  * @param fromVersion The version to generate the changelog from.
  * @param toVersion The version to generate the changelog for.
  */
-async function generateChangelog(fromVersion: string, toVersion: string): Promise<void> {
-  let {stdout: commits} = await exec(
-    `git log --left-only FETCH_HEAD...${tagPrefix}${fromVersion} -E ` +
+async function generateChangelog(fromVersion: string, toVersion: string): Promise<string> {
+  const previousTag = await getPreviousTag(fromVersion);
+
+  // Get all subjects from the previous release to filter out duplicates (cherry-picks).
+  const {stdout: existingSubjectsOutput} = await exec(
+    `git log ${previousTag} -E ` +
       '--grep="^(feat|fix|perf)\\((vscode-extension|language-server|language-service)\\):" ' +
-      '--format="format:- %s (%h)[https://github.com/angular/angular/commit/%H]"',
+      '--format="%s"',
+  );
+  const existingSubjects = new Set(
+    existingSubjectsOutput
+      .trim()
+      .split('\n')
+      .map((s) => s.trim()),
   );
 
-  commits = commits.trim();
+  const {stdout: newCommitsRaw} = await exec(
+    `git log --left-only FETCH_HEAD...${previousTag} -E ` +
+      '--grep="^(feat|fix|perf)\\((vscode-extension|language-server|language-service)\\):" ' +
+      '--format="%s|%h|%H"',
+  );
+
+  const commits = newCommitsRaw
+    .trim()
+    .split('\n')
+    .filter((line) => {
+      if (!line) return false;
+      const [subject, shortHash, hash] = line.split('|');
+      return !existingSubjects.has(subject.trim());
+    })
+    .map((line) => {
+      const [subject, shortHash, hash] = line.split('|');
+      return `- ${subject} ([${shortHash}](https://github.com/angular/angular/commit/${hash}))`;
+    })
+    .join('\n');
 
   const now = new Date();
   const date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-  const newChangelogEntry = `## ${toVersion} (${date})\n\n${commits}\n\n`;
+  const newChangelogEntry = `## ${toVersion} (${date})\n\n${commits}`;
 
   const changelogContents = await readFile(changelogPath, 'utf-8');
-  await writeFile(changelogPath, newChangelogEntry + changelogContents);
+  await writeFile(
+    changelogPath,
+    [newChangelogEntry, CHANGELOG_RELEASE_MARKER, changelogContents].join('\n\n'),
+  );
 
   console.log(chalk.yellow(`Please review the changes the changelog here: ${changelogPath}`));
 
@@ -252,6 +300,10 @@ async function generateChangelog(fromVersion: string, toVersion: string): Promis
   });
 
   await exec(`pnpm ng-dev format "${changelogPath}"`);
+
+  // Read the formatted changelog from disk to get the correct content for the release.
+  const formattedChangelog = await readFile(changelogPath, 'utf-8');
+  return formattedChangelog.split(CHANGELOG_RELEASE_MARKER)[0].trim();
 }
 
 /**
@@ -266,34 +318,46 @@ async function updatingPackageJsonVersion(newVersion: string): Promise<void> {
 }
 
 /**
-
  * Waits for the release PR to be merged and then tags the merged commit.
  *
  * This function prompts the user to confirm that the release PR has been merged. Once confirmed,
  * it fetches the latest changes from the upstream repository, finds the SHA of the merged release
  * commit, and then creates a Git tag with the format `vsix-<newVersion>` on that commit. Finally,
- * it pushes the new tag to the origin.
+ * it pushes the new tag to the upstream repository.
  *
  * @param newVersion The new version number used to create the Git tag.
  * @param branchToReleaseFrom The branch that the release PR was merged into.
+ * @param upstreamRemote The remote name or URL used for the upstream repository.
  */
 async function waitForPRToBeMergedAndTag(
   newVersion: string,
   branchToReleaseFrom: string,
+  upstreamRemote: string,
 ): Promise<void> {
-  console.log('');
-  console.log('Waiting for release PR to be merged...');
+  console.log(
+    chalk.yellow(`
+=======================
+ ⚠️  ACTION REQUIRED ⚠️
+=======================
+
+Before merging the PR, you should install the extension at: ${extensionPath} and test it.
+
+Once you press Enter, the process will tag and publish automatically.
+`),
+  );
+
   await input({
     message: 'Press Enter once the release PR has been merged.',
   });
 
-  await exec(`git fetch ${angularRepoRemote} ${branchToReleaseFrom}`);
+  await exec(`git fetch ${upstreamRemote} ${branchToReleaseFrom}`);
   const mergedCommitSha = await getLastReleaseSha(newVersion);
 
   console.log(chalk.green(`Tagging the commit: ${mergedCommitSha}`));
-  const tagName = `${tagPrefix}${newVersion}`;
+  const tagName = getTagName(newVersion);
   await exec(`git tag ${tagName} ${mergedCommitSha}`);
-  await exec(`git push ${angularRepoRemote} tag ${tagName}`);
+  const pushTarget = await getPushTarget(upstreamRemote);
+  await exec(`git push ${pushTarget} tag ${tagName}`);
   console.log(chalk.green('Release tag pushed to origin.'));
 }
 
@@ -322,11 +386,107 @@ async function buildExtension(): Promise<void> {
   console.log(chalk.blue('Building VSCode extension...'));
   await execAndStream('pnpm', ['bazel', 'clean']);
   await execAndStream('pnpm', [
-    'pnpm --filter=ng-template run package',
+    '--filter=ng-template',
+    'run',
+    'package',
     ...additionBazelReleaseArgs,
   ]);
 
   console.log(chalk.green(`VSCode extension packaged at ${extensionPath}`));
+}
+
+function ensureGithubToken(): string {
+  // https://github.com/angular/dev-infra/blob/8ce8257f740613a7291256173e2706fb2ed8aefa/ng-dev/utils/git/github-yargs.ts#L45
+  const token = process.env['GITHUB_TOKEN'] ?? process.env['TOKEN'];
+  if (!token) {
+    throw new Error(
+      'GITHUB_TOKEN nor TOKEN environment variable is not set. Cannot create GitHub release.',
+    );
+  }
+  return token;
+}
+
+/**
+ * Creates a GitHub release and uploads the extension asset.
+ *
+ * @param version The version of the release.
+ * @param changelog The changelog content for the release.
+ */
+async function createGithubRelease(version: string, changelog: string): Promise<void> {
+  const token = ensureGithubToken();
+
+  console.log(chalk.blue('Creating GitHub release...'));
+
+  const commonHeaders = {
+    'Authorization': `Bearer ${token}`,
+    'X-GitHub-Api-Version': '2022-11-28',
+  };
+  const githubReleasesApiUrl = 'https://api.github.com/repos/angular/angular/releases';
+
+  const response = await fetch(githubReleasesApiUrl, {
+    method: 'POST',
+    headers: {
+      ...commonHeaders,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      tag_name: getTagName(version),
+      name: `VSCode Extension: ${version}`,
+      body: changelog
+        // Remove the version header from the changelog as it is already in the release title.
+        .replace(/## .*? \(\d{4}-\d{2}-\d{2}\)/, '')
+        .trim(),
+      make_latest: 'false',
+      prerelease: false,
+      draft: true,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create release: ${response.statusText} ${await response.text()}`);
+  }
+
+  const release = (await response.json()) as {id: number; upload_url: string};
+  const uploadUrl = release.upload_url.replace(
+    '{?name,label}',
+    `?name=ng-template-${version}.vsix`,
+  );
+  const vsixContent = await readFile(extensionPath);
+  const uploadResponse = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      ...commonHeaders,
+      'Content-Type': 'application/zip',
+      'Content-Length': vsixContent.length.toString(),
+    },
+    body: vsixContent,
+  });
+
+  if (!uploadResponse.ok) {
+    throw new Error(
+      `Failed to upload asset: ${uploadResponse.statusText} ${await uploadResponse.text()}`,
+    );
+  }
+
+  const publishResponse = await fetch(`${githubReleasesApiUrl}/${release.id}`, {
+    method: 'PATCH',
+    headers: {
+      ...commonHeaders,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      draft: false,
+      make_latest: 'false',
+    }),
+  });
+
+  if (!publishResponse.ok) {
+    throw new Error(
+      `Failed to publish release: ${publishResponse.statusText} ${await publishResponse.text()}`,
+    );
+  }
+
+  console.log(chalk.green('GitHub release created, asset uploaded, and release published.'));
 }
 
 /**
@@ -341,8 +501,7 @@ async function publishExtension(): Promise<void> {
   console.log(`VSIX path: ${extensionPath}`);
   console.log(`Please get a PAT token from: http://go/secret-tunnel/1575675884599726`);
 
-  console.log('');
-  await execAndStream('pnpm', ['--filter="ng-template"', 'vsce', 'login', 'Angular']);
+  // NOTE: `vsce publish` will prompt for login if the user is not already authenticated.
 
   console.log('');
   console.log(chalk.blue('Publishing extension'));
@@ -352,6 +511,42 @@ async function publishExtension(): Promise<void> {
     'publish',
     `--packagePath="${extensionPath}"`,
   ]);
+}
+
+/**
+ * Cherry-picks the changelog changes to the main branch.
+ *
+ * @param changelog The changelog content to add.
+ * @param newVersion The new version number.
+ * @param forkRemote The remote name for the fork repository.
+ * @param upstreamRemote The remote name or URL for the upstream repository.
+ */
+async function cherryPickChangelog(
+  changelog: string,
+  newVersion: string,
+  forkRemote: string,
+  upstreamRemote: string,
+): Promise<void> {
+  console.log(chalk.blue('Cherry-picking changelog to main...'));
+
+  await exec(`git stash`);
+  await exec(`git fetch ${upstreamRemote} main`);
+  const cherryPickBranch = `vscode-changelog-cherry-pick${newVersion}`;
+  await exec(`git branch -D ${cherryPickBranch}`).catch(() => {});
+  await exec(`git checkout -b ${cherryPickBranch} FETCH_HEAD`);
+
+  const changelogContents = await readFile(changelogPath, 'utf-8');
+  await writeFile(
+    changelogPath,
+    [changelog, CHANGELOG_RELEASE_MARKER, changelogContents].join('\n\n'),
+  );
+
+  await prepareReleasePullRequest(
+    cherryPickBranch,
+    `docs: release notes for the vscode extension ${newVersion} release`,
+    [changelogPath],
+    forkRemote,
+  );
 }
 
 /**
@@ -383,6 +578,161 @@ function execAndStream(command: string, args: string[], options: SpawnOptions = 
       }
     });
     child.on('error', reject);
+  });
+}
+
+/**
+ * Gets all configured Git remotes as a map from remote name to remote URL.
+ *
+ * @returns A promise that resolves to a map of remote names to their URLs.
+ */
+async function getRemotes(): Promise<Map<string, string>> {
+  const {stdout} = await exec('git remote -v');
+  const remotes = new Map<string, string>();
+  for (const line of stdout.split('\n')) {
+    const parts = line.split(/\s+/);
+    if (parts.length >= 2) {
+      const [name, url] = parts;
+      remotes.set(name, url);
+    }
+  }
+  return remotes;
+}
+
+/**
+ * Gets the owner and repo name from a remote URL.
+ *
+ * @param remoteUrl The remote URL to parse.
+ * @returns An object containing the owner and repo name.
+ */
+function getRepoDetails(remoteUrl: string): {owner: string; repo: string} {
+  const match = remoteUrl.trim().match(/github\.com[/:]([\w-]+)\/([\w-]+)/);
+
+  return {
+    owner: match ? match[1].toLowerCase() : 'angular',
+    repo: match ? match[2].toLowerCase() : 'angular',
+  };
+}
+
+/**
+ * Gets the previous tag to version from.
+ *
+ * It checks if the tag for the `currentVersion` exists. If it does, returning it.
+ * If not, it finds the latest tag that adheres to the semver versioning of the extension.
+ */
+async function getPreviousTag(currentVersion: string): Promise<string> {
+  const currentTag = getTagName(currentVersion);
+  try {
+    await exec(`git rev-parse "${currentTag}"`);
+    return currentTag;
+  } catch {
+    // Tag does not exist.
+  }
+
+  const {stdout: tags} = await exec(`git tag --list "${tagPrefix}*"`);
+  const versions = tags
+    .trim()
+    .split('\n')
+    .map((t) => t.trim())
+    .filter((t) => t.startsWith(tagPrefix))
+    .map((t) => t.slice(tagPrefix.length))
+    .filter((v) => semver.valid(v));
+
+  if (versions.length === 0) {
+    throw new Error('No previous release tags found.');
+  }
+
+  // Sort versions in descending order
+  versions.sort((a, b) => semver.rcompare(a, b));
+
+  return getTagName(versions[0]);
+}
+
+/**
+ * Gets the tag name for the given version.
+ *
+ * @param version The version to generate the tag name for.
+ * @returns The tag name.
+ */
+function getTagName(version: string): string {
+  return `${tagPrefix}${version}`;
+}
+
+/**
+ * Gets the remote name or authenticated URL for the upstream angular repository (angular/angular).
+ *
+ * It checks existing configured remotes:
+ * - If any remote points to angular/angular, uses that remote.
+ * - If no remote points to angular/angular, falls back to an authenticated HTTPS URL using GITHUB_TOKEN.
+ *
+ * @returns The remote name or URL to use for upstream.
+ */
+async function getUpstreamRemoteName(): Promise<string> {
+  const remotes = await getRemotes();
+  for (const [name, url] of remotes) {
+    const details = getRepoDetails(url);
+    if (details.owner === 'angular' && details.repo === 'angular') {
+      return name;
+    }
+  }
+
+  const token = ensureGithubToken();
+  return `https://${token}@github.com/angular/angular.git`;
+}
+
+/**
+ * Determines the target to push to for the upstream repository.
+ * If the remote URL is HTTPS without embedded credentials, it injects GITHUB_TOKEN to avoid interactive login prompts.
+ */
+async function getPushTarget(upstreamRemote: string): Promise<string> {
+  const remotes = await getRemotes();
+  const remoteUrl = remotes.get(upstreamRemote) ?? upstreamRemote;
+
+  if (remoteUrl.startsWith('git@') || remoteUrl.startsWith('ssh://')) {
+    return upstreamRemote;
+  }
+
+  const token = ensureGithubToken();
+  return `https://${token}@github.com/angular/angular.git`;
+}
+
+/**
+ * Gets the name of the remote to use as the user's fork.
+ *
+ * This function lists all configured remotes and attempts to identify the user's fork.
+ * - If 'origin' exists and is not the upstream angular repo, it is used.
+ * - If there are other candidates (remotes that are not the upstream angular repo),
+ *   it asks the user to select one if there are multiple.
+ *
+ * @returns The name of the remote to use.
+ */
+async function getForkRemoteName(): Promise<string> {
+  const remotes = await getRemotes();
+
+  const candidates: string[] = [];
+  for (const [name, url] of remotes) {
+    if (getRepoDetails(url).owner !== 'angular') {
+      candidates.push(name);
+    }
+  }
+
+  // If origin is a candidate, we prefer it appropriately IF it's likely the user's fork.
+  // The check `getRepoDetails(url).owner !== 'angular'` already filters out upstream.
+  if (candidates.includes('origin')) {
+    return 'origin';
+  }
+
+  if (candidates.length === 0) {
+    throw new Error('No suitable fork remote found. Please add a remote for your fork.');
+  }
+
+  if (candidates.length === 1) {
+    return candidates[0];
+  }
+
+  return await select({
+    message: 'Which remote should be used as your fork (to push the release commit to for the PR)?',
+    choices: candidates.map((c) => ({value: c})),
   });
 }
 

@@ -1,35 +1,35 @@
 <!-- ia-translate: true -->
-# Definir routes
+# Definindo rotas
 
-Routes servem como blocos de construção fundamentais para navegação dentro de uma aplicação Angular.
+As rotas servem como os blocos de construção fundamentais para a navegação dentro de uma aplicação Angular.
 
-## O que são routes?
+## O que são rotas? {#what-are-routes}
 
-No Angular, uma **route** é um objeto que define qual component deve ser renderizado para um caminho ou padrão de URL específico, bem como opções de configuração adicionais sobre o que acontece quando um usuário navega para aquela URL.
+No Angular, uma **rota** é um objeto que define qual componente deve ser renderizado para um caminho ou padrão de URL específico, além de opções de configuração adicionais sobre o que acontece quando um usuário navega para essa URL.
 
-Aqui está um exemplo básico de uma route:
+Aqui está um exemplo básico de rota:
 
 ```ts
-import { AdminPage } from './app-admin/app-admin.component';
+import {AdminPage} from './app-admin';
 
 const adminPage = {
   path: 'admin',
-  component: AdminPage
-}
+  component: AdminPage,
+};
 ```
 
-Para esta route, quando um usuário visita o caminho `/admin`, a aplicação exibirá o component `AdminPage`.
+Para esta rota, quando um usuário visita o caminho `/admin`, a aplicação exibe o componente `AdminPage`.
 
-### Gerenciando routes em sua aplicação
+### Gerenciando rotas na sua aplicação {#managing-routes-in-your-application}
 
-A maioria dos projetos define routes em um arquivo separado que contém `routes` no nome do arquivo.
+A maioria dos projetos define as rotas em um arquivo separado que contém `routes` no nome do arquivo.
 
-Uma coleção de routes se parece com isto:
+Uma coleção de rotas tem a seguinte aparência:
 
 ```ts
-import { Routes } from '@angular/router';
-import { HomePage } from './home-page/home-page.component';
-import { AdminPage } from './about-page/admin-page.component';
+import {Routes} from '@angular/router';
+import {HomePage} from './home-page';
+import {AdminPage} from './admin-page';
 
 export const routes: Routes = [
   {
@@ -43,33 +43,33 @@ export const routes: Routes = [
 ];
 ```
 
-Dica: Se você gerou um projeto com o Angular CLI, suas routes são definidas em `src/app/app.routes.ts`.
+TIP: Se você gerou um projeto com o Angular CLI, suas rotas são definidas em `src/app/app.routes.ts`.
 
-### Adicionando o router à sua aplicação
+### Adicionando o router à sua aplicação {#adding-the-router-to-your-application}
 
-Ao fazer bootstrap de uma aplicação Angular sem o Angular CLI, você pode passar um objeto de configuração que inclui um array `providers`.
+Ao inicializar uma aplicação Angular sem o Angular CLI, você pode passar um objeto de configuração que inclua um array `providers`.
 
-Dentro do array `providers`, você pode adicionar o router Angular à sua aplicação adicionando uma chamada de função `provideRouter` com suas routes.
+Dentro do array `providers`, você pode adicionar o Angular router à sua aplicação incluindo uma chamada à função `provideRouter` com as suas rotas.
 
 ```ts
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {ApplicationConfig} from '@angular/core';
+import {provideRouter} from '@angular/router';
 
-import { routes } from './app.routes';
+import {routes} from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     // ...
-  ]
+  ],
 };
 ```
 
-## Caminhos de URL de Route
+## Caminhos de URL das rotas {#route-url-paths}
 
-### Caminhos de URL Estáticos
+### Caminhos de URL estáticos {#static-url-paths}
 
-Caminhos de URL estáticos referem-se a routes com caminhos predefinidos que não mudam com base em parâmetros dinâmicos. Estas são routes que correspondem a uma string `path` exatamente e têm um resultado fixo.
+Os caminhos de URL estáticos são rotas com caminhos predefinidos que não mudam com base em parâmetros dinâmicos. São rotas que correspondem exatamente a uma string `path` e têm um resultado fixo.
 
 Exemplos disso incluem:
 
@@ -77,29 +77,27 @@ Exemplos disso incluem:
 - "/blog"
 - "/settings/account"
 
-### Definir Caminhos de URL com Parâmetros de Route
+### Definindo caminhos de URL com parâmetros de rota {#define-url-paths-with-route-parameters}
 
-URLs parametrizadas permitem que você defina caminhos dinâmicos que permitem múltiplas URLs para o mesmo component, enquanto exibem dados dinamicamente com base em parâmetros na URL.
+As URLs parametrizadas permitem definir caminhos dinâmicos que possibilitam várias URLs para o mesmo componente, exibindo dados de forma dinâmica com base nos parâmetros da URL.
 
-Você pode definir este tipo de padrão adicionando parâmetros à string `path` da sua route e prefixando cada parâmetro com o caractere dois-pontos (`:`).
+Você pode definir esse tipo de padrão adicionando parâmetros à string `path` da sua rota e prefixando cada parâmetro com o caractere dois-pontos (`:`).
 
-IMPORTANTE: Parâmetros são distintos de informações na [query string](https://en.wikipedia.org/wiki/Query_string) da URL.
-Saiba mais sobre [query parameters no Angular neste guia](/guide/routing/read-route-state#query-parameters).
+IMPORTANT: Parâmetros são diferentes das informações contidas na [query string](https://en.wikipedia.org/wiki/Query_string) da URL.
+Saiba mais sobre [parâmetros de consulta no Angular neste guia](/guide/routing/read-route-state#query-parameters).
 
-O exemplo a seguir exibe um component de perfil de usuário com base no id do usuário passado através da URL.
+O exemplo a seguir exibe um componente de perfil de usuário com base no id do usuário passado pela URL.
 
 ```ts
-import { Routes } from '@angular/router';
-import { UserProfile } from './user-profile/user-profile';
+import {Routes} from '@angular/router';
+import {UserProfile} from './user-profile/user-profile';
 
-const routes: Routes = [
-  { path: 'user/:id', component: UserProfile }
-];
+const routes: Routes = [{path: 'user/:id', component: UserProfile}];
 ```
 
-Neste exemplo, URLs como `/user/leeroy` e `/user/jenkins` renderizam o component `UserProfile`. Este component pode então ler o parâmetro `id` e usá-lo para realizar trabalho adicional, como buscar dados. Veja o [guia de leitura de estado de route](/guide/routing/read-route-state) para detalhes sobre como ler parâmetros de route.
+Neste exemplo, URLs como `/user/leeroy` e `/user/jenkins` renderizam o componente `UserProfile`. Esse componente pode então ler o parâmetro `id` e usá-lo para realizar trabalho adicional, como buscar dados. Veja o [guia de leitura do estado de rotas](/guide/routing/read-route-state) para detalhes sobre como ler os parâmetros de rota.
 
-Nomes de parâmetros de route válidos devem começar com uma letra (a-z, A-Z) e podem conter apenas:
+Nomes de parâmetros de rota válidos devem começar com uma letra (a-z, A-Z) e podem conter apenas:
 
 - Letras (a-z, A-Z)
 - Números (0-9)
@@ -109,164 +107,74 @@ Nomes de parâmetros de route válidos devem começar com uma letra (a-z, A-Z) e
 Você também pode definir caminhos com múltiplos parâmetros:
 
 ```ts
-import { Routes } from '@angular/router';
-import { UserProfile } from './user-profile/user-profile.component';
-import { SocialMediaFeed } from './user-profile/social–media-feed.component';
+import {Routes} from '@angular/router';
+import {UserProfile} from './user-profile';
+import {SocialMediaFeed} from './social-media-feed';
 
 const routes: Routes = [
-  { path: 'user/:id/:social-media', component: SocialMediaFeed },
-  { path: 'user/:id/', component: UserProfile },
+  {path: 'user/:id/:social-media', component: SocialMediaFeed},
+  {path: 'user/:id', component: UserProfile},
 ];
 ```
 
-Com este novo caminho, os usuários podem visitar `/user/leeroy/youtube` e `/user/leeroy/bluesky` e ver respectivos feeds de mídia social baseados no parâmetro para o usuário leeroy.
+Com este novo caminho, os usuários podem visitar `/user/leeroy/youtube` e `/user/leeroy/bluesky` e ver os respectivos feeds de redes sociais com base no parâmetro do usuário leeroy.
 
-Veja [Lendo estado de route](/guide/routing/read-route-state) para detalhes sobre como ler parâmetros de route.
+Veja [Lendo o estado de rotas](/guide/routing/read-route-state) para detalhes sobre como ler os parâmetros de rota.
 
-### Wildcards
+### Curingas {#wildcards}
 
-Quando você precisa capturar todas as routes para um caminho específico, a solução é uma route wildcard que é definida com o duplo asterisco (`**`).
+Quando você precisa capturar todas as rotas de um caminho específico, a solução é uma rota curinga, definida com o asterisco duplo (`**`).
 
-Um exemplo comum é definir um component de Página Não Encontrada.
+Um exemplo comum é definir um componente de Página não encontrada.
 
 ```ts
-import { Home } from './home/home.component';
-import { UserProfile } from './user-profile/user-profile.component';
-import { NotFound } from './not-found/not-found.component';
+import {Routes} from '@angular/router';
+import {Home} from './home/home';
+import {UserProfile} from './user-profile';
+import {NotFound} from './not-found';
 
 const routes: Routes = [
-  { path: 'home', component: Home },
-  { path: 'user/:id', component: UserProfile },
-  { path: '**', component: NotFound }
+  {path: 'home', component: Home},
+  {path: 'user/:id', component: UserProfile},
+  {path: '**', component: NotFound},
 ];
 ```
 
-Neste array de routes, a aplicação exibe o component `NotFound` quando o usuário visita qualquer caminho fora de `home` e `user/:id`.
+Neste array de rotas, a aplicação exibe o componente `NotFound` quando o usuário visita qualquer caminho fora de `home` e `user/:id`.
 
-Dica: Routes wildcard são tipicamente colocadas no final de um array de routes.
+TIP: As rotas curinga geralmente são colocadas no final de um array de rotas.
 
-## Como o Angular corresponde URLs
+## Como o Angular corresponde às URLs {#how-angular-matches-urls}
 
-Quando você define routes, a ordem é importante porque o Angular usa uma estratégia de primeira correspondência ganha. Isso significa que uma vez que o Angular corresponde uma URL com um `path` de route, ele para de verificar quaisquer outras routes. Como resultado, sempre coloque routes mais específicas antes de routes menos específicas.
+Ao definir rotas, a ordem é importante, porque o Angular usa uma estratégia de primeira correspondência vence. Isso significa que, assim que o Angular corresponde uma URL a um `path` de rota, ele deixa de verificar as demais rotas. Por isso, sempre coloque as rotas mais específicas antes das menos específicas.
 
-O exemplo a seguir mostra routes definidas da mais específica para a menos específica:
+O exemplo a seguir mostra rotas definidas da mais específica para a menos específica:
 
 ```ts
 const routes: Routes = [
-  { path: '', component: HomeComponent },              // Caminho vazio
-  { path: 'users/new', component: NewUserComponent },  // Estático, mais específico
-  { path: 'users/:id', component: UserDetailComponent }, // Dinâmico
-  { path: 'users', component: UsersComponent },        // Estático, menos específico
-  { path: '**', component: NotFoundComponent }         // Wildcard - sempre por último
+  {path: '', component: Home}, // Caminho vazio
+  {path: 'users/new', component: NewUser}, // Estático, mais específico
+  {path: 'users/:id', component: UserDetail}, // Dinâmico
+  {path: 'users', component: Users}, // Estático, menos específico
+  {path: '**', component: NotFound}, // Curinga - sempre por último
 ];
 ```
 
-Se um usuário visita `/users/new`, o router Angular passaria pelos seguintes passos:
+Se um usuário visita `/users/new`, o router do Angular passaria pelas seguintes etapas:
 
 1. Verifica `''` - não corresponde
 1. Verifica `users/new` - corresponde! Para aqui
-1. Nunca alcança `users/:id` mesmo que pudesse corresponder
+1. Nunca alcança `users/:id`, mesmo que ela pudesse corresponder
 1. Nunca alcança `users`
 1. Nunca alcança `**`
 
-## Estratégias de Carregamento de Component de Route
+## Redirecionamentos {#redirects}
 
-Entender como e quando components carregam no roteamento Angular é crucial para construir aplicações web responsivas. O Angular oferece duas estratégias principais para controlar o comportamento de carregamento de components:
-
-1. **Carregamento eagerly (imediato)**: Components que são carregados imediatamente
-2. **Carregamento lazily (preguiçoso)**: Components carregados apenas quando necessário
-
-Cada abordagem oferece vantagens distintas para diferentes cenários.
-
-### Components carregados eagerly
-
-Quando você define uma route com a propriedade `component`, o component referenciado é carregado eagerly como parte do mesmo bundle JavaScript que a configuração da route.
+Você pode definir uma rota que redireciona para outra rota em vez de renderizar um componente:
 
 ```ts
-import { Routes } from "@angular/router";
-import { HomePage } from "./components/home/home-page"
-import { LoginPage } from "./components/auth/login-page"
-
-export const routes: Routes = [
-  // HomePage e LoginPage são ambos diretamente referenciados nesta config,
-  // então seu código é incluído eagerly no mesmo bundle JavaScript que este arquivo.
-  {
-    path: "",
-    component: HomePage
-  },
-  {
-    path: "login",
-    component: LoginPage
-  }
-]
-```
-
-Carregar components de route eagerly assim significa que o browser tem que fazer download e analisar todo o JavaScript para estes components como parte do carregamento inicial da página, mas os components estão disponíveis para o Angular imediatamente.
-
-Embora incluir mais JavaScript no carregamento inicial da página leve a tempos de carregamento inicial mais lentos, isso pode levar a transições mais suaves conforme o usuário navega pela aplicação.
-
-### Components carregados lazily
-
-Você pode usar a propriedade `loadComponent` para carregar lazily o JavaScript de uma route apenas no ponto em que aquela route se tornaria ativa.
-
-```ts
-import { Routes } from "@angular/router";
-
-export const routes: Routes = [
-  // Os components HomePage e LoginPage são carregados lazily no ponto em que
-  // suas routes correspondentes se tornam ativas.
-  {
-    path: 'login',
-    loadComponent: () => import('./components/auth/login-page').then(m => m.LoginPage)
-  },
-  {
-    path: '',
-    loadComponent: () => import('./components/home/home-page').then(m => m.HomePage)
-  }
-]
-```
-
-A propriedade `loadComponent` aceita uma função loader que retorna uma Promise que resolve para um component Angular. Na maioria dos casos, esta função usa a [API de importação dinâmica padrão do JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import). Você pode, no entanto, usar qualquer função loader assíncrona arbitrária.
-
-Carregar routes lazily pode melhorar significativamente a velocidade de carregamento da sua aplicação Angular removendo grandes porções de JavaScript do bundle inicial. Estas porções do seu código compilam em "chunks" JavaScript separados que o router requisita apenas quando o usuário visita a route correspondente.
-
-### Lazy loading com contexto de injeção
-
-O Router executa `loadComponent` e `loadChildren` dentro do **contexto de injeção da route atual**, permitindo que você chame `inject` dentro destas funções loader para acessar providers declarados naquela route, herdados de routes pai através de injeção de dependência hierárquica, ou disponíveis globalmente. Isso habilita lazy loading consciente do contexto.
-
-```ts
-import { Routes } from '@angular/router';
-import { inject } from '@angular/core';
-import { FeatureFlags } from './feature-flags';
-
-export const routes: Routes = [
-  {
-    path: 'dashboard',
-    // Executa dentro do contexto de injeção da route
-    loadComponent: () => {
-      const flags = inject(FeatureFlags);
-      return flags.isPremium
-        ? import('./dashboard/premium-dashboard').then(m => m.PremiumDashboard)
-        : import('./dashboard/basic-dashboard').then(m => m.BasicDashboard);
-    },
-  },
-];
-```
-
-### Devo usar uma route eager ou lazy?
-
-Existem muitos fatores a considerar ao decidir se uma route deve ser eager ou lazy.
-
-Em geral, carregamento eager é recomendado para página(s) de destino primária(s) enquanto outras páginas seriam carregadas lazily.
-
-Nota: Embora routes lazy tenham o benefício de performance inicial de reduzir a quantidade de dados iniciais requisitados pelo usuário, isso adiciona requisições futuras de dados que podem ser indesejáveis. Isso é particularmente verdadeiro ao lidar com lazy loading aninhado em múltiplos níveis, o que pode impactar significativamente a performance.
-
-## Redirecionamentos
-
-Você pode definir uma route que redireciona para outra route em vez de renderizar um component:
-
-```ts
-import { BlogComponent } from './home/blog.component';
+import {Routes} from '@angular/router';
+import {Blog} from './home/blog';
 
 const routes: Routes = [
   {
@@ -275,71 +183,70 @@ const routes: Routes = [
   },
   {
     path: 'blog',
-    component: BlogComponent
+    component: Blog,
   },
 ];
 ```
 
-Se você modificar ou remover uma route, alguns usuários ainda podem clicar em links desatualizados ou favoritos para aquela route. Você pode adicionar um redirecionamento para direcionar esses usuários para uma route alternativa apropriada em vez de uma página "não encontrada".
+Se você modificar ou remover uma rota, alguns usuários ainda podem clicar em links desatualizados ou em favoritos para essa rota. Você pode adicionar um redirecionamento para levar esses usuários a uma rota alternativa apropriada, em vez de uma página "não encontrada".
 
-## Títulos de página
+## Títulos de página {#page-titles}
 
-Você pode associar um **title** com cada route. O Angular atualiza automaticamente o [título da página](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title) quando uma route é ativada. Sempre defina títulos de página apropriados para sua aplicação, pois estes títulos são necessários para criar uma experiência acessível.
+Você pode associar um **título** a cada rota. O Angular atualiza automaticamente o [título da página](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title) quando uma rota é ativada. Sempre defina títulos de página apropriados para a sua aplicação, pois eles são necessários para criar uma experiência acessível.
 
 ```ts
-import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ProductsComponent } from './products/products.component';
+import {Routes} from '@angular/router';
+import {Home} from './home';
+import {About} from './about';
+import {Products} from './products';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    title: 'Home Page'
+    component: Home,
+    title: 'Página inicial',
   },
   {
     path: 'about',
-    component: AboutComponent,
-    title: 'About Us'
+    component: About,
+    title: 'Sobre nós',
   },
 ];
 ```
 
-A propriedade `title` da página pode ser definida dinamicamente para uma função resolver usando [`ResolveFn`](/api/router/ResolveFn).
+A propriedade `title` da página pode ser definida dinamicamente com uma função resolver, usando [`ResolveFn`](/api/router/ResolveFn).
 
 ```ts
 const titleResolver: ResolveFn<string> = (route) => route.queryParams['id'];
 const routes: Routes = [
-   ...
+  // ...
   {
     path: 'products',
-    component: ProductsComponent,
+    component: Products,
     title: titleResolver,
-  }
+  },
 ];
-
 ```
 
-Títulos de route também podem ser definidos através de um service que estende a classe abstrata [`TitleStrategy`](/api/router/TitleStrategy). Por padrão, o Angular usa a [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy).
+Os títulos de rota também podem ser definidos por meio de um serviço que estende a classe abstrata [`TitleStrategy`](/api/router/TitleStrategy). Por padrão, o Angular usa a [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy).
 
-### Usando TitleStrategy para títulos de página
+### Usando TitleStrategy para títulos de página {#using-titlestrategy-for-page-titles}
 
-Para cenários avançados onde você precisa de controle centralizado sobre como o título do documento é composto, implemente uma `TitleStrategy`.
+Para cenários avançados em que você precisa de controle centralizado sobre como o título do documento é composto, implemente uma `TitleStrategy`.
 
-`TitleStrategy` é um token que você pode fornecer para sobrescrever a estratégia de título padrão usada pelo Angular. Você pode fornecer uma `TitleStrategy` customizada para implementar convenções como adicionar um sufixo de aplicação, formatar títulos de breadcrumbs, ou gerar títulos dinamicamente a partir de dados de route.
+`TitleStrategy` é um token que você pode fornecer para substituir a estratégia de título padrão usada pelo Angular. Você pode fornecer uma `TitleStrategy` customizada para implementar convenções como adicionar um sufixo com o nome da aplicação, formatar títulos a partir de breadcrumbs ou gerar títulos dinamicamente a partir dos dados da rota.
 
 ```ts
-import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { TitleStrategy, RouterStateSnapshot } from '@angular/router';
+import {inject, Injectable} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {TitleStrategy, RouterStateSnapshot} from '@angular/router';
 
 @Injectable()
 export class AppTitleStrategy extends TitleStrategy {
   private readonly title = inject(Title);
 
   updateTitle(snapshot: RouterStateSnapshot): void {
-    // PageTitle é igual ao "Title" de uma route se estiver definido
+    // O PageTitle é igual ao "Title" da rota, se ele estiver definido
     // Se não estiver definido, usará o "title" fornecido em index.html
     const pageTitle = this.buildTitle(snapshot) || this.title.getTitle();
     this.title.setTitle(`MyAwesomeApp - ${pageTitle}`);
@@ -350,126 +257,126 @@ export class AppTitleStrategy extends TitleStrategy {
 Para usar a estratégia customizada, forneça-a com o token `TitleStrategy` no nível da aplicação:
 
 ```ts
-import { provideRouter, TitleStrategy } from '@angular/router';
-import { AppTitleStrategy } from './app-title.strategy';
+import {provideRouter, TitleStrategy} from '@angular/router';
+import {AppTitleStrategy} from './app-title.strategy';
 
 export const appConfig = {
-  providers: [
-    provideRouter(routes),
-    { provide: TitleStrategy, useClass: AppTitleStrategy },
-  ],
+  providers: [provideRouter(routes), {provide: TitleStrategy, useClass: AppTitleStrategy}],
 };
 ```
 
-## Providers em nível de route para injeção de dependência
+## Providers em nível de rota para injeção de dependência {#route-level-providers-for-dependency-injection}
 
-Cada route tem uma propriedade `providers` que permite que você forneça dependências para o conteúdo daquela route via [injeção de dependência](/guide/di).
+Cada rota tem uma propriedade `providers` que permite fornecer dependências para o conteúdo dessa rota por meio da [injeção de dependência](/guide/di).
 
-Cenários comuns onde isso pode ser útil incluem aplicações que têm diferentes services baseados em se o usuário é admin ou não.
+Cenários comuns em que isso pode ser útil incluem aplicações que têm serviços diferentes dependendo de o usuário ser administrador ou não.
 
 ```ts
 export const ROUTES: Route[] = [
   {
     path: 'admin',
-    providers: [
-      AdminService,
-      {provide: ADMIN_API_KEY, useValue: '12345'},
-    ],
+    providers: [AdminService, {provide: ADMIN_API_KEY, useValue: '12345'}],
     children: [
-      {path: 'users', component: AdminUsersComponent},
-      {path: 'teams', component: AdminTeamsComponent},
+      {path: 'users', component: AdminUsers},
+      {path: 'teams', component: AdminTeams},
     ],
   },
-  // ... outras routes da aplicação que não
+  // ... outras rotas da aplicação que não
   //     têm acesso a ADMIN_API_KEY ou AdminService.
 ];
 ```
 
-Neste exemplo de código, o caminho `admin` contém uma propriedade de dados protegida de `ADMIN_API_KEY` que está disponível apenas para filhos dentro de sua seção. Como resultado, nenhum outro caminho será capaz de acessar os dados fornecidos via `ADMIN_API_KEY`.
+Neste exemplo de código, o caminho `admin` contém um dado protegido, `ADMIN_API_KEY`, que fica disponível apenas para os filhos dentro da sua seção. Como resultado, nenhum outro caminho consegue acessar os dados fornecidos por meio de `ADMIN_API_KEY`.
 
-Veja o [guia de Injeção de dependência](/guide/di) para mais informações sobre providers e injeção no Angular.
+Veja o [guia de injeção de dependência](/guide/di) para mais informações sobre providers e injeção no Angular.
 
-## Associando dados com routes
+## Associando dados às rotas {#associating-data-with-routes}
 
-Dados de route permitem que você anexe informações adicionais a routes. Você é capaz de configurar como components se comportam com base nestes dados.
+Os dados de rota permitem anexar informações adicionais às rotas. Você consegue configurar como os componentes se comportam com base nesses dados.
 
-Existem duas maneiras de trabalhar com dados de route: dados estáticos que permanecem constantes, e dados dinâmicos que podem mudar com base em condições de runtime.
+Há duas formas de trabalhar com dados de rota: dados estáticos, que permanecem constantes, e dados dinâmicos, que podem mudar de acordo com as condições de runtime.
 
-### Dados estáticos
+### Dados estáticos {#static-data}
 
-Você pode associar dados estáticos arbitrários com uma route via a propriedade `data` a fim de centralizar coisas como metadados específicos de route (ex: rastreamento de analytics, permissões, etc.):
+Você pode associar dados estáticos arbitrários a uma rota por meio da propriedade `data`, a fim de centralizar informações como metadados específicos da rota (por exemplo, rastreamento de analytics, permissões etc.):
 
 ```ts
-import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ProductsComponent } from './products/products.component';
+import {Routes} from '@angular/router';
+import {Home} from './home';
+import {About} from './about';
+import {Products} from './products';
 
 const routes: Routes = [
   {
     path: 'about',
-    component: AboutComponent,
-    data: { analyticsId: '456' }
+    component: About,
+    data: {analyticsId: '456'},
   },
   {
     path: '',
-    component: HomeComponent,
-    data: { analyticsId: '123' }
-  }
+    component: Home,
+    data: {analyticsId: '123'},
+  },
 ];
 ```
 
-Neste exemplo de código, as páginas home e about são configuradas com `analyticsId` específico que seria então usado em seus respectivos components para rastreamento de analytics da página.
+Neste exemplo de código, as páginas inicial e about são configuradas com um `analyticsId` específico, que seria usado nos respectivos componentes para o rastreamento de analytics da página.
 
-Você pode ler estes dados estáticos injetando o `ActivatedRoute`. Veja [Lendo estado de route](/guide/routing/read-route-state) para detalhes.
+Você pode ler esses dados estáticos injetando o `ActivatedRoute`. Veja [Lendo o estado de rotas](/guide/routing/read-route-state) para detalhes.
 
-### Dados dinâmicos com resolvers de dados
+### Dados dinâmicos com recursos e resolvers {#dynamic-data-with-resources-and-resolvers}
 
-Quando você precisa fornecer dados dinâmicos para uma route, confira o [guia sobre resolvers de dados de route](/guide/routing/data-resolvers).
+Quando você precisa buscar dados para uma rota, o Angular Router oferece suporte tanto a recursos de rota reativos quanto a resolvers de dados:
 
-## Routes Aninhadas
+- [Busca de dados com recursos](/guide/routing/data-fetching-with-resources): Busca dados de forma reativa usando as APIs `Resource` dos Angular Signals.
+- [Resolvers de dados de rota](/guide/routing/data-resolvers): Busca dados antes da ativação da rota, usando funções resolver.
 
-Routes aninhadas, também conhecidas como routes filhas, são uma técnica comum para gerenciar routes de navegação mais complexas onde um component tem uma sub-visualização que muda com base na URL.
+## Rotas aninhadas {#nested-routes}
 
-<img alt="Diagrama para ilustrar routes aninhadas" src="assets/images/guide/router/nested-routing-diagram.svg">
+As rotas aninhadas, também conhecidas como rotas filhas, são uma técnica comum para gerenciar rotas de navegação mais complexas, nas quais um componente tem uma subvisualização que muda de acordo com a URL.
 
-Você pode adicionar routes filhas a qualquer definição de route com a propriedade `children`:
+<img alt="Diagrama para ilustrar rotas aninhadas" src="assets/images/guide/router/nested-routing-diagram.svg">
+
+Você pode adicionar rotas filhas a qualquer definição de rota com a propriedade `children`:
 
 ```ts
 const routes: Routes = [
   {
     path: 'product/:id',
-    component: ProductComponent,
+    component: Product,
     children: [
       {
         path: 'info',
-        component: ProductInfoComponent
+        component: ProductInfo,
       },
       {
         path: 'reviews',
-        component: ProductReviewsComponent
-      }
-    ]
-  }
-]
+        component: ProductReviews,
+      },
+    ],
+  },
+];
 ```
 
-O exemplo acima define uma route para uma página de produto que permite ao usuário mudar se as informações do produto ou reviews são exibidas com base na url.
+O exemplo acima define uma rota para uma página de produto que permite ao usuário alternar entre a exibição das informações do produto e das avaliações, com base na URL.
 
 A propriedade `children` aceita um array de objetos `Route`.
 
-Para exibir routes filhas, o component pai (`ProductComponent` no exemplo acima) inclui seu próprio `<router-outlet>`.
+Para exibir as rotas filhas, o componente pai (`Product`, no exemplo acima) inclui o seu próprio `<router-outlet>`.
 
 ```angular-html
-<!-- ProductComponent -->
+<!-- Product -->
 <article>
-  <h1>Product {{ id }}</h1>
+  <h1>Produto {{ id }}</h1>
   <router-outlet />
 </article>
 ```
 
-Depois de adicionar routes filhas à configuração e adicionar um `<router-outlet>` ao component, a navegação entre URLs que correspondem às routes filhas atualiza apenas o outlet aninhado.
+Depois de adicionar as rotas filhas à configuração e um `<router-outlet>` ao componente, a navegação entre as URLs que correspondem às rotas filhas atualiza apenas o outlet aninhado.
 
-## Próximos passos
+## Próximos passos {#next-steps}
 
-Saiba como [exibir o conteúdo de suas routes com Outlets](/guide/routing/show-routes-with-outlets).
+<docs-pill-row>
+  <docs-pill href="/guide/routing/loading-strategies" title="Estratégias de carregamento de rotas"/>
+  <docs-pill href="/guide/routing/show-routes-with-outlets" title="Exibindo o conteúdo das suas rotas com outlets"/>
+</docs-pill-row>

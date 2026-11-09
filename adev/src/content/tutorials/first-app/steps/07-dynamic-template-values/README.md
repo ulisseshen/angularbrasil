@@ -5,12 +5,12 @@ Esta lição do tutorial demonstra como adicionar interpolação a templates Ang
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=IFAly3Ss8dwqFx8N&amp;start=338"/>
 
-## O que você vai aprender
+## O que você vai aprender {#what-youll-learn}
 
 - Sua aplicação exibirá valores interpolados no template `HousingLocation`.
 - Sua aplicação renderizará dados de localização de moradia no browser.
 
-## Prévia conceitual de interpolação
+## Prévia conceitual de interpolação {#conceptual-preview-of-interpolation}
 
 Neste passo você exibirá valores lidos de propriedades `input` em um template usando interpolação.
 
@@ -20,7 +20,7 @@ Para uma explicação mais detalhada, consulte o guia [Exibindo valores com inte
 
 <docs-workflow>
 
-<docs-step title="Atualize o template `HousingLocation` para incluir valores interpolados">
+<docs-step title="Atualize o template `HousingLocation` para incluir valores interpolados {#update-housinglocation-template-to-include-interpolated-values}">
 Este passo adiciona nova estrutura HTML e valores interpolados no template `HousingLocation`.
 
 No editor de código:
@@ -36,7 +36,7 @@ Você usa interpolação para incluir os valores de `name`, `city` e `state` da 
 
 </docs-step>
 
-<docs-step title="Confirme que as alterações renderizam no browser">
+<docs-step title="Confirme que as alterações renderizam no browser {#confirm-the-changes-render-in-the-browser}">
 1.  Salve todas as alterações.
 1.  Abra o browser e confirme que a aplicação renderiza a foto, cidade e estado dos dados de exemplo.
     <img alt="frame do browser da aplicação homes-app exibindo logo, campo de texto de filtro, botão de busca e o mesmo card de UI de localização de moradia" src="assets/images/tutorials/first-app/homes-app-lesson-07-step-2.png">
@@ -44,12 +44,12 @@ Você usa interpolação para incluir os valores de `name`, `city` e `state` da 
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você adicionou uma nova estrutura HTML e usou a sintaxe de template Angular para renderizar valores no template `HousingLocation`.
+SUMMARY: Nesta lição, você adicionou uma nova estrutura HTML e usou a sintaxe de template Angular para renderizar valores no template `HousingLocation`.
 
 Agora, você tem duas habilidades importantes:
 
-- passar dados para components
-- Interpolar valores em um template
+- passando dados para components
+- interpolando valores em um template
 
 Com essas habilidades, sua aplicação agora pode compartilhar dados e exibir valores dinâmicos no browser. Ótimo trabalho até agora.
 

@@ -6,39 +6,45 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {CommonModule, HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
+import {
+  CommonModule,
+  HashLocationStrategy,
+  Location,
+  LocationStrategy,
+  NgIf,
+} from '@angular/common';
 import {provideLocationMocks, SpyLocation} from '@angular/common/testing';
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ErrorHandler,
+  inject,
   Injectable,
-  NgModule,
+  signal,
   TemplateRef,
   Type,
   ViewChild,
   ViewContainerRef,
-  inject,
-  provideZonelessChangeDetection,
-  signal,
 } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
+import {filter, mapTo, switchMap, take} from 'rxjs/operators';
 import {
+  ActivatedRoute,
   ChildrenOutletContexts,
   DefaultUrlSerializer,
   NavigationCancel,
-  NavigationEnd,
   NavigationError,
   Router,
+  RouterLink,
+  RouterLinkActive,
   RouterModule,
   RouterOutlet,
   UrlSerializer,
   UrlTree,
 } from '../index';
-import {firstValueFrom, of} from 'rxjs';
-import {switchMap, filter, mapTo, take} from 'rxjs/operators';
 
+import {bootstrapApplication} from '@angular/platform-browser';
+import {isBrowser, timeout, withBody} from '@angular/private/testing';
 import {
   provideRouter,
   withDisabledInitialNavigation,
@@ -46,21 +52,20 @@ import {
   withViewTransitions,
 } from '../src/provide_router';
 import {afterNextNavigation} from '../src/utils/navigations';
-import {timeout} from './helpers';
-import {isBrowser, withBody} from '@angular/private/testing';
-import {bootstrapApplication} from '@angular/platform-browser';
 
 describe('Integration', () => {
   describe('routerLinkActive', () => {
     it('should update when the associated routerLinks change - #18469', async () => {
       @Component({
         template: `
-          <a id="first-link" [routerLink]="[firstLink]" routerLinkActive="active">{{firstLink}}</a>
+          <a id="first-link" [routerLink]="[firstLink]" routerLinkActive="active">{{
+            firstLink
+          }}</a>
           <div id="second-link" routerLinkActive="active">
-            <a [routerLink]="[secondLink]">{{secondLink}}</a>
+            <a [routerLink]="[secondLink]">{{ secondLink }}</a>
           </div>
-           `,
-        standalone: false,
+        `,
+        imports: [RouterLink, RouterLinkActive],
       })
       class LinkComponent {
         firstLink = 'link-a';
@@ -77,7 +82,6 @@ describe('Integration', () => {
 
       @Component({
         template: 'simple',
-        standalone: false,
       })
       class SimpleCmp {}
 
@@ -88,7 +92,6 @@ describe('Integration', () => {
             {path: 'link-b', component: SimpleCmp},
           ]),
         ],
-        declarations: [LinkComponent, SimpleCmp],
       });
 
       const router: Router = TestBed.inject(Router);
@@ -102,7 +105,7 @@ describe('Integration', () => {
       expect(secondLink.nativeElement.classList).not.toContain('active');
 
       fixture.componentInstance.changeLinks();
-      fixture.detectChanges();
+      await fixture.whenStable();
       await advance(fixture);
 
       expect(firstLink.nativeElement.classList).not.toContain('active');
@@ -111,35 +114,25 @@ describe('Integration', () => {
 
     it('should not cause infinite loops in the change detection - #15825', async () => {
       @Component({
-        selector: 'simple',
         template: 'simple',
-        standalone: false,
       })
       class SimpleCmp {}
 
       @Component({
-        selector: 'some-root',
-        template: `
-        <div *ngIf="show">
-          <ng-container *ngTemplateOutlet="tpl"></ng-container>
-        </div>
-        <router-outlet></router-outlet>
-        <ng-template #tpl>
-          <a routerLink="/simple" routerLinkActive="active"></a>
-        </ng-template>`,
-        standalone: false,
+        template: ` <div *ngIf="show">
+            <ng-container *ngTemplateOutlet="tpl"></ng-container>
+          </div>
+          <router-outlet></router-outlet>
+          <ng-template #tpl>
+            <a routerLink="/simple" routerLinkActive="active"></a>
+          </ng-template>`,
+        imports: [CommonModule, RouterModule],
       })
       class MyCmp {
         show: boolean = false;
       }
 
-      @NgModule({
-        imports: [CommonModule, RouterModule.forRoot([])],
-        declarations: [MyCmp, SimpleCmp],
-      })
-      class MyModule {}
-
-      TestBed.configureTestingModule({imports: [MyModule]});
+      TestBed.configureTestingModule({imports: [RouterModule.forRoot([])]});
 
       const router: Router = TestBed.inject(Router);
       const fixture = await createRoot(router, MyCmp);
@@ -157,7 +150,7 @@ describe('Integration', () => {
       @Component({
         template: `
           <div #rla="routerLinkActive" routerLinkActive>
-            isActive: {{rla.isActive}}
+            isActive: {{ rla.isActive }}
 
             <ng-template let-data>
               <a [routerLink]="data">link</a>
@@ -166,7 +159,7 @@ describe('Integration', () => {
             <ng-container #container></ng-container>
           </div>
         `,
-        standalone: false,
+        imports: [RouterLinkActive, RouterLink],
       })
       class ComponentWithRouterLink {
         @ViewChild(TemplateRef, {static: true}) templateRef?: TemplateRef<unknown>;
@@ -186,13 +179,11 @@ describe('Integration', () => {
 
       @Component({
         template: 'simple',
-        standalone: false,
       })
       class SimpleCmp {}
 
       TestBed.configureTestingModule({
         imports: [RouterModule.forRoot([{path: 'simple', component: SimpleCmp}])],
-        declarations: [ComponentWithRouterLink, SimpleCmp],
       });
 
       const router: Router = TestBed.inject(Router);
@@ -201,7 +192,7 @@ describe('Integration', () => {
       await advance(fixture);
 
       fixture.componentInstance.addLink();
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       fixture.componentInstance.removeLink();
       await advance(fixture);
@@ -213,24 +204,21 @@ describe('Integration', () => {
     it('should set isActive with OnPush change detection - #19934', async () => {
       @Component({
         template: `
-             <div routerLink="/simple" #rla="routerLinkActive" routerLinkActive>
-               isActive: {{rla.isActive}}
-             </div>
-           `,
-        changeDetection: ChangeDetectionStrategy.OnPush,
-        standalone: false,
+          <div routerLink="/simple" #rla="routerLinkActive" routerLinkActive>
+            isActive: {{ rla.isActive }}
+          </div>
+        `,
+        imports: [RouterLink, RouterLinkActive],
       })
       class OnPushComponent {}
 
       @Component({
         template: 'simple',
-        standalone: false,
       })
       class SimpleCmp {}
 
       TestBed.configureTestingModule({
         imports: [RouterModule.forRoot([{path: 'simple', component: SimpleCmp}])],
-        declarations: [OnPushComponent, SimpleCmp],
       });
 
       const router = TestBed.inject(Router);
@@ -245,13 +233,12 @@ describe('Integration', () => {
   it('should not reactivate a deactivated outlet when destroyed and recreated - #41379', async () => {
     @Component({
       template: 'simple',
-      standalone: false,
     })
     class SimpleComponent {}
 
     @Component({
       template: ` <router-outlet *ngIf="outletVisible" name="aux"></router-outlet> `,
-      standalone: false,
+      imports: [NgIf, RouterOutlet],
     })
     class AppComponent {
       outletVisible = true;
@@ -259,7 +246,6 @@ describe('Integration', () => {
 
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([{path: ':id', component: SimpleComponent, outlet: 'aux'}])],
-      declarations: [SimpleComponent, AppComponent],
     });
 
     const router = TestBed.inject(Router);
@@ -288,20 +274,17 @@ describe('Integration', () => {
   describe('useHash', () => {
     it('should restore hash to match current route - #28561', async () => {
       @Component({
-        selector: 'root-cmp',
         template: `<router-outlet></router-outlet>`,
-        standalone: false,
+        imports: [RouterOutlet],
       })
       class RootCmp {}
 
       @Component({
         template: 'simple',
-        standalone: false,
       })
       class SimpleCmp {}
       @Component({
         template: 'one',
-        standalone: false,
       })
       class OneCmp {}
 
@@ -312,7 +295,6 @@ describe('Integration', () => {
             {path: 'one', component: OneCmp, canActivate: [() => inject(Router).parseUrl('/')]},
           ]),
         ],
-        declarations: [SimpleCmp, RootCmp, OneCmp],
         providers: [provideLocationMocks()],
       });
 
@@ -347,24 +329,20 @@ describe('Integration', () => {
         }
       }
       @Component({
-        selector: 'root-cmp',
         template: `<router-outlet></router-outlet>`,
-        standalone: false,
+        imports: [RouterOutlet],
       })
       class RootCmp {}
 
       @Component({
         template: 'simple',
-        standalone: false,
       })
       class SimpleCmp {}
       @Component({
         template: 'one',
-        standalone: false,
       })
       class OneCmp {}
       TestBed.configureTestingModule({
-        declarations: [SimpleCmp, RootCmp, OneCmp],
         imports: [RouterOutlet],
         providers: [
           DelayedResolve,
@@ -411,10 +389,10 @@ describe('Integration', () => {
   it('should not unregister outlet if a different one already exists #36711, 32453', async () => {
     @Component({
       template: `
-      <router-outlet *ngIf="outlet1()"></router-outlet>
-      <router-outlet *ngIf="outlet2()"></router-outlet>
+        <router-outlet *ngIf="outlet1()"></router-outlet>
+        <router-outlet *ngIf="outlet2()"></router-outlet>
       `,
-      standalone: false,
+      imports: [CommonModule, RouterOutlet],
     })
     class TestCmp {
       outlet1 = signal(true);
@@ -423,18 +401,16 @@ describe('Integration', () => {
 
     @Component({
       template: '',
-      standalone: false,
     })
     class EmptyCmp {}
 
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterModule.forRoot([{path: '**', component: EmptyCmp}])],
-      declarations: [TestCmp, EmptyCmp],
     });
     const fixture = TestBed.createComponent(TestCmp);
     const contexts = TestBed.inject(ChildrenOutletContexts);
     await TestBed.inject(Router).navigateByUrl('/');
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(contexts.getContext('primary')).toBeDefined();
     expect(contexts.getContext('primary')?.outlet).not.toBeNull();
@@ -444,11 +420,11 @@ describe('Integration', () => {
     // https://github.com/angular/angular/issues/36711,
     // https://github.com/angular/angular/issues/32453
     fixture.componentInstance.outlet2.set(true);
-    fixture.detectChanges();
+    await fixture.whenStable();
     expect(contexts.getContext('primary')?.outlet).not.toBeNull();
 
     fixture.componentInstance.outlet1.set(false);
-    fixture.detectChanges();
+    await fixture.whenStable();
     // Destroying the first one show not clear the outlet context because the second one takes over
     // as the registered outlet.
     expect(contexts.getContext('primary')?.outlet).not.toBeNull();
@@ -520,6 +496,79 @@ describe('Integration', () => {
     expect(cancellations.length).toEqual(2);
   });
 
+  it('should not confuse outlets across navigation and URL re-parse when primary segment contains a colon', async () => {
+    @Component({
+      template: `<router-outlet />`,
+      imports: [RouterOutlet],
+    })
+    class RootCmp {}
+
+    @Component({
+      template: `
+        <div class="primary-outlet"><router-outlet /></div>
+        <div class="admin-outlet"><router-outlet name="admin" /></div>
+        <div class="aux-outlet"><router-outlet name="aux" /></div>
+      `,
+      imports: [RouterOutlet],
+    })
+    class ParentCmp {}
+
+    @Component({template: `Primary({{ route.snapshot.paramMap.get('id') }})`})
+    class PrimaryCmp {
+      readonly route = inject(ActivatedRoute);
+    }
+
+    @Component({template: `Admin({{ route.snapshot.paramMap.get('p') }})`})
+    class AdminCmp {
+      readonly route = inject(ActivatedRoute);
+    }
+
+    @Component({template: `Aux({{ route.snapshot.paramMap.get('a') }})`})
+    class AuxCmp {
+      readonly route = inject(ActivatedRoute);
+    }
+
+    TestBed.configureTestingModule({
+      providers: [
+        provideLocationMocks(),
+        provideRouter([
+          {
+            path: 'x',
+            component: ParentCmp,
+            children: [
+              {path: ':id', component: PrimaryCmp},
+              {path: ':p', component: AdminCmp, outlet: 'admin'},
+              {path: ':a', component: AuxCmp, outlet: 'aux'},
+            ],
+          },
+        ]),
+      ],
+    });
+
+    const router = TestBed.inject(Router);
+    const location = TestBed.inject(Location);
+    const fixture = TestBed.createComponent(RootCmp);
+
+    await router.navigate(['/x', {outlets: {primary: ['admin:y'], aux: ['z']}}]);
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.textContent).toContain('Primary(admin:y)');
+    expect(fixture.nativeElement.textContent).not.toContain('Admin(');
+    expect(fixture.nativeElement.textContent).toContain('Aux(z)');
+
+    const browserUrl = location.path();
+    expect(browserUrl).toBe('/x/(admin%3Ay//aux:z)');
+
+    await router.navigateByUrl('/x/(aux:init)');
+    await fixture.whenStable();
+    await router.navigateByUrl(browserUrl);
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.textContent).toContain('Primary(admin:y)');
+    expect(fixture.nativeElement.textContent).not.toContain('Admin(');
+    expect(fixture.nativeElement.textContent).toContain('Aux(z)');
+  });
+
   if (isBrowser) {
     it(
       'should allow navigating during template execution',
@@ -532,7 +581,7 @@ describe('Integration', () => {
 
         @Component({
           selector: 'test-app',
-          template: `<router-outlet /> {{sideEffectWithRedirection()}}      `,
+          template: `<router-outlet /> {{ sideEffectWithRedirection() }} `,
           imports: [RouterOutlet],
         })
         class App {
@@ -549,7 +598,6 @@ describe('Integration', () => {
 
         const appRef = await bootstrapApplication(App, {
           providers: [
-            provideZonelessChangeDetection(),
             provideRouter(
               [{path: 'simple', component: SimpleCmp}],
               withDisabledInitialNavigation(),
@@ -567,7 +615,7 @@ describe('Integration', () => {
 
 async function advance<T>(fixture: ComponentFixture<T>): Promise<void> {
   await timeout();
-  fixture.detectChanges();
+  await fixture.whenStable();
 }
 
 function createRoot<T>(router: Router, type: Type<T>): ComponentFixture<T> {

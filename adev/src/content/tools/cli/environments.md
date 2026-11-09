@@ -1,5 +1,4 @@
 <!-- ia-translate: true -->
-
 # Configurando ambientes de aplicação
 
 Você pode definir diferentes configurações de build nomeadas para seu projeto, como `development` e `staging`, com diferentes padrões.
@@ -7,7 +6,7 @@ Você pode definir diferentes configurações de build nomeadas para seu projeto
 Cada configuração nomeada pode ter padrões para qualquer uma das opções que se aplicam aos vários targets de builder, como `build`, `serve` e `test`.
 Os comandos `build`, `serve` e `test` do [Angular CLI](tools/cli) podem então substituir arquivos pelas versões apropriadas para seu ambiente de destino pretendido.
 
-## Configurações do Angular CLI
+## Configurações do Angular CLI {#angular-cli-configurations}
 
 Os builders do Angular CLI suportam um objeto `configurations`, que permite sobrescrever opções específicas para um builder com base na configuração fornecida na linha de comando.
 
@@ -18,9 +17,9 @@ Os builders do Angular CLI suportam um objeto `configurations`, que permite sobr
     "my-app": {
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            // Por padrão, desabilitar geração de source map.
+            // Por padrão, desabilitar a geração de source map.
             "sourceMap": false
           },
           "configurations": {
@@ -54,9 +53,9 @@ ng build --configuration debug,production,customer-facing
 
 ```
 
-## Configurar padrões específicos de ambiente
+## Configurar padrões específicos de ambiente {#configure-environment-specific-defaults}
 
-`@angular-devkit/build-angular:browser` suporta substituições de arquivo, uma opção para substituir arquivos fonte antes de executar um build.
+`@angular/build:application` suporta substituições de arquivo (file replacements), uma opção para substituir arquivos fonte antes de executar um build.
 Usar isso em combinação com `--configuration` fornece um mecanismo para configurar dados específicos de ambiente em sua aplicação.
 
 Comece [gerando environments](cli/generate/environments) para criar o diretório `src/environments/` e configurar o projeto para usar substituições de arquivo.
@@ -81,13 +80,13 @@ my-app/src/environments
 
 ```
 
-O arquivo base `environment.ts`, contém as configurações de ambiente padrão.
+O arquivo base `environment.ts` contém as configurações de ambiente padrão.
 Por exemplo:
 
 ```ts
 
 export const environment = {
-  production: true
+  production: true,
 };
 
 ```
@@ -100,10 +99,12 @@ Por exemplo, o seguinte adiciona um padrão para uma variável ao ambiente padr�
 
 export const environment = {
   production: true,
-  apiUrl: 'http://my-prod-url'
+  apiUrl: 'http://my-prod-url',
 };
 
 ```
+
+CRITICAL: Os arquivos em `src/environments/` são empacotados na sua aplicação client-side e ficam visíveis para qualquer pessoa que carregue a página. Nunca armazene segredos, como chaves de API, aqui. Use um proxy no servidor ou um gerenciador de segredos.
 
 Você pode adicionar arquivos de configuração específicos de target, como `environment.development.ts`.
 O seguinte conteúdo define valores padrão para o target de build development:
@@ -112,28 +113,28 @@ O seguinte conteúdo define valores padrão para o target de build development:
 
 export const environment = {
   production: false,
-  apiUrl: 'http://my-dev-url'
+  apiUrl: 'http://my-dev-url',
 };
 
 ```
 
-## Usando variáveis específicas de ambiente na sua aplicação
+## Usando variáveis específicas de ambiente na sua aplicação {#using-environment-specific-variables-in-your-app}
 
 Para usar as configurações de ambiente que você definiu, seus components devem importar o arquivo environments original:
 
 ```ts
 
-import { environment } from './environments/environment';
+import {environment} from './environments/environment';
 
 ```
 
 Isso garante que os comandos build e serve possam encontrar as configurações para targets de build específicos.
 
-O código a seguir no arquivo do component (`app.component.ts`) usa uma variável de ambiente definida nos arquivos de configuração.
+O código a seguir no arquivo do component (`app.ts`) usa uma variável de ambiente definida nos arquivos de configuração.
 
 ```ts
 
-import { environment } from './../environments/environment';
+import {environment} from './../environments/environment';
 
 // Busca de `http://my-prod-url` em produção, `http://my-dev-url` em desenvolvimento.
 fetch(environment.apiUrl);
@@ -143,7 +144,7 @@ fetch(environment.apiUrl);
 O arquivo de configuração principal do CLI, `angular.json`, contém uma seção `fileReplacements` na configuração para cada target de build, que permite substituir qualquer arquivo no programa TypeScript por uma versão específica de target desse arquivo.
 Isso é útil para incluir código ou variáveis específicas de target em um build que tem como alvo um ambiente específico, como produção ou staging.
 
-Por padrão nenhum arquivo é substituído, no entanto `ng generate environments` configura essa configuração automaticamente.
+Por padrão nenhum arquivo é substituído, porém `ng generate environments` configura isso automaticamente.
 Você pode alterar ou adicionar substituições de arquivo para targets de build específicos editando a configuração `angular.json` diretamente.
 
 ```json
@@ -160,9 +161,9 @@ Você pode alterar ou adicionar substituições de arquivo para targets de build
 
 ```
 
-Isso significa que quando você constrói sua configuração de desenvolvimento com `ng build --configuration development`, o arquivo `src/environments/environment.ts` é substituído pela versão específica de target do arquivo, `src/environments/environment.development.ts`.
+Isso significa que, quando você faz o build da sua configuração de desenvolvimento com `ng build --configuration development`, o arquivo `src/environments/environment.ts` é substituído pela versão específica de target do arquivo, `src/environments/environment.development.ts`.
 
-Para adicionar um ambiente staging, crie uma cópia de `src/environments/environment.ts` chamada `src/environments/environment.staging.ts`, então adicione uma configuração `staging` ao `angular.json`:
+Para adicionar um ambiente staging, crie uma cópia de `src/environments/environment.ts` chamada `src/environments/environment.staging.ts` e, em seguida, adicione uma configuração `staging` ao `angular.json`:
 
 ```json
 
@@ -184,7 +185,7 @@ Para adicionar um ambiente staging, crie uma cópia de `src/environments/environ
 Você pode adicionar mais opções de configuração a este ambiente de target também.
 Qualquer opção que seu build suporte pode ser sobrescrita em uma configuração de target de build.
 
-Para construir usando a configuração staging, execute o seguinte comando:
+Para fazer o build usando a configuração staging, execute o seguinte comando:
 
 ```shell
 
@@ -192,21 +193,21 @@ ng build --configuration staging
 
 ```
 
-Por padrão, o target `build` inclui configurações `production` e `development` e `ng serve` usa o build de desenvolvimento da aplicação.
+Por padrão, o target `build` inclui as configurações `production` e `development`, e `ng serve` usa o build de desenvolvimento da aplicação.
 Você também pode configurar `ng serve` para usar a configuração de build direcionada se definir a opção `buildTarget`:
 
 ```json
 
   "serve": {
-    "builder": "@angular-devkit/build-angular:dev-server",
+    "builder": "@angular/build:dev-server",
     "options": { … },
     "configurations": {
       "development": {
-        // Usar a configuração `development` do target `build`.
+        // Usa a configuração `development` do target `build`.
         "buildTarget": "my-app:build:development"
       },
       "production": {
-        // Usar a configuração `production` do target `build`.
+        // Usa a configuração `production` do target `build`.
         "buildTarget": "my-app:build:production"
       }
     },

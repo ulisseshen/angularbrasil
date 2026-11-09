@@ -1,171 +1,227 @@
 <!-- ia-translate: true -->
-<docs-decorative-header title="Select">
-</docs-decorative-header>
+# Select
 
-## Visão Geral
+## Visão geral {#overview}
 
-Um padrão que combina combobox somente leitura com listbox para criar dropdowns de seleção única com navegação por teclado e suporte para leitores de tela.
+Um padrão que combina um combobox com um listbox para criar listas suspensas de seleção única com navegação por teclado e suporte a leitores de tela.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/app/app.ts"/>
-  <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/basic/app/app.html"/>
-  <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/basic/app/app.css"/>
-</docs-code-multifile>
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-## Uso
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-O padrão select funciona melhor quando os usuários precisam escolher um único valor de um conjunto familiar de opções.
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+## Uso {#usage}
+
+O padrão select funciona melhor quando o usuário precisa escolher um único valor de um conjunto familiar de opções.
 
 Considere usar este padrão quando:
 
-- **A lista de opções é fixa** (menos de 20 itens) - Os usuários podem escanear e escolher sem filtragem
-- **As opções são familiares** - Os usuários reconhecem as escolhas sem precisar buscar
+- **A lista de opções é fixa** (menos de 20 itens) - Os usuários conseguem examinar e escolher sem filtrar
+- **As opções são familiares** - Os usuários reconhecem as escolhas sem precisar pesquisar
 - **Formulários precisam de campos padrão** - Seleção de país, estado, categoria ou status
-- **Configurações e ajustes** - Menus dropdown para preferências ou opções
-- **Rótulos de opção claros** - Cada escolha tem um nome distinto e escaneável
+- **Configurações e ajustes** - Menus suspensos para preferências ou opções
+- **Rótulos de opção claros** - Cada escolha tem um nome distinto e fácil de examinar
 
 Evite este padrão quando:
 
-- **A lista tem mais de 20 itens** - Use o [padrão Autocomplete](guide/aria/autocomplete) para melhor filtragem
-- **Usuários precisam buscar opções** - [Autocomplete](guide/aria/autocomplete) fornece entrada de texto e filtragem
-- **Seleção múltipla é necessária** - Use o [padrão Multiselect](guide/aria/multiselect) em vez disso
-- **Existem poucas opções (2-3)** - Radio buttons fornecem melhor visibilidade de todas as escolhas
+- **A lista tem mais de 20 itens** - Use o [padrão Autocomplete](guide/aria/autocomplete) para uma filtragem melhor
+- **Os usuários precisam pesquisar opções** - [Autocomplete](guide/aria/autocomplete) oferece campo de texto e filtragem
+- **É necessária seleção múltipla** - Use o [padrão Multiselect](guide/aria/multiselect)
+- **Existem poucas opções (2-3)** - Botões de opção oferecem melhor visibilidade de todas as escolhas
 
-## Recursos
+## Funcionalidades {#features}
 
-O padrão select combina as directives [Combobox](guide/aria/combobox) e [Listbox](guide/aria/listbox) para fornecer um dropdown totalmente acessível com:
+O padrão select combina as diretivas [Combobox](guide/aria/combobox) e [Listbox](guide/aria/listbox) para oferecer uma lista suspensa totalmente acessível, com:
 
-- **Navegação por Teclado** - Navegue pelas opções com as setas, selecione com Enter, feche com Escape
-- **Suporte para Leitores de Tela** - Atributos ARIA integrados para tecnologias assistivas
-- **Exibição Personalizada** - Mostre valores selecionados com ícones, formatação ou conteúdo rico
-- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
-- **Posicionamento Inteligente** - CDK Overlay lida com bordas do viewport e rolagem
-- **Suporte para Texto Bidirecional** - Lida automaticamente com idiomas da direita para a esquerda (RTL)
+- **Navegação por teclado** - Navegue pelas opções com as setas, selecione com Enter e feche com Escape
+- **Suporte a leitores de tela** - Atributos ARIA integrados para tecnologias assistivas
+- **Exibição personalizada** - Exiba os valores selecionados com ícones, formatação ou conteúdo rico
+- **Reatividade baseada em signals** - Gerenciamento de estado reativo usando signals do Angular
+- **Posicionamento inteligente** - O CDK Overlay trata as bordas da janela e a rolagem
+- **Suporte a texto bidirecional** - Trata automaticamente idiomas da direita para a esquerda (RTL)
 
-## Exemplos
+## Exemplos {#examples}
 
-### Select básico
+### Select básico {#basic-select}
 
-Usuários precisam de um dropdown padrão para escolher de uma lista de valores. Um combobox somente leitura pareado com um listbox fornece a experiência familiar de select com suporte completo de acessibilidade.
+Os usuários precisam de uma lista suspensa padrão para escolher um valor entre uma lista de opções. Um combobox combinado com um listbox oferece a experiência familiar de select, com suporte completo à acessibilidade.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/basic/app/app.html"/>
-</docs-code-multifile>
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-O atributo `readonly` em `ngCombobox` previne entrada de texto enquanto preserva a navegação por teclado. Os usuários interagem com o dropdown usando setas e Enter, assim como um elemento select nativo.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-### Select com exibição personalizada
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-Opções frequentemente precisam de indicadores visuais como ícones ou badges para ajudar os usuários a identificar escolhas rapidamente. Templates personalizados dentro das opções permitem formatação rica enquanto mantêm a acessibilidade.
+A digitação de texto é impedida ao aplicar a diretiva `ngCombobox` diretamente em um elemento host não interativo (como um `div` ou um `button`), em vez de um `<input>`. Os usuários interagem com a lista suspensa usando as setas e Enter, exatamente como em um elemento select nativo.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/app/app.html" />
-</docs-code-multifile>
+### Select com exibição personalizada {#select-with-custom-display}
 
-Cada opção exibe um ícone ao lado do rótulo. O valor selecionado atualiza para mostrar o ícone e texto da opção escolhida, fornecendo feedback visual claro.
+As opções muitas vezes precisam de indicadores visuais, como ícones ou badges, para ajudar os usuários a identificar as escolhas rapidamente. Templates personalizados dentro das opções permitem uma formatação rica, mantendo a acessibilidade.
 
-### Select com valores de objeto
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Formulários frequentemente trabalham com estruturas de dados complexas onde o rótulo exibido difere do valor armazenado. Separar o valor da opção de seu rótulo de exibição acomoda este padrão.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/objects/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/objects/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/objects/app/app.html" />
-</docs-code-multifile>
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/icons/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/icons/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-A propriedade `value` em cada opção mantém o objeto ou identificador, enquanto a propriedade `label` fornece o texto de exibição. Esta separação mantém os dados do formulário limpos enquanto mostra texto amigável ao usuário.
+Cada opção exibe um ícone ao lado do rótulo. O valor selecionado é atualizado para mostrar o ícone e o texto da opção escolhida, oferecendo retorno visual claro.
 
-### Select desabilitado
+### Select desabilitado {#disabled-select}
 
-Selects podem ser desabilitados para prevenir interação do usuário quando certas condições do formulário não são atendidas. O estado desabilitado fornece feedback visual e previne interação por teclado.
+Selects podem ser desabilitados para impedir a interação do usuário quando certas condições do formulário não são atendidas. O estado desabilitado oferece retorno visual e impede a interação pelo teclado.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/disabled/app/app.ts">
-  <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/disabled/app/app.html" />
-</docs-code-multifile>
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/disabled/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/disabled/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/disabled/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/disabled/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Quando desabilitado, o select mostra um estado visual desabilitado e bloqueia toda interação do usuário. Leitores de tela anunciam o estado desabilitado para usuários de tecnologia assistiva.
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/disabled/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/disabled/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/disabled/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/disabled/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-## Showcase
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/select/src/disabled/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/select/src/disabled/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/select/src/disabled/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/select/src/disabled/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-TBD
+Quando desabilitado, o select mostra um estado visual de desabilitado e bloqueia toda a interação do usuário. Leitores de tela anunciam o estado desabilitado para usuários de tecnologias assistivas.
 
-## APIs
+## Testes {#testing}
 
-O padrão select usa as seguintes directives da biblioteca Aria do Angular. Veja a documentação completa da API nos guias linkados.
+O padrão select pode ser testado usando uma combinação de `ComboboxHarness` e `ListboxHarness`, de `@angular/aria/combobox/testing` e `@angular/aria/listbox/testing`.
+Veja a seguir um exemplo de como usar os harnesses para testar um componente select:
 
-### Combobox Directives
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComboboxHarness} from '@angular/aria/combobox/testing';
+import {ListboxHarness} from '@angular/aria/listbox/testing';
+import {MySelectComponent} from './my-select'; // Seu componente
 
-O padrão select usa `ngCombobox` com o atributo `readonly` para prevenir entrada de texto enquanto preserva a navegação por teclado.
+describe('MySelectComponent', () => {
+  let fixture: ComponentFixture<MySelectComponent>;
+  let loader: HarnessLoader;
 
-#### Inputs
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MySelectComponent],
+    });
 
-| Property   | Type      | Default | Description                                      |
-| ---------- | --------- | ------- | ------------------------------------------------ |
-| `readonly` | `boolean` | `false` | Defina como `true` para criar comportamento de dropdown |
-| `disabled` | `boolean` | `false` | Desabilita o select inteiro                      |
+    fixture = TestBed.createComponent(MySelectComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-Veja a [documentação da API do Combobox](guide/aria/combobox#apis) para detalhes completos sobre todos os inputs e signals disponíveis.
+  it('should allow selecting an option', async () => {
+    // Carrega o harness do combobox (que atua como o gatilho do select)
+    const select = await loader.getHarness(ComboboxHarness);
 
-### Listbox Directives
+    // Verifica que está fechado inicialmente
+    expect(await select.isOpen()).toBe(false);
 
-O padrão select usa `ngListbox` para a lista dropdown e `ngOption` para cada item selecionável.
+    // Abre a lista suspensa
+    await select.open();
+    expect(await select.isOpen()).toBe(true);
 
-#### Model
+    // Obtém o harness do listbox a partir do popup
+    const listbox = await select.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
+    expect(options.length).toBe(3);
 
-| Property | Type    | Description                                                             |
-| -------- | ------- | ----------------------------------------------------------------------- |
-| `values` | `any[]` | Array bidirecional vinculável de valores selecionados (contém um único valor para select) |
+    // Clica na segunda opção
+    await options[1].click();
 
-Veja a [documentação da API do Listbox](guide/aria/listbox#apis) para detalhes completos sobre configuração do listbox, modos de seleção e propriedades das opções.
-
-### Posicionamento
-
-O padrão select integra com [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamento inteligente. Use `cdkConnectedOverlay` para lidar com bordas do viewport e rolagem automaticamente.
-
-## Estilização
-
-As directives usadas no padrão select não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
-
-### Estilizando o trigger do select
-
-```css
-.select-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  background: white;
-}
-
-.select-trigger:focus-within {
-  outline: 2px solid blue;
-  border-color: blue;
-}
-
-.select-arrow {
-  color: #666;
-  transition: transform 0.2s;
-}
+    // Verifica que a lista suspensa foi fechada e o valor foi atualizado
+    expect(await select.isOpen()).toBe(false);
+    expect(await (await select.host()).text()).toContain('Option 2');
+  });
+});
 ```
 
-### Estilizando o dropdown
+## Referência da API {#api-reference}
 
-```css
-.select-popup {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background: white;
-  max-height: 300px;
-  overflow-y: auto;
-}
-```
+Para a documentação detalhada da API, consulte as seguintes referências:
 
-### Estilizando opções
+- [`Combobox`](/api/aria/combobox/Combobox)
+- [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
+- [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
+- [`Listbox`](/api/aria/listbox/Listbox)
+- [`Option`](/api/aria/listbox/Option)
 
-As opções usam a estilização do listbox. Veja o [guia de estilização do Listbox](guide/aria/listbox#styling) para padrões detalhados de personalização incluindo estados de hover, indicadores de seleção e estilos desabilitados.
+### Posicionamento {#positioning}
+
+O padrão select se integra ao [CDK Overlay](https://material.angular.dev/cdk/overlay/overview) para um posicionamento inteligente. Use `cdkConnectedOverlay` para tratar as bordas da janela e a rolagem automaticamente.

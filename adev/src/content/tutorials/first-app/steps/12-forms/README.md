@@ -9,59 +9,59 @@ Usar uma REST API para enviar e receber os dados do formulário não é coberto 
 
 <docs-video src="https://www.youtube.com/embed/kWbk-dOJaNQ?si=FYMXGdUiT-qh321h"/>
 
-IMPORTANTE: Recomendamos usar seu ambiente local para este passo do tutorial.
+IMPORTANT: Recomendamos usar seu ambiente local para este passo do tutorial.
 
-## O que você vai aprender
+## O que você vai aprender {#what-youll-learn}
 
 - Sua aplicação tem um formulário no qual usuários podem inserir dados que são enviados ao service da sua aplicação.
 - O service escreve os dados do formulário no log do console do browser.
 
 <docs-workflow>
 
-<docs-step title="Adicione um método para enviar dados do formulário">
+<docs-step title="Adicione um método para enviar dados do formulário {#add-a-method-to-send-form-data}">
 Este passo adiciona um método ao service da sua aplicação que recebe os dados do formulário para enviar ao destino dos dados.
 Neste exemplo, o método escreve os dados do formulário no log do console do browser.
 
 No painel **Edit** do seu IDE:
 
-1. Em `src/app/housing.service.ts`, dentro da classe `HousingService`, cole este método no final da definição da classe.
+1.  Em `src/app/housing.service.ts`, dentro da classe `HousingService`, cole este método no final da definição da classe.
 
-<docs-code header="Método submit em src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[120,124]"/>
+       <docs-code header="Método submit em src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[118,122]"/>
 
-1. Confirme que a aplicação builda sem erro.
-   Corrija quaisquer erros antes de continuar para o próximo passo.
-   </docs-step>
+1.  Confirme que a aplicação builda sem erro.
+    Corrija quaisquer erros antes de continuar para o próximo passo.
+    </docs-step>
 
-<docs-step title="Adicione as funções do formulário à página de detalhes">
+<docs-step title="Adicione as funções do formulário à página de detalhes {#add-the-form-functions-to-the-details-page}">
 Este passo adiciona o código à página de detalhes que lida com as interações do formulário.
 
 No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
 
-1. Após as declarações `import` no topo do arquivo, adicione o seguinte código para importar as classes de formulário do Angular.
+1.  Após as declarações `import` no topo do arquivo, adicione o seguinte código para importar as classes de formulário do Angular.
 
-<docs-code header="Imports de formulários em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[5]"/>
+      <docs-code header="Imports de formulários em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[5]"/>
 
-1. Nos metadados do decorator `Details`, atualize a propriedade `imports` com o seguinte código:
+1.  Nos metadados do decorator `Details`, atualize a propriedade `imports` com o seguinte código:
 
-<docs-code header="Directive imports em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[9]"/>
+      <docs-code header="Directive imports em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[9]"/>
 
-1. Na classe `Details`, antes do método `constructor()`, adicione o seguinte código para criar o objeto de formulário.
+1.  Na classe `Details`, antes do método `constructor()`, adicione o seguinte código para criar o objeto de formulário.
 
-   <docs-code header="Directive template em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[52,56]"/>
+      <docs-code header="Directive template em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[52,56]"/>
 
-   No Angular, `FormGroup` e `FormControl` são tipos que permitem que você construa formulários. O tipo `FormControl` pode fornecer um valor padrão e moldar os dados do formulário. Neste exemplo `firstName` é uma `string` e o valor padrão é string vazia.
+    No Angular, `FormGroup` e `FormControl` são tipos que permitem que você construa formulários. O tipo `FormControl` pode fornecer um valor padrão e moldar os dados do formulário. Neste exemplo `firstName` é uma `string` e o valor padrão é string vazia.
 
-1. Na classe `Details`, após o método `constructor()`, adicione o seguinte código para lidar com o clique em **Apply now**.
+1.  Na classe `Details`, após o método `constructor()`, adicione o seguinte código para lidar com o clique em **Apply now**.
 
-   <docs-code header="Directive template em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[62,68]"/>
+      <docs-code header="Directive template em src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[62,68]"/>
 
-   Este botão ainda não existe - você o adicionará no próximo passo. No código acima, os `FormControl`s podem retornar `null`. Este código usa o operador de coalescência nula para usar string vazia como padrão se o valor for `null`.
+    Este botão ainda não existe - você o adicionará no próximo passo. No código acima, os `FormControl`s podem retornar `null`. Este código usa o operador de coalescência nula para usar string vazia como padrão se o valor for `null`.
 
-1. Confirme que a aplicação builda sem erro.
-   Corrija quaisquer erros antes de continuar para o próximo passo.
-   </docs-step>
+1.  Confirme que a aplicação builda sem erro.
+    Corrija quaisquer erros antes de continuar para o próximo passo.
+    </docs-step>
 
-<docs-step title="Adicione a marcação do formulário à página de detalhes">
+<docs-step title="Adicione a marcação do formulário à página de detalhes {#add-the-forms-markup-to-the-details-page}">
 Este passo adiciona a marcação à página de detalhes que exibe o formulário.
 
 No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
@@ -75,11 +75,11 @@ No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
 1. Confirme que a aplicação builda sem erro.
    Corrija quaisquer erros antes de continuar para o próximo passo.
 
-<img alt="página de detalhes com um formulário para se candidatar a morar neste local" src="assets/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
+   <img alt="página de detalhes com um formulário para se candidatar a morar neste local" src="assets/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
 
 </docs-step>
 
-<docs-step title="Teste o novo formulário da sua aplicação">
+<docs-step title="Teste o novo formulário da sua aplicação {#test-your-apps-new-form}">
 Este passo testa o novo formulário para ver que quando os dados do formulário são enviados à aplicação, os dados do formulário aparecem no log do console.
 
 1. No painel **Terminal** do seu IDE, execute `ng serve`, se ele ainda não estiver rodando.
@@ -97,7 +97,7 @@ Este passo testa o novo formulário para ver que quando os dados do formulário 
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você atualizou sua aplicação para adicionar um formulário usando o recurso de formulários do Angular, e conectou os dados capturados no formulário a um component usando um manipulador de evento.
+SUMMARY: Nesta lição, você atualizou sua aplicação para adicionar um formulário usando o recurso de formulários do Angular, e conectou os dados capturados no formulário a um component usando um manipulador de evento.
 
 Para mais informações sobre os tópicos cobertos nesta lição, visite:
 

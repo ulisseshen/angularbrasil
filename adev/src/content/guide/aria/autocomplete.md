@@ -1,144 +1,227 @@
 <!-- ia-translate: true -->
-<docs-decorative-header title="Autocomplete">
-</docs-decorative-header>
+# Autocomplete
 
-## Visão Geral
+## Visão geral {#overview}
 
-Um campo de input acessível que filtra e sugere opções conforme os usuários digitam, ajudando-os a encontrar e selecionar valores de uma lista.
+Um campo de input acessível que filtra e sugere opções conforme o usuário digita, ajudando-o a encontrar e selecionar valores de uma lista.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts">
-  <docs-code header="app.component.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts"/>
-  <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.html"/>
-  <docs-code header="app.component.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.css"/>
-</docs-code-multifile>
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-## Uso
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
 
-Autocomplete funciona melhor quando os usuários precisam selecionar de um grande conjunto de opções onde digitar é mais rápido do que rolar a página. Considere usar autocomplete quando:
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
 
-- **A lista de opções é longa** (mais de 20 itens) - Digitar reduz as escolhas mais rápido do que rolar por um dropdown
-- **Os usuários sabem o que estão procurando** - Eles podem digitar parte do valor esperado (como nome de estado, produto ou nome de usuário)
-- **As opções seguem padrões previsíveis** - Os usuários podem adivinhar correspondências parciais (como códigos de país, domínios de email ou categorias)
-- **Velocidade importa** - Formulários se beneficiam de seleção rápida sem navegação extensa
+## Uso {#usage}
+
+Autocomplete funciona melhor quando os usuários precisam selecionar em um conjunto grande de opções, em que digitar é mais rápido do que rolar a lista. Considere usar autocomplete quando:
+
+- **A lista de opções for longa** (mais de 20 itens) - Digitar reduz as escolhas mais rápido do que rolar por um dropdown
+- **Os usuários souberem o que estão procurando** - Eles podem digitar parte do valor esperado (como o nome de um estado, um produto ou um nome de usuário)
+- **As opções seguirem padrões previsíveis** - Os usuários podem adivinhar correspondências parciais (como códigos de país, domínios de e-mail ou categorias)
+- **A velocidade importar** - Formulários se beneficiam de uma seleção rápida, sem muita navegação
 
 Evite autocomplete quando:
 
-- A lista tem menos de 10 opções - Um dropdown regular ou grupo de radio buttons fornece melhor visibilidade
-- Os usuários precisam navegar pelas opções - Se a descoberta é importante, mostre todas as opções antecipadamente
-- As opções são desconhecidas - Os usuários não podem digitar o que não sabem que existe na lista
+- A lista tiver menos de 10 opções - Um dropdown comum ou um grupo de rádio oferece melhor visibilidade
+- Os usuários precisarem navegar pelas opções - Se a descoberta for importante, mostre todas as opções logo de início
+- As opções forem desconhecidas - Os usuários não conseguem digitar algo que não sabem que existe na lista
 
-## Recursos
+## Recursos {#features}
 
-O autocomplete do Angular fornece uma implementação de combobox totalmente acessível com:
+O autocomplete do Angular fornece uma implementação de combobox totalmente acessível, com:
 
-- **Navegação por Teclado** - Navegue pelas opções com as setas, selecione com Enter, feche com Escape
-- **Suporte para Leitores de Tela** - Atributos ARIA integrados para tecnologias assistivas
-- **Três Modos de Filtro** - Escolha entre seleção automática, seleção manual ou comportamento de destaque
-- **Reatividade Baseada em Signals** - Gerenciamento de estado reativo usando signals do Angular
-- **Integração com Popover API** - Aproveita a Popover API nativa do HTML para posicionamento ideal
-- **Suporte para Texto Bidirecional** - Lida automaticamente com idiomas da direita para a esquerda (RTL)
+- **Navegação por teclado** - Navegue pelas opções com as setas, selecione com Enter e feche com Escape
+- **Suporte a leitores de tela** - Atributos ARIA integrados para tecnologias assistivas
+- **Comportamento de destaque dinâmico** - Suporte integrado a sugestões de seleção inline
+- **Reatividade baseada em signals** - Gerenciamento de estado reativo usando signals do Angular
+- **Integração com a Popover API** - Aproveita a Popover API nativa do HTML para um posicionamento ideal
+- **Suporte a texto bidirecional** - Lida automaticamente com idiomas da direita para a esquerda (RTL)
 
-## Exemplos
+## Exemplos {#examples}
 
-### Modo de seleção automática
+### Modo de seleção automática {#auto-select-mode}
 
-Usuários digitando texto parcial esperam confirmação imediata de que sua entrada corresponde a uma opção disponível. O modo de seleção automática atualiza o valor do input para corresponder à primeira opção filtrada conforme os usuários digitam, reduzindo o número de teclas pressionadas necessárias e fornecendo feedback instantâneo de que sua busca está no caminho certo.
+Usuários que digitam um texto parcial esperam uma confirmação imediata de que a entrada corresponde a uma opção disponível. O modo de seleção automática atualiza o valor do input para corresponder à primeira opção filtrada conforme o usuário digita, reduzindo o número de teclas pressionadas e dando um retorno instantâneo de que a busca está no caminho certo.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts">
-  <docs-code header="app.component.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.ts" visibleLines="[1,7,33,40]"/>
-  <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.component.html"/>
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+### Modo de seleção manual {#manual-selection-mode}
+
+O modo de seleção manual mantém o texto digitado inalterado enquanto o usuário navega pela lista de sugestões, evitando confusão causada por atualizações automáticas. O input só muda quando o usuário confirma explicitamente a escolha com Enter ou com um clique.
+
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/manual/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/manual/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+### Modo de destaque {#highlight-mode}
+
+O modo de destaque permite que o usuário navegue pelas opções com as setas sem alterar o valor do input enquanto percorre a lista, até que ele selecione explicitamente uma nova opção com Enter ou com um clique.
+
+<docs-tab-group>
+  <docs-tab label="Básico">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/highlight/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/highlight/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/highlight/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/highlight/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/highlight/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/highlight/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/highlight/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/highlight/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+### Integração com Signal Forms {#signal-forms-integration}
+
+O Angular Aria se integra perfeitamente à API [Signal Forms](guide/forms/signals/overview), baseada em signals. Você pode encapsular inputs complexos em components de controle personalizados e reutilizáveis que implementam `FormValueControl`.
+
+O exemplo a seguir demonstra um component seletor de países que implementa `FormValueControl<string>`, vinculado ao formulário pai usando `[formField]` e protegido por regras de validação de schema.
+
+<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.ts">
+  <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.ts"/>
+  <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.html"/>
+  <docs-code header="country-selector.ts" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/country-selector.ts"/>
+  <docs-code header="country-selector.html" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/country-selector.html"/>
+  <docs-code header="country-selector.css" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/country-selector.css"/>
+  <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.css"/>
 </docs-code-multifile>
 
-### Modo de seleção manual
+## Testes {#testing}
 
-O modo de seleção manual mantém o texto digitado inalterado enquanto os usuários navegam pela lista de sugestões, evitando confusão com atualizações automáticas. O input só muda quando os usuários confirmam explicitamente sua escolha com Enter ou um clique.
+O padrão de autocomplete pode ser testado usando uma combinação de `ComboboxHarness` e `ListboxHarness`, de `@angular/aria/combobox/testing` e `@angular/aria/listbox/testing`.
+Veja um exemplo de como usar os harnesses para testar um component de autocomplete:
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.component.ts">
-  <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/manual/app/app.component.html" visibleLines="[1]"/>
-</docs-code-multifile>
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComboboxHarness} from '@angular/aria/combobox/testing';
+import {ListboxHarness} from '@angular/aria/listbox/testing';
+import {MyAutocompleteComponent} from './my-autocomplete'; // Seu component
 
-### Modo de destaque
+describe('MyAutocompleteComponent', () => {
+  let fixture: ComponentFixture<MyAutocompleteComponent>;
+  let loader: HarnessLoader;
 
-O modo de destaque permite que o usuário navegue pelas opções com as setas sem alterar o valor do input conforme navegam até que selecionem explicitamente uma nova opção com Enter ou clique.
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyAutocompleteComponent],
+    });
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.component.ts">
-  <docs-code header="app.component.html" path="adev/src/content/examples/aria/autocomplete/src/highlight/app/app.component.html" visibleLines="[1]"/>
-</docs-code-multifile>
+    fixture = TestBed.createComponent(MyAutocompleteComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-## Showcase
+  it('should filter options based on input', async () => {
+    const combobox = await loader.getHarness(ComboboxHarness);
 
-TBD
+    // Digita no input para acionar o filtro
+    await combobox.setValue('ap');
+    expect(await combobox.isOpen()).toBe(true);
 
-## APIs
+    // Obtém o harness do listbox a partir do popup
+    const listbox = await combobox.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
 
-### Combobox Directive
+    // Verifica se as opções foram filtradas (por exemplo, 'Apple', 'Apricot')
+    expect(options.length).toBe(2);
+    expect(await options[0].getText()).toBe('Apple');
 
-A directive `ngCombobox` fornece o container para a funcionalidade de autocomplete.
+    // Seleciona a primeira opção
+    await options[0].click();
 
-#### Inputs
-
-| Property     | Type                                           | Default    | Description                                              |
-| ------------ | ---------------------------------------------- | ---------- | -------------------------------------------------------- |
-| `filterMode` | `'auto-select'` \| `'manual'` \| `'highlight'` | `'manual'` | Controla o comportamento de seleção                      |
-| `disabled`   | `boolean`                                      | `false`    | Desabilita o combobox                                    |
-| `firstMatch` | `string`                                       | -          | O valor do primeiro item correspondente no popup         |
-
-#### Outputs
-
-| Property   | Type              | Description                                          |
-| ---------- | ----------------- | ---------------------------------------------------- |
-| `expanded` | `Signal<boolean>` | Signal indicando se o popup está atualmente aberto   |
-
-### ComboboxInput Directive
-
-A directive `ngComboboxInput` conecta um elemento input ao combobox.
-
-#### Model
-
-| Property | Type     | Description                                                              |
-| -------- | -------- | ------------------------------------------------------------------------ |
-| `value`  | `string` | Valor string bidirecional vinculável do input usando `[(value)]`         |
-
-### ComboboxPopupContainer Directive
-
-A directive `ngComboboxPopupContainer` envolve o conteúdo do popup e gerencia sua exibição.
-
-Deve ser usado com `<ng-template>` dentro de um elemento popover.
-
-### Componentes relacionados
-
-Autocomplete usa as directives [Listbox](https://angular.dev/api/aria/listbox/Listbox) e [Option](https://angular.dev/api/aria/listbox/Option) para renderizar a lista de sugestões. Veja a [documentação do Listbox](https://angular.dev/guide/aria/listbox) para opções adicionais de personalização.
-
-## Estilização
-
-Os componentes de autocomplete não incluem estilos padrão. Isso permite personalização completa para corresponder ao seu design system. Aplique estilos através de classes CSS padrão ou bindings de estilo.
-
-### Estilizando o input
-
-```css
-input[ngComboboxInput] {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-input[ngComboboxInput]:focus {
-  outline: 2px solid blue;
-  border-color: blue;
-}
+    // Verifica se o valor do input foi atualizado e se o popup foi fechado
+    expect(await combobox.isOpen()).toBe(false);
+    expect(await combobox.getValue()).toBe('Apple');
+  });
+});
 ```
 
-### Estilizando o popup
+## Referência da API {#api-reference}
 
-```css
-[popover] {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 0;
-}
-```
+Para a documentação detalhada da API, consulte as seguintes referências:
 
-### Estilizando opções
-
-As opções usam a estilização do listbox. Veja o [guia de estilização do Listbox](https://angular.dev/guide/aria/listbox#styling) para padrões detalhados de personalização.
+- [`Combobox`](/api/aria/combobox/Combobox)
+- [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
+- [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
+- [`Listbox`](/api/aria/listbox/Listbox)
+- [`Option`](/api/aria/listbox/Option)

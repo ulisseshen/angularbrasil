@@ -12,22 +12,20 @@ export class ListboxBase {
   value: string;
 }
 
-@Component({ ... })
+@Component(/* ... */)
 export class CustomListbox extends ListboxBase {
-  // CustomListbox inherits the `value` property.
+  // CustomListbox herda a propriedade `value`.
 }
 ```
 
-## Estendendo outros components e directives
+## Estendendo outros components e directives {#extending-other-components-and-directives}
 
-Quando um component estende outro component ou uma directive, ele herda alguns dos metadados definidos no decorator da classe base e nos membros decorados da classe base. Isso inclui bindings de host, inputs, outputs e métodos de ciclo de vida.
+Quando um component estende outro component ou uma directive, ele herda parte dos metadados definidos no decorator da classe base e dos membros decorados da classe base. Isso inclui bindings de host, inputs, outputs e métodos de ciclo de vida.
 
 ```angular-ts
 @Component({
   selector: 'base-listbox',
-  template: `
-    ...
-  `,
+  template: ` ... `,
   host: {
     '(keydown)': 'handleKey($event)',
   },
@@ -41,9 +39,7 @@ export class ListboxBase {
 
 @Component({
   selector: 'custom-listbox',
-  template: `
-    ...
-  `,
+  template: ` ... `,
   host: {
     '(click)': 'focusActiveOption()',
   },
@@ -58,19 +54,33 @@ export class CustomListbox extends ListboxBase {
 
 No exemplo acima, `CustomListbox` herda todas as informações associadas a `ListboxBase`, sobrescrevendo o seletor e o template com seus próprios valores. `CustomListbox` tem dois inputs (`value` e `disabled`) e dois event listeners (`keydown` e `click`).
 
-Classes filhas acabam com a _união_ de todos os inputs, outputs e bindings de host de seus ancestrais e os seus próprios.
+Classes filhas acabam com a _união_ de todos os inputs, outputs e bindings de host de seus ancestrais, além dos próprios.
 
-### Encaminhando dependências injetadas
+### Encaminhando dependências injetadas {#forwarding-injected-dependencies}
 
-Se uma classe base injeta dependências como parâmetros do constructor, a classe filha deve explicitamente passar essas dependências para `super`.
+Quando uma classe base usa `inject()` como inicializador de propriedade, a classe filha herda a propriedade automaticamente. Não é necessário encaminhar nada com `super`.
 
 ```ts
-@Component({ ... })
+@Component(/* ... */)
 export class ListboxBase {
-  constructor(private element: ElementRef) { }
+  protected element = inject(ElementRef);
 }
 
-@Component({ ... })
+@Component(/* ... */)
+export class CustomListbox extends ListboxBase {
+  // `element` é herdado de `ListboxBase`.
+}
+```
+
+Se uma classe base injeta dependências como parâmetros do constructor, a classe filha deve passar explicitamente essas dependências para `super`.
+
+```ts
+@Component(/* ... */)
+export class ListboxBase {
+  constructor(private element: ElementRef) {}
+}
+
+@Component(/* ... */)
 export class CustomListbox extends ListboxBase {
   constructor(element: ElementRef) {
     super(element);
@@ -78,12 +88,12 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-### Sobrescrevendo métodos de ciclo de vida
+### Sobrescrevendo métodos de ciclo de vida {#overriding-lifecycle-methods}
 
 Se uma classe base define um método de ciclo de vida, como `ngOnInit`, uma classe filha que também implementa `ngOnInit` _sobrescreve_ a implementação da classe base. Se você quiser preservar o método de ciclo de vida da classe base, chame explicitamente o método com `super`:
 
 ```ts
-@Component({ ... })
+@Component(/* ... */)
 export class ListboxBase {
   protected isInitialized = false;
   ngOnInit() {
@@ -91,7 +101,7 @@ export class ListboxBase {
   }
 }
 
-@Component({ ... })
+@Component(/* ... */)
 export class CustomListbox extends ListboxBase {
   override ngOnInit() {
     super.ngOnInit();

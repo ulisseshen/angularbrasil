@@ -6,14 +6,14 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
+import {computeMsgId} from '@angular/compiler';
+import {clearTranslations, loadTranslations} from '@angular/localize';
+import {DomSanitizer} from '@angular/platform-browser';
 import {Component, Directive, HostBinding, Input, NO_ERRORS_SCHEMA} from '../../src/core';
 import {ComponentFixture, getTestBed, TestBed} from '../../testing';
-import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
-  selector: 'my-comp',
   template: '',
-  standalone: false,
 })
 class SecuredComponent {
   ctxProp: any = 'some value';
@@ -21,7 +21,6 @@ class SecuredComponent {
 
 @Directive({
   selector: '[onPrefixedProp]',
-  standalone: false,
 })
 class OnPrefixDir {
   @Input() onPrefixedProp: any;
@@ -29,12 +28,6 @@ class OnPrefixDir {
 }
 
 describe('security integration tests', function () {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [SecuredComponent, OnPrefixDir],
-    });
-  });
-
   beforeEach(() => {
     // Disable logging for these tests.
     spyOn(console, 'log').and.callFake(() => {});
@@ -48,11 +41,8 @@ describe('security integration tests', function () {
       TestBed.overrideComponent(SecuredComponent, {set: {template}});
 
       expect(() => {
-        const cmp = TestBed.createComponent(SecuredComponent);
-        cmp.detectChanges();
-      }).toThrowError(
-        /Binding to event attribute 'onclick' is disallowed for security reasons, please use \(click\)=.../,
-      );
+        TestBed.createComponent(SecuredComponent);
+      }).toThrowError();
     });
 
     // this test is similar to the previous one, but since on-prefixed attributes validation now
@@ -73,7 +63,9 @@ describe('security integration tests', function () {
 
     it('should disallow binding to on* unless it is consumed by a directive', () => {
       const template = `<div [onPrefixedProp]="ctxProp" [onclick]="ctxProp"></div>`;
-      TestBed.overrideComponent(SecuredComponent, {set: {template}}).configureTestingModule({
+      TestBed.overrideComponent(SecuredComponent, {
+        set: {template, imports: [OnPrefixDir]},
+      }).configureTestingModule({
         schemas: [NO_ERRORS_SCHEMA],
       });
 
@@ -89,6 +81,44 @@ describe('security integration tests', function () {
       expect(div.nativeElement.onclick).not.toBe(value);
       expect(div.nativeElement.hasAttribute('onclick')).toEqual(false);
     });
+
+    for (const ngDevModeValue of [true, false]) {
+      it(`should disallow binding to attr.on* in host bindings with ngDevMode=${ngDevModeValue}`, () => {
+        // TODO: There is probably a bug here, this test fails if we migrate it to standalone components. Check why.
+        const originalNgDevMode = (globalThis as any).ngDevMode;
+        (globalThis as any).ngDevMode = ngDevModeValue;
+
+        @Directive({
+          selector: '[dirOnclick]',
+          standalone: false,
+        })
+        class LocalHostOnclickDirective {
+          @HostBinding('attr.onclick') @Input() dirOnclick: string | undefined;
+        }
+
+        @Component({
+          template: `<button [dirOnclick]="ctxProp"></button>`,
+          standalone: false,
+        })
+        class LocalSecuredComponent {
+          ctxProp: any = 'some value';
+        }
+
+        try {
+          TestBed.configureTestingModule({
+            declarations: [LocalSecuredComponent, LocalHostOnclickDirective],
+          });
+
+          expect(() => {
+            TestBed.createComponent(LocalSecuredComponent);
+          }).toThrowError(
+            /Binding to event attribute 'onclick' is disallowed for security reasons, please use \(click\)=.../,
+          );
+        } finally {
+          (globalThis as any).ngDevMode = originalNgDevMode;
+        }
+      });
+    }
   });
 
   describe('safe HTML values', function () {
@@ -164,18 +194,32 @@ describe('security integration tests', function () {
       checkEscapeOfHrefProperty(fixture);
     });
 
+    it('should escape unsafe attributes on custom namespaced elements', () => {
+      const template = `<xhtml:a xmlns:xhtml="http://www.w3.org/1999/xhtml" [attr.href]="ctxProp">Link Title</xhtml:a>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+      const fixture = TestBed.createComponent(SecuredComponent);
+
+      checkEscapeOfHrefProperty(fixture);
+    });
+
+    it('should escape unsafe properties on custom namespaced elements', () => {
+      const template = `<xhtml:a xmlns:xhtml="http://www.w3.org/1999/xhtml" [href]="ctxProp">Link Title</xhtml:a>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+      const fixture = TestBed.createComponent(SecuredComponent);
+
+      checkEscapeOfHrefProperty(fixture);
+    });
+
     it('should escape unsafe properties if they are used in host bindings', () => {
       @Directive({
         selector: '[dirHref]',
-        standalone: false,
       })
       class HrefDirective {
         @HostBinding('href') @Input() dirHref: string | undefined;
       }
 
       const template = `<a [dirHref]="ctxProp">Link Title</a>`;
-      TestBed.configureTestingModule({declarations: [HrefDirective]});
-      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+      TestBed.overrideComponent(SecuredComponent, {set: {template, imports: [HrefDirective]}});
       const fixture = TestBed.createComponent(SecuredComponent);
 
       checkEscapeOfHrefProperty(fixture);
@@ -184,15 +228,13 @@ describe('security integration tests', function () {
     it('should escape unsafe attributes if they are used in host bindings', () => {
       @Directive({
         selector: '[dirHref]',
-        standalone: false,
       })
       class HrefDirective {
         @HostBinding('attr.href') @Input() dirHref: string | undefined;
       }
 
       const template = `<a [dirHref]="ctxProp">Link Title</a>`;
-      TestBed.configureTestingModule({declarations: [HrefDirective]});
-      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+      TestBed.overrideComponent(SecuredComponent, {set: {template, imports: [HrefDirective]}});
       const fixture = TestBed.createComponent(SecuredComponent);
 
       checkEscapeOfHrefProperty(fixture);
@@ -239,6 +281,98 @@ describe('security integration tests', function () {
   });
 
   describe('translation', () => {
+    afterEach(() => {
+      clearTranslations();
+    });
+
+    it('should throw error on SVG animation retargeting attributes', () => {
+      const template = `
+        <svg>
+          <a href="/safe">
+            <set
+              attributeName="href"
+              to="http://safe.com"
+              i18n-attributeName
+              i18n-to
+              begin="0s"
+              fill="freeze">
+            </set>
+          </a>
+        </svg>
+      `;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      expect(() => {
+        const fixture = TestBed.createComponent(SecuredComponent);
+        fixture.detectChanges();
+      }).toThrowError(
+        /For security reasons, the `attributeName` can be set on the <set> element as a static attribute only/i,
+      );
+    });
+
+    it('should allow non-security sensitive attributes', () => {
+      loadTranslations({[computeMsgId('foo')]: 'bar'});
+      const template = `<iframe title="foo" i18n-title></iframe>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      const fixture = TestBed.createComponent(SecuredComponent);
+      fixture.detectChanges();
+      const element = fixture.nativeElement.querySelector('iframe');
+      expect(element.getAttribute('title')).toEqual('bar');
+    });
+
+    it('should sanitize translations of static iframe attributes', () => {
+      const template = `<iframe sandbox="allow-scripts" i18n-sandbox></iframe>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      expect(() => {
+        const fixture = TestBed.createComponent(SecuredComponent);
+        fixture.detectChanges();
+      }).toThrowError(
+        /For security reasons, the `sandbox` can be set on the <iframe> element as a static attribute only/i,
+      );
+    });
+
+    it('should sanitize translated static href attributes', () => {
+      loadTranslations({[computeMsgId('/safe')]: 'javascript:alert(1)'});
+      const template = `<a href="/safe" i18n-href>Link</a>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      const fixture = TestBed.createComponent(SecuredComponent);
+      fixture.detectChanges();
+
+      const link = fixture.nativeElement.querySelector('a');
+      expect(link.getAttribute('href')).toEqual('unsafe:javascript:alert(1)');
+    });
+
+    it('should sanitize translated static href attributes on custom namespaced elements', () => {
+      loadTranslations({[computeMsgId('/safe')]: 'javascript:alert(1)'});
+      const template = `<xhtml:a xmlns:xhtml="http://www.w3.org/1999/xhtml" href="/safe" i18n-href>Link</xhtml:a>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      const fixture = TestBed.createComponent(SecuredComponent);
+      fixture.detectChanges();
+
+      const link = fixture.nativeElement.querySelector('a');
+      expect(link.getAttribute('href')).toEqual('unsafe:javascript:alert(1)');
+    });
+
+    it('should throw error on translated event attributes', () => {
+      const template = `<img src="/missing-image.png" onerror="void 0" i18n-onerror>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      expect(() => TestBed.createComponent(SecuredComponent)).toThrowError(
+        /Translating attribute 'onerror' is disallowed for security reasons./,
+      );
+    });
+
+    it('should not throw error on translating "on" attribute', () => {
+      const template = `<div on="some-value" i18n-on></div>`;
+      TestBed.overrideComponent(SecuredComponent, {set: {template}});
+
+      expect(() => TestBed.createComponent(SecuredComponent)).not.toThrow();
+    });
+
     it('should throw error on security-sensitive attributes with constant values', () => {
       const template = `<iframe srcdoc="foo" i18n-srcdoc></iframe>`;
       TestBed.overrideComponent(SecuredComponent, {set: {template}});

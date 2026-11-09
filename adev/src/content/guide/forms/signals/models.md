@@ -4,187 +4,202 @@
 
 Form models são a fundação de Signal Forms, servindo como a única fonte de verdade para os dados do seu formulário. Este guia explora como criar form models, atualizá-los e projetá-los para manutenibilidade.
 
-NOTE: Form models são distintos do signal `model()` do Angular usado para two-way binding de components. Um form model é um signal gravável que armazena dados de formulário, enquanto `model()` cria inputs/outputs para comunicação entre components pai/filho.
+NOTE: Form models são distintos do `model()` signal do Angular usado para two-way binding de components. Um form model é um signal gravável que armazena dados de formulário, enquanto `model()` cria inputs/outputs para comunicação entre components pai/filho.
 
-## O que form models resolvem
+## O que form models resolvem {#what-form-models-solve}
 
-Formulários requerem gerenciamento de dados que mudam ao longo do tempo. Sem uma estrutura clara, esses dados podem ficar dispersos por propriedades de components, tornando difícil rastrear mudanças, validar entrada ou enviar dados para um servidor.
+Formulários requerem gerenciamento de dados que mudam ao longo do tempo. Sem uma estrutura clara, esses dados podem ficar espalhados por propriedades de components, tornando difícil rastrear mudanças, validar entradas ou enviar dados para um servidor.
 
-Form models resolvem isso centralizando dados de formulário em um único signal gravável. Quando o model é atualizado, o formulário reflete automaticamente essas mudanças. Quando usuários interagem com o formulário, o model é atualizado adequadamente.
+Form models resolvem isso centralizando os dados do formulário em um único signal gravável. Quando o model é atualizado, o formulário reflete essas mudanças automaticamente. Quando os usuários interagem com o formulário, o model é atualizado de acordo.
 
-## Criando models
+## Criando models {#creating-models}
 
 Um form model é um signal gravável criado com a função `signal()` do Angular. O signal contém um objeto que representa a estrutura de dados do seu formulário.
 
-```ts
-import { Component, signal } from '@angular/core'
-import { form, Field } from '@angular/forms/signals'
+```angular-ts
+import {Component, signal} from '@angular/core';
+import {form, FormField} from '@angular/forms/signals';
 
 @Component({
   selector: 'app-login',
-  imports: [Field],
+  imports: [FormField],
   template: `
-    <input type="email" [field]="loginForm.email" />
-    <input type="password" [field]="loginForm.password" />
-  `
+    <input type="email" [formField]="loginForm.email" />
+    <input type="password" [formField]="loginForm.password" />
+  `,
 })
 export class LoginComponent {
   loginModel = signal({
     email: '',
-    password: ''
-  })
+    password: '',
+  });
 
-  loginForm = form(this.loginModel)
+  loginForm = form(this.loginModel);
 }
 ```
 
-A função `form()` aceita o model signal e cria uma **field tree** - uma estrutura de objeto especial que espelha a forma do seu model. A field tree é tanto navegável (acessa campos filhos com notação de ponto como `loginForm.email`) quanto chamável (chama um field como uma função para acessar seu estado).
+A função [`form()`](api/forms/signals/form) aceita o model signal e cria uma **field tree**, uma estrutura de objeto especial que espelha o formato do seu model. A field tree é ao mesmo tempo navegável (você acessa os fields filhos com notação de ponto, como `loginForm.email`) e chamável (você chama um field como função para acessar o state dele).
 
-A directive `[field]` vincula cada elemento input ao seu field correspondente na field tree, habilitando sincronização automática de duas vias entre a UI e o model.
+A directive `[formField]` vincula cada elemento de input ao field correspondente na field tree, habilitando sincronização bidirecional automática entre a UI e o model.
+
+### Estruturas de model suportadas {#supported-model-structures}
+
+Signal Forms constrói a field tree percorrendo o seu model. Os objetos e arrays que ele percorre (a **camada estrutural**) devem ser objetos e arrays JavaScript simples. Os valores nas **folhas** (posições sem fields aninhados) costumam ser primitivos (strings, números, booleanos) ou `null`. Os inputs nativos `date`, `month`, `time` e `week` também aceitam `Date`, e custom controls podem aceitar qualquer tipo de valor que eles entendam.
+
+```ts {prefer, header: 'Plain structure'}
+interface UserFormModel {
+  name: string;
+  birthday: Date | null;
+  preferences: {
+    theme: string;
+    notifications: boolean;
+  };
+  tags: string[];
+}
+
+const userModel = signal<UserFormModel>({
+  name: '',
+  birthday: null,
+  preferences: {
+    theme: 'dark',
+    notifications: true,
+  },
+  tags: [],
+});
+```
+
+IMPORTANTE: Instâncias de classe, `Map` e `Set` **não são suportados na camada estrutural**, mesmo que o TypeScript os aceite. Signal Forms não valida o formato do model em tempo de execução, então o framework aceita esses valores sem lançar erro e produz comportamentos incorretos de formas diferentes, dependendo do formato:
+
+- **Instâncias de classe** perdem seu prototype na primeira escrita, porque Signal Forms faz uma cópia rasa dos objetos pai durante a atualização. Métodos, getters e verificações com `instanceof` deixam de funcionar depois disso.
+- **Objetos não extensíveis ou congelados dentro de arrays** lançam erro quando Signal Forms atribui um símbolo de rastreamento para preservar a identidade dos itens durante reordenações.
+- **`Map` e `Set`** produzem field trees vazias, porque Signal Forms enumera os filhos com `Object.keys`.
+
+Se a sua aplicação usa classes para modelagem de domínio, converta para objetos simples na fronteira do formulário. Veja [Traduzindo entre o model do formulário e o model de domínio](guide/forms/signals/model-design#translating-between-form-model-and-domain-model).
 
 ### Usando tipos TypeScript {#using-typescript-types}
 
-Embora o TypeScript infira tipos de literais de objeto, definir tipos explícitos melhora a qualidade do código e fornece melhor suporte IntelliSense.
+Embora o TypeScript infira tipos a partir de object literals, definir tipos explícitos melhora a qualidade do código e oferece melhor suporte de IntelliSense.
 
 ```ts
 interface LoginData {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export class LoginComponent {
   loginModel = signal<LoginData>({
     email: '',
-    password: ''
-  })
+    password: '',
+  });
 
-  loginForm = form(this.loginModel)
+  loginForm = form(this.loginModel);
 }
 ```
 
-Com tipos explícitos, a field tree fornece type safety completo. Acessar `loginForm.email` é tipado como `FieldTree<string>`, e tentar acessar uma propriedade inexistente resulta em um erro em tempo de compilação.
+Com tipos explícitos, a field tree oferece type safety completo. Acessar `loginForm.email` é tipado como `FieldTree<string>`, e tentar acessar uma propriedade inexistente resulta em erro de compilação.
 
 ```ts
-// TypeScript knows this is FieldTree<string>
-const emailField = loginForm.email
+// O TypeScript sabe que isto é FieldTree<string>
+const emailField = loginForm.email;
 
-// TypeScript error: Property 'username' does not exist
-const usernameField = loginForm.username
+// Erro do TypeScript: a propriedade 'username' não existe
+const usernameField = loginForm.username;
 ```
 
-### Inicializando todos os fields {#replacing-form-models-with-set}
+### Inicializando todos os fields {#initializing-all-fields}
 
-Form models devem fornecer valores iniciais para todos os fields que você deseja incluir na field tree.
+Form models devem fornecer valores iniciais para todos os fields que você quer incluir na field tree.
 
-```ts
-// Good: All fields initialized
+```ts {prefer}
+// Bom: todos os fields inicializados
 const userModel = signal({
   name: '',
   email: '',
-  age: 0
-})
-
-// Avoid: Missing initial value
-const userModel = signal({
-  name: '',
-  email: ''
-  // age field is not defined - cannot access userForm.age
-})
+  age: 0,
+});
 ```
 
-Para fields opcionais, defina-os explicitamente como `null` ou um valor vazio:
+```ts {avoid}
+// Evite: valor inicial ausente
+const userModel = signal({
+  name: '',
+  email: '',
+  // o field age não está definido: não é possível acessar userForm.age
+});
+```
+
+Para fields opcionais, defina-os explicitamente como um valor vazio ou `null`:
 
 ```ts
 interface UserData {
-  name: string
-  email: string
-  phoneNumber: string | null
+  name: string;
+  email: string;
+  phoneNumber: string | null;
 }
 
 const userModel = signal<UserData>({
   name: '',
   email: '',
-  phoneNumber: null
-})
+  phoneNumber: null,
+});
 ```
 
-Fields definidos como `undefined` são excluídos da field tree. Um model com `{value: undefined}` se comporta identicamente a `{}` - acessar o field retorna `undefined` ao invés de um `FieldTree`.
+HELPFUL: Controles de texto nativos como `<input type=text>` e `<textarea>` não suportam `null`; use `''` para representar um valor vazio.
 
-### Adição dinâmica de field
+Fields definidos como `undefined` são excluídos da field tree. Um model com `{value: undefined}` se comporta de forma idêntica a `{}`: acessar o field retorna `undefined` em vez de um `FieldTree`.
 
-Você pode adicionar fields dinamicamente atualizando o model com novas propriedades. A field tree atualiza automaticamente para incluir novos fields quando eles aparecem no valor do model.
+## Lendo valores do model {#reading-model-values}
 
-```ts
-// Start with just email
-const model = signal({ email: '' })
-const myForm = form(model)
+Você pode acessar os valores do formulário de duas formas: diretamente do model signal ou por meio de fields individuais. Cada abordagem serve a um propósito diferente.
 
-// Later, add a password field
-model.update(current => ({ ...current, password: '' }))
-// myForm.password is now available
-```
+### Lendo do model {#reading-from-the-model}
 
-Este padrão é útil quando fields se tornam relevantes baseado em escolhas do usuário ou dados carregados.
-
-## Lendo valores do model
-
-Você pode acessar valores de formulário de duas formas: diretamente do model signal, ou através de fields individuais. Cada abordagem serve a um propósito diferente.
-
-### Lendo do model
-
-Acesse o model signal quando você precisar dos dados completos do formulário, como durante o envio do formulário:
+Acesse o model signal quando precisar dos dados completos do formulário, como no envio do formulário:
 
 ```ts
-onSubmit() {
+async onSubmit() {
   const formData = this.loginModel();
   console.log(formData.email, formData.password);
 
-  // Send to server
+  // Envia para o servidor
   await this.authService.login(formData);
 }
 ```
 
-O model signal retorna o objeto de dados inteiro, tornando-o ideal para operações que trabalham com o estado completo do formulário.
+O model signal retorna o objeto de dados inteiro, o que o torna ideal para operações que trabalham com o state completo do formulário.
 
-### Lendo do field state
+### Lendo do field state {#reading-from-field-state}
 
-Cada field na field tree é uma função. Chamar um field retorna um objeto `FieldState` contendo signals reativos para o valor do field, status de validação e estado de interação.
+Cada field na field tree é uma função. Chamar um field retorna um objeto `FieldState` que contém signals reativos para o valor do field, o status de validação e o state de interação.
 
-Acesse field state ao trabalhar com fields individuais em templates ou computações reativas:
+Acesse o field state ao trabalhar com fields individuais em templates ou computações reativas:
 
-```ts
+```angular-ts
 @Component({
   template: `
     <p>Current email: {{ loginForm.email().value() }}</p>
     <p>Password length: {{ passwordLength() }}</p>
-  `
+  `,
 })
 export class LoginComponent {
-  loginModel = signal({ email: '', password: '' })
-  loginForm = form(this.loginModel)
+  loginModel = signal({email: '', password: ''});
+  loginForm = form(this.loginModel);
 
   passwordLength = computed(() => {
-    return this.loginForm.password().value().length
-  })
+    return this.loginForm.password().value().length;
+  });
 }
 ```
 
-Field state fornece signals reativos para o valor de cada field, tornando-o adequado para exibir informações específicas do field ou criar estado derivado.
+O field state fornece signals reativos para o valor de cada field, o que o torna adequado para exibir informações específicas de um field ou criar state derivado.
 
-TIP: Field state inclui muitos mais signals além de `value()`, como estado de validação (por exemplo, valid, invalid, errors), rastreamento de interação (por exemplo, touched, dirty), e visibilidade (por exemplo, hidden, disabled).
+TIP: O field state inclui muitos outros signals além de `value()`, como validação (por exemplo, valid, invalid, errors), rastreamento de interação (por exemplo, touched, dirty) e visibilidade (por exemplo, hidden, disabled).
 
-<!-- TODO: UNCOMMENT BELOW WHEN GUIDE IS AVAILABLE -->
-<!-- See the [Field State Management guide](guide/forms/signal-forms/field-state-management) for complete coverage. -->
+Veja o [guia de Gerenciamento de field state](guide/forms/signals/field-state-management) para a cobertura completa.
 
-## Atualizando form models programaticamente
+## Atualizando form models programaticamente {#updating-form-models-programmatically}
 
-Form models atualizam através de mecanismos programáticos:
-
-1. [Substituir o form model inteiro](#replacing-form-models-with-set) com `set()`
-2. [Atualizar um ou mais fields](#update-one-or-more-fields-with-update) com `update()`
-3. [Atualizar um único field diretamente](#update-a-single-field-directly-with-set) através de field state
-
-### Substituindo form models com `set()`
+### Substituindo form models com `set()` {#replacing-form-models-with-set}
 
 Use `set()` no form model para substituir o valor inteiro:
 
@@ -206,26 +221,11 @@ resetForm() {
 }
 ```
 
-Esta abordagem funciona bem ao carregar dados de uma API ou resetar o formulário inteiro.
+Essa abordagem funciona bem ao carregar dados de uma API ou ao resetar o formulário inteiro.
 
-### Atualizar um ou mais fields com `update()` {#update-one-or-more-fields-with-update} {#update-one-or-more-fields-with-update}
+### Atualizar um único field diretamente com `set()` ou `update()` {#update-a-single-field-directly-with-set-or-update}
 
-Use `update()` para modificar fields específicos enquanto preserva outros:
-
-```ts
-updateEmail(newEmail: string) {
-  this.userModel.update(current => ({
-    ...current,
-    email: newEmail,
-  }));
-}
-```
-
-Este padrão é útil quando você precisa mudar um ou mais fields baseado no estado atual do model.
-
-### Atualizar um único field diretamente com `set()` {#update-a-single-field-directly-with-set}
-
-Use `set()` em valores de field individuais para atualizar diretamente o field state:
+Use `set()` nos valores de fields individuais para atualizar diretamente o field state:
 
 ```ts
 clearEmail() {
@@ -233,112 +233,142 @@ clearEmail() {
 }
 
 incrementAge() {
-  const currentAge = this.userForm.age().value();
-  this.userForm.age().value.set(currentAge + 1);
+  this.userForm.age().value.update(currentAge => currentAge + 1);
 }
 ```
 
-Estas também são conhecidas como "atualizações em nível de field". Elas propagam automaticamente para o model signal e mantêm ambos sincronizados.
+Elas também são conhecidas como "atualizações em nível de field". Elas se propagam automaticamente para o model signal e mantêm os dois sincronizados.
 
-### Exemplo: Carregando dados de uma API
+### Exemplo: carregando dados de uma API {#example-loading-data-from-an-api}
 
-Um padrão comum envolve buscar dados e popular o model:
+Um padrão comum envolve buscar dados e preencher o model:
 
 ```ts
 export class UserProfileComponent {
   userModel = signal({
     name: '',
     email: '',
-    bio: ''
-  })
+    bio: '',
+  });
 
-  userForm = form(this.userModel)
-  private userService = inject(UserService)
+  userForm = form(this.userModel);
+  private userService = inject(UserService);
 
   ngOnInit() {
-    this.loadUserProfile()
+    this.loadUserProfile();
   }
 
   async loadUserProfile() {
-    const userData = await this.userService.getUserProfile()
-    this.userModel.set(userData)
+    const userData = await this.userService.getUserProfile();
+    this.userModel.set(userData);
   }
 }
 ```
 
-Os fields do formulário atualizam automaticamente quando o model muda, exibindo os dados buscados sem código adicional.
+Os fields do formulário são atualizados automaticamente quando o model muda, exibindo os dados buscados sem código adicional.
+
+### Exemplo: sincronizando com um service {#example-synchronizing-to-a-service}
+
+Em alguns casos, um service pode armazenar um form model:
+
+```ts
+@Service()
+export class FormService {
+  private readonly formModel = signal<UserFormModel>({ name: '', birthday: null });
+  public readonly model = this.formModel.asReadonly();
+
+  public syncFormModel(value: UserFormModel) {
+    this.formModel.set(value);
+  }
+
+  // O model é definido de forma síncrona ou assíncrona em outro ponto do service
+}
+
+@Component(...)
+export class UserForm {
+  private readonly formService = inject(FormService);
+
+  private readonly formModel = linkedSignal(() => this.formService.model(), {
+    set: (value) => this.formService.syncFormModel(value),
+  });
+
+  protected readonly form = form(this.formModel);
+}
+```
+
+A função de computação do `linkedSignal` lê o form model do service, e a função `set` nas opções permite sincronizar o form model do component com o form model do service. Os fields do formulário são atualizados automaticamente quando o model do service muda, e também atualizam automaticamente o form model do service quando os fields modificam o form model do component.
 
 ## Two-way data binding
 
-A directive `[field]` cria sincronização automática de duas vias entre o model, form state e UI.
+A directive `[formField]` cria sincronização bidirecional automática entre o model, o form state e a UI.
 
-### Como os dados fluem
+### Como os dados fluem {#how-data-flows}
 
-Mudanças fluem bidirecionalmente:
+As mudanças fluem nas duas direções:
 
 **Input do usuário → Model:**
 
-1. Usuário digita em um elemento input
-2. A directive `[field]` detecta a mudança
-3. Field state atualiza
-4. Model signal atualiza
+1. O usuário digita em um elemento de input
+2. A directive `[formField]` detecta a mudança
+3. O field state é atualizado
+4. O model signal é atualizado
 
 **Atualização programática → UI:**
 
-1. Código atualiza o model com `set()` ou `update()`
-2. Model signal notifica subscribers
-3. Field state atualiza
-4. A directive `[field]` atualiza o elemento input
+1. O código atualiza o model com `set()` ou `update()`
+2. O model signal notifica os subscribers
+3. O field state é atualizado
+4. A directive `[formField]` atualiza o elemento de input
 
-Esta sincronização acontece automaticamente. Você não escreve subscrições ou event handlers para manter o model e a UI sincronizados.
+Essa sincronização acontece automaticamente. Você não precisa escrever subscriptions ou event handlers para manter o model e a UI sincronizados.
 
-### Exemplo: Ambas as direções
+### Exemplo: nas duas direções {#example-both-directions}
 
-```ts
+```angular-ts
 @Component({
   template: `
-    <input type="text" [field]="userForm.name" />
+    <input type="text" [formField]="userForm.name" />
     <button (click)="setName('Bob')">Set Name to Bob</button>
     <p>Current name: {{ userModel().name }}</p>
-  `
+  `,
 })
 export class UserComponent {
-  userModel = signal({ name: '' })
-  userForm = form(this.userModel)
+  userModel = signal({name: ''});
+  userForm = form(this.userModel);
 
   setName(name: string) {
-    this.userModel.update(current => ({ ...current, name }))
-    // Input automatically displays 'Bob'
+    this.userForm.name().value.set(name);
+    // O input passa a exibir 'Bob' automaticamente
   }
 }
 ```
 
-Quando o usuário digita no input, `userModel().name` atualiza. Quando o botão é clicado, o valor do input muda para "Bob". Nenhum código de sincronização manual é necessário.
+Quando o usuário digita no input, `userModel().name` é atualizado. Quando o botão é clicado, o valor do input muda para "Bob". Nenhum código de sincronização manual é necessário.
 
-## Padrões de estrutura de model
+## Padrões de estrutura de model {#model-structure-patterns}
 
-Form models podem ser objetos planos ou conter objetos e arrays aninhados. A estrutura que você escolhe afeta como você acessa fields e organiza validação.
+Form models podem ser objetos planos ou conter objetos e arrays aninhados. A estrutura que você escolhe afeta como você acessa os fields e organiza a validação.
 
-### Models planos vs aninhados
+### Models planos vs aninhados {#flat-vs-nested-models}
 
 Form models planos mantêm todos os fields no nível superior:
 
 ```ts
-// Flat structure
+// Estrutura plana
 const userModel = signal({
   name: '',
   email: '',
   street: '',
   city: '',
   state: '',
-  zip: ''
-})
+  zip: '',
+});
 ```
 
 Models aninhados agrupam fields relacionados:
 
 ```ts
-// Nested structure
+// Estrutura aninhada
 const userModel = signal({
   name: '',
   email: '',
@@ -346,24 +376,24 @@ const userModel = signal({
     street: '',
     city: '',
     state: '',
-    zip: ''
-  }
-})
+    zip: '',
+  },
+});
 ```
 
 **Use estruturas planas quando:**
 
-- Fields não têm agrupamentos conceituais claros
-- Você quer acesso mais simples a fields (`userForm.city` vs `userForm.address.city`)
-- Regras de validação abrangem múltiplos grupos potenciais
+- Os fields não têm agrupamentos conceituais claros
+- Você quer um acesso mais simples aos fields (`userForm.city` em vez de `userForm.address.city`)
+- As regras de validação abrangem múltiplos grupos potenciais
 
 **Use estruturas aninhadas quando:**
 
-- Fields formam um grupo conceitual claro (como um endereço)
+- Os fields formam um grupo conceitual claro (como um endereço)
 - Os dados agrupados correspondem à estrutura da sua API
 - Você quer validar o grupo como uma unidade
 
-### Trabalhando com objetos aninhados
+### Trabalhando com objetos aninhados {#working-with-nested-objects}
 
 Você pode acessar fields aninhados seguindo o caminho do objeto:
 
@@ -371,30 +401,30 @@ Você pode acessar fields aninhados seguindo o caminho do objeto:
 const userModel = signal({
   profile: {
     firstName: '',
-    lastName: ''
+    lastName: '',
   },
   settings: {
     theme: 'light',
-    notifications: true
-  }
-})
+    notifications: true,
+  },
+});
 
-const userForm = form(userModel)
+const userForm = form(userModel);
 
-// Access nested fields
-userForm.profile.firstName // FieldTree<string>
-userForm.settings.theme // FieldTree<string>
+// Acessando fields aninhados
+userForm.profile.firstName; // FieldTree<string>
+userForm.settings.theme; // FieldTree<string>
 ```
 
 Em templates, você vincula fields aninhados da mesma forma que fields de nível superior:
 
-```ts
+```angular-ts
 @Component({
   template: `
-    <input [field]="userForm.profile.firstName" />
-    <input [field]="userForm.profile.lastName" />
+    <input [formField]="userForm.profile.firstName" />
+    <input [formField]="userForm.profile.lastName" />
 
-    <select [field]="userForm.settings.theme">
+    <select [formField]="userForm.settings.theme">
       <option value="light">Light</option>
       <option value="dark">Dark</option>
     </select>
@@ -402,137 +432,34 @@ Em templates, você vincula fields aninhados da mesma forma que fields de nível
 })
 ```
 
-### Trabalhando com arrays
+### Trabalhando com arrays {#working-with-arrays}
 
 Models podem incluir arrays para coleções de itens:
 
 ```ts
 const orderModel = signal({
   customerName: '',
-  items: [{ product: '', quantity: 0, price: 0 }]
-})
-
-const orderForm = form(orderModel)
-
-// Access array items by index
-orderForm.items[0].product // FieldTree<string>
-orderForm.items[0].quantity // FieldTree<number>
-```
-
-Itens de array contendo objetos recebem automaticamente identidades de rastreamento, o que ajuda a manter o field state mesmo quando itens mudam de posição no array. Isso garante que o estado de validação e interações do usuário persistam corretamente quando arrays são reordenados.
-
-<!-- TBD: For dynamic arrays and complex array operations, see the [Working with arrays guide](guide/forms/signal-forms/arrays). -->
-
-## Boas práticas de design de model
-
-Form models bem projetados tornam formulários mais fáceis de manter e estender. Siga esses padrões ao projetar seus models.
-
-### Use tipos específicos
-
-Sempre defina interfaces ou tipos para seus models como mostrado em [Usando tipos TypeScript](#using-typescript-types). Tipos explícitos fornecem melhor IntelliSense, capturam erros em tempo de compilação e servem como documentação para quais dados o formulário contém.
-
-### Inicialize todos os fields
-
-Forneça valores iniciais para cada field no seu model:
-
-```ts
-// Good: All fields initialized
-const taskModel = signal({
-  title: '',
-  description: '',
-  priority: 'medium',
-  completed: false
-})
-```
-
-```ts
-// Avoid: Partial initialization
-const taskModel = signal({
-  title: ''
-  // Missing description, priority, completed
-})
-```
-
-Valores iniciais faltantes significam que esses fields não existirão na field tree, tornando-os inacessíveis para interações de formulário.
-
-### Mantenha models focados
-
-Cada model deve representar um único formulário ou um conjunto coeso de dados relacionados:
-
-```ts
-// Good: Focused on login
-const loginModel = signal({
-  email: '',
-  password: ''
-})
-```
-
-```ts
-// Avoid: Mixing unrelated concerns
-const appModel = signal({
-  // Login data
-  email: '',
-  password: '',
-  // User preferences
-  theme: 'light',
-  language: 'en',
-  // Shopping cart
-  cartItems: []
-})
-```
-
-Models separados para diferentes preocupações tornam formulários mais fáceis de entender e reutilizar. Crie múltiplos formulários se você estiver gerenciando conjuntos distintos de dados.
-
-### Considere requisitos de validação
-
-Projete models com validação em mente. Agrupe fields que validam juntos:
-
-```ts
-// Good: Password fields grouped for comparison
-interface PasswordChangeData {
-  currentPassword: string
-  newPassword: string
-  confirmPassword: string
-}
-```
-
-Esta estrutura torna a validação entre fields (como verificar se `newPassword` corresponde a `confirmPassword`) mais natural.
-
-### Planeje para o estado inicial
-
-Considere se seu formulário começa vazio ou pré-populado:
-
-```ts
-// Form that starts empty (new user)
-const newUserModel = signal({
-  name: '',
-  email: '',
+  items: [{product: '', quantity: 0, price: 0}],
 });
 
-// Form that loads existing data
-const editUserModel = signal({
-  name: '',
-  email: '',
-});
+const orderForm = form(orderModel);
 
-// Later, in ngOnInit:
-ngOnInit() {
-  this.loadExistingUser();
-}
-
-async loadExistingUser() {
-  const user = await this.userService.getUser(this.userId);
-  this.editUserModel.set(user);
-}
+// Acessando itens do array pelo índice
+orderForm.items[0].product; // FieldTree<string>
+orderForm.items[0].quantity; // FieldTree<number>
 ```
 
-Para formulários que sempre começam com dados existentes, você pode esperar para renderizar o formulário até que os dados sejam carregados para evitar um flash de fields vazios.
+Itens de array que contêm objetos recebem automaticamente identidades de rastreamento, o que ajuda a manter o field state mesmo quando os itens mudam de posição no array. Isso garante que o state de validação e as interações do usuário persistam corretamente quando os arrays são reordenados.
 
-<!-- TODO: UNCOMMENT WHEN THE GUIDES ARE AVAILABLE -->
-<!-- ## Next steps
+<!-- TBD: Para arrays dinâmicos e operações complexas com arrays, veja o [guia Trabalhando com arrays](guide/forms/signals/arrays). -->
+
+## Próximos passos {#next-steps}
+
+Este guia abordou a criação de models e a atualização de valores. Guias relacionados exploram outros aspectos de Signal Forms:
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signal-forms/field-state-management" title="Field State Management" />
-  <docs-pill href="guide/forms/signal-forms/validation" title="Validation" />
-  <docs-pill href="guide/forms/signal-forms/arrays" title="Working with Arrays" />
-</docs-pill-row> -->
+  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
+  <docs-pill href="guide/forms/signals/validation" title="Validation" />
+  <docs-pill href="guide/forms/signals/custom-controls" title="Custom controls" />
+  <!-- <docs-pill href="guide/forms/signals/arrays" title="Working with Arrays" /> -->
+</docs-pill-row>

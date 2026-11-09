@@ -10,7 +10,7 @@ Como descrito em [Como os significados controlam a extração e mesclagem de tex
 
 O exemplo a seguir exibe unidades de tradução com IDs únicos.
 
-<docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="generated-id"/>
+<docs-code header="messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" region="generated-id"/>
 
 Quando você muda o texto traduzível, o extrator gera um novo ID para aquela unidade de tradução.
 Na maioria dos casos, mudanças no texto fonte também requerem uma mudança na tradução.
@@ -25,70 +25,58 @@ Metadados adicionais podem incluir a biblioteca, component ou área da aplicaç�
 Para especificar um ID personalizado no atributo `i18n` ou tagged message string [`$localize`][ApiLocalizeInitLocalize], use o prefixo `@@`.
 O exemplo a seguir define o ID personalizado `introductionHeader` em um elemento de cabeçalho.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-solo-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" region="i18n-attribute-solo-id"/>
 
 O exemplo a seguir define o ID personalizado `introductionHeader` para uma variável.
 
-<!--todo: replace with code example -->
-
-<docs-code language="typescript">
-
+```ts
 variableText1 = $localize`:@@introductionHeader:Hello i18n!`;
-
-</docs-code>
+```
 
 Quando você especifica um ID personalizado, o extrator gera uma unidade de tradução com o ID personalizado.
 
-<docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="custom-id"/>
+<docs-code header="messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" region="custom-id"/>
 
 Se você mudar o texto, o extrator não muda o ID.
 Como resultado, você não precisa dar o passo extra de atualizar a tradução.
 A desvantagem de usar IDs personalizados é que se você mudar o texto, sua tradução pode estar fora de sincronia com o texto fonte recém-alterado.
 
-## Usar um ID personalizado com uma descrição
+## Usar um ID personalizado com uma descrição {#use-a-custom-id-with-a-description}
 
 Use um ID personalizado em combinação com uma descrição e um significado para ajudar ainda mais o tradutor.
 
 O exemplo a seguir inclui uma descrição, seguida pelo ID personalizado.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" region="i18n-attribute-id"/>
 
 O exemplo a seguir define o ID personalizado `introductionHeader` e descrição para uma variável.
 
-<!--todo: replace with code example -->
-
-<docs-code language="typescript">
-
+```ts
 variableText2 = $localize`:An introduction header for this sample@@introductionHeader:Hello i18n!`;
-
-</docs-code>
+```
 
 O exemplo a seguir adiciona um significado.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning-and-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" region="i18n-attribute-meaning-and-id"/>
 
 O exemplo a seguir define o ID personalizado `introductionHeader` para uma variável.
 
-<!--todo: replace with code example -->
-
-<docs-code language="typescript">
-
+```ts
 variableText3 = $localize`:site header|An introduction header for this sample@@introductionHeader:Hello i18n!`;
+```
 
-</docs-code>
-
-### Definir IDs personalizados únicos
+### Definir IDs personalizados únicos {#define-unique-custom-ids}
 
 Certifique-se de definir IDs personalizados que sejam únicos.
 Se você usar o mesmo ID para dois elementos de texto diferentes, a ferramenta de extração extrai apenas o primeiro, e o Angular usa a tradução no lugar de ambos os elementos de texto originais.
 
 Por exemplo, no seguinte trecho de código, o mesmo ID personalizado `myId` é definido para dois elementos de texto diferentes.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-duplicate-custom-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" region="i18n-duplicate-custom-id"/>
 
 O seguinte exibe a tradução em francês.
 
-<docs-code header="src/locale/messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="i18n-duplicate-custom-id"/>
+<docs-code header="src/locale/messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" region="i18n-duplicate-custom-id"/>
 
 Ambos os elementos agora usam a mesma tradução \(`Bonjour`\), porque ambos foram definidos com o mesmo ID personalizado.
 

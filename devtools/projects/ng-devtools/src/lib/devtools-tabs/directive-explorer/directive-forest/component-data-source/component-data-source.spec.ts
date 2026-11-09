@@ -6,13 +6,15 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {FlatTreeControl} from '@angular/cdk/tree';
+import {of} from 'rxjs';
+
 import {DevToolsNode} from '../../../../../../../protocol';
 
 import {ComponentDataSource, FlatNode} from '.';
+import {ExpansionModel} from '../expansion-model';
 
 const tree1: DevToolsNode = {
-  element: 'app',
+  tagName: 'app',
   directives: [
     {
       id: 1,
@@ -20,7 +22,9 @@ const tree1: DevToolsNode = {
     },
   ],
   component: null,
-  hydration: null,
+  controlFlowBlock: null,
+  static: false,
+
   children: [
     {
       children: [],
@@ -30,18 +34,17 @@ const tree1: DevToolsNode = {
         name: 'bar',
       },
       directives: [],
-      element: 'bar',
-      hydration: null,
+      tagName: 'bar',
       nativeElement: document.createElement('bar'),
-      defer: null,
+      controlFlowBlock: null,
+      static: false,
     },
   ],
   nativeElement: document.createElement('foo'),
-  defer: null,
 };
 
 const tree2: DevToolsNode = {
-  element: 'app',
+  tagName: 'app',
   directives: [
     {
       id: 1,
@@ -49,7 +52,9 @@ const tree2: DevToolsNode = {
     },
   ],
   component: null,
-  hydration: null,
+  controlFlowBlock: null,
+  static: false,
+
   children: [
     {
       children: [],
@@ -59,10 +64,10 @@ const tree2: DevToolsNode = {
         name: 'bar',
       },
       directives: [],
-      element: 'bar',
-      hydration: null,
+      tagName: 'bar',
       nativeElement: document.createElement('bar'),
-      defer: null,
+      controlFlowBlock: null,
+      static: false,
     },
     {
       children: [],
@@ -72,18 +77,16 @@ const tree2: DevToolsNode = {
         name: 'qux',
       },
       directives: [],
-      element: 'qux',
-      hydration: null,
-      nativeElement: document.createElement('qux'),
-      defer: null,
+      tagName: 'qux',
+      controlFlowBlock: null,
+      static: false,
     },
   ],
   nativeElement: document.createElement('foo'),
-  defer: null,
 };
 
 const tree3: DevToolsNode = {
-  element: 'app',
+  tagName: 'app',
   directives: [
     {
       id: 1,
@@ -91,7 +94,9 @@ const tree3: DevToolsNode = {
     },
   ],
   component: null,
-  hydration: null,
+  controlFlowBlock: null,
+  static: false,
+
   children: [
     {
       children: [],
@@ -101,9 +106,9 @@ const tree3: DevToolsNode = {
         name: 'bar',
       },
       directives: [],
-      element: '#comment',
-      hydration: null,
-      defer: null,
+      tagName: '#comment',
+      controlFlowBlock: null,
+      static: false,
       nativeElement: document.createComment('bar'),
     },
     {
@@ -114,19 +119,19 @@ const tree3: DevToolsNode = {
         name: 'qux',
       },
       directives: [],
-      element: '#comment',
-      hydration: null,
-      defer: null,
+      tagName: '#comment',
+      controlFlowBlock: null,
+      static: false,
       nativeElement: document.createComment('bar'),
     },
   ],
   nativeElement: document.createElement('foo'),
-  defer: null,
 };
 
 const tree4: DevToolsNode = {
-  element: 'app',
-  hydration: null,
+  tagName: 'app',
+  controlFlowBlock: null,
+  static: false,
   directives: [
     {
       id: 1,
@@ -151,9 +156,9 @@ const tree4: DevToolsNode = {
                         name: 'qux',
                       },
                       directives: [],
-                      element: 'bar',
-                      hydration: null,
-                      defer: null,
+                      tagName: 'bar',
+                      controlFlowBlock: null,
+                      static: false,
                       nativeElement: document.createComment('bar'),
                     },
                   ],
@@ -163,9 +168,9 @@ const tree4: DevToolsNode = {
                     name: 'qux',
                   },
                   directives: [],
-                  element: '#comment',
-                  hydration: null,
-                  defer: null,
+                  tagName: '#comment',
+                  controlFlowBlock: null,
+                  static: false,
                   nativeElement: document.createComment('bar'),
                 },
               ],
@@ -175,9 +180,9 @@ const tree4: DevToolsNode = {
                 name: 'qux',
               },
               directives: [],
-              element: '#comment',
-              hydration: null,
-              defer: null,
+              tagName: '#comment',
+              controlFlowBlock: null,
+              static: false,
               nativeElement: document.createComment('bar'),
             },
           ],
@@ -187,9 +192,9 @@ const tree4: DevToolsNode = {
             name: 'qux',
           },
           directives: [],
-          element: '#comment',
-          hydration: null,
-          defer: null,
+          tagName: '#comment',
+          controlFlowBlock: null,
+          static: false,
           nativeElement: document.createComment('bar'),
         },
       ],
@@ -199,24 +204,20 @@ const tree4: DevToolsNode = {
         name: 'bar',
       },
       directives: [],
-      element: '#comment',
-      hydration: null,
+      tagName: '#comment',
       nativeElement: document.createComment('bar'),
-      defer: null,
+      controlFlowBlock: null,
+      static: false,
     },
   ],
-  defer: null,
   nativeElement: document.createElement('foo'),
 };
 
 describe('ComponentDataSource', () => {
   let dataSource: ComponentDataSource;
-  const treeControl = new FlatTreeControl<FlatNode>(
-    (node) => node.level,
-    (node) => node.expandable,
-  );
+  const expansionModel = new ExpansionModel<FlatNode>();
 
-  beforeEach(() => (dataSource = new ComponentDataSource(treeControl)));
+  beforeEach(() => (dataSource = new ComponentDataSource(expansionModel)));
 
   it('should return new and old items', () => {
     const result = dataSource.update([tree1], true);
@@ -247,5 +248,28 @@ describe('ComponentDataSource', () => {
     expect(result.newItems[1].level).toBe(1);
 
     expect(result.newItems[1].position).toEqual([0, 0, 0, 0, 0, 0]);
+  });
+
+  it('should only show the children of expanded nodes', () => {
+    const expansionModel = new ExpansionModel<FlatNode>();
+    const source = new ComponentDataSource(expansionModel);
+    source.update([tree1], true);
+    const [app, bar] = source.data;
+    expect([app.level, bar.level]).toEqual([0, 1]);
+
+    let visibleNodes: string[] = [];
+    const subscription = source
+      .connect({viewChange: of({start: 0, end: Number.MAX_VALUE})})
+      .subscribe((nodes) => (visibleNodes = nodes.map((node) => node.name)));
+
+    expect(visibleNodes).toEqual(['app']);
+
+    expansionModel.expand(app);
+    expect(visibleNodes).toEqual(['app', 'bar']);
+
+    expansionModel.collapse(app);
+    expect(visibleNodes).toEqual(['app']);
+
+    subscription.unsubscribe();
   });
 });

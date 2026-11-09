@@ -5,14 +5,14 @@ Esta lição do tutorial demonstra como usar o bloco `@for` em templates Angular
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=MIl5NcRxvcLjYt5f&amp;start=477"/>
 
-NOTA: Este vídeo reflete uma sintaxe mais antiga, mas os conceitos principais permanecem válidos.
+NOTE: Este vídeo reflete uma sintaxe mais antiga, mas os conceitos principais permanecem válidos.
 
-## O que você vai aprender
+## O que você vai aprender {#what-youll-learn}
 
 - Você terá adicionado um conjunto de dados à aplicação
 - Sua aplicação exibirá uma lista de elementos do novo conjunto de dados usando `@for`
 
-## Prévia conceitual de `@for`
+## Prévia conceitual de `@for` {#conceptual-preview-of-for}
 
 No Angular, `@for` é um tipo específico de [bloco de control flow](/guide/templates/control-flow) usado para repetir dados dinamicamente em um template. Em JavaScript puro você usaria um loop for - `@for` fornece funcionalidade similar para templates Angular.
 
@@ -22,19 +22,19 @@ Para uma explicação mais detalhada, consulte o guia [control flow](guide/templ
 
 <docs-workflow>
 
-<docs-step title="Adicione dados de moradia ao `Home`">
+<docs-step title="Adicione dados de moradia ao `Home` {#add-housing-data-to-the-home}">
 
 No `Home` há apenas uma única localização de moradia. Neste passo, você adicionará um array de entradas `HousingLocation`.
 
 1. Em `src/app/home/home.ts`, remova a propriedade `housingLocation` da classe `Home`.
 1. Atualize a classe `Home` para ter uma propriedade chamada `housingLocationList`. Atualize seu código para corresponder ao seguinte código:
-   <docs-code language="angular-ts"  header="Adicione a propriedade housingLocationList em home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="26-131"/>
+   <docs-code language="angular-ts"  header="Adicione a propriedade housingLocationList em home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="[26,127]"/>
 
-   IMPORTANTE: Não remova o decorator `@Component`, você atualizará esse código em um passo futuro.
+   IMPORTANT: Não remova o decorator `@Component`, você atualizará esse código em um passo futuro.
 
 </docs-step>
 
-<docs-step title="Atualize o template `Home` para usar `@for`">
+<docs-step title="Atualize o template `Home` para usar `@for` {#update-the-home-template-to-use-for}">
 Agora a aplicação tem um conjunto de dados que você pode usar para exibir as entradas no browser usando o bloco `@for`.
 
 1. Atualize a tag `<app-housing-location>` no código do template para isto:
@@ -54,7 +54,7 @@ Agora a aplicação tem um conjunto de dados que você pode usar para exibir as 
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você usou o bloco `@for` para repetir dados dinamicamente em templates Angular. Você também adicionou um novo array de dados para ser usado na aplicação Angular. A aplicação agora renderiza dinamicamente uma lista de localizações de moradia no browser.
+SUMMARY: Nesta lição, você usou o bloco `@for` para repetir dados dinamicamente em templates Angular. Você também adicionou um novo array de dados para ser usado na aplicação Angular. A aplicação agora renderiza dinamicamente uma lista de localizações de moradia no browser.
 
 A aplicação está tomando forma, ótimo trabalho.
 
