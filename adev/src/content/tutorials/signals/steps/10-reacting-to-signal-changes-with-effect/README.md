@@ -13,7 +13,7 @@ Você tem um app gerenciador de tema com signals já configurados. Agora você a
 
 <docs-workflow>
 
-<docs-step title="Importe a função effect">
+<docs-step title="Importe a função effect {#import-effect-function}">
 Adicione `effect` aos seus imports existentes.
 
 ```ts
@@ -24,7 +24,7 @@ import {Component, signal, computed, effect, ChangeDetectionStrategy} from '@ang
 A função `effect` cria um efeito colateral reativo que executa automaticamente quando quaisquer signals que ele lê mudam.
 </docs-step>
 
-<docs-step title="Crie um effect para o local storage">
+<docs-step title="Crie um effect para o local storage {#create-an-effect-for-local-storage}">
 Adicione um effect que salva automaticamente o tema no local storage quando ele muda.
 
 ```ts
@@ -40,7 +40,7 @@ constructor() {
 Este effect executa sempre que o signal `theme` muda, persistindo automaticamente a preferência do usuário.
 </docs-step>
 
-<docs-step title="Crie um effect para logging de atividade do usuário">
+<docs-step title="Crie um effect para logging de atividade do usuário {#create-an-effect-for-logging-user-activity}">
 Adicione um effect que registra quando o usuário faz login ou logout.
 
 ```ts
@@ -59,7 +59,7 @@ constructor() {
 Este effect demonstra como effects podem ler múltiplos signals e reagir a mudanças em qualquer um deles.
 </docs-step>
 
-<docs-step title="Crie um effect com cleanup">
+<docs-step title="Crie um effect com cleanup {#create-an-effect-with-cleanup}">
 Adicione um effect que configura um timer e faz a limpeza quando o component é destruído.
 
 ```ts
@@ -84,7 +84,7 @@ constructor() {
 Este effect não lê nenhum signal durante a execução, porque `this.theme()` só é chamado depois, dentro do callback de `setInterval`. Ele executa uma vez e nunca é re-executado, então o cleanup só acontece quando o component é destruído, por exemplo quando a prévia é recarregada.
 </docs-step>
 
-<docs-step title="Teste os effects">
+<docs-step title="Teste os effects {#test-the-effects}">
 Abra o console do navegador e interaja com o app:
 
 - **Toggle Theme** - Veja os salvamentos no localStorage

@@ -21,7 +21,7 @@ Neste exemplo, o valor do atributo `src` será vinculado à propriedade da class
 
 <docs-workflow>
 
-<docs-step title="Adicionar uma propriedade chamada `isEditable`" header="app.ts" language="ts">
+<docs-step title="Adicionar uma propriedade chamada `isEditable` {#add-a-property-called-iseditable}" header="app.ts" language="ts">
 Atualize o código em `app.ts` adicionando à classe `App` uma propriedade chamada `isEditable`, com o valor inicial definido como `true`.
 
 ```ts {highlight:[2]}
@@ -32,7 +32,7 @@ export class App {
 
 </docs-step>
 
-<docs-step title="Vincular a `contentEditable`" header="app.ts" language="ts">
+<docs-step title="Vincular a `contentEditable` {#bind-to-contenteditable}" header="app.ts" language="ts">
 Em seguida, vincule o atributo `contentEditable` da `div` à propriedade `isEditable`, usando a sintaxe de <code aria-label="colchetes">[]</code>.
 
 ```angular-ts {highlight:[3]}

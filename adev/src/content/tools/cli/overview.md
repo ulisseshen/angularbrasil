@@ -28,26 +28,26 @@ Você não precisa configurar seu ambiente local até estar pronto.
   </docs-card>
 </docs-card-container>
 
-## Sintaxe da linguagem de comandos do CLI
+## Sintaxe da linguagem de comandos do CLI {#cli-command-language-syntax}
 
 O Angular CLI segue aproximadamente as convenções Unix/POSIX para sintaxe de opções.
 
-### Opções booleanas
+### Opções booleanas {#boolean-options}
 
 Opções booleanas têm duas formas: `--this-option` define a flag como `true`, `--no-this-option` define como `false`.
 Você também pode usar `--this-option=false` ou `--this-option=true`.
 Se nenhuma opção for fornecida, a flag permanece em seu estado padrão, conforme listado na documentação de referência.
 
-### Opções de array
+### Opções de array {#array-options}
 
 Opções de array podem ser fornecidas em duas formas: `--option value1 value2` ou `--option value1 --option value2`.
 
-### Opções chave/valor
+### Opções chave/valor {#key-value-options}
 
 Algumas opções como `--define` esperam um array de pares `key=value` como seus valores.
 Assim como opções de array, opções chave/valor podem ser fornecidas em duas formas:
 `--define 'KEY_1="value1"' KEY_2=true` ou `--define 'KEY_1="value1"' --define KEY_2=true`.
 
-### Caminhos relativos
+### Caminhos relativos {#relative-paths}
 
 Opções que especificam arquivos podem ser fornecidas como caminhos absolutos ou como caminhos relativos ao diretório de trabalho atual, que geralmente é a raiz do workspace ou do projeto.

@@ -38,7 +38,7 @@ Assim que você tiver sucesso, o tutor vai passar diretamente para o próximo t�
 
 ---
 
-## **Recursos e comandos** {#features-commands}
+## **Recursos e comandos** {#features--commands}
 
 Você está no controle da sua experiência de aprendizado. Use estes recursos a qualquer momento:
 
@@ -164,7 +164,7 @@ Você vai construir a sua aplicação em uma jornada de cinco fases. Você pode 
 - **Módulo 11:** Renderização de listas com `@for`
 - **Módulo 12:** Renderização condicional com `@if`
 
-### **Fase 4: Recursos avançados e arquitetura** {#phase-4-advanced-features-architecture}
+### **Fase 4: Recursos avançados e arquitetura** {#phase-4-advanced-features--architecture}
 
 - **Módulo 13:** Two-way binding
 - **Módulo 14:** Services e injeção de dependência (DI)
@@ -181,7 +181,7 @@ Você vai construir a sua aplicação em uma jornada de cinco fases. Você pode 
 
 ---
 
-## **Uma nota sobre IA e feedback** {#a-note-on-ai-feedback}
+## **Uma nota sobre IA e feedback** {#a-note-on-ai--feedback}
 
 Este tutor é alimentado por um Large Language Model (LLM). Embora tenhamos nos esforçado para torná-lo um especialista, IAs podem cometer erros. Se você encontrar uma explicação ou um exemplo de código que pareça incorreto, por favor, nos avise. Você pode corrigir o tutor, e ele vai usar o seu feedback para ajustar a resposta.
 

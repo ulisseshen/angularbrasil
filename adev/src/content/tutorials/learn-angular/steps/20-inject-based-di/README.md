@@ -20,7 +20,7 @@ class PetCareDashboard {
 
 <docs-workflow>
 
-<docs-step title="Injetar o `CarService`">
+<docs-step title="Injetar o `CarService` {#inject-the-carservice}">
 
 Em `app.ts`, usando a função `inject()`, injete o `CarService` e atribua-o a uma propriedade chamada `carService`
 
@@ -28,7 +28,7 @@ NOTA: Observe a diferença entre a propriedade `carService` e a classe `CarServi
 
 </docs-step>
 
-<docs-step title="Usar a instância `carService`">
+<docs-step title="Usar a instância `carService` {#use-the-carservice-instance}">
 
 Chamar `inject(CarService)` forneceu a você uma instância do `CarService` que você pode usar em sua aplicação, armazenada na propriedade `carService`.
 
@@ -40,7 +40,7 @@ display = this.carService.getCars().join(' ⭐️ ');
 
 </docs-step>
 
-<docs-step title="Atualizar o template do `App`">
+<docs-step title="Atualizar o template do `App` {#update-the-app-template}">
 
 Atualize o template do component em `app.ts` com o seguinte código:
 

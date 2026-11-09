@@ -22,7 +22,7 @@ Para uma explicação mais detalhada, consulte o guia [control flow](guide/templ
 
 <docs-workflow>
 
-<docs-step title="Adicione dados de moradia ao `Home`">
+<docs-step title="Adicione dados de moradia ao `Home` {#add-housing-data-to-the-home}">
 
 No `Home` há apenas uma única localização de moradia. Neste passo, você adicionará um array de entradas `HousingLocation`.
 
@@ -34,7 +34,7 @@ No `Home` há apenas uma única localização de moradia. Neste passo, você adi
 
 </docs-step>
 
-<docs-step title="Atualize o template `Home` para usar `@for`">
+<docs-step title="Atualize o template `Home` para usar `@for` {#update-the-home-template-to-use-for}">
 Agora a aplicação tem um conjunto de dados que você pode usar para exibir as entradas no browser usando o bloco `@for`.
 
 1. Atualize a tag `<app-housing-location>` no código do template para isto:

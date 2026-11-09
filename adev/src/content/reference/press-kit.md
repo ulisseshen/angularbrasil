@@ -38,21 +38,21 @@ Se tiver alguma dúvida sobre como adaptar o novo logo ou atualizar o seu própr
 
 <docs-workflow>
 
-<docs-step title="Adapte as cores do logo para as suas">
+<docs-step title="Adapte as cores do logo para as suas {#adapt-the-logo-colors-as-your-own}">
 Aproveite a forma do novo logo do Angular alterando as cores do logo para combinar com as cores da sua marca, bandeira, causa, etc.
 
 Neste exemplo, adaptamos as cores para criar uma variação do logo Angular Pride:
 ![Angular pride logo](assets/images/press-kit/angular_pride.png#small 'Angular pride logo')
 </docs-step>
 
-<docs-step title="Adapte a forma do logo para a sua">
+<docs-step title="Adapte a forma do logo para a sua {#adapt-the-logo-shape-as-your-own}">
 Aproveite a forma do novo logo do Angular adaptando o escudo para combinar com a sua própria marca.
 
 Neste exemplo, adaptamos o escudo para criar uma variação do logo Angular Signals:
 ![Angular Signals logo](assets/images/press-kit/angular_signals.png#medium 'Angular Signals logo')
 </docs-step>
 
-<docs-step title="O que fazer e não fazer ao usar a marca Angular">
+<docs-step title="O que fazer e não fazer ao usar a marca Angular {#dos-and-donts-of-using-angulars-brand}">
 Se você está criando seu próprio logo, incentivamos a diferenciá-lo do nosso para não causar confusão. Ao adaptar o logo, você é livre para mudar e adaptar as cores e a forma para torná-lo seu.
 
 Ao representar o Angular com o logo original, siga estas diretrizes:

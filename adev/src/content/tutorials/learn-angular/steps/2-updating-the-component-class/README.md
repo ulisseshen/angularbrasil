@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como atualizar a classe do component e como us
 
 <docs-workflow>
 
-<docs-step title="Adicionar uma propriedade chamada `city`">
+<docs-step title="Adicionar uma propriedade chamada `city` {#add-a-property-called-city}">
 Atualize a classe do component adicionando uma propriedade chamada `city` à classe `App`.
 
 ```ts
@@ -27,7 +27,7 @@ A propriedade `city` é do tipo `string`, mas você pode omitir o tipo devido à
 Para usar uma propriedade de classe em um template, você precisa usar a sintaxe `{{ }}`.
 </docs-step>
 
-<docs-step title="Atualizar o template do component">
+<docs-step title="Atualizar o template do component {#update-the-component-template}">
 Atualize a propriedade `template` para corresponder ao seguinte HTML:
 
 ```ts
@@ -37,7 +37,7 @@ template: `Hello {{ city }}`,
 Este é um exemplo de interpolation, parte da sintaxe de template do Angular. Ela permite que você faça muito mais do que colocar texto dinâmico em um template. Você também pode usar esta sintaxe para chamar funções, escrever expressões e muito mais.
 </docs-step>
 
-<docs-step title="Mais prática com interpolation">
+<docs-step title="Mais prática com interpolation {#more-practice-with-interpolation}">
 Tente isto: adicione outro conjunto de `{{ }}` com o conteúdo `1 + 1`:
 
 ```ts

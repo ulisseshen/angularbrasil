@@ -29,7 +29,7 @@ Agora é sua vez de tentar:
 
 <docs-workflow>
 
-<docs-step title="Adicionar um event handler">
+<docs-step title="Adicionar um event handler {#add-an-event-handler}">
 Na classe `App`, preencha o corpo do método `showSecretMessage()` existente com o seguinte código:
 
 ```ts
@@ -38,7 +38,7 @@ this.message = 'Way to go 🚀';
 
 </docs-step>
 
-<docs-step title="Vincular ao evento do template">
+<docs-step title="Vincular ao evento do template {#bind-to-the-template-event}">
 Atualize o código do template em `app.ts` para vincular ao evento `mouseover` do elemento `section`.
 
 <!-- prettier-ignore -->

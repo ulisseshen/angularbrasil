@@ -34,7 +34,7 @@ Duas coisas para observar:
 
 <docs-workflow>
 
-<docs-step title="Adicionar a propriedade `users`">
+<docs-step title="Adicionar a propriedade `users` {#add-the-users-property}">
 Na classe `App`, adicione uma propriedade chamada `users` que contenha usuários e seus nomes.
 
 ```ts
@@ -49,7 +49,7 @@ Na classe `App`, adicione uma propriedade chamada `users` que contenha usuários
 
 </docs-step>
 
-<docs-step title="Atualizar o template">
+<docs-step title="Atualizar o template {#update-the-template}">
 Atualize o template para exibir o nome de cada usuário em um elemento `p`, usando a sintaxe de template `@for`.
 
 ```angular-html

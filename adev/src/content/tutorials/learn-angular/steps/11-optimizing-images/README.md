@@ -13,7 +13,7 @@ Nesta atividade, você aprenderá como usar `NgOptimizedImage` para garantir que
 
 <docs-workflow>
 
-<docs-step title="Importe a directive NgOptimizedImage">
+<docs-step title="Importe a directive NgOptimizedImage {#import-the-ngoptimizedimage-directive}">
 
 Para usar a directive `NgOptimizedImage`, primeiro importe-a da biblioteca `@angular/common` e adicione-a ao array `imports` do component.
 
@@ -28,7 +28,7 @@ import { NgOptimizedImage } from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Atualize o atributo src para ser ngSrc">
+<docs-step title="Atualize o atributo src para ser ngSrc {#update-the-src-attribute-to-be-ngsrc}">
 
 Para habilitar a directive `NgOptimizedImage`, troque o atributo `src` por `ngSrc`. Isso se aplica tanto a fontes de imagem estáticas (ou seja, `src`) quanto a fontes de imagem dinâmicas (ou seja, `[src]`).
 
@@ -53,7 +53,7 @@ imports: [NgOptimizedImage],
 
 </docs-step>
 
-<docs-step title="Adicione atributos de width e height">
+<docs-step title="Adicione atributos de width e height {#add-width-and-height-attributes}">
 
 Observe que, no exemplo de código acima, cada imagem tem os atributos `width` e `height`. Para evitar o [layout shift](https://web.dev/articles/cls), a directive `NgOptimizedImage` exige os dois atributos de tamanho em cada imagem.
 
@@ -70,7 +70,7 @@ NOTE: Para que a imagem `fill` seja renderizada corretamente, seu elemento pai d
 
 </docs-step>
 
-<docs-step title="Priorize imagens importantes">
+<docs-step title="Priorize imagens importantes {#prioritize-important-images}">
 
 Uma das otimizações mais importantes para a performance de carregamento é priorizar qualquer imagem que possa ser o ["elemento LCP"](https://web.dev/articles/optimize-lcp), que é o maior elemento gráfico visível na tela quando a página carrega. Para otimizar seus tempos de carregamento, certifique-se de adicionar o atributo `priority` à sua "imagem principal" ou a quaisquer outras imagens que você acredite poderem ser um elemento LCP.
 
@@ -80,7 +80,7 @@ Uma das otimizações mais importantes para a performance de carregamento é pri
 
 </docs-step>
 
-<docs-step title="Opcional: use um image loader">
+<docs-step title="Opcional: use um image loader {#optional-use-an-image-loader}">
 
 `NgOptimizedImage` permite que você especifique um [image loader](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage), que diz à directive como formatar as URLs das suas imagens. Usar um loader permite que você defina suas imagens com URLs curtas e relativas:
 

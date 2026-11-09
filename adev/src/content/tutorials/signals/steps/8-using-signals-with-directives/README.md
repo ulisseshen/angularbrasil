@@ -9,7 +9,7 @@ Nesta atividade, você construirá um directive de destaque que demonstra como s
 
 <docs-workflow>
 
-<docs-step title="Configure signals exatamente como em um component">
+<docs-step title="Configure signals exatamente como em um component {#set-up-signals-just-like-in-a-component}">
 Importe as funções signal e crie seu estado reativo. Isso funciona exatamente da mesma forma que em components:
 
 ```ts
@@ -46,7 +46,7 @@ export class HighlightDirective {
 Observe como isso é idêntico aos padrões de component - a única diferença é que estamos em um `@Directive` em vez de `@Component`.
 </docs-step>
 
-<docs-step title="Use signals em host bindings">
+<docs-step title="Use signals em host bindings {#use-signals-in-host-bindings}">
 Como directives não têm templates, você usará signals em **host bindings** para atualizar reativamente o elemento host. Adicione a configuração `host` e os manipuladores de eventos:
 
 ```ts
@@ -74,7 +74,7 @@ export class HighlightDirective {
 Os host bindings são automaticamente reavaliados quando os signals mudam - assim como template bindings em components! Quando `isHovered` muda, o computed signal `backgroundStyle` recalcula, e o host binding atualiza o estilo do elemento.
 </docs-step>
 
-<docs-step title="Use o directive no seu template">
+<docs-step title="Use o directive no seu template {#use-the-directive-in-your-template}">
 Atualize o template do app para demonstrar o directive reativo:
 
 ```angular-html

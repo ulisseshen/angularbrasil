@@ -16,7 +16,7 @@ IMPORTANT: Recomendamos usar seu ambiente local para esta etapa do tutorial.
 
 <docs-workflow>
 
-<docs-step title="Atualize as propriedades do componente home">
+<docs-step title="Atualize as propriedades do componente home {#update-the-home-component-properties}">
 Nesta etapa, você atualizará a classe `Home` para armazenar dados em uma nova propriedade de array que você usará para filtragem.
 
 1. Em `src/app/home/home.ts`, adicione uma nova propriedade à classe chamada `filteredLocationList`.
@@ -31,7 +31,7 @@ Nesta etapa, você atualizará a classe `Home` para armazenar dados em uma nova 
 
 </docs-step>
 
-<docs-step title="Atualize o template do componente home">
+<docs-step title="Atualize o template do componente home {#update-the-home-component-template}">
 O componente `Home` já contém um campo de entrada que você usará para capturar a entrada do usuário. Esse texto será usado para filtrar os resultados.
 
 1. Atualize o template do `Home` para incluir uma variável de template no elemento `input` chamada `#filter`.
@@ -51,7 +51,7 @@ O componente `Home` já contém um campo de entrada que você usará para captur
 
 </docs-step>
 
-<docs-step title="Implemente a função manipuladora de evento">
+<docs-step title="Implemente a função manipuladora de evento {#implement-the-event-handler-function}">
 O template foi atualizado para vincular a função `filterResults` ao evento `click`. Em seguida, sua tarefa é implementar a função `filterResults` na classe `Home`.
 
 1.  Atualize a classe `Home` para incluir a implementação da função `filterResults`.

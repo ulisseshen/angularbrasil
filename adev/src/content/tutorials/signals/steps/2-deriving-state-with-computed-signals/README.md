@@ -11,7 +11,7 @@ Vamos aprimorar nosso sistema de status de usuário adicionando valores computad
 
 <docs-workflow>
 
-<docs-step title="Importe a função computed">
+<docs-step title="Importe a função computed {#import-computed-function}">
 Adicione `computed` aos seus imports existentes.
 
 ```ts
@@ -21,7 +21,7 @@ import {Component, signal, computed, ChangeDetectionStrategy} from '@angular/cor
 
 </docs-step>
 
-<docs-step title="Crie um computed signal para notificações">
+<docs-step title="Crie um computed signal para notificações {#create-a-computed-signal-for-notifications}">
 Adicione um computed signal que determina se as notificações devem estar habilitadas com base no status do usuário.
 
 ```ts
@@ -31,7 +31,7 @@ notificationsEnabled = computed(() => this.userStatus() === 'online');
 Este computed signal será recalculado automaticamente sempre que o signal `userStatus` mudar. Observe como chamamos `this.userStatus()` dentro da função computed para ler o valor do signal.
 </docs-step>
 
-<docs-step title="Crie um computed signal para uma mensagem descritiva">
+<docs-step title="Crie um computed signal para uma mensagem descritiva {#create-a-computed-signal-for-a-descriptive-message}">
 Adicione um computed signal que cria uma mensagem descritiva com base no status do usuário.
 
 ```ts
@@ -53,7 +53,7 @@ statusMessage = computed(() => {
 Isso mostra como computed signals podem lidar com lógica mais complexa usando instruções switch e transformações de string.
 </docs-step>
 
-<docs-step title="Crie um computed signal que calcula a disponibilidade no horário de trabalho">
+<docs-step title="Crie um computed signal que calcula a disponibilidade no horário de trabalho {#create-a-computed-signal-that-calculates-working-hours-availability}">
 Adicione um computed signal que calcula se o usuário está dentro do horário de trabalho.
 
 ```ts
@@ -68,7 +68,7 @@ isWithinWorkingHours = computed(() => {
 Isso demonstra como computed signals podem realizar cálculos e combinar múltiplas fontes de dados. O valor é atualizado automaticamente quando o `userStatus` muda.
 </docs-step>
 
-<docs-step title="Exiba os valores computados no template">
+<docs-step title="Exiba os valores computados no template {#display-the-computed-values-in-the-template}">
 O template já tem placeholders mostrando "Loading...". Substitua-os pelos seus computed signals:
 
 1. Para notificações, substitua `Loading...` por um bloco `@if`:

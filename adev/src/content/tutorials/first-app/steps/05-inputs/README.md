@@ -21,14 +21,14 @@ Saiba mais nos guias [Aceitando dados com propriedades de input](guide/component
 
 <docs-workflow>
 
-<docs-step title="Importe a função input()">
+<docs-step title="Importe a função input() {#import-the-input-function}">
 No editor de código, importe o método auxiliar `input` de `@angular/core` e a interface `HousingLocationInfo` de `../housinglocation` para o component `HousingLocation`.
 
 <docs-code header="Importe input e HousingLocationInfo em housing-location.ts" path="adev/src/content/tutorials/first-app/steps/06-property-binding/src/app/housing-location/housing-location.ts" visibleLines="[1,2]"/>
 
 </docs-step>
 
-<docs-step title="Adicione a propriedade Input">
+<docs-step title="Adicione a propriedade Input {#add-the-input-property}">
 Adicione uma propriedade obrigatória chamada `housingLocation` e inicialize-a usando `input.required()` com o tipo `HousingLocationInfo`.
 
   <docs-code header="Declare a propriedade input em housing-location.ts" path="adev/src/content/tutorials/first-app/steps/06-property-binding/src/app/housing-location/housing-location.ts" visibleLines="[10]"/>
@@ -37,7 +37,7 @@ Você precisa invocar o método `required` em `input` para indicar que o compone
 
 </docs-step>
 
-<docs-step title="Passe dados para o input">
+<docs-step title="Passe dados para o input {#pass-data-to-the-input}">
 Envie o valor `housingLocation` do component `Home` para a propriedade `housingLocation` do component HousingLocation.
 
 <docs-code language="angular-ts" header="Declare a propriedade input para HousingLocation em home.ts" path="adev/src/content/tutorials/first-app/steps/06-property-binding/src/app/home/home.ts" visibleLines="[16]"/>

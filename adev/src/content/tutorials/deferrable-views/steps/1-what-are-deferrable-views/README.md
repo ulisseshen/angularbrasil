@@ -10,7 +10,7 @@ Nesta atividade, você aprenderá como usar deferrable views para fazer o defer 
 
 <docs-workflow>
 
-<docs-step title="Adicione um bloco `@defer` a uma seção de um template">
+<docs-step title="Adicione um bloco `@defer` a uma seção de um template {#add-a-defer-block-to-a-section-of-a-template}">
 No seu `app.ts`, envolva o component `article-comments` com um bloco `@defer` para fazer o defer load dele.
 
 ```angular-html

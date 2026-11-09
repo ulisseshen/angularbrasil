@@ -34,7 +34,7 @@ Ao estender uma classe de component, **outputs são herdados pela classe filha.*
 
 A função `output` tem significado especial para o compilador do Angular. **Você pode chamar exclusivamente `output` em inicializadores de propriedade de component e directive.**
 
-## Emitindo dados de evento
+## Emitindo dados de evento {#emitting-event-data}
 
 Você pode passar dados de evento ao chamar `emit`:
 
@@ -69,7 +69,7 @@ export class App {
 
 ```
 
-## Personalizando nomes de output
+## Personalizando nomes de output {#customizing-output-names}
 
 A função `output` aceita um parâmetro que permite especificar um nome diferente para o evento em um template:
 
@@ -88,7 +88,7 @@ Este alias não afeta o uso da propriedade em código TypeScript.
 
 Embora você deva geralmente evitar criar aliases para outputs de components, este recurso pode ser útil para renomear propriedades enquanto preserva um alias para o nome original ou para evitar colisões com o nome de eventos DOM nativos.
 
-## Assinando outputs programaticamente
+## Assinando outputs programaticamente {#subscribing-to-outputs-programmatically}
 
 Ao criar um component dinamicamente, você pode programaticamente assinar eventos de output da instância do component. O tipo `OutputRef` inclui um método `subscribe`:
 
@@ -112,7 +112,7 @@ const eventSubscription = someComponent.someEventProperty.subscribe((eventData) 
 eventSubscription.unsubscribe();
 ```
 
-## Escolhendo nomes de evento
+## Escolhendo nomes de evento {#choosing-event-names}
 
 Evite escolher nomes de output que colidam com eventos em elementos DOM como HTMLElement. Colisões de nomes introduzem confusão sobre se a propriedade vinculada pertence ao component ou ao elemento DOM.
 
@@ -120,11 +120,11 @@ Evite adicionar prefixos para outputs de component como você faria com seletore
 
 Sempre use nomes de output em [camelCase](https://en.wikipedia.org/wiki/Camel_case). Evite prefixar nomes de output com "on".
 
-## Usando outputs com RxJS
+## Usando outputs com RxJS {#using-outputs-with-rxjs}
 
 Consulte [Interoperabilidade RxJS com outputs de component e directive](ecosystem/rxjs-interop/output-interop) para detalhes sobre interoperabilidade entre outputs e RxJS.
 
-## Declarando outputs com o decorator `@Output`
+## Declarando outputs com o decorator `@Output` {#declaring-outputs-with-the-output-decorator}
 
 TIP: Embora a equipe do Angular recomende usar a função `output` para novos projetos, a API `@Output` original baseada em decorator continua totalmente suportada.
 
@@ -139,7 +139,7 @@ export class ExpandablePanel {
 
 Você pode emitir um evento chamando o método `emit` no `EventEmitter`.
 
-### Aliases com o decorator `@Output`
+### Aliases com o decorator `@Output` {#aliases-with-the-output-decorator}
 
 O decorator `@Output` aceita um parâmetro que permite especificar um nome diferente para o evento em um template:
 
@@ -156,7 +156,7 @@ export class CustomSlider {
 
 Este alias não afeta o uso da propriedade em código TypeScript.
 
-## Especificar outputs no decorator `@Component`
+## Especificar outputs no decorator `@Component` {#specify-outputs-in-the-component-decorator}
 
 Além do decorator `@Output`, você também pode especificar os outputs de um component com a propriedade `outputs` no decorator `@Component`. Isso pode ser útil quando um component herda uma propriedade de uma classe base:
 

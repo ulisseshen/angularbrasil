@@ -449,7 +449,7 @@ Para builds de produção, como mostrado no comentário de código acima, o hash
 
 HELPFUL: Ao usar o servidor de desenvolvimento e um atributo `loader` para importar um arquivo de um pacote Node.js, esse pacote deve ser excluído do prebundling por meio da opção `prebundle` do servidor de desenvolvimento.
 
-### Condições de import/export {#importexport-conditions}
+### Condições de import/export {#import-export-conditions}
 
 Projetos podem precisar mapear certos caminhos de import para arquivos diferentes com base no tipo de build.
 Isso pode ser particularmente útil em casos como `ng serve` precisar usar código específico de debug/desenvolvimento, enquanto `ng build` precisa usar código sem quaisquer recursos ou informações de desenvolvimento.

@@ -21,11 +21,11 @@ Confira alguns destes guias e tutoriais, e depois volte a este guia.
 
 Assim como com o pacote de Animations, você pode criar animações reutilizáveis que podem ser compartilhadas em toda a sua aplicação. A versão do pacote de Animations fazia uso da função `animation()` em um arquivo TypeScript compartilhado. A versão em CSS nativo é parecida, mas fica em um arquivo CSS compartilhado.
 
-#### Com pacote de Animations
+#### Com pacote de Animations {#with-animations-package}
 
 <docs-code header="animations.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" region="animation-example"/>
 
-#### Com CSS nativo
+#### Com CSS nativo {#with-native-css}
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" region="animation-shared"/>
 
@@ -165,7 +165,7 @@ Junto com os mencionados `:enter` e `:leave`, também existem `:increment` e `:d
     <docs-code header="increment-decrement.css" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.css" />
 </docs-code-multifile>
 
-### Animações pai / filho {#parent-child-animations}
+### Animações pai / filho {#parent---child-animations}
 
 Diferente do pacote de Animations, quando várias animações são especificadas dentro de um determinado component, nenhuma animação tem prioridade sobre outra e nada bloqueia qualquer animação de disparar. Qualquer sequenciamento de animações precisaria ser tratado pela definição da sua animação CSS, usando `animation` / `transition-delay` e/ou usando `animationend` ou `transitionend` para tratar a adição do próximo CSS a ser animado.
 

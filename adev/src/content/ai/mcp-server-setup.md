@@ -81,7 +81,7 @@ Quando o MCP server está habilitado, os agentes de IA têm acesso às seguintes
 
 Estes fluxos de trabalho mostram como os assistentes de IA coordenam diferentes ferramentas MCP para concluir automaticamente histórias complexas de desenvolvimento.
 
-### 1. Ajuste de desempenho: migração para Zoneless e OnPush {#1-performance-tuning-zoneless-onpush-migration}
+### 1. Ajuste de desempenho: migração para Zoneless e OnPush {#1-performance-tuning-zoneless--onpush-migration}
 
 O agente de IA otimiza o desempenho da change detection e migra os components para um estado pronto para zoneless.
 
@@ -92,7 +92,7 @@ O agente de IA otimiza o desempenho da change detection e migra os components pa
 5. **Verificar as alterações**: o agente de IA executa os testes unitários chamando `run_target` com o target definido como `"test"`.
 6. **Repetir**: o agente de IA chama `onpush_zoneless_migration` novamente para obter o próximo passo, repetindo até que a ferramenta indique que a migração foi concluída.
 
-### 2. Desenvolvimento de features e loop de TDD {#2-feature-development-tdd-loop}
+### 2. Desenvolvimento de features e loop de TDD {#2-feature-development--tdd-loop}
 
 O agente de IA automatiza a pesquisa, a implementação e a verificação ao desenvolver novas features.
 

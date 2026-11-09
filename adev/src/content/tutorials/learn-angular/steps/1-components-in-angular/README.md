@@ -17,7 +17,7 @@ Esta é uma ótima oportunidade para você começar com Angular.
 
 <docs-workflow>
 
-<docs-step title="Atualizar o template do component">
+<docs-step title="Atualizar o template do component {#update-the-component-template}">
 Atualize a propriedade `template` para exibir `Hello Universe`
 
 ```ts
@@ -29,7 +29,7 @@ template: `
 Quando você alterar o template HTML, a pré-visualização será atualizada com sua mensagem. Vamos um passo além: mude a cor do texto.
 </docs-step>
 
-<docs-step title="Atualizar os estilos do component">
+<docs-step title="Atualizar os estilos do component {#update-the-component-styles}">
 Atualize o valor de styles e mude a propriedade `color` de `blue` para `#a144eb`.
 
 ```ts

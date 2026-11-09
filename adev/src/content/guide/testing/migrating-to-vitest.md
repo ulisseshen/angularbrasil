@@ -51,7 +51,7 @@ O builder `unit-test` usa, por padrão, `"tsConfig": "tsconfig.spec.json"` e `"b
 
 O builder `@angular/build:karma` permitia anteriormente que opções de build (como `polyfills`, `assets` ou `styles`) fossem configuradas diretamente dentro do target `test`. O novo builder `@angular/build:unit-test` não oferece suporte a isso. Se as opções de build específicas para teste forem diferentes da sua configuração de build `development`, você deve movê-las para uma configuração de target de build dedicada. Se as suas opções de build de teste já corresponderem à configuração `development`, nenhuma ação é necessária.
 
-### 3. Lidar com configurações personalizadas de `karma.conf.js` {#3-handle-custom-karmaconfigjs-configurations}
+### 3. Lidar com configurações personalizadas de `karma.conf.js` {#3-handle-custom-karmaconfjs-configurations}
 
 Configurações personalizadas em `karma.conf.js` não são migradas automaticamente. Antes de excluir o arquivo `karma.conf.js`, revise-o em busca de configurações personalizadas que precisem ser migradas.
 
@@ -65,7 +65,7 @@ Caminhos de migração comuns incluem:
 
 Para outras configurações, consulte a [documentação oficial do Vitest](https://vitest.dev/config/).
 
-### 4. Remover arquivos Karma e `test.ts` {#4-remove-karma-and-tests-files}
+### 4. Remover arquivos Karma e `test.ts` {#4-remove-karma-and-testts-files}
 
 Agora você pode excluir `karma.conf.js` e `src/test.ts` do seu projeto e desinstalar os pacotes relacionados ao Karma. Os comandos a seguir são baseados nos pacotes instalados em um novo projeto Angular CLI; o seu projeto pode ter outros pacotes relacionados ao Karma para remover.
 

@@ -28,7 +28,7 @@ Agora é sua vez de experimentar:
 
 <docs-workflow>
 
-<docs-step title="Importe o pipe `LowerCase`">
+<docs-step title="Importe o pipe `LowerCase` {#import-the-lowercase-pipe}">
 Primeiro, atualize `app.ts` adicionando o import no nível do arquivo para `LowerCasePipe`, de `@angular/common`.
 
 ```ts
@@ -37,7 +37,7 @@ import {LowerCasePipe} from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Adicione o pipe aos imports do template">
+<docs-step title="Adicione o pipe aos imports do template {#add-the-pipe-to-the-template-imports}">
 Em seguida, atualize o decorator `@Component()` adicionando, em `imports`, uma referência ao `LowerCasePipe`.
 
 ```ts {highlight:[3]}
@@ -49,7 +49,7 @@ Em seguida, atualize o decorator `@Component()` adicionando, em `imports`, uma r
 
 </docs-step>
 
-<docs-step title="Adicione o pipe ao template">
+<docs-step title="Adicione o pipe ao template {#add-the-pipe-to-the-template}">
 Por fim, em `app.ts`, atualize o template para incluir o pipe `lowercase`:
 
 ```angular-html

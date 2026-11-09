@@ -25,7 +25,7 @@ Nesta atividade, você aprenderá como usar triggers para especificar a condiç�
 
 <docs-workflow>
 
-<docs-step title="Adicione o trigger `on hover`">
+<docs-step title="Adicione o trigger `on hover` {#add-on-hover-trigger}">
 No seu `app.ts`, adicione um trigger `on hover` ao bloco `@defer`.
 
 ```angular-html {highlight:[1]}
@@ -43,7 +43,7 @@ No seu `app.ts`, adicione um trigger `on hover` ao bloco `@defer`.
 Agora, a página não renderizará a seção de comentários até que você passe o mouse sobre o placeholder dela.
 </docs-step>
 
-<docs-step title="Adicione um botão 'Show all comments'">
+<docs-step title="Adicione um botão 'Show all comments' {#add-a-show-all-comments-button}">
 Em seguida, atualize o template para incluir um botão com o rótulo "Show all comments". Inclua uma variável de template chamada `#showComments` no botão.
 
 ```angular-html {highlight:[1]}
@@ -64,7 +64,7 @@ NOTA: para mais informações sobre [variáveis de template, confira a documenta
 
 </docs-step>
 
-<docs-step title="Adicione o trigger `on interaction`">
+<docs-step title="Adicione o trigger `on interaction` {#add-on-interaction-trigger}">
 Atualize o bloco `@defer` no template para usar o trigger `on interaction`. Forneça a variável de template `showComments` como parâmetro de `interaction`.
 
 ```angular-html {highlight:[3]}

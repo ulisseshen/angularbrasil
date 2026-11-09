@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como configurar reactive forms.
 
 <docs-workflow>
 
-<docs-step title="Importe o módulo `ReactiveForms`">
+<docs-step title="Importe o módulo `ReactiveForms` {#import-reactiveforms-module}">
 
 Em `app.ts`, importe `ReactiveFormsModule` de `@angular/forms` e adicione-o ao array `imports` do component.
 
@@ -37,7 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 </docs-step>
 
-<docs-step title="Crie o objeto `FormGroup` com FormControls">
+<docs-step title="Crie o objeto `FormGroup` com FormControls {#create-the-formgroup-object-with-formcontrols}">
 
 Reactive forms usam a classe `FormControl` para representar os form controls (por exemplo, inputs). O Angular fornece a classe `FormGroup` para agrupar form controls em um objeto útil, o que torna mais conveniente para os desenvolvedores lidar com forms grandes.
 
@@ -56,7 +56,7 @@ export class App {
 
 </docs-step>
 
-<docs-step title="Vincule o FormGroup e os FormControls ao form">
+<docs-step title="Vincule o FormGroup e os FormControls ao form {#link-the-formgroup-and-formcontrols-to-the-form}">
 
 Cada `FormGroup` deve ser anexado a um form usando a directive `[formGroup]`.
 
@@ -78,7 +78,7 @@ Além disso, cada `FormControl` pode ser anexado com a directive `formControlNam
 
 </docs-step>
 
-<docs-step title="Trate as atualizações do form">
+<docs-step title="Trate as atualizações do form {#handle-update-to-the-form}">
 
 Quando você quiser acessar os dados do `FormGroup`, isso pode ser feito acessando o valor do `FormGroup`. Atualize o `template` para exibir os valores do form:
 
@@ -91,7 +91,7 @@ Quando você quiser acessar os dados do `FormGroup`, isso pode ser feito acessan
 
 </docs-step>
 
-<docs-step title="Acesse os valores do FormGroup">
+<docs-step title="Acesse os valores do FormGroup {#access-formgroup-values}">
 Adicione à classe do component um novo método chamado `handleSubmit`, que você usará depois para tratar o envio do form.
 Este método exibirá os valores do form. Você pode acessar os valores a partir do FormGroup.
 
@@ -107,7 +107,7 @@ handleSubmit() {
 
 </docs-step>
 
-<docs-step title="Adicione `ngSubmit` ao form">
+<docs-step title="Adicione `ngSubmit` ao form {#add-ngsubmit-to-the-form}">
 Agora você tem acesso aos valores do form. Chegou a hora de tratar o evento de envio e usar o método `handleSubmit`.
 O Angular tem um event handler com esse propósito específico, chamado `ngSubmit`. Atualize o elemento form para chamar o método `handleSubmit` quando o form for enviado.
 

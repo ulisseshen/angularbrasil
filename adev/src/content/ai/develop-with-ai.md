@@ -36,7 +36,7 @@ O Angular CLI inclui um [Model Context Protocol (MCP) server](https://modelconte
 
 [**Aprenda a configurar o Angular CLI MCP Server**](/ai/mcp)
 
-## Fornecendo contexto com `llms.txt` {#providing-context-with-llms-txt}
+## Fornecendo contexto com `llms.txt` {#providing-context-with-llmstxt}
 
 `llms.txt` é um padrão proposto para sites, projetado para ajudar os LLMs a entender e processar melhor o seu conteúdo. A equipe do Angular desenvolveu duas versões deste arquivo para ajudar os LLMs e as ferramentas que usam LLMs para geração de código a criar código Angular moderno de forma melhor.
 

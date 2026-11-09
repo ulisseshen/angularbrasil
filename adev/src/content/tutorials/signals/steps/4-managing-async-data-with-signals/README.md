@@ -9,7 +9,7 @@ Nesta atividade, você aprenderá como usar a função `resource()` para carrega
 
 <docs-workflow>
 
-<docs-step title="Importe a função resource e a API">
+<docs-step title="Importe a função resource e a API {#import-resource-function-and-api}">
 Adicione `resource` aos seus imports existentes e importe a função de API simulada.
 
 ```ts
@@ -21,7 +21,7 @@ import {getUserData} from './user-api';
 
 </docs-step>
 
-<docs-step title="Crie um resource para os dados do usuário">
+<docs-step title="Crie um resource para os dados do usuário {#create-a-resource-for-user-data}">
 Adicione uma propriedade na classe do component que cria um resource para carregar os dados do usuário com base em um signal de ID de usuário.
 
 ```ts
@@ -35,7 +35,7 @@ userResource = resource({
 
 </docs-step>
 
-<docs-step title="Adicione métodos para interagir com o resource">
+<docs-step title="Adicione métodos para interagir com o resource {#add-methods-to-interact-with-the-resource}">
 Adicione métodos para alterar o ID do usuário e recarregar o resource.
 
 ```ts
@@ -51,7 +51,7 @@ reloadUser() {
 Alterar o signal de params dispara um reload automaticamente, ou você pode recarregar manualmente com `reload()`.
 </docs-step>
 
-<docs-step title="Crie computed signals para os estados do resource">
+<docs-step title="Crie computed signals para os estados do resource {#create-computed-signals-for-resource-states}">
 Adicione computed signals para acessar os diferentes estados do resource.
 
 ```ts
@@ -62,7 +62,7 @@ hasError = computed(() => this.userResource.status() === 'error');
 Resources fornecem um signal `status()` que pode ser `'loading'`, `'reloading'`, `'resolved'` ou `'error'`, um signal `value()` para os dados carregados e um método `hasValue()` que verifica com segurança se os dados estão disponíveis. O signal `isLoading()` é verdadeiro tanto para `'loading'` quanto para `'reloading'`.
 </docs-step>
 
-<docs-step title="Conecte os botões e exiba os estados do resource">
+<docs-step title="Conecte os botões e exiba os estados do resource {#wire-up-the-buttons-and-display-resource-states}">
 A estrutura do template já está fornecida. Agora conecte tudo:
 
 Parte 1. **Adicione manipuladores de clique aos botões:**

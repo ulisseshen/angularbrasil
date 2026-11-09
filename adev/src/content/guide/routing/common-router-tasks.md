@@ -18,7 +18,7 @@ Para obter informações de uma route:
 
 <docs-workflow>
 
-<docs-step title="Adicione `withComponentInputBinding`">
+<docs-step title="Adicione `withComponentInputBinding` {#add-withcomponentinputbinding}">
 
 Adicione o recurso `withComponentInputBinding` ao método `provideRouter`.
 
@@ -28,7 +28,7 @@ providers: [provideRouter(appRoutes, withComponentInputBinding())];
 
 </docs-step>
 
-<docs-step title="Adicione um `input` ao component">
+<docs-step title="Adicione um `input` ao component {#add-an-input-to-the-component}">
 
 Atualize o component para ter uma propriedade `input()` correspondente ao nome do parâmetro.
 
@@ -38,7 +38,7 @@ hero = computed(() => this.service.getHero(this.id()));
 ```
 
 </docs-step>
-<docs-step title="Opcional: Use um valor padrão">
+<docs-step title="Opcional: Use um valor padrão {#optional-use-a-default-value}">
 O router atribui valores a todos os inputs com base na route atual quando `withComponentInputBinding` está habilitado.
 O router atribui `undefined` se nenhum dado de route corresponder à chave do input, como quando um parâmetro de query opcional está ausente.
 Você deve incluir `undefined` no tipo do `input` quando houver a possibilidade de que um input não seja correspondido pela route.

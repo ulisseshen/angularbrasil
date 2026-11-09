@@ -21,7 +21,7 @@ Nesta lição, você habilitará routing na sua aplicação para navegar até a 
 
 <docs-workflow>
 
-<docs-step title="Crie um component de detalhes padrão ">
+<docs-step title="Crie um component de detalhes padrão {#create-a-default-details-component-}">
 1. Do terminal, digite o seguinte comando para criar o `Details`:
 
     ```shell
@@ -32,7 +32,7 @@ Nesta lição, você habilitará routing na sua aplicação para navegar até a 
 
 </docs-step>
 
-<docs-step title="Adicione routing à aplicação">
+<docs-step title="Adicione routing à aplicação {#add-routing-to-the-application}">
 1.  No diretório `src/app`, crie um arquivo chamado `routes.ts`. Este arquivo é onde definiremos as rotas na aplicação.
 
 2.  Em `main.ts`, faça as seguintes atualizações para habilitar routing na aplicação:
@@ -59,7 +59,7 @@ Nesta lição, você habilitará routing na sua aplicação para navegar até a 
 
 </docs-step>
 
-<docs-step title="Adicione rota ao novo component">
+<docs-step title="Adicione rota ao novo component {#add-route-to-new-component}">
 No passo anterior você removeu a referência ao component `<app-home>` no template. Neste passo, você adicionará uma nova rota a esse component.
 
 1. Em `routes.ts`, execute as seguintes atualizações para criar uma rota.

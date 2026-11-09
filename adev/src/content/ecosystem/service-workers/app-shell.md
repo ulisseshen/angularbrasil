@@ -7,7 +7,7 @@ Ele pode melhorar a experiência do usuário ao iniciar rapidamente uma página 
 Isso oferece aos usuários uma primeira renderização significativa da sua aplicação, que aparece rapidamente porque o navegador pode renderizar o HTML e o CSS sem precisar inicializar nenhum JavaScript.
 
 <docs-workflow>
-<docs-step title="Preparar a aplicação">
+<docs-step title="Preparar a aplicação {#prepare-the-application}">
 Faça isso com o seguinte comando do Angular CLI:
 
 ```shell
@@ -16,7 +16,7 @@ ng new my-app
 
 Para uma aplicação existente, você precisa adicionar manualmente o `Router` e definir um `<router-outlet>` dentro da sua aplicação.
 </docs-step>
-<docs-step title="Criar o application shell">
+<docs-step title="Criar o application shell {#create-the-application-shell}">
 Use o Angular CLI para criar automaticamente o application shell.
 
 ```shell
@@ -41,7 +41,7 @@ src
 ```
 
 </docs-step>
-<docs-step title="Verifique se a aplicação é construída com o conteúdo do shell">
+<docs-step title="Verifique se a aplicação é construída com o conteúdo do shell {#verify-the-application-is-built-with-the-shell-content}">
 
 ```shell
 ng build --configuration=development

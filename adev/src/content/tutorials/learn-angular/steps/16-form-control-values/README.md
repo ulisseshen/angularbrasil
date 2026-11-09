@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como obter o valor do seu input de form.
 
 <docs-workflow>
 
-<docs-step title="Mostre o valor do campo de input no template">
+<docs-step title="Mostre o valor do campo de input no template {#show-the-value-of-the-input-field-in-the-template}">
 
 Para exibir o valor do input em um template, você pode usar a sintaxe de interpolação `{{}}`, assim como qualquer outra propriedade de classe do component:
 
@@ -34,7 +34,7 @@ export class User {
 
 </docs-step>
 
-<docs-step title="Recupere o valor de um campo de input">
+<docs-step title="Recupere o valor de um campo de input {#retrieve-the-value-of-an-input-field}">
 
 Quando você precisar referenciar o valor do campo de input na classe do component, pode fazer isso acessando a propriedade da classe com a sintaxe `this`.
 

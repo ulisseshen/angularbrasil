@@ -11,7 +11,7 @@ Esta lição do tutorial demonstra como adicionar o component `HousingLocation` 
 
 <docs-workflow>
 
-<docs-step title="Crie o `HousingLocation`">
+<docs-step title="Crie o `HousingLocation` {#create-the-housinglocation}">
 Neste passo, você cria um novo component para sua aplicação.
 
 No painel **Terminal** do seu IDE:
@@ -40,7 +40,7 @@ No painel **Terminal** do seu IDE:
 1. Deixe o `ng serve` rodando enquanto você completa os próximos passos.
    </docs-step>
 
-<docs-step title="Adicione o novo component ao layout da sua aplicação">
+<docs-step title="Adicione o novo component ao layout da sua aplicação {#add-the-new-component-to-your-apps-layout}">
 Neste passo, você adiciona o novo component, `HousingLocation`, ao `Home` da sua aplicação, para que ele seja exibido no layout da sua aplicação.
 
 No painel **Edit** do seu IDE:
@@ -60,7 +60,7 @@ No painel **Edit** do seu IDE:
 
 </docs-step>
 
-<docs-step title="Adicione os estilos para o component">
+<docs-step title="Adicione os estilos para o component {#add-the-styles-for-the-component}">
 Neste passo, você vai copiar os estilos pré-escritos para o `HousingLocation` na sua aplicação para que a aplicação renderize adequadamente.
 
 1. Abra `src/app/housing-location/housing-location.css`, e cole os estilos abaixo no arquivo:

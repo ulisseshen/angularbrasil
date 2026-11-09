@@ -323,7 +323,7 @@ Você ainda pode acessar o signal interno via `.sourceValue`:
 const value = userControl.sourceValue();
 ```
 
-### Desabilitando/habilitando controle {#disablingenabling-control}
+### Desabilitando/habilitando controle {#disabling-enabling-control}
 
 APIs imperativas para alterar o estado habilitado/desabilitado (como `enable()` e `disable()`) não são suportadas de propósito
 em `SignalFormControl`. Isso acontece porque o state do controle deve ser derivado do state e das regras do signal.

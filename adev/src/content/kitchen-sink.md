@@ -259,7 +259,7 @@ Os passos devem começar em uma nova linha e podem conter `docs-code`s e outros 
 
 <docs-workflow>
 
-<docs-step title="Instale o Angular CLI">
+<docs-step title="Instale o Angular CLI {#install-the-angular-cli}">
   Você usa o Angular CLI para criar projetos, gerar código de aplicações e bibliotecas e realizar uma variedade de tarefas contínuas de desenvolvimento, como testes, bundling e deployment.
 
 Para instalar o Angular CLI, abra uma janela de terminal e execute o seguinte comando:
@@ -270,7 +270,7 @@ npm install -g @angular/cli
 
 </docs-step>
 
-<docs-step title="Crie um workspace e uma aplicação inicial">
+<docs-step title="Crie um workspace e uma aplicação inicial {#create-a-workspace-and-initial-application}">
   Você desenvolve aplicações no contexto de um workspace Angular.
 
 Para criar um novo workspace e uma aplicação inicial de exemplo:
@@ -288,7 +288,7 @@ Para criar um novo workspace e uma aplicação inicial de exemplo:
   O CLI cria um novo workspace e uma aplicação Welcome simples, pronta para ser executada.
   </docs-step>
 
-<docs-step title="Execute a aplicação">
+<docs-step title="Execute a aplicação {#run-the-application}">
   O Angular CLI inclui um servidor para você construir e servir a sua aplicação localmente.
 
 1. Navegue até a pasta do workspace, como `my-app`.
@@ -305,7 +305,7 @@ A opção `--open` (ou apenas `-o`) abre automaticamente o seu navegador em <htt
 Se a sua instalação e configuração tiverem sido bem-sucedidas, você deverá ver uma página semelhante à seguinte.
 </docs-step>
 
-<docs-step title="Passo final">
+<docs-step title="Passo final {#final-step}">
   São esses todos os components de documentação! Agora:
 
   <docs-pill-row>
@@ -373,7 +373,7 @@ Isso pode ser usado para separar seções da página, como estamos prestes a faz
 
 O fim!
 
-## Preferir / Evitar {#prefer--avoid}
+## Preferir / Evitar {#prefer---avoid}
 
 ```ts {prefer}
 const foo = 'bar';

@@ -39,7 +39,7 @@ As seguintes sub-opções identificam o idioma de origem e informam ao compilado
 
 Para a lista completa de propriedades `i18n` e seus tipos, veja [opções de i18n][GuideWorkspaceConfigI18n].
 
-### Exemplo de `angular.json` para `en-US` e `fr`
+### Exemplo de `angular.json` para `en-US` e `fr` {#angularjson-for-en-us-and-fr-example}
 
 Por exemplo, o trecho a seguir de um arquivo de configuração de build do workspace [`angular.json`][GuideWorkspaceConfig] define o locale de origem como `en-US` e informa o caminho para o arquivo de tradução do locale francês (`fr`).
 
@@ -69,7 +69,7 @@ O CLI também ajusta o HREF base do HTML de cada versão da aplicação, adicion
 Defina a propriedade `"localize"` como uma configuração compartilhada para herdá-la em todas as configurações.
 Você também pode definir a propriedade para sobrescrever outras configurações.
 
-### Exemplo de `angular.json` incluindo todos os locales do build
+### Exemplo de `angular.json` incluindo todos os locales do build {#angularjson-include-all-locales-from-build-example}
 
 O exemplo a seguir mostra a opção `"localize"` definida como `true` no arquivo de configuração de build do workspace [`angular.json`][GuideWorkspaceConfig], de modo que todos os locales definidos na configuração de build sejam gerados.
 
@@ -91,7 +91,7 @@ Para aplicar opções de build específicas a apenas um locale, especifique um �
 
 IMPORTANT: Use o servidor de desenvolvimento do [Angular CLI][CliMain] (`ng serve`) somente com um único locale.
 
-### Exemplo de build para francês
+### Exemplo de build para francês {#build-for-french-example}
 
 O exemplo a seguir mostra uma configuração personalizada específica de locale usando um único locale.
 
@@ -121,7 +121,7 @@ Para configurar o nível de aviso gerado pelo compilador do Angular, especifique
 
 Especifique o nível de aviso na seção `options` do target `build` do arquivo de configuração de build do workspace [`angular.json`][GuideWorkspaceConfig].
 
-### Exemplo de aviso `error` no `angular.json`
+### Exemplo de aviso `error` no `angular.json` {#angularjson-error-warning-example}
 
 O exemplo a seguir mostra como definir o nível de aviso como `error`.
 

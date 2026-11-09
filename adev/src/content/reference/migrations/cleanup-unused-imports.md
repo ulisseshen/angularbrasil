@@ -11,7 +11,7 @@ Execute o schematic usando o seguinte comando:
 ng generate @angular/core:cleanup-unused-imports
 ```
 
-#### Antes
+#### Antes {#before}
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -24,7 +24,7 @@ import {UnusedDirective} from './unused';
 export class MyComp {}
 ```
 
-#### Depois
+#### Depois {#after}
 
 ```angular-ts
 import {Component} from '@angular/core';

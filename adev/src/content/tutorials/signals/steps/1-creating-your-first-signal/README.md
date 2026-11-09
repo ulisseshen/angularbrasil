@@ -15,7 +15,7 @@ Vamos construir um sistema interativo de status de usuário com signals!
 
 <docs-workflow>
 
-<docs-step title="Importe a função signal">
+<docs-step title="Importe a função signal {#import-the-signal-function}">
 Importe a função `signal` de `@angular/core` no topo do arquivo do seu componente.
 
 ```ts
@@ -24,7 +24,7 @@ import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
 
 </docs-step>
 
-<docs-step title="Crie um signal no seu componente">
+<docs-step title="Crie um signal no seu componente {#create-a-signal-in-your-component}">
 Adicione um signal `userStatus` à sua classe de componente, inicializado com o valor `'offline'`.
 
 ```ts
@@ -38,7 +38,7 @@ export class App {
 
 </docs-step>
 
-<docs-step title="Exiba o valor do signal no template">
+<docs-step title="Exiba o valor do signal no template {#display-the-signal-value-in-the-template}">
 Atualize o indicador de status para exibir o status atual do usuário:
 1. Vinculando o signal ao atributo class com `[class]="userStatus()"`
 2. Exibindo o texto de status ao substituir `???` por `{{ userStatus() }}`
@@ -60,7 +60,7 @@ Atualize o indicador de status para exibir o status atual do usuário:
 Observe como chamamos o signal `userStatus()` com parênteses para ler o seu valor.
 </docs-step>
 
-<docs-step title="Adicione métodos para atualizar o signal">
+<docs-step title="Adicione métodos para atualizar o signal {#add-methods-to-update-the-signal}">
 Adicione métodos ao seu componente que alteram o status do usuário usando o método `set()`.
 
 ```ts
@@ -77,7 +77,7 @@ O método `set()` substitui completamente o valor do signal por um novo valor.
 
 </docs-step>
 
-<docs-step title="Conecte os botões de controle">
+<docs-step title="Conecte os botões de controle {#wire-up-the-control-buttons}">
 Os botões já estão no template. Agora conecte-os aos seus métodos adicionando:
 1. Manipuladores de clique com `(click)`
 2. Estados desabilitados com `[disabled]` quando o usuário já estiver naquele status
@@ -90,7 +90,7 @@ Os botões já estão no template. Agora conecte-os aos seus métodos adicionand
 
 </docs-step>
 
-<docs-step title="Adicione um método de alternância usando update()">
+<docs-step title="Adicione um método de alternância usando update() {#add-a-toggle-method-using-update}">
 Adicione um método `toggleStatus()` que alterna entre online e offline usando o método `update()`.
 
 ```ts
@@ -103,7 +103,7 @@ O método `update()` recebe uma função que recebe o valor atual e retorna o no
 
 </docs-step>
 
-<docs-step title="Adicione o manipulador do botão de alternância">
+<docs-step title="Adicione o manipulador do botão de alternância {#add-the-toggle-button-handler}">
 O botão de alternância já está no template. Conecte-o ao seu método `toggleStatus()`:
 
 ```html

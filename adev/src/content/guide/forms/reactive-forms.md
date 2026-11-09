@@ -35,19 +35,19 @@ No exemplo, o usuário insere seu nome em um campo de entrada, captura esse valo
 
 <docs-workflow>
 
-<docs-step title="Gere um novo component e importe o ReactiveFormsModule">
+<docs-step title="Gere um novo component e importe o ReactiveFormsModule {#generate-a-new-component-and-import-the-reactiveformsmodule}">
 Use o comando CLI `ng generate component` para gerar um component no seu projeto, importe `ReactiveFormsModule` do pacote `@angular/forms` e adicione-o ao array `imports` do seu Component.
 
 <docs-code header="name-editor.component.ts (excerpt)" path="adev/src/content/examples/reactive-forms/src/app/name-editor/name-editor.component.ts" region="imports" />
 </docs-step>
 
-<docs-step title="Declare uma instância de FormControl">
+<docs-step title="Declare uma instância de FormControl {#declare-a-formcontrol-instance}">
 Use o construtor de `FormControl` para definir seu valor inicial, que neste caso é uma string vazia. Ao criar esses controls na classe do seu component, você obtém acesso imediato para ouvir, atualizar e validar o estado da entrada do formulário.
 
 <docs-code header="name-editor.component.ts" path="adev/src/content/examples/reactive-forms/src/app/name-editor/name-editor.component.ts" region="create-control"/>
 </docs-step>
 
-<docs-step title="Registre o control no template">
+<docs-step title="Registre o control no template {#register-the-control-in-the-template}">
 Depois de criar o control na classe do component, você deve associá-lo a um elemento form control no template. Atualize o template com o form control usando o binding `formControl` fornecido por `FormControlDirective`, que também está incluído no `ReactiveFormsModule`.
 
 <docs-code header="name-editor.component.html" path="adev/src/content/examples/reactive-forms/src/app/name-editor/name-editor.component.html" region="control-binding" />
@@ -55,7 +55,7 @@ Depois de criar o control na classe do component, você deve associá-lo a um el
 Usando a sintaxe de template binding, o form control agora está registrado no elemento de entrada `name` no template. O form control e o elemento DOM se comunicam entre si: a view reflete mudanças no model e o model reflete mudanças na view.
 </docs-step>
 
-<docs-step title="Exiba o component">
+<docs-step title="Exiba o component {#display-the-component}">
 O `FormControl` atribuído à propriedade `name` é exibido quando o component `<app-name-editor>` é adicionado a um template.
 
 <docs-code header="app.component.html (name editor)" path="adev/src/content/examples/reactive-forms/src/app/app.component.1.html" region="app-name-editor"/>
@@ -130,7 +130,7 @@ Para adicionar um form group a este component, siga estas etapas.
 
 <docs-workflow>
 
-<docs-step title="Crie uma instância de FormGroup">
+<docs-step title="Crie uma instância de FormGroup {#create-a-formgroup-instance}">
 Crie uma propriedade na classe do component chamada `profileForm` e defina a propriedade como uma nova instância de form group. Para inicializar o form group, forneça ao construtor um objeto de chaves nomeadas mapeadas para seus controls.
 
 Para o formulário de perfil, adicione duas instâncias de form control com os nomes `firstName` e `lastName`.
@@ -140,7 +140,7 @@ Para o formulário de perfil, adicione duas instâncias de form control com os n
 Os form controls individuais agora estão reunidos dentro de um grupo. Uma instância de `FormGroup` fornece seu valor de model como um objeto reduzido a partir dos valores de cada control no grupo. Uma instância de form group tem as mesmas propriedades (como `value` e `untouched`) e métodos (como `setValue()`) que uma instância de form control.
 </docs-step>
 
-<docs-step title="Associe o model FormGroup e a view">
+<docs-step title="Associe o model FormGroup e a view {#associate-the-formgroup-model-and-view}">
 Um form group rastreia o status e as mudanças de cada um de seus controls, então, se um dos controls mudar, o control pai também emite um novo status ou uma mudança de valor. O model do grupo é mantido a partir de seus membros. Depois de definir o model, você deve atualizar o template para refletir o model na view.
 
 <docs-code header="profile-editor.component.html (template form group)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.1.html" region="formgroup"/>
@@ -148,7 +148,7 @@ Um form group rastreia o status e as mudanças de cada um de seus controls, ent�
 Assim como um form group contém um grupo de controls, o `FormGroup` _profileForm_ é vinculado ao elemento `form` com a directive `FormGroup`, criando uma camada de comunicação entre o model e o formulário que contém as entradas. A entrada `formControlName` fornecida pela directive `FormControlName` vincula cada entrada individual ao form control definido no `FormGroup`. Os form controls se comunicam com seus respectivos elementos. Eles também comunicam mudanças à instância do form group, que fornece a fonte da verdade para o valor do model.
 </docs-step>
 
-<docs-step title="Salve os dados do formulário">
+<docs-step title="Salve os dados do formulário {#save-form-data}">
 O component `ProfileEditor` aceita entrada do usuário, mas em um cenário real você quer capturar o valor do formulário e disponibilizá-lo para processamento adicional fora do component. A directive `FormGroup` escuta o evento `submit` emitido pelo elemento `form` e emite um evento `ngSubmit` ao qual você pode vincular uma função de callback. Adicione um event listener `ngSubmit` à tag `form` com o método de callback `onSubmit()`.
 
 <docs-code header="profile-editor.component.html (submit event)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.html" region="ng-submit"/>
@@ -192,7 +192,7 @@ Alguns tipos de informação naturalmente se enquadram no mesmo grupo.
 Um nome e um endereço são exemplos típicos de tais grupos aninhados e são usados nos exemplos a seguir.
 
 <docs-workflow>
-<docs-step title="Crie um grupo aninhado">
+<docs-step title="Crie um grupo aninhado {#create-a-nested-group}">
 Para criar um grupo aninhado em `profileForm`, adicione um elemento `address` aninhado à instância do form group.
 
 <docs-code header="profile-editor.component.ts (nested form group)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.1.ts" region="nested-formgroup"/>
@@ -200,7 +200,7 @@ Para criar um grupo aninhado em `profileForm`, adicione um elemento `address` an
 Neste exemplo, o `address group` combina os controls atuais `firstName` e `lastName` com os novos controls `street`, `city`, `state` e `zip`. Mesmo que o elemento `address` no form group seja filho do elemento `profileForm` geral, as mesmas regras se aplicam às mudanças de valor e status. As mudanças de status e valor do form group aninhado se propagam para o form group pai, mantendo a consistência com o model geral.
 </docs-step>
 
-<docs-step title="Agrupe o formulário aninhado no template">
+<docs-step title="Agrupe o formulário aninhado no template {#group-the-nested-form-in-the-template}">
 Depois de atualizar o model na classe do component, atualize o template para conectar a instância do form group e seus elementos de entrada. Adicione o form group `address`, contendo os campos `street`, `city`, `state` e `zip`, ao template do `ProfileEditor`.
 
 <docs-code header="profile-editor.component.html (template nested form group)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.1.html" region="formgroupname"/>
@@ -251,20 +251,20 @@ Use as seguintes etapas para aproveitar este serviço.
 Os exemplos a seguir mostram como refatorar o component `ProfileEditor` para usar o serviço form builder para criar instâncias de form control e form group.
 
 <docs-workflow>
-<docs-step title="Importe a classe FormBuilder">
+<docs-step title="Importe a classe FormBuilder {#import-the-formbuilder-class}">
 Importe a classe `FormBuilder` do pacote `@angular/forms`.
 
 <docs-code header="profile-editor.component.ts (import)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" region="form-builder-imports"/>
 
 </docs-step>
 
-<docs-step title="Injete o serviço FormBuilder">
+<docs-step title="Injete o serviço FormBuilder {#inject-the-formbuilder-service}">
 O serviço `FormBuilder` é um provider injetável do módulo de reactive forms. Use a função `inject()` para injetar essa dependência no seu component.
 
 <docs-code header="profile-editor.component.ts (property init)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" region="inject-form-builder"/>
 
 </docs-step>
-<docs-step title="Gere form controls">
+<docs-step title="Gere form controls {#generate-form-controls}">
 O serviço `FormBuilder` tem três métodos: `control()`, `group()` e `array()`. Estes são métodos de fábrica para gerar instâncias nas classes de seus components, incluindo form controls, form groups e form arrays. Use o método `group` para criar os controls do `profileForm`.
 
 <docs-code header="profile-editor.component.ts (form builder)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" region="form-builder"/>
@@ -297,7 +297,7 @@ A validação mais comum é tornar um campo obrigatório.
 O exemplo a seguir mostra como adicionar uma validação obrigatória ao control `firstName` e exibir o resultado da validação.
 
 <docs-workflow>
-<docs-step title="Importe uma função validadora">
+<docs-step title="Importe uma função validadora {#import-a-validator-function}">
 Reactive forms incluem um conjunto de funções validadoras para casos de uso comuns. Essas funções recebem um control para validar e retornam um objeto de erro ou um valor nulo, com base na verificação de validação.
 
 Importe a classe `Validators` do pacote `@angular/forms`.
@@ -305,13 +305,13 @@ Importe a classe `Validators` do pacote `@angular/forms`.
 <docs-code header="profile-editor.component.ts (import)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.ts" region="validator-imports"/>
 </docs-step>
 
-<docs-step title="Torne um campo obrigatório">
+<docs-step title="Torne um campo obrigatório {#make-a-field-required}">
 No component `ProfileEditor`, adicione o método estático `Validators.required` como o segundo item do array para o control `firstName`.
 
 <docs-code header="profile-editor.component.ts (required validator)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.ts" region="required-validator"/>
 </docs-step>
 
-<docs-step title="Exiba o status do formulário">
+<docs-step title="Exiba o status do formulário {#display-form-status}">
 Quando você adiciona um campo obrigatório ao form control, o status inicial dele é inválido. Esse status inválido se propaga para o elemento form group pai, tornando o status dele inválido. Acesse o status atual da instância do form group pela sua propriedade `status`.
 
 Exiba o status atual de `profileForm` usando interpolação.
@@ -340,13 +340,13 @@ Para definir um formulário dinâmico, siga as seguintes etapas.
 O exemplo a seguir mostra como gerenciar um array de _aliases_ em `ProfileEditor`.
 
 <docs-workflow>
-<docs-step title="Importe a classe `FormArray`">
+<docs-step title="Importe a classe `FormArray` {#import-the-formarray-class}">
 Importe a classe `FormArray` de `@angular/forms` para usar como informação de tipo. O serviço `FormBuilder` está pronto para criar uma instância de `FormArray`.
 
 <docs-code header="profile-editor.component.ts (import)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" region="form-array-imports"/>
 </docs-step>
 
-<docs-step title="Defina um control `FormArray`">
+<docs-step title="Defina um control `FormArray` {#define-a-formarray-control}">
 Você pode inicializar um form array com qualquer número de controls, de zero a muitos, definindo-os em um array. Adicione uma propriedade `aliases` à instância do form group de `profileForm` para definir o form array.
 
 Use o método `FormBuilder.array()` para definir o array e o método `FormBuilder.control()` para preencher o array com um control inicial.
@@ -356,7 +356,7 @@ Use o método `FormBuilder.array()` para definir o array e o método `FormBuilde
 O control aliases na instância do form group agora está preenchido com um único control, até que mais controls sejam adicionados dinamicamente.
 </docs-step>
 
-<docs-step title="Acesse o control `FormArray`">
+<docs-step title="Acesse o control `FormArray` {#access-the-formarray-control}">
 Um getter fornece acesso aos aliases na instância do form array, em comparação com repetir o método `profileForm.get()` para obter cada instância. A instância do form array representa um número indefinido de controls em um array. É conveniente acessar um control por meio de um getter, e essa abordagem é direta de repetir para controls adicionais. <br />
 
 Use a sintaxe de getter para criar uma propriedade de classe `aliases` que recupera o control do form array de aliases do form group pai.
@@ -371,7 +371,7 @@ No template, cada control é exibido como um campo de entrada separado.
 
 </docs-step>
 
-<docs-step title="Exiba o form array no template">
+<docs-step title="Exiba o form array no template {#display-the-form-array-in-the-template}">
 
 Para anexar os aliases do seu form model, você deve adicioná-los ao template. Semelhante à entrada `formGroupName` fornecida por `FormGroupName`, `formArrayName` vincula a comunicação da instância do form array ao template com `FormArrayName`.
 
@@ -430,7 +430,7 @@ export class FormArrayExampleComponent {
 }
 ```
 
-<docs-step title="Adicione um alias">
+<docs-step title="Adicione um alias {#add-an-alias}">
 
 Inicialmente, o formulário contém um campo `Alias`. Para adicionar outro campo, clique no botão **Add Alias**. Você também pode validar o array de aliases informado pelo form model exibido em `Form Value` na parte inferior do template. Em vez de uma instância de form control para cada alias, você pode compor outra instância de form group com campos adicionais. O processo de definir um control para cada item é o mesmo.
 </docs-step>

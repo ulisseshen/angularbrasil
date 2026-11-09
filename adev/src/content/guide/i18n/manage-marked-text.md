@@ -41,7 +41,7 @@ Se você mudar o texto, o extrator não muda o ID.
 Como resultado, você não precisa dar o passo extra de atualizar a tradução.
 A desvantagem de usar IDs personalizados é que se você mudar o texto, sua tradução pode estar fora de sincronia com o texto fonte recém-alterado.
 
-## Usar um ID personalizado com uma descrição
+## Usar um ID personalizado com uma descrição {#use-a-custom-id-with-a-description}
 
 Use um ID personalizado em combinação com uma descrição e um significado para ajudar ainda mais o tradutor.
 
@@ -65,7 +65,7 @@ O exemplo a seguir define o ID personalizado `introductionHeader` para uma vari�
 variableText3 = $localize`:site header|An introduction header for this sample@@introductionHeader:Hello i18n!`;
 ```
 
-### Definir IDs personalizados únicos
+### Definir IDs personalizados únicos {#define-unique-custom-ids}
 
 Certifique-se de definir IDs personalizados que sejam únicos.
 Se você usar o mesmo ID para dois elementos de texto diferentes, a ferramenta de extração extrai apenas o primeiro, e o Angular usa a tradução no lugar de ambos os elementos de texto originais.

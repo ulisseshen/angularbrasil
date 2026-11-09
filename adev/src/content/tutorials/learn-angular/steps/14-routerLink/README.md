@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como aproveitar a directive `RouterLink` para 
 
 <docs-workflow>
 
-<docs-step title="Importe a directive `RouterLink`">
+<docs-step title="Importe a directive `RouterLink` {#import-routerlink-directive}">
 
 Em `app.ts`, adicione o import da directive `RouterLink` à declaração de import existente de `@angular/router` e inclua-a no array `imports` do decorator do seu component.
 
@@ -27,7 +27,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 </docs-step>
 
-<docs-step title="Adicione um `routerLink` ao template">
+<docs-step title="Adicione um `routerLink` ao template {#add-a-routerlink-to-template}">
 
 Para usar a directive `RouterLink`, substitua os atributos `href` por `routerLink`. Atualize o template com essa mudança.
 

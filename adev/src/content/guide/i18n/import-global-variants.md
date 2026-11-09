@@ -13,7 +13,7 @@ O [Angular CLI][CliMain] automaticamente inclui os dados de locale e define o va
 O pacote `@angular/common` no npm contém os arquivos de dados de locale.
 Variantes globais dos dados de locale estão disponíveis em `@angular/common/locales/global`.
 
-## Exemplo de `import` para francês
+## Exemplo de `import` para francês {#import-example-for-french}
 
 Por exemplo, você poderia importar as variantes globais para francês \(`fr`\) em `main.ts` onde você faz o bootstrap da aplicação.
 

@@ -20,7 +20,7 @@ Para uma explicação mais detalhada, consulte o guia [Exibindo valores com inte
 
 <docs-workflow>
 
-<docs-step title="Atualize o template `HousingLocation` para incluir valores interpolados">
+<docs-step title="Atualize o template `HousingLocation` para incluir valores interpolados {#update-housinglocation-template-to-include-interpolated-values}">
 Este passo adiciona nova estrutura HTML e valores interpolados no template `HousingLocation`.
 
 No editor de código:
@@ -36,7 +36,7 @@ Você usa interpolação para incluir os valores de `name`, `city` e `state` da 
 
 </docs-step>
 
-<docs-step title="Confirme que as alterações renderizam no browser">
+<docs-step title="Confirme que as alterações renderizam no browser {#confirm-the-changes-render-in-the-browser}">
 1.  Salve todas as alterações.
 1.  Abra o browser e confirme que a aplicação renderiza a foto, cidade e estado dos dados de exemplo.
     <img alt="frame do browser da aplicação homes-app exibindo logo, campo de texto de filtro, botão de busca e o mesmo card de UI de localização de moradia" src="assets/images/tutorials/first-app/homes-app-lesson-07-step-2.png">

@@ -18,7 +18,7 @@ IMPORTANT: Recomendamos usar seu ambiente local para este passo do tutorial.
 
 <docs-workflow>
 
-<docs-step title="Adicione um método para enviar dados do formulário">
+<docs-step title="Adicione um método para enviar dados do formulário {#add-a-method-to-send-form-data}">
 Este passo adiciona um método ao service da sua aplicação que recebe os dados do formulário para enviar ao destino dos dados.
 Neste exemplo, o método escreve os dados do formulário no log do console do browser.
 
@@ -32,7 +32,7 @@ No painel **Edit** do seu IDE:
     Corrija quaisquer erros antes de continuar para o próximo passo.
     </docs-step>
 
-<docs-step title="Adicione as funções do formulário à página de detalhes">
+<docs-step title="Adicione as funções do formulário à página de detalhes {#add-the-form-functions-to-the-details-page}">
 Este passo adiciona o código à página de detalhes que lida com as interações do formulário.
 
 No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
@@ -61,7 +61,7 @@ No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
     Corrija quaisquer erros antes de continuar para o próximo passo.
     </docs-step>
 
-<docs-step title="Adicione a marcação do formulário à página de detalhes">
+<docs-step title="Adicione a marcação do formulário à página de detalhes {#add-the-forms-markup-to-the-details-page}">
 Este passo adiciona a marcação à página de detalhes que exibe o formulário.
 
 No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
@@ -79,7 +79,7 @@ No painel **Edit** do seu IDE, em `src/app/details/details.ts`:
 
 </docs-step>
 
-<docs-step title="Teste o novo formulário da sua aplicação">
+<docs-step title="Teste o novo formulário da sua aplicação {#test-your-apps-new-form}">
 Este passo testa o novo formulário para ver que quando os dados do formulário são enviados à aplicação, os dados do formulário aparecem no log do console.
 
 1. No painel **Terminal** do seu IDE, execute `ng serve`, se ele ainda não estiver rodando.

@@ -9,7 +9,7 @@ Nesta atividade, você vai aprender como criar um cart store com signals que per
 
 <docs-workflow>
 
-<docs-step title="Adicione signals ao cart store">
+<docs-step title="Adicione signals ao cart store {#add-cart-store-signals}">
 Adicione signals readonly e computed para tornar o estado do carrinho reativo em `cart-store.ts`.
 
 ```ts
@@ -34,7 +34,7 @@ readonly totalPrice = computed(() => {
 Esses signals permitem que os componentes acessem de forma reativa os dados do carrinho e os totais computados. O método `asReadonly()` impede que código externo modifique os itens do carrinho diretamente, enquanto `computed()` cria estado derivado que se atualiza automaticamente quando o signal de origem muda.
 </docs-step>
 
-<docs-step title="Complete os métodos de atualização de quantidade">
+<docs-step title="Complete os métodos de atualização de quantidade {#complete-the-quantity-update-methods}">
 O componente de exibição do carrinho em `cart-display.ts` já usa os signals do cart store no seu template. Complete os métodos de atualização de quantidade para modificar os itens do carrinho:
 
 ```ts
@@ -58,7 +58,7 @@ decreaseQuantity(id: string) {
 Esses métodos leem o estado atual do carrinho usando `cartItems()` e atualizam as quantidades através dos métodos do store. A UI se atualiza automaticamente quando os signals mudam!
 </docs-step>
 
-<docs-step title="Atualize o componente principal da aplicação">
+<docs-step title="Atualize o componente principal da aplicação {#update-the-main-app-component}">
 Atualize o componente principal da aplicação em `app.ts` para usar o cart service e exibir o componente do carrinho.
 
 ```angular-ts

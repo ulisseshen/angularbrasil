@@ -579,7 +579,7 @@ withHttpTransferCacheOptions({
 
 Habilite somente quando você precisar ignorar as restrições de `Cache-Control` para o transfer cache.
 
-### Sobrescrições por requisição {#per-request-overrides}
+### Sobrescrições por requisição {#perrequest-overrides}
 
 Você pode sobrescrever o comportamento de cache de uma requisição específica usando a opção de requisição `transferCache`.
 

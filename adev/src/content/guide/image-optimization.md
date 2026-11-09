@@ -26,7 +26,7 @@ NOTE: Embora a directive `NgOptimizedImage` tenha se tornado uma funcionalidade 
 ## Começando {#getting-started}
 
 <docs-workflow>
-<docs-step title="Importar a directive `NgOptimizedImage`">
+<docs-step title="Importar a directive `NgOptimizedImage` {#import-ngoptimizedimage-directive}">
 Importe a directive `NgOptimizedImage` de `@angular/common`:
 
 ```ts
@@ -48,7 +48,7 @@ Um image loader **não é obrigatório** para usar NgOptimizedImage, mas usar um
 
 Um guia breve para configurar um loader pode ser encontrado na seção [Configurando um image loader](#configuring-an-image-loader-for-ngoptimizedimage) no final desta página.
 </docs-step>
-<docs-step title="Ativar a directive">
+<docs-step title="Ativar a directive {#enable-the-directive}">
 Para ativar a directive `NgOptimizedImage`, substitua o atributo `src` da sua imagem por `ngSrc`.
 
 ```html
@@ -57,7 +57,7 @@ Para ativar a directive `NgOptimizedImage`, substitua o atributo `src` da sua im
 
 Se você estiver usando um [loader nativo de terceiros](#built-in-loaders), certifique-se de omitir o caminho da URL base do `src`, pois ele será adicionado automaticamente pelo loader.
 </docs-step>
-<docs-step title="Marcar imagens como `priority`">
+<docs-step title="Marcar imagens como `priority` {#mark-images-as-priority}">
 Sempre marque a [imagem LCP](https://web.dev/lcp/#what-elements-are-considered) na sua página como `priority` para priorizar o carregamento dela.
 
 ```html
@@ -72,7 +72,7 @@ Marcar uma imagem como `priority` aplica as seguintes otimizações:
 
 O Angular exibe um aviso durante o desenvolvimento se o elemento LCP é uma imagem que não tem o atributo `priority`. O elemento LCP de uma página pode variar com base em vários fatores, como as dimensões da tela do usuário, então uma página pode ter múltiplas imagens que devem ser marcadas como `priority`. Veja [CSS for Web Vitals](https://web.dev/css-web-vitals/#images-and-largest-contentful-paint-lcp) para mais detalhes.
 </docs-step>
-<docs-step title="Incluir Width e Height">
+<docs-step title="Incluir Width e Height {#include-width-and-height}">
 Para prevenir [layout shifts relacionados a imagens](https://web.dev/css-web-vitals/#images-and-layout-shifts), NgOptimizedImage requer que você especifique altura e largura para sua imagem, da seguinte forma:
 
 ```html

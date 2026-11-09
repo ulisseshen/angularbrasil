@@ -15,7 +15,7 @@ Vamos adicionar validação!
 
 <docs-workflow>
 
-<docs-step title="Importe os validators">
+<docs-step title="Importe os validators {#import-the-validators}">
 Importe os validators `required` e `email` de `@angular/forms/signals`:
 
 ```ts
@@ -24,7 +24,7 @@ import {form, FormField, required, email} from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Adicione uma schema function ao seu formulário">
+<docs-step title="Adicione uma schema function ao seu formulário {#add-a-schema-function-to-your-form}">
 Atualize a chamada de `form()` para incluir uma schema function como segundo parâmetro. A schema function recebe um parâmetro `fieldPath` que permite acessar cada campo:
 
 ```ts
@@ -35,7 +35,7 @@ loginForm = form(this.loginModel, (fieldPath) => {
 
 </docs-step>
 
-<docs-step title="Adicione validação ao campo de e-mail">
+<docs-step title="Adicione validação ao campo de e-mail {#add-validation-to-the-email-field}">
 Dentro da schema function, adicione a validação do campo de e-mail. Use os validators `required()` e `email()`:
 
 ```ts
@@ -48,7 +48,7 @@ loginForm = form(this.loginModel, (fieldPath) => {
 A opção `message` fornece mensagens de erro personalizadas para os usuários.
 </docs-step>
 
-<docs-step title="Adicione validação ao campo de senha">
+<docs-step title="Adicione validação ao campo de senha {#add-validation-to-the-password-field}">
 Adicione a validação do campo de senha usando o validator `required()`:
 
 ```ts

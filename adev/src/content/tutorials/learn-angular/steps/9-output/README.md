@@ -39,11 +39,11 @@ Agora é sua vez de tentar. Complete o código seguindo estas tarefas:
 
 <docs-workflow>
 
-<docs-step title="Adicionar uma propriedade `output()`">
+<docs-step title="Adicionar uma propriedade `output()` {#add-an-output-property}">
 Atualize `child.ts` adicionando uma propriedade output chamada `addItemEvent`. Certifique-se de definir o tipo do output como `string`.
 </docs-step>
 
-<docs-step title="Completar o método `addItem`">
+<docs-step title="Completar o método `addItem` {#complete-additem-method}">
 Em `child.ts`, atualize o método `addItem`. Use o seguinte código como lógica:
 
 ```ts {header:"child.ts", highlight:[2]}
@@ -54,7 +54,7 @@ addItem() {
 
 </docs-step>
 
-<docs-step title="Atualizar o template do `App`">
+<docs-step title="Atualizar o template do `App` {#update-the-app-template}">
 Em `app.ts`, atualize o template para escutar o evento emitido adicionando o seguinte código:
 
 ```angular-html

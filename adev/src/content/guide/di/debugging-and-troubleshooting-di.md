@@ -685,7 +685,7 @@ NG0201: No provider found for `UserClient`. Path: AuthClient -> UserClient.
 
 O caminho de dependência mostra que `AuthClient` tentou injetar `UserClient`, mas nenhum provider foi encontrado.
 
-#### Faltando o decorator `@Service` ou `@Injectable` {#missing-the-service-or-injectable-decorator}
+#### Faltando o decorator `@Service` ou `@Injectable` {#missing-the-service--or-injectable-decorator}
 
 A causa mais comum é esquecer o decorator `@Service` ou `@Injectable()` em uma classe de service.
 

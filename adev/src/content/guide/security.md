@@ -352,7 +352,7 @@ Apenas o código do site no qual os cookies foram definidos pode ler os cookies 
 Ou seja, somente a sua aplicação pode ler esse token de cookie e definir o header customizado.
 O código malicioso em `evil.com` não consegue.
 
-### Segurança XSRF/CSRF do `HttpClient` {#httpclient-xsrfcsrf-security}
+### Segurança XSRF/CSRF do `HttpClient` {#httpclient-xsrf-csrf-security}
 
 O `HttpClient` oferece suporte a um [mecanismo comum](https://en.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-header_token) usado para prevenir ataques XSRF. Ao executar requisições HTTP, um interceptor lê um token de um cookie, por padrão `XSRF-TOKEN`, e o define como um header HTTP, `X-XSRF-TOKEN`. Como apenas código executado no seu domínio pode ler o cookie, o backend pode ter certeza de que a requisição HTTP veio da sua aplicação cliente, e não de um atacante.
 
@@ -370,7 +370,7 @@ Para evitar colisões em ambientes onde várias aplicações Angular compartilha
   Seu serviço de backend deve estar configurado para definir o cookie da sua página e verificar se o header está presente em todas as requisições elegíveis. Não fazer isso torna a proteção padrão do Angular ineficaz.
 </docs-callout>
 
-### Configure nomes customizados de cookie/header {#configure-custom-cookieheader-names}
+### Configure nomes customizados de cookie/header {#configure-custom-cookie-header-names}
 
 Se o seu serviço de backend usar nomes diferentes para o cookie ou o header do token XSRF, use `withXsrfConfiguration` para sobrescrever os padrões.
 

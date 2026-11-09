@@ -40,11 +40,11 @@ A função `input` retorna um `InputSignal`. Você pode ler o valor chamando o s
 
 <docs-workflow>
 
-<docs-step title="Defina uma propriedade `input()`">
+<docs-step title="Defina uma propriedade `input()` {#define-an-input-property}">
 Atualize o código em `user.ts` para definir uma propriedade `input` em `User` chamada `name` e especifique o tipo `string`. Por enquanto, não defina um valor inicial e invoque `input()` sem argumentos. Não se esqueça de atualizar o template para invocar e interpolar a propriedade `name` no final da frase.
 </docs-step>
 
-<docs-step title="Passe um valor para a propriedade `input`">
+<docs-step title="Passe um valor para a propriedade `input` {#pass-a-value-to-the-input-property}">
 Atualize o código em `app.ts` para enviar a propriedade `name` com o valor `"Simran"`.
 <br>
 

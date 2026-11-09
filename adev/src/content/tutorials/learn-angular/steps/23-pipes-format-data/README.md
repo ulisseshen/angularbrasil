@@ -21,7 +21,7 @@ Hora de personalizar a saída de alguns pipes:
 
 <docs-workflow>
 
-<docs-step title="Formatar um número com `DecimalPipe`">
+<docs-step title="Formatar um número com `DecimalPipe` {#format-a-number-with-decimalpipe}">
 
 Em `app.ts`, atualize o template para incluir o parâmetro do pipe `decimal`.
 
@@ -35,7 +35,7 @@ NOTE: Que formato é esse? O parâmetro do `DecimalPipe` se chama `digitsInfo`, 
 
 </docs-step>
 
-<docs-step title="Formatar uma data com `DatePipe`">
+<docs-step title="Formatar uma data com `DatePipe` {#format-a-date-with-datepipe}">
 
 Agora, atualize o template para usar o pipe `date`.
 
@@ -49,7 +49,7 @@ Para diversão extra, experimente alguns parâmetros diferentes para `date`. Mai
 
 </docs-step>
 
-<docs-step title="Formatar uma moeda com `CurrencyPipe`">
+<docs-step title="Formatar uma moeda com `CurrencyPipe` {#format-a-currency-with-currencypipe}">
 
 Para a sua última tarefa, atualize o template para usar o pipe `currency`.
 

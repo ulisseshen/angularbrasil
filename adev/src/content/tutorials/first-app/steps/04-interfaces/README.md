@@ -22,7 +22,7 @@ Nesta lição, você criará uma interface para definir propriedades que represe
 
 <docs-workflow>
 
-<docs-step title="Crie uma nova interface Angular">
+<docs-step title="Crie uma nova interface Angular {#create-a-new-angular-interface}">
 Este passo cria uma nova interface na sua aplicação.
 
 No painel **Terminal** do seu IDE:
@@ -42,7 +42,7 @@ No painel **Terminal** do seu IDE:
    Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
-<docs-step title="Adicione propriedades à nova interface">
+<docs-step title="Adicione propriedades à nova interface {#add-properties-to-the-new-interface}">
 Este passo adiciona as propriedades à interface que sua aplicação precisa para representar uma localização de moradia.
 
 1. No painel **Terminal** do seu IDE, inicie o comando `ng serve`, se ele ainda não estiver rodando, para buildar a aplicação e servi-la em `http://localhost:4200`.
@@ -56,7 +56,7 @@ Este passo adiciona as propriedades à interface que sua aplicação precisa par
 Neste ponto, você definiu uma interface que representa dados sobre uma localização de moradia incluindo um `id`, `name` e informações de localização.
 </docs-step>
 
-<docs-step title="Crie uma casa de teste para sua aplicação">
+<docs-step title="Crie uma casa de teste para sua aplicação {#create-a-test-house-for-your-app}">
 Você tem uma interface, mas ainda não está usando ela.
 
 Neste passo, você cria uma instância da interface e atribui alguns dados de exemplo a ela.

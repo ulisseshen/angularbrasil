@@ -19,7 +19,7 @@ Parâmetros de rota permitem que você inclua informações dinâmicas como part
 
 <docs-workflow>
 
-<docs-step title="Usando `routerLink` para navegação dinâmica">
+<docs-step title="Usando `routerLink` para navegação dinâmica {#using-routerlink-for-dynamic-navigation}">
 Na lição 10, você adicionou uma segunda rota a `src/app/routes.ts` que inclui um segmento especial que identifica o parâmetro de rota, `id`:
 
 ```
@@ -42,7 +42,7 @@ Neste caso, `:id` é dinâmico e mudará baseado em como a rota é solicitada pe
 
 </docs-step>
 
-<docs-step title="Obtenha parâmetros de rota">
+<docs-step title="Obtenha parâmetros de rota {#get-route-parameters}">
 Neste passo, você obterá o parâmetro de rota no `Details`. Atualmente, a aplicação exibe `details works!`. Em seguida você atualizará o código para exibir o valor `id` passado usando os parâmetros de rota.
 
 1.  Em `src/app/details/details.ts` atualize o template para importar as funções, classes e services que você precisará usar no `Details`:
@@ -74,7 +74,7 @@ Neste passo, você obterá o parâmetro de rota no `Details`. Atualmente, a apli
 1.  No browser, clique em um dos links "Learn More" da localização de moradia e confirme que o valor numérico exibido na página corresponde à propriedade `id` daquela localização nos dados.
     </docs-step>
 
-<docs-step title="Customize o `Details`">
+<docs-step title="Customize o `Details` {#customize-the-details}">
 Agora que o routing está funcionando adequadamente na aplicação, este é um ótimo momento para atualizar o template do `Details` para exibir os dados específicos representados pela localização de moradia para o parâmetro de rota.
 
 Para acessar os dados você adicionará uma chamada ao `HousingService`.
@@ -106,7 +106,7 @@ Para acessar os dados você adicionará uma chamada ao `HousingService`.
 
 </docs-step>
 
-<docs-step title="Verifique a navegação no `Home`">
+<docs-step title="Verifique a navegação no `Home` {#check-navigation-in-the-home}">
 Em uma lição anterior você atualizou o template `App` para incluir um `routerLink`. Adicionar esse código atualizou sua aplicação para habilitar navegação de volta ao `Home` sempre que o logo é clicado.
 
 1.  Confirme que seu código corresponde ao seguinte:

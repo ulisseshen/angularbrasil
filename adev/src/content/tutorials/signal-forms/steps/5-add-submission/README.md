@@ -16,7 +16,7 @@ Vamos concluir o formulário!
 
 <docs-workflow>
 
-<docs-step title="Importe a função submit">
+<docs-step title="Importe a função submit {#import-the-submit-function}">
 Importe a função `submit` de `@angular/forms/signals`:
 
 ```ts
@@ -25,7 +25,7 @@ import {form, FormField, required, email, submit} from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Adicione o método onSubmit">
+<docs-step title="Adicione o método onSubmit {#add-the-onsubmit-method}">
 Na classe do seu component, adicione um método `onSubmit()` que trata o envio do formulário:
 
 ```ts
@@ -42,7 +42,7 @@ onSubmit(event: Event) {
 A função `submit()` só executa o seu callback assíncrono se o formulário for válido. Ela também gerencia automaticamente o estado de envio do formulário.
 </docs-step>
 
-<docs-step title="Vincule o tratador de envio ao formulário">
+<docs-step title="Vincule o tratador de envio ao formulário {#bind-the-submit-handler-to-the-form}">
 No seu template, vincule o método `onSubmit()` ao evento submit do formulário:
 
 ```html
@@ -51,7 +51,7 @@ No seu template, vincule o método `onSubmit()` ao evento submit do formulário:
 
 </docs-step>
 
-<docs-step title="Desabilite o botão quando o formulário for inválido">
+<docs-step title="Desabilite o botão quando o formulário for inválido {#disable-the-button-when-form-is-invalid}">
 Atualize o botão de envio para ficar desabilitado quando o formulário for inválido:
 
 ```html

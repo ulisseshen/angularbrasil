@@ -28,7 +28,7 @@ _Dependency injection_ é o mecanismo que gerencia as dependências dos componen
 
 <docs-workflow>
 
-<docs-step title="Crie um novo service para sua aplicação">
+<docs-step title="Crie um novo service para sua aplicação {#create-a-new-service-for-your-app}">
 Este passo cria um service injectable para sua aplicação.
 
 No painel **Terminal** do seu IDE:
@@ -45,7 +45,7 @@ No painel **Terminal** do seu IDE:
    Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
-<docs-step title="Adicione dados estáticos ao novo service">
+<docs-step title="Adicione dados estáticos ao novo service {#add-static-data-to-the-new-service}">
 Este passo adiciona alguns dados de exemplo ao seu novo service.
 Em uma lição posterior, você substituirá os dados estáticos por uma interface web para obter dados como você poderia fazer em uma aplicação real.
 Por enquanto, o novo service da sua aplicação usa os dados que foram, até agora, criados localmente no `Home`.
@@ -70,7 +70,7 @@ No painel **Edit** do seu IDE:
    Corrija quaisquer erros antes de continuar para o próximo passo.
    </docs-step>
 
-<docs-step title="Injete o novo service no `Home`">
+<docs-step title="Injete o novo service no `Home` {#inject-the-new-service-into-home}">
 Este passo injeta o novo service no `Home` da sua aplicação para que ele possa ler os dados da aplicação de um service.
 Em uma lição posterior, você substituirá os dados estáticos por uma fonte de dados ao vivo para obter dados como você poderia fazer em uma aplicação real.
 

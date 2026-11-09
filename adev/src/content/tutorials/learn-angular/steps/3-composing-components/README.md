@@ -15,7 +15,7 @@ Neste exemplo, existem dois components, `User` e `App`.
 
 <docs-workflow>
 
-<docs-step title="Adicionar uma referência a `User`">
+<docs-step title="Adicionar uma referência a `User` {#add-a-reference-to-user}">
 Atualize o template de `App` para incluir uma referência ao `User`, que usa o selector `app-user`. Certifique-se de adicionar `User` ao array imports de `App`; isso o torna disponível para uso no template de `App`.
 
 ```angular-html
@@ -25,7 +25,7 @@ template: `<app-user />`, imports: [User]
 O component agora exibe a mensagem `Username: youngTech`. Você pode atualizar o código do template para incluir mais marcação.
 </docs-step>
 
-<docs-step title="Adicionar mais marcação">
+<docs-step title="Adicionar mais marcação {#add-more-markup}">
 Como você pode usar qualquer marcação HTML que quiser em um template, tente atualizar o template de `App` para incluir também mais elementos HTML. Este exemplo adicionará um elemento `<section>` como pai do elemento `<app-user>`.
 
 ```angular-html

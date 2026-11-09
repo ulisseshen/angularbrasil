@@ -9,7 +9,7 @@ O Angular service worker habilita a exibição de push notifications e o tratame
 HELPFUL: Ao usar o Angular service worker, interações de push notification são tratadas usando o serviço `SwPush`.
 Para saber mais sobre as APIs do navegador envolvidas, consulte [Push API](https://developer.mozilla.org/docs/Web/API/Push_API) e [Using the Notifications API](https://developer.mozilla.org/docs/Web/API/Notifications_API/Using_the_Notifications_API).
 
-## Payload de notificação
+## Payload de notificação {#notification-payload}
 
 Invoque push notifications enviando uma mensagem com um payload válido.
 Consulte `SwPush` para orientação.
@@ -17,7 +17,7 @@ Consulte `SwPush` para orientação.
 HELPFUL: No Chrome, você pode testar push notifications sem um backend.
 Abra Devtools -> Application -> Service Workers e use o input `Push` para enviar um payload de notificação JSON.
 
-## Tratamento de clique em notificações
+## Tratamento de clique em notificações {#notification-click-handling}
 
 O comportamento padrão para o evento `notificationclick` é fechar a notificação e notificar `SwPush.notificationClicks`.
 
@@ -37,7 +37,7 @@ Isso é especialmente útil para quando não há clientes abertos quando uma not
 }
 ```
 
-### Operações
+### Operações {#operations}
 
 O Angular service worker suporta as seguintes operações:
 
@@ -85,7 +85,7 @@ Além disso, usando a propriedade `onActionClick` no objeto `data`, você pode v
 
 IMPORTANT: Se uma ação não tiver uma entrada `onActionClick` correspondente, então a notificação é fechada e `SwPush.notificationClicks` é notificado em clientes existentes.
 
-## Mais sobre Angular service workers
+## Mais sobre Angular service workers {#more-on-angular-service-workers}
 
 Você também pode estar interessado no seguinte:
 

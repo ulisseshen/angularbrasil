@@ -15,7 +15,7 @@ Sua aplicação usará dados de um JSON server
 
 <docs-workflow>
 
-<docs-step title="Configure o JSON server">
+<docs-step title="Configure o JSON server {#configure-the-json-server}">
 JSON Server é uma ferramenta de código aberto usada para criar APIs REST simuladas. Você a usará para servir os dados de locais de moradia que estão atualmente armazenados no housing service.
 
 1. Instale o `json-server` do npm usando o seguinte comando.
@@ -148,7 +148,7 @@ JSON Server é uma ferramenta de código aberto usada para criar APIs REST simul
 Se você tiver algum problema com sua configuração, pode encontrar mais detalhes na [documentação oficial](https://www.npmjs.com/package/json-server).
 </docs-step>
 
-<docs-step title="Atualize o service para usar o web server em vez do array local">
+<docs-step title="Atualize o service para usar o web server em vez do array local {#update-service-to-use-web-server-instead-of-local-array}">
 A fonte de dados foi configurada. O próximo passo é atualizar sua aplicação web para se conectar a ela e usar os dados.
 
 1.  Em `src/app/housing.service.ts`, faça as seguintes alterações:
@@ -181,7 +181,7 @@ A fonte de dados foi configurada. O próximo passo é atualizar sua aplicação 
 
 </docs-step>
 
-<docs-step title="Atualize os componentes para usar chamadas assíncronas ao housing service">
+<docs-step title="Atualize os componentes para usar chamadas assíncronas ao housing service {#update-the-components-to-use-asynchronous-calls-to-the-housing-service}">
 O servidor agora está lendo dados da requisição HTTP, mas os componentes que dependem do service agora têm erros porque foram programados para usar a versão síncrona do service.
 
 1.  Em `src/app/home/home.ts`, atualize o `constructor` para usar a nova versão assíncrona do método `getAllHousingLocations`. Como não usamos signals para nosso estado, você precisa notificar o Angular de que houve uma mudança que exige sincronização. Chame `this.changeDetectorRef.markForCheck()` para isso.

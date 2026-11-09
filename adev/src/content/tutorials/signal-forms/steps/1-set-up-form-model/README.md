@@ -15,7 +15,7 @@ Vamos construir a base do nosso formulário de login!
 
 <docs-workflow>
 
-<docs-step title="Defina a interface LoginData">
+<docs-step title="Defina a interface LoginData {#define-the-logindata-interface}">
 Crie uma interface TypeScript que defina a estrutura dos dados do form de login. O form terá:
 
 - Um campo `email` (string)
@@ -33,7 +33,7 @@ interface LoginData {
 Adicione esta interface acima do decorator `@Component`.
 </docs-step>
 
-<docs-step title="Importe signal e form">
+<docs-step title="Importe signal e form {#import-signal-and-form}">
 Importe a função `signal` de `@angular/core` e a função `form` de `@angular/forms/signals`:
 
 ```ts
@@ -43,7 +43,7 @@ import {form} from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Crie o signal do modelo do form">
+<docs-step title="Crie o signal do modelo do form {#create-the-form-model-signal}">
 Na classe do seu component, crie um signal `loginModel` com valores iniciais. Use a interface `LoginData` como parâmetro de tipo:
 
 ```ts
@@ -57,7 +57,7 @@ loginModel = signal<LoginData>({
 Os valores iniciais começam como strings vazias para os campos de texto e como `false` para a caixa de seleção.
 </docs-step>
 
-<docs-step title="Crie o form">
+<docs-step title="Crie o form {#create-the-form}">
 Agora crie o form passando seu signal de modelo para a função `form()`:
 
 ```ts

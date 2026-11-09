@@ -36,16 +36,16 @@ Duas coisas para observar:
 
 <docs-workflow>
 
-<docs-step title="Criar uma propriedade chamada `isServerRunning`">
+<docs-step title="Criar uma propriedade chamada `isServerRunning` {#create-a-property-called-isserverrunning}">
 Na classe `App`, adicione uma propriedade `boolean` chamada `isServerRunning` e defina o valor inicial como `true`.
 </docs-step>
 
-<docs-step title="Usar `@if` no template">
+<docs-step title="Usar `@if` no template {#use-if-in-the-template}">
 Atualize o template para exibir a mensagem `Yes, the server is running` se o valor de `isServerRunning` for `true`.
 
 </docs-step>
 
-<docs-step title="Usar `@else` no template">
+<docs-step title="Usar `@else` no template {#use-else-in-the-template}">
 Agora o Angular suporta sintaxe de template nativa para definir o caso else com a sintaxe `@else`. Atualize o template para exibir a mensagem `No, the server is not running` como o caso else.
 
 Aqui está um exemplo:

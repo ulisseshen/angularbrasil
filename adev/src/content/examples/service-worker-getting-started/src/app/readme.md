@@ -4,7 +4,7 @@
 
 Este é o código de exemplo baixado para o guia [Angular Universal (Standalone)](https://angular.dev/guide/ssr).
 
-## Instalar e Executar
+## Instalar e Executar {#install-and-run}
 
 1. `npm install` para instalar os pacotes `node_module`
 2. `npm run dev:ssr` para iniciar o servidor e a aplicação

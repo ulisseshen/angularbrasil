@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como configurar seu app para usar o Angular Ro
 
 <docs-workflow>
 
-<docs-step title="Crie um arquivo app.routes.ts">
+<docs-step title="Crie um arquivo app.routes.ts {#create-an-approutests-file}">
 
 Dentro de `app.routes.ts`, faça as seguintes alterações:
 
@@ -26,7 +26,7 @@ export const routes: Routes = [];
 
 </docs-step>
 
-<docs-step title="Adicione o routing ao provider">
+<docs-step title="Adicione o routing ao provider {#add-routing-to-provider}">
 
 Em `app.config.ts`, configure o app para o Angular Router com os seguintes passos:
 
@@ -46,7 +46,7 @@ export const appConfig: ApplicationConfig = {
 
 </docs-step>
 
-<docs-step title="Importe `RouterOutlet` no component">
+<docs-step title="Importe `RouterOutlet` no component {#import-routeroutlet-in-the-component}">
 
 Por fim, para garantir que seu app esteja pronto para usar o Angular Router, você precisa dizer ao app onde espera que o router exiba o conteúdo desejado. Faça isso usando a directive `RouterOutlet` de `@angular/router`.
 

@@ -16,7 +16,7 @@ Vamos conectar o template!
 
 <docs-workflow>
 
-<docs-step title="Importe a diretiva FormField">
+<docs-step title="Importe a diretiva FormField {#import-the-formfield-directive}">
 Importe a diretiva `FormField` de `@angular/forms/signals` e adicione-a ao array `imports` do seu component:
 
 ```ts
@@ -32,7 +32,7 @@ import { form, FormField } from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Vincule o campo de e-mail">
+<docs-step title="Vincule o campo de e-mail {#bind-the-email-field}">
 No seu template, adicione a diretiva `[formField]` ao input de e-mail:
 
 ```html
@@ -42,7 +42,7 @@ No seu template, adicione a diretiva `[formField]` ao input de e-mail:
 A expressão `loginForm.email` acessa o campo de e-mail do seu formulário.
 </docs-step>
 
-<docs-step title="Vincule o campo de senha">
+<docs-step title="Vincule o campo de senha {#bind-the-password-field}">
 Adicione a diretiva `[formField]` ao input de senha:
 
 ```html
@@ -51,7 +51,7 @@ Adicione a diretiva `[formField]` ao input de senha:
 
 </docs-step>
 
-<docs-step title="Vincule o campo de checkbox">
+<docs-step title="Vincule o campo de checkbox {#bind-the-checkbox-field}">
 Adicione a diretiva `[formField]` ao input do checkbox:
 
 ```html
@@ -60,7 +60,7 @@ Adicione a diretiva `[formField]` ao input do checkbox:
 
 </docs-step>
 
-<docs-step title="Exiba os valores do formulário">
+<docs-step title="Exiba os valores do formulário {#display-the-form-values}">
 Abaixo do formulário, há uma seção de debug para mostrar os valores atuais do formulário. Exiba o valor de cada campo usando `.value()`:
 
 ```angular-html

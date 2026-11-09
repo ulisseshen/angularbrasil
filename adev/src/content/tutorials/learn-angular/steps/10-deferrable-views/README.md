@@ -13,7 +13,7 @@ Nesta atividade, você aprenderá como usar deferrable views para adiar o carreg
 
 <docs-workflow>
 
-<docs-step title="Adicione um bloco `@defer` em torno do component de comentários">
+<docs-step title="Adicione um bloco `@defer` em torno do component de comentários {#add-a-defer-block-around-the-comments-component}">
 
 Na sua aplicação, a página de post do blog tem um component de comentários após os detalhes do post.
 
@@ -29,7 +29,7 @@ O código acima é um exemplo de como usar um bloco `@defer` básico. Por padrã
 
 </docs-step>
 
-<docs-step title="Adicione um placeholder">
+<docs-step title="Adicione um placeholder {#add-a-placeholder}">
 
 Adicione um bloco `@placeholder` ao bloco `@defer`. O bloco `@placeholder` é onde você coloca o HTML que será mostrado antes do início do carregamento adiado. O conteúdo dos blocos `@placeholder` é carregado de forma eager.
 
@@ -43,7 +43,7 @@ Adicione um bloco `@placeholder` ao bloco `@defer`. O bloco `@placeholder` é on
 
 </docs-step>
 
-<docs-step title="Adicione um bloco de loading">
+<docs-step title="Adicione um bloco de loading {#add-a-loading-block}">
 
 Adicione um bloco `@loading` ao bloco `@defer`. O bloco `@loading` é onde você coloca o HTML que será mostrado _enquanto_ o conteúdo adiado está sendo buscado, mas ainda não terminou. O conteúdo dos blocos `@loading` é carregado de forma eager.
 
@@ -59,7 +59,7 @@ Adicione um bloco `@loading` ao bloco `@defer`. O bloco `@loading` é onde você
 
 </docs-step>
 
-<docs-step title="Adicione uma duração mínima">
+<docs-step title="Adicione uma duração mínima {#add-a-minimum-duration}">
 
 As seções `@placeholder` e `@loading` têm parâmetros opcionais para evitar que ocorra cintilação quando o carregamento acontece rapidamente. `@placeholder` tem `minimum`, e `@loading` tem `minimum` e `after`. Adicione uma duração `minimum` ao bloco `@loading` para que ele seja renderizado por pelo menos 2 segundos.
 
@@ -75,7 +75,7 @@ As seções `@placeholder` e `@loading` têm parâmetros opcionais para evitar q
 
 </docs-step>
 
-<docs-step title="Adicione um trigger de viewport">
+<docs-step title="Adicione um trigger de viewport {#add-a-viewport-trigger}">
 
 Deferrable views têm várias opções de trigger. Adicione um trigger de viewport para que o conteúdo seja carregado de forma adiada assim que entrar na viewport.
 
@@ -91,7 +91,7 @@ Deferrable views têm várias opções de trigger. Adicione um trigger de viewpo
 
 </docs-step>
 
-<docs-step title="Adicione conteúdo">
+<docs-step title="Adicione conteúdo {#add-content}">
 
 Um trigger de viewport é mais útil quando você está adiando conteúdo que fica longe o suficiente na página e precisa ser rolado para ser visto. Então, vamos adicionar algum conteúdo ao nosso post do blog. Você pode escrever o seu próprio, ou pode copiar o conteúdo abaixo e colocá-lo dentro do elemento `<article>`.
 

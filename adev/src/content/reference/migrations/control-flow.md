@@ -15,12 +15,12 @@ ng generate @angular/core:control-flow
 
 A migração oferece algumas opções para ajustar a migração às suas necessidades específicas.
 
-### `--path` {#path}
+### `--path` {#--path}
 
 Por padrão, a migração atualizará todo o seu workspace do Angular CLI.
 Você pode limitar a migração a um subdiretório específico usando esta opção.
 
-### `--format` {#format}
+### `--format` {#--format}
 
 Por padrão, a migração reformata os templates que ela altera.
 Desative esta opção para manter a formatação existente dos seus templates.

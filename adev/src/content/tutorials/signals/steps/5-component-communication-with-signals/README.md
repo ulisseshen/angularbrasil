@@ -9,7 +9,7 @@ Nesta atividade, você vai adicionar signal inputs a um componente de cartão de
 
 <docs-workflow>
 
-<docs-step title="Adicione signal inputs ao ProductCard">
+<docs-step title="Adicione signal inputs ao ProductCard {#add-signal-inputs-to-productcard}">
 Adicione as funções signal `input()` para receber dados no componente `product-card`.
 
 ```ts
@@ -25,7 +25,7 @@ available = input<boolean>(true);
 Observe como `input.required()` cria um input que precisa ser fornecido, enquanto `input()` com um valor padrão é opcional.
 </docs-step>
 
-<docs-step title="Conecte os inputs ao template">
+<docs-step title="Conecte os inputs ao template {#connect-inputs-to-the-template}">
 Atualize o template de `product-card` para exibir os valores dos signal inputs.
 
 ```angular-html
@@ -46,7 +46,7 @@ Atualize o template de `product-card` para exibir os valores dos signal inputs.
 Input signals funcionam como signals comuns em templates: chame-os como funções para acessar seus valores.
 </docs-step>
 
-<docs-step title="Conecte os signals do pai aos inputs do filho">
+<docs-step title="Conecte os signals do pai aos inputs do filho {#connect-parent-signals-to-child-inputs}">
 Atualize o uso de `product-card` em `app.ts` para passar valores de signals dinâmicos em vez de estáticos.
 
 ```html
@@ -60,7 +60,7 @@ Atualize o uso de `product-card` em `app.ts` para passar valores de signals din�
 Os colchetes `[]` criam property bindings que passam os valores atuais dos signals para o filho.
 </docs-step>
 
-<docs-step title="Teste as atualizações reativas">
+<docs-step title="Teste as atualizações reativas {#test-reactive-updates}">
 Adicione métodos em `app.ts` para atualizar os signals do pai e veja como o componente filho reage automaticamente.
 
 ```ts

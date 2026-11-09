@@ -30,7 +30,7 @@ Os principais módulos do Angular para animations são `@angular/animations` e `
 Para começar a adicionar animations do Angular ao seu projeto, importe os módulos específicos de animation junto com a funcionalidade padrão do Angular.
 
 <docs-workflow>
-<docs-step title="Habilitando o módulo de animations">
+<docs-step title="Habilitando o módulo de animations {#enabling-the-animations-module}">
 Importe `provideAnimationsAsync` de `@angular/platform-browser/animations/async` e adicione-o à lista de providers na chamada da função `bootstrapApplication`.
 
 ```ts {header: "Habilitando Animations", linenums}
@@ -50,7 +50,7 @@ Para aplicações baseadas em `NgModule`, importe `BrowserAnimationsModule`, que
 
 <docs-code header="app.module.ts" path="adev/src/content/examples/animations/src/app/app.module.1.ts"/>
 </docs-step>
-<docs-step title="Importando funções de animation em arquivos de components">
+<docs-step title="Importando funções de animation em arquivos de components {#importing-animation-functions-into-component-files}">
 Se você planeja usar funções específicas de animation em arquivos de components, importe essas funções de `@angular/animations`.
 
 <docs-code header="app.ts" path="adev/src/content/examples/animations/src/app/app.ts" region="imports"/>
@@ -58,7 +58,7 @@ Se você planeja usar funções específicas de animation em arquivos de compone
 Veja todas as [funções de animation disponíveis](guide/legacy-animations#animations-api-summary) no final deste guia.
 
 </docs-step>
-<docs-step title="Adicionando a propriedade de metadados de animation">
+<docs-step title="Adicionando a propriedade de metadados de animation {#adding-the-animation-metadata-property}">
 No arquivo do component, adicione uma propriedade de metadados chamada `animations:` dentro do decorator `@Component()`.
 Você coloca o trigger que define uma animation dentro da propriedade de metadados `animations`.
 

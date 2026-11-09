@@ -3,7 +3,7 @@
 
 Interagir com IA e APIs de Modelos de Linguagem Grandes (LLM) introduz desafios únicos, como gerenciar operações assíncronas, lidar com dados de streaming e projetar uma experiência de usuário responsiva para requisições de rede potencialmente lentas ou não confiáveis. Os [signals](guide/signals) do Angular e a API [`resource`](guide/signals/resource) fornecem ferramentas poderosas para resolver esses problemas de forma elegante.
 
-## Disparando requisições com signals
+## Disparando requisições com signals {#triggering-requests-with-signals}
 
 Um padrão comum ao trabalhar com prompts fornecidos pelo usuário é separar a entrada ao vivo do usuário do valor submetido que dispara a chamada da API.
 
@@ -39,7 +39,7 @@ storyResource = resource({
 });
 ```
 
-## Preparando dados do LLM para templates
+## Preparando dados do LLM para templates {#preparing-llm-data-for-templates}
 
 Você pode configurar APIs de LLM para retornar dados estruturados. Tipar fortemente seu `resource` para corresponder à saída esperada do LLM fornece melhor segurança de tipo e autocompletar do editor.
 
@@ -64,7 +64,7 @@ storyParts = linkedSignal<string[], string[]>({
 });
 ```
 
-## Performance e experiência do usuário
+## Performance e experiência do usuário {#performance-and-user-experience}
 
 APIs de LLM podem ser mais lentas e mais propensas a erros do que APIs convencionais e mais determinísticas. Você pode usar vários recursos do Angular para construir uma interface performática e amigável ao usuário.
 
@@ -93,7 +93,7 @@ O exemplo a seguir demonstra como criar uma UI responsiva para exibir dinamicame
 }
 ```
 
-## Padrões de IA em ação: streaming de respostas de chat
+## Padrões de IA em ação: streaming de respostas de chat {#ai-patterns-in-action-streaming-chat-responses}
 
 Interfaces frequentemente exibem resultados parciais de APIs baseadas em LLM de forma incremental à medida que os dados de resposta chegam. A API resource do Angular fornece a capacidade de fazer streaming de respostas para suportar este tipo de padrão. A propriedade `stream` de `resource` aceita uma função assíncrona que você pode usar para aplicar atualizações a um valor de signal ao longo do tempo. O signal sendo atualizado representa os dados sendo transmitidos.
 

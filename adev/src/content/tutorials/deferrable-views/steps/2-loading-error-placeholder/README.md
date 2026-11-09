@@ -17,7 +17,7 @@ Nesta atividade, você aprenderá como usar os blocos `@loading`, `@error` e `@p
 
 <docs-workflow>
 
-<docs-step title="Adicione o bloco `@placeholder`">
+<docs-step title="Adicione o bloco `@placeholder` {#add-placeholder-block}">
 No seu `app.ts`, adicione um bloco `@placeholder` ao bloco `@defer`.
 
 ```angular-html {highlight:[3,4,5]}
@@ -30,7 +30,7 @@ No seu `app.ts`, adicione um bloco `@placeholder` ao bloco `@defer`.
 
 </docs-step>
 
-<docs-step title="Configure o bloco `@placeholder`">
+<docs-step title="Configure o bloco `@placeholder` {#configure-the-placeholder-block}">
 O bloco `@placeholder` aceita um parâmetro opcional para especificar a quantidade `minimum` de tempo em que este placeholder deve ser mostrado. Esse parâmetro `minimum` é especificado em incrementos de tempo de milissegundos (ms) ou segundos (s). Ele existe para evitar que o conteúdo do placeholder pisque rapidamente caso as dependências deferidas sejam buscadas em pouco tempo.
 
 ```angular-html {highlight:[3,4,5]}
@@ -43,7 +43,7 @@ O bloco `@placeholder` aceita um parâmetro opcional para especificar a quantida
 
 </docs-step>
 
-<docs-step title="Adicione o bloco `@loading`">
+<docs-step title="Adicione o bloco `@loading` {#add-loading-block}">
 Em seguida, adicione um bloco `@loading` ao template do component.
 
 O bloco `@loading` aceita dois parâmetros opcionais:
@@ -69,7 +69,7 @@ NOTA: este exemplo usa dois parâmetros, separados pelo caractere ;.
 
 </docs-step>
 
-<docs-step title="Adicione o bloco `@error`">
+<docs-step title="Adicione o bloco `@error` {#add-error-block}">
 Por fim, adicione um bloco `@error` ao bloco `@defer`.
 
 ```angular-html {highlight:[7,8,9]}

@@ -9,13 +9,13 @@ Execute o schematic usando o seguinte comando:
 ng generate @angular/core:common-to-standalone
 ```
 
-## Opções
+## Opções {#options}
 
 | Opção  | Detalhes                                                                                                                        |
 | :----- | :------------------------------------------------------------------------------------------------------------------------------ |
 | `path` | O caminho (relativo à raiz do projeto) a ser migrado. O padrão é `./`. Use isto para migrar incrementalmente um subconjunto do seu projeto. |
 
-## Exemplo
+## Exemplo {#example}
 
 Antes:
 

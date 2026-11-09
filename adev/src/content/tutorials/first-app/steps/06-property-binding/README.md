@@ -20,7 +20,7 @@ Para uma explicação mais detalhada, consulte o guia [Property binding](/guide/
 
 <docs-workflow>
 
-<docs-step title="Atualize o template `Home`">
+<docs-step title="Atualize o template `Home` {#update-the-home-template}">
 Este passo adiciona property binding à tag `<app-housing-location>`.
 
 No editor de código:
@@ -35,7 +35,7 @@ No editor de código:
 
 </docs-step>
 
-<docs-step title="Confirme que o código ainda funciona">
+<docs-step title="Confirme que o código ainda funciona {#confirm-the-code-still-works}">
 1.  Salve suas alterações e confirme que a aplicação não tem nenhum erro.
 1.  Corrija quaisquer erros antes de continuar para o próximo passo.
 </docs-step>

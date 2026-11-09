@@ -29,7 +29,7 @@ Quando você cria seu `Home`, você usa essas propriedades:
 
 <docs-workflow>
 
-<docs-step title="Criar o `Home`">
+<docs-step title="Criar o `Home` {#create-the-home}">
 Neste passo, você cria um novo component para sua aplicação.
 
 No painel **Terminal** do seu IDE:
@@ -58,7 +58,7 @@ No painel **Terminal** do seu IDE:
 1. Deixe o `ng serve` rodando enquanto você completa os próximos passos.
    </docs-step>
 
-<docs-step title="Adicionar o novo component ao layout da sua aplicação">
+<docs-step title="Adicionar o novo component ao layout da sua aplicação {#add-the-new-component-to-your-apps-layout}">
 Neste passo, você adiciona o novo component, `Home` ao component raiz da sua aplicação, `App`, para que ele seja exibido no layout da sua aplicação.
 
 No painel **Edit** do seu IDE:
@@ -86,7 +86,7 @@ No painel **Edit** do seu IDE:
 
 </docs-step>
 
-<docs-step title="Adicionar recursos ao `Home`">
+<docs-step title="Adicionar recursos ao `Home` {#add-features-to-home}">
 
 Neste passo você adiciona recursos ao `Home`.
 

@@ -246,23 +246,23 @@ A caixa de seleção **Skill** também é obrigatória, mas não precisa desse t
 Para definir e mostrar uma mensagem de erro quando apropriado, execute as seguintes etapas.
 
 <docs-workflow>
-<docs-step title="Adicionar uma referência local à entrada">
+<docs-step title="Adicionar uma referência local à entrada {#add-a-local-reference-to-the-input}">
 Estenda a tag `input` com uma variável de referência de template que você pode usar para acessar o controle Angular da caixa de entrada de dentro do template. No exemplo, a variável é `#name="ngModel"`.
 
 A variável de referência de template (`#name`) é definida como `"ngModel"` porque esse é o valor da propriedade [`NgModel.exportAs`](api/core/Directive#exportAs). Esta propriedade diz ao Angular como vincular uma variável de referência a uma directive.
 </docs-step>
 
-<docs-step title="Adicionar a mensagem de erro">
+<docs-step title="Adicionar a mensagem de erro {#add-the-error-message}">
 Adicione um `<div>` que contém uma mensagem de erro adequada.
 </docs-step>
 
-<docs-step title="Tornar a mensagem de erro condicional">
+<docs-step title="Tornar a mensagem de erro condicional {#make-the-error-message-conditional}">
 Mostre ou oculte a mensagem de erro vinculando propriedades do controle `name` à propriedade `hidden` do elemento `<div>` da mensagem.
 </docs-step>
 
 <docs-code header="actor-form.component.html (hidden-error-msg)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="hidden-error-msg"/>
 
-<docs-step title="Adicionar uma mensagem de erro condicional ao name">
+<docs-step title="Adicionar uma mensagem de erro condicional ao name {#add-a-conditional-error-message-to-name}">
 Adicione uma mensagem de erro condicional à caixa de entrada `name`, como no exemplo a seguir.
 
 <docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="name-with-error-msg"/>
@@ -322,13 +322,13 @@ Para responder a este evento, execute as seguintes etapas.
 
 <docs-workflow>
 
-<docs-step title="Escutar ngOnSubmit">
+<docs-step title="Escutar ngOnSubmit {#listen-to-ngonsubmit}">
 Vincule a propriedade de evento [`ngSubmit`](api/forms/NgForm#properties) do formulário ao método `onSubmit()` do component actor-form.
 
 <docs-code header="actor-form.component.html (ngSubmit)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="ngSubmit"/>
 </docs-step>
 
-<docs-step title="Vincular a propriedade disabled">
+<docs-step title="Vincular a propriedade disabled {#bind-the-disabled-property}">
 Use a variável de referência de template, `#actorForm` para acessar o formulário que contém o botão **Submit** e criar uma vinculação de evento.
 
 Você vinculará a propriedade do formulário que indica sua validade geral à propriedade `disabled` do botão **Submit**.
@@ -336,11 +336,11 @@ Você vinculará a propriedade do formulário que indica sua validade geral à p
 <docs-code header="actor-form.component.html (submit-button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="submit-button"/>
 </docs-step>
 
-<docs-step title="Executar o aplicativo">
+<docs-step title="Executar o aplicativo {#run-the-application}">
 Observe que o botão está habilitado — embora ainda não faça nada útil.
 </docs-step>
 
-<docs-step title="Excluir o valor Name">
+<docs-step title="Excluir o valor Name {#delete-the-name-value}">
 Isso viola a regra "obrigatória", então exibe a mensagem de erro — e observe que também desabilita o botão **Submit**.
 
 Você não precisou conectar explicitamente o estado habilitado do botão à validade do formulário.
@@ -353,7 +353,7 @@ O `FormsModule` fez isso automaticamente quando você definiu uma variável de r
 Para mostrar uma resposta ao envio do formulário, você pode ocultar a área de entrada de dados e exibir outra coisa em seu lugar.
 
 <docs-workflow>
-<docs-step title="Encapsular o formulário">
+<docs-step title="Encapsular o formulário {#wrap-the-form}">
 Envolva todo o formulário em um `<div>` e vincule sua propriedade `hidden` à propriedade `ActorFormComponent.submitted`.
 
 <docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="edit-div"/>
@@ -365,7 +365,7 @@ O formulário principal está visível desde o início porque a propriedade `sub
 Quando você clica no botão **Submit**, o flag `submitted` se torna true e o formulário desaparece.
 </docs-step>
 
-<docs-step title="Adicionar o estado submitted">
+<docs-step title="Adicionar o estado submitted {#add-the-submitted-state}">
 Para mostrar outra coisa enquanto o formulário está no estado submitted, adicione o seguinte HTML abaixo do novo wrapper `<div>`.
 
 <docs-code header="actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" region="submitted"/>
@@ -375,7 +375,7 @@ Este `<div>`, que mostra um actor somente leitura com vinculações de interpola
 A exibição alternativa inclui um botão _Edit_ cujo evento de clique está vinculado a uma expressão que limpa o flag `submitted`.
 </docs-step>
 
-<docs-step title="Testar o botão Edit">
+<docs-step title="Testar o botão Edit {#test-the-edit-button}">
 Clique no botão *Edit* para alternar a exibição de volta para o formulário editável.
 </docs-step>
 </docs-workflow>

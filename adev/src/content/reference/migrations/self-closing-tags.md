@@ -11,13 +11,13 @@ Execute o schematic usando o seguinte comando:
 ng generate @angular/core:self-closing-tag
 ```
 
-#### Antes
+#### Antes {#before}
 
 ```angular-html
 <hello-world></hello-world>
 ```
 
-#### Depois
+#### Depois {#after}
 
 ```angular-html
 <hello-world />

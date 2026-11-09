@@ -11,7 +11,7 @@ Nesta atividade, você aprenderá como adicionar e configurar rotas no seu app.
 
 <docs-workflow>
 
-<docs-step title="Defina uma route em `app.routes.ts`">
+<docs-step title="Defina uma route em `app.routes.ts` {#define-a-route-in-approutests}">
 
 No seu app, há duas páginas para exibir: (1) Home Page e (2) User Page.
 
@@ -38,7 +38,7 @@ Use `'user'` como path do `User`.
 
 </docs-step>
 
-<docs-step title="Adicione um title à definição da route">
+<docs-step title="Adicione um title à definição da route {#add-title-to-route-definition}">
 
 Além de definir as rotas corretamente, o Angular Router também permite que você defina o título da página sempre que os usuários estiverem navegando, adicionando a propriedade `title` a cada route.
 

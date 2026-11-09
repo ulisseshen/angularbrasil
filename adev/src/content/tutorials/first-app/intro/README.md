@@ -43,7 +43,7 @@ Execute esses passos em uma ferramenta de linha de comando no computador que voc
 
 <docs-workflow>
 
-<docs-step title="Identificar a versão do `node.js` que o Angular requer">
+<docs-step title="Identificar a versão do `node.js` que o Angular requer {#identify-the-version-of-nodejs-that-angular-requires}">
 Angular requer uma versão LTS ativa ou LTS de manutenção do Node. Vamos confirmar sua versão do `node.js`. Para informações sobre requisitos de versão específicos, consulte a propriedade engines no [arquivo package.json](https://unpkg.com/browse/@angular/core@15.1.5/package.json).
 
 A partir de uma janela de **Terminal**:
@@ -52,17 +52,17 @@ A partir de uma janela de **Terminal**:
 1. Confirme que o número da versão exibida atende aos requisitos.
    </docs-step>
 
-<docs-step title="Instalar a versão correta do `node.js` para Angular">
+<docs-step title="Instalar a versão correta do `node.js` para Angular {#install-the-correct-version-of-nodejs-for-angular}">
 Se você não tiver uma versão do `node.js` instalada, siga as [instruções de instalação no nodejs.org](https://nodejs.org/en/download/)
 </docs-step>
 
-<docs-step title="Instalar a versão mais recente do Angular">
+<docs-step title="Instalar a versão mais recente do Angular {#install-the-latest-version-of-angular}">
 Com `node.js` e `npm` instalados, o próximo passo é instalar o [Angular CLI](tools/cli) que fornece ferramentas para desenvolvimento eficaz do Angular.
 
 A partir de uma janela de **Terminal**, execute o seguinte comando: `npm install -g @angular/cli`.
 </docs-step>
 
-<docs-step title="Instalar ambiente de desenvolvimento integrado (IDE)">
+<docs-step title="Instalar ambiente de desenvolvimento integrado (IDE) {#install-integrated-development-environment-ide}">
 Você é livre para usar qualquer ferramenta que preferir para construir aplicações com Angular. Recomendamos o seguinte:
 
 1. [Visual Studio Code](https://code.visualstudio.com/)
@@ -70,7 +70,7 @@ Você é livre para usar qualquer ferramenta que preferir para construir aplica�
 3. [WebStorm](https://www.jetbrains.com/webstorm/)
    </docs-step>
 
-<docs-step title="Opcional: configure seu IDE com IA">
+<docs-step title="Opcional: configure seu IDE com IA {#optional-set-up-your-ai-powered-ide}">
 
 Caso você esteja seguindo este tutorial em seu IDE com IA preferido, [confira as regras de prompt e melhores práticas do Angular](/ai/develop-with-ai).
 

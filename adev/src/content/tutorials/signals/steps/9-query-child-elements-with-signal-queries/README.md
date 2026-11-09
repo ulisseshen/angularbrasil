@@ -9,7 +9,7 @@ Nesta atividade, você adicionará viewChild queries para interagir com componen
 
 <docs-workflow>
 
-<docs-step title="Adicione o import viewChild">
+<docs-step title="Adicione o import viewChild {#add-viewchild-import}">
 Primeiro, adicione o import `viewChild` para acessar components filhos em `app.ts`.
 
 ```ts
@@ -18,7 +18,7 @@ import {Component, signal, computed, viewChild, ChangeDetectionStrategy} from '@
 
 </docs-step>
 
-<docs-step title="Crie viewChild queries">
+<docs-step title="Crie viewChild queries {#create-viewchild-queries}">
 Adicione viewChild queries ao component App para acessar components filhos.
 
 ```ts
@@ -30,7 +30,7 @@ cartSummary = viewChild(CartSummary);
 Essas queries criam signals que referenciam instâncias de component filho.
 </docs-step>
 
-<docs-step title="Implemente métodos do pai">
+<docs-step title="Implemente métodos do pai {#implement-parent-methods}">
 Use as viewChild queries para chamar métodos em components filhos em `app.ts`:
 
 ```ts
@@ -51,7 +51,7 @@ initiateCheckout() {
 
 </docs-step>
 
-<docs-step title="Teste as interações">
+<docs-step title="Teste as interações {#test-the-interactions}">
 Os botões de controle devem funcionar agora:
 
 - **"Show First Product Details"** - Chama `highlight()` no ProductCard

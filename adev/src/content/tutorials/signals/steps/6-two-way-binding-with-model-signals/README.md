@@ -9,7 +9,7 @@ Nesta atividade, você vai criar um componente de checkbox personalizado que ger
 
 <docs-workflow>
 
-<docs-step title="Configure o checkbox personalizado com model signal">
+<docs-step title="Configure o checkbox personalizado com model signal {#set-up-the-custom-checkbox-with-model-signal}">
 Crie um model signal no componente `custom-checkbox` que pode tanto receber quanto atualizar o valor do pai.
 
 ```ts
@@ -26,7 +26,7 @@ label = input<string>('');
 Diferente dos signals `input()`, que são somente leitura, os signals `model()` podem ser tanto lidos quanto escritos.
 </docs-step>
 
-<docs-step title="Crie o template do checkbox">
+<docs-step title="Crie o template do checkbox {#create-the-checkbox-template}">
 Construa o template do checkbox que responde a cliques e atualiza o próprio model.
 
 ```html
@@ -40,7 +40,7 @@ Construa o template do checkbox que responde a cliques e atualiza o próprio mod
 O componente lê do seu model signal e tem um método para atualizá-lo.
 </docs-step>
 
-<docs-step title="Adicione o método toggle">
+<docs-step title="Adicione o método toggle {#add-the-toggle-method}">
 Implemente o método toggle que atualiza o model signal quando o checkbox é clicado.
 
 ```ts
@@ -53,7 +53,7 @@ toggle() {
 Quando o componente filho chama `this.checked.set()`, ele propaga automaticamente a mudança de volta para o pai. Esta é a diferença-chave em relação aos signals `input()`.
 </docs-step>
 
-<docs-step title="Configure a vinculação bidirecional no pai">
+<docs-step title="Configure a vinculação bidirecional no pai {#set-up-two-way-binding-in-the-parent}">
 Primeiro, descomente as propriedades de model signal e os métodos em `app.ts`:
 
 ```ts
@@ -105,7 +105,7 @@ Parte 3. **Adicione manipuladores de clique aos botões:**
 A sintaxe `[(checked)]` cria a vinculação bidirecional: os dados fluem para baixo, para o componente, E as mudanças voltam para o pai emitindo um evento que referencia o próprio signal e _não_ chama diretamente o getter do signal.
 </docs-step>
 
-<docs-step title="Teste a vinculação bidirecional">
+<docs-step title="Teste a vinculação bidirecional {#test-the-two-way-binding}">
 Interaja com a sua aplicação para ver a vinculação bidirecional em ação:
 
 1. **Clique nos checkboxes** - O componente atualiza o próprio estado e notifica o pai

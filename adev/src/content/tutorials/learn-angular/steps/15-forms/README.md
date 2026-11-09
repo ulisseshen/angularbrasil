@@ -13,7 +13,7 @@ Nesta atividade, você aprenderá como configurar um form usando uma abordagem t
 
 <docs-workflow>
 
-<docs-step title="Crie um campo de input">
+<docs-step title="Crie um campo de input {#create-an-input-field}">
 
 Em `user.ts`, atualize o template adicionando um input de texto com o `id` definido como `framework` e o tipo definido como `text`.
 
@@ -26,7 +26,7 @@ Em `user.ts`, atualize o template adicionando um input de texto com o `id` defin
 
 </docs-step>
 
-<docs-step title="Importe `FormsModule`">
+<docs-step title="Importe `FormsModule` {#import-formsmodule}">
 
 Para que este form use os recursos do Angular que habilitam o data binding em forms, você precisará importar o `FormsModule`.
 
@@ -45,7 +45,7 @@ export class User {}
 
 </docs-step>
 
-<docs-step title="Adicione binding ao valor do input">
+<docs-step title="Adicione binding ao valor do input {#add-binding-to-the-value-of-the-input}">
 
 O `FormsModule` tem uma directive chamada `ngModel`, que vincula o valor do input a uma propriedade na sua classe.
 

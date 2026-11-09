@@ -15,13 +15,13 @@ Ao trabalhar no playground do navegador, você não precisa executar `ng serve` 
 
 <docs-workflow>
 
-<docs-step title="Baixar a aplicação padrão">
+<docs-step title="Baixar a aplicação padrão {#download-the-default-app}">
 Comece clicando no ícone "Download" no painel superior direito do editor de código. Isso fará o download de um arquivo `.zip` contendo o código-fonte para este tutorial. Abra isso em seu Terminal e IDE local e prossiga para testar a aplicação padrão.
 
 Em qualquer etapa do tutorial, você pode clicar neste ícone para baixar o código-fonte da etapa e começar a partir daí.
 </docs-step>
 
-<docs-step title="Testar a aplicação padrão">
+<docs-step title="Testar a aplicação padrão {#test-the-default-app}">
 Neste passo, após baixar a aplicação inicial padrão, você constrói a aplicação Angular padrão.
 Isso confirma que seu ambiente de desenvolvimento tem o que você precisa para continuar o tutorial.
 
@@ -47,7 +47,7 @@ No painel **Terminal** do seu IDE:
 1. Você pode deixar o `ng serve` rodando enquanto completa os próximos passos.
    </docs-step>
 
-<docs-step title="Revisar os arquivos do projeto">
+<docs-step title="Revisar os arquivos do projeto {#review-the-files-in-the-project}">
 Neste passo, você conhece os arquivos que compõem uma aplicação Angular padrão.
 
 No painel **Explorer** do seu IDE:

@@ -28,7 +28,7 @@ Certo, agora é sua vez:
 
 <docs-workflow>
 
-<docs-step title="Adicione o decorator `@Service`">
+<docs-step title="Adicione o decorator `@Service` {#add-the-service-decorator}">
 Atualize o código em `car.service.ts` adicionando o decorator `@Service()` à classe `CarService`.
 
 TIP: Use o exemplo acima para encontrar a sintaxe correta.

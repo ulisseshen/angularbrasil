@@ -33,7 +33,7 @@ Certo, agora é a sua vez de experimentar: você criará o `ReversePipe`.
 
 <docs-workflow>
 
-<docs-step title="Crie o `ReversePipe`">
+<docs-step title="Crie o `ReversePipe` {#create-the-reversepipe}">
 
 Em `reverse.pipe.ts`, adicione o decorator `@Pipe` à classe `ReversePipe` e forneça a seguinte configuração:
 
@@ -45,7 +45,7 @@ Em `reverse.pipe.ts`, adicione o decorator `@Pipe` à classe `ReversePipe` e for
 
 </docs-step>
 
-<docs-step title="Implemente a função `transform`">
+<docs-step title="Implemente a função `transform` {#implement-the-transform-function}">
 
 Agora a classe `ReversePipe` é um pipe. Atualize a função `transform` para adicionar a lógica de reversão:
 
@@ -65,7 +65,7 @@ export class ReversePipe implements PipeTransform {
 
 </docs-step>
 
-<docs-step title="Use o `ReversePipe` no template">
+<docs-step title="Use o `ReversePipe` no template {#use-the-reversepipe-in-the-template}">
 Com a lógica do pipe implementada, o passo final é usá-lo no template. Em `app.ts`, inclua o pipe no template e adicione-o aos imports do component:
 
 ```angular-ts {highlight:[3,4]}
