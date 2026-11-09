@@ -1,20 +1,22 @@
-# Debugging tests
+<!-- ia-translate: true -->
 
-If your tests aren't working as you expect, you can debug them in both the default Node.js environment and in a real browser.
+# Debug de testes {#debugging-tests}
 
-## Debugging in Node.js
+Se seus testes não estiverem funcionando como você espera, você pode fazer debug deles tanto no ambiente Node.js padrão quanto em um browser real.
 
-Debugging in the default Node.js environment is often the quickest way to diagnose issues that are not related to browser-specific APIs or rendering.
+## Debug no Node.js {#debugging-in-nodejs}
 
-1.  Run the `ng test` command with the `--debug` flag:
+Fazer debug no ambiente Node.js padrão costuma ser a forma mais rápida de diagnosticar problemas que não estão relacionados a APIs específicas do browser ou à renderização.
+
+1.  Execute o comando `ng test` com a flag `--debug`:
     ```shell
     ng test --debug
     ```
-2.  The test runner will start in debug mode and wait for a debugger to attach.
-3.  You can now attach your preferred debugger. For example, you can use the built-in Node.js debugger in VS Code or the Chrome DevTools for Node.js.
+2.  O test runner será iniciado no modo de debug e aguardará um debugger ser conectado.
+3.  Agora você pode conectar o debugger de sua preferência. Por exemplo, você pode usar o debugger nativo do Node.js no VS Code ou o Chrome DevTools para Node.js.
 
-## Debugging in a browser
+## Debug em um browser {#debugging-in-a-browser}
 
-The same way you start a debugging session with in Node, you can use `ng test` with the `--debug` flag with Vitest and [browser mode](/guide/testing/migrating-to-vitest#5-configure-browser-mode-optional).
+Da mesma forma que você inicia uma sessão de debug no Node, você pode usar `ng test` com a flag `--debug` com o Vitest e o [modo browser](/guide/testing/migrating-to-vitest#5-configure-browser-mode-optional).
 
-The test runner will start in debug mode and wait for you to open the browser devtools to debug the tests.
+O test runner será iniciado no modo de debug e aguardará você abrir as ferramentas de desenvolvedor do browser para fazer o debug dos testes.
