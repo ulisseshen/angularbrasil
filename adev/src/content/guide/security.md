@@ -402,7 +402,7 @@ export const appConfig: ApplicationConfig = {
 Para informações sobre CSRF no Open Web Application Security Project \(OWASP\), consulte [Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) e [Cross-Site Request Forgery (CSRF) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
 O artigo da Stanford University [Robust Defenses for Cross-Site Request Forgery](https://seclab.stanford.edu/websec/csrf/csrf.pdf) é uma rica fonte de detalhes.
 
-Veja também a palestra de Dave Smith sobre XSRF na AngularConnect 2016: [https://www.youtube.com/watch?v=9inczw6qtpY](https://www.youtube.com/watch?v=9inczw6qtpY 'Cross Site Request Funkery Securing Your Angular Apps From Evil Doers').
+Veja também a [palestra de Dave Smith sobre XSRF na AngularConnect 2016](https://www.youtube.com/watch?v=9inczw6qtpY 'Cross Site Request Funkery Securing Your Angular Apps From Evil Doers').
 
 ### Cross-site script inclusion (XSSI) {#cross-site-script-inclusion-xssi}
 
