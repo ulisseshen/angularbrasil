@@ -1,21 +1,21 @@
-# Content projection with ng-content
+<!-- ia-translate: true -->
+# Projeção de conteúdo com ng-content {#content-projection-with-ng-content}
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
-You often need to create components that act as containers for different types of content. For
-example, you may want to create a custom card component:
+Com frequência, você precisa criar components que atuam como containers para diferentes tipos de conteúdo. Por exemplo, você pode querer criar um component de card personalizado:
 
 ```angular-ts
 @Component({
   selector: 'custom-card',
-  template: '<div class="card-shadow"> <!-- card content goes here --> </div>',
+  template: '<div class="card-shadow"> <!-- o conteúdo do card vai aqui --> </div>',
 })
 export class CustomCard {
   /* ... */
 }
 ```
 
-**You can use the `<ng-content>` element as a placeholder to mark where content should go**:
+**Você pode usar o elemento `<ng-content>` como um espaço reservado para marcar onde o conteúdo deve ir**:
 
 ```angular-ts
 @Component({
@@ -27,15 +27,12 @@ export class CustomCard {
 }
 ```
 
-TIP: `<ng-content>` works similarly
-to [the native `<slot>` element](https://developer.mozilla.org/docs/Web/HTML/Element/slot),
-but with some Angular-specific functionality.
+TIP: `<ng-content>` funciona de forma semelhante ao [elemento nativo `<slot>`](https://developer.mozilla.org/docs/Web/HTML/Element/slot), mas com algumas funcionalidades específicas do Angular.
 
-When you use a component with `<ng-content>`, any children of the component host element are
-rendered, or **projected**, at the location of that `<ng-content>`:
+Quando você usa um component com `<ng-content>`, quaisquer filhos do elemento host do component são renderizados, ou **projetados**, no local desse `<ng-content>`:
 
 ```angular-ts
-// Component source
+// Código-fonte do component
 @Component({
   selector: 'custom-card',
   template: `
@@ -50,14 +47,14 @@ export class CustomCard {
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando o component -->
 <custom-card>
   <p>This is the projected content</p>
 </custom-card>
 ```
 
 ```angular-html
-<!-- The rendered DOM -->
+<!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
     <p>This is the projected content</p>
@@ -65,25 +62,15 @@ export class CustomCard {
 </custom-card>
 ```
 
-Angular refers to any children of a component passed this way as that component's **content**. This
-is distinct from the component's **view**, which refers to the elements defined in the component's
-template.
+O Angular se refere a quaisquer filhos de um component passados dessa forma como o **conteúdo** desse component. Isso é diferente da **view** do component, que se refere aos elementos definidos no template do component.
 
-**The `<ng-content>` element is neither a component nor DOM element**. Instead, it is a special
-placeholder that tells Angular where to render content. Angular's compiler processes
-all `<ng-content>` elements at build-time. You cannot insert, remove, or modify `<ng-content>` at
-run time. You cannot add directives, styles, or arbitrary attributes to `<ng-content>`.
+**O elemento `<ng-content>` não é um component nem um elemento DOM**. Em vez disso, ele é um espaço reservado especial que informa ao Angular onde renderizar o conteúdo. O compilador do Angular processa todos os elementos `<ng-content>` em tempo de build. Você não pode inserir, remover ou modificar `<ng-content>` em tempo de execução. Você não pode adicionar directives, estilos ou atributos arbitrários ao `<ng-content>`.
 
-IMPORTANT: You should not conditionally include `<ng-content>` with `@if`, `@for`, or `@switch`. Angular always
-instantiates and creates DOM nodes for content rendered to a `<ng-content>` placeholder, even if
-that `<ng-content>` placeholder is hidden. For conditional rendering of component content,
-see [Template fragments](api/core/ng-template).
+IMPORTANT: Você não deve incluir `<ng-content>` condicionalmente com `@if`, `@for` ou `@switch`. O Angular sempre instancia e cria nós DOM para o conteúdo renderizado em um espaço reservado `<ng-content>`, mesmo que esse espaço reservado esteja oculto. Para renderização condicional do conteúdo de um component, consulte [Fragmentos de template](api/core/ng-template).
 
-## Multiple content placeholders
+## Múltiplos espaços reservados de conteúdo {#multiple-content-placeholders}
 
-Angular supports projecting multiple different elements into different `<ng-content>` placeholders
-based on CSS selector. Expanding the card example from above, you could create two placeholders for
-a card title and a card body by using the `select` attribute:
+O Angular permite projetar múltiplos elementos diferentes em diferentes espaços reservados `<ng-content>` com base em seletores CSS. Expandindo o exemplo do card acima, você pode criar dois espaços reservados, um para o título do card e outro para o corpo, usando o atributo `select`:
 
 ```angular-ts
 @Component({
@@ -100,7 +87,7 @@ export class CardBody {}
 ```
 
 ```angular-ts
-<!-- Component template -->
+<!-- Template do component -->
 @Component({
   selector: 'custom-card',
   template: `
@@ -115,7 +102,7 @@ export class CustomCard {}
 ```
 
 ```angular-ts
-<!-- Using the component -->
+<!-- Usando o component -->
 @Component({
   selector: 'app-root',
   imports: [CustomCard, CardTitle, CardBody],
@@ -130,7 +117,7 @@ export class App {}
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
     <card-title>Hello</card-title>
@@ -140,25 +127,22 @@ export class App {}
 </custom-card>
 ```
 
-The `<ng-content>` placeholder supports the same CSS selectors
-as [component selectors](guide/components/selectors).
+O espaço reservado `<ng-content>` suporta os mesmos seletores CSS que os [seletores de components](guide/components/selectors).
 
-If you include one or more `<ng-content>` placeholders with a `select` attribute and
-one `<ng-content>` placeholder without a `select` attribute, the latter captures all elements that
-did not match a `select` attribute:
+Se você incluir um ou mais espaços reservados `<ng-content>` com um atributo `select` e um espaço reservado `<ng-content>` sem atributo `select`, este último captura todos os elementos que não corresponderam a nenhum atributo `select`:
 
 ```angular-html
-<!-- Component template -->
+<!-- Template do component -->
 <div class="card-shadow">
   <ng-content select="card-title" />
   <div class="card-divider"></div>
-  <!-- capture anything except "card-title" -->
+  <!-- captura tudo, exceto "card-title" -->
   <ng-content />
 </div>
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando o component -->
 <custom-card>
   <card-title>Hello</card-title>
   <img src="..." />
@@ -167,7 +151,7 @@ did not match a `select` attribute:
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
     <card-title>Hello</card-title>
@@ -178,15 +162,14 @@ did not match a `select` attribute:
 </custom-card>
 ```
 
-If a component does not include an `<ng-content>` placeholder without a `select` attribute, any
-elements that don't match one of the component's placeholders do not render into the DOM.
+Se um component não incluir um espaço reservado `<ng-content>` sem atributo `select`, quaisquer elementos que não correspondam a nenhum dos espaços reservados do component não serão renderizados no DOM.
 
-## Fallback content
+## Conteúdo de fallback {#fallback-content}
 
-Angular can show _fallback content_ for a component's `<ng-content>` placeholder if that component doesn't have any matching child content. You can specify fallback content by adding child content to the `<ng-content>` element itself.
+O Angular pode exibir _conteúdo de fallback_ para um espaço reservado `<ng-content>` de um component se esse component não tiver nenhum conteúdo filho correspondente. Você pode especificar o conteúdo de fallback adicionando conteúdo filho ao próprio elemento `<ng-content>`.
 
 ```angular-html
-<!-- Component template -->
+<!-- Template do component -->
 <div class="card-shadow">
   <ng-content select="card-title">Default Title</ng-content>
   <div class="card-divider"></div>
@@ -195,15 +178,15 @@ Angular can show _fallback content_ for a component's `<ng-content>` placeholder
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando o component -->
 <custom-card>
   <card-title>Hello</card-title>
-  <!-- No card-body provided -->
+  <!-- Nenhum card-body foi fornecido -->
 </custom-card>
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
     <card-title>Hello</card-title>
@@ -213,14 +196,12 @@ Angular can show _fallback content_ for a component's `<ng-content>` placeholder
 </custom-card>
 ```
 
-## Aliasing content for projection
+## Criando alias de conteúdo para projeção {#aliasing-content-for-projection}
 
-Angular supports a special attribute, `ngProjectAs`, that allows you to specify a CSS selector on
-any element. Whenever an element with `ngProjectAs` is checked against an `<ng-content>`
-placeholder, Angular compares against the `ngProjectAs` value instead of the element's identity:
+O Angular oferece um atributo especial, `ngProjectAs`, que permite especificar um seletor CSS em qualquer elemento. Sempre que um elemento com `ngProjectAs` é verificado contra um espaço reservado `<ng-content>`, o Angular compara com o valor de `ngProjectAs` em vez da identidade do elemento:
 
 ```angular-html
-<!-- Component template -->
+<!-- Template do component -->
 <div class="card-shadow">
   <ng-content select="card-title" />
   <div class="card-divider"></div>
@@ -229,7 +210,7 @@ placeholder, Angular compares against the `ngProjectAs` value instead of the ele
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando o component -->
 <custom-card>
   <h3 ngProjectAs="card-title">Hello</h3>
 
@@ -238,7 +219,7 @@ placeholder, Angular compares against the `ngProjectAs` value instead of the ele
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
     <h3>Hello</h3>
@@ -248,30 +229,30 @@ placeholder, Angular compares against the `ngProjectAs` value instead of the ele
 </custom-card>
 ```
 
-`ngProjectAs` supports only static values and cannot be bound to dynamic expressions.
+`ngProjectAs` aceita apenas valores estáticos e não pode ser vinculado a expressões dinâmicas.
 
-## Caveats
+## Ressalvas {#caveats}
 
-### Projected content lives in the parent's view
+### O conteúdo projetado fica na view do pai {#projected-content-lives-in-the-parents-view}
 
-Even though projected content is _rendered_ inside the receiving component, it is still owned by the component that declared it. Angular tracks it as part of the parent's view, which has a couple of side effects worth knowing about.
+Mesmo que o conteúdo projetado seja _renderizado_ dentro do component que o recebe, ele continua pertencendo ao component que o declarou. O Angular o trata como parte da view do pai, o que tem alguns efeitos colaterais que vale conhecer.
 
-**Change detection:** Projected content is checked when the _parent_ runs change detection. If the receiving component uses `OnPush`, Angular can skip checking that component's own template — but it won't skip the projected content, because that belongs to the parent.
+**Detecção de mudanças:** O conteúdo projetado é verificado quando o _pai_ executa a detecção de mudanças. Se o component que recebe o conteúdo usar `OnPush`, o Angular pode pular a verificação do template próprio desse component, mas não pulará o conteúdo projetado, porque ele pertence ao pai.
 
 ```angular-html
-<!-- Parent template (default change detection) -->
+<!-- Template do pai (detecção de mudanças padrão) -->
 <onpush-wrapper>
-  <!-- Still checked on every parent cycle, OnPush doesn't help here -->
+  <!-- Continua sendo verificado a cada ciclo do pai; o OnPush não ajuda aqui -->
   <expensive-component />
 </onpush-wrapper>
 ```
 
-**Dependency injection:** Projected content gets its dependencies from the parent's injector, not from the receiving component's `viewProviders`. See [Providers and viewProviders](guide/di/hierarchical-dependency-injection) for details.
+**Injeção de dependência:** O conteúdo projetado obtém suas dependências do injector do pai, e não dos `viewProviders` do component que o recebe. Consulte [Providers e viewProviders](guide/di/hierarchical-dependency-injection) para mais detalhes.
 
-### Some library components don't support projected children
+### Alguns componentes de biblioteca não suportam filhos projetados {#some-library-components-dont-support-projected-children}
 
-Certain components — menus, tabs, lists — use `ContentChildren` to find their children and wire up behavior like keyboard navigation, focus management, or ARIA attributes. They're written assuming they own their children directly, so projecting external content into them tends to break things in subtle ways.
+Alguns components, como menus, tabs e listas, usam `ContentChildren` para encontrar seus filhos e configurar comportamentos como navegação por teclado, gerenciamento de foco ou atributos ARIA. Eles são escritos partindo do pressuposto de que são donos diretos dos seus filhos, por isso projetar conteúdo externo neles tende a quebrar as coisas de formas sutis.
 
-For example, wrapping `<mat-menu-item>` elements in an extra layer and projecting them into `<mat-menu>` can silently break keyboard navigation and screen reader support. The query still finds the items, but the internal setup that makes them interactive may not work correctly when the items come from a different view context.
+Por exemplo, envolver elementos `<mat-menu-item>` em uma camada extra e projetá-los em `<mat-menu>` pode quebrar silenciosamente a navegação por teclado e o suporte a leitores de tela. A query ainda encontra os itens, mas a configuração interna que os torna interativos pode não funcionar corretamente quando os itens vêm de um contexto de view diferente.
 
-If a library component manages its children's behavior, check its docs before reaching for content projection — it may not be supported.
+Se um component de biblioteca gerencia o comportamento dos seus filhos, verifique a documentação dele antes de recorrer à projeção de conteúdo, pois pode não haver suporte.
