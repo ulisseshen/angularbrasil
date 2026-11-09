@@ -1,20 +1,21 @@
+<!-- ia-translate: true -->
 # Attribute directives
 
-Attribute directives change the appearance or behavior of DOM elements and Angular components.
+As attribute directives alteram a aparência ou o comportamento de elementos DOM e de components Angular.
 
-## Use template bindings for one-off behavior
+## Use template bindings para comportamentos pontuais {#use-template-bindings-for-one-off-behavior}
 
-Angular's template syntax already covers changing a single element's classes, styles, properties, and events:
+A sintaxe de template do Angular já cobre a alteração das classes, dos estilos, das propriedades e dos eventos de um único elemento:
 
-- [Class and style bindings](guide/templates/binding#css-class-and-style-property-bindings) add and remove CSS classes and inline styles.
-- [Property and attribute bindings](guide/templates/binding) set DOM properties and HTML attributes.
-- [Event listeners](guide/templates/event-listeners) respond to user interaction.
+- [Class and style bindings](guide/templates/binding#css-class-and-style-property-bindings) adicionam e removem classes CSS e estilos inline.
+- [Property and attribute bindings](guide/templates/binding) definem propriedades do DOM e atributos HTML.
+- [Event listeners](guide/templates/event-listeners) respondem à interação do usuário.
 
-Attribute directives are useful when you want to package this kind of behavior into a reusable unit that you can apply to any element or component.
+Attribute directives são úteis quando você quer empacotar esse tipo de comportamento em uma unidade reutilizável que pode ser aplicada a qualquer elemento ou component.
 
-## Building an attribute directive
+## Construindo uma attribute directive {#building-an-attribute-directive}
 
-A custom attribute directive is a JavaScript class with the `@Directive()` decorator. The decorator's `selector` defines the attribute that applies the directive. The square brackets make this an attribute selector, so the directive matches elements that carry the attribute. By convention, use a prefix such as `app` to avoid naming collisions:
+Uma attribute directive customizada é uma classe JavaScript com o decorator `@Directive()`. A propriedade `selector` do decorator define o atributo que aplica a directive. Os colchetes tornam isso um seletor de atributo, então a directive corresponde a elementos que carregam esse atributo. Por convenção, use um prefixo como `app` para evitar conflitos de nomes:
 
 ```ts
 import {Directive} from '@angular/core';
@@ -25,78 +26,78 @@ import {Directive} from '@angular/core';
 export class HighlightDirective {}
 ```
 
-HELPFUL: The CLI command [`ng generate directive`](tools/cli/schematics) scaffolds a directive along with its test file.
+HELPFUL: O comando CLI [`ng generate directive`](tools/cli/schematics) gera o esqueleto de uma directive junto com o arquivo de teste dela.
 
-A directive can change its host declaratively through host bindings or imperatively through a reference to the host element. This example [injects](guide/di) [`ElementRef`](api/core/ElementRef) and accesses the element through its `nativeElement` property to set the background to yellow:
+Uma directive pode alterar seu host de forma declarativa, por meio de host bindings, ou de forma imperativa, por meio de uma referência ao elemento host. Este exemplo [injeta](guide/di) [`ElementRef`](api/core/ElementRef) e acessa o elemento pela propriedade `nativeElement` para definir o fundo como amarelo:
 
 <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.1.ts"/>
 
-IMPORTANT: Directives _do not_ support namespaces.
+IMPORTANT: Directives _não_ suportam namespaces.
 
 ```angular-html {avoid}
 <p app:Highlight>This is invalid</p>
 ```
 
-## Applying an attribute directive
+## Aplicando uma attribute directive {#applying-an-attribute-directive}
 
-To apply the directive, add its selector as an attribute on an element:
+Para aplicar a directive, adicione o seletor dela como um atributo em um elemento:
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.html" region="applied"/>
 
-Angular creates an instance of `HighlightDirective` for that `<p>` element, injects a reference to the element, and sets its background to yellow.
+O Angular cria uma instância de `HighlightDirective` para aquele elemento `<p>`, injeta uma referência ao elemento e define o fundo dele como amarelo.
 
-## Handling user events
+## Manipulando eventos do usuário {#handling-user-events}
 
-To respond to user interaction, bind host element events to handler methods through the `host` property of the `@Directive()` decorator. The following directive highlights the host element while the pointer is over it and clears the highlight when the pointer leaves:
+Para responder à interação do usuário, vincule eventos do elemento host a métodos handler pela propriedade `host` do decorator `@Directive()`. A directive a seguir destaca o elemento host enquanto o ponteiro está sobre ele e remove o destaque quando o ponteiro sai:
 
 <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts"/>
 
-The `host` property maps the `mouseenter` and `mouseleave` events to the `onMouseEnter()` and `onMouseLeave()` methods, which delegate to a `highlight()` helper that sets the background color on the host element. For more on host event bindings, see [binding to the host element](guide/components/host-elements#binding-to-the-host-element).
+A propriedade `host` mapeia os eventos `mouseenter` e `mouseleave` para os métodos `onMouseEnter()` e `onMouseLeave()`, que delegam para um helper `highlight()` que define a cor de fundo do elemento host. Para saber mais sobre host event bindings, veja [binding no elemento host](guide/components/host-elements#binding-to-the-host-element).
 
-## Accepting input values
+## Aceitando valores de entrada {#accepting-input-values}
 
-Like components, directives accept inputs through the [`input()`](guide/components/inputs) function. Give an input the same name as the selector so that a single binding both applies the directive and passes a value to it:
+Assim como components, directives aceitam inputs pela função [`input()`](guide/components/inputs). Dê a um input o mesmo nome do seletor, para que um único binding aplique a directive e passe um valor para ela:
 
 <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="input"/>
 
-Read the input by calling it as a signal, and fall back to a default when no color is set:
+Leia o input chamando-o como um signal e use um valor padrão quando nenhuma cor estiver definida:
 
 <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="mouse-enter"/>
 
-In the template, bind the value to the selector. Because the input shares the selector's name, `[appHighlight]` both applies the directive and sets its value. Here the bound `color` is a property on the component:
+No template, vincule o valor ao seletor. Como o input compartilha o nome do seletor, `[appHighlight]` tanto aplica a directive quanto define o valor dela. Aqui, o `color` vinculado é uma propriedade do component:
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="color"/>
 
 <docs-code header="app.component.ts" path="adev/src/content/examples/attribute-directives/src/app/app.component.ts" region="class"/>
 
-A directive can declare more than one input. The following directive adds a `defaultColor` input, then falls back through `appHighlight`, `defaultColor`, and finally `red`:
+Uma directive pode declarar mais de um input. A directive a seguir adiciona um input `defaultColor` e, em seguida, faz fallback por `appHighlight`, `defaultColor` e, por fim, `red`:
 
 <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.ts"/>
 
-Bind both inputs on the same element. Because `defaultColor` takes a static string rather than a dynamic expression, it doesn't need square brackets:
+Vincule os dois inputs no mesmo elemento. Como `defaultColor` recebe uma string estática em vez de uma expressão dinâmica, ele não precisa de colchetes:
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="defaultColor"/>
 
-## Deactivating Angular processing with `NgNonBindable`
+## Desativando o processamento do Angular com `NgNonBindable` {#deactivating-angular-processing-with-ngnonbindable}
 
-To prevent expression evaluation in the browser, add `ngNonBindable` to the host element.
-`ngNonBindable` deactivates interpolation, directives, and binding in templates.
+Para impedir a avaliação de expressões no navegador, adicione `ngNonBindable` ao elemento host.
+`ngNonBindable` desativa interpolation, directives e binding em templates.
 
-In the following example, the expression `{{ 1 + 1 }}` renders just as it does in your code editor, and does not display `2`.
+No exemplo a seguir, a expressão `{{ 1 + 1 }}` é renderizada exatamente como aparece no seu editor de código, e não exibe `2`.
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="ngNonBindable"/>
 
-Applying `ngNonBindable` to an element stops binding for that element's child elements.
-However, `ngNonBindable` still lets directives work on the element where you apply `ngNonBindable`.
-In the following example, the `appHighlight` directive is still active but Angular does not evaluate the expression `{{ 1 + 1 }}`.
+Aplicar `ngNonBindable` a um elemento interrompe o binding para os elementos filhos desse elemento.
+No entanto, `ngNonBindable` ainda permite que directives funcionem no elemento em que você aplica `ngNonBindable`.
+No exemplo a seguir, a directive `appHighlight` continua ativa, mas o Angular não avalia a expressão `{{ 1 + 1 }}`.
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="ngNonBindable-with-directive"/>
 
-If you apply `ngNonBindable` to a parent element, Angular disables interpolation and binding of any sort, such as property binding or event binding, for the element's children.
+Se você aplicar `ngNonBindable` a um elemento pai, o Angular desativa interpolation e binding de qualquer tipo, como property binding ou event binding, para os filhos desse elemento.
 
-## What's next
+## Próximos passos {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="guide/directives/structural-directives" title="Structural directives"/>
-  <docs-pill href="guide/directives/directive-composition-api" title="Directive composition API"/>
+  <docs-pill href="guide/directives/structural-directives" title="Diretivas estruturais"/>
+  <docs-pill href="guide/directives/directive-composition-api" title="API de composição de directives"/>
 </docs-pill-row>
