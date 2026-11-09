@@ -57,7 +57,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build adev (Portuguese Angular docs)
-        run: pnpm bazel build //adev:build.production --local_resources=memory=HOST_RAM*.6
+        run: |
+          # Diagnostics: the runner has been shut down near the end of this build; log
+          # memory/disk and the heaviest processes so the cause is visible in the job log.
+          (while true; do
+            echo "::group::[monitor] $(date +%T)"; free -m | sed -n 2p; df -h / | sed -n 2p
+            ps -eo rss,nlwp,comm --sort=-rss | head -6; ps -e --no-headers | wc -l
+            echo "::endgroup::"; sleep 3
+          done) &
+          pnpm bazel build //adev:build.production --local_resources=memory=HOST_RAM*.6
         env:
           NO_PROXY: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
 
