@@ -1,10 +1,11 @@
-# Adding event listeners
+<!-- ia-translate: true -->
+# Adicionando event listeners {#adding-event-listeners}
 
-Angular supports defining event listeners on an element in your template by specifying the event name inside parentheses along with a statement that runs every time the event occurs.
+O Angular permite definir event listeners em um elemento do seu template especificando o nome do evento entre parênteses, junto com uma instrução que é executada toda vez que o evento ocorre.
 
-## Listening to native events
+## Ouvindo eventos nativos {#listening-to-native-events}
 
-When you want to add event listeners to an HTML element, you wrap the event with parentheses, `()`, which allows you to specify a listener statement.
+Quando você quer adicionar event listeners a um elemento HTML, envolve o evento com parênteses, `()`, o que permite especificar uma instrução de listener.
 
 ```angular-ts
 @Component({
@@ -20,13 +21,13 @@ export class App{
 }
 ```
 
-In this example, Angular calls `updateField` every time the `<input>` element emits a `keyup` event.
+Neste exemplo, o Angular chama `updateField` toda vez que o elemento `<input>` emite um evento `keyup`.
 
-You can add listeners for any native events, such as: `click`, `keydown`, `mouseover`, etc. To learn more, check out the [all available events on elements on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element#events).
+Você pode adicionar listeners para quaisquer eventos nativos, como `click`, `keydown`, `mouseover` etc. Para saber mais, confira [todos os eventos disponíveis em elementos no MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element#events).
 
-## Accessing the event argument
+## Acessando o argumento do evento {#accessing-the-event-argument}
 
-In every template event listener, Angular provides a variable named `$event` that contains a reference to the event object.
+Em todo event listener de template, o Angular fornece uma variável chamada `$event`, que contém uma referência ao objeto do evento.
 
 ```angular-ts
 @Component({
@@ -42,9 +43,9 @@ export class App {
 }
 ```
 
-## Using key modifiers
+## Usando modificadores de tecla {#using-key-modifiers}
 
-When you want to capture specific keyboard events for a specific key, you might write some code like the following:
+Quando você quer capturar eventos de teclado específicos para uma determinada tecla, pode escrever um código como o seguinte:
 
 ```angular-ts
 @Component({
@@ -62,7 +63,7 @@ export class App {
 }
 ```
 
-However, since this is a common scenario, Angular lets you filter the events by specifying a specific key using the period (`.`) character. By doing so, code can be simplified to:
+No entanto, como este é um cenário comum, o Angular permite filtrar os eventos especificando uma tecla específica com o caractere de ponto (`.`). Assim, o código pode ser simplificado para:
 
 ```angular-ts
 @Component({
@@ -78,29 +79,29 @@ export class App{
 }
 ```
 
-You can also add additional key modifiers:
+Você também pode adicionar modificadores de tecla adicionais:
 
 ```angular-html
 <!-- Matches shift and enter -->
 <input type="text" (keyup.shift.enter)="updateField($event)" />
 ```
 
-Angular supports the modifiers `alt`, `control`, `meta`, and `shift`.
+O Angular oferece suporte aos modificadores `alt`, `control`, `meta` e `shift`.
 
-You can specify the key or code that you would like to bind to keyboard events. The key and code fields are a native part of the browser keyboard event object. By default, event binding assumes you want to use the [Key values for keyboard events](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_key_values).
+Você pode especificar a tecla ou o código que deseja vincular aos eventos de teclado. Os campos `key` e `code` são parte nativa do objeto de evento de teclado do navegador. Por padrão, o event binding assume que você quer usar os [valores de Key para eventos de teclado](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_key_values).
 
-Angular also allows you to specify [Code values for keyboard events](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_code_values) by providing a built-in `code` suffix.
+O Angular também permite especificar [valores de Code para eventos de teclado](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_code_values) usando um sufixo `code` integrado.
 
 ```angular-html
 <!-- Matches alt and left shift -->
 <input type="text" (keydown.code.alt.shift.shiftleft)="updateField($event)" />
 ```
 
-This can be useful for handling keyboard events consistently across different operating systems. For example, when using the Alt key on macOS devices, the `key` property reports the key based on the character already modified by the Alt key. This means that a combination like Alt + S reports a `key` value of `'ß'`. The `code` property, however, corresponds to the physical or virtual button pressed rather than the character produced.
+Isso pode ser útil para tratar eventos de teclado de forma consistente em diferentes sistemas operacionais. Por exemplo, ao usar a tecla Alt em dispositivos macOS, a propriedade `key` informa a tecla com base no caractere já modificado pela tecla Alt. Isso significa que uma combinação como Alt + S informa um valor `key` de `'ß'`. Já a propriedade `code` corresponde ao botão físico ou virtual pressionado, e não ao caractere produzido.
 
-## Listening on global targets
+## Ouvindo alvos globais {#listening-on-global-targets}
 
-Global target names can be used to prefix an event. The 3 supported global targets are `window`, `document` and `body`.
+Nomes de alvos globais podem ser usados como prefixo de um evento. Os 3 alvos globais suportados são `window`, `document` e `body`.
 
 ```angular-ts
 @Component({
@@ -114,9 +115,9 @@ Global target names can be used to prefix an event. The 3 supported global targe
 export class MyView {}
 ```
 
-## Preventing event default behavior
+## Prevenindo o comportamento padrão do evento {#preventing-event-default-behavior}
 
-If your event handler should replace the native browser behavior, you can use the event object's [`preventDefault` method](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault):
+Se o seu event handler deve substituir o comportamento nativo do navegador, você pode usar o [método `preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault) do objeto de evento:
 
 ```angular-ts
 @Component({
@@ -133,15 +134,15 @@ export class App{
 }
 ```
 
-If the event handler statement evaluates to `false`, Angular automatically calls `preventDefault()`, similar to [native event handler attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes#event_handler_attributes). _Always prefer explicitly calling `preventDefault`_, as this approach makes the code's intent obvious.
+Se a instrução do event handler resultar em `false`, o Angular chama `preventDefault()` automaticamente, de maneira semelhante aos [atributos de event handler nativos](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes#event_handler_attributes). _Prefira sempre chamar `preventDefault` explicitamente_, pois essa abordagem deixa a intenção do código óbvia.
 
-## Extend event handling
+## Estendendo o tratamento de eventos {#extend-event-handling}
 
-Angular’s event system is extensible via custom event plugins registered with the `EVENT_MANAGER_PLUGINS` injection token.
+O sistema de eventos do Angular é extensível por meio de plugins de eventos customizados, registrados com o token de injeção `EVENT_MANAGER_PLUGINS`.
 
-### Implementing Event Plugin
+### Implementando um Event Plugin {#implementing-event-plugin}
 
-To create a custom event plugin, extend the `EventManagerPlugin` class and implement the required methods.
+Para criar um plugin de evento customizado, estenda a classe `EventManagerPlugin` e implemente os métodos necessários.
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -153,14 +154,14 @@ export class DebounceEventPlugin extends EventManagerPlugin {
     super(document);
   }
 
-  // Define which events this plugin supports
+  // Define quais eventos este plugin suporta
   override supports(eventName: string) {
     return /debounce/.test(eventName);
   }
 
-  // Handle the event registration
+  // Trata o registro do evento
   override addEventListener(element: HTMLElement, eventName: string, handler: Function) {
-    // Parse the event: e.g., "click.debounce.500"
+    // Faz o parse do evento: por exemplo, "click.debounce.500"
     // event: "click", delay: 500
     const [event, , delay = '300'] = eventName.split('.');
 
@@ -175,7 +176,7 @@ export class DebounceEventPlugin extends EventManagerPlugin {
 
     element.addEventListener(event, listener);
 
-    // Return cleanup function
+    // Retorna a função de limpeza
     return () => {
       clearTimeout(timeoutId);
       element.removeEventListener(event, listener);
@@ -184,7 +185,7 @@ export class DebounceEventPlugin extends EventManagerPlugin {
 }
 ```
 
-Register your custom plugin using the `EVENT_MANAGER_PLUGINS` token in your application's providers:
+Registre seu plugin customizado usando o token `EVENT_MANAGER_PLUGINS` nos providers da sua aplicação:
 
 ```ts
 import {bootstrapApplication, EVENT_MANAGER_PLUGINS} from '@angular/platform-browser';
@@ -202,7 +203,7 @@ bootstrapApplication(App, {
 });
 ```
 
-Once registered, you can use your custom event syntax in templates, as well as with the `host` property:
+Depois de registrado, você pode usar sua sintaxe de evento customizada nos templates, assim como na propriedade `host`:
 
 ```angular-ts
 @Component({

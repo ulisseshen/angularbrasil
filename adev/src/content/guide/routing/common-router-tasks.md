@@ -1,25 +1,26 @@
-# Other common Routing Tasks
+<!-- ia-translate: true -->
+# Outras Tarefas Comuns de Routing {#other-common-routing-tasks}
 
-This guide covers some other common tasks associated with using Angular router in your application.
+Este guia cobre algumas outras tarefas comuns associadas ao uso do router do Angular na sua aplicação.
 
-## Getting route information
+## Obtendo informações de route {#getting-route-information}
 
-Often, as a user navigates your application, you want to pass information from one component to another.
-For example, consider an application that displays a shopping list of grocery items.
-Each item in the list has a unique `id`.
-To edit an item, users click an Edit button, which opens an `EditGroceryItem` component.
-You want that component to retrieve the `id` for the grocery item so it can display the right information to the user.
+Frequentemente, conforme um usuário navega pela sua aplicação, você quer passar informações de um component para outro.
+Por exemplo, considere uma aplicação que exibe uma lista de compras de itens de mercado.
+Cada item da lista tem um `id` único.
+Para editar um item, os usuários clicam em um botão Edit, que abre um component `EditGroceryItem`.
+Você quer que esse component recupere o `id` do item de mercado para que ele possa exibir as informações corretas para o usuário.
 
-Use a route to pass this type of information to your application components.
-To do so, you use the `withComponentInputBinding` feature with `provideRouter` or the `bindToComponentInputs` option of `RouterModule.forRoot`.
+Use uma route para passar esse tipo de informação para os components da sua aplicação.
+Para isso, você usa o recurso `withComponentInputBinding` com `provideRouter` ou a opção `bindToComponentInputs` de `RouterModule.forRoot`.
 
-To get information from a route:
+Para obter informações de uma route:
 
 <docs-workflow>
 
-<docs-step title="Add `withComponentInputBinding`">
+<docs-step title="Adicione `withComponentInputBinding`">
 
-Add the `withComponentInputBinding` feature to the `provideRouter` method.
+Adicione o recurso `withComponentInputBinding` ao método `provideRouter`.
 
 ```ts
 providers: [provideRouter(appRoutes, withComponentInputBinding())];
@@ -27,9 +28,9 @@ providers: [provideRouter(appRoutes, withComponentInputBinding())];
 
 </docs-step>
 
-<docs-step title="Add an `input` to the component">
+<docs-step title="Adicione um `input` ao component">
 
-Update the component to have an `input()` property matching the name of the parameter.
+Atualize o component para ter uma propriedade `input()` correspondente ao nome do parâmetro.
 
 ```ts
 id = input.required<string>();
@@ -37,18 +38,18 @@ hero = computed(() => this.service.getHero(this.id()));
 ```
 
 </docs-step>
-<docs-step title="Optional: Use a default value">
-The router assigns values to all inputs based on the current route when `withComponentInputBinding` is enabled.
-The router assigns `undefined` if no route data matches the input key, such as when an optional query parameter is missing.
-You should include `undefined` in the `input`'s type when there's a possibility that an input might not be matched by the route.
+<docs-step title="Opcional: Use um valor padrão">
+O router atribui valores a todos os inputs com base na route atual quando `withComponentInputBinding` está habilitado.
+O router atribui `undefined` se nenhum dado de route corresponder à chave do input, como quando um parâmetro de query opcional está ausente.
+Você deve incluir `undefined` no tipo do `input` quando houver a possibilidade de que um input não seja correspondido pela route.
 
-Provide a default value by either using the `transform` option on the input or managing a local state with a `linkedSignal`.
+Forneça um valor padrão usando a opção `transform` no input ou gerenciando um estado local com um `linkedSignal`.
 
 ```ts
 id = input.required({
   transform: (maybeUndefined: string | undefined) => maybeUndefined ?? '0',
 });
-// or
+// ou
 id = input<string | undefined>();
 internalId = linkedSignal(() => this.id() ?? getDefaultId());
 ```
@@ -56,38 +57,38 @@ internalId = linkedSignal(() => this.id() ?? getDefaultId());
 </docs-step>
 </docs-workflow>
 
-NOTE: You can bind all route data with key-value pairs to component inputs: route resources, static or resolved route data, path parameters, matrix parameters, and query parameters.
+NOTE: Você pode vincular todos os dados de route com pares chave-valor aos inputs do component: recursos de route, dados estáticos ou resolvidos de route, parâmetros de path, parâmetros de matriz e parâmetros de query.
 
-### Input binding priority
+### Prioridade de binding de inputs {#input-binding-priority}
 
-When multiple route sources define identical keys, the router resolves collisions in the following priority order (from highest to lowest):
+Quando múltiplas fontes de route definem chaves idênticas, o router resolve as colisões na seguinte ordem de prioridade (da mais alta para a mais baixa):
 
-1. **Route resources**: Values defined in the route's `resources` map. Blocking resources bind their unwrapped value (`resource.value()`), while non-blocking resources bind the `Resource` instance.
-2. **Route data and resolvers**: Static data defined in `data` or values resolved via `resolve`.
-3. **Path parameters and matrix parameters**: Parameters from the URL path (such as `:id`) and matrix parameters.
-4. **Query parameters**: Parameters from the query string (such as `?id=123`).
+1. **Recursos de route**: valores definidos no mapa `resources` da route. Recursos bloqueantes vinculam seu valor desembrulhado (`resource.value()`), enquanto recursos não bloqueantes vinculam a instância `Resource`.
+2. **Dados de route e resolvers**: dados estáticos definidos em `data` ou valores resolvidos via `resolve`.
+3. **Parâmetros de path e parâmetros de matriz**: parâmetros da URL de path (como `:id`) e parâmetros de matriz.
+4. **Parâmetros de query**: parâmetros da query string (como `?id=123`).
 
-For example, if a route has both a path parameter `:id` and a query parameter `?id=...`, the path parameter value is bound to the component's `id` input. If the route also defines a resource named `id`, the resource value takes precedence over both.
+Por exemplo, se uma route tem tanto um parâmetro de path `:id` quanto um parâmetro de query `?id=...`, o valor do parâmetro de path é vinculado ao input `id` do component. Se a route também define um recurso chamado `id`, o valor do recurso tem precedência sobre ambos.
 
-### Disable query parameter binding
+### Desabilitar o binding de parâmetros de query {#disable-query-parameter-binding}
 
-Use `ComponentInputBindingOptions` to disable query parameter binding if you manage query parameters separately:
+Use `ComponentInputBindingOptions` para desabilitar o binding de parâmetros de query se você gerencia os parâmetros de query separadamente:
 
 ```ts
 provideRouter(appRoutes, withComponentInputBinding({queryParams: false}));
 ```
 
-### Configure behavior for inputs not available in router data
+### Configurar o comportamento para inputs não disponíveis nos dados do router {#configure-behavior-for-inputs-not-available-in-router-data}
 
-By default, the router sets an input to `undefined` if it was not available in the router data during a navigation. This ensures that stale data is not retained.
+Por padrão, o router define um input como `undefined` se ele não estava disponível nos dados do router durante uma navegação. Isso garante que dados obsoletos não sejam retidos.
 
-If you want to avoid setting `undefined` for inputs that have _never_ been available in the router data for the active component instance, you can set the `unmatchedInputBehavior` option to `'undefinedIfStale'`:
+Se você quiser evitar definir `undefined` para inputs que _nunca_ estiveram disponíveis nos dados do router para a instância ativa do component, pode definir a opção `unmatchedInputBehavior` como `'undefinedIfStale'`:
 
 ```ts
 provideRouter(appRoutes, withComponentInputBinding({unmatchedInputBehavior: 'undefinedIfStale'}));
 ```
 
-When you combine `unmatchedInputBehavior: 'undefinedIfStale'` with `queryParams: false`, inputs retain their initial values unless they are explicitly provided by the router. The exception is matrix parameters: if a matrix parameter is provided in one navigation and removed in a subsequent one, the router will set the input to `undefined` to avoid retaining stale data.
+Quando você combina `unmatchedInputBehavior: 'undefinedIfStale'` com `queryParams: false`, os inputs mantêm seus valores iniciais, a menos que sejam fornecidos explicitamente pelo router. A exceção são os parâmetros de matriz: se um parâmetro de matriz é fornecido em uma navegação e removido em uma navegação subsequente, o router define o input como `undefined` para evitar reter dados obsoletos.
 
 ```ts
 provideRouter(
@@ -99,47 +100,47 @@ provideRouter(
 );
 ```
 
-### Inherit parent route data
+### Herdar dados da route pai {#inherit-parent-route-data}
 
-By default, child routes inherit parameters and data from parent routes (equivalent to `paramsInheritanceStrategy: 'always'`). This means you can access parent route info directly in child components.
+Por padrão, as routes filhas herdam parâmetros e dados das routes pai (equivalente a `paramsInheritanceStrategy: 'always'`). Isso significa que você pode acessar informações da route pai diretamente nos components filhos.
 
-If you need to restore the legacy behavior where parameters were only inherited from empty path routes, you can set `paramsInheritanceStrategy` to `'emptyOnly'`:
+Se você precisar restaurar o comportamento legado, em que os parâmetros só eram herdados de routes de path vazio, pode definir `paramsInheritanceStrategy` como `'emptyOnly'`:
 
 ```ts
 provideRouter(routes, withRouterConfig({paramsInheritanceStrategy: 'emptyOnly'}));
 ```
 
-See [router configuration options](guide/routing/customizing-route-behavior#router-configuration-options) for details on other available settings.
+Veja [opções de configuração do router](guide/routing/customizing-route-behavior#router-configuration-options) para detalhes sobre outras configurações disponíveis.
 
-## Displaying a 404 page
+## Exibindo uma página 404 {#displaying-a-404-page}
 
-To display a 404 page, set up a [wildcard route](guide/routing/define-routes#wildcards) with the `component` property set to the component you'd like to use for your 404 page as follows:
+Para exibir uma página 404, configure uma [route wildcard](guide/routing/define-routes#wildcards) com a propriedade `component` definida para o component que você gostaria de usar na sua página 404, da seguinte forma:
 
 ```ts
 const routes: Routes = [
   {path: 'first-component', component: First},
   {path: 'second-component', component: Second},
-  {path: '**', component: PageNotFound}, // Wildcard route for a 404 page
+  {path: '**', component: PageNotFound}, // Route wildcard para a página 404
 ];
 ```
 
-The last route with the `path` of `**` is a wildcard route.
-The router selects this route if the requested URL doesn't match any of the paths earlier in the list and sends the user to the `PageNotFound`.
+A última route com o `path` de `**` é uma route wildcard.
+O router seleciona essa route se a URL solicitada não corresponder a nenhum dos paths anteriores na lista, e envia o usuário para o `PageNotFound`.
 
-## Link parameters array
+## Array de parâmetros de link {#link-parameters-array}
 
-A link parameters array holds the following ingredients for router navigation:
+Um array de parâmetros de link contém os seguintes ingredientes para a navegação do router:
 
-- The path of the route to the destination component
-- Required and optional route parameters that go into the route URL
+- O path da route para o component de destino
+- Parâmetros de route obrigatórios e opcionais que vão para a URL da route
 
-Bind the `RouterLink` directive to such an array like this:
+Vincule a diretiva `RouterLink` a esse array assim:
 
 ```angular-html
 <a [routerLink]="['/heroes']">Heroes</a>
 ```
 
-The following is a two-element array when specifying a route parameter:
+O seguinte é um array de dois elementos ao especificar um parâmetro de route:
 
 ```angular-html
 <a [routerLink]="['/hero', hero.id]">
@@ -148,44 +149,44 @@ The following is a two-element array when specifying a route parameter:
 </a>
 ```
 
-Provide optional route parameters in an object, as in `{ foo: 'foo' }`:
+Forneça parâmetros de route opcionais em um objeto, como em `{ foo: 'foo' }`:
 
 ```angular-html
 <a [routerLink]="['/crisis-center', {foo: 'foo'}]">Crisis Center</a>
 ```
 
-This syntax passes matrix parameters, which are optional parameters associated with a specific URL segment. Learn more about [matrix parameters](/guide/routing/read-route-state#matrix-parameters).
+Essa sintaxe passa parâmetros de matriz, que são parâmetros opcionais associados a um segmento específico da URL. Saiba mais sobre [parâmetros de matriz](/guide/routing/read-route-state#matrix-parameters).
 
-These three examples cover the needs of an application with one level of routing.
-However, with a child router, such as in the crisis center, you create new link array possibilities.
+Esses três exemplos cobrem as necessidades de uma aplicação com um nível de routing.
+No entanto, com um router filho, como no crisis center, você cria novas possibilidades de array de link.
 
-The following minimal `RouterLink` example builds upon a specified default child route for the crisis center.
+O seguinte exemplo mínimo de `RouterLink` se baseia em uma route filha padrão especificada para o crisis center.
 
 ```angular-html
 <a [routerLink]="['/crisis-center']">Crisis Center</a>
 ```
 
-Review the following:
+Revise o seguinte:
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- There is no default for the child route so you need to pick one
-- You're navigating to the `CrisisList`, whose route path is `/`, but you don't need to explicitly add the slash
+- O primeiro item do array identifica a route pai \(`/crisis-center`\)
+- Não há parâmetros para esta route pai
+- Não há padrão para a route filha, então você precisa escolher uma
+- Você está navegando para o `CrisisList`, cujo path de route é `/`, mas você não precisa adicionar a barra explicitamente
 
-Consider the following router link that navigates from the root of the application down to the Dragon Crisis:
+Considere o seguinte link de router, que navega da raiz da aplicação até a Dragon Crisis:
 
 ```angular-html
 <a [routerLink]="['/crisis-center', 1]">Dragon Crisis</a>
 ```
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- The second item identifies the child route details about a particular crisis \(`/:id`\)
-- The details child route requires an `id` route parameter
-- You added the `id` of the Dragon Crisis as the second item in the array \(`1`\)
-- The resulting path is `/crisis-center/1`
+- O primeiro item do array identifica a route pai \(`/crisis-center`\)
+- Não há parâmetros para esta route pai
+- O segundo item identifica a route filha de detalhes sobre uma crise específica \(`/:id`\)
+- A route filha de detalhes requer um parâmetro de route `id`
+- Você adicionou o `id` da Dragon Crisis como o segundo item do array \(`1`\)
+- O path resultante é `/crisis-center/1`
 
-You could also redefine the `App` template with Crisis Center routes exclusively:
+Você também pode redefinir o template `App` apenas com as routes do Crisis Center:
 
 ```angular-ts
 @Component({
@@ -202,38 +203,38 @@ You could also redefine the `App` template with Crisis Center routes exclusively
 export class App {}
 ```
 
-In summary, you can write applications with one, two or more levels of routing.
-The link parameters array affords the flexibility to represent any routing depth and any legal sequence of route paths, \(required\) router parameters, and \(optional\) route parameter objects.
+Em resumo, você pode escrever aplicações com um, dois ou mais níveis de routing.
+O array de parâmetros de link oferece a flexibilidade de representar qualquer profundidade de routing e qualquer sequência válida de paths de route, parâmetros de router \(obrigatórios\) e objetos de parâmetros de route \(opcionais\).
 
-## `LocationStrategy` and browser URL styles
+## `LocationStrategy` e estilos de URL do browser {#locationstrategy-and-browser-url-styles}
 
-When the router navigates to a new component view, it updates the browser's location and history with a URL for that view.
+Quando o router navega para uma nova view de component, ele atualiza a location e o histórico do browser com uma URL para essa view.
 
-Modern HTML5 browsers support [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state'), a technique that changes a browser's location and history without triggering a server page request.
-The router can compose a "natural" URL that is indistinguishable from one that would otherwise require a page load.
+Browsers HTML5 modernos suportam o [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state'), uma técnica que altera a location e o histórico de um browser sem acionar uma requisição de página ao servidor.
+O router pode compor uma URL "natural" que é indistinguível de uma que, de outra forma, exigiria um carregamento de página.
 
-Here's the Crisis Center URL in this "HTML5 pushState" style:
+Aqui está a URL do Crisis Center nesse estilo "HTML5 pushState":
 
 ```text
 localhost:3002/crisis-center
 ```
 
-Older browsers send page requests to the server when the location URL changes unless the change occurs after a "#" \(called the "hash"\).
-Routers can take advantage of this exception by composing in-application route URLs with hashes.
-Here's a "hash URL" that routes to the Crisis Center.
+Browsers mais antigos enviam requisições de página ao servidor quando a URL de location muda, a menos que a mudança ocorra após um "#" \(chamado de "hash"\).
+Routers podem aproveitar essa exceção compondo URLs de route dentro da aplicação com hashes.
+Aqui está uma "hash URL" que direciona para o Crisis Center.
 
 ```text
 localhost:3002/src/#/crisis-center
 ```
 
-The router supports both styles with two `LocationStrategy` providers:
+O router suporta os dois estilos com dois providers `LocationStrategy`:
 
-| Providers              | Details                              |
-| :--------------------- | :----------------------------------- |
-| `PathLocationStrategy` | The default "HTML5 pushState" style. |
-| `HashLocationStrategy` | The "hash URL" style.                |
+| Providers              | Detalhes                              |
+| :--------------------- | :------------------------------------ |
+| `PathLocationStrategy` | O estilo padrão "HTML5 pushState".    |
+| `HashLocationStrategy` | O estilo "hash URL".                  |
 
-The `RouterModule.forRoot()` function sets the `LocationStrategy` to the `PathLocationStrategy`, which makes it the default strategy.
-You also have the option of switching to the `HashLocationStrategy` with an override during the bootstrapping process.
+A função `RouterModule.forRoot()` define a `LocationStrategy` como `PathLocationStrategy`, o que a torna a estratégia padrão.
+Você também tem a opção de mudar para a `HashLocationStrategy` com uma substituição durante o processo de bootstrap.
 
-HELPFUL: For more information on providers and the bootstrap process, see [Dependency Injection](guide/di/defining-dependency-providers).
+HELPFUL: Para mais informações sobre providers e o processo de bootstrap, veja [Injeção de Dependência](guide/di/defining-dependency-providers).
