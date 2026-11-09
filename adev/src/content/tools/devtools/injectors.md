@@ -1,23 +1,24 @@
-# Inspect your injectors
+<!-- ia-translate: true -->
+# Inspecione seus injectors {#inspect-your-injectors}
 
-NOTE: The Injector Tree is available for Angular Applications built with version 17 or higher.
+NOTA: A árvore de injectors está disponível para aplicações Angular construídas com a versão 17 ou superior.
 
-## View the injector hierarchy of your application
+## Visualizar a hierarquia de injectors da sua aplicação {#view-the-injector-hierarchy-of-your-application}
 
-The **Injector Tree** tab lets you explore the structure of the Injectors configured in your application. Here you will see two trees representing the [injector hierarchy](guide/di/hierarchical-dependency-injection) of your application. One tree is your environment hierarchy, the other is your element hierarchy.
+A aba **Injector Tree** permite explorar a estrutura dos injectors configurados na sua aplicação. Aqui você verá duas árvores representando a [hierarquia de injectors](guide/di/hierarchical-dependency-injection) da sua aplicação. Uma árvore é a sua hierarquia de environment, a outra é a sua hierarquia de elementos.
 
-<img src="assets/images/guide/devtools/di-injector-tree.png" alt="A screenshot of the 'Profiler' tab displaying the injector tree tab in Angular Devtools visualizing the injector graph for an example application.">
+<img src="assets/images/guide/devtools/di-injector-tree.png" alt="Captura de tela da aba 'Profiler' exibindo a aba injector tree nas Angular DevTools, visualizando o grafo de injectors de uma aplicação de exemplo.">
 
-## Visualize resolution paths
+## Visualizar caminhos de resolução {#visualize-resolution-paths}
 
-When a specific injector is selected, the path that Angular's dependency injection algorithm traverses from that injector to the root is highlighted. For element injectors, this includes highlighting the environment injectors that the dependency injection algorithm jumps to when a dependency cannot be resolved in the element hierarchy.
+Quando um injector específico é selecionado, o caminho que o algoritmo de injeção de dependência do Angular percorre desse injector até a raiz é destacado. Para element injectors, isso inclui destacar os environment injectors para os quais o algoritmo de injeção de dependência salta quando uma dependência não pode ser resolvida na hierarquia de elementos.
 
-See [resolution rules](guide/di/hierarchical-dependency-injection#resolution-rules) for more details about how Angular resolves resolution paths.
+Veja [regras de resolução](guide/di/hierarchical-dependency-injection#resolution-rules) para mais detalhes sobre como o Angular resolve os caminhos de resolução.
 
-<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="A screenshot of the 'Profiler' tab displaying how the injector tree visualize highlights resolution paths when an injector is selected.">
+<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="Captura de tela da aba 'Profiler' mostrando como a visualização da árvore de injectors destaca os caminhos de resolução quando um injector é selecionado.">
 
-## View injector providers
+## Visualizar providers do injector {#view-injector-providers}
 
-Clicking an injector that has configured providers will display those providers in a list on the right of the injector tree view. Here you can view the provided token and it's type. The button on the right of each provider allows you to log the provider in the console.
+Clicar em um injector que possui providers configurados exibirá esses providers em uma lista à direita da visualização da árvore de injectors. Aqui você pode ver o token fornecido e o tipo dele. O botão à direita de cada provider permite registrar o provider no console.
 
-<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="A screenshot of the 'Profiler' tab displaying how providers are made visible when an injector is selected.">
+<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="Captura de tela da aba 'Profiler' mostrando como os providers ficam visíveis quando um injector é selecionado.">

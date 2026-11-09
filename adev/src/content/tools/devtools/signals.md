@@ -1,34 +1,35 @@
-# Debug the signal graph
+<!-- ia-translate: true -->
+# Depure o grafo de signals {#debug-the-signal-graph}
 
-The **Components** tab can display a live signal graph for the selected component or directive.
-The graph shows how the signals, computeds, effects, and other reactive nodes in that component depend on each other, which makes it easier to understand and debug reactive data flows.
+A aba **Components** pode exibir um grafo de signals em tempo real para o component ou directive selecionado.
+O grafo mostra como os signals, computeds, effects e outros nós reativos desse component dependem uns dos outros, o que facilita entender e depurar os fluxos de dados reativos.
 
-<img src="assets/images/guide/devtools/signal-graph.png" alt="A screenshot of the 'Components' tab in Angular DevTools with the signal graph open for the selected component. The graph shows a signal node connected by edges to three computed nodes which the component's template reads, and the properties of the component are listed in a sidebar to the right.">
+<img src="assets/images/guide/devtools/signal-graph.png" alt="Captura de tela da aba 'Components' no Angular DevTools com o grafo de signals aberto para o component selecionado. O grafo mostra um nó de signal conectado por arestas a três nós computed que o template do component lê, e as propriedades do component são listadas em uma barra lateral à direita.">
 
-## Open the signal graph
+## Abrir o grafo de signals {#open-the-signal-graph}
 
-In the **Components** tab, select a component or directive.
-In the property pane header, click **Show Signal Graph**.
-The signal graph opens next to the component tree.
+Na aba **Components**, selecione um component ou directive.
+No cabeçalho do painel de propriedades, clique em **Show Signal Graph**.
+O grafo de signals abre ao lado da árvore de components.
 
-You can also jump directly to a specific signal: in the properties view, click the signal graph button next to the property, or, when the property has more than one action, open its actions menu and choose **Show in signal graph**.
+Você também pode ir diretamente para um signal específico: na visualização de propriedades, clique no botão do grafo de signals ao lado da propriedade ou, quando a propriedade tiver mais de uma ação, abra o menu de ações dela e escolha **Show in signal graph**.
 
-The **Show Signal Graph** button appears automatically when the inspected application supports the signal graph API — there is no setting to enable.
+O botão **Show Signal Graph** aparece automaticamente quando a aplicação inspecionada oferece suporte à API do grafo de signals — não há nenhuma configuração para habilitá-lo.
 
-## Read the graph
+## Ler o grafo {#read-the-graph}
 
-Nodes in the graph represent the reactive nodes that participate in the selected component:
+Os nós do grafo representam os nós reativos que participam do component selecionado:
 
-- **Signal**: a writable signal created with `signal()`.
-- **Computed**: a derived value created with `computed()`.
-- **Effect**: a side effect created with `effect()` or `afterRenderEffect()`.
-- **Linked signal**: a writable signal created with `linkedSignal()`.
-- **Template**: the component's template, which reads signals when it renders.
-- **Resource**: signals that belong to a `resource()` or `rxResource()` are grouped into a collapsible cluster. Click **Expand** on the cluster node to see the individual nodes inside.
+- **Signal**: um signal gravável criado com `signal()`.
+- **Computed**: um valor derivado criado com `computed()`.
+- **Effect**: um efeito colateral criado com `effect()` ou `afterRenderEffect()`.
+- **Linked signal**: um signal gravável criado com `linkedSignal()`.
+- **Template**: o template do component, que lê signals quando renderiza.
+- **Resource**: signals que pertencem a um `resource()` ou `rxResource()` são agrupados em um cluster recolhível. Clique em **Expand** no nó do cluster para ver os nós individuais dentro dele.
 
-Lines between nodes show reactive dependencies: each node is connected to the producers it reads from (upstream) and the dependants that read it (downstream).
+As linhas entre os nós mostram as dependências reativas: cada nó está conectado aos produtores dos quais ele lê (upstream) e aos dependentes que o leem (downstream).
 
-TIP: Nodes are labeled with the `debugName` of their reactive node. Giving your signals, computeds, and especially effects — which are usually not assigned to a class member — a `debugName` makes the graph much easier to read:
+DICA: Os nós são rotulados com o `debugName` do nó reativo. Dar aos seus signals, computeds e, principalmente, aos effects — que geralmente não são atribuídos a um membro da classe — um `debugName` torna o grafo bem mais fácil de ler:
 
 ```ts
 effect(
@@ -39,22 +40,22 @@ effect(
 );
 ```
 
-## Search the graph
+## Pesquisar no grafo {#search-the-graph}
 
-Click the search icon in the graph toolbar to find a node by name.
-Angular DevTools highlights every match and lets you step through them.
+Clique no ícone de busca na barra de ferramentas do grafo para encontrar um nó pelo nome.
+O Angular DevTools destaca todas as correspondências e permite navegar por elas uma a uma.
 
-## Inspect a node
+## Inspecionar um nó {#inspect-a-node}
 
-Click a node to open its details panel, which shows the node's current value as an expandable tree and offers the following actions:
+Clique em um nó para abrir o painel de detalhes dele, que mostra o valor atual do nó como uma árvore expansível e oferece as seguintes ações:
 
-- **View source**: navigate to the node's definition in the Sources tab (Chrome) or Debugger tab (Firefox). The action is disabled when the source location is not available.
-- **Set breakpoint**: pause execution when the signal updates. Breakpoints are only available in Chromium-based browsers.
-- **Watch signal**: log the signal's updates and invalidations to the browser console. Click the action again to stop watching.
-- **Highlight upstream / downstream**: trace the paths of the node's dependencies or its dependants.
+- **View source**: navega até a definição do nó na aba Sources (Chrome) ou na aba Debugger (Firefox). A ação fica desabilitada quando a localização do código-fonte não está disponível.
+- **Set breakpoint**: pausa a execução quando o signal é atualizado. Breakpoints estão disponíveis apenas em navegadores baseados em Chromium.
+- **Watch signal**: registra no console do navegador as atualizações e invalidações do signal. Clique na ação novamente para parar de observar.
+- **Highlight upstream / downstream**: rastreia os caminhos das dependências do nó ou dos seus dependentes.
 
-If the component uses no signals, Angular DevTools shows a "No signals in this component" message instead of the graph.
+Se o component não usar signals, o Angular DevTools exibe a mensagem "No signals in this component" no lugar do grafo.
 
-## Version support
+## Suporte a versões {#version-support}
 
-The signal graph requires an application built with Angular 19 or later running in development mode.
+O grafo de signals requer uma aplicação construída com Angular 19 ou superior executando em modo de desenvolvimento.

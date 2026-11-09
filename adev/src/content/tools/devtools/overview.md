@@ -1,48 +1,50 @@
-# DevTools Overview
+<!-- ia-translate: true -->
+# Visão geral do DevTools {#devtools-overview}
 
-Angular DevTools is a browser extension that provides debugging and profiling capabilities for Angular applications.
+O Angular DevTools é uma extensão de navegador que fornece recursos de debugging e profiling para aplicações Angular.
 
 <docs-video src="https://www.youtube.com/embed/bavWOHZM6zE"/>
 
-Install Angular DevTools from the [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) or from [Firefox Addons](https://addons.mozilla.org/firefox/addon/angular-devtools/).
+Instale o Angular DevTools pela [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) ou pelo [Firefox Addons](https://addons.mozilla.org/firefox/addon/angular-devtools/).
 
-You can open Chrome or Firefox DevTools on any web page by pressing <kbd>F12</kbd> or <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> (Windows or Linux) and <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> or <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> (Mac).
-Once browser DevTools is open and Angular DevTools is installed, you can find it under the "Angular" tab.
+Você pode abrir o Chrome ou o Firefox DevTools em qualquer página web pressionando <kbd>F12</kbd> ou <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> (Windows ou Linux) e <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> ou <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> (Mac).
+Quando as DevTools do navegador estiverem abertas e o Angular DevTools estiver instalado, você poderá encontrá-lo na aba "Angular".
 
-HELPFUL: Chrome's new tab page does not run installed extensions, so the Angular tab will not appear in DevTools. Visit any other page to see it.
+DICA: A nova aba do Chrome não executa extensões instaladas, então a aba Angular não aparecerá nas DevTools. Visite qualquer outra página para vê-la.
 
-<img src="assets/images/guide/devtools/devtools.png" alt="An overview of Angular DevTools showing a tree of components for an application.">
+<img src="assets/images/guide/devtools/devtools.png" alt="Visão geral do Angular DevTools mostrando uma árvore de components de uma aplicação.">
 
-## Open your application
+## Abrir sua aplicação {#open-your-application}
 
-When you open the extension, you'll see four additional tabs:
+Quando você abrir a extensão, verá quatro abas adicionais:
 
-| Tabs                                      | Details                                                                                                                |
-| :---------------------------------------- | :--------------------------------------------------------------------------------------------------------------------- |
-| [Components](tools/devtools/component)    | Lets you explore the components and directives in your application and preview or edit their state.                    |
-| [Profiler](tools/devtools/profiler)       | Lets you profile your application and understand what the performance bottleneck is during change detection execution. |
-| [Injector Tree](tools/devtools/injectors) | Lets you visualize the Environment and Element Injector hierarchy                                                      |
-| [Router Tree](tools/devtools/router)      | Lets you visualize the routing tree of your application.                                                               |
+| Abas                                      | Detalhes                                                                                                                                       |
+| :---------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Components](tools/devtools/component)    | Permite explorar os components e directives da sua aplicação e visualizar ou editar o estado deles.                                            |
+| [Profiler](tools/devtools/profiler)       | Permite fazer o profile da sua aplicação e entender qual é o gargalo de performance durante a execução da detecção de mudanças.                |
+| [Injector Tree](tools/devtools/injectors) | Permite visualizar a hierarquia de injectors de Environment e de Element.                                                                      |
+| [Router Tree](tools/devtools/router)      | Permite visualizar a árvore de rotas da sua aplicação.                                                                                         |
 
-Other tabs like `Transfer State` are experimental and can be enabled via the devtools settings and are not documented yet.
+Outras abas, como `Transfer State`, são experimentais, podem ser habilitadas nas configurações do devtools e ainda não estão documentadas.
 
-HELPFUL: For users of Chromium based browsers, you might be interested in the [Performance panel integration](/best-practices/profiling-with-chrome-devtools).
+HELPFUL: Para usuários de navegadores baseados em Chromium, pode ser interessante conhecer a [integração com o painel Performance](/best-practices/profiling-with-chrome-devtools).
 
-<img src="assets/images/guide/devtools/devtools-tabs.png" alt="A screenshot of the top of Angular DevTools illustrating two tabs in the upper-left corner, one labeled 'Components' and another labeled 'Profiler'.">
+<img src="assets/images/guide/devtools/devtools-tabs.png" alt="Captura de tela do topo do Angular DevTools ilustrando duas abas no canto superior esquerdo, uma com o rótulo 'Components' e outra com o rótulo 'Profiler'.">
 
-In the top-right corner of Angular DevTools you'll find the information button which open a popover.
-The information popover contains among others what version of Angular is running on the page as well as the devtools version.
+No canto superior direito do Angular DevTools, você encontra o botão de informações, que abre um popover.
+O popover de informações contém, entre outras coisas, a versão do Angular em execução na página e a versão do DevTools.
 
-### Angular application not detected
+### Aplicação Angular não detectada {#angular-application-not-detected}
 
-If you see an error message "Angular application not detected" when opening Angular DevTools, this means it is not able to communicate with an Angular app on the page.
-The most common reason for this is because the web page you are inspecting does not contain an Angular application.
-Double check that you are inspecting the right web page and that the Angular app is running.
+Se você vir a mensagem de erro "Angular application not detected" ao abrir o Angular DevTools, isso significa que ele não consegue se comunicar com uma aplicação Angular na página.
+A causa mais comum é que a página web que você está inspecionando não contém uma aplicação Angular.
+Verifique se você está inspecionando a página web correta e se a aplicação Angular está em execução.
 
-### We detected an application built with production configuration
+### Detectamos uma aplicação construída com configuração de produção {#we-detected-an-application-built-with-production-configuration}
 
-If you see an error message "We detected an application built with production configuration. Angular DevTools only supports development builds.", this means that an Angular application was found on the page, but it was compiled with production optimizations.
-When compiling for production, Angular CLI removes various debug features to minimize the amount of the JavaScript on the page to improve performance. This includes features needed to communicate with DevTools.
+Se você vir a mensagem de erro "We detected an application built with production configuration. Angular DevTools only supports development builds.", isso significa que uma aplicação Angular foi encontrada na página, mas ela foi compilada com otimizações de produção.
+Ao compilar para produção, o Angular CLI remove vários recursos de debug para minimizar a quantidade de JavaScript na página e melhorar a performance. Isso inclui os recursos necessários para se comunicar com o DevTools.
 
-To run DevTools, you need to compile your application with optimizations disabled. `ng serve` does this by default.
-If you need to debug a deployed application, disable optimizations in your build with the [`optimization` configuration option](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`).
+Para executar o DevTools, você precisa compilar sua aplicação com as otimizações desabilitadas. O `ng serve` faz isso por padrão.
+Se você precisar fazer debug de uma aplicação implantada, desabilite as otimizações no seu build com a [opção de configuração `optimization`](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`).
+</content>

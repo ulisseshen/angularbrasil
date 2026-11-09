@@ -1,17 +1,18 @@
-# Migration from `@Injectable` to `@Service`
+<!-- ia-translate: true -->
+# Migração de `@Injectable` para `@Service` {#migration-from-injectable-to-service}
 
-This schematic converts eligible `@Injectable` classes to the [`@Service`](/api/core/Service) decorator, an ergonomic shorthand for `@Injectable({providedIn: 'root'})`.
-It is available as of v22.1, and only migrates classes that are considered safe to migrate.
+Este schematic converte classes `@Injectable` elegíveis para o decorator [`@Service`](/api/core/Service), um atalho ergonômico para `@Injectable({providedIn: 'root'})`.
+Ele está disponível a partir da v22.1 e migra apenas classes consideradas seguras para migração.
 
-Run the schematic using the following command:
+Execute o schematic usando o seguinte comando:
 
 ```bash
 ng generate @angular/core:service
 ```
 
-A class declared with `providedIn: 'root'` becomes a `@Service` with no options.
+Uma classe declarada com `providedIn: 'root'` se torna um `@Service` sem opções.
 
-#### Before
+#### Antes {#before}
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -20,7 +21,7 @@ import {Injectable} from '@angular/core';
 export class MyService {}
 ```
 
-#### After
+#### Depois {#after}
 
 ```ts
 import {Service} from '@angular/core';
@@ -29,10 +30,10 @@ import {Service} from '@angular/core';
 export class MyService {}
 ```
 
-A class declared without options is not provided automatically, so the migration keeps that behavior with `autoProvided: false`.
-You remain responsible for adding it to a `providers` array, as before.
+Uma classe declarada sem opções não é provida automaticamente, então a migração mantém esse comportamento com `autoProvided: false`.
+Você continua responsável por adicioná-la a um array `providers`, como antes.
 
-#### Before {#no-options-before}
+#### Antes {#no-options-before}
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -41,7 +42,7 @@ import {Injectable} from '@angular/core';
 export class MyService {}
 ```
 
-#### After {#no-options-after}
+#### Depois {#no-options-after}
 
 ```ts
 import {Service} from '@angular/core';
@@ -50,30 +51,30 @@ import {Service} from '@angular/core';
 export class MyService {}
 ```
 
-For more details, see [Opting out of automatic provisioning](guide/di/creating-and-using-services#opting-out-of-automatic-provisioning).
+Para mais detalhes, veja [Optando por não usar o provisionamento automático](guide/di/creating-and-using-services#opting-out-of-automatic-provisioning).
 
-## Configuration options
+## Opções de configuração {#configuration-options}
 
 ### `--path`
 
-By default, the migration updates your whole Angular CLI workspace, including test files.
-You can limit the migration to a specific sub-directory using this option.
+Por padrão, a migração atualiza todo o seu workspace do Angular CLI, incluindo arquivos de teste.
+Você pode limitar a migração a um subdiretório específico usando esta opção.
 
 ```bash
 ng generate @angular/core:service --path src/app/sub-component
 ```
 
-## Limitations
+## Limitações {#limitations}
 
-To avoid introducing breakages into your app, the schematic skips a class when:
+Para evitar introduzir quebras na sua aplicação, o schematic ignora uma classe quando:
 
-- The class, or the closest ancestor in your own source that defines a constructor, injects dependencies through its constructor.
-- The `@Injectable` decorator receives any option other than `providedIn`.
-- The `providedIn` option is set to anything other than `'root'`.
+- A classe, ou o ancestral mais próximo no seu próprio código-fonte que define um constructor, injeta dependências pelo seu constructor.
+- O decorator `@Injectable` recebe qualquer opção além de `providedIn`.
+- A opção `providedIn` é definida com qualquer valor diferente de `'root'`.
 
-When every `@Injectable` in a file migrates, the migration removes the `Injectable` import.
-A file with both migrated and skipped classes keeps both imports.
+Quando todos os `@Injectable` de um arquivo são migrados, a migração remove o import de `Injectable`.
+Um arquivo com classes migradas e ignoradas mantém os dois imports.
 
-If the migration reports that it did not find any files to migrate, it did not change any file.
-Either it found no `@Injectable` class it could convert, or the code is already migrated.
-Constructor injection is the most common reason for a skip, and you can run the [migration to the `inject` function](reference/migrations/inject-function) first, then run this one again.
+Se a migração informar que não encontrou nenhum arquivo para migrar, ela não alterou nenhum arquivo.
+Ou não encontrou nenhuma classe `@Injectable` que pudesse converter, ou o código já está migrado.
+A injeção por constructor é o motivo mais comum para uma classe ser ignorada, e você pode executar primeiro a [migração para a função `inject`](reference/migrations/inject-function) e depois executar esta novamente.

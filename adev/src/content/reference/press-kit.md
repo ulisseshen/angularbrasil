@@ -56,7 +56,7 @@ Neste exemplo, adaptamos o escudo para criar uma variação do logo Angular Sign
 Se você está criando seu próprio logo, incentivamos a diferenciá-lo do nosso para não causar confusão. Ao adaptar o logo, você é livre para mudar e adaptar as cores e a forma para torná-lo seu.
 
 Ao representar o Angular com o logo original, siga estas diretrizes:
-![Rhubarb the small cat](assets/images/press-kit/do_and_dont.png 'Rhubarb the small cat')
+![Rhubarb the small cat](assets/images/press-kit/do_and_dont.png 'Rhubarb, o gatinho')
 </docs-step>
 
 </docs-workflow>

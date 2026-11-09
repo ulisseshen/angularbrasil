@@ -89,7 +89,7 @@ Os TODOs incluirão o motivo pelo qual as queries foram puladas. Por exemplo:
 
 ```ts
 // TODO: Skipped for migration because:
-//  Your application code writes to the query. This prevents migration.
+//  O código da sua aplicação escreve na query. Isso impede a migração.
 @ViewChild('ref') ref?: ElementRef;
 ```
 

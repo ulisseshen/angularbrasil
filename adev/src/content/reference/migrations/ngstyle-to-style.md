@@ -1,57 +1,58 @@
-# Migration from NgStyle to style bindings
+<!-- ia-translate: true -->
+# Migração de NgStyle para style bindings {#migration-from-ngstyle-to-style-bindings}
 
-This schematic migrates NgStyle directive usages to style bindings in your application.
-It will only migrate usages that are considered safe to migrate.
+Este schematic migra usos da directive NgStyle para style bindings em sua aplicação.
+Ele migrará apenas os usos que são considerados seguros para migração.
 
-Run the schematic using the following command:
+Execute o schematic usando o seguinte comando:
 
 ```bash
 ng generate @angular/core:ngstyle-to-style
 ```
 
-An object with a single key becomes a binding to that one style property.
+Um objeto com uma única chave se torna um binding para essa única propriedade de estilo.
 
-#### Before
+#### Antes {#before}
 
 ```html
 <div [ngStyle]="{'background-color': 'red'}"></div>
 ```
 
-#### After
+#### Depois {#after}
 
 ```html
 <div [style.background-color]="'red'"></div>
 ```
 
-An object with more than one key becomes a single `[style]` binding.
+Um objeto com mais de uma chave se torna um único binding `[style]`.
 
-#### Before {#multiple-keys-before}
+#### Antes {#multiple-keys-before}
 
 ```html
 <div [ngStyle]="{'color': 'blue', 'font-weight': 'bold'}"></div>
 ```
 
-#### After {#multiple-keys-after}
+#### Depois {#multiple-keys-after}
 
 ```html
 <div [style]="{'color': 'blue', 'font-weight': 'bold'}"></div>
 ```
 
-## Configuration options
+## Opções de configuração {#configuration-options}
 
-The migration supports a few options for fine tuning the migration to your specific needs.
+A migração oferece algumas opções para ajustar a migração às suas necessidades específicas.
 
 ### `--best-effort-mode`
 
-By default, the migration avoids migrating object references usages of `NgStyle`
-When the `--best-effort-mode` flag is enabled, `ngStyle` instances binded to object references are also migrated.
-This can be unsafe to migrate, for example if the binded object is mutated.
+Por padrão, a migração evita migrar usos de `NgStyle` que referenciam objetos.
+Quando a flag `--best-effort-mode` está habilitada, instâncias de `ngStyle` vinculadas a referências de objetos também são migradas.
+Isso pode não ser seguro, por exemplo, se o objeto vinculado for mutado.
 
 ```html
 <div [ngStyle]="styleObject"></div>
 ```
 
-to
+para
 
 ```html
 <div [style]="styleObject"></div>

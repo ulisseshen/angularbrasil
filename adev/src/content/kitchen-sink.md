@@ -1,80 +1,81 @@
+<!-- ia-translate: true -->
 <docs-decorative-header title="Kitchen sink" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
-This is a visual list of all custom components and styles for Angular.dev.
+Esta é uma lista visual de todos os components customizados e estilos para o Angular.dev.
 </docs-decorative-header>
 
-As a design system, this page contains visual and Markdown authoring guidance for:
+Como um sistema de design, esta página contém orientações visuais e de escrita em Markdown para:
 
-- Custom Angular docs elements: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills), and [`docs-steps`](#workflow)
-- Custom text elements: [alerts](#alerts)
-- Code examples: [`docs-code`](#code)
-- Built-in Markdown styled elements: links, lists, [headers](#headers-h2), [horizontal lines](#horizontal-line-divider)
-- and more!
+- Elementos customizados da documentação Angular: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills) e [`docs-steps`](#workflow)
+- Elementos de texto customizados: [alertas](#alerts)
+- Exemplos de código: [`docs-code`](#code)
+- Elementos Markdown estilizados nativamente: links, listas, [cabeçalhos](#headers-h2), [linhas horizontais](#horizontal-line-divider)
+- e mais!
 
-Get ready to:
+Prepare-se para:
 
-1. Write...
-2. great...
-3. docs!
+1. Escrever...
+2. ótimas...
+3. documentações!
 
-## Headers (h2)
+## Cabeçalhos (h2) {#headers-h2}
 
-### Smaller headers (h3)
+### Cabeçalhos menores (h3) {#smaller-headers-h3}
 
-#### Even smaller (h4)
+#### Ainda menor (h4) {#even-smaller-h4}
 
-##### Even more smaller (h5)
+##### Ainda mais menor (h5) {#even-more-smaller-h5}
 
-###### The smallest! (h6)
+###### O menor de todos! (h6) {#the-smallest-h6}
 
 ## Cards
 
 <docs-card-container>
-  <docs-card title="What is Angular?" link="Platform Overview" href="tutorials/first-app">
+  <docs-card title="O que é o Angular?" link="Visão geral da plataforma" href="tutorials/first-app">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare ligula nisi
   </docs-card>
-  <docs-card title="Second Card" link="Try It Now" href="essentials/what-is-angular">
+  <docs-card title="Segundo card" link="Experimente agora" href="essentials/what-is-angular">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare ligula nisi
   </docs-card>
-    <docs-card title="No Link Card">
+    <docs-card title="Card sem link">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare ligula nisi
   </docs-card>
 </docs-card-container>
 
-### `<docs-card>` Attributes
+### Atributos de `<docs-card>` {#docs-card-attributes}
 
-| Attributes              | Details                                           |
-| :---------------------- | :------------------------------------------------ |
-| `<docs-card-container>` | All cards must be nested inside a container       |
-| `title`                 | Card title                                        |
-| card body contents      | Anything between `<docs-card>` and `</docs-card>` |
-| `link`                  | (Optional) Call to Action link text               |
-| `href`                  | (Optional) Call to Action link href               |
+| Atributos               | Detalhes                                                    |
+| :---------------------- | :---------------------------------------------------------- |
+| `<docs-card-container>` | Todos os cards devem estar aninhados dentro de um container |
+| `title`                 | Título do card                                              |
+| conteúdo do corpo       | Qualquer coisa entre `<docs-card>` e `</docs-card>`         |
+| `link`                  | (Opcional) Texto do link de Call to Action                  |
+| `href`                  | (Opcional) Href do link de Call to Action                   |
 
 ## Callouts
 
-<docs-callout title="Title of a callout that is helpful">
+<docs-callout title="Título de um callout útil">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-<docs-callout critical title="Title of a callout that is critical">
+<docs-callout critical title="Título de um callout crítico">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-<docs-callout important title="Title of a callout that is important">
+<docs-callout important title="Título de um callout importante">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-### `<docs-callout>` Attributes
+### Atributos de `<docs-callout>` {#docs-callout-attributes}
 
-| Attributes                                       | Details                                                   |
-| :----------------------------------------------- | :-------------------------------------------------------- |
-| `title`                                          | Callout title                                             |
-| card body contents                               | Anything between `<docs-callout>` and `</docs-callout>`   |
-| `helpful` (default) \| `critical` \| `important` | (Optional) Adds styling and icons based on severity level |
+| Atributos                                       | Detalhes                                                             |
+| :---------------------------------------------- | :------------------------------------------------------------------- |
+| `title`                                         | Título do callout                                                    |
+| conteúdo do corpo                               | Qualquer coisa entre `<docs-callout>` e `</docs-callout>`            |
+| `helpful` (padrão) \| `critical` \| `important` | (Opcional) Adiciona estilos e ícones baseados no nível de severidade |
 
 ## Pills
 
-Pill rows are helpful as a sort of navigation with links to helpful resources.
+Linhas de pills são úteis como uma espécie de navegação, com links para recursos úteis.
 
 <docs-pill-row id=pill-row>
   <docs-pill href="#pill-row" title="Link"/>
@@ -85,53 +86,53 @@ Pill rows are helpful as a sort of navigation with links to helpful resources.
   <docs-pill href="#pill-row" title="Link"/>
 </docs-pill-row>
 
-### `<docs-pill>` Attributes
+### Atributos de `<docs-pill>` {#docs-pill-attributes}
 
-| Attributes       | Details                                    |
-| :--------------- | :----------------------------------------- |
-| `<docs-pill-row` | All pills must be nested inside a pill row |
-| `title`          | Pill text                                  |
-| `href`           | Pill href                                  |
+| Atributos        | Detalhes                                                    |
+| :--------------- | :---------------------------------------------------------- |
+| `<docs-pill-row` | Todas as pills devem estar aninhadas dentro de uma pill row |
+| `title`          | Texto da pill                                               |
+| `href`           | Href da pill                                                |
 
-Pills may also be used inline by themselves, but we haven't built that out yet.
+Pills também podem ser usadas sozinhas, em linha, mas ainda não construímos isso.
 
-## Alerts
+## Alertas {#alerts}
 
-Alerts are just special paragraphs. They are helpful to call out (not to be confused with call-out) something that's a bit more urgent. They gain font size from context and are available in many levels. Try not to use alerts to render too much content, but rather to enhance and call attention to surrounding content.
+Alertas são apenas parágrafos especiais. Eles são úteis para chamar atenção (não confundir com call-out) para algo um pouco mais urgente. Eles herdam o tamanho da fonte do contexto e estão disponíveis em vários níveis. Tente não usar alertas para renderizar muito conteúdo, e sim para realçar e chamar atenção para o conteúdo ao redor.
 
-Style alerts starting on a new line in Markdown using the format `SEVERITY_LEVEL` + `:` + `ALERT_TEXT`.
+Estilize alertas começando em uma nova linha no Markdown, usando o formato `SEVERITY_LEVEL` + `:` + `ALERT_TEXT`.
 
-NOTE: Use Note for ancillary/additional information that's not _essential_ to the main text.
+NOTE: Use Note para informações auxiliares ou adicionais que não são _essenciais_ para o texto principal.
 
-TIP: Use Tip to call out a specific task/action users can perform, or a fact that plays directly into a task/action.
+TIP: Use Tip para destacar uma tarefa ou ação específica que os usuários podem realizar, ou um fato que se relaciona diretamente com uma tarefa ou ação.
 
-TODO: Use TODO for incomplete documentation that you plan to expand soon. You can also assign the TODO, e.g. TODO(emmatwersky): Text.
+TODO: Use TODO para documentação incompleta que você planeja expandir em breve. Você também pode atribuir o TODO, por exemplo, TODO(emmatwersky): Text.
 
-QUESTION: Use Question to pose a question to the reader, kind of like a mini-quiz that they should be able to answer.
+QUESTION: Use Question para fazer uma pergunta ao leitor, como um mini-quiz que ele deve ser capaz de responder.
 
-SUMMARY: Use Summary to provide a two- or three-sentence synopsis of the page or section content, so readers can figure out whether this is the right place for them.
+SUMMARY: Use Summary para fornecer uma sinopse de duas ou três frases do conteúdo da página ou seção, para que os leitores possam descobrir se este é o lugar certo para eles.
 
-TLDR: Use TL;DR (or TLDR) if you can provide the essential information about a page or section in a sentence or two. For example, TLDR: Rhubarb is a cat.
+TLDR: Use TL;DR (ou TLDR) se você puder fornecer a informação essencial sobre uma página ou seção em uma ou duas frases. Por exemplo, TLDR: Rhubarb é um gato.
 
-CRITICAL: Use Critical to call out potential bad stuff or alert the reader they ought to be careful before doing something. For example, Warning: Running `rm` with the `-f` option will delete write-protected files or directories without prompting you.
+CRITICAL: Use Critical para destacar coisas potencialmente ruins ou alertar o leitor de que ele deve ter cuidado antes de fazer algo. Por exemplo, Aviso: executar `rm` com a opção `-f` vai apagar arquivos ou diretórios protegidos contra escrita sem perguntar.
 
-IMPORTANT: Use Important for information that's crucial to comprehending the text or to completing some task.
+IMPORTANT: Use Important para informações cruciais para compreender o texto ou para concluir alguma tarefa.
 
-HELPFUL: Use Best practice to call out practices that are known to be successful or better than alternatives.
+HELPFUL: Use Best practice para destacar práticas que são comprovadamente bem-sucedidas ou melhores do que as alternativas.
 
-NOTE: Heads up `developers`! Alerts _can_ have a [link](#alerts) and other nested styles (but try to **use this sparingly**)!.
+NOTE: Atenção, `desenvolvedores`! Alertas _podem_ ter um [link](#alerts) e outros estilos aninhados (mas use isso com moderação)!.
 
-## Code
+## Código {#code}
 
-You can display `code` using the built in triple backtick:
+Você pode exibir `código` usando o triplo crase embutido:
 
 ```ts
 example code
 ```
 
-Or using the `<docs-code>` element.
+Ou usando o elemento `<docs-code>`.
 
-<docs-code header="Your first example" language="ts" linenums>
+<docs-code header="Seu primeiro exemplo" language="ts" linenums>
 import { Component } from '@angular/core';
 
 @Component({
@@ -141,13 +142,13 @@ template: '<h1>Hello World!</h1>',
 export class ComponentOverviewComponent {}
 </docs-code>
 
-### Styling the example
+### Estilizando o exemplo {#styling-the-example}
 
-Here's a code example fully styled:
+Aqui está um exemplo de código totalmente estilizado:
 
 <docs-code
   path="adev/src/content/examples/hello-world/src/app/app.component-old.ts"
-  header="A styled code example"
+  header="Um exemplo de código estilizado"
   language='ts'
   linenums
   highlight="[[3,7], 9]"
@@ -155,38 +156,38 @@ Here's a code example fully styled:
   visibleLines="[3,10]">
 </docs-code>
 
-We also have styling for the terminal, just set the language as `shell`:
+Também temos estilização para o terminal, basta definir a linguagem como `shell`:
 
 ```shell
 npm install @angular/material --save
 ```
 
-You can style standard Markdown triple backticks with attributes for enhanced presentation:
+Você pode estilizar blocos de triplo crase padrão do Markdown com atributos para uma apresentação aprimorada:
 
-```ts {header:"Awesome Title", linenums, highlight: [2], hideCopy}
+```ts {header:"Título incrível", linenums, highlight: [2], hideCopy}
 console.log('Hello, World!');
 console.log('Awesome Angular Docs!');
 ```
 
-#### `<docs-code>` Attributes
+#### Atributos de `<docs-code>` {#docs-code-attributes}
 
-| Attributes     | Type                 | Details                                                         |
+| Atributos      | Tipo                 | Detalhes                                                        |
 | :------------- | :------------------- | :-------------------------------------------------------------- |
-| code           | `string`             | Anything between tags is treated as code                        |
-| `path`         | `string`             | Path to code example (root: `content/examples/`)                |
-| `header`       | `string`             | Title of the example (default: `file-name`)                     |
-| `language`     | `string`             | code language                                                   |
-| `linenums`     | `boolean`            | (False) displays line numbers                                   |
-| `highlight`    | `string of number[]` | lines highlighted                                               |
-| `visibleLines` | `string of number[]` | range of lines for collapse mode                                |
-| `region`       | `string`             | only show the provided region.                                  |
-| `preview`      | `boolean`            | (False) display preview                                         |
-| `hideCode`     | `boolean`            | (False) Whether to collapse code example by default.            |
-| `hideDollar`   | `boolean`            | (False) Whether to hide the dollar sign in shell code examples. |
+| code           | `string`             | Qualquer coisa entre as tags é tratada como código              |
+| `path`         | `string`             | Caminho para o exemplo de código (raiz: `content/examples/`)    |
+| `header`       | `string`             | Título do exemplo (padrão: `file-name`)                         |
+| `language`     | `string`             | linguagem do código                                             |
+| `linenums`     | `boolean`            | (False) exibe os números das linhas                             |
+| `highlight`    | `string of number[]` | linhas destacadas                                               |
+| `visibleLines` | `string of number[]` | intervalo de linhas para o modo recolhido                       |
+| `region`       | `string`             | exibe apenas a região fornecida.                                |
+| `preview`      | `boolean`            | (False) exibe o preview                                         |
+| `hideCode`     | `boolean`            | (False) Se o exemplo de código deve ser recolhido por padrão.   |
+| `hideDollar`   | `boolean`            | (False) Se o cifrão deve ser ocultado em exemplos de código shell. |
 
-### Multifile examples
+### Exemplos de múltiplos arquivos {#multifile-examples}
 
-You can create multifile examples by wrapping the examples inside a `<docs-code-multifile>`.
+Você pode criar exemplos com múltiplos arquivos envolvendo os exemplos dentro de um `<docs-code-multifile>`.
 
 <docs-code-multifile
   path="adev/src/content/examples/hello-world/src/app/app.component.ts"
@@ -199,24 +200,24 @@ You can create multifile examples by wrapping the examples inside a `<docs-code-
     path="adev/src/content/examples/hello-world/src/app/app.component.css" />
 </docs-code-multifile>
 
-#### `<docs-code-multifile>` Attributes
+#### Atributos de `<docs-code-multifile>` {#docs-code-multifile-attributes}
 
-| Attributes    | Type      | Details                                              |
-| :------------ | :-------- | :--------------------------------------------------- |
-| body contents | `string`  | nested tabs of `docs-code` examples                  |
-| `path`        | `string`  | Path to code example for preview and external link   |
-| `preview`     | `boolean` | (False) display preview                              |
-| `hideCode`    | `boolean` | (False) Whether to collapse code example by default. |
+| Atributos         | Tipo      | Detalhes                                                       |
+| :---------------- | :-------- | :------------------------------------------------------------- |
+| conteúdo do corpo | `string`  | abas aninhadas de exemplos `docs-code`                         |
+| `path`            | `string`  | Caminho para o exemplo de código para o preview e o link externo |
+| `preview`         | `boolean` | (False) exibe o preview                                        |
+| `hideCode`        | `boolean` | (False) Se o exemplo de código deve ser recolhido por padrão.  |
 
-### Adding `preview` to your code example
+### Adicionando `preview` ao seu exemplo de código {#adding-preview-to-your-code-example}
 
-Adding the `preview` flag builds a running example of the code below the code snippet. This also automatically adds a button to open the running example in StackBlitz.
+Adicionar a flag `preview` cria um exemplo em execução do código abaixo do trecho de código. Isso também adiciona automaticamente um botão para abrir o exemplo em execução no StackBlitz.
 
-NOTE: `preview` only works with standalone.
+NOTE: `preview` funciona apenas com standalone.
 
-### Styling example previews with Tailwind CSS
+### Estilizando previews de exemplos com Tailwind CSS {#styling-example-previews-with-tailwind-css}
 
-Tailwind utility classes can be used within code examples.
+Classes utilitárias do Tailwind podem ser usadas dentro de exemplos de código.
 
 <docs-code-multifile
   path="adev/src/content/examples/hello-world/src/app/tailwind-app.component.ts"
@@ -225,10 +226,10 @@ Tailwind utility classes can be used within code examples.
 <docs-code path="adev/src/content/examples/hello-world/src/app/tailwind-app.component.ts" />
 </docs-code-multifile>
 
-## Tabs
+## Abas {#tabs}
 
 <docs-tab-group>
-  <docs-tab label="Code Example">
+  <docs-tab label="Exemplo de código">
     <docs-code-multifile
       path="adev/src/content/examples/hello-world/src/app/tailwind-app.component.ts"
       hideCode="true"
@@ -237,31 +238,31 @@ Tailwind utility classes can be used within code examples.
     <docs-code path="adev/src/content/examples/hello-world/src/app/tailwind-app.component.ts" />
     </docs-code-multifile>
   </docs-tab>
-  <docs-tab label="Some Text">
+  <docs-tab label="Algum texto">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
   </docs-tab>
 </docs-tab-group>
 
-## Workflow
+## Fluxo de trabalho {#workflow}
 
-Style numbered steps using `<docs-step>`. Numbering is created using CSS (handy!).
+Estilize passos numerados usando `<docs-step>`. A numeração é criada com CSS (prático!).
 
-### `<docs-workflow>` and `<docs-step>` Attributes
+### Atributos de `<docs-workflow>` e `<docs-step>` {#docs-workflow-and-docs-step-attributes}
 
-| Attributes         | Details                                           |
-| :----------------- | :------------------------------------------------ |
-| `<docs-workflow>`  | All steps must be nested inside a workflow        |
-| `title`            | Step title                                        |
-| step body contents | Anything between `<docs-step>` and `</docs-step>` |
+| Atributos         | Detalhes                                                    |
+| :---------------- | :---------------------------------------------------------- |
+| `<docs-workflow>` | Todos os passos devem estar aninhados dentro de um workflow |
+| `title`           | Título do passo                                             |
+| conteúdo do corpo | Qualquer coisa entre `<docs-step>` e `</docs-step>`         |
 
-Steps must start on a new line, and can contain `docs-code`s and other nested elements and styles.
+Os passos devem começar em uma nova linha e podem conter `docs-code`s e outros elementos e estilos aninhados.
 
 <docs-workflow>
 
-<docs-step title="Install the Angular CLI">
-  You use the Angular CLI to create projects, generate application and library code, and perform a variety of ongoing development tasks such as testing, bundling, and deployment.
+<docs-step title="Instale o Angular CLI">
+  Você usa o Angular CLI para criar projetos, gerar código de aplicações e bibliotecas e realizar uma variedade de tarefas contínuas de desenvolvimento, como testes, bundling e deployment.
 
-To install the Angular CLI, open a terminal window and run the following command:
+Para instalar o Angular CLI, abra uma janela de terminal e execute o seguinte comando:
 
 ```shell
 npm install -g @angular/cli
@@ -269,77 +270,77 @@ npm install -g @angular/cli
 
 </docs-step>
 
-<docs-step title="Create a workspace and initial application">
-  You develop apps in the context of an Angular workspace.
+<docs-step title="Crie um workspace e uma aplicação inicial">
+  Você desenvolve aplicações no contexto de um workspace Angular.
 
-To create a new workspace and initial starter app:
+Para criar um novo workspace e uma aplicação inicial de exemplo:
 
-- Run the CLI command `ng new` and provide the name `my-app`, as shown here:
+- Execute o comando do CLI `ng new` e forneça o nome `my-app`, como mostrado aqui:
 
   ```shell
   ng new my-app
   ```
 
-- The ng new command prompts you for information about features to include in the initial app. Accept the defaults by pressing the Enter or Return key.
+- O comando `ng new` pergunta sobre os recursos a incluir na aplicação inicial. Aceite os padrões pressionando a tecla Enter ou Return.
 
-  The Angular CLI installs the necessary Angular npm packages and other dependencies. This can take a few minutes.
+  O Angular CLI instala os pacotes npm do Angular necessários e outras dependências. Isso pode levar alguns minutos.
 
-  The CLI creates a new workspace and a simple Welcome app, ready to run.
+  O CLI cria um novo workspace e uma aplicação Welcome simples, pronta para ser executada.
   </docs-step>
 
-<docs-step title="Run the application">
-  The Angular CLI includes a server, for you to build and serve your app locally.
+<docs-step title="Execute a aplicação">
+  O Angular CLI inclui um servidor para você construir e servir a sua aplicação localmente.
 
-1. Navigate to the workspace folder, such as `my-app`.
-2. Run the following command:
+1. Navegue até a pasta do workspace, como `my-app`.
+2. Execute o seguinte comando:
 
    ```shell
    cd my-app
    ng serve --open
    ```
 
-The `ng serve` command launches the server, watches your files, and rebuilds the app as you make changes to those files.
+O comando `ng serve` inicia o servidor, observa os seus arquivos e reconstrói a aplicação conforme você faz alterações nesses arquivos.
 
-The `--open` (or just `-o`) option automatically opens your browser to <http://localhost:4200/>.
-If your installation and setup was successful, you should see a page similar to the following.
+A opção `--open` (ou apenas `-o`) abre automaticamente o seu navegador em <http://localhost:4200/>.
+Se a sua instalação e configuração tiverem sido bem-sucedidas, você deverá ver uma página semelhante à seguinte.
 </docs-step>
 
-<docs-step title="Final step">
-  That's all the docs components! Now:
+<docs-step title="Passo final">
+  São esses todos os components de documentação! Agora:
 
   <docs-pill-row>
-    <docs-pill href="#pill-row" title="Go"/>
-    <docs-pill href="#pill-row" title="write"/>
-    <docs-pill href="#pill-row" title="great"/>
-    <docs-pill href="#pill-row" title="docs!"/>
+    <docs-pill href="#pill-row" title="Vá"/>
+    <docs-pill href="#pill-row" title="escreva"/>
+    <docs-pill href="#pill-row" title="ótima"/>
+    <docs-pill href="#pill-row" title="documentação!"/>
   </docs-pill-row>
 </docs-step>
 
 </docs-workflow>
 
-## Images and video
+## Imagens e vídeo {#images-and-video}
 
-You can add images using the semantic Markdown image:
+Você pode adicionar imagens usando a imagem semântica do Markdown:
 
-![Rhubarb the cat](assets/images/kitchen-sink/rhubarb.jpg 'Optional title')
+![Rhubarb, o gato](assets/images/kitchen-sink/rhubarb.jpg 'Título opcional')
 
-### Add `#small` and `#medium` to change the image size
+### Adicione `#small` e `#medium` para mudar o tamanho da imagem {#add-small-and-medium-to-change-the-image-size}
 
-![Rhubarb the small cat](assets/images/kitchen-sink/rhubarb.jpg#small)
-![Rhubarb the medium cat](assets/images/kitchen-sink/rhubarb.jpg#medium)
+![Rhubarb, o gato pequeno](assets/images/kitchen-sink/rhubarb.jpg#small)
+![Rhubarb, o gato médio](assets/images/kitchen-sink/rhubarb.jpg#medium)
 
-## Add attributes using curly braces syntax
+## Adicione atributos usando a sintaxe de chaves {#add-attributes-using-curly-braces-syntax}
 
-![Lazy loaded image](assets/images/kitchen-sink/rhubarb.jpg {loading: 'lazy'})
-![Combined attributes](assets/images/kitchen-sink/rhubarb.jpg#small {loading: 'lazy', decoding: 'async', fetchpriority: 'low'})
+![Imagem com carregamento lazy](assets/images/kitchen-sink/rhubarb.jpg {loading: 'lazy'})
+![Atributos combinados](assets/images/kitchen-sink/rhubarb.jpg#small {loading: 'lazy', decoding: 'async', fetchpriority: 'low'})
 
-Embedded videos are created with `docs-video` and just need a `src` and `title`:
+Vídeos incorporados são criados com `docs-video` e precisam apenas de um `src` e de um `title`:
 
-<docs-video src="https://www.youtube.com/embed/O47uUnJjbJc" title="Expression changed after checked"/>
+<docs-video src="https://www.youtube.com/embed/O47uUnJjbJc" title="Expressão alterada após a verificação"/>
 
-## Charts & Graphs
+## Gráficos e diagramas {#charts--graphs}
 
-Write diagrams and charts using [Mermaid](https://mermaid.js.org/) by setting the code language to `mermaid`, all theming is built-in.
+Escreva diagramas e gráficos usando o [Mermaid](https://mermaid.js.org/) definindo a linguagem do código como `mermaid`; toda a tematização já está incorporada.
 
 ```mermaid
     graph TD;
@@ -364,15 +365,15 @@ Write diagrams and charts using [Mermaid](https://mermaid.js.org/) by setting th
       "Rats" : 15
 ```
 
-## Horizontal Line Divider
+## Divisor de linha horizontal {#horizontal-line-divider}
 
-This can be used to separate page sections, like we're about to do below. These styles will be added by default, nothing custom needed.
+Isso pode ser usado para separar seções da página, como estamos prestes a fazer abaixo. Esses estilos são adicionados por padrão, sem necessidade de nada personalizado.
 
 <hr/>
 
-The end!
+O fim!
 
-## Prefer / Avoid
+## Preferir / Evitar {#prefer--avoid}
 
 ```ts {prefer}
 const foo = 'bar';
@@ -382,13 +383,13 @@ const foo = 'bar';
 const bar = 'foo';
 ```
 
-```ts {avoid, header: 'with a header'}
+```ts {avoid, header: 'com um cabeçalho'}
 const baz = 42;
 ```
 
 <docs-code
   path="adev/src/content/examples/hello-world/src/app/app.component-old.ts"
-  header="A styled code example"
+  header="Um exemplo de código estilizado"
   language='ts'
   linenums
   highlight="[[3,7], 9]"

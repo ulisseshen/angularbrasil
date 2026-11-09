@@ -1,16 +1,17 @@
-# Migration to the `inject` function
+<!-- ia-translate: true -->
+# Migração para a função `inject` {#migration-to-the-inject-function}
 
-Angular's [`inject`](/api/core/inject) function offers more accurate types and better compatibility with standard decorators, compared to constructor-based injection.
+A função [`inject`](/api/core/inject) do Angular oferece tipos mais precisos e melhor compatibilidade com decorators padrão, em comparação com a injeção baseada em constructor.
 
-This schematic converts constructor-based injection in your classes to use the [`inject`](/api/core/inject) function instead.
+Este schematic converte a injeção baseada em constructor das suas classes para usar a função [`inject`](/api/core/inject) em vez disso.
 
-Run the schematic using the following command:
+Execute o schematic usando o seguinte comando:
 
 ```shell
 ng generate @angular/core:inject
 ```
 
-#### Before
+#### Antes {#before}
 
 ```typescript
 import {Component, Inject, Optional} from '@angular/core';
@@ -26,7 +27,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### Depois {#after}
 
 ```typescript
 import {Component, inject} from '@angular/core';
@@ -40,31 +41,31 @@ export class MyComp {
 }
 ```
 
-## Migration options
+## Opções de migração {#migration-options}
 
-The migration includes several options to customize its output.
+A migração inclui várias opções para customizar sua saída.
 
 ### `path`
 
-Determines which sub-path in your project should be migrated. Pass in `.` or leave it blank to
-migrate the entire directory.
+Determina qual subcaminho do seu projeto deve ser migrado. Passe `.` ou deixe em branco para
+migrar o diretório inteiro.
 
 ### `migrateAbstractClasses`
 
-Angular doesn't validate that parameters of abstract classes are injectable. This means that the
-migration can't reliably migrate them to [`inject`](/api/core/inject) without risking breakages which is why they're
-disabled by default. Enable this option if you want abstract classes to be migrated, but note
-that you may have to **fix some breakages manually**.
+O Angular não valida que os parâmetros de classes abstratas são injetáveis. Isso significa que a
+migração não pode migrar de forma confiável para [`inject`](/api/core/inject) sem arriscar quebras, por isso elas estão
+desabilitadas por padrão. Habilite esta opção se você quiser que classes abstratas sejam migradas, mas note
+que você pode ter que **corrigir algumas quebras manualmente**.
 
 ### `backwardsCompatibleConstructors`
 
-By default the migration tries to clean up the code as much as it can, which includes deleting
-parameters from the constructor, or even the entire constructor if it doesn't include any code.
-In some cases this can lead to compilation errors when classes with Angular decorators inherit from
-other classes with Angular decorators. If you enable this option, the migration will generate an
-additional constructor signature to keep it backwards compatible, at the expense of more code.
+Por padrão, a migração tenta limpar o código o máximo possível, o que inclui deletar
+parâmetros do constructor, ou até mesmo o constructor inteiro se ele não incluir nenhum código.
+Em alguns casos, isso pode levar a erros de compilação quando classes com decorators do Angular herdam de
+outras classes com decorators do Angular. Se você habilitar esta opção, a migração gerará uma
+assinatura de constructor adicional para mantê-lo compatível com versões anteriores, ao custo de mais código.
 
-#### Before {#backwards-compatible-constructors-before}
+#### Antes {#backwards-compatible-constructors-before}
 
 ```typescript
 import {Component} from '@angular/core';
@@ -76,7 +77,7 @@ export class MyComp {
 }
 ```
 
-#### After {#backwards-compatible-constructors-after}
+#### Depois {#backwards-compatible-constructors-after}
 
 ```typescript
 import {Component, inject} from '@angular/core';
@@ -86,7 +87,7 @@ import {MyService} from './service';
 export class MyComp {
   private service = inject(MyService);
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
+  /** Inserido pela migração inject() do Angular para compatibilidade com versões anteriores */
   constructor(...args: unknown[]);
 
   constructor() {}
@@ -95,17 +96,17 @@ export class MyComp {
 
 ### `nonNullableOptional`
 
-If injection fails for a parameter with the `@Optional` decorator, Angular returns `null` which
-means that the real type of any `@Optional` parameter will be `| null`. However, because decorators
-cannot influence their types, there is a lot of existing code whose type is incorrect. The type is
-fixed in `inject()` which can cause new compilation errors to show up. If you enable this option,
-the migration will produce a non-null assertion after the `inject()` call to match the old type,
-at the expense of potentially hiding type errors.
+Se a injeção falhar para um parâmetro com o decorator `@Optional`, o Angular retorna `null`, o que
+significa que o tipo real de qualquer parâmetro `@Optional` será `| null`. No entanto, como decorators
+não podem influenciar seus tipos, há muito código existente cujo tipo está incorreto. O tipo é
+corrigido em `inject()`, o que pode fazer com que novos erros de compilação apareçam. Se você habilitar esta opção,
+a migração produzirá uma asserção não-nula após a chamada `inject()` para corresponder ao tipo antigo,
+ao custo de potencialmente esconder erros de tipo.
 
-NOTE: non-null assertions won't be added to parameters that are already typed to be nullable,
-because the code that depends on them likely already accounts for their nullability.
+NOTE: asserções não-nulas não serão adicionadas a parâmetros que já estão tipados como anuláveis,
+porque o código que depende deles provavelmente já leva em conta sua anulabilidade.
 
-#### Before {#non-nullable-optional-before}
+#### Antes {#non-nullable-optional-before}
 
 ```typescript
 import {Component, Inject, Optional} from '@angular/core';
@@ -120,7 +121,7 @@ export class MyComp {
 }
 ```
 
-#### After {#non-nullable-optional-after}
+#### Depois {#non-nullable-optional-after}
 
 ```typescript
 import {Component, inject} from '@angular/core';
@@ -128,10 +129,10 @@ import {TOKEN_ONE, TOKEN_TWO} from './token';
 
 @Component({template: ''})
 export class MyComp {
-  // Note the `!` at the end.
+  // Observe o `!` no final.
   private tokenOne = inject(TOKEN_ONE, {optional: true})!;
 
-  // Does not have `!` at the end, because the type was already nullable.
+  // Não tem `!` no final, porque o tipo já era anulável.
   private tokenTwo = inject(TOKEN_TWO, {optional: true});
 }
 ```
