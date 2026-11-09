@@ -49,7 +49,7 @@ export class CustomCard {
 ```angular-html
 <!-- Usando o component -->
 <custom-card>
-  <p>This is the projected content</p>
+  <p>Este é o conteúdo projetado</p>
 </custom-card>
 ```
 
@@ -57,7 +57,7 @@ export class CustomCard {
 <!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <p>This is the projected content</p>
+    <p>Este é o conteúdo projetado</p>
   </div>
 </custom-card>
 ```
@@ -108,8 +108,8 @@ export class CustomCard {}
   imports: [CustomCard, CardTitle, CardBody],
   template: `
     <custom-card>
-      <card-title>Hello</card-title>
-      <card-body>Welcome to the example</card-body>
+      <card-title>Olá</card-title>
+      <card-body>Bem-vindo ao exemplo</card-body>
     </custom-card>
 `,
 })
@@ -120,9 +120,9 @@ export class App {}
 <!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <card-title>Hello</card-title>
+    <card-title>Olá</card-title>
     <div class="card-divider"></div>
-    <card-body>Welcome to the example</card-body>
+    <card-body>Bem-vindo ao exemplo</card-body>
   </div>
 </custom-card>
 ```
@@ -144,9 +144,9 @@ Se você incluir um ou mais espaços reservados `<ng-content>` com um atributo `
 ```angular-html
 <!-- Usando o component -->
 <custom-card>
-  <card-title>Hello</card-title>
+  <card-title>Olá</card-title>
   <img src="..." />
-  <p>Welcome to the example</p>
+  <p>Bem-vindo ao exemplo</p>
 </custom-card>
 ```
 
@@ -154,10 +154,10 @@ Se você incluir um ou mais espaços reservados `<ng-content>` com um atributo `
 <!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <card-title>Hello</card-title>
+    <card-title>Olá</card-title>
     <div class="card-divider"></div>
     <img src="..." />
-    <p>Welcome to the example</p>
+    <p>Bem-vindo ao exemplo</p>
   </div>
 </custom-card>
 ```
@@ -171,16 +171,16 @@ O Angular pode exibir _conteúdo de fallback_ para um espaço reservado `<ng-con
 ```angular-html
 <!-- Template do component -->
 <div class="card-shadow">
-  <ng-content select="card-title">Default Title</ng-content>
+  <ng-content select="card-title">Título padrão</ng-content>
   <div class="card-divider"></div>
-  <ng-content select="card-body">Default Body</ng-content>
+  <ng-content select="card-body">Corpo padrão</ng-content>
 </div>
 ```
 
 ```angular-html
 <!-- Usando o component -->
 <custom-card>
-  <card-title>Hello</card-title>
+  <card-title>Olá</card-title>
   <!-- Nenhum card-body foi fornecido -->
 </custom-card>
 ```
@@ -189,9 +189,9 @@ O Angular pode exibir _conteúdo de fallback_ para um espaço reservado `<ng-con
 <!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <card-title>Hello</card-title>
+    <card-title>Olá</card-title>
     <div class="card-divider"></div>
-    Default Body
+    Corpo padrão
   </div>
 </custom-card>
 ```
@@ -212,9 +212,9 @@ O Angular oferece um atributo especial, `ngProjectAs`, que permite especificar u
 ```angular-html
 <!-- Usando o component -->
 <custom-card>
-  <h3 ngProjectAs="card-title">Hello</h3>
+  <h3 ngProjectAs="card-title">Olá</h3>
 
-  <p>Welcome to the example</p>
+  <p>Bem-vindo ao exemplo</p>
 </custom-card>
 ```
 
@@ -222,9 +222,9 @@ O Angular oferece um atributo especial, `ngProjectAs`, que permite especificar u
 <!-- O DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <h3>Hello</h3>
+    <h3>Olá</h3>
     <div class="card-divider"></div>
-    <p>Welcome to the example</p>
+    <p>Bem-vindo ao exemplo</p>
   </div>
 </custom-card>
 ```
