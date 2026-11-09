@@ -1,12 +1,13 @@
-# Designing your form model
+<!-- ia-translate: true -->
+# Projetando o seu modelo de formulário {#designing-your-form-model}
 
-Signal Forms uses a model-driven approach, deriving the form's state and structure directly from the model you provide. Because it serves as the foundation of the entire form, it is important to start with a well-designed form model. This guide explores best practices for designing form models.
+Os Signal Forms usam uma abordagem orientada a modelo, derivando o estado e a estrutura do formulário diretamente do modelo que você fornece. Como ele é a base de todo o formulário, é importante começar com um modelo bem projetado. Este guia explora as melhores práticas para projetar modelos de formulário.
 
-## Form model vs domain model
+## Modelo de formulário versus modelo de domínio {#form-model-vs-domain-model}
 
-Forms are used to collect user input. Your application likely has a domain model used to represent this input in a way that's optimized for business logic or storage. However, this is often _different_ than how we want to model the data in our form.
+Formulários são usados para coletar a entrada do usuário. A sua aplicação provavelmente tem um modelo de domínio usado para representar essa entrada de uma forma otimizada para a lógica de negócio ou para o armazenamento. No entanto, isso costuma ser _diferente_ de como queremos modelar os dados no formulário.
 
-The form model represents the raw user input as it appears in the UI. For instance, in a form you might ask a user to pick a date and a time slot for an appointment as separate input fields, even if your domain model represents it as a single JavaScript `Date` object.
+O modelo de formulário representa a entrada bruta do usuário como ela aparece na interface. Por exemplo, em um formulário você pode pedir ao usuário que escolha uma data e um horário de atendimento em campos separados, mesmo que o seu modelo de domínio represente isso como um único objeto `Date` do JavaScript:
 
 ```ts
 interface AppointmentFormModel {
@@ -21,17 +22,17 @@ interface AppointmentDomainModel {
 }
 ```
 
-Forms should use a form model tailored to the input experience, rather than simply repurposing the domain model.
+Os formulários devem usar um modelo de formulário adaptado à experiência de entrada, em vez de simplesmente reaproveitar o modelo de domínio.
 
-## Form model best practices
+## Melhores práticas para modelos de formulário {#form-model-best-practices}
 
-### Use specific types
+### Use tipos específicos {#use-specific-types}
 
-Always define interfaces or types for your models as shown in [Using TypeScript types](/guide/forms/signals/models#using-typescript-types). Explicit types provide better IntelliSense, catch errors at compile time, and serve as documentation for what data the form contains.
+Sempre defina interfaces ou tipos para os seus modelos, como mostrado em [Usando tipos do TypeScript](/guide/forms/signals/models#using-typescript-types). Tipos explícitos oferecem melhor IntelliSense, detectam erros em tempo de compilação e servem como documentação de quais dados o formulário contém.
 
-### Initialize all fields
+### Inicialize todos os campos {#initialize-all-fields}
 
-Provide initial values for every field in your model:
+Forneça valores iniciais para todos os campos do seu modelo:
 
 ```ts {prefer, header: 'All fields initialized'}
 const taskModel = signal({
@@ -49,11 +50,11 @@ const taskModel = signal({
 });
 ```
 
-Missing initial values mean those fields won't exist in the field tree, making them inaccessible for form interactions.
+Valores iniciais ausentes significam que esses campos não existirão na árvore de campos, tornando-os inacessíveis para interações com o formulário.
 
-### Keep models focused
+### Mantenha os modelos focados {#keep-models-focused}
 
-Each model should represent a single form or a cohesive set of related data:
+Cada modelo deve representar um único formulário ou um conjunto coeso de dados relacionados:
 
 ```ts {prefer, header: 'Focused on a single purpose'}
 const loginModel = signal({
@@ -75,11 +76,11 @@ const appModel = signal({
 });
 ```
 
-Separate models for different concerns makes forms easier to understand and reuse. Create multiple forms if you're managing distinct sets of data.
+Modelos separados para preocupações diferentes tornam os formulários mais fáceis de entender e reutilizar. Crie vários formulários se estiver gerenciando conjuntos distintos de dados.
 
-### Consider validation requirements
+### Considere os requisitos de validação {#consider-validation-requirements}
 
-Design models with validation in mind. Group fields that validate together:
+Projete os modelos pensando na validação. Agrupe os campos que são validados em conjunto:
 
 ```ts {prefer, header: 'Related fields grouped for comparison'}
 // Password fields grouped for comparison
@@ -90,15 +91,15 @@ interface PasswordChangeData {
 }
 ```
 
-This structure makes cross-field validation (like checking if `newPassword` matches `confirmPassword`) more natural.
+Essa estrutura torna a validação entre campos (como verificar se `newPassword` corresponde a `confirmPassword`) mais natural.
 
-### Match data types to UI controls
+### Faça os tipos de dados corresponderem aos controles de interface {#match-data-types-to-ui-controls}
 
-Properties on your form model should match the data types expected by your UI controls.
+As propriedades do seu modelo de formulário devem corresponder aos tipos de dados esperados pelos controles de interface.
 
-For example, consider a beverage order form with a `size` field (6, 12, or 24 pack) and a `quantity` field. The UI uses a dropdown (`<select>`) for size and a number input (`<input type="number">`) for quantity.
+Por exemplo, considere um formulário de pedido de bebidas com um campo `size` (pacote de 6, 12 ou 24 unidades) e um campo `quantity`. A interface usa uma lista suspensa (`<select>`) para o tamanho e um campo numérico (`<input type="number">`) para a quantidade.
 
-Although the size options look numeric, `<select>` elements work with string values, so `size` should be modeled as a string. An `<input type="number">` on the other hand, does work with numbers, so `quantity` can be modeled as a number.
+Embora as opções de tamanho pareçam numéricas, os elementos `<select>` trabalham com valores de string, então `size` deve ser modelado como string. Já um `<input type="number">` trabalha com números, então `quantity` pode ser modelado como número.
 
 ```ts {prefer, header: 'Appropriate data types for the bound UI controls'}
 interface BeverageOrderFormModel {
@@ -107,11 +108,11 @@ interface BeverageOrderFormModel {
 }
 ```
 
-### Avoid `undefined`
+### Evite `undefined` {#avoid-undefined}
 
-A form model must not contain `undefined` values or properties. In Signal Forms the structure of the form is derived from the structure of the model, and `undefined` signifies the _absence of a field_, rather than a field with an empty value. This means you must also avoid optional fields (e.g., `{property?: string}`), as they implicitly allow `undefined`.
+Um modelo de formulário não pode conter valores ou propriedades `undefined`. Nos Signal Forms, a estrutura do formulário é derivada da estrutura do modelo, e `undefined` significa a _ausência de um campo_, e não um campo com valor vazio. Isso significa que você também deve evitar campos opcionais (por exemplo, `{property?: string}`), pois eles permitem implicitamente `undefined`.
 
-To represent a property with an empty value in your form model, use a value that the UI control understands to mean "empty" (e.g. `""` for a `<input type="text">`). If you're designing a custom UI control, `null` often works as a good value to signify "empty".
+Para representar uma propriedade com valor vazio no seu modelo de formulário, use um valor que o controle de interface entenda como "vazio" (por exemplo, `""` para um `<input type="text">`). Se você estiver projetando um controle de interface personalizado, `null` costuma funcionar bem para sinalizar "vazio".
 
 ```ts {prefer, header: 'Appropriate empty values'}
 interface UserFormModel {
@@ -123,13 +124,13 @@ interface UserFormModel {
 form(signal({name: '', birthday: null}));
 ```
 
-### Avoid models with dynamic structure
+### Evite modelos com estrutura dinâmica {#avoid-models-with-dynamic-structure}
 
-A form model has a dynamic structure if it changes shape (if the properties on the object change) based on its value. This happens when the model type allows for values with different shapes, such as a union of object types that have different properties, or a union of an object and a primitive. The following sections examine a few common scenarios where models with a dynamic structure might seem appealing, but ultimately prove problematic.
+Um modelo de formulário tem estrutura dinâmica se muda de formato (se as propriedades do objeto mudam) com base no seu valor. Isso acontece quando o tipo do modelo permite valores com formatos diferentes, como uma união de tipos de objeto com propriedades diferentes, ou uma união de um objeto com um primitivo. As seções a seguir examinam alguns cenários comuns em que modelos com estrutura dinâmica parecem atraentes, mas acabam se mostrando problemáticos.
 
-#### Empty value for a complex object
+#### Valor vazio para um objeto complexo {#empty-value-for-a-complex-object}
 
-We often use forms to ask users to enter brand new data, rather than edit existing data in a system. A good example of this is an account creation form. We might model that using the following form model.
+Frequentemente usamos formulários para pedir que os usuários insiram dados totalmente novos, em vez de editar dados existentes em um sistema. Um bom exemplo é um formulário de criação de conta. Podemos modelá-lo com o seguinte modelo de formulário:
 
 ```ts
 interface CreateAccountFormModel {
@@ -141,13 +142,13 @@ interface CreateAccountFormModel {
 }
 ```
 
-When creating the form we encounter a dilemma, what should the initial value in the model be? It may be tempting to create a `form<CreateAccountFormModel | null>()` since we don't have any input from the user yet.
+Ao criar o formulário, encontramos um dilema: qual deve ser o valor inicial do modelo? Pode ser tentador criar um `form<CreateAccountFormModel | null>()`, já que ainda não temos nenhuma entrada do usuário.
 
 ```ts {avoid, header: 'Using null as empty value for complex object'}
 createAccountForm = form<CreateAccountFormModel | null>(signal(/* what goes here, null? */));
 ```
 
-However, it is important to remember that Signal Forms is _model driven_. If our model is `null` and `null` doesn't have a `name` or `username` property, that means our form won't have those subfields either. Instead what we really want is an instance of `CreateAccountFormModel` with all of its leaf fields set to an empty value.
+No entanto, é importante lembrar que os Signal Forms são _orientados a modelo_. Se o nosso modelo é `null` e `null` não tem as propriedades `name` ou `username`, isso significa que o formulário também não terá esses subcampos. O que realmente queremos é uma instância de `CreateAccountFormModel` com todos os seus campos-folha definidos com um valor vazio:
 
 ```ts {prefer, header: 'Same shape value with empty values for properties'}
 createAccountForm = form<CreateAccountFormModel>(
@@ -161,7 +162,7 @@ createAccountForm = form<CreateAccountFormModel>(
 );
 ```
 
-Using this representation, all of the subfields we need now exist, and we can bind them using the `[formField]` directive in our template.
+Com essa representação, todos os subcampos de que precisamos agora existem, e podemos vinculá-los usando a diretiva `[formField]` no nosso template.
 
 ```html
 First: <input [formField]="createAccountForm.name.first" /> Last:
@@ -169,9 +170,9 @@ First: <input [formField]="createAccountForm.name.first" /> Last:
 <input [formField]="createAccountForm.username" />
 ```
 
-#### Fields that are conditionally hidden or unavailable
+#### Campos ocultos ou indisponíveis condicionalmente {#fields-that-are-conditionally-hidden-or-unavailable}
 
-Forms aren't always linear. You often need to create conditional paths based on previous user input. One example of this is a form where we give the user different payment options. Let's start by imagining what the UI for such a form might look like.
+Formulários nem sempre são lineares. Muitas vezes você precisa criar caminhos condicionais com base na entrada anterior do usuário. Um exemplo é um formulário em que oferecemos ao usuário diferentes opções de pagamento. Vamos começar imaginando como a interface desse formulário poderia ser:
 
 ```html
 Name: <input type="text" />
@@ -190,7 +191,7 @@ Name: <input type="text" />
 </section>
 ```
 
-The best way to handle this is to use a form model with a static structure that includes fields for _all_ potential payment methods. In our schema, we can hide or disable the fields that are not currently available.
+A melhor forma de lidar com isso é usar um modelo de formulário com uma estrutura estática que inclua campos para _todas_ as formas de pagamento possíveis. No nosso schema, podemos ocultar ou desabilitar os campos que não estão disponíveis no momento.
 
 ```ts {prefer, header: 'Static structure model'}
 interface BillPayFormModel {
@@ -217,9 +218,9 @@ const billPaySchema = schema<BillPayFormModel>((billPay) => {
 });
 ```
 
-Using this model, both `card` and `bank` objects are always present in the form's state. When the user switches payment methods, we only update the `type` property. The data they entered into the card fields remains safely stored in the `card` object, ready to be redisplayed if they switch back.
+Com esse modelo, os objetos `card` e `bank` estão sempre presentes no estado do formulário. Quando o usuário troca de forma de pagamento, atualizamos apenas a propriedade `type`. Os dados que ele digitou nos campos do cartão permanecem armazenados com segurança no objeto `card`, prontos para serem exibidos novamente caso ele volte para essa opção.
 
-In contrast, a dynamic form model may initially seem like a good fit for this use case. After all, we don't need fields for account and routing number if the user selected "Credit Card". We may be tempted to model this as a discriminated union:
+Em contraste, um modelo de formulário dinâmico pode parecer inicialmente uma boa escolha para esse caso de uso. Afinal, não precisamos de campos para número da conta e código de roteamento se o usuário selecionou "Cartão de crédito". Podemos ser tentados a modelar isso como uma união discriminada:
 
 ```ts {avoid, header: 'Dynamic structure model'}
 interface BillPayFormModel {
@@ -239,23 +240,23 @@ interface BillPayFormModel {
 }
 ```
 
-However, consider what would happen in the following scenario:
+No entanto, considere o que aconteceria no seguinte cenário:
 
-1. User fills out their name and credit card information
-2. They're about to submit, but at the last moment they notice the convenience fee.
-3. They toggle to the bank account option instead, figuring they might as well avoid the fee.
-4. As they're about to enter the bank account info, they have second thoughts, they wouldn't want it to wind up in a leak.
-5. They toggle back to credit card option, but they notice all the info they just entered is gone!
+1. O usuário preenche o nome e as informações do cartão de crédito
+2. Ele está prestes a enviar, mas no último momento percebe a taxa de conveniência
+3. Ele muda para a opção de conta bancária, pensando que pode evitar a taxa
+4. Quando está prestes a digitar os dados da conta bancária, muda de ideia, pois não quer que eles vazem
+5. Ele volta para a opção de cartão de crédito, mas percebe que todas as informações que acabou de digitar sumiram!
 
-This illustrates another problem with form models that have a dynamic structure: they can cause data loss. A model like this assumes that once a field becomes hidden, the information in it will never be needed again. It replaces the credit card information with the bank information, and has no way to get the credit card information back.
+Isso ilustra outro problema dos modelos de formulário com estrutura dinâmica: eles podem causar perda de dados. Um modelo assim pressupõe que, quando um campo fica oculto, a informação nele nunca mais será necessária. Ele substitui os dados do cartão de crédito pelos dados bancários e não tem como recuperar os dados do cartão.
 
-#### Exceptions
+#### Exceções {#exceptions}
 
-While static structure is generally preferred, there are specific scenarios where dynamic structure is necessary and supported.
+Embora a estrutura estática seja geralmente preferida, há cenários específicos em que a estrutura dinâmica é necessária e suportada.
 
-##### Arrays
+##### Arrays {#arrays}
 
-Arrays are the most common exception. Forms often need to collect a variable number of items, such as a list of phone numbers, attendees, or line items in an order.
+Arrays são a exceção mais comum. Formulários frequentemente precisam coletar um número variável de itens, como uma lista de números de telefone, participantes ou itens de um pedido.
 
 ```ts
 interface SendEmailFormModel {
@@ -264,13 +265,13 @@ interface SendEmailFormModel {
 }
 ```
 
-In this case, the `recipientEmails` array grows and shrinks as the user interacts with the form. While the length of the array is dynamic, the structure of the individual items should be consistent (each item should have the same shape).
+Nesse caso, o array `recipientEmails` cresce e diminui conforme o usuário interage com o formulário. Embora o tamanho do array seja dinâmico, a estrutura dos itens individuais deve ser consistente (cada item deve ter o mesmo formato).
 
-##### Fields that are treated atomically by the UI control
+##### Campos tratados atomicamente pelo controle de interface {#fields-that-are-treated-atomically-by-the-ui-control}
 
-Another case where dynamic structure is acceptable is when a complex object is treated as a single, atomic value by the UI control. That is, if the control does not attempt to bind to or access any of its sub-fields individually. In this scenario, the control updates the value by replacing the entire object at once, rather than modifying its internal properties. Because the form structure is irrelevant in this scenario, it's acceptable for that structure to be dynamic.
+Outro caso em que a estrutura dinâmica é aceitável é quando um objeto complexo é tratado como um único valor atômico pelo controle de interface. Ou seja, o controle não tenta vincular ou acessar nenhum dos seus subcampos individualmente. Nesse cenário, o controle atualiza o valor substituindo o objeto inteiro de uma só vez, em vez de modificar suas propriedades internas. Como a estrutura do formulário é irrelevante nesse cenário, é aceitável que essa estrutura seja dinâmica.
 
-For example, consider a user profile form that includes a `location` field. The location is selected using a complex "location picker" widget (perhaps a map or a search-ahead dropdown) that returns a coordinate object. In the case where the location is not yet selected, or the user chooses not to share their location, the picker indicates the location as `null`.
+Por exemplo, considere um formulário de perfil de usuário que inclui um campo `location`. A localização é selecionada usando um "seletor de localização" complexo (talvez um mapa ou uma lista suspensa com busca antecipada), que retorna um objeto de coordenadas. Caso a localização ainda não tenha sido selecionada, ou o usuário opte por não compartilhá-la, o seletor indica a localização como `null`.
 
 ```ts {prefer, header: 'Dynamic structure is ok when field is treated as atomic'}
 interface Location {
@@ -286,20 +287,20 @@ interface UserProfileFormModel {
 }
 ```
 
-In the template, we bind the `location` field directly to our custom control:
+No template, vinculamos o campo `location` diretamente ao nosso controle personalizado:
 
 ```html
 Username: <input [formField]="userForm.username" /> Location:
 <location-picker [formField]="userForm.location"></location-picker>
 ```
 
-Here, `<location-picker>` consumes and produces the entire `Location` object (or `null`), and doesn't access `userForm.location.lat` or `userForm.location.lng`. Therefore, `location` can safely have a dynamic shape without violating the principles of model-driven forms.
+Aqui, o `<location-picker>` consome e produz o objeto `Location` inteiro (ou `null`), e não acessa `userForm.location.lat` nem `userForm.location.lng`. Portanto, `location` pode ter um formato dinâmico com segurança, sem violar os princípios dos formulários orientados a modelo.
 
-## Translating between form model and domain model
+## Convertendo entre modelo de formulário e modelo de domínio {#translating-between-form-model-and-domain-model}
 
-Given that the form model and domain model represent the same concept differently, we need to have a way to translate between these different representations. When we want to present some existing data in the system to the user in a form, we need to transform it from the domain model representation to the form model representation. Conversely when we want to save a user's changes, we need to transform the data from the form model representation to the domain model representation.
+Como o modelo de formulário e o modelo de domínio representam o mesmo conceito de formas diferentes, precisamos de uma maneira de converter entre essas representações. Quando queremos apresentar ao usuário, em um formulário, dados existentes no sistema, precisamos transformá-los do formato do modelo de domínio para o formato do modelo de formulário. Por outro lado, ao salvar as alterações do usuário, transformamos os dados do modelo de formulário para o modelo de domínio.
 
-Let's imagine that we have a domain model and a form model and we've written some functions to convert between them.
+Vamos imaginar que temos um modelo de domínio e um modelo de formulário, e escrevemos algumas funções para convertê-los entre si.
 
 ```ts
 interface MyDomainModel { ... }
@@ -314,11 +315,11 @@ function domainModelToFormModel(domainModel: MyDomainModel): MyFormModel { ... }
 function formModelToDomainModel(formModel: MyFormModel): MyDomainModel { ... }
 ```
 
-### Domain model to form model
+### Do modelo de domínio para o modelo de formulário {#domain-model-to-form-model}
 
-When we're creating a form to edit some existing domain model in the system, we'll typically receive that domain model either as an `input()` to our form component or from a backend (e.g. via a resource). In either case, `linkedSignal` provides an excellent way to apply our transform.
+Quando criamos um formulário para editar um modelo de domínio existente no sistema, normalmente recebemos esse modelo de domínio como um `input()` do componente do formulário ou do backend (por exemplo, via um resource). Em ambos os casos, `linkedSignal` oferece uma excelente forma de aplicar a transformação.
 
-In the case where we receive the domain model as an `input()`, we can use `linkedSignal` to create a writable form model from the input signal.
+No caso em que recebemos o modelo de domínio como um `input()`, podemos usar `linkedSignal` para criar um modelo de formulário gravável a partir do signal de entrada.
 
 ```ts {prefer, header: 'Use linkedSignal to convert domain model to form model'}
 @Component(...)
@@ -339,7 +340,7 @@ class MyForm {
 }
 ```
 
-Similarly, when we receive the domain model from the backend via a resource, we can create a `linkedSignal` based on its value to create our `formModel`. In this scenario, the domain model may take some time to fetch, and we should disable the form until the data is loaded.
+De forma semelhante, quando recebemos o modelo de domínio do backend por meio de um resource, podemos criar um `linkedSignal` com base no valor dele para criar o nosso `formModel`. Nesse cenário, o modelo de domínio pode levar algum tempo para ser buscado, e devemos desabilitar o formulário até que os dados sejam carregados.
 
 ```ts {prefer, header: 'Disable or hide the form when data is unavailable'}
 @Component(...)
@@ -363,13 +364,13 @@ class MyForm {
 }
 ```
 
-The examples above show a pure derivation of the form model, directly from the domain model. However, in some cases you may wish to do a more advanced diff operation between the new domain model value and the previous domain model and form model values. This can be implemented based on the `linkedSignal` [previous state](/guide/signals/linked-signal#accounting-for-previous-state).
+Os exemplos acima mostram uma derivação pura do modelo de formulário, diretamente do modelo de domínio. No entanto, em alguns casos você pode querer fazer uma operação de comparação mais avançada entre o novo valor do modelo de domínio e os valores anteriores do modelo de domínio e do modelo de formulário. Isso pode ser implementado com base no [estado anterior](/guide/signals/linked-signal#accounting-for-previous-state) do `linkedSignal`.
 
-### Form model to domain model
+### Do modelo de formulário para o modelo de domínio {#form-model-to-domain-model}
 
-When we're ready to save the user's input back to the system, we need to convert it to the domain model representation. This would typically happen when the user submits the form, or continuously as the user edits for an auto-saving form.
+Quando estivermos prontos para salvar a entrada do usuário de volta no sistema, precisamos convertê-la para a representação do modelo de domínio. Isso normalmente aconteceria quando o usuário envia o formulário, ou continuamente enquanto ele edita, no caso de um formulário com salvamento automático.
 
-To save on submit, we can handle the conversion in the `submit` function.
+Para salvar no envio, podemos fazer a conversão na função `submit`.
 
 ```ts {prefer, header: 'Convert form model to domain model on submit'}
 @Component(...)
@@ -386,10 +387,9 @@ class MyForm {
 }
 ```
 
-Alternatively, you could also send the form model directly to the server and do the conversion from
-form model to domain model on the server.
+Alternativamente, você também pode enviar o modelo de formulário diretamente ao servidor e fazer a conversão de modelo de formulário para modelo de domínio no servidor.
 
-For continuous saving, update the domain model in an `effect`.
+Para salvamento contínuo, atualize o modelo de domínio em um `effect`.
 
 ```ts {prefer, header: 'Convert form model to domain model in an effect for auto-saving'}
 @Component(...)
@@ -409,7 +409,7 @@ class MyForm {
 }
 ```
 
-The examples above show a pure conversion from the form model to the domain model. However, it is perfectly acceptable to consider the full form state in addition to just the form model value. For example, to save bytes we might want to only send partial updates to the server based on what the user changed. In this case our conversion function could be designed to take the entire form state and return a sparse domain model based on the form's values and dirtiness.
+Os exemplos acima mostram uma conversão pura do modelo de formulário para o modelo de domínio. No entanto, é perfeitamente aceitável considerar o estado completo do formulário, além apenas do valor do modelo. Por exemplo, para economizar bytes, podemos querer enviar ao servidor apenas atualizações parciais, com base no que o usuário alterou. Nesse caso, a nossa função de conversão pode ser projetada para receber o estado inteiro do formulário e retornar um modelo de domínio esparso, com base nos valores e na sujeira do formulário.
 
 ```ts
 type Sparse<T> = T extends object ? {
