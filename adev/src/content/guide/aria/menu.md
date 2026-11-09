@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Menu
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/menubar/" title="Menu ARIA pattern"/>
-  <docs-pill href="/api/aria/menu/Menu" title="Menu API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/menubar/" title="Padrão ARIA de menu"/>
+  <docs-pill href="/api/aria/menu/Menu" title="Referência da API do Menu"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-A menu offers a list of actions or options to users, typically appearing in response to a button click or right-click. Menus support keyboard navigation with arrow keys, submenus, checkboxes, radio buttons, and disabled items.
+Um menu oferece aos usuários uma lista de ações ou opções, normalmente exibida em resposta a um clique em um botão ou a um clique com o botão direito. Menus oferecem suporte à navegação pelo teclado com as teclas de seta, submenus, caixas de seleção, botões de opção e itens desabilitados.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menu/src/menu-trigger/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menu/src/menu-trigger/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menu/src/menu-trigger/app/app.html"/>
@@ -35,43 +36,43 @@ A menu offers a list of actions or options to users, typically appearing in resp
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso {#usage}
 
-Menus work well for presenting lists of actions or commands that users can choose from.
+Menus são adequados para apresentar listas de ações ou comandos dos quais o usuário pode escolher.
 
-**Use menus when:**
+**Use menus quando:**
 
-- Building application command menus (File, Edit, View)
-- Creating context menus (right-click actions)
-- Showing dropdown action lists
-- Implementing toolbar dropdowns
-- Organizing settings or options
+- Criar menus de comandos da aplicação (Arquivo, Editar, Exibir)
+- Criar menus de contexto (ações do clique com o botão direito)
+- Exibir listas de ações suspensas
+- Implementar listas suspensas em barras de ferramentas
+- Organizar configurações ou opções
 
-**Avoid menus when:**
+**Evite menus quando:**
 
-- Building site navigation (use navigation landmarks instead)
-- Creating form selects (use the [Select](guide/aria/select) component)
-- Switching between content panels (use [Tabs](guide/aria/tabs))
-- Showing collapsible content (use [Accordion](guide/aria/accordion))
+- Construir a navegação do site (use landmarks de navegação)
+- Criar selects de formulário (use o componente [Select](guide/aria/select))
+- Alternar entre painéis de conteúdo (use [Tabs](guide/aria/tabs))
+- Exibir conteúdo recolhível (use [Accordion](guide/aria/accordion))
 
-## Features
+## Recursos {#features}
 
-- **Keyboard navigation** - Arrow keys, Home/End, and character search for efficient navigation
-- **Submenus** - Nested menu support with automatic positioning
-- **Menu types** - Standalone menus, triggered menus, and menubars
-- **Checkboxes and radios** - Toggle and selection menu items
-- **Disabled items** - Soft or hard disabled states with focus management
-- **Auto-close behavior** - Configurable close on selection
-- **RTL support** - Right-to-left language navigation
+- **Navegação pelo teclado** - Teclas de seta, Home/End e busca por caractere para uma navegação eficiente
+- **Submenus** - Suporte a menus aninhados com posicionamento automático
+- **Tipos de menu** - Menus standalone, menus disparados por trigger e barras de menu
+- **Caixas de seleção e botões de opção** - Itens de menu para alternar e selecionar
+- **Itens desabilitados** - Estados desabilitados suaves ou rígidos com gerenciamento de foco
+- **Fechamento automático** - Fechamento configurável ao selecionar uma opção
+- **Suporte a RTL** - Navegação em idiomas da direita para a esquerda
 
-## Examples
+## Exemplos {#examples}
 
-### Menu with trigger
+### Menu com trigger {#menu-with-trigger}
 
-Create a dropdown menu by pairing a trigger button with a menu. The trigger opens and closes the menu.
+Crie um menu suspenso combinando um botão de trigger com um menu. O trigger abre e fecha o menu.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menu/src/menu-trigger/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menu/src/menu-trigger/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menu/src/menu-trigger/app/app.html"/>
@@ -96,25 +97,25 @@ Create a dropdown menu by pairing a trigger button with a menu. The trigger open
   </docs-tab>
 </docs-tab-group>
 
-The menu automatically closes when a user selects an item or presses Escape.
+O menu fecha automaticamente quando o usuário seleciona um item ou pressiona Escape.
 
-### Context menu
+### Menu de contexto {#context-menu}
 
-Context menus appear at the cursor position when users right-click an element.
+Menus de contexto aparecem na posição do cursor quando o usuário clica com o botão direito em um elemento.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menu/src/menu-context/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/menu/src/menu-context/app/app.ts"/>
   <docs-code header="app.html" path="adev/src/content/examples/aria/menu/src/menu-context/app/app.html"/>
 </docs-code-multifile>
 
-Position the menu using the `contextmenu` event coordinates.
+Posicione o menu usando as coordenadas do evento `contextmenu`.
 
-### Standalone menu
+### Menu standalone {#standalone-menu}
 
-A standalone menu doesn't require a trigger and remains visible in the interface.
+Um menu standalone não precisa de um trigger e permanece visível na interface.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menu/src/menu-standalone/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menu/src/menu-standalone/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menu/src/menu-standalone/app/app.html"/>
@@ -139,14 +140,14 @@ A standalone menu doesn't require a trigger and remains visible in the interface
   </docs-tab>
 </docs-tab-group>
 
-Standalone menus work well for always-visible action lists or navigation.
+Menus standalone funcionam bem para listas de ações ou de navegação que devem estar sempre visíveis.
 
-### Disabled menu items
+### Itens de menu desabilitados {#disabled-menu-items}
 
-Disable specific menu items using the `disabled` input. Control focus behavior with `softDisabled`.
+Desabilite itens específicos do menu usando a entrada `disabled`. Controle o comportamento do foco com `softDisabled`.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menu/src/menu-trigger-disabled/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menu/src/menu-trigger-disabled/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menu/src/menu-trigger-disabled/app/app.html"/>
@@ -171,19 +172,19 @@ Disable specific menu items using the `disabled` input. Control focus behavior w
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"`, disabled items can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
+Quando `[softDisabled]="true"`, itens desabilitados podem receber foco, mas não podem ser ativados. Quando `[softDisabled]="false"`, itens desabilitados são ignorados durante a navegação pelo teclado.
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing menu components.
-Here is an example of how to use the harnesses in a component test:
+A Angular Aria oferece harnesses de componente para testar componentes de menu.
+Veja a seguir um exemplo de como usar os harnesses em um teste de componente:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {MenuHarness, MenuItemHarness} from '@angular/aria/menu/testing';
-import {MyMenuComponent} from './my-menu'; // Your component
+import {MyMenuComponent} from './my-menu'; // Seu componente
 
 describe('MyMenuComponent', () => {
   let fixture: ComponentFixture<MyMenuComponent>;
@@ -200,25 +201,25 @@ describe('MyMenuComponent', () => {
   });
 
   it('should open menu and click item', async () => {
-    // Load the menu harness by its trigger text
+    // Carrega o harness do menu pelo texto do trigger
     const menu = await loader.getHarness(MenuHarness.with({triggerText: 'Open Menu'}));
 
-    // Verify initial state
+    // Verifica o estado inicial
     expect(await menu.isOpen()).toBe(false);
 
-    // Open the menu
+    // Abre o menu
     await menu.open();
     expect(await menu.isOpen()).toBe(true);
 
-    // Get items
+    // Obtém os itens
     const items = await menu.getItems();
     expect(items.length).toBe(3);
     expect(await items[0].getText()).toBe('Item 1');
 
-    // Click first item
+    // Clica no primeiro item
     await items[0].click();
 
-    // Menu should close after selection (depending on your implementation)
+    // O menu deve fechar após a seleção (depende da sua implementação)
     expect(await menu.isOpen()).toBe(false);
   });
 
@@ -226,26 +227,26 @@ describe('MyMenuComponent', () => {
     const menu = await loader.getHarness(MenuHarness.with({triggerText: 'Open Menu'}));
     await menu.open();
 
-    // Get the item that triggers a submenu
+    // Obtém o item que abre um submenu
     const subItem = await loader.getHarness(MenuItemHarness.with({text: 'Submenu'}));
     expect(await subItem.hasSubmenu()).toBe(true);
 
-    // Open submenu
+    // Abre o submenu
     await subItem.click();
     const submenu = await subItem.getSubmenu();
     expect(submenu).toBeTruthy();
     expect(await submenu!.isOpen()).toBe(true);
 
-    // Interact with submenu items
+    // Interage com os itens do submenu
     const subItems = await submenu!.getItems();
     expect(subItems.length).toBe(1);
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`Menu`](/api/aria/menu/Menu)
 - [`MenuBar`](/api/aria/menu/MenuBar)

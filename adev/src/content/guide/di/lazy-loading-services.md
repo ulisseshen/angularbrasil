@@ -1,14 +1,15 @@
-# Lazy loading services
+<!-- ia-translate: true -->
+# Lazy loading de services {#lazy-loading-services}
 
-IMPORTANT: For lazy loading to work, the service you load must be auto-provided. Decorate it with either `@Injectable({providedIn: 'root'})` or [`@Service()`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator). Without auto-provisioning, Angular has no way to construct the service after it loads.
+IMPORTANT: Para que o lazy loading funcione, o service que você carrega precisa ser provido automaticamente. Decore-o com `@Injectable({providedIn: 'root'})` ou com [`@Service()`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator). Sem o provimento automático, o Angular não tem como construir o service depois que ele é carregado.
 
-Angular's `injectAsync` function lets you load a service on demand, only when it's actually needed. This is useful when a service depends on a large library or rarely used feature, and you don't want to pay for it on the initial page load.
+A função `injectAsync` do Angular permite carregar um service sob demanda, somente quando ele realmente é necessário. Isso é útil quando um service depende de uma biblioteca grande ou de um recurso pouco usado, e você não quer pagar por ele no carregamento inicial da página.
 
-When you use `injectAsync`, the service's code is split out by your bundler into a separate JavaScript chunk and downloaded the first time you ask for the instance. Once loaded, Angular resolves the service through the regular DI system, so it can still depend on other injectables and behaves like any other singleton.
+Quando você usa `injectAsync`, o código do service é separado pelo seu bundler em um chunk JavaScript próprio, que é baixado na primeira vez que você pede a instância. Depois de carregado, o Angular resolve o service pelo sistema de DI normal, então ele ainda pode depender de outros injectables e se comporta como qualquer outro singleton.
 
-## Lazily injecting a service
+## Injetando um service de forma preguiçosa {#lazily-injecting-a-service}
 
-Imagine a `ReportExporter` that depends on a heavy spreadsheet library. Most users open the report; only a few click **Export**. Load the exporter on demand:
+Imagine um `ReportExporter` que depende de uma biblioteca pesada de planilhas. A maioria dos usuários abre o relatório; apenas alguns clicam em **Export**. Carregue o exportador sob demanda:
 
 ```angular-ts
 import {Component, injectAsync} from '@angular/core';
@@ -27,9 +28,9 @@ export class Report {
 }
 ```
 
-The first call to `this.exporter()` triggers the dynamic import and resolves the service from DI. Subsequent calls reuse the same promise, so the chunk is only fetched once.
+A primeira chamada a `this.exporter()` dispara o import dinâmico e resolve o service a partir do DI. As chamadas seguintes reutilizam a mesma promise, então o chunk é buscado apenas uma vez.
 
-If the lazy-loaded service is the [default export](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export), pass the dynamic import directly, Angular unwraps the `default` for you:
+Se o service carregado de forma preguiçosa for o [export default](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export), passe o import dinâmico diretamente, e o Angular desembrulha o `default` para você:
 
 ```ts {header: "report-exporter.ts"}
 @Service()
@@ -42,11 +43,11 @@ export default class ReportExporter {
 private exporter = injectAsync(() => import('./report-exporter'));
 ```
 
-## Prefetching the dependency
+## Pré-carregando a dependência {#prefetching-the-dependency}
 
-By default, the lazy chunk is only fetched when you invoke the returned function. You can start the download earlier by passing a `prefetch` trigger in the options. A trigger is any function that returns a `Promise`, when it resolves, Angular kicks off the loader.
+Por padrão, o chunk preguiçoso só é buscado quando você invoca a função retornada. Você pode iniciar o download mais cedo passando um gatilho de `prefetch` nas opções. Um gatilho é qualquer função que retorna uma `Promise`; quando ela é resolvida, o Angular inicia o loader.
 
-Angular ships with `onIdle`, a built-in trigger that waits until the browser becomes idle:
+O Angular traz o `onIdle`, um gatilho embutido que espera até que o navegador fique ocioso:
 
 ```ts
 import {Component, injectAsync, onIdle} from '@angular/core';
@@ -59,17 +60,17 @@ export class Report {
 }
 ```
 
-You can also configure `onIdle` with a maximum wait time so the prefetch always happens within a known window, even on busy pages:
+Você também pode configurar o `onIdle` com um tempo máximo de espera, para que o pré-carregamento sempre aconteça dentro de uma janela conhecida, mesmo em páginas ocupadas:
 
 ```ts
 injectAsync(loader, {prefetch: () => onIdle({timeout: 1_000})});
 ```
 
-NOTE: Prefetching is opportunistic. If the user invokes the feature before the prefetch fires, Angular still loads the dependency immediately and resolves your `await` as soon as it's ready.
+NOTE: O pré-carregamento é oportunista. Se o usuário acionar o recurso antes de o pré-carregamento disparar, o Angular ainda carrega a dependência imediatamente e resolve o seu `await` assim que ela estiver pronta.
 
-## Provide a custom prefetch trigger
+## Fornecendo um gatilho de pré-carregamento personalizado {#provide-a-custom-prefetch-trigger}
 
-A `PrefetchTrigger` is just a function that returns a promise, the loader runs as soon as the promise resolves. Use this to align prefetching with your own signals, such as a hover or a scheduler tick:
+Um `PrefetchTrigger` é apenas uma função que retorna uma promise; o loader roda assim que a promise é resolvida. Use isso para alinhar o pré-carregamento com os seus próprios sinais, como um hover ou um tick de um scheduler:
 
 ```ts
 import {PrefetchTrigger} from '@angular/core';

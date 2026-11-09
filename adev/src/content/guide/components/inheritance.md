@@ -1,11 +1,11 @@
-# Inheritance
+<!-- ia-translate: true -->
+# Herança {#inheritance}
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: Este guia pressupõe que você já leu o [Guia de Fundamentos](essentials). Leia-o primeiro se você é novo no Angular.
 
-Angular components are TypeScript classes and participate in standard JavaScript inheritance
-semantics.
+Components Angular são classes TypeScript e participam da semântica de herança padrão do JavaScript.
 
-A component can extend any base class:
+Um component pode estender qualquer classe base:
 
 ```ts
 export class ListboxBase {
@@ -14,15 +14,13 @@ export class ListboxBase {
 
 @Component(/* ... */)
 export class CustomListbox extends ListboxBase {
-  // CustomListbox inherits the `value` property.
+  // CustomListbox herda a propriedade `value`.
 }
 ```
 
-## Extending other components and directives
+## Estendendo outros components e directives {#extending-other-components-and-directives}
 
-When a component extends another component or a directive, it inherits some of the metadata defined in
-the base class's decorator and the base class's decorated members. This includes
-host bindings, inputs, outputs, lifecycle methods.
+Quando um component estende outro component ou uma directive, ele herda parte dos metadados definidos no decorator da classe base e dos membros decorados da classe base. Isso inclui bindings de host, inputs, outputs e métodos de ciclo de vida.
 
 ```angular-ts
 @Component({
@@ -54,16 +52,13 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-In the example above, `CustomListbox` inherits all the information associated with `ListboxBase`,
-overriding the selector and template with its own values. `CustomListbox` has two inputs (`value`
-and `disabled`) and two event listeners (`keydown` and `click`).
+No exemplo acima, `CustomListbox` herda todas as informações associadas a `ListboxBase`, sobrescrevendo o seletor e o template com seus próprios valores. `CustomListbox` tem dois inputs (`value` e `disabled`) e dois event listeners (`keydown` e `click`).
 
-Child classes end up with the _union_ of all of their ancestors' inputs, outputs, and host bindings
-and their own.
+Classes filhas acabam com a _união_ de todos os inputs, outputs e bindings de host de seus ancestrais, além dos próprios.
 
-### Forwarding injected dependencies
+### Encaminhando dependências injetadas {#forwarding-injected-dependencies}
 
-When a base class uses `inject()` as a property initializer, the child class inherits the property automatically. No `super` forwarding is needed.
+Quando uma classe base usa `inject()` como inicializador de propriedade, a classe filha herda a propriedade automaticamente. Não é necessário encaminhar nada com `super`.
 
 ```ts
 @Component(/* ... */)
@@ -73,11 +68,11 @@ export class ListboxBase {
 
 @Component(/* ... */)
 export class CustomListbox extends ListboxBase {
-  // `element` is inherited from `ListboxBase`.
+  // `element` é herdado de `ListboxBase`.
 }
 ```
 
-If a base class injects dependencies as constructor parameters, the child class must explicitly pass these dependencies to `super`.
+Se uma classe base injeta dependências como parâmetros do constructor, a classe filha deve passar explicitamente essas dependências para `super`.
 
 ```ts
 @Component(/* ... */)
@@ -93,11 +88,9 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-### Overriding lifecycle methods
+### Sobrescrevendo métodos de ciclo de vida {#overriding-lifecycle-methods}
 
-If a base class defines a lifecycle method, such as `ngOnInit`, a child class that also
-implements `ngOnInit` _overrides_ the base class's implementation. If you want to preserve the base
-class's lifecycle method, explicitly call the method with `super`:
+Se uma classe base define um método de ciclo de vida, como `ngOnInit`, uma classe filha que também implementa `ngOnInit` _sobrescreve_ a implementação da classe base. Se você quiser preservar o método de ciclo de vida da classe base, chame explicitamente o método com `super`:
 
 ```ts
 @Component(/* ... */)
