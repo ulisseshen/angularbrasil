@@ -1,8 +1,9 @@
-# Deferred loading with `@defer`
+<!-- ia-translate: true -->
+# Carregamento diferido com `@defer`
 
-Deferrable views, also known as `@defer` blocks, reduce the initial bundle size of your application by deferring the loading of code that is not strictly necessary for the initial rendering of a page. This often results in a faster initial load and improvement in Core Web Vitals (CWV), primarily Largest Contentful Paint (LCP) and Time to First Byte (TTFB).
+Views diferíveis, também conhecidas como blocos `@defer`, reduzem o tamanho inicial do bundle da sua aplicação ao adiar o carregamento de código que não é estritamente necessário para a renderização inicial de uma página. Isso geralmente resulta em um carregamento inicial mais rápido e em melhorias nos Core Web Vitals (CWV), principalmente Largest Contentful Paint (LCP) e Time to First Byte (TTFB).
 
-To use this feature, you can declaratively wrap a section of your template in a @defer block:
+Para usar este recurso, você pode envolver declarativamente uma seção do seu template em um bloco @defer:
 
 ```angular-html
 @defer {
@@ -10,32 +11,32 @@ To use this feature, you can declaratively wrap a section of your template in a 
 }
 ```
 
-The code for any components, directives, and pipes inside the `@defer` block is split into a separate JavaScript file and loaded only when necessary, after the rest of the template has been rendered.
+O código de quaisquer components, directives e pipes dentro do bloco `@defer` é dividido em um arquivo JavaScript separado e carregado somente quando necessário, depois que o restante do template tiver sido renderizado.
 
-Deferrable views support a variety of triggers, prefetching options, and sub-blocks for placeholder, loading, and error state management.
+Views diferíveis oferecem suporte a uma variedade de triggers, opções de prefetching e sub-blocos para o gerenciamento dos estados de placeholder, loading e error.
 
-## Which dependencies are deferred?
+## Quais dependências são diferidas? {#which-dependencies-are-deferred}
 
-Components, directives, pipes, and any component CSS styles can be deferred when loading an application.
+Components, directives, pipes e quaisquer estilos CSS de components podem ser diferidos ao carregar uma aplicação.
 
-In order for the dependencies within a `@defer` block to be deferred, they need to meet two conditions:
+Para que as dependências dentro de um bloco `@defer` sejam diferidas, elas precisam atender a duas condições:
 
-1. **They must be standalone.** Non-standalone dependencies cannot be deferred and are still eagerly loaded, even if they are inside of `@defer` blocks.
-1. **They cannot be referenced outside of `@defer` blocks within the same file.** If they are referenced outside the `@defer` block or referenced within ViewChild queries, the dependencies will be eagerly loaded.
+1. **Elas devem ser standalone.** Dependências não standalone não podem ser diferidas e continuam sendo carregadas de forma eager, mesmo que estejam dentro de blocos `@defer`.
+1. **Elas não podem ser referenciadas fora de blocos `@defer` dentro do mesmo arquivo.** Se forem referenciadas fora do bloco `@defer` ou dentro de queries ViewChild, as dependências serão carregadas de forma eager.
 
-The _transitive_ dependencies of the components, directives and pipes used in the `@defer` block do not strictly need to be standalone; transitive dependencies can still be declared in an `NgModule` and participate in deferred loading.
+As dependências _transitivas_ dos components, directives e pipes usados no bloco `@defer` não precisam, estritamente, ser standalone; dependências transitivas ainda podem ser declaradas em um `NgModule` e participar do carregamento diferido.
 
-Angular's compiler produces a [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) statement for each component, directive, and pipe used in the `@defer` block. The main content of the block renders after all the imports resolve. Angular does not guarantee any particular order for these imports.
+O compilador do Angular produz uma instrução de [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) para cada component, directive e pipe usado no bloco `@defer`. O conteúdo principal do bloco é renderizado depois que todos os imports forem resolvidos. O Angular não garante nenhuma ordem específica para esses imports.
 
-## How to manage different stages of deferred loading
+## Como gerenciar os diferentes estágios do carregamento diferido {#how-to-manage-different-stages-of-deferred-loading}
 
-`@defer` blocks have several sub blocks to allow you to gracefully handle different stages in the deferred loading process.
+Blocos `@defer` possuem vários sub-blocos que permitem tratar de forma elegante os diferentes estágios do processo de carregamento diferido.
 
 ### `@defer`
 
-This is the primary block that defines the section of content that is lazily loaded. It is not rendered initially– deferred content loads and renders once the specified [trigger](#controlling-deferred-content-loading-with-triggers) occurs or the `when` condition is met.
+Este é o bloco principal, que define a seção de conteúdo carregada de forma lazy. Ele não é renderizado inicialmente: o conteúdo diferido é carregado e renderizado assim que o [trigger](#controlling-deferred-content-loading-with-triggers) especificado ocorrer ou a condição `when` for atendida.
 
-By default, a `@defer` block is triggered when the browser state becomes [idle](/guide/templates/defer#idle).
+Por padrão, um bloco `@defer` é acionado quando o estado do navegador se torna [idle](/guide/templates/defer#idle).
 
 ```angular-html
 @defer {
@@ -43,138 +44,138 @@ By default, a `@defer` block is triggered when the browser state becomes [idle](
 }
 ```
 
-### Show placeholder content with `@placeholder`
+### Mostrar conteúdo de placeholder com `@placeholder` {#show-placeholder-content-with-placeholder}
 
-By default, defer blocks do not render any content before they are triggered.
+Por padrão, blocos defer não renderizam nenhum conteúdo antes de serem acionados.
 
-The `@placeholder` is an optional block that declares what content to show before the `@defer` block is triggered.
+O `@placeholder` é um bloco opcional que declara qual conteúdo mostrar antes que o bloco `@defer` seja acionado.
 
 ```angular-html
 @defer {
   <large-component />
 } @placeholder {
-  <p>Placeholder content</p>
+  <p>Conteúdo de placeholder</p>
 }
 ```
 
-While optional, certain triggers may require the presence of either a `@placeholder` or a [template reference variable](/guide/templates/variables#template-reference-variables) to function. See the [Triggers](#controlling-deferred-content-loading-with-triggers) section for more details.
+Embora opcional, certos triggers podem exigir a presença de um `@placeholder` ou de uma [template reference variable](/guide/templates/variables#template-reference-variables) para funcionar. Consulte a seção [Triggers](#controlling-deferred-content-loading-with-triggers) para mais detalhes.
 
-Angular replaces placeholder content with the main content once loading is complete. You can use any content in the placeholder section including plain HTML, components, directives, and pipes. Keep in mind the _dependencies of the placeholder block are eagerly loaded_.
+O Angular substitui o conteúdo do placeholder pelo conteúdo principal assim que o carregamento é concluído. Você pode usar qualquer conteúdo na seção de placeholder, incluindo HTML simples, components, directives e pipes. Tenha em mente que as _dependências do bloco placeholder são carregadas de forma eager_.
 
-The `@placeholder` block accepts an optional parameter to specify the `minimum` amount of time that this placeholder should be shown after the placeholder content initially renders.
+O bloco `@placeholder` aceita um parâmetro opcional para especificar a quantidade `minimum` de tempo que este placeholder deve ser exibido após o conteúdo do placeholder ser renderizado inicialmente.
 
 ```angular-html
 @defer {
   <large-component />
 } @placeholder (minimum 500ms) {
-  <p>Placeholder content</p>
+  <p>Conteúdo de placeholder</p>
 }
 ```
 
-This `minimum` parameter is specified in time increments of milliseconds (ms) or seconds (s). You can use this parameter to prevent fast flickering of placeholder content in the case that the deferred dependencies are fetched quickly.
+Este parâmetro `minimum` é especificado em incrementos de tempo de milissegundos (ms) ou segundos (s). Você pode usá-lo para evitar um piscar rápido do conteúdo do placeholder caso as dependências diferidas sejam buscadas muito rapidamente.
 
-### Show loading content with `@loading`
+### Mostrar conteúdo de loading com `@loading` {#show-loading-content-with-loading}
 
-The `@loading` block is an optional block that allows you to declare content that is shown while deferred dependencies are loading. It replaces the `@placeholder` block once loading is triggered.
+O bloco `@loading` é um bloco opcional que permite declarar o conteúdo exibido enquanto as dependências diferidas estão sendo carregadas. Ele substitui o bloco `@placeholder` assim que o carregamento é acionado.
 
 ```angular-html
 @defer {
   <large-component />
 } @loading {
-  <img alt="loading..." src="loading.gif" />
+  <img alt="carregando..." src="loading.gif" />
 } @placeholder {
-  <p>Placeholder content</p>
+  <p>Conteúdo de placeholder</p>
 }
 ```
 
-Its dependencies are eagerly loaded (similar to `@placeholder`).
+Suas dependências são carregadas de forma eager (de maneira semelhante ao `@placeholder`).
 
-The `@loading` block accepts two optional parameters to help prevent fast flickering of content that may occur when deferred dependencies are fetched quickly,:
+O bloco `@loading` aceita dois parâmetros opcionais que ajudam a evitar o piscar rápido de conteúdo que pode ocorrer quando as dependências diferidas são buscadas rapidamente:
 
-- `minimum` - the minimum amount of time that this placeholder should be shown
-- `after` - the amount of time to wait after loading begins before showing the loading template
+- `minimum` - a quantidade mínima de tempo que este placeholder deve ser exibido
+- `after` - a quantidade de tempo a esperar após o início do carregamento antes de mostrar o template de loading
 
 ```angular-html
 @defer {
   <large-component />
 } @loading (after 100ms; minimum 1s) {
-  <img alt="loading..." src="loading.gif" />
+  <img alt="carregando..." src="loading.gif" />
 }
 ```
 
-Both parameters are specified in time increments of milliseconds (ms) or seconds (s). In addition, the timers for both parameters begin immediately after the loading has been triggered.
+Ambos os parâmetros são especificados em incrementos de tempo de milissegundos (ms) ou segundos (s). Além disso, os temporizadores dos dois parâmetros começam imediatamente após o carregamento ser acionado.
 
-### Show error state when deferred loading fails with `@error`
+### Mostrar estado de erro quando o carregamento diferido falha com `@error` {#show-error-state-when-deferred-loading-fails-with-error}
 
-The `@error` block is an optional block that displays if deferred loading fails. Similar to `@placeholder` and `@loading`, the dependencies of the @error block are eagerly loaded.
+O bloco `@error` é um bloco opcional que é exibido caso o carregamento diferido falhe. Assim como ocorre com `@placeholder` e `@loading`, as dependências do bloco @error são carregadas de forma eager.
 
 ```angular-html
 @defer {
   <large-component />
 } @error {
-  <p>Failed to load large component.</p>
+  <p>Falha ao carregar o component grande.</p>
 }
 ```
 
-## Controlling deferred content loading with triggers
+## Controlando o carregamento de conteúdo diferido com triggers {#controlling-deferred-content-loading-with-triggers}
 
-You can specify **triggers** that control when Angular loads and displays deferred content.
+Você pode especificar **triggers** que controlam quando o Angular carrega e exibe o conteúdo diferido.
 
-When a `@defer` block is triggered, it replaces placeholder content with lazily loaded content.
+Quando um bloco `@defer` é acionado, ele substitui o conteúdo do placeholder pelo conteúdo carregado de forma lazy.
 
-Multiple event triggers can be defined by separating them with a semicolon, `;` and will be evaluated as OR conditions.
+Vários event triggers podem ser definidos separando-os com ponto e vírgula, `;`, e serão avaliados como condições OR.
 
-There are two types of triggers: `on` and `when`.
+Existem dois tipos de triggers: `on` e `when`.
 
 ### `on`
 
-`on` specifies a condition for when the `@defer` block is triggered.
+`on` especifica uma condição para quando o bloco `@defer` é acionado.
 
-The available triggers are as follows:
+Os triggers disponíveis são os seguintes:
 
-| Trigger                       | Description                                                            |
-| ----------------------------- | ---------------------------------------------------------------------- |
-| [`idle`](#idle)               | Triggers when the browser is idle. Supports an optional timeout.       |
-| [`viewport`](#viewport)       | Triggers when specified content enters the viewport                    |
-| [`interaction`](#interaction) | Triggers when the user interacts with specified element                |
-| [`hover`](#hover)             | Triggers when the mouse hovers over specified area                     |
-| [`immediate`](#immediate)     | Triggers immediately after non-deferred content has finished rendering |
-| [`timer`](#timer)             | Triggers after a specific duration                                     |
+| Trigger                       | Descrição                                                                   |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| [`idle`](#idle)               | Aciona quando o navegador está ocioso. Aceita um timeout opcional.          |
+| [`viewport`](#viewport)       | Aciona quando o conteúdo especificado entra na viewport                     |
+| [`interaction`](#interaction) | Aciona quando o usuário interage com o elemento especificado                |
+| [`hover`](#hover)             | Aciona quando o mouse passa sobre a área especificada                       |
+| [`immediate`](#immediate)     | Aciona imediatamente após o término da renderização do conteúdo não diferido |
+| [`timer`](#timer)             | Aciona após uma duração específica                                          |
 
 #### `idle`
 
-The `idle` trigger loads the deferred content once the browser has reached an idle state, based on requestIdleCallback. This is the default behavior with a defer block.
+O trigger `idle` carrega o conteúdo diferido assim que o navegador atinge um estado ocioso, com base em requestIdleCallback. Este é o comportamento padrão de um bloco defer.
 
-You can optionally specify a timeout in milliseconds that is passed to [`requestIdleCallback`](https://developer.mozilla.org/docs/Web/API/Window/requestIdleCallback). If the browser doesn't schedule the callback soon enough, the work will run no later than the specified timeout.
+Opcionalmente, você pode especificar um timeout em milissegundos que é passado para [`requestIdleCallback`](https://developer.mozilla.org/docs/Web/API/Window/requestIdleCallback). Se o navegador não agendar o callback rápido o suficiente, o trabalho será executado no mais tardar após o timeout especificado.
 
 ```angular-html
 <!-- @defer (on idle) -->
 @defer {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 
-<!-- With a 500ms timeout -->
+<!-- Com timeout de 500ms -->
 @defer (on idle(500)) {
   <large-cmp />
 }
 ```
 
-##### Customizing `idle` behavior
+##### Personalizando o comportamento de `idle` {#customizing-idle-behavior}
 
-You can customize the `idle` trigger by providing your own `IdleService` implementation and registering it with `provideIdleServiceWith` in your application's providers.
+Você pode personalizar o trigger `idle` fornecendo sua própria implementação de `IdleService` e registrando-a com `provideIdleServiceWith` nos providers da sua aplicação.
 
 ```ts
 @Service()
 class CustomIdleService implements IdleService {
   requestOnIdle(callback: (deadline?: IdleDeadline) => void, options?: IdleRequestOptions): number {
-    // Custom idle scheduling logic can be implemented here.
+    // A lógica personalizada de agendamento ocioso pode ser implementada aqui.
     return requestIdleCallback(callback, options);
   }
 
   cancelOnIdle(id: number) {
-    // Implement custom idle cancellation here.
+    // Implemente aqui o cancelamento personalizado de tarefas ociosas.
   }
 }
 
@@ -185,65 +186,65 @@ bootstrapApplication(App, {
 
 #### `viewport`
 
-The `viewport` trigger loads the deferred content when the specified content enters the viewport using the [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API). Observed content may be `@placeholder` content or an explicit element reference.
+O trigger `viewport` carrega o conteúdo diferido quando o conteúdo especificado entra na viewport, usando a [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API). O conteúdo observado pode ser o conteúdo do `@placeholder` ou uma referência explícita a um elemento.
 
-By default, the `@defer` watches for the placeholder entering the viewport. Placeholders used this way must have a single root element.
+Por padrão, o `@defer` observa o placeholder entrando na viewport. Placeholders usados dessa forma devem ter um único elemento raiz.
 
 ```angular-html
 @defer (on viewport) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 ```
 
-Alternatively, you can specify a [template reference variable](/guide/templates/variables) in the same template as the `@defer` block as the element that is watched to enter the viewport. This variable is passed in as a parameter on the viewport trigger.
+Alternativamente, você pode especificar uma [template reference variable](/guide/templates/variables) no mesmo template que o bloco `@defer` como o elemento observado para entrar na viewport. Essa variável é passada como parâmetro no trigger viewport.
 
 ```angular-html
-<div #greeting>Hello!</div>
+<div #greeting>Olá!</div>
 @defer (on viewport(greeting)) {
   <greetings-cmp />
 }
 ```
 
-If you want to customize the options of the `IntersectionObserver`, the `viewport` trigger supports passing in an object literal. The literal supports all properties from the second parameter of `IntersectionObserver`, except for `root`. When using the object literal notation, you have to pass your trigger using the `trigger` property.
+Se você quiser personalizar as opções do `IntersectionObserver`, o trigger `viewport` aceita um objeto literal. O literal suporta todas as propriedades do segundo parâmetro de `IntersectionObserver`, exceto `root`. Ao usar a notação de objeto literal, você precisa passar seu trigger pela propriedade `trigger`.
 
 ```angular-html
-<div #greeting>Hello!</div>
+<div #greeting>Olá!</div>
 
-<!-- With options and a trigger -->
+<!-- Com opções e um trigger -->
 @defer (
   on viewport({trigger: greeting, rootMargin: '100px', scrollMargin: '50px', threshold: 0.5})
 ) {
   <greetings-cmp />
 }
 
-<!-- With options and an implied trigger -->
+<!-- Com opções e um trigger implícito -->
 @defer (on viewport({rootMargin: '100px', scrollMargin: '50px', threshold: 0.5})) {
   <greetings-cmp />
 } @placeholder {
-  <div>Implied trigger</div>
+  <div>Trigger implícito</div>
 }
 ```
 
 #### `interaction`
 
-The `interaction` trigger loads the deferred content when the user interacts with the specified element through `click` or `keydown` events.
+O trigger `interaction` carrega o conteúdo diferido quando o usuário interage com o elemento especificado por meio dos eventos `click` ou `keydown`.
 
-By default, the placeholder acts as the interaction element. Placeholders used this way must have a single root element.
+Por padrão, o placeholder atua como o elemento de interação. Placeholders usados dessa forma devem ter um único elemento raiz.
 
 ```angular-html
 @defer (on interaction) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 ```
 
-Alternatively, you can specify a [template reference variable](/guide/templates/variables) in the same template as the `@defer` block as the element that is watched for interactions. This variable is passed in as a parameter on the interaction trigger.
+Alternativamente, você pode especificar uma [template reference variable](/guide/templates/variables) no mesmo template que o bloco `@defer` como o elemento observado para interações. Essa variável é passada como parâmetro no trigger interaction.
 
 ```angular-html
-<div #greeting>Hello!</div>
+<div #greeting>Olá!</div>
 @defer (on interaction(greeting)) {
   <greetings-cmp />
 }
@@ -251,22 +252,22 @@ Alternatively, you can specify a [template reference variable](/guide/templates/
 
 #### `hover`
 
-The `hover` trigger loads the deferred content when the mouse has hovered over the triggered area through the `mouseover` and `focusin` events.
+O trigger `hover` carrega o conteúdo diferido quando o mouse passa sobre a área acionada, por meio dos eventos `mouseover` e `focusin`.
 
-By default, the placeholder acts as the interaction element. Placeholders used this way must have a single root element.
+Por padrão, o placeholder atua como o elemento de interação. Placeholders usados dessa forma devem ter um único elemento raiz.
 
 ```angular-html
 @defer (on hover) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 ```
 
-Alternatively, you can specify a [template reference variable](/guide/templates/variables) in the same template as the `@defer` block as the element that is hovered over. This variable is passed in as a parameter on the hover trigger.
+Alternativamente, você pode especificar uma [template reference variable](/guide/templates/variables) no mesmo template que o bloco `@defer` como o elemento sobre o qual o mouse passa. Essa variável é passada como parâmetro no trigger hover.
 
 ```angular-html
-<div #greeting>Hello!</div>
+<div #greeting>Olá!</div>
 @defer (on hover(greeting)) {
   <greetings-cmp />
 }
@@ -274,74 +275,74 @@ Alternatively, you can specify a [template reference variable](/guide/templates/
 
 #### `immediate`
 
-The `immediate` trigger loads the deferred content immediately. This means that the deferred block loads as soon as all other non-deferred content has finished rendering.
+O trigger `immediate` carrega o conteúdo diferido imediatamente. Isso significa que o bloco diferido é carregado assim que todo o restante do conteúdo não diferido tiver terminado de renderizar.
 
 ```angular-html
 @defer (on immediate) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 ```
 
 #### `timer`
 
-The `timer` trigger loads the deferred content after a specified duration.
+O trigger `timer` carrega o conteúdo diferido após uma duração especificada.
 
 ```angular-html
 @defer (on timer(500ms)) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 ```
 
-The duration parameter must be specified in milliseconds (`ms`) or seconds (`s`).
+O parâmetro de duração deve ser especificado em milissegundos (`ms`) ou segundos (`s`).
 
 ### `when`
 
-The `when` trigger accepts a custom conditional expression and loads the deferred content when the condition becomes truthy.
+O trigger `when` aceita uma expressão condicional personalizada e carrega o conteúdo diferido quando a condição se torna truthy.
 
 ```angular-html
 @defer (when condition) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 ```
 
-This is a one-time operation– the `@defer` block does not revert back to the placeholder if the condition changes to a falsy value after becoming truthy.
+Esta é uma operação única: o bloco `@defer` não volta ao placeholder se a condição mudar para um valor falsy depois de se tornar truthy.
 
-## Prefetching data with `prefetch`
+## Pré-buscando dados com `prefetch` {#prefetching-data-with-prefetch}
 
-In addition to specifying a condition that determines when deferred content is shown, you can optionally specify a **prefetch trigger**. This trigger lets you load the JavaScript associated with the `@defer` block before the deferred content is shown.
+Além de especificar uma condição que determina quando o conteúdo diferido é exibido, você pode, opcionalmente, especificar um **prefetch trigger**. Esse trigger permite carregar o JavaScript associado ao bloco `@defer` antes que o conteúdo diferido seja exibido.
 
-Prefetching enables more advanced behaviors, such as letting you start to prefetch resources before a user has actually seen or interacted with a defer block, but might interact with it soon, making the resources available faster.
+O prefetching habilita comportamentos mais avançados, como começar a pré-buscar recursos antes que o usuário tenha de fato visto ou interagido com um bloco defer, mas que possa interagir com ele em breve, deixando os recursos disponíveis mais rapidamente.
 
-You can specify a prefetch trigger similarly to the block's main trigger, but prefixed with the `prefetch` keyword. The block's main trigger and prefetch trigger are separated with a semi-colon character (`;`).
+Você pode especificar um prefetch trigger de forma semelhante ao trigger principal do bloco, mas prefixado com a palavra-chave `prefetch`. O trigger principal do bloco e o prefetch trigger são separados por um caractere de ponto e vírgula (`;`).
 
-In the example below, the prefetching starts when a browser becomes idle and the contents of the block is rendered only once the user interacts with the placeholder.
+No exemplo abaixo, o prefetching começa quando o navegador fica ocioso, e o conteúdo do bloco é renderizado somente depois que o usuário interage com o placeholder.
 
 ```angular-html
 @defer (on interaction; prefetch on idle) {
   <large-cmp />
 } @placeholder {
-  <div>Large component placeholder</div>
+  <div>Placeholder do component grande</div>
 }
 
-<!-- Prefetching with a 500ms idle timeout -->
+<!-- Prefetching com timeout de 500ms para o idle -->
 @defer (on interaction; prefetch on idle(500)) {
   <large-cmp />
 }
 ```
 
-## Testing `@defer` blocks
+## Testando blocos `@defer` {#testing-defer-blocks}
 
-Angular provides TestBed APIs to simplify the process of testing `@defer` blocks and triggering different states during testing. By default, `@defer` blocks in tests play through like a defer block would behave in a real application. If you want to manually step through states, you can switch the defer block behavior to `Manual` in the TestBed configuration.
+O Angular fornece APIs do TestBed para simplificar o processo de testar blocos `@defer` e acionar diferentes estados durante o teste. Por padrão, os blocos `@defer` nos testes se comportam como se comportariam em uma aplicação real. Se você quiser percorrer os estados manualmente, pode mudar o comportamento do bloco defer para `Manual` na configuração do TestBed.
 
 ```angular-ts
 it('should render a defer block in different states', async () => {
-  // configures the defer block behavior to start in "paused" state for manual control.
+  // configura o comportamento do bloco defer para iniciar no estado "pausado", para controle manual.
   TestBed.configureTestingModule({deferBlockBehavior: DeferBlockBehavior.Manual});
   @Component({
     // ...
@@ -356,38 +357,38 @@ it('should render a defer block in different states', async () => {
     `,
   })
   class ExampleA {}
-  // Create component fixture.
+  // Cria o fixture do component.
   const componentFixture = TestBed.createComponent(ExampleA);
-  // Retrieve the list of all defer block fixtures and get the first block.
+  // Obtém a lista de todos os fixtures de blocos defer e pega o primeiro bloco.
   const deferBlockFixture = (await componentFixture.getDeferBlocks())[0];
-  // Renders placeholder state by default.
+  // Renderiza o estado de placeholder por padrão.
   expect(componentFixture.nativeElement.innerHTML).toContain('Placeholder');
-  // Render loading state and verify rendered output.
+  // Renderiza o estado de loading e verifica a saída renderizada.
   await deferBlockFixture.render(DeferBlockState.Loading);
   expect(componentFixture.nativeElement.innerHTML).toContain('Loading');
-  // Render final state and verify the output.
+  // Renderiza o estado final e verifica a saída.
   await deferBlockFixture.render(DeferBlockState.Complete);
   expect(componentFixture.nativeElement.innerHTML).toContain('large works!');
 });
 ```
 
-## Does `@defer` work with `NgModule`?
+## O `@defer` funciona com `NgModule`? {#does-defer-work-with-ngmodule}
 
-`@defer` blocks are compatible with both standalone and NgModule-based components, directives and pipes. However, **only standalone components, directives and pipes can be deferred**. NgModule-based dependencies are not deferred and are included in the eagerly loaded bundle.
+Blocos `@defer` são compatíveis tanto com components, directives e pipes standalone quanto com os baseados em NgModule. No entanto, **apenas components, directives e pipes standalone podem ser diferidos**. Dependências baseadas em NgModule não são diferidas e são incluídas no bundle carregado de forma eager.
 
-## Compatibility between `@defer` blocks and Hot Module Reload (HMR)
+## Compatibilidade entre blocos `@defer` e Hot Module Reload (HMR) {#compatibility-between-defer-blocks-and-hot-module-reload-hmr}
 
-When Hot Module Replacement (HMR) is active, all `@defer` block chunks are fetched eagerly, overriding any configured triggers. To restore the standard trigger behavior, you must disable HMR by serving your application with the `--no-hmr` flag.
+Quando o Hot Module Replacement (HMR) está ativo, todos os chunks dos blocos `@defer` são buscados de forma eager, sobrescrevendo quaisquer triggers configurados. Para restaurar o comportamento padrão dos triggers, você deve desabilitar o HMR, servindo sua aplicação com a flag `--no-hmr`.
 
-## How does `@defer` work with server-side rendering (SSR) and static-site generation (SSG)?
+## Como o `@defer` funciona com server-side rendering (SSR) e static-site generation (SSG)? {#how-does-defer-work-with-server-side-rendering-ssr-and-static-site-generation-ssg}
 
-By default, when rendering an application on the server (either using SSR or SSG), defer blocks always render their `@placeholder` (or nothing if a placeholder is not specified) and triggers are not invoked. On the client, the content of the `@placeholder` is hydrated and triggers are activated.
+Por padrão, ao renderizar uma aplicação no servidor (usando SSR ou SSG), os blocos defer sempre renderizam seu `@placeholder` (ou nada, caso um placeholder não seja especificado) e os triggers não são invocados. No cliente, o conteúdo do `@placeholder` é hidratado e os triggers são ativados.
 
-To render the main content of `@defer` blocks on the server (both SSR and SSG), you can enable [the Incremental Hydration feature](/guide/incremental-hydration) and configure `hydrate` triggers for the necessary blocks.
+Para renderizar o conteúdo principal dos blocos `@defer` no servidor (tanto em SSR quanto em SSG), você pode habilitar [o recurso de Incremental Hydration](/guide/incremental-hydration) e configurar triggers `hydrate` para os blocos necessários.
 
-## Barrel files and lazy chunks
+## Barrel files e chunks lazy {#barrel-files-and-lazy-chunks}
 
-If you're using `@defer` but not seeing a separate lazy chunk in your build output, check how you're importing the deferred component. Importing through a barrel file (`index.ts`) is a common culprit — bundlers see the barrel as a single module and keep all its exports together, so your component ends up in the main bundle regardless of `@defer`.
+Se você está usando `@defer`, mas não vê um chunk lazy separado na saída do build, verifique como está importando o component diferido. Importar por meio de um barrel file (`index.ts`) é um vilão comum: os bundlers veem o barrel como um único módulo e mantêm todas as suas exportações juntas, então seu component acaba no bundle principal independentemente do `@defer`.
 
 ```typescript {header: "index.ts"}
 export {HeavyComponent} from './heavy.component';
@@ -396,7 +397,7 @@ export {OtherComponent} from './other.component';
 
 ```typescript {header: "parent.component.ts"}
 import {Component} from '@angular/core';
-import {HeavyComponent} from './index'; // pulls in OtherComponent too
+import {HeavyComponent} from './index'; // puxa o OtherComponent também
 
 @Component({
   imports: [HeavyComponent],
@@ -407,45 +408,44 @@ import {HeavyComponent} from './index'; // pulls in OtherComponent too
 export class ParentComponent {}
 ```
 
-The fix is straightforward — import directly from the component's own file:
+A correção é simples: importe diretamente do próprio arquivo do component:
 
 ```typescript
 import {HeavyComponent} from './heavy.component';
 ```
 
-That's enough for the bundler to split it into its own chunk and load it lazily when the trigger fires.
+Isso basta para o bundler separá-lo em um chunk próprio e carregá-lo de forma lazy quando o trigger for acionado.
 
-## Best practices for deferring views
+## Boas práticas para diferir views {#best-practices-for-deferring-views}
 
-### Avoid cascading loads with nested `@defer` blocks
+### Evite carregamentos em cascata com blocos `@defer` aninhados {#avoid-cascading-loads-with-nested-defer-blocks}
 
-When you have nested `@defer` blocks, they should have different triggers in order to avoid loading simultaneously, which causes cascading requests and may negatively impact page load performance.
+Quando você tem blocos `@defer` aninhados, eles devem ter triggers diferentes para evitar o carregamento simultâneo, que causa requisições em cascata e pode afetar negativamente a performance de carregamento da página.
 
-### Avoid layout shifts
+### Evite mudanças de layout {#avoid-layout-shifts}
 
-Avoid deferring components that are visible in the user’s viewport on initial load. Doing this may negatively affect Core Web Vitals by causing an increase in cumulative layout shift (CLS).
+Evite diferir components que estão visíveis na viewport do usuário no carregamento inicial. Fazer isso pode afetar negativamente os Core Web Vitals, causando um aumento no cumulative layout shift (CLS).
 
-In the event this is necessary, avoid `immediate`, `timer`, `viewport`, and custom `when` triggers that cause the content to load during the initial page render.
+Caso isso seja necessário, evite os triggers `immediate`, `timer`, `viewport` e `when` personalizados que causam o carregamento do conteúdo durante a renderização inicial da página.
 
-### Keep accessibility in mind
+### Mantenha a acessibilidade em mente {#keep-accessibility-in-mind}
 
-When using `@defer` blocks, consider the impact on users with assistive technologies like screen readers.
-Screen readers that focus on a deferred section will initially read the placeholder or loading content, but may not announce changes when the deferred content loads.
+Ao usar blocos `@defer`, considere o impacto em usuários que utilizam tecnologias assistivas, como leitores de tela. Leitores de tela que focam em uma seção diferida inicialmente vão ler o conteúdo do placeholder ou do loading, mas podem não anunciar as mudanças quando o conteúdo diferido for carregado.
 
-To ensure deferred content changes are announced to screen readers, you can wrap your `@defer` block in an element with a live region:
+Para garantir que as mudanças no conteúdo diferido sejam anunciadas aos leitores de tela, você pode envolver seu bloco `@defer` em um elemento com uma live region:
 
 ```angular-html
 <div aria-live="polite" aria-atomic="true">
   @defer (on timer(2000)) {
     <user-profile [user]="currentUser" />
   } @placeholder {
-    Loading user profile...
+    Carregando perfil do usuário...
   } @loading {
-    Please wait...
+    Aguarde...
   } @error {
-    Failed to load profile
+    Falha ao carregar o perfil
   }
 </div>
 ```
 
-This ensures that changes are announced to the user when transitions (placeholder &rarr; loading &rarr; content/error) occur.
+Isso garante que as mudanças sejam anunciadas ao usuário quando as transições (placeholder &rarr; loading &rarr; conteúdo/erro) ocorrem.

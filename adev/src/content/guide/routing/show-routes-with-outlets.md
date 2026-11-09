@@ -1,10 +1,11 @@
-# Show routes with outlets
+<!-- ia-translate: true -->
+# Mostrar routes com outlets {#show-routes-with-outlets}
 
-The `RouterOutlet` directive is a placeholder that marks the location where the router should render the component for the current URL.
+A diretiva `RouterOutlet` é um placeholder que marca o local onde o router deve renderizar o component para a URL atual.
 
 ```html
 <app-header />
-<!-- Angular inserts your route content here -->
+<!-- O Angular insere o conteúdo da sua route aqui -->
 <router-outlet />
 <app-footer />
 ```
@@ -22,7 +23,7 @@ import {RouterOutlet} from '@angular/router';
 export class App {}
 ```
 
-In this example, if an application has the following routes defined:
+Neste exemplo, se uma aplicação tiver as seguintes routes definidas:
 
 ```ts
 import {Routes} from '@angular/router';
@@ -43,7 +44,7 @@ const routes: Routes = [
 ];
 ```
 
-When a user visits `/products`, Angular renders the following:
+Quando um usuário visita `/products`, o Angular renderiza o seguinte:
 
 ```angular-html
 <app-header />
@@ -51,7 +52,7 @@ When a user visits `/products`, Angular renders the following:
 <app-footer />
 ```
 
-If the user goes back to the home page, then Angular renders:
+Se o usuário voltar para a página inicial, então o Angular renderiza:
 
 ```angular-html
 <app-header />
@@ -59,30 +60,30 @@ If the user goes back to the home page, then Angular renders:
 <app-footer />
 ```
 
-When displaying a route, the `<router-outlet>` element remains present in the DOM as a reference point for future navigations. Angular inserts routed content just after the outlet element as a sibling.
+Ao exibir uma route, o elemento `<router-outlet>` permanece presente no DOM como ponto de referência para navegações futuras. O Angular insere o conteúdo da route logo após o elemento outlet, como um irmão.
 
 ```angular-html
-<!-- Contents of the component's template -->
+<!-- Conteúdo do template do component -->
 <app-header />
 <router-outlet />
 <app-footer />
 ```
 
 ```angular-html
-<!-- Content rendered on the page when the user visits /admin -->
+<!-- Conteúdo renderizado na página quando o usuário visita /admin -->
 <app-header />
 <router-outlet />
 <app-admin-page />
 <app-footer />
 ```
 
-## Nesting routes with child routes
+## Aninhando routes com child routes {#nesting-routes-with-child-routes}
 
-As your application grows more complex, you might want to create routes that are relative to a component other than your root component. This enables you to create experiences where only part of the application changes when the URL changes, as opposed to the users feeling like the entire page is refreshed.
+À medida que sua aplicação fica mais complexa, você pode querer criar routes que sejam relativas a um component diferente do component raiz. Isso permite criar experiências em que apenas parte da aplicação muda quando a URL muda, em vez de o usuário sentir que a página inteira foi recarregada.
 
-These types of nested routes are called child routes. This means you're adding a second `<router-outlet>` to your app, because it is in addition to the `<router-outlet>` in AppComponent.
+Esses tipos de routes aninhadas são chamados de child routes. Isso significa que você está adicionando um segundo `<router-outlet>` à sua aplicação, pois ele se soma ao `<router-outlet>` do AppComponent.
 
-In this example, the `Settings` component will display the desired panel based on what the user selects. One of the unique things you’ll notice about child routes is that the component often has its own `<nav>` and `<router-outlet>`.
+Neste exemplo, o component `Settings` exibirá o painel desejado de acordo com a opção selecionada pelo usuário. Uma das coisas únicas que você notará nas child routes é que o component frequentemente tem seu próprio `<nav>` e `<router-outlet>`.
 
 ```angular-html
 <h1>Settings</h1>
@@ -95,32 +96,32 @@ In this example, the `Settings` component will display the desired panel based o
 <router-outlet />
 ```
 
-A child route is like any other route, in that it needs both a `path` and a `component`. The one difference is that you place child routes in a children array within the parent route.
+Uma child route é como qualquer outra route, pois precisa tanto de um `path` quanto de um `component`. A única diferença é que você coloca as child routes em um array `children` dentro da route pai.
 
 ```ts
 const routes: Routes = [
   {
     path: 'settings',
-    component: Settings, // this is the component with the <router-outlet> in the template
+    component: Settings, // este é o component com o <router-outlet> no template
     children: [
       {
-        path: 'profile', // child route path
-        component: Profile, // child route component that the router renders
+        path: 'profile', // caminho da child route
+        component: Profile, // component da child route que o router renderiza
       },
       {
         path: 'security',
-        component: Security, // another child route component that the router renders
+        component: Security, // outro component de child route que o router renderiza
       },
     ],
   },
 ];
 ```
 
-Once both the `routes` and `<router-outlet>` are configured correctly, your application is now using nested routes!
+Depois que tanto as `routes` quanto o `<router-outlet>` estiverem configurados corretamente, sua aplicação estará usando routes aninhadas!
 
-## Secondary routes with named outlets
+## Routes secundárias com outlets nomeados {#secondary-routes-with-named-outlets}
 
-Pages may have multiple outlets— you can assign a name to each outlet to specify which content belongs to which outlet.
+As páginas podem ter múltiplos outlets. Você pode atribuir um nome a cada outlet para especificar qual conteúdo pertence a qual outlet.
 
 ```angular-html
 <app-header />
@@ -130,9 +131,9 @@ Pages may have multiple outlets— you can assign a name to each outlet to speci
 <app-footer />
 ```
 
-Each outlet must have a unique name. You can bind the name to a value. When the value changes, the outlet destroys its current component and renders the route for the new name, if one matches. By default, the name is `'primary'`.
+Cada outlet deve ter um nome único. Você pode vincular o nome a um valor. Quando o valor muda, o outlet destrói o component atual e renderiza a route para o novo nome, caso exista uma correspondente. Por padrão, o nome é `'primary'`.
 
-Angular matches the outlet's name to the `outlet` property defined on each route:
+O Angular faz a correspondência entre o nome do outlet e a propriedade `outlet` definida em cada route:
 
 ```ts
 {
@@ -142,18 +143,18 @@ Angular matches the outlet's name to the `outlet` property defined on each route
 }
 ```
 
-## Outlet lifecycle events
+## Eventos de ciclo de vida do outlet {#outlet-lifecycle-events}
 
-There are four lifecycle events that a router outlet can emit:
+Existem quatro eventos de ciclo de vida que um router outlet pode emitir:
 
-| Event        | Description                                                              |
-| ------------ | ------------------------------------------------------------------------ |
-| `activate`   | When a new component is instantiated                                     |
-| `deactivate` | When a component is destroyed                                            |
-| `attach`     | When the `RouteReuseStrategy` instructs the outlet to attach the subtree |
-| `detach`     | When the `RouteReuseStrategy` instructs the outlet to detach the subtree |
+| Evento       | Descrição                                                                          |
+| ------------ | ---------------------------------------------------------------------------------- |
+| `activate`   | Quando um novo component é instanciado                                             |
+| `deactivate` | Quando um component é destruído                                                    |
+| `attach`     | Quando o `RouteReuseStrategy` instrui o outlet a anexar a subárvore                |
+| `detach`     | Quando o `RouteReuseStrategy` instrui o outlet a desanexar a subárvore             |
 
-You can add event listeners with the standard event binding syntax:
+Você pode adicionar event listeners com a sintaxe padrão de event binding:
 
 ```angular-html
 <router-outlet
@@ -164,11 +165,11 @@ You can add event listeners with the standard event binding syntax:
 />
 ```
 
-Check out the [API docs for RouterOutlet](/api/router/RouterOutlet?tab=api) if you’d like to learn more.
+Confira a [documentação da API do RouterOutlet](/api/router/RouterOutlet?tab=api) se quiser saber mais.
 
-## Passing contextual data to routed components
+## Passando dados contextuais para components roteados {#passing-contextual-data-to-routed-components}
 
-Passing contextual data to routed components often requires global state or complicated route configurations. To make this easier, each `RouterOutlet` supports a `routerOutletData` input. Routed components and their children can read this data as a signal using the `ROUTER_OUTLET_DATA` injection token, allowing outlet-specific configuration without modifying route definitions.
+Passar dados contextuais para components roteados frequentemente exige estado global ou configurações de route complicadas. Para facilitar isso, cada `RouterOutlet` oferece suporte a um input `routerOutletData`. Components roteados e seus filhos podem ler esses dados como um signal usando o token de injeção `ROUTER_OUTLET_DATA`, o que permite configuração específica de cada outlet sem modificar as definições de route.
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -185,7 +186,7 @@ import {RouterOutlet} from '@angular/router';
 export class Dashboard {}
 ```
 
-The routed component can inject the provided outlet data using `ROUTER_OUTLET_DATA`:
+O component roteado pode injetar os dados do outlet fornecidos usando `ROUTER_OUTLET_DATA`:
 
 ```angular-ts
 import {Component, inject, Signal} from '@angular/core';
@@ -200,12 +201,12 @@ export class Stats {
 }
 ```
 
-When Angular activates the `Stats` in that outlet, it receives `{ layout: 'sidebar' }` as injected data.
+Quando o Angular ativa o `Stats` nesse outlet, ele recebe `{ layout: 'sidebar' }` como dados injetados.
 
-NOTE: When the `routerOutletData` input is unset, the injected signal's value is `undefined` by default.
+NOTE: Quando o input `routerOutletData` não está definido, o valor do signal injetado é `undefined` por padrão.
 
 ---
 
-## Next steps
+## Próximos passos {#next-steps}
 
-Learn how to [navigate to routes](/guide/routing/navigate-to-routes) with Angular Router.
+Aprenda como [navegar para routes](/guide/routing/navigate-to-routes) com o Angular Router.
