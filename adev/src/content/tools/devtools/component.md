@@ -79,4 +79,3 @@ Aqui está uma ilustração dos overlays de hidratação em um app de e-shop de 
 ### Depurar o grafo de signals {#debug-the-signal-graph}
 
 Para visualizar como os signals, computeds e effects de um component dependem uns dos outros, veja [Depure o grafo de signals](tools/devtools/signals).
-</content>

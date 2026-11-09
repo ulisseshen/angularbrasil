@@ -47,4 +47,3 @@ Ao compilar para produção, o Angular CLI remove vários recursos de debug para
 
 Para executar o DevTools, você precisa compilar sua aplicação com as otimizações desabilitadas. O `ng serve` faz isso por padrão.
 Se você precisar fazer debug de uma aplicação implantada, desabilite as otimizações no seu build com a [opção de configuração `optimization`](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`).
-</content>

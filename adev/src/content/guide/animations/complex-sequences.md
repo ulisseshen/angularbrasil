@@ -144,4 +144,3 @@ Você também pode estar interessado em:
   <docs-pill href="guide/routing/route-transition-animations" title="Animações de transição de rota"/>
   <docs-pill href="guide/animations/migration" title="Migrando para animações CSS nativas"/>
 </docs-pill-row>
-</content>

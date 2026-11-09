@@ -281,4 +281,3 @@ Você pode recuperar animações de um elemento diretamente usando [`Element.get
 ## Transições de rota {#route-transitions}
 
 Você pode usar view transitions para animar entre rotas. Veja o [guia de animações de transição de rota](guide/routing/route-transition-animations) para começar.
-</content>

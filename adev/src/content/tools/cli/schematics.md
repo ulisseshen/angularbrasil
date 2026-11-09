@@ -26,14 +26,6 @@ ng generate my-schematic-collection:my-schematic-name
 
 ```
 
-ou
-
-```shell
-
-ng generate my-schematic-name --collection collection-name
-
-```
-
 ### Configurando schematics do CLI {#configuring-cli-schematics}
 
 Um schema JSON associado a um schematic informa ao Angular CLI quais opções estão disponíveis para comandos e sub-comandos, e determina os padrões.
@@ -130,4 +122,3 @@ ng update @angular/material
 
 Este comando atualiza tanto o `@angular/material` quanto sua dependência `@angular/cdk` no `package.json` do seu workspace.
 Se qualquer um dos pacotes contiver um update schematic que cubra a migração da versão existente para uma nova versão, o comando executa esse schematic no seu workspace.
-</content>

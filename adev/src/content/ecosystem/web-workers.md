@@ -54,4 +54,3 @@ Depois de criar este esqueleto inicial, você deve refatorar seu código para us
 IMPORTANTE: Alguns ambientes ou plataformas, como `@angular/platform-server` usado em [Server-side Rendering](guide/ssr), não suportam web workers.
 
 Para garantir que sua aplicação funcione nesses ambientes, você deve fornecer um mecanismo de fallback para realizar as computações que o worker normalmente realizaria.
-</content>

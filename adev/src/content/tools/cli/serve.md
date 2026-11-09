@@ -74,4 +74,3 @@ NOTE: Para aplicar alterações feitas no seu arquivo de configuração de proxy
 - `/api` corresponde a `/api` e a qualquer caminho que comece com ele, como `/api/users/123` ou `/api-docs`.
 - `/api/*` corresponde a `/api/users`, mas não a `/api` nem a `/api/users/123`.
 - `/api/**` corresponde a `/api`, `/api/users` e `/api/users/123`, mas não a `/api-docs`.
-</content>

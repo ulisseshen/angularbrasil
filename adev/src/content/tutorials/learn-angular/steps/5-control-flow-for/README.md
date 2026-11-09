@@ -1,16 +1,17 @@
-# Control Flow in Components - `@for`
+<!-- ia-translate: true -->
+# Control flow em components - `@for` {#control-flow-in-components--for}
 
-Often when building web applications, you need to repeat some code a specific number of times - for example, given an array of names, you may want to display each name in a `<p>` tag.
+Muitas vezes, ao construir aplicações web, você precisa repetir algum código um número específico de vezes. Por exemplo, dado um array de nomes, você pode querer exibir cada nome em uma tag `<p>`.
 
-NOTE: Learn more about [control flow in the essentials guide](/essentials/templates#control-flow-with-if-and-for).
+NOTE: Saiba mais sobre [control flow no guia de fundamentos](/essentials/templates#control-flow-with-if-and-for).
 
-In this activity, you'll learn how to use `@for` to repeat elements in a template.
+Nesta atividade, você aprenderá como usar `@for` para repetir elementos em um template.
 
 <hr/>
 
-The syntax that enables repeating elements in a template is `@for`.
+A sintaxe que habilita a repetição de elementos em um template é `@for`.
 
-Here's an example of how to use the `@for` syntax in a component:
+Aqui está um exemplo de como usar a sintaxe `@for` em um component:
 
 ```angular-ts
 @Component({
@@ -26,15 +27,15 @@ export class App {
 }
 ```
 
-Two things to take note of:
+Duas coisas para observar:
 
-- There is an `@` prefix for the `for` because it is a special syntax called [Angular template syntax](guide/templates)
-- For applications that still use `*ngFor`, please refer to the [Angular documentation for NgFor](guide/directives/structural-directives)
+- Há um prefixo `@` antes do `for` porque ele é uma sintaxe especial chamada [sintaxe de template do Angular](guide/templates)
+- Para aplicações que ainda usam `*ngFor`, consulte a [documentação do Angular para NgFor](guide/directives/structural-directives)
 
 <docs-workflow>
 
-<docs-step title="Add the `users` property">
-In the `App` class, add a property called `users` that contains users and their names.
+<docs-step title="Adicionar a propriedade `users`">
+Na classe `App`, adicione uma propriedade chamada `users` que contenha usuários e seus nomes.
 
 ```ts
 [
@@ -48,8 +49,8 @@ In the `App` class, add a property called `users` that contains users and their 
 
 </docs-step>
 
-<docs-step title="Update the template">
-Update the template to display each user name in a `p` element using the `@for` template syntax.
+<docs-step title="Atualizar o template">
+Atualize o template para exibir o nome de cada usuário em um elemento `p`, usando a sintaxe de template `@for`.
 
 ```angular-html
 @for (user of users; track user.id) {
@@ -57,10 +58,10 @@ Update the template to display each user name in a `p` element using the `@for` 
 }
 ```
 
-NOTE: the use of `track` is required, you may use the `id` or some other unique identifier.
+NOTE: o uso de `track` é obrigatório. Você pode usar o `id` ou algum outro identificador único.
 
 </docs-step>
 
 </docs-workflow>
 
-This type of functionality is called control flow. Next, you'll learn to customize and communicate with components - by the way, you're doing a great job so far.
+Este tipo de funcionalidade é chamado de control flow. A seguir, você aprenderá a personalizar e a se comunicar com components. Aliás, você está indo muito bem até aqui.

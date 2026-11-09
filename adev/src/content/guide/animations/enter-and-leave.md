@@ -114,4 +114,3 @@ Você também pode estar interessado no seguinte:
   <docs-pill href="guide/animations/css" title="Animações complexas com CSS"/>
   <docs-pill href="guide/routing/route-transition-animations" title="Animações de transição de rota"/>
 </docs-pill-row>
-</content>

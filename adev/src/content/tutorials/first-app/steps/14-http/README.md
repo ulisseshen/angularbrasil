@@ -7,7 +7,7 @@ Até este ponto, sua aplicação leu dados de um array estático em um service A
 
 <docs-video src="https://www.youtube.com/embed/5K10oYJ5Y-E?si=TiuNKx_teR9baO7k"/>
 
-IMPORTANTE: Recomendamos usar seu ambiente local para esta etapa do tutorial.
+IMPORTANT: Recomendamos usar seu ambiente local para esta etapa do tutorial.
 
 ## O que você aprenderá {#what-youll-learn}
 
@@ -167,11 +167,11 @@ A fonte de dados foi configurada. O próximo passo é atualizar sua aplicação 
 
     O código agora usa código assíncrono para fazer uma requisição **GET** via HTTP.
 
-    ÚTIL: Para este exemplo, o código usa `fetch`. Para casos de uso mais avançados, considere usar o `HttpClient` fornecido pelo Angular.
+    HELPFUL: Para este exemplo, o código usa `fetch`. Para casos de uso mais avançados, considere usar o `HttpClient` fornecido pelo Angular.
 
 1.  Atualize a função `getHousingLocationById` para fazer uma chamada ao web server que você configurou.
 
-    ÚTIL: Observe que a URL do `fetch` agora anexa o `id` como segmento de caminho (`${this.url}/${id}`) para requisitar a location com um valor de propriedade `id` correspondente.
+    HELPFUL: Observe que a URL do `fetch` agora anexa o `id` como segmento de caminho (`${this.url}/${id}`) para requisitar a location com um valor de propriedade `id` correspondente.
 
      <docs-code header="Atualize o método getHousingLocationById em housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[13,17]"/>
 
@@ -199,9 +199,9 @@ O servidor agora está lendo dados da requisição HTTP, mas os componentes que 
 
 </docs-workflow>
 
-NOTA: Esta lição depende da API `fetch` do navegador. Para o suporte a interceptors, consulte a [documentação do HTTP client](/guide/http)
+NOTE: Esta lição depende da API `fetch` do navegador. Para o suporte a interceptors, consulte a [documentação do HTTP client](/guide/http)
 
-RESUMO: Nesta lição, você atualizou sua aplicação para usar um web server local (`json-server`) e usar métodos de service assíncronos para recuperar dados.
+SUMMARY: Nesta lição, você atualizou sua aplicação para usar um web server local (`json-server`) e usar métodos de service assíncronos para recuperar dados.
 
 Parabéns! Você concluiu com sucesso este tutorial e está pronto para continuar sua jornada construindo aplicações Angular ainda mais complexas.
 

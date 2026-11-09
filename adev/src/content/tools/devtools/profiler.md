@@ -75,4 +75,3 @@ Clique no botão **Save Profile** no canto superior direito de uma sessão de pr
 Depois, importe o arquivo na visualização inicial do profiler clicando na entrada **Choose file**.
 
 <img src="assets/images/guide/devtools/save-profile.png" alt="Captura de tela da aba 'Profiler' exibindo ciclos de detecção de mudanças. No lado direito, o botão 'Save Profile' está visível.">
-</content>

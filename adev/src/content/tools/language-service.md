@@ -194,4 +194,3 @@ O Angular Language Service então analisa `data.---` dentro do seu contexto, per
 
 - Para informações mais detalhadas sobre a implementação, veja o [código-fonte do Angular Language Service](https://github.com/angular/angular/blob/main/packages/language-service/src)
 - Para mais sobre as considerações e intenções de design, veja a [documentação de design aqui](https://github.com/angular/vscode-ng-language-service/wiki/Design)
-</content>

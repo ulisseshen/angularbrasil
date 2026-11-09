@@ -26,4 +26,3 @@ Para ver o exemplo traduzido para francês com Angular i18n:
 ```
 
 1. Clique no botão "Fork" no cabeçalho do StackBlitz. Isso cria uma nova cópia para você com esta mudança e executa novamente o exemplo em francês.
-</content>

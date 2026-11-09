@@ -391,4 +391,3 @@ Cada schematic nomeado na coleção tem as seguintes partes principais.
 É possível que um schematic forneça toda a sua lógica no arquivo `index.ts`, sem templates adicionais.
 Você pode criar schematics dinâmicos para Angular, porém, fornecendo components e templates na pasta `files`, como os de projetos Angular independentes.
 A lógica no arquivo index configura esses templates definindo regras que injetam dados e modificam variáveis.
-</content>

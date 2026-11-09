@@ -1,103 +1,105 @@
-# Angular embedded docs tutorial
+<!-- ia-translate: true -->
 
-- [Tutorial files](#tutorial-files)
-- [Tutorials directory structure](#tutorials-directory-structure)
-- [Reserved tutorials directories](#reserved-tutorials-directories)
+# Documentação incorporada de tutoriais do Angular
 
-## Tutorial files
+- [Arquivos dos tutoriais](#tutorial-files)
+- [Estrutura de diretórios dos tutoriais](#tutorials-directory-structure)
+- [Diretórios de tutoriais reservados](#reserved-tutorials-directories)
 
-The tutorials content consists of the tutorial content, source code and configuration.
+## Arquivos dos tutoriais {#tutorial-files}
 
-### Content: `README.md`
+O conteúdo dos tutoriais consiste em conteúdo do tutorial, código-fonte e configuração.
 
-The tutorial content must be located in a `README.md` file in the tutorial directory.
+### Conteúdo: `README.md` {#content-readmemd}
 
-Taking the `learn-angular` tutorial as an example, see: [`adev/src/content/tutorials/learn-angular/intro/README.md`](/adev/src/content/tutorials/learn-angular/intro/README.md)
+O conteúdo do tutorial deve estar localizado em um arquivo `README.md` no diretório do tutorial.
 
-### Configuration: `config.json`
+Tomando o tutorial `learn-angular` como exemplo, veja: [`adev/src/content/tutorials/learn-angular/intro/README.md`](/adev/src/content/tutorials/learn-angular/intro/README.md)
 
-Each tutorial is defined by a `config.json`, which can have the following options:
+### Configuração: `config.json` {#configuration-configjson}
 
-- `title`: defines the tutorial title used in the tutorial nav
-- `nextTutorial`: the path of the next tutorial (only in `intro/` step)
-- `src`: the relative path to an external directory, which defines the tutorial source code used in the embedded editor
-- `answerSrc`: the relative path to an external directory, which defines the tutorial answer used in the embedded editor
-- `openFiles`: an array of files to be open in the editor
-- `type`: the type denotes how the tutorial will be presented and which components are necessary for that tutorial
-  - `cli`: a tutorial with a `cli` type will contain only the content and an interactive terminal with the Angular CLI
-  - `editor`: used for the complete embedded editor, containing the code editor, the preview, an interactive terminal and the console with outputs from the dev server
-  - `local`: disables the embedded editor and shows only the content
-  - `editor-only`: a special config used for the tutorial playground and the homepage playground, which disables the content and shows only the embedded editor
+Cada tutorial é definido por um `config.json`, que pode ter as seguintes opções:
 
-### Source code
+- `title`: define o título do tutorial usado na navegação de tutoriais
+- `nextTutorial`: o caminho do próximo tutorial (somente na pasta `intro/`)
+- `src`: o caminho relativo para um diretório externo, que define o código-fonte do tutorial usado no editor incorporado
+- `answerSrc`: o caminho relativo para um diretório externo, que define a resposta do tutorial usada no editor incorporado
+- `openFiles`: um array de arquivos a serem abertos no editor
+- `type`: o tipo indica como o tutorial será apresentado e quais componentes são necessários para ele
+  - `cli`: um tutorial do tipo `cli` terá apenas o conteúdo e um terminal interativo com o Angular CLI
+  - `editor`: usado para o editor incorporado completo, contendo o editor de código, a visualização, um terminal interativo e o console com as saídas do servidor de desenvolvimento
+  - `local`: desabilita o editor incorporado e mostra apenas o conteúdo
+  - `editor-only`: uma configuração especial usada para o playground de tutoriais e o playground da página inicial, que desabilita o conteúdo e mostra apenas o editor incorporado
 
-The tutorial source code includes every file in the tutorial directory, except `README.md` and `config.json`.
+### Código-fonte {#source-code}
 
-The tutorial source code has precedence over the [`common`](#common) project file, so if a file exists in both [`common`](#common) and in the tutorial directory, containing the same relative path, the tutorial file will override the [`common`](#common) file.
+O código-fonte do tutorial inclui todos os arquivos do diretório do tutorial, exceto `README.md` e `config.json`.
 
-## Tutorials directory structure
+O código-fonte do tutorial tem precedência sobre o projeto [`common`](#common). Assim, se um arquivo existir tanto em [`common`](#common) quanto no diretório do tutorial, com o mesmo caminho relativo, o arquivo do tutorial substituirá o arquivo de [`common`](#common).
 
-A tutorial is composed of an introduction and steps. Both the intro and each step contains its own content, config and source code.
+## Estrutura de diretórios dos tutoriais {#tutorials-directory-structure}
 
-Taking the `learn-angular` tutorial as an example:
+Um tutorial é composto por uma introdução e passos. Tanto a introdução quanto cada passo contêm seu próprio conteúdo, configuração e código-fonte.
 
-### Introduction
+Tomando o tutorial `learn-angular` como exemplo:
+
+### Introdução {#introduction}
 
 [`adev/src/content/tutorials/learn-angular/intro`](/adev/src/content/tutorials/learn-angular/intro)
 
-is the introduction of the tutorial, which will live in the `/tutorials/learn-angular` route.
+é a introdução do tutorial, que ficará disponível na rota `/tutorials/learn-angular`.
 
-### Steps
+### Passos {#steps}
 
-[`adev/src/content/tutorials/learn-angular/steps`](/adev/src/content/tutorials/learn-angular/steps) is the directory that contains the tutorial steps.
+[`adev/src/content/tutorials/learn-angular/steps`](/adev/src/content/tutorials/learn-angular/steps) é o diretório que contém os passos do tutorial.
 
-These are some examples from the `learn-angular` tutorial:
+Estes são alguns exemplos do tutorial `learn-angular`:
 
-- [`learn-angular/steps/1-components-in-angular`](/adev/src/content/tutorials/learn-angular/steps/1-components-in-angular): The route will be `/tutorials/learn-angular/1-components-in-angular`
-- [`learn-angular/steps/2-updating-the-component-class`](/adev/src/content/tutorials/learn-angular/steps/2-updating-the-component-class): The route will be `/tutorials/learn-angular/2-updating-the-component-class`
+- [`learn-angular/steps/1-components-in-angular`](/adev/src/content/tutorials/learn-angular/steps/1-components-in-angular): A rota será `/tutorials/learn-angular/1-components-in-angular`
+- [`learn-angular/steps/2-updating-the-component-class`](/adev/src/content/tutorials/learn-angular/steps/2-updating-the-component-class): A rota será `/tutorials/learn-angular/2-updating-the-component-class`
 
-Each step directory must start with a number followed by a hyphen, then followed by the step pathname.
+Cada diretório de passo deve começar com um número, seguido de um hífen e depois do nome do caminho do passo.
 
-- The number denotes the step, defining which will be the previous and next step within a tutorial.
-- The hyphen is a delimiter :).
-- The directory name, including the number and the hyphen, defines the step URL.
+- O número indica o passo, definindo qual será o passo anterior e o próximo dentro de um tutorial.
+- O hífen é um delimitador :).
+- O nome do diretório, incluindo o número e o hífen, define a URL do passo.
 
-## Reserved tutorials directories
+## Diretórios de tutoriais reservados {#reserved-tutorials-directories}
 
 ### `common`
 
-The common project is a complete Angular project that is reused by all tutorials. It contains all
-dependencies(`package.json`, `package-lock.json`), project configuration(`tsconfig.json`, `angular.json`) and main files to bootstrap the application(`index.html`, `main.ts`, `app.config.ts`).
+O projeto common é um projeto Angular completo reutilizado por todos os tutoriais. Ele contém todas as
+dependências (`package.json`, `package-lock.json`), a configuração do projeto (`tsconfig.json`, `angular.json`) e os arquivos principais para inicializar a aplicação (`index.html`, `main.ts`, `app.config.ts`).
 
-A common project is used for a variety of reasons:
+Um projeto common é usado por vários motivos:
 
-- Avoid duplication of files in tutorials.
-- Optimize in-app performance by requesting the common project files and dependencies only once, benefiting from the
-  browser cache on subsequent requests.
-- Require a single `npm install` for all tutorials, therefore reducing the time to interactive with the tutorial
-  when navigating different tutorials and steps.
-- Provide a consistent environment for all tutorials.
-- Allow each tutorial to focus on the specific source code for what's being taught and not on the project setup.
+- Evitar a duplicação de arquivos nos tutoriais.
+- Otimizar o desempenho dentro do aplicativo, solicitando os arquivos e as dependências do projeto common apenas uma vez, aproveitando o
+  cache do navegador nas requisições seguintes.
+- Exigir um único `npm install` para todos os tutoriais, reduzindo assim o tempo até a interatividade com o tutorial
+  ao navegar entre diferentes tutoriais e passos.
+- Fornecer um ambiente consistente para todos os tutoriais.
+- Permitir que cada tutorial foque no código-fonte específico do que está sendo ensinado, e não na configuração do projeto.
 
-See [`adev/shared-docs/pipeline/tutorials/common`](/adev/shared-docs/pipeline/tutorials/common)
+Veja [`adev/shared-docs/pipeline/tutorials/common`](/adev/shared-docs/pipeline/tutorials/common)
 
-A tutorial can also provide its own `common` directory, whose files are applied on top of the shared common project for the intro and every step of that tutorial. See [`adev/src/content/tutorials/signals/common`](/adev/src/content/tutorials/signals/common) for an example.
+Um tutorial também pode fornecer seu próprio diretório `common`, cujos arquivos são aplicados sobre o projeto common compartilhado, tanto para a introdução quanto para cada passo daquele tutorial. Veja [`adev/src/content/tutorials/signals/common`](/adev/src/content/tutorials/signals/common) como exemplo.
 
 ### `playground`
 
-The playground contains the source code for the tutorials playground at `/playground`. It should not contain any content.
+O playground contém o código-fonte do playground de tutoriais em `/playground`. Ele não deve conter nenhum conteúdo.
 
-See [`adev/src/content/tutorials/playground`](/adev/src/content/tutorials/playground)
+Veja [`adev/src/content/tutorials/playground`](/adev/src/content/tutorials/playground)
 
 ### `homepage`
 
-The homepage contains the source code for the homepage playground. It should not contain any content.
+O homepage contém o código-fonte do playground da página inicial. Ele não deve conter nenhum conteúdo.
 
-See [`adev/src/content/tutorials/homepage`](/adev/src/content/tutorials/homepage)
+Veja [`adev/src/content/tutorials/homepage`](/adev/src/content/tutorials/homepage)
 
-## Update dependencies
+## Atualizar dependências {#update-dependencies}
 
-To update the dependencies of all tutorials you can run the following script
+Para atualizar as dependências de todos os tutoriais, você pode executar o seguinte script:
 
 ```bash
 rm ./adev/src/content/tutorials/homepage/package-lock.json  ./adev/src/content/tutorials/first-app/common/package-lock.json ./adev/src/content/tutorials/learn-angular/common/package-lock.json ./adev/src/content/tutorials/playground/common/package-lock.json ./adev/src/content/tutorials/deferrable-views/common/package-lock.json ./adev/src/content/tutorials/signals/common/package-lock.json ./adev/src/content/tutorials/signal-forms/common/package-lock.json ./adev/shared-docs/pipeline/tutorials/common/package-lock.json

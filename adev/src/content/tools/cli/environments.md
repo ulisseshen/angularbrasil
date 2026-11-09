@@ -218,4 +218,3 @@ Você também pode configurar `ng serve` para usar a configuração de build dir
 
 A opção `defaultConfiguration` especifica qual configuração é usada por padrão.
 Quando `defaultConfiguration` não está definida, `options` são usadas diretamente sem modificação.
-</content>

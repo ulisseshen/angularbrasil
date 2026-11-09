@@ -71,4 +71,3 @@
 | `NG8011` | [Control Flow Impedindo Projeção de Conteúdo](errors/NG8011) |
 | `NG8023` | [Múltiplos Components Correspondem ao Mesmo Elemento](errors/NG8023) |
 | `NG8024` | [Binding de Host Directive Conflitante](errors/NG8024)      |
-</content>

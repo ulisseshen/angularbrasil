@@ -311,4 +311,3 @@ No console, você verá que o schematic foi executado e que o arquivo `my-data.s
 CREATE src/app/my-data.service.ts (208 bytes)
 
 ```
-</content>

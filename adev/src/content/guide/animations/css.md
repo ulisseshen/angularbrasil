@@ -192,4 +192,3 @@ Você também pode estar interessado no seguinte:
   <docs-pill href="guide/animations" title="Animações Enter e Leave"/>
   <docs-pill href="guide/routing/route-transition-animations" title="Animações de transição de rota"/>
 </docs-pill-row>
-</content>

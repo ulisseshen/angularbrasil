@@ -60,4 +60,3 @@ Note que não há nada "especial" sobre executar seus testes com qualquer um dos
 | WebdriverIO          | [Começando com Webdriver.io](https://webdriver.io/docs/gettingstarted)                                              |
 | Playwright           | [Começando com Playwright](https://playwright.dev/docs/writing-tests)                                               |
 | Puppeteer            | [Começando com Puppeteer](https://pptr.dev)                                                                          |
-</content>
