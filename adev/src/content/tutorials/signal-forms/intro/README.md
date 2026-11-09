@@ -1,27 +1,28 @@
-# Learn Angular Signal Forms
+<!-- ia-translate: true -->
+# Aprenda Signal Forms do Angular {#learn-angular-signal-forms}
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">
-  <p class="docs-tutorial-mascot__bubble">Welcome! Let's build forms with signals.</p>
+  <p class="docs-tutorial-mascot__bubble">Bem-vindo! Vamos construir forms com signals.</p>
 </div>
 
-This interactive tutorial will teach you how to build reactive forms using Angular's Signal Forms API.
+Este tutorial interativo ensinará você a construir reactive forms usando a API de Signal Forms do Angular.
 
-## How to use this tutorial
+## Como usar este tutorial {#how-to-use-this-tutorial}
 
-This tutorial assumes you understand Angular's core concepts and have basic familiarity with signals. If you're new to Angular, read our [essentials guide](/essentials). If you're new to signals, complete the [signals tutorial](/tutorials/signals) first.
+Este tutorial pressupõe que você entenda os conceitos centrais do Angular e tenha familiaridade básica com signals. Se você é novo no Angular, leia nosso [guia essencial](/essentials). Se você é novo em signals, complete primeiro o [tutorial de signals](/tutorials/signals).
 
-Each step represents a concept in Signal Forms. You'll build a complete login form from scratch, learning the fundamentals step by step.
+Cada passo representa um conceito em Signal Forms. Você construirá um formulário de login completo do zero, aprendendo os fundamentos passo a passo.
 
-**Your learning path:**
+**Seu caminho de aprendizado:**
 
-1. Set up the form model with TypeScript and signals
-2. Connect the form to your template
-3. Add validation rules
-4. Display validation errors to users
-5. Handle form submission
-6. Explore advanced topics and next steps
+1. Configurar o modelo do form com TypeScript e signals
+2. Conectar o form ao template
+3. Adicionar regras de validação
+4. Exibir erros de validação para os usuários
+5. Tratar o envio do form
+6. Explorar tópicos avançados e próximos passos
 
-If you get stuck, click "Reveal answer" at the top.
+Se ficar travado, clique em "Revelar resposta" no topo.
 
-Alright, let's [get started](/tutorials/signal-forms/1-set-up-form-model)!
+Muito bem, vamos [começar](/tutorials/signal-forms/1-set-up-form-model)!
