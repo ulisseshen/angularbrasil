@@ -20,6 +20,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # The full adev build compiles all Angular packages from source; the default
+      # runner runs out of disk/memory near the end, so free space up front.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          sudo docker image prune --all --force || true
+          df -h /
+
       - name: Validate Firebase credentials
         run: |
           if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" ]; then
@@ -49,7 +57,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build adev (Portuguese Angular docs)
-        run: pnpm bazel build //adev:build.production
+        run: pnpm bazel build //adev:build.production --jobs=2 --local_resources=memory=HOST_RAM*.6
         env:
           NO_PROXY: bcr.bazel.build,*.bcr.bazel.build,github.com,*.github.com
 
