@@ -1,67 +1,68 @@
-# Comparison with other form approaches
+<!-- ia-translate: true -->
+# Comparação com outras abordagens de formulários {#comparison-with-other-form-approaches}
 
-Angular provides three approaches to building forms: Signal Forms, Reactive Forms, and Template-driven Forms. Each has distinct patterns for managing state, validation, and data flow. This guide helps you understand the differences and choose the right approach for your project.
+O Angular oferece três abordagens para construir formulários: Signal Forms, Reactive Forms e Template-driven Forms. Cada uma tem padrões distintos para gerenciar estado, validação e fluxo de dados. Este guia ajuda você a entender as diferenças e a escolher a abordagem certa para o seu projeto.
 
-## Quick comparison
+## Comparação rápida {#quick-comparison}
 
-| Feature          | Signal Forms                       | Reactive Forms                        | Template-driven Forms   |
-| ---------------- | ---------------------------------- | ------------------------------------- | ----------------------- |
-| Source of truth  | User-defined writable signal model | `FormControl`/`FormGroup`             | User model in component |
-| Type safety      | Inferred from model                | Explicit with typed forms             | Minimal                 |
-| Validation       | Schema with path-based validators  | List of validators passed to Controls | Directive-based         |
-| State management | Signal-based                       | Observable-based                      | Angular-managed         |
-| Setup            | Signal + schema function           | FormControl tree                      | NgModel in template     |
-| Best for         | Signal-based apps                  | Complex forms                         | Simple forms            |
-| Learning curve   | Medium                             | Medium-High                           | Low                     |
-| Status           | Stable (v22+)                      | Stable                                | Stable                  |
+| Recurso          | Signal Forms                         | Reactive Forms                          | Template-driven Forms     |
+| ---------------- | ------------------------------------ | --------------------------------------- | ------------------------- |
+| Fonte da verdade | Signal gravável definido pelo usuário | `FormControl`/`FormGroup`               | Modelo do usuário no componente |
+| Segurança de tipos | Inferida do modelo                 | Explícita com formulários tipados       | Mínima                    |
+| Validação        | Schema com validadores baseados em caminho | Lista de validadores passada aos controles | Baseada em diretivas      |
+| Gerenciamento de estado | Baseado em signals             | Baseado em observables                  | Gerenciado pelo Angular   |
+| Configuração     | Signal + função de schema            | Árvore de `FormControl`                 | `NgModel` no template     |
+| Ideal para       | Aplicações baseadas em signals       | Formulários complexos                   | Formulários simples       |
+| Curva de aprendizado | Média                            | Média-alta                              | Baixa                     |
+| Status           | Estável (v22+)                       | Estável                                 | Estável                   |
 
-## By example: Login form
+## Por exemplo: formulário de login {#by-example-login-form}
 
-The best way to understand the differences is to see the same form implemented in all three approaches.
+A melhor forma de entender as diferenças é ver o mesmo formulário implementado nas três abordagens.
 
 <docs-code-multifile>
-  <docs-code language="angular-ts" header="Signal forms" path="adev/src/content/examples/signal-forms/src/comparison/app/signal-forms.ts"/>
-  <docs-code header="Reactive forms" path="adev/src/content/examples/signal-forms/src/comparison/app/reactive-forms.ts"/>
-  <docs-code header="Template-driven forms" path="adev/src/content/examples/signal-forms/src/comparison/app/template-driven-forms.ts"/>
+  <docs-code language="angular-ts" header="Signal Forms" path="adev/src/content/examples/signal-forms/src/comparison/app/signal-forms.ts"/>
+  <docs-code header="Reactive Forms" path="adev/src/content/examples/signal-forms/src/comparison/app/reactive-forms.ts"/>
+  <docs-code header="Template-driven Forms" path="adev/src/content/examples/signal-forms/src/comparison/app/template-driven-forms.ts"/>
 </docs-code-multifile>
 
-## Understanding the differences
+## Entendendo as diferenças {#understanding-the-differences}
 
-The three approaches make different design choices that affect how you write and maintain your forms. These differences stem from where each approach stores form state and how it manages validation.
+As três abordagens fazem escolhas de design diferentes, que afetam como você escreve e mantém seus formulários. Essas diferenças decorrem de onde cada abordagem armazena o estado do formulário e de como ela gerencia a validação.
 
-### Where your form data lives
+### Onde os dados do seu formulário ficam {#where-your-form-data-lives}
 
-The most fundamental difference is where each approach considers the "source of truth" for form values.
+A diferença mais fundamental é onde cada abordagem considera a "fonte da verdade" para os valores do formulário.
 
-Signal Forms stores data in a writable signal. When you need the current form values, you call the signal:
+O Signal Forms armazena os dados em um signal gravável. Quando você precisa dos valores atuais do formulário, chama o signal:
 
 ```ts
 const credentials = this.loginModel(); // { email: '...', password: '...' }
 ```
 
-This keeps your form data in a single reactive container that automatically notifies Angular when values change. The form structure mirrors your data model exactly.
+Isso mantém os dados do formulário em um único contêiner reativo que notifica o Angular automaticamente quando os valores mudam. A estrutura do formulário espelha exatamente o seu modelo de dados.
 
-Reactive Forms stores data inside FormControl and FormGroup instances. You access values through the form hierarchy:
+O Reactive Forms armazena os dados dentro das instâncias de `FormControl` e `FormGroup`. Você acessa os valores pela hierarquia do formulário:
 
 ```ts
 const credentials = this.loginForm.value; // { email: '...', password: '...' }
 ```
 
-This separates form state management from your component's data model. The form structure is explicit but requires more setup code.
+Isso separa o gerenciamento de estado do formulário do modelo de dados do componente. A estrutura do formulário é explícita, mas exige mais código de configuração.
 
-Template-driven Forms stores data in component properties. You access values directly:
+O Template-driven Forms armazena os dados em propriedades do componente. Você acessa os valores diretamente:
 
 ```ts
 const credentials = {email: this.email, password: this.password};
 ```
 
-This is the most direct approach but requires manually assembling values when you need them. Angular manages form state through directives in the template.
+Essa é a abordagem mais direta, mas exige montar os valores manualmente sempre que precisar deles. O Angular gerencia o estado do formulário por meio de diretivas no template.
 
-### How validation works
+### Como a validação funciona {#how-validation-works}
 
-Each approach defines validation rules differently, affecting where your validation logic lives and how you maintain it.
+Cada abordagem define as regras de validação de forma diferente, o que afeta onde fica a lógica de validação e como você a mantém.
 
-Signal Forms uses a schema function where you bind validators to field paths:
+O Signal Forms usa uma função de schema em que você vincula validadores a caminhos de campos:
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
@@ -70,9 +71,9 @@ loginForm = form(this.loginModel, (fieldPath) => {
 });
 ```
 
-All validation rules live together in one place. The schema function runs once during form creation, and validators execute automatically when field values change. Error messages are part of the validation definition.
+Todas as regras de validação ficam juntas em um só lugar. A função de schema é executada uma vez durante a criação do formulário, e os validadores são executados automaticamente quando os valores dos campos mudam. As mensagens de erro fazem parte da definição da validação.
 
-Reactive Forms attaches validators when creating controls:
+O Reactive Forms anexa os validadores ao criar os controles:
 
 ```ts
 loginForm = new FormGroup({
@@ -80,43 +81,43 @@ loginForm = new FormGroup({
 });
 ```
 
-Validators are tied to individual controls in the form structure. This distributes validation across your form definition. Error messages typically live in your template.
+Os validadores ficam vinculados a controles individuais na estrutura do formulário. Isso distribui a validação pela definição do formulário. As mensagens de erro normalmente ficam no template.
 
-Template-driven Forms uses directive attributes in the template:
+O Template-driven Forms usa atributos de diretivas no template:
 
 ```html
 <input [(ngModel)]="email" required email />
 ```
 
-Validation rules live in your template alongside the HTML. This keeps validation close to the UI but spreads logic across template and component.
+As regras de validação ficam no template, junto com o HTML. Isso mantém a validação próxima da interface, mas espalha a lógica entre o template e o componente.
 
-### Type safety and autocomplete
+### Segurança de tipos e autocompletar {#type-safety-and-autocomplete}
 
-TypeScript integration differs significantly between approaches, affecting how much the compiler helps you avoid errors.
+A integração com TypeScript varia bastante entre as abordagens, afetando quanto o compilador ajuda a evitar erros.
 
-Signal Forms infers types from your model structure:
+O Signal Forms infere os tipos a partir da estrutura do seu modelo:
 
 ```ts
 const loginModel = signal({email: '', password: ''});
 const loginForm = form(loginModel);
-// TypeScript knows: loginForm.email exists and returns FieldState<string>
+// TypeScript sabe: loginForm.email existe e retorna FieldState<string>
 ```
 
-You define your data shape once in the signal, and TypeScript automatically knows what fields exist and their types. Accessing `loginForm.username` (which doesn't exist) produces a type error.
+Você define o formato dos dados uma única vez no signal, e o TypeScript descobre automaticamente quais campos existem e quais são os seus tipos. Acessar `loginForm.username` (que não existe) produz um erro de tipo.
 
-Reactive Forms requires explicit type annotations with typed forms:
+O Reactive Forms exige anotações de tipo explícitas com formulários tipados:
 
 ```ts
 const loginForm = new FormGroup({
   email: new FormControl<string>(''),
   password: new FormControl<string>(''),
 });
-// TypeScript knows: loginForm.controls.email is FormControl<string>
+// TypeScript sabe: loginForm.controls.email é FormControl<string>
 ```
 
-You specify types for each control individually. TypeScript validates your form structure, but you maintain type information separately from your data model.
+Você especifica os tipos de cada controle individualmente. O TypeScript valida a estrutura do formulário, mas você mantém as informações de tipo separadamente do modelo de dados.
 
-Template-driven Forms offers minimal type safety:
+O Template-driven Forms oferece segurança de tipos mínima:
 
 ```ts
 email = '';
@@ -124,37 +125,37 @@ password = '';
 // TypeScript only knows these are strings, no form-level typing
 ```
 
-TypeScript understands your component properties but has no knowledge of form structure or validation. You lose compile-time checking for form operations.
+O TypeScript entende as propriedades do componente, mas não tem conhecimento da estrutura nem da validação do formulário. Você perde a verificação em tempo de compilação para as operações do formulário.
 
-## Choose your approach
+## Escolha a sua abordagem {#choose-your-approach}
 
-### Use Signal Forms if:
+### Use Signal Forms se: {#use-signal-forms-if}
 
-- You're building new signal-based applications (Angular v22+)
-- You want type safety inferred from your model structure
-- Schema-based validation appeals to you
-- Your team is familiar with signals
+- Você está construindo novas aplicações baseadas em signals (Angular v22+)
+- Você quer segurança de tipos inferida da estrutura do seu modelo
+- A validação baseada em schema atrai você
+- Sua equipe já conhece signals
 
-### Use Reactive Forms if:
+### Use Reactive Forms se: {#use-reactive-forms-if}
 
-- You need production-ready stability
-- You're building complex, dynamic forms
-- You prefer observable-based patterns
-- You need fine-grained control over form state
-- You're working on an existing reactive forms codebase
+- Você precisa de estabilidade pronta para produção
+- Você está construindo formulários complexos e dinâmicos
+- Você prefere padrões baseados em observables
+- Você precisa de controle refinado sobre o estado do formulário
+- Você está trabalhando em uma base de código existente de reactive forms
 
-### Use Template-driven Forms if:
+### Use Template-driven Forms se: {#use-template-driven-forms-if}
 
-- You're building simple forms (login, contact, search)
-- You're doing rapid prototyping
-- Your form logic is straightforward
-- You prefer keeping form logic in templates
-- You're working on an existing template-driven codebase
+- Você está construindo formulários simples (login, contato, busca)
+- Você está fazendo prototipagem rápida
+- A lógica do seu formulário é direta
+- Você prefere manter a lógica do formulário nos templates
+- Você está trabalhando em uma base de código existente de template-driven forms
 
-## Next steps
+## Próximos passos {#next-steps}
 
-To learn more about each approach:
+Para saber mais sobre cada abordagem:
 
-- **Signal Forms**: See the [Overview guide](guide/forms/signals/overview) to get started, or dive into [Form Models](guide/forms/signals/models), [Validation](guide/forms/signals/validation), and [Field State Management](guide/forms/signals/field-state-management)
-- **Reactive Forms**: See the [Reactive Forms guide](guide/forms/reactive-forms) in Angular documentation
-- **Template-driven Forms**: See the [Template-driven Forms guide](guide/forms/template-driven-forms) in Angular documentation
+- **Signal Forms**: veja o [guia de visão geral](guide/forms/signals/overview) para começar, ou aprofunde-se em [Modelos de formulário](guide/forms/signals/models), [Validação](guide/forms/signals/validation) e [Gerenciamento de estado do campo](guide/forms/signals/field-state-management)
+- **Reactive Forms**: veja o [guia de Reactive Forms](guide/forms/reactive-forms) na documentação do Angular
+- **Template-driven Forms**: veja o [guia de Template-driven Forms](guide/forms/template-driven-forms) na documentação do Angular

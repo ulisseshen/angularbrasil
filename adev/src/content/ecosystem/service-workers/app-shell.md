@@ -1,30 +1,31 @@
-# App shell pattern
+<!-- ia-translate: true -->
+# Padrão App shell {#app-shell-pattern}
 
-The [App shell pattern](https://developer.chrome.com/blog/app-shell) is a way to render a portion of your application using a route at build time.
-It can improve the user experience by quickly launching a static rendered page (a skeleton common to all pages) while the browser downloads the full client version and switches to it automatically after the code loads.
+O [padrão App shell](https://developer.chrome.com/blog/app-shell) é uma forma de renderizar uma parte da sua aplicação usando uma rota em tempo de build.
+Ele pode melhorar a experiência do usuário ao iniciar rapidamente uma página renderizada estaticamente (um esqueleto comum a todas as páginas), enquanto o navegador baixa a versão completa do client e alterna para ela automaticamente depois que o código carrega.
 
-This gives users a meaningful first paint of your application that appears quickly because the browser can render the HTML and CSS without the need to initialize any JavaScript.
+Isso oferece aos usuários uma primeira renderização significativa da sua aplicação, que aparece rapidamente porque o navegador pode renderizar o HTML e o CSS sem precisar inicializar nenhum JavaScript.
 
 <docs-workflow>
-<docs-step title="Prepare the application">
-Do this with the following Angular CLI command:
+<docs-step title="Preparar a aplicação">
+Faça isso com o seguinte comando do Angular CLI:
 
 ```shell
 ng new my-app
 ```
 
-For an existing application, you have to manually add the `Router` and defining a `<router-outlet>` within your application.
+Para uma aplicação existente, você precisa adicionar manualmente o `Router` e definir um `<router-outlet>` dentro da sua aplicação.
 </docs-step>
-<docs-step title="Create the application shell">
-Use the Angular CLI to automatically create the application shell.
+<docs-step title="Criar o application shell">
+Use o Angular CLI para criar automaticamente o application shell.
 
 ```shell
 ng generate app-shell
 ```
 
-For more information about this command, see [App shell command](cli/generate/app-shell).
+Para mais informações sobre este comando, veja [Comando App shell](cli/generate/app-shell).
 
-The command updates the application code and adds extra files to the project structure.
+O comando atualiza o código da aplicação e adiciona arquivos extras à estrutura do projeto.
 
 ```text
 src
@@ -40,19 +41,19 @@ src
 ```
 
 </docs-step>
-<docs-step title="Verify the application is built with the shell content">
+<docs-step title="Verifique se a aplicação é construída com o conteúdo do shell">
 
 ```shell
 ng build --configuration=development
 ```
 
-Or to use the production configuration.
+Ou, para usar a configuração de produção:
 
 ```shell
 ng build
 ```
 
-To verify the build output, open <code class="no-auto-link">dist/my-app/browser/index.html</code>.
-Look for default text `app-shell works!` to show that the application shell route was rendered as part of the output.
+Para verificar a saída do build, abra <code class="no-auto-link">dist/my-app/browser/index.html</code>.
+Procure pelo texto padrão `app-shell works!` para confirmar que a rota do application shell foi renderizada como parte da saída.
 </docs-step>
 </docs-workflow>

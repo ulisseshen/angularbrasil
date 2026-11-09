@@ -61,7 +61,7 @@ O autocomplete do Angular fornece uma implementação de combobox totalmente ace
 
 ### Modo de seleção automática {#auto-select-mode}
 
-Usuários que digitam um texto parcial esperam uma confirmação imediata de que a entrada corresponde a uma opção disponível. O modo de seleção automática atualiza o valor do input para corresponder à primeira opção filtrada conforme o usuário digita, reduzindo o número de toques nas teclas necessários e dando um retorno instantâneo de que a busca está no caminho certo.
+Usuários que digitam um texto parcial esperam uma confirmação imediata de que a entrada corresponde a uma opção disponível. O modo de seleção automática atualiza o valor do input para corresponder à primeira opção filtrada conforme o usuário digita, reduzindo o número de teclas pressionadas e dando um retorno instantâneo de que a busca está no caminho certo.
 
 <docs-tab-group>
   <docs-tab label="Básico">

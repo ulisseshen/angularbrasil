@@ -1,26 +1,28 @@
-<docs-decorative-header title="Directives" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
-Directives add behavior to elements and components in your Angular applications.
+<!-- ia-translate: true -->
+
+<docs-decorative-header title="Diretivas" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
+Diretivas adicionam comportamento a elementos e components em suas aplicações Angular.
 </docs-decorative-header>
 
-A directive can change how an element looks, how it behaves, or how it fits into the DOM. Angular ships with several built-in directives, and you can write your own.
+Uma directive pode mudar a aparência de um elemento, o comportamento dele ou a forma como ele se encaixa no DOM. O Angular inclui várias directives built-in, e você também pode criar as suas.
 
-## When to use a directive
+## Quando usar uma directive {#when-to-use-a-directive}
 
-Directives are most effective when they encapsulate **reusable** behavior that you want to apply to an existing element or component.
+Directives são mais eficazes quando encapsulam comportamento **reutilizável** que você quer aplicar a um elemento ou component existente.
 
-Common examples include:
+Exemplos comuns incluem:
 
-- Applying the same appearance or behavior across many elements, such as autofocus or a tooltip.
-- Reading from or writing to the host element's DOM, attributes, or classes.
-- Adding behavior to a component you don't own without changing its source.
+- Aplicar a mesma aparência ou o mesmo comportamento em vários elementos, como autofocus ou um tooltip.
+- Ler ou escrever no DOM, nos atributos ou nas classes do elemento host.
+- Adicionar comportamento a um component que você não possui, sem alterar o código-fonte dele.
 
-If you need to render your own markup or manage a piece of UI with its own template, reach for a [component](guide/components), a specialized directive with its own template.
+Se você precisa renderizar sua própria marcação ou gerenciar um trecho de UI com template próprio, use um [component](guide/components), que é uma directive especializada com template próprio.
 
-## A quick example
+## Um exemplo rápido {#a-quick-example}
 
-Suppose you want elements to highlight when the user hovers over them with a mouse, changing their background color to yellow. Rather than repeat the same event-handling logic on every element, you can package that behavior in a directive and apply it wherever you need it.
+Suponha que você queira que elementos sejam destacados quando o usuário passa o mouse sobre eles, mudando a cor de fundo para amarelo. Em vez de repetir a mesma lógica de tratamento de eventos em cada elemento, você pode empacotar esse comportamento em uma directive e aplicá-la onde precisar.
 
-The following `appHighlight` directive sets the host element's background color when the mouse enters and clears it when the mouse leaves:
+A directive `appHighlight` a seguir define a cor de fundo do elemento host quando o mouse entra e a limpa quando o mouse sai:
 
 ```ts
 import {Directive, signal} from '@angular/core';
@@ -38,32 +40,32 @@ export class HighlightDirective {
 }
 ```
 
-The `host` metadata listens for mouse events to update the `isHovered` signal, and binds the host element's `background-color` style to the signal's value.
+Os metadados `host` escutam eventos do mouse para atualizar o signal `isHovered`, e vinculam o estilo `background-color` do elemento host ao valor desse signal.
 
-Apply the directive by adding its selector as an attribute on an element:
+Aplique a directive adicionando o seletor dela como um atributo em um elemento:
 
 ```angular-html
 <p appHighlight>Highlight me!</p>
 ```
 
-Every element that carries the `appHighlight` attribute gains the same hover behavior, with the logic defined in one place.
+Todo elemento que carrega o atributo `appHighlight` ganha o mesmo comportamento de hover, com a lógica definida em um único lugar.
 
-## Types of directives
+## Tipos de directives {#types-of-directives}
 
-Angular has three primary types of directives:
+O Angular tem três tipos principais de directives:
 
-| Directive type                                                  | Details                                                                           |
-| :-------------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Components](guide/components)                                  | Define reusable UI with their own template.                                       |
-| [Attribute directives](guide/directives/attribute-directives)   | Change the appearance or behavior of an element, component, or another directive. |
-| [Structural directives](guide/directives/structural-directives) | Change the DOM layout by adding and removing DOM elements.                        |
+| Tipo de directive                                               | Detalhes                                                                                       |
+| :-------------------------------------------------------------- | :--------------------------------------------------------------------------------------------- |
+| [Components](guide/components)                                  | Definem UI reutilizável com template próprio.                                                  |
+| [Attribute directives](guide/directives/attribute-directives)   | Alteram a aparência ou o comportamento de um elemento, component ou outra directive.           |
+| [Structural directives](guide/directives/structural-directives) | Alteram o layout do DOM adicionando e removendo elementos do DOM.                              |
 
-## What's next
+## Próximos passos {#whats-next}
 
-Learn more about each type of directive in the following guides.
+Saiba mais sobre cada tipo de directive nos guias a seguir.
 
 <docs-pill-row>
-  <docs-pill href="guide/directives/attribute-directives" title="Attribute directives"/>
-  <docs-pill href="guide/directives/structural-directives" title="Structural directives"/>
-  <docs-pill href="guide/directives/directive-composition-api" title="Directive composition API"/>
+  <docs-pill href="guide/directives/attribute-directives" title="Diretivas de atributo"/>
+  <docs-pill href="guide/directives/structural-directives" title="Diretivas estruturais"/>
+  <docs-pill href="guide/directives/directive-composition-api" title="API de composição de directives"/>
 </docs-pill-row>
