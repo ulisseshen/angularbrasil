@@ -1,7 +1,7 @@
 <!-- ia-translate: true -->
-# Enciclopédia de Erros
+# Enciclopédia de Erros {#error-encyclopedia}
 
-## Erros de runtime
+## Erros de runtime {#runtime-errors}
 
 | Código    | Nome                                                                                        |
 | :-------- | :------------------------------------------------------------------------------------------ |
@@ -56,7 +56,7 @@
 | `NG05201` | [URL de recurso não segura passada ao DomSanitizer](errors/NG05201)                        |
 | `NG05703` | [Mudança suspeita na origem da URL durante SSR](errors/NG05703)                            |
 
-## Erros do compilador
+## Erros do compilador {#compiler-errors}
 
 | Código   | Nome                                                        |
 | :------- | :---------------------------------------------------------- |
