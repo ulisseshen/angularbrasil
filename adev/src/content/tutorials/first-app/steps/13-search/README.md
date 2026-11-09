@@ -70,7 +70,7 @@ O template foi atualizado para vincular a função `filterResults` ao evento `cl
 
 </docs-workflow>
 
-RESUMO: Nesta lição, você atualizou sua aplicação para usar variáveis de template para interagir com valores de template, e adicionou funcionalidade de busca usando vinculação de eventos e funções de array.
+SUMMARY: Nesta lição, você atualizou sua aplicação para usar variáveis de template para interagir com valores de template, e adicionou funcionalidade de busca usando vinculação de eventos e funções de array.
 
 Para mais informações sobre os tópicos abordados nesta lição, visite:
 

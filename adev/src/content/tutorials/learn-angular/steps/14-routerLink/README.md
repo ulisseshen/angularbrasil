@@ -1,18 +1,19 @@
-# Use RouterLink for Navigation
+<!-- ia-translate: true -->
+# Use RouterLink para navegação {#use-routerlink-for-navigation}
 
-In the app's current state, the entire page refreshes when we click on an internal link that exists within the app. While this may not seem significant with a small app, this can have performance implications for larger pages with more content where users have to redownload assets and run calculations again.
+No estado atual do app, a página inteira é recarregada quando clicamos em um link interno que existe dentro do app. Embora isso possa não parecer significativo com um app pequeno, pode ter implicações de performance em páginas maiores, com mais conteúdo, nas quais os usuários precisam baixar os assets novamente e executar os cálculos outra vez.
 
-NOTE: Learn more about [adding routes to your application in the in-depth guide](/guide/routing/define-routes#adding-the-router-to-your-application).
+NOTE: Saiba mais sobre [adicionar rotas à sua aplicação no guia detalhado](/guide/routing/define-routes#adding-the-router-to-your-application).
 
-In this activity, you'll learn how to leverage the `RouterLink` directive to make the most use of Angular Router.
+Nesta atividade, você aprenderá como aproveitar a directive `RouterLink` para fazer o melhor uso do Angular Router.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Import `RouterLink` directive">
+<docs-step title="Importe a directive `RouterLink`">
 
-In `app.ts` add the `RouterLink` directive import to the existing import statement from `@angular/router` and add it to the `imports` array of your component decorator.
+Em `app.ts`, adicione o import da directive `RouterLink` à declaração de import existente de `@angular/router` e inclua-a no array `imports` do decorator do seu component.
 
 ```ts
 ...
@@ -26,9 +27,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 </docs-step>
 
-<docs-step title="Add a `routerLink` to template">
+<docs-step title="Adicione um `routerLink` ao template">
 
-To use the `RouterLink` directive, replace the `href` attributes with `routerLink`. Update the template with this change.
+Para usar a directive `RouterLink`, substitua os atributos `href` por `routerLink`. Atualize o template com essa mudança.
 
 ```angular-ts
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -49,6 +50,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 </docs-workflow>
 
-When you click on the links in the navigation now, you should not see any blinking and only the content of the page itself (i.e., `router-outlet`) being changed 🎉
+Ao clicar nos links da navegação agora, você não deve ver nenhuma piscada, e apenas o conteúdo da própria página (ou seja, `router-outlet`) deve mudar 🎉
 
-Great job learning about routing with Angular. This is just the surface of the `Router` API, to learn more check out the [Angular Router Documentation](guide/routing).
+Ótimo trabalho aprendendo sobre routing com Angular. Isso é apenas a superfície da API do `Router`. Para aprender mais, confira a [documentação do Angular Router](guide/routing).

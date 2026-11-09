@@ -87,7 +87,7 @@ Neste passo, você atualiza os arquivos do projeto Angular para mudar o conteúd
 No seu IDE:
 
 1. Abra `first-app/src/index.html`.
-   NOTA: Este passo e o próximo são apenas para seu ambiente local!
+   NOTE: Este passo e o próximo são apenas para seu ambiente local!
 
 1. Em `index.html`, substitua o elemento `<title>` com este código para atualizar o título da aplicação.
 

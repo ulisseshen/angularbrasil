@@ -1,14 +1,15 @@
+<!-- ia-translate: true -->
 # Pipes
 
-Pipes are functions that are used to transform data in templates. In general, pipes are "pure" functions that don't cause side effects. Angular has a number of helpful built-in pipes you can import and use in your components. You can also create a custom pipe.
+Pipes são funções usadas para transformar dados em templates. Em geral, pipes são funções "puras", que não causam efeitos colaterais. O Angular possui vários pipes integrados úteis, que você pode importar e usar nos seus components. Você também pode criar um pipe personalizado.
 
-NOTE: Learn more about [pipes in the in-depth guide](/guide/templates/pipes).
+NOTE: Saiba mais sobre [pipes no guia detalhado](/guide/templates/pipes).
 
-In this activity, you will import a pipe and use it in the template.
+Nesta atividade, você importará um pipe e o usará no template.
 
 <hr>
 
-To use a pipe in a template include it in an interpolated expression. Check out this example:
+Para usar um pipe em um template, inclua-o em uma expressão interpolada. Confira este exemplo:
 
 ```angular-ts {highlight:[1,5,6]}
 import {UpperCasePipe} from '@angular/common';
@@ -23,12 +24,12 @@ export class App {
 }
 ```
 
-Now, it's your turn to give this a try:
+Agora é sua vez de experimentar:
 
 <docs-workflow>
 
-<docs-step title="Import the `LowerCase` pipe">
-First, update `app.ts` by adding the file level import for `LowerCasePipe` from `@angular/common`.
+<docs-step title="Importe o pipe `LowerCase`">
+Primeiro, atualize `app.ts` adicionando o import no nível do arquivo para `LowerCasePipe`, de `@angular/common`.
 
 ```ts
 import {LowerCasePipe} from '@angular/common';
@@ -36,8 +37,8 @@ import {LowerCasePipe} from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Add the pipe to the template imports">
-Next, update `@Component()` decorator `imports` to include a reference to `LowerCasePipe`
+<docs-step title="Adicione o pipe aos imports do template">
+Em seguida, atualize o decorator `@Component()` adicionando, em `imports`, uma referência ao `LowerCasePipe`.
 
 ```ts {highlight:[3]}
 @Component({
@@ -48,8 +49,8 @@ Next, update `@Component()` decorator `imports` to include a reference to `Lower
 
 </docs-step>
 
-<docs-step title="Add the pipe to the template">
-Finally, in `app.ts` update the template to include the `lowercase` pipe:
+<docs-step title="Adicione o pipe ao template">
+Por fim, em `app.ts`, atualize o template para incluir o pipe `lowercase`:
 
 ```angular-html
 template: `{{ username | lowercase }}`
@@ -59,6 +60,6 @@ template: `{{ username | lowercase }}`
 
 </docs-workflow>
 
-Pipes can also accept parameters which can be used to configure their output. Find out more in the next activity.
+Pipes também podem aceitar parâmetros, que podem ser usados para configurar sua saída. Descubra mais na próxima atividade.
 
-P.S. you are doing great ⭐️
+P.S. você está indo muito bem ⭐️

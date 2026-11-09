@@ -30,12 +30,12 @@ No painel **Terminal** do seu IDE:
    ng serve
    ```
 
-   NOTA: Este passo é apenas para seu ambiente local!
+   NOTE: Este passo é apenas para seu ambiente local!
 
 1. Abra um browser e navegue até `http://localhost:4200` para encontrar a aplicação.
 1. Confirme que a aplicação builda sem erro.
 
-   ÚTIL: Ela deve renderizar da mesma forma que na lição anterior porque, embora você tenha adicionado um novo component, você ainda não o incluiu em nenhum dos templates da aplicação.
+   HELPFUL: Ela deve renderizar da mesma forma que na lição anterior porque, embora você tenha adicionado um novo component, você ainda não o incluiu em nenhum dos templates da aplicação.
 
 1. Deixe o `ng serve` rodando enquanto você completa os próximos passos.
    </docs-step>
@@ -65,7 +65,7 @@ Neste passo, você vai copiar os estilos pré-escritos para o `HousingLocation` 
 
 1. Abra `src/app/housing-location/housing-location.css`, e cole os estilos abaixo no arquivo:
 
-   NOTA: No browser, estes podem ir em `src/app/housing-location/housing-location.ts` no array `styles`.
+   NOTE: No browser, estes podem ir em `src/app/housing-location/housing-location.ts` no array `styles`.
 
    <docs-code header="Adicione estilos CSS ao housing location no component em src/app/housing-location/housing-location.css" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/housing-location/housing-location.css"/>
 

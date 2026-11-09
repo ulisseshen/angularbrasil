@@ -43,7 +43,7 @@ No painel **Terminal** do seu IDE:
 
 1. Execute este comando para construir e servir sua aplicação.
 
-   NOTA: Este passo é apenas para seu ambiente local!
+   NOTE: Este passo é apenas para seu ambiente local!
 
    ```shell
    ng serve
@@ -53,7 +53,7 @@ No painel **Terminal** do seu IDE:
 
 1. Confirme que a aplicação constrói sem erro.
 
-   ÚTIL: Ela deve renderizar da mesma forma que na lição anterior porque mesmo que você tenha adicionado um novo component, você ainda não o incluiu em nenhum dos templates da aplicação.
+   HELPFUL: Ela deve renderizar da mesma forma que na lição anterior porque mesmo que você tenha adicionado um novo component, você ainda não o incluiu em nenhum dos templates da aplicação.
 
 1. Deixe o `ng serve` rodando enquanto você completa os próximos passos.
    </docs-step>
@@ -124,7 +124,7 @@ No painel **Edit** do seu IDE:
 
 1.  Em seguida, abra `home.css` no editor e atualize o conteúdo com estes estilos.
 
-    NOTA: No navegador, estes podem ir em `src/app/home/home.ts` no array `styles`.
+    NOTE: No navegador, estes podem ir em `src/app/home/home.ts` no array `styles`.
 
        <docs-code header="Replace in src/app/home/home.css" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/home/home.css"/>
 

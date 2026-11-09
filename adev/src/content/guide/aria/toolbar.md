@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Toolbar
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="Toolbar ARIA pattern"/>
-  <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="Padrão ARIA de toolbar"/>
+  <docs-pill href="/api/aria/toolbar/Toolbar" title="Referência da API de Toolbar"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-A container for grouping related controls and actions with keyboard navigation, commonly used for text formatting, toolbars, and command panels.
+Um contêiner para agrupar controles e ações relacionados, com navegação por teclado, comumente usado para formatação de texto, barras de ferramentas e painéis de comandos.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.html"/>
@@ -35,41 +36,41 @@ A container for grouping related controls and actions with keyboard navigation, 
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso {#usage}
 
-Toolbar works best for grouping related controls that users access frequently. Consider using toolbar when:
+A toolbar funciona melhor para agrupar controles relacionados que os usuários acessam com frequência. Considere usar a toolbar quando:
 
-- **Multiple related actions** - You have several controls that perform related functions (like text formatting buttons)
-- **Keyboard efficiency matters** - Users benefit from quick keyboard navigation through arrow keys
-- **Grouped controls** - You need to organize controls into logical sections with separators
-- **Frequent access** - Controls are used repeatedly within a workflow
+- **Várias ações relacionadas** - Você tem vários controles que executam funções relacionadas (como botões de formatação de texto)
+- **A eficiência pelo teclado importa** - Os usuários se beneficiam da navegação rápida com as setas
+- **Controles agrupados** - Você precisa organizar os controles em seções lógicas com separadores
+- **Acesso frequente** - Os controles são usados repetidamente dentro de um fluxo de trabalho
 
-Avoid toolbar when:
+Evite a toolbar quando:
 
-- A simple button group is sufficient - For just 2-3 unrelated actions, individual buttons work better
-- Controls aren't related - Toolbar implies a logical grouping; unrelated controls confuse users
-- Complex nested navigation - Deep hierarchies are better served by menus or navigation components
+- Um grupo simples de botões é suficiente - Para apenas 2-3 ações não relacionadas, botões individuais funcionam melhor
+- Os controles não estão relacionados - A toolbar implica um agrupamento lógico; controles não relacionados confundem os usuários
+- Navegação aninhada complexa - Hierarquias profundas são mais bem atendidas por menus ou componentes de navegação
 
-## Features
+## Funcionalidades {#features}
 
-Angular's toolbar provides a fully accessible toolbar implementation with:
+A toolbar do Angular oferece uma implementação totalmente acessível, com:
 
-- **Keyboard Navigation** - Navigate widgets with arrow keys, Home, and End using roving tabindex, while controls retain native activation
-- **Screen Reader Support** - Built-in ARIA attributes for assistive technologies
-- **Widget Groups** - Organize related widgets like radio button groups or toggle button groups
-- **Flexible Orientation** - Horizontal or vertical layouts with automatic keyboard navigation
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Bidirectional Text Support** - Automatically handles right-to-left (RTL) languages
-- **Configurable Focus** - Choose between wrapping navigation or hard stops at edges
+- **Navegação por teclado** - Navegue pelos widgets com as setas, Home e End usando roving tabindex, enquanto os controles mantêm a ativação nativa
+- **Suporte a leitores de tela** - Atributos ARIA integrados para tecnologias assistivas
+- **Grupos de widgets** - Organize widgets relacionados, como grupos de botões de rádio ou grupos de botões de alternância
+- **Orientação flexível** - Layouts horizontais ou verticais com navegação por teclado automática
+- **Reatividade baseada em signals** - Gerenciamento de estado reativo usando signals do Angular
+- **Suporte a texto bidirecional** - Trata automaticamente idiomas da direita para a esquerda (RTL)
+- **Foco configurável** - Escolha entre navegação circular ou paradas fixas nas bordas
 
-## Examples
+## Exemplos {#examples}
 
-### Basic horizontal toolbar
+### Toolbar horizontal básica {#basic-horizontal-toolbar}
 
-Horizontal toolbars organize controls from left to right, matching the common pattern in text editors and design tools. Arrow keys navigate between widgets, maintaining focus within the toolbar until users press Tab to move to the next page element.
+As toolbars horizontais organizam os controles da esquerda para a direita, seguindo o padrão comum de editores de texto e ferramentas de design. As setas navegam entre os widgets, mantendo o foco dentro da toolbar até que o usuário pressione Tab para ir ao próximo elemento da página.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.html"/>
@@ -94,12 +95,12 @@ Horizontal toolbars organize controls from left to right, matching the common pa
   </docs-tab>
 </docs-tab-group>
 
-### Vertical toolbar
+### Toolbar vertical {#vertical-toolbar}
 
-Vertical toolbars stack controls top to bottom, useful for side panels or vertical command palettes. Up and down arrow keys navigate between widgets.
+As toolbars verticais empilham os controles de cima para baixo, úteis para painéis laterais ou paletas de comandos verticais. As setas para cima e para baixo navegam entre os widgets.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/vertical/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/vertical/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/vertical/app/app.html"/>
@@ -124,15 +125,15 @@ Vertical toolbars stack controls top to bottom, useful for side panels or vertic
   </docs-tab>
 </docs-tab-group>
 
-### Widget groups
+### Grupos de widgets {#widget-groups}
 
-Widget groups organize related controls that work together, such as text alignment options or formatting toggles. Groups maintain roving tabindex navigation while presenting the appropriate semantic structure to assistive technologies.
+Grupos de widgets organizam controles relacionados que funcionam em conjunto, como opções de alinhamento de texto ou alternadores de formatação. Os grupos mantêm a navegação com roving tabindex, apresentando a estrutura semântica adequada para as tecnologias assistivas.
 
-In the examples above, the alignment buttons are wrapped in `ngToolbarWidgetGroup` with `role="radiogroup"`. Selection is decoupled from the toolbar container, allowing you to manage state using Angular signals or custom directives:
+Nos exemplos acima, os botões de alinhamento são envolvidos por `ngToolbarWidgetGroup` com `role="radiogroup"`. A seleção é desacoplada do contêiner da toolbar, permitindo gerenciar o estado usando signals do Angular ou diretivas personalizadas:
 
 ```angular-html
-<!-- Mutually exclusive radio group -->
-<div ngToolbarWidgetGroup role="radiogroup" aria-label="Alignment">
+<!-- Grupo de rádio mutuamente exclusivo -->
+<div ngToolbarWidgetGroup role="radiogroup" aria-label="Alinhamento">
   <button
     ngToolbarWidget
     role="radio"
@@ -140,7 +141,7 @@ In the examples above, the alignment buttons are wrapped in `ngToolbarWidgetGrou
     [attr.aria-checked]="alignment() === 'left'"
     (click)="alignment.set('left')"
   >
-    Left
+    Esquerda
   </button>
   <button
     ngToolbarWidget
@@ -149,7 +150,7 @@ In the examples above, the alignment buttons are wrapped in `ngToolbarWidgetGrou
     [attr.aria-checked]="alignment() === 'center'"
     (click)="alignment.set('center')"
   >
-    Center
+    Centro
   </button>
   <button
     ngToolbarWidget
@@ -158,14 +159,14 @@ In the examples above, the alignment buttons are wrapped in `ngToolbarWidgetGrou
     [attr.aria-checked]="alignment() === 'right'"
     (click)="alignment.set('right')"
   >
-    Right
+    Direita
   </button>
 </div>
 
-<!-- Toggle button group -->
-<div class="group" role="group" aria-label="Text styling">
+<!-- Grupo de botões de alternância -->
+<div class="group" role="group" aria-label="Estilo de texto">
   <button ngToolbarWidget type="button" [attr.aria-pressed]="bold()" (click)="bold.set(!bold())">
-    Bold
+    Negrito
   </button>
   <button
     ngToolbarWidget
@@ -173,22 +174,22 @@ In the examples above, the alignment buttons are wrapped in `ngToolbarWidgetGrou
     [attr.aria-pressed]="italic()"
     (click)="italic.set(!italic())"
   >
-    Italic
+    Itálico
   </button>
 </div>
 ```
 
-### Disabled widgets
+### Widgets desabilitados {#disabled-widgets}
 
-Toolbars support two disabled modes:
+As toolbars oferecem dois modos de desabilitação:
 
-1. **Soft-disabled** widgets remain focusable but visually indicate they're unavailable
-2. **Hard-disabled** widgets are completely removed from keyboard navigation.
+1. **Desabilitados de forma suave** - Os widgets continuam focalizáveis, mas indicam visualmente que não estão disponíveis
+2. **Desabilitados de forma rígida** - Os widgets são completamente removidos da navegação por teclado.
 
-By default, `softDisabled` is `true`, which allows disabled widgets to still receive focus. If you want to enable hard-disabled mode, set `[softDisabled]="false"` on the toolbar.
+Por padrão, `softDisabled` é `true`, o que permite que widgets desabilitados ainda recebam foco. Se quiser ativar o modo desabilitado de forma rígida, defina `[softDisabled]="false"` na toolbar.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/disabled/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/disabled/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/disabled/app/app.html"/>
@@ -213,12 +214,12 @@ By default, `softDisabled` is `true`, which allows disabled widgets to still rec
   </docs-tab>
 </docs-tab-group>
 
-### Right-to-left (RTL) support
+### Suporte a idiomas da direita para a esquerda (RTL) {#right-to-left-rtl-support}
 
-Toolbars automatically support right-to-left languages. Wrap the toolbar in a container with `dir="rtl"` to reverse the layout and keyboard navigation direction. Arrow key navigation adjusts automatically: left arrow moves to the next widget, right arrow to the previous.
+As toolbars oferecem suporte automático a idiomas da direita para a esquerda. Envolva a toolbar em um contêiner com `dir="rtl"` para inverter o layout e a direção da navegação por teclado. A navegação com as setas se ajusta automaticamente: a seta para a esquerda move para o próximo widget, e a seta para a direita, para o anterior.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/rtl/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/rtl/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/rtl/app/app.html"/>
@@ -243,17 +244,17 @@ Toolbars automatically support right-to-left languages. Wrap the toolbar in a co
   </docs-tab>
 </docs-tab-group>
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing toolbar components.
-Here is an example of how to use the harnesses in a component test:
+O Angular Aria oferece harnesses de componente para testar componentes toolbar.
+Veja a seguir um exemplo de como usar os harnesses em um teste de componente:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {ToolbarHarness} from '@angular/aria/toolbar/testing';
-import {MyToolbarComponent} from './my-toolbar'; // Your component
+import {MyToolbarComponent} from './my-toolbar'; // Seu componente
 
 describe('MyToolbarComponent', () => {
   let fixture: ComponentFixture<MyToolbarComponent>;
@@ -270,25 +271,25 @@ describe('MyToolbarComponent', () => {
   });
 
   it('should have widgets and update toggle state on click', async () => {
-    // Load the toolbar harness
+    // Carrega o harness da toolbar
     const toolbar = await loader.getHarness(ToolbarHarness);
 
-    // Get all widgets
+    // Obtém todos os widgets
     const widgets = await toolbar.getWidgets();
     expect(widgets.length).toBe(3);
 
-    // Click the first widget
+    // Clica no primeiro widget
     await widgets[0].click();
 
-    // Verify pressed state updated via click handler
+    // Verifica se o estado pressionado foi atualizado pelo manipulador de clique
     expect(await widgets[0].isSelected()).toBe(true);
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`Toolbar`](/api/aria/toolbar/Toolbar)
 - [`ToolbarWidget`](/api/aria/toolbar/ToolbarWidget)

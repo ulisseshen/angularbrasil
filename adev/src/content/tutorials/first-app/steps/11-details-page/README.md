@@ -5,7 +5,7 @@ Esta lição do tutorial demonstra como conectar a página de detalhes à sua ap
 
 <docs-video src="https://www.youtube.com/embed/-jRxG84AzCI?si=CbqIpmRpwp5ZZDnu&amp;start=345"/>
 
-IMPORTANTE: Recomendamos usar seu ambiente local para aprender routing.
+IMPORTANT: Recomendamos usar seu ambiente local para aprender routing.
 
 ## O que você vai aprender {#what-youll-learn}
 

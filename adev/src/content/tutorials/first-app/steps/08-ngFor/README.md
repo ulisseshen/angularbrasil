@@ -30,7 +30,7 @@ No `Home` há apenas uma única localização de moradia. Neste passo, você adi
 1. Atualize a classe `Home` para ter uma propriedade chamada `housingLocationList`. Atualize seu código para corresponder ao seguinte código:
    <docs-code language="angular-ts"  header="Adicione a propriedade housingLocationList em home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="[26,127]"/>
 
-   IMPORTANTE: Não remova o decorator `@Component`, você atualizará esse código em um passo futuro.
+   IMPORTANT: Não remova o decorator `@Component`, você atualizará esse código em um passo futuro.
 
 </docs-step>
 
