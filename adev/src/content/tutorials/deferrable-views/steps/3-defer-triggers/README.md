@@ -1,31 +1,32 @@
-# Defer triggers
+<!-- ia-translate: true -->
+# Triggers de defer {#defer-triggers}
 
-While the default options for `@defer` offer great options for lazy loading parts of your components it may still be desirable to further customize the deferred loading experience.
+Embora as opções padrão de `@defer` ofereçam ótimas possibilidades para o lazy loading de partes dos seus components, ainda pode ser desejável personalizar melhor a experiência de carregamento deferido.
 
-By default, deferred content loads when the browser is idle. You can, however, customize when this loading occurs by specifying a **trigger**. This lets you pick the loading behavior best suited to your component.
+Por padrão, o conteúdo deferido carrega quando o browser está ocioso. Você pode, porém, personalizar quando esse carregamento acontece especificando um **trigger**. Isso permite escolher o comportamento de carregamento mais adequado ao seu component.
 
-Deferrable views offer two types of loading trigger:
+Deferrable views oferecem dois tipos de trigger de carregamento:
 
-| Trigger | Description                                                                                                                                                                                                    |
+| Trigger | Descrição                                                                                                                                                                                                      |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on`    | A trigger condition using a trigger from the list of built-in triggers.<br/>For example: `@defer (on viewport)`                                                                                                |
-| `when`  | A condition as an expression which is evaluated for truthiness. When the expression is truthy, the placeholder is swapped with the lazily loaded content.<br/>For example: `@defer (when customizedCondition)` |
+| `on`    | Uma condição de trigger que usa um trigger da lista de triggers integrados.<br/>Por exemplo: `@defer (on viewport)`                                                                                            |
+| `when`  | Uma condição como uma expressão que é avaliada quanto à veracidade. Quando a expressão é verdadeira, o placeholder é trocado pelo conteúdo carregado de forma lazy.<br/>Por exemplo: `@defer (when customizedCondition)` |
 
-If the `when` condition evaluates to `false`, the `defer` block is not reverted back to the placeholder. The swap is a one-time operation.
+Se a condição `when` for avaliada como `false`, o bloco `defer` não volta ao placeholder. A troca é uma operação única.
 
-You can define multiple event triggers at once, these triggers will be evaluated as OR conditions.
+Você pode definir múltiplos triggers de evento ao mesmo tempo. Esses triggers são avaliados como condições OR.
 
 - Ex: `@defer (on viewport; on timer(2s))`
 - Ex: `@defer (on viewport; when customizedCondition)`
 
-In this activity, you'll learn how to use triggers to specify the condition to load the deferrable views.
+Nesta atividade, você aprenderá como usar triggers para especificar a condição de carregamento das deferrable views.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Add `on hover` trigger">
-In your `app.ts`,  add an `on hover` trigger to the `@defer` block.
+<docs-step title="Adicione o trigger `on hover`">
+No seu `app.ts`, adicione um trigger `on hover` ao bloco `@defer`.
 
 ```angular-html {highlight:[1]}
 @defer (on hover) {
@@ -39,11 +40,11 @@ In your `app.ts`,  add an `on hover` trigger to the `@defer` block.
 }
 ```
 
-Now, the page will not render the comments section until you hover its placeholder.
+Agora, a página não renderizará a seção de comentários até que você passe o mouse sobre o placeholder dela.
 </docs-step>
 
-<docs-step title="Add a 'Show all comments' button">
-Next, update the template to include a button with the label "Show all comments". Include a template variable called `#showComments` with the button.
+<docs-step title="Adicione um botão 'Show all comments'">
+Em seguida, atualize o template para incluir um botão com o rótulo "Show all comments". Inclua uma variável de template chamada `#showComments` no botão.
 
 ```angular-html {highlight:[1]}
 <button type="button" #showComments>Show all comments</button>
@@ -59,12 +60,12 @@ Next, update the template to include a button with the label "Show all comments"
 }
 ```
 
-NOTE: for more information on [template variables check the documentation](/guide/templates/variables#declaring-a-template-reference-variable).
+NOTA: para mais informações sobre [variáveis de template, confira a documentação](/guide/templates/variables#declaring-a-template-reference-variable).
 
 </docs-step>
 
-<docs-step title="Add `on interaction` trigger">
-Update the `@defer` block in the template to use the `on interaction` trigger. Provide the `showComments` template variable as the parameter to `interaction`.
+<docs-step title="Adicione o trigger `on interaction`">
+Atualize o bloco `@defer` no template para usar o trigger `on interaction`. Forneça a variável de template `showComments` como parâmetro de `interaction`.
 
 ```angular-html {highlight:[3]}
 <button type="button" #showComments>Show all comments</button>
@@ -80,14 +81,14 @@ Update the `@defer` block in the template to use the `on interaction` trigger. P
 }
 ```
 
-With these changes, the page will wait for one of the following conditions before rendering the comments section:
+Com essas mudanças, a página aguardará uma das seguintes condições antes de renderizar a seção de comentários:
 
-- User hovers the comments section’s placeholder
-- User clicks on the “Show all comments" button
+- O usuário passa o mouse sobre o placeholder da seção de comentários
+- O usuário clica no botão "Show all comments"
 
-You can reload the page to try out different triggers to render the comments section.
+Você pode recarregar a página para testar os diferentes triggers que renderizam a seção de comentários.
 </docs-step>
 </docs-workflow>
 
-If you would like to learn more, check out the documentation for [Deferrable View](/guide/templates/defer).
-Keep learning to unlock more of Angular's great features.
+Se você quiser aprender mais, confira a documentação de [Deferrable View](/guide/templates/defer).
+Continue aprendendo para desbloquear mais recursos incríveis do Angular.
