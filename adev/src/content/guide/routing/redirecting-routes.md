@@ -35,7 +35,7 @@ A propriedade `pathMatch` em routes permite que os desenvolvedores controlem com
 
 Existem dois valores que `pathMatch` aceita:
 
-| Value      | Description                                       |
+| Valor      | Descrição                                       |
 | ---------- | ------------------------------------------------- |
 | `'full'`   | O caminho completo da URL deve corresponder exatamente |
 | `'prefix'` | Apenas o início da URL precisa corresponder      |

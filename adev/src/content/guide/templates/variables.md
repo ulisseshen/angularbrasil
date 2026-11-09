@@ -1,16 +1,17 @@
-# Variables in templates
+<!-- ia-translate: true -->
+# Variáveis em templates {#variables-in-templates}
 
-Angular has two types of variable declarations in templates: local template variables and template reference variables.
+O Angular tem dois tipos de declarações de variáveis em templates: variáveis locais de template e template reference variables.
 
-HELPFUL: In this guide, “template” does not mean the entire HTML template file. It refers only to a specific template construct or expression within the file.
+HELPFUL: Neste guia, “template” não significa o arquivo HTML inteiro. Refere-se apenas a uma construção ou expressão específica de template dentro do arquivo.
 
-## Local template variables with `@let`
+## Variáveis locais de template com `@let` {#local-template-variables-with-let}
 
-Angular's `@let` syntax allows you to define a local variable and re-use it across a template, similar to the [JavaScript `let` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let).
+A sintaxe `@let` do Angular permite definir uma variável local e reutilizá-la em um template, de forma semelhante à [sintaxe `let` do JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let).
 
-### Using `@let`
+### Usando `@let` {#using-let}
 
-Use `@let` to declare a variable whose value is based on the result of a template expression. Angular automatically keeps the variable's value up-to-date with the given expression, similar to [bindings](/guide/templates/binding).
+Use `@let` para declarar uma variável cujo valor é baseado no resultado de uma expressão de template. O Angular mantém automaticamente o valor da variável atualizado com a expressão fornecida, de forma semelhante aos [bindings](/guide/templates/binding).
 
 ```angular-html
 @let name = user.name;
@@ -24,11 +25,11 @@ Use `@let` to declare a variable whose value is based on the result of a templat
   'Ut enim ad minim veniam...';
 ```
 
-Each `@let` block can declare exactly one variable. You cannot declare multiple variables in the same block with a comma.
+Cada bloco `@let` pode declarar exatamente uma variável. Não é possível declarar múltiplas variáveis no mesmo bloco separando-as por vírgula.
 
-### Referencing the value of `@let`
+### Referenciando o valor de `@let` {#referencing-the-value-of-let}
 
-Once you've declared a variable with `@let`, you can reuse it in the same template:
+Depois de declarar uma variável com `@let`, você pode reutilizá-la no mesmo template:
 
 ```angular-html
 @let user = user$ | async;
@@ -47,9 +48,9 @@ Once you've declared a variable with `@let`, you can reuse it in the same templa
 }
 ```
 
-### Assignability
+### Atribuibilidade {#assignability}
 
-A key difference between `@let` and JavaScript's `let` is that `@let` cannot be reassigned after declaration. However, Angular automatically keeps the variable's value up-to-date with the given expression.
+Uma diferença importante entre `@let` e o `let` do JavaScript é que `@let` não pode ser reatribuído após a declaração. No entanto, o Angular mantém automaticamente o valor da variável atualizado com a expressão fornecida.
 
 ```angular-html
 @let value = 1;
@@ -58,11 +59,11 @@ A key difference between `@let` and JavaScript's `let` is that `@let` cannot be 
 <button (click)="value = value + 1">Increment the value</button>
 ```
 
-### Variable scope
+### Escopo de variável {#variable-scope}
 
-`@let` declarations are scoped to the current view and its descendants. Angular creates a new view at component boundaries and wherever a template might contain dynamic content, such as control flow blocks, `@defer` blocks, or structural directives.
+Declarações `@let` têm escopo na view atual e em seus descendentes. O Angular cria uma nova view nos limites de components e sempre que um template possa conter conteúdo dinâmico, como blocos de control flow, blocos `@defer` ou structural directives.
 
-Since `@let` declarations are not hoisted, they **cannot** be accessed by parent views or siblings:
+Como declarações `@let` não sofrem hoisting, elas **não podem** ser acessadas por views pai ou views irmãs:
 
 ```angular-html
 @let topLevel = value;
@@ -92,50 +93,50 @@ Since `@let` declarations are not hoisted, they **cannot** be accessed by parent
 {{ nested }}
 ```
 
-### Full syntax
+### Sintaxe completa {#full-syntax}
 
-The `@let` syntax is formally defined as:
+A sintaxe `@let` é formalmente definida como:
 
-- The `@let` keyword.
-- Followed by one or more whitespaces, not including new lines.
-- Followed by a valid JavaScript name and zero or more whitespaces.
-- Followed by the = symbol and zero or more whitespaces.
-- Followed by an Angular expression which can be multi-line.
-- Terminated by the `;` symbol.
+- A palavra-chave `@let`.
+- Seguida por um ou mais espaços em branco, sem incluir quebras de linha.
+- Seguida por um nome JavaScript válido e zero ou mais espaços em branco.
+- Seguida pelo símbolo = e zero ou mais espaços em branco.
+- Seguida por uma expressão Angular, que pode ocupar várias linhas.
+- Terminada pelo símbolo `;`.
 
 ## Template reference variables
 
-Template reference variables give you a way to declare a variable that references a value from an element in your template.
+Template reference variables fornecem uma maneira de declarar uma variável que referencia um valor de um elemento do seu template.
 
-A template reference variable can refer to the following:
+Uma template reference variable pode se referir ao seguinte:
 
-- a DOM element within a template (including [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements))
-- an Angular component or directive
-- a [TemplateRef](/api/core/TemplateRef) from an [ng-template](/api/core/ng-template)
+- um elemento DOM dentro de um template (incluindo [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements))
+- um component ou uma directive do Angular
+- um [TemplateRef](/api/core/TemplateRef) de um [ng-template](/api/core/ng-template)
 
-You can use template reference variables to read information from one part of the template in another part of the same template.
+Você pode usar template reference variables para ler informações de uma parte do template em outra parte do mesmo template.
 
-### Declaring a template reference variable
+### Declarando uma template reference variable {#declaring-a-template-reference-variable}
 
-You can declare a variable on an element in a template by adding an attribute that starts with the hash character (`#`) followed by the variable name.
+Você pode declarar uma variável em um elemento de um template adicionando um atributo que começa com o caractere hash (`#`), seguido pelo nome da variável.
 
 ```angular-html
 <!-- Create a template reference variable named "taskInput", referring to the HTMLInputElement. -->
 <input #taskInput placeholder="Enter task name" />
 ```
 
-### Assigning values to template reference variables
+### Atribuindo valores a template reference variables {#assigning-values-to-template-reference-variables}
 
-Angular assigns a value to template variables based on the element on which the variable is declared.
+O Angular atribui um valor às template variables com base no elemento em que a variável é declarada.
 
-If you declare the variable on a Angular component, the variable refers to the component instance.
+Se você declarar a variável em um component Angular, a variável se refere à instância do component.
 
 ```angular-html
 <!-- The `startDate` variable is assigned the instance of `MyDatepicker`. -->
 <my-datepicker #startDate />
 ```
 
-If you declare the variable on an `<ng-template>` element, the variable refers to a TemplateRef instance which represents the template. For more information, see [How Angular uses the asterisk, \*, syntax](/guide/directives/structural-directives#structural-directive-shorthand) in [Structural directives](/guide/directives/structural-directives).
+Se você declarar a variável em um elemento `<ng-template>`, a variável se refere a uma instância de TemplateRef que representa o template. Para mais informações, consulte [Como o Angular usa o asterisco, \*, na sintaxe](/guide/directives/structural-directives#structural-directive-shorthand) em [Structural directives](/guide/directives/structural-directives).
 
 ```angular-html
 <!-- The `myFragment` variable is assigned the `TemplateRef` instance corresponding to this template fragment. -->
@@ -144,16 +145,16 @@ If you declare the variable on an `<ng-template>` element, the variable refers t
 </ng-template>
 ```
 
-If you declare the variable on any other displayed element, the variable refers to the `HTMLElement` instance.
+Se você declarar a variável em qualquer outro elemento exibido, a variável se refere à instância de `HTMLElement`.
 
 ```angular-html
 <!-- The "taskInput" variable refers to the HTMLInputElement instance. -->
 <input #taskInput placeholder="Enter task name" />
 ```
 
-#### Assigning a reference to an Angular directive
+#### Atribuindo uma referência a uma directive Angular {#assigning-a-reference-to-an-angular-directive}
 
-Angular directives may have an `exportAs` property that defines a name by which the directive can be referenced in a template:
+Directives do Angular podem ter uma propriedade `exportAs` que define um nome pelo qual a directive pode ser referenciada em um template:
 
 ```angular-ts
 @Directive({
@@ -165,20 +166,20 @@ export class DropZone {
 }
 ```
 
-When you declare a template variable on an element, you can assign that variable a directive instance by specifying this `exportAs` name:
+Quando você declara uma template variable em um elemento, pode atribuir a essa variável uma instância de directive especificando este nome `exportAs`:
 
 ```angular-html
 <!-- The `firstZone` variable refers to the `DropZone` directive instance. -->
 <section dropZone #firstZone="dropZone">...</section>
 ```
 
-You cannot refer to a directive that does not specify an `exportAs` name.
+Você não pode se referir a uma directive que não especifica um nome `exportAs`.
 
-### Using template reference variables with queries
+### Usando template reference variables com queries {#using-template-reference-variables-with-queries}
 
-In addition to using template variables to read values from another part of the same template, you can also use this style of variable declaration to "mark" an element for [component and directive queries](/guide/components/queries).
+Além de usar template variables para ler valores de outra parte do mesmo template, você também pode usar esse estilo de declaração de variável para "marcar" um elemento para [queries de component e directive](/guide/components/queries).
 
-When you want to query for a specific element in a template, you can declare a template variable on that element and then query for the element based on the variable name.
+Quando você quiser fazer uma query por um elemento específico em um template, pode declarar uma template variable nesse elemento e depois consultar o elemento com base no nome da variável.
 
 ```angular-html
 <input #description value="Original description" />
@@ -195,21 +196,21 @@ export class AppComponent {
 }
 ```
 
-See [Referencing children with queries](/guide/components/queries) for more information on queries.
+Consulte [Referenciando filhos com queries](/guide/components/queries) para mais informações sobre queries.
 
-### Template variable scope
+### Escopo de variáveis de template {#template-variable-scope}
 
-Just like variables in JavaScript or TypeScript code, template variables are scoped to the template that declares them.
+Assim como as variáveis em código JavaScript ou TypeScript, as template variables têm escopo no template que as declara.
 
-Similarly, [control flow blocks](guide/templates/control-flow) like `@if` and `@for`, [structural directives](guide/directives/structural-directives), and `<ng-template>` declarations create a new nested template scope, much like JavaScript's control flow statements like `if` and `for` create new lexical scopes. You cannot access template variables within one of these nested templates from outside of its boundaries.
+De forma semelhante, [blocos de control flow](guide/templates/control-flow) como `@if` e `@for`, [structural directives](guide/directives/structural-directives) e declarações `<ng-template>` criam um novo escopo de template aninhado, assim como as instruções de controle de fluxo do JavaScript, como `if` e `for`, criam novos escopos léxicos. Você não pode acessar template variables de dentro de um desses templates aninhados a partir de fora de seus limites.
 
-HELPFUL: Define a variable only once in the template so the runtime value remains predictable.
+HELPFUL: Defina uma variável apenas uma vez no template, para que o valor em tempo de execução permaneça previsível.
 
-#### Accessing in a nested template
+#### Acessando em um template aninhado {#accessing-in-a-nested-template}
 
-An inner template can access template variables that the outer template defines.
+Um template interno pode acessar as template variables definidas pelo template externo.
 
-In the following example, changing the text in the `<input>` changes the value in the `<span>` because Angular immediately updates changes through the template variable, `ref1`.
+No exemplo a seguir, alterar o texto no `<input>` altera o valor no `<span>`, porque o Angular atualiza imediatamente as mudanças por meio da template variable `ref1`.
 
 ```angular-html
 <input #ref1 type="text" [(ngModel)]="firstExample" />
@@ -219,9 +220,9 @@ In the following example, changing the text in the `<input>` changes the value i
 }
 ```
 
-In this case, the `@if` block creates a new template scope, which includes the `ref1` variable from its parent scope.
+Neste caso, o bloco `@if` cria um novo escopo de template, que inclui a variável `ref1` do seu escopo pai.
 
-However, accessing a template variable from a child scope in the parent template doesn't work:
+No entanto, acessar uma template variable de um escopo filho no template pai não funciona:
 
 ```angular-html {avoid}
 @if (true) {
@@ -231,4 +232,4 @@ However, accessing a template variable from a child scope in the parent template
 <span>Value: {{ ref2?.value }}</span>
 ```
 
-Here, `ref2` is declared in the child scope created by `@if`, and is not accessible from the parent template.
+Aqui, `ref2` é declarada no escopo filho criado por `@if` e não é acessível a partir do template pai.

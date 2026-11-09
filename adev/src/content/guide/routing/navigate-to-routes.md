@@ -51,7 +51,7 @@ O roteamento do Angular possui duas sintaxes para definir URLs relativas: string
 <a [routerLink]="['dashboard']">Dashboard</a>
 ```
 
-ÚTIL: Passar uma string é a forma mais comum de definir URLs relativas.
+HELPFUL: Passar uma string é a forma mais comum de definir URLs relativas.
 
 Quando você precisar definir parâmetros dinâmicos em uma URL relativa, use a sintaxe de array:
 

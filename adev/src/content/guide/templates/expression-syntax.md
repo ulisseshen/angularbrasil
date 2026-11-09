@@ -1,53 +1,54 @@
-# Expression Syntax
+<!-- ia-translate: true -->
+# Sintaxe de expressão {#expression-syntax}
 
-Angular expressions are based on JavaScript, but differ in some key ways. This guide walks through the similarities and differences between Angular expressions and standard JavaScript.
+As expressões do Angular são baseadas em JavaScript, mas diferem em alguns pontos importantes. Este guia percorre as semelhanças e diferenças entre as expressões do Angular e o JavaScript padrão.
 
-## Value literals
+## Literais de valor {#value-literals}
 
-Angular supports a subset of [literal values](https://developer.mozilla.org/en-US/docs/Glossary/Literal) from JavaScript.
+O Angular suporta um subconjunto dos [valores literais](https://developer.mozilla.org/en-US/docs/Glossary/Literal) do JavaScript.
 
-### Supported value literals
+### Literais de valor suportados {#supported-value-literals}
 
-| Literal type           | Example values                  |
-| ---------------------- | ------------------------------- |
-| String                 | `'Hello'`, `"World"`            |
-| Boolean                | `true`, `false`                 |
-| Number                 | `123`, `3.14`                   |
-| Object                 | `{name: 'Alice'}`               |
-| Array                  | `['Onion', 'Cheese', 'Garlic']` |
-| null                   | `null`                          |
-| RegExp                 | `/\d+/`                         |
-| Template string        | `` `Hello ${name}` ``           |
-| Tagged template string | `` tag`Hello ${name}` ``        |
+| Tipo de literal          | Valores de exemplo              |
+| ------------------------ | ------------------------------- |
+| String                   | `'Hello'`, `"World"`            |
+| Boolean                  | `true`, `false`                 |
+| Number                   | `123`, `3.14`                   |
+| Object                   | `{name: 'Alice'}`               |
+| Array                    | `['Onion', 'Cheese', 'Garlic']` |
+| null                     | `null`                          |
+| RegExp                   | `/\d+/`                         |
+| Template string          | `` `Hello ${name}` ``           |
+| Tagged template string   | `` tag`Hello ${name}` ``        |
 
-### Unsupported value literals
+### Literais de valor não suportados {#unsupported-value-literals}
 
-| Literal type | Example values |
-| ------------ | -------------- |
-| BigInt       | `1n`           |
+| Tipo de literal | Valores de exemplo |
+| --------------- | ------------------ |
+| BigInt          | `1n`               |
 
-## Globals
+## Globais {#globals}
 
-Angular expressions support the following [globals](https://developer.mozilla.org/en-US/docs/Glossary/Global_object):
+As expressões do Angular suportam os seguintes [globais](https://developer.mozilla.org/en-US/docs/Glossary/Global_object):
 
 - [undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
 - [$any](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any)
 
-No other JavaScript globals are supported. Common JavaScript globals include `Number`, `Boolean`, `NaN`, `Infinity`, `parseInt`, and more.
+Nenhum outro global do JavaScript é suportado. Globais comuns do JavaScript incluem `Number`, `Boolean`, `NaN`, `Infinity`, `parseInt` e outros.
 
-## Local variables
+## Variáveis locais {#local-variables}
 
-Angular automatically makes special local variables available for use in expressions in specific contexts. These special variables always start with the dollar sign character (`$`).
+O Angular disponibiliza automaticamente variáveis locais especiais para uso em expressões em contextos específicos. Essas variáveis especiais sempre começam com o caractere de cifrão (`$`).
 
-For example, `@for` blocks make several local variables corresponding to information about the loop, such as `$index`.
+Por exemplo, blocos `@for` criam várias variáveis locais correspondentes a informações sobre o loop, como `$index`.
 
-## What operators are supported?
+## Quais operadores são suportados? {#what-operators-are-supported}
 
-### Supported operators
+### Operadores suportados {#supported-operators}
 
-Angular supports the following operators from standard JavaScript.
+O Angular suporta os seguintes operadores do JavaScript padrão.
 
-| Operator                      | Example(s)                                     |
+| Operador                      | Exemplo(s)                                     |
 | ----------------------------- | ---------------------------------------------- |
 | Add / Concatenate             | `1 + 2`                                        |
 | Subtract                      | `52 - 3`                                       |
@@ -86,36 +87,36 @@ Angular supports the following operators from standard JavaScript.
 | Rest in function calls        | `fn(...args)`                                  |
 | Arrow function                | `items.filter((i) => i.active)`                |
 
-NOTE: Assignment and increment/decrement operators are only valid in [event listener statements](#event-listener-statements). Using them in a binding or interpolation is a compile error, unless they are inside an arrow function.
+NOTE: Os operadores de atribuição e de incremento/decremento são válidos apenas em [instruções de event listener](#event-listener-statements). Usá-los em um binding ou em uma interpolação é um erro de compilação, a menos que estejam dentro de uma arrow function.
 
-Arrow functions must have an expression body. Pipes cannot be used inside an arrow function, but you can pass an arrow function as an argument to a pipe.
+Arrow functions devem ter um corpo de expressão. Pipes não podem ser usados dentro de uma arrow function, mas você pode passar uma arrow function como argumento para um pipe.
 
-Angular expressions additionally also support the following non-standard operators:
+As expressões do Angular também suportam os seguintes operadores não padrão:
 
-| Operator                        | Example(s)                     |
+| Operador                        | Exemplo(s)                     |
 | ------------------------------- | ------------------------------ |
 | [Pipe](/guide/templates/pipes)  | `{{ total \| currency }}`      |
 | Optional chaining\*             | `someObj.someProp?.nestedProp` |
 | Non-null assertion (TypeScript) | `someObj!.someProp`            |
 
-### Safe navigation migration
+### Migração da navegação segura {#safe-navigation-migration}
 
-Prior to Angular 22, the optional chaining operator (`?.`) returned `null` when the left-hand side is `null` or `undefined`, whereas standard JavaScript's `?.` returns `undefined`.
-Since Angular 22, the optional chaining operator behavior in Angular expressions is aligned with the standard JavaScript behavior.
+Antes do Angular 22, o operador de optional chaining (`?.`) retornava `null` quando o lado esquerdo era `null` ou `undefined`, enquanto o `?.` do JavaScript padrão retorna `undefined`.
+A partir do Angular 22, o comportamento do operador de optional chaining nas expressões do Angular está alinhado com o comportamento padrão do JavaScript.
 
-During the migration to v22, the `ng update` schematics adds a `$safeNavigationMigration` function to existing expressions to preserve the previous behavior.
+Durante a migração para a v22, os schematics do `ng update` adicionam uma função `$safeNavigationMigration` às expressões existentes para preservar o comportamento anterior.
 
 ```html
 {{ $safeNavigationMigration(foo?.bar) }}
 ```
 
-`$safeNavigationMigration` is a **temporary migration aid only**. It instructs the compiler to compile the wrapped safe-navigation expression using the legacy null-returning semantics rather than the standard JavaScript `?.` semantics. It is not a real function and cannot be called from TypeScript.
+`$safeNavigationMigration` é apenas um **auxiliar temporário de migração**. Ele instrui o compilador a compilar a expressão de navegação segura envolvida usando a semântica legada, que retorna `null`, em vez da semântica padrão do `?.` do JavaScript. Não se trata de uma função real e não pode ser chamada a partir do TypeScript.
 
-NOTE: Prefer migrating expressions to no longer rely on `null` vs `undefined` distinctions so that `$safeNavigationMigration` can be removed. This function may be removed in a future version of Angular.
+NOTE: Prefira migrar as expressões para que deixem de depender da distinção entre `null` e `undefined`, de modo que `$safeNavigationMigration` possa ser removido. Essa função pode ser removida em uma versão futura do Angular.
 
-### Unsupported operators
+### Operadores não suportados {#unsupported-operators}
 
-| Operator              | Example(s)                        |
+| Operador              | Exemplo(s)                        |
 | --------------------- | --------------------------------- |
 | All bitwise operators | `&`, `&=`, `~`, `\|=`, `^=`, etc. |
 | Object destructuring  | `const { name } = person`         |
@@ -123,26 +124,26 @@ NOTE: Prefer migrating expressions to no longer rely on `null` vs `undefined` di
 | Comma operator        | `x = (x++, x)`                    |
 | new                   | `new Car()`                       |
 
-## Lexical context for expressions
+## Contexto léxico para expressões {#lexical-context-for-expressions}
 
-Angular expressions are evaluated within the context of the component class as well as any relevant [template variables](/guide/templates/variables), locals, and globals.
+As expressões do Angular são avaliadas no contexto da classe do component, bem como em quaisquer [variáveis de template](/guide/templates/variables), locais e globais relevantes.
 
-When referring to component class members, `this` is always implied. However, if a template declares a [template variables](guide/templates/variables) with the same name as a member, the variable shadows that member. You can unambiguously reference such a class member by explicitly using `this.`. This can be useful when creating an `@let` declaration that shadows a class member, e.g. for signal narrowing purposes.
+Ao se referir a membros da classe do component, `this` é sempre implícito. No entanto, se um template declarar uma [variável de template](guide/templates/variables) com o mesmo nome de um membro, a variável sombreia esse membro. Você pode referenciar inequivocamente esse membro da classe usando `this.` explicitamente. Isso pode ser útil ao criar uma declaração `@let` que sombreia um membro da classe, por exemplo, para fins de narrowing de signals.
 
-## Declarations
+## Declarações {#declarations}
 
-Generally speaking, declarations are not supported in Angular expressions. This includes, but is not limited to:
+De modo geral, declarações não são suportadas nas expressões do Angular. Isso inclui, mas não se limita a:
 
-| Declarations                      | Example(s)                                  |
+| Declarações                       | Exemplo(s)                                  |
 | --------------------------------- | ------------------------------------------- |
-| Variables                         | `let label = 'abc'`, `const item = 'apple'` |
-| Functions                         | `function myCustomFunction() { }`           |
-| Arrow functions with block bodies | `() => { }`                                 |
+| Variáveis                         | `let label = 'abc'`, `const item = 'apple'` |
+| Funções                           | `function myCustomFunction() { }`           |
+| Arrow functions com corpo de bloco | `() => { }`                                 |
 | Classes                           | `class Rectangle { }`                       |
 
-## Event listener statements
+## Instruções de event listener {#event-listener-statements}
 
-Event handlers are **statements** rather than expressions. While they support all of the same syntax as Angular expressions, there are two key differences:
+Event handlers são **instruções** em vez de expressões. Embora suportem toda a mesma sintaxe das expressões do Angular, há duas diferenças principais:
 
-1. Statements **do support** assignment operators (but not destructuring assignments)
-1. Statements **do not support** pipes
+1. Instruções **suportam** operadores de atribuição (mas não atribuições por desestruturação)
+1. Instruções **não suportam** pipes
