@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Structural directives
 
-Structural directives are directives applied to an `<ng-template>` element that conditionally or repeatedly render the content of that `<ng-template>`.
+Structural directives são directives aplicadas a um elemento `<ng-template>` que renderizam condicionalmente ou repetidamente o conteúdo desse `<ng-template>`.
 
-For everyday conditional and repeated rendering, use Angular's built-in [control flow blocks](guide/templates/control-flow) (`@if`, `@for`, and `@switch`). Write a structural directive when you need reusable rendering behavior that control flow doesn't cover, such as gating content behind a permission check or providing a template with data from an external source.
+Para renderização condicional e repetida do dia a dia, use os [blocos de control flow](guide/templates/control-flow) nativos do Angular (`@if`, `@for` e `@switch`). Escreva uma structural directive quando precisar de um comportamento de renderização reutilizável que o control flow não cobre, como restringir um conteúdo por trás de uma verificação de permissão ou fornecer um template com dados de uma fonte externa.
 
-## Example use case
+## Exemplo de caso de uso {#example-use-case}
 
-This guide uses a directive called `SelectDirective` as its running example. The directive fetches data from a given data source and renders its template when that data is available. It is named after the SQL keyword `SELECT` and matched with an attribute selector, `[select]`.
+Este guia usa uma directive chamada `SelectDirective` como exemplo ao longo do texto. A directive busca dados de uma fonte de dados informada e renderiza seu template quando esses dados estão disponíveis. Ela recebe o nome da palavra-chave SQL `SELECT` e é associada por um seletor de atributo, `[select]`.
 
-`SelectDirective` has an input naming the data source to use, called `selectFrom`. The `select` prefix for this input is important for the [shorthand syntax](#structural-directive-shorthand). The directive instantiates its `<ng-template>` with a template context providing the selected data.
+`SelectDirective` tem um input que indica a fonte de dados a ser usada, chamado `selectFrom`. O prefixo `select` desse input é importante para a [sintaxe abreviada](#structural-directive-shorthand). A directive instancia seu `<ng-template>` com um contexto de template que fornece os dados selecionados.
 
-Using this directive directly on an `<ng-template>` looks like this:
+Usar essa directive diretamente em um `<ng-template>` fica assim:
 
 ```angular-html
 <ng-template select let-data [selectFrom]="source">
@@ -18,56 +19,56 @@ Using this directive directly on an `<ng-template>` looks like this:
 </ng-template>
 ```
 
-The structural directive can wait for the data to become available and then render its `<ng-template>`.
+A structural directive pode aguardar até que os dados estejam disponíveis e então renderizar seu `<ng-template>`.
 
-HELPFUL: Angular's `<ng-template>` element defines a template that doesn't render anything by default. If you wrap elements in an `<ng-template>` without applying a structural directive, those elements are not rendered.
+HELPFUL: O elemento `<ng-template>` do Angular define um template que não renderiza nada por padrão. Se você envolver elementos em um `<ng-template>` sem aplicar uma structural directive, esses elementos não são renderizados.
 
-For more information, see the [ng-template API](api/core/ng-template) documentation.
+Para mais informações, veja a documentação da [API ng-template](api/core/ng-template).
 
-## Structural directive shorthand
+## Sintaxe abreviada de structural directive {#structural-directive-shorthand}
 
-Angular supports a shorthand syntax for structural directives which avoids the need to explicitly author an `<ng-template>` element.
+O Angular oferece uma sintaxe abreviada para structural directives, que evita a necessidade de escrever explicitamente um elemento `<ng-template>`.
 
-Structural directives can be applied directly on an element by prefixing the directive attribute selector with an asterisk (`*`), such as `*select`. Angular transforms the asterisk in front of a structural directive into an `<ng-template>` that hosts the directive and surrounds the element and its descendants.
+Structural directives podem ser aplicadas diretamente a um elemento prefixando o seletor de atributo da directive com um asterisco (`*`), como `*select`. O Angular transforma o asterisco à frente de uma structural directive em um `<ng-template>` que hospeda a directive e envolve o elemento e seus descendentes.
 
-You can use this with `SelectDirective` as follows:
+Você pode usar isso com `SelectDirective` assim:
 
 ```angular-html
 <p *select="let data; from: source">The data is: {{ data }}</p>
 ```
 
-This example shows the flexibility of structural directive shorthand syntax, which is sometimes called _microsyntax_.
+Este exemplo mostra a flexibilidade da sintaxe abreviada de structural directive, que às vezes é chamada de _microsyntax_.
 
-When used in this way, only the structural directive and its bindings are applied to the `<ng-template>`. Any other attributes or bindings on the `<p>` tag are left alone. For example, these two forms are equivalent:
+Quando usada dessa forma, apenas a structural directive e seus bindings são aplicados ao `<ng-template>`. Quaisquer outros atributos ou bindings na tag `<p>` são mantidos como estão. Por exemplo, estas duas formas são equivalentes:
 
 ```angular-html
-<!-- Shorthand syntax: -->
+<!-- Sintaxe abreviada: -->
 <p class="data-view" *select="let data; from: source">The data is: {{ data }}</p>
 
-<!-- Long-form syntax: -->
+<!-- Sintaxe longa: -->
 <ng-template select let-data [selectFrom]="source">
   <p class="data-view">The data is: {{ data }}</p>
 </ng-template>
 ```
 
-Shorthand syntax is expanded through a set of conventions. A more thorough [grammar](#structural-directive-syntax-reference) is defined below, but in the above example, this transformation can be explained as follows:
+A sintaxe abreviada é expandida por meio de um conjunto de convenções. Uma [gramática](#structural-directive-syntax-reference) mais completa é definida abaixo, mas, no exemplo acima, essa transformação pode ser explicada assim:
 
-The first part of the `*select` expression is `let data`, which declares a template variable `data`. Since no assignment follows, the template variable is bound to the template context property `$implicit`.
+A primeira parte da expressão `*select` é `let data`, que declara uma variável de template `data`. Como nenhuma atribuição segue, a variável de template é vinculada à propriedade `$implicit` do contexto de template.
 
-The second piece of syntax is a key-expression pair, `from source`. `from` is a binding key and `source` is a regular template expression. Binding keys are mapped to properties by transforming them to PascalCase and prepending the structural directive selector. The `from` key is mapped to `selectFrom`, which is then bound to the expression `source`. This is why many structural directives will have inputs that are all prefixed with the structural directive's selector.
+A segunda parte da sintaxe é um par chave-expressão, `from source`. `from` é uma chave de binding e `source` é uma expressão de template comum. As chaves de binding são mapeadas para propriedades transformando-as em PascalCase e prefixando-as com o seletor da structural directive. A chave `from` é mapeada para `selectFrom`, que então é vinculada à expressão `source`. É por isso que muitas structural directives têm inputs que são todos prefixados com o seletor da structural directive.
 
-## One structural directive per element
+## Uma structural directive por elemento {#one-structural-directive-per-element}
 
-You can only apply one structural directive per element when using the shorthand syntax. This is because there is only one `<ng-template>` element onto which that directive gets unwrapped. Multiple directives would require multiple nested `<ng-template>`, and it's unclear which directive should be first. `<ng-container>` can be used to create wrapper layers when multiple structural directives need to be applied around the same physical DOM element or component, which allows the user to define the nested structure.
+Você pode aplicar apenas uma structural directive por elemento ao usar a sintaxe abreviada. Isso acontece porque há apenas um elemento `<ng-template>` no qual essa directive é desembrulhada. Várias directives exigiriam vários `<ng-template>` aninhados, e não ficaria claro qual directive deveria vir primeiro. Um `<ng-container>` pode ser usado para criar camadas de encapsulamento quando várias structural directives precisam ser aplicadas em volta do mesmo elemento DOM físico ou component, o que permite ao usuário definir a estrutura aninhada.
 
-## Creating a structural directive
+## Criando uma structural directive {#creating-a-structural-directive}
 
-A structural directive is a directive class that injects two dependencies:
+Uma structural directive é uma classe de directive que injeta duas dependências:
 
-- [`TemplateRef`](api/core/TemplateRef) gives the directive access to the content of the `<ng-template>` it is applied to.
-- [`ViewContainerRef`](api/core/ViewContainerRef) represents the location in the DOM where the directive can render that template.
+- [`TemplateRef`](api/core/TemplateRef) dá à directive acesso ao conteúdo do `<ng-template>` ao qual ela é aplicada.
+- [`ViewContainerRef`](api/core/ViewContainerRef) representa o local no DOM onde a directive pode renderizar esse template.
 
-The directive controls rendering by creating, or not creating, embedded views from the template in the view container. The complete `SelectDirective` looks like this:
+A directive controla a renderização criando, ou não criando, embedded views a partir do template no view container. A `SelectDirective` completa fica assim:
 
 ```ts
 import {Directive, TemplateRef, ViewContainerRef, inject, input} from '@angular/core';
@@ -88,33 +89,33 @@ export class SelectDirective {
   async ngOnInit() {
     const data = await this.selectFrom().load();
     this.viewContainerRef.createEmbeddedView(this.templateRef, {
-      // Create the embedded view with a context object that contains
-      // the data via the key `$implicit`.
+      // Cria a embedded view com um objeto de contexto que contém
+      // os dados pela chave `$implicit`.
       $implicit: data,
     });
   }
 }
 ```
 
-The `selectFrom` input names the data source the directive reads from. It uses [`input.required()`](guide/components/inputs#required-inputs) because the directive can't do anything useful without a data source.
+O input `selectFrom` indica a fonte de dados que a directive lê. Ele usa [`input.required()`](guide/components/inputs#required-inputs) porque a directive não consegue fazer nada útil sem uma fonte de dados.
 
-When Angular initializes the directive, it loads the data and then renders the template by calling `createEmbeddedView()`. The second argument is the template's _context object_: values the template can bind to with `let` declarations. Assigning the data to the `$implicit` key makes it the default value that `let-data` (or `let data` in shorthand) receives.
+Quando o Angular inicializa a directive, ele carrega os dados e então renderiza o template chamando `createEmbeddedView()`. O segundo argumento é o _objeto de contexto_ do template: valores aos quais o template pode vincular com declarações `let`. Atribuir os dados à chave `$implicit` faz deles o valor padrão recebido por `let-data` (ou `let data`, na sintaxe abreviada).
 
-NOTE: This example renders its template once, when the directive initializes. It does not re-render when the bound data source changes.
+NOTE: Este exemplo renderiza seu template uma única vez, quando a directive é inicializada. Ele não é renderizado novamente quando a fonte de dados vinculada muda.
 
-Once the directive works, consider [adding template type-checking support](#typing-the-directives-context).
+Depois que a directive funcionar, considere [adicionar suporte à verificação de tipo de template](#typing-the-directives-context).
 
-HELPFUL: The CLI command [`ng generate directive`](tools/cli/schematics) scaffolds a directive along with its test file.
+HELPFUL: O comando CLI [`ng generate directive`](tools/cli/schematics) gera o esqueleto de uma directive junto com o arquivo de teste dela.
 
-## Structural directive syntax reference
+## Referência de sintaxe de structural directive {#structural-directive-syntax-reference}
 
-When you write your own structural directives, use the following syntax:
+Ao escrever suas próprias structural directives, use a seguinte sintaxe:
 
 ```ts {hideCopy}
 _: prefix = "( :let | :expression ) (';' | ',')? ( :let | :as | :keyExp )_";
 ```
 
-The following patterns describe each portion of the structural directive grammar:
+Os padrões a seguir descrevem cada parte da gramática de structural directive:
 
 ```ts
 as = :export "as" :local ";"?
@@ -122,29 +123,29 @@ keyExp = :key ":"? :expression ("as" :local)? ";"?
 let = "let" :local "=" :export ";"?
 ```
 
-| Keyword      | Details                                            |
-| :----------- | :------------------------------------------------- |
-| `prefix`     | HTML attribute key                                 |
-| `key`        | HTML attribute key                                 |
-| `local`      | Local variable name used in the template           |
-| `export`     | Value exported by the directive under a given name |
-| `expression` | Standard Angular expression                        |
+| Palavra-chave | Detalhes                                                  |
+| :------------ | :-------------------------------------------------------- |
+| `prefix`      | Chave de atributo HTML                                    |
+| `key`         | Chave de atributo HTML                                    |
+| `local`       | Nome da variável local usada no template                  |
+| `export`      | Valor exportado pela directive sob um nome específico     |
+| `expression`  | Expressão Angular padrão                                  |
 
-### How Angular translates shorthand
+### Como o Angular traduz a sintaxe abreviada {#how-angular-translates-shorthand}
 
-Angular translates structural directive shorthand into the normal binding syntax as follows:
+O Angular traduz a sintaxe abreviada de structural directive para a sintaxe normal de binding da seguinte forma:
 
-| Shorthand                       | Translation                                                     |
-| :------------------------------ | :-------------------------------------------------------------- |
-| `prefix` and naked `expression` | `[prefix]="expression"`                                         |
-| `keyExp`                        | `[prefixKey]="expression"` (The `prefix` is added to the `key`) |
-| `let local`                     | `let-local="export"`                                            |
+| Sintaxe abreviada               | Tradução                                                     |
+| :------------------------------ | :----------------------------------------------------------- |
+| `prefix` e `expression` sozinho | `[prefix]="expression"`                                      |
+| `keyExp`                        | `[prefixKey]="expression"` (O `prefix` é adicionado à `key`) |
+| `let local`                     | `let-local="export"`                                         |
 
-### Shorthand examples
+### Exemplos de sintaxe abreviada {#shorthand-examples}
 
-The following table provides shorthand examples:
+A tabela a seguir traz exemplos de sintaxe abreviada:
 
-| Shorthand                                                             | How Angular interprets the syntax                                                                             |
+| Sintaxe abreviada                                                     | Como o Angular interpreta a sintaxe                                                                           |
 | :-------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
 | `*myDir="let item of [1,2,3]"`                                        | `<ng-template myDir let-item [myDirOf]="[1, 2, 3]">`                                                          |
 | `*myDir="let item of [1,2,3] as items; trackBy: myTrack; index as i"` | `<ng-template myDir let-item [myDirOf]="[1,2,3]" let-items="myDirOf" [myDirTrackBy]="myTrack" let-i="index">` |
@@ -152,48 +153,48 @@ The following table provides shorthand examples:
 | `*ngComponentOutlet="componentClass; inputs: myInputs"`               | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">`                     |
 | `*myDir="exp as value"`                                               | `<ng-template [myDir]="exp" let-value="myDir">`                                                               |
 
-## Improving template type checking for custom directives
+## Melhorando a verificação de tipo de template para directives personalizadas {#improving-template-type-checking-for-custom-directives}
 
-You can improve template type checking for custom directives by adding template guards to your directive definition.
-These guards help the Angular template type checker find mistakes in the template at compile time, which can avoid runtime errors.
-Two different types of guards are possible:
+Você pode melhorar a verificação de tipo de template para directives personalizadas adicionando template guards à definição da directive.
+Esses guards ajudam o verificador de tipo de template do Angular a encontrar erros no template em tempo de compilação, o que pode evitar erros em tempo de execução.
+Há dois tipos diferentes de guards:
 
-- `ngTemplateGuard_(input)` lets you control how an input expression should be narrowed based on the type of a specific input.
-- `ngTemplateContextGuard` is used to determine the type of the context object for the template, based on the type of the directive itself.
+- `ngTemplateGuard_(input)` permite controlar como uma expressão de input deve ser restringida com base no tipo de um input específico.
+- `ngTemplateContextGuard` é usado para determinar o tipo do objeto de contexto do template, com base no tipo da própria directive.
 
-This section provides examples of both kinds of guards.
-For more information, see [Template type checking](tools/cli/template-typecheck 'Template type-checking guide').
+Esta seção traz exemplos dos dois tipos de guards.
+Para mais informações, veja [Verificação de tipo de template](tools/cli/template-typecheck 'Guia de verificação de tipo de template').
 
-### Type narrowing with template guards
+### Restrição de tipo com template guards {#type-narrowing-with-template-guards}
 
-A structural directive in a template controls whether that template is rendered at run time. Some structural directives want to perform type narrowing based on the type of input expression.
+Uma structural directive em um template controla se esse template é renderizado em tempo de execução. Algumas structural directives querem realizar restrição de tipo com base no tipo da expressão de input.
 
-There are two narrowings which are possible with input guards:
+Existem duas restrições possíveis com input guards:
 
-- Narrowing the input expression based on a TypeScript type assertion function.
-- Narrowing the input expression based on its truthiness.
+- Restringir a expressão de input com base em uma função de asserção de tipo do TypeScript.
+- Restringir a expressão de input com base em sua veracidade (truthiness).
 
-To narrow the input expression by defining a type assertion function:
+Para restringir a expressão de input definindo uma função de asserção de tipo:
 
 ```ts
-// This directive only renders its template if the actor is a user.
-// You want to assert that within the template, the type of the `actor`
-// expression is narrowed to `User`.
+// Esta directive só renderiza seu template se o actor for um usuário.
+// Você quer afirmar que, dentro do template, o tipo da expressão `actor`
+// é restringido para `User`.
 @Directive(...)
 class ActorIsUser {
   actor = input<User | Robot>();
 
   static ngTemplateGuard_actor(dir: ActorIsUser, expr: User | Robot): expr is User {
-    // The return statement is unnecessary in practice, but included to
-    // prevent TypeScript errors.
+    // A instrução return não é necessária na prática, mas está incluída para
+    // evitar erros do TypeScript.
     return true;
   }
 }
 ```
 
-Type-checking will behave within the template as if the `ngTemplateGuard_actor` has been asserted on the expression bound to the input.
+A verificação de tipo se comportará dentro do template como se `ngTemplateGuard_actor` tivesse sido afirmado sobre a expressão vinculada ao input.
 
-Some directives only render their templates when an input is truthy. It's not possible to capture the full semantics of truthiness in a type assertion function, so instead a literal type of `'binding'` can be used to signal to the template type-checker that the binding expression itself should be used as the guard:
+Algumas directives só renderizam seus templates quando um input é truthy. Não é possível capturar toda a semântica de veracidade em uma função de asserção de tipo; por isso, um tipo literal `'binding'` pode ser usado para sinalizar ao verificador de tipo de template que a própria expressão de binding deve ser usada como guard:
 
 ```ts
 @Directive(...)
@@ -204,39 +205,39 @@ class CustomIf {
 }
 ```
 
-The template type-checker will behave as if the expression bound to `condition` was asserted to be truthy within the template.
+O verificador de tipo de template se comportará como se a expressão vinculada a `condition` tivesse sido afirmada como truthy dentro do template.
 
-### Typing the directive's context
+### Tipando o contexto da directive {#typing-the-directives-context}
 
-If your structural directive provides a context to the instantiated template, you can properly type it inside the template by providing a static `ngTemplateContextGuard` type assertion function. This function can use the type of the directive to derive the type of the context, which is useful when the type of the directive is generic.
+Se sua structural directive fornece um contexto ao template instanciado, você pode tipá-lo corretamente dentro do template fornecendo uma função de asserção de tipo estática `ngTemplateContextGuard`. Essa função pode usar o tipo da directive para derivar o tipo do contexto, o que é útil quando o tipo da directive é genérico.
 
-For the `SelectDirective` described above, you can implement an `ngTemplateContextGuard` to correctly specify the data type, even if the data source is generic.
+Para a `SelectDirective` descrita acima, você pode implementar um `ngTemplateContextGuard` para especificar corretamente o tipo dos dados, mesmo se a fonte de dados for genérica.
 
 ```ts
-// Declare an interface for the template context:
+// Declare uma interface para o contexto do template:
 export interface SelectTemplateContext<T> {
   $implicit: T;
 }
 
 @Directive(...)
 export class SelectDirective<T> {
-  // The directive's generic type `T` will be inferred from the `DataSource` type
-  // passed to the input.
+  // O tipo genérico `T` da directive será inferido a partir do tipo `DataSource`
+  // passado ao input.
   selectFrom = input.required<DataSource<T>>();
 
-  // Narrow the type of the context using the generic type of the directive.
+  // Restringe o tipo do contexto usando o tipo genérico da directive.
   static ngTemplateContextGuard<T>(dir: SelectDirective<T>, ctx: any): ctx is SelectTemplateContext<T> {
-    // As before the guard body is not used at runtime, and included only to avoid
-    // TypeScript errors.
+    // Como antes, o corpo do guard não é usado em tempo de execução, e está incluído apenas para evitar
+    // erros do TypeScript.
     return true;
   }
 }
 ```
 
-## What's next
+## Próximos passos {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="guide/directives/directive-composition-api" title="Directive composition API"/>
+  <docs-pill href="guide/directives/directive-composition-api" title="API de composição de directives"/>
   <docs-pill href="guide/templates/ng-template" title="ng-template"/>
-  <docs-pill href="guide/templates/control-flow" title="Control flow"/>
+  <docs-pill href="guide/templates/control-flow" title="Fluxo de controle"/>
 </docs-pill-row>

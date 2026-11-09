@@ -1,3 +1,4 @@
+// ia-translate: true
 /*!
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -28,95 +29,95 @@ import API_MANIFEST_JSON from '../../../assets/manifest.json' with {type: 'json'
 
 export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   {
-    label: 'Introduction',
+    label: 'Introdução',
     children: [
       {
-        label: 'What is Angular?',
+        label: 'O que é o Angular?',
         path: 'overview',
         contentPath: 'introduction/what-is-angular',
       },
       {
-        label: 'Installation',
+        label: 'Instalação',
         path: 'installation',
         contentPath: 'introduction/installation',
       },
       {
-        label: 'Essentials',
+        label: 'Essenciais',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'essentials',
             contentPath: 'introduction/essentials/overview',
           },
           {
-            label: 'Composition with components',
+            label: 'Composição com components',
             path: 'essentials/components',
             contentPath: 'introduction/essentials/components',
           },
           {
-            label: 'Reactivity with signals',
+            label: 'Reatividade com signals',
             path: 'essentials/signals',
             contentPath: 'introduction/essentials/signals',
           },
           {
-            label: 'Dynamic interfaces with templates',
+            label: 'Interfaces dinâmicas com templates',
             path: 'essentials/templates',
             contentPath: 'introduction/essentials/templates',
           },
           {
-            label: 'Forms with signals',
+            label: 'Forms com signals',
             path: 'essentials/signal-forms',
             contentPath: 'introduction/essentials/signal-forms',
             status: 'new',
           },
           {
-            label: 'Modular design with dependency injection',
+            label: 'Design modular com dependency injection',
             path: 'essentials/dependency-injection',
             contentPath: 'introduction/essentials/dependency-injection',
           },
           {
-            label: 'Next Steps',
+            label: 'Próximos Passos',
             path: 'essentials/next-steps',
             contentPath: 'introduction/essentials/next-steps',
           },
         ],
       },
       {
-        label: 'Start coding! 🚀',
+        label: 'Comece a programar! 🚀',
         path: 'tutorials/learn-angular',
       },
     ],
   },
   {
-    label: 'In-depth Guides',
+    label: 'Guias Detalhados',
     children: [
       {
         label: 'Signals',
         status: 'updated',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/signals',
             contentPath: 'guide/signals/overview',
           },
           {
-            label: 'Dependent state with linkedSignal',
+            label: 'Estado dependente com linkedSignal',
             path: 'guide/signals/linked-signal',
             contentPath: 'guide/signals/linked-signal',
           },
           {
-            label: 'Async reactivity with resources',
+            label: 'Reatividade assíncrona com resources',
             path: 'guide/signals/resource',
             contentPath: 'guide/signals/resource',
           },
           {
-            label: 'Debounced signals',
+            label: 'Signals com debounce',
             path: 'guide/signals/debounced',
             contentPath: 'guide/signals/debounced',
             status: 'new',
           },
           {
-            label: 'Side effects for non-reactives APIs',
+            label: 'Efeitos colaterais para APIs não reativas',
             path: 'guide/signals/effect',
             contentPath: 'guide/signals/effect',
             status: 'new',
@@ -127,7 +128,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Components',
         children: [
           {
-            label: 'Anatomy of components',
+            label: 'Anatomia dos components',
             path: 'guide/components',
             contentPath: 'guide/components/anatomy-of-components',
           },
@@ -137,27 +138,27 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/components/selectors',
           },
           {
-            label: 'Styling',
+            label: 'Estilização',
             path: 'guide/components/styling',
             contentPath: 'guide/components/styling',
           },
           {
-            label: 'Accepting data with input properties',
+            label: 'Recebendo dados com input properties',
             path: 'guide/components/inputs',
             contentPath: 'guide/components/inputs',
           },
           {
-            label: 'Custom events with outputs',
+            label: 'Eventos customizados com outputs',
             path: 'guide/components/outputs',
             contentPath: 'guide/components/outputs',
           },
           {
-            label: 'Content projection with ng-content',
+            label: 'Projeção de conteúdo com ng-content',
             path: 'guide/components/content-projection',
             contentPath: 'guide/components/content-projection',
           },
           {
-            label: 'Host elements',
+            label: 'Elementos host',
             path: 'guide/components/host-elements',
             contentPath: 'guide/components/host-elements',
           },
@@ -167,27 +168,27 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/components/lifecycle',
           },
           {
-            label: 'Referencing component children with queries',
+            label: 'Referenciando filhos do component com queries',
             path: 'guide/components/queries',
             contentPath: 'guide/components/queries',
           },
           {
-            label: 'Using DOM APIs',
+            label: 'Usando DOM APIs',
             path: 'guide/components/dom-apis',
             contentPath: 'guide/components/dom-apis',
           },
           {
-            label: 'Inheritance',
+            label: 'Herança',
             path: 'guide/components/inheritance',
             contentPath: 'guide/components/inheritance',
           },
           {
-            label: 'Programmatically rendering components',
+            label: 'Renderizando components programaticamente',
             path: 'guide/components/programmatic-rendering',
             contentPath: 'guide/components/programmatic-rendering',
           },
           {
-            label: 'Advanced configuration',
+            label: 'Configuração avançada',
             path: 'guide/components/advanced-configuration',
             contentPath: 'guide/components/advanced-configuration',
           },
@@ -202,17 +203,17 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Templates',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/templates',
             contentPath: 'guide/templates/overview',
           },
           {
-            label: 'Binding dynamic text, properties and attributes',
+            label: 'Binding de texto, properties e attributes dinâmicos',
             path: 'guide/templates/binding',
             contentPath: 'guide/templates/binding',
           },
           {
-            label: 'Adding event listeners',
+            label: 'Adicionando event listeners',
             path: 'guide/templates/event-listeners',
             contentPath: 'guide/templates/event-listeners',
           },
@@ -222,7 +223,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/templates/two-way-binding',
           },
           {
-            label: 'Control flow',
+            label: 'Fluxo de controle',
             path: 'guide/templates/control-flow',
             contentPath: 'guide/templates/control-flow',
           },
@@ -232,43 +233,43 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/templates/pipes',
           },
           {
-            label: 'Slotting child content with ng-content',
+            label: 'Encaixando conteúdo filho com ng-content',
             path: 'guide/templates/ng-content',
             contentPath: 'guide/templates/ng-content',
           },
           {
-            label: 'Create template fragments with ng-template',
+            label: 'Criando fragmentos de template com ng-template',
             path: 'guide/templates/ng-template',
             contentPath: 'guide/templates/ng-template',
           },
           {
-            label: 'Grouping elements with ng-container',
+            label: 'Agrupando elementos com ng-container',
             path: 'guide/templates/ng-container',
             contentPath: 'guide/templates/ng-container',
           },
           {
-            label: 'Variables in templates',
+            label: 'Variáveis em templates',
             path: 'guide/templates/variables',
             contentPath: 'guide/templates/variables',
           },
           {
-            label: 'Deferred loading with @defer',
+            label: 'Carregamento diferido com @defer',
             path: 'guide/templates/defer',
             contentPath: 'guide/templates/defer',
           },
           {
-            label: 'Error boundaries with @boundary',
+            label: 'Limites de erro com @boundary',
             path: 'guide/templates/error-boundaries',
             contentPath: 'guide/templates/error-boundaries',
             status: 'new',
           },
           {
-            label: 'Expression syntax',
+            label: 'Sintaxe de expressões',
             path: 'guide/templates/expression-syntax',
             contentPath: 'guide/templates/expression-syntax',
           },
           {
-            label: 'Whitespace in templates',
+            label: 'Espaços em branco em templates',
             path: 'guide/templates/whitespace',
             contentPath: 'guide/templates/whitespace',
           },
@@ -278,7 +279,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Directives',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/directives',
             contentPath: 'guide/directives/overview',
           },
@@ -298,7 +299,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/directives/directive-composition-api',
           },
           {
-            label: 'Optimizing images with NgOptimizedImage',
+            label: 'Otimizando imagens com NgOptimizedImage',
             path: 'guide/image-optimization',
             contentPath: 'guide/image-optimization',
           },
@@ -309,48 +310,48 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         status: 'updated',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/di',
             contentPath: 'guide/di/overview',
           },
           {
-            label: 'Creating and using services',
+            label: 'Criando e usando services',
             path: 'guide/di/creating-and-using-services',
             contentPath: 'guide/di/creating-and-using-services',
           },
           {
-            label: 'Lazy loading services',
+            label: 'Lazy loading de services',
             path: 'guide/di/lazy-loading-services',
             contentPath: 'guide/di/lazy-loading-services',
             status: 'new',
           },
           {
-            label: 'Defining dependency providers',
+            label: 'Definindo dependency providers',
             path: 'guide/di/defining-dependency-providers',
             contentPath: 'guide/di/defining-dependency-providers',
           },
           {
-            label: 'Injection context',
+            label: 'Contexto de injeção',
             path: 'guide/di/dependency-injection-context',
             contentPath: 'guide/di/dependency-injection-context',
           },
           {
-            label: 'Hierarchical injectors',
+            label: 'Injectors hierárquicos',
             path: 'guide/di/hierarchical-dependency-injection',
             contentPath: 'guide/di/hierarchical-dependency-injection',
           },
           {
-            label: 'Optimizing injection tokens',
+            label: 'Otimizando injection tokens',
             path: 'guide/di/lightweight-injection-tokens',
             contentPath: 'guide/di/lightweight-injection-tokens',
           },
           {
-            label: 'DI in action',
+            label: 'DI em ação',
             path: 'guide/di/di-in-action',
             contentPath: 'guide/di/di-in-action',
           },
           {
-            label: 'Debugging and troubleshooting DI',
+            label: 'Depuração e solução de problemas de DI',
             path: 'guide/di/debugging-and-troubleshooting-di',
             contentPath: 'guide/di/debugging-and-troubleshooting-di',
             status: 'new',
@@ -361,42 +362,42 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Routing',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/routing',
             contentPath: 'guide/routing/overview',
           },
           {
-            label: 'Define routes',
+            label: 'Definindo routes',
             path: 'guide/routing/define-routes',
             contentPath: 'guide/routing/define-routes',
           },
           {
-            label: 'Route Loading Strategies',
+            label: 'Estratégias de carregamento de routes',
             path: 'guide/routing/loading-strategies',
             contentPath: 'guide/routing/loading-strategies',
           },
           {
-            label: 'Show routes with Outlets',
+            label: 'Exibindo routes com Outlets',
             path: 'guide/routing/show-routes-with-outlets',
             contentPath: 'guide/routing/show-routes-with-outlets',
           },
           {
-            label: 'Navigate to routes',
+            label: 'Navegando para routes',
             path: 'guide/routing/navigate-to-routes',
             contentPath: 'guide/routing/navigate-to-routes',
           },
           {
-            label: 'Read route state',
+            label: 'Lendo o estado de routes',
             path: 'guide/routing/read-route-state',
             contentPath: 'guide/routing/read-route-state',
           },
           {
-            label: 'Redirecting routes',
+            label: 'Redirecionando routes',
             path: 'guide/routing/redirecting-routes',
             contentPath: 'guide/routing/redirecting-routes',
           },
           {
-            label: 'Control route access with guards',
+            label: 'Controlando acesso a routes com guards',
             path: 'guide/routing/route-guards',
             contentPath: 'guide/routing/route-guards',
           },
@@ -406,48 +407,48 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/routing/data-resolvers',
           },
           {
-            label: 'Data fetching with resources',
+            label: 'Busca de dados com resources',
             path: 'guide/routing/data-fetching-with-resources',
             contentPath: 'guide/routing/data-fetching-with-resources',
             status: 'new',
           },
           {
-            label: 'Lifecycle and events',
+            label: 'Lifecycle e eventos',
             path: 'guide/routing/lifecycle-and-events',
             contentPath: 'guide/routing/lifecycle-and-events',
           },
           {
-            label: 'Testing routing and navigation',
+            label: 'Testando routing e navegação',
             path: 'guide/routing/testing',
             contentPath: 'guide/routing/testing',
           },
           {
-            label: 'Other routing tasks',
+            label: 'Outras tarefas de routing',
             path: 'guide/routing/common-router-tasks',
             contentPath: 'guide/routing/common-router-tasks',
           },
           {
-            label: 'Creating custom route matches',
+            label: 'Criando correspondências de route customizadas',
             path: 'guide/routing/routing-with-urlmatcher',
             contentPath: 'guide/routing/routing-with-urlmatcher',
           },
           {
-            label: 'Rendering strategies',
+            label: 'Estratégias de renderização',
             path: 'guide/routing/rendering-strategies',
             contentPath: 'guide/routing/rendering-strategies',
           },
           {
-            label: 'Customizing route behavior',
+            label: 'Customizando comportamento de route',
             path: 'guide/routing/customizing-route-behavior',
             contentPath: 'guide/routing/customizing-route-behavior',
           },
           {
-            label: 'Router reference',
+            label: 'Referência de Router',
             path: 'guide/routing/router-reference',
             contentPath: 'guide/routing/router-reference',
           },
           {
-            label: 'Route transition animations',
+            label: 'Animações de transição de route',
             path: 'guide/routing/route-transition-animations',
             contentPath: 'guide/routing/route-transition-animations',
           },
@@ -464,55 +465,55 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/forms',
             contentPath: 'guide/forms/overview',
           },
 
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/forms/signals/overview',
             contentPath: 'guide/forms/signals/overview',
             category: 'Signal Forms',
           },
           {
-            label: 'Form models',
+            label: 'Modelos de form',
             path: 'guide/forms/signals/models',
             contentPath: 'guide/forms/signals/models',
             category: 'Signal Forms',
           },
           {
-            label: 'Form model design',
+            label: 'Design de modelos de form',
             path: 'guide/forms/signals/model-design',
             contentPath: 'guide/forms/signals/designing-your-form-model',
             category: 'Signal Forms',
           },
           {
-            label: 'Field state management',
+            label: 'Gerenciamento de estado de campos',
             path: 'guide/forms/signals/field-state-management',
             contentPath: 'guide/forms/signals/field-state-management',
             category: 'Signal Forms',
           },
           {
-            label: 'Validation',
+            label: 'Validação',
             path: 'guide/forms/signals/validation',
             contentPath: 'guide/forms/signals/validation',
             category: 'Signal Forms',
           },
           {
-            label: 'Form logic',
+            label: 'Lógica de form',
             path: 'guide/forms/signals/form-logic',
             contentPath: 'guide/forms/signals/form-logic',
             category: 'Signal Forms',
           },
           {
-            label: 'Cross-field logic',
+            label: 'Lógica entre campos',
             path: 'guide/forms/signals/cross-field-logic',
             contentPath: 'guide/forms/signals/cross-field-logic',
             category: 'Signal Forms',
           },
           {
-            label: 'Form submission',
+            label: 'Envio de form',
             path: 'guide/forms/signals/form-submission',
             contentPath: 'guide/forms/signals/form-submission',
             category: 'Signal Forms',
@@ -524,25 +525,25 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             category: 'Signal Forms',
           },
           {
-            label: 'Field metadata',
+            label: 'Metadados de campo',
             path: 'guide/forms/signals/field-metadata',
             contentPath: 'guide/forms/signals/field-metadata',
             category: 'Signal Forms',
           },
           {
-            label: 'Async operations',
+            label: 'Operações assíncronas',
             path: 'guide/forms/signals/async-operations',
             contentPath: 'guide/forms/signals/async-operations',
             category: 'Signal Forms',
           },
           {
-            label: 'Dynamic forms with JSON',
+            label: 'Forms dinâmicos com JSON',
             path: 'guide/forms/signals/dynamic-forms-with-json',
             contentPath: 'guide/forms/signals/dynamic-forms-with-json',
             category: 'Signal Forms',
           },
           {
-            label: 'Custom controls',
+            label: 'Controles customizados',
             path: 'guide/forms/signals/custom-controls',
             contentPath: 'guide/forms/signals/custom-controls',
             category: 'Signal Forms',
@@ -554,13 +555,13 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             category: 'Signal Forms',
           },
           {
-            label: 'Comparison with other form systems',
+            label: 'Comparação com outros sistemas de forms',
             path: 'guide/forms/signals/comparison',
             contentPath: 'guide/forms/signals/comparison',
             category: 'Signal Forms',
           },
           {
-            label: 'Migrating from Reactive Forms',
+            label: 'Migrando de Reactive Forms',
             path: 'guide/forms/signals/migration',
             contentPath: 'guide/forms/signals/migration',
             category: 'Signal Forms',
@@ -572,7 +573,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             category: 'Reactive Forms',
           },
           {
-            label: 'Strictly typed reactive forms',
+            label: 'Reactive forms com tipagem estrita',
             path: 'guide/forms/typed-forms',
             contentPath: 'guide/forms/typed-forms',
             category: 'Reactive Forms',
@@ -584,19 +585,19 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             category: 'Template driven Forms',
           },
           {
-            label: 'Validate form input',
+            label: 'Validando entrada de form',
             path: 'guide/forms/form-validation',
             contentPath: 'guide/forms/form-validation',
             category: 'Reactive Forms',
           },
           {
-            label: 'Validate form input',
+            label: 'Validando entrada de form',
             path: 'guide/forms/form-validation',
             contentPath: 'guide/forms/form-validation',
             category: 'Template driven Forms',
           },
           {
-            label: 'Building dynamic forms',
+            label: 'Construindo forms dinâmicos',
             path: 'guide/forms/dynamic-forms',
             contentPath: 'guide/forms/dynamic-forms',
             category: 'Reactive Forms',
@@ -607,27 +608,27 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'HTTP Client',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/http',
             contentPath: 'guide/http/overview',
           },
           {
-            label: 'Setting up HttpClient',
+            label: 'Configurando HttpClient',
             path: 'guide/http/setup',
             contentPath: 'guide/http/setup',
           },
           {
-            label: 'Making requests',
+            label: 'Fazendo requisições',
             path: 'guide/http/making-requests',
             contentPath: 'guide/http/making-requests',
           },
           {
-            label: 'Reactive data fetching with httpResource',
+            label: 'Busca reativa de dados com httpResource',
             path: 'guide/http/http-resource',
             contentPath: 'guide/http/http-resource',
           },
           {
-            label: 'Intercepting requests and responses',
+            label: 'Interceptando requisições e respostas',
             path: 'guide/http/interceptors',
             contentPath: 'guide/http/interceptors',
           },
@@ -639,15 +640,15 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Server-side & hybrid-rendering',
+        label: 'Renderização server-side e híbrida',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/performance',
             contentPath: 'guide/performance/overview',
           },
           {
-            label: 'Server-side and hybrid-rendering',
+            label: 'Renderização server-side e híbrida',
             path: 'guide/ssr',
             contentPath: 'guide/ssr',
           },
@@ -667,89 +668,89 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Testing',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/testing',
             contentPath: 'guide/testing/overview',
           },
           {
-            label: 'Basics of testing components',
+            label: 'Fundamentos de testing de components',
             path: 'guide/testing/components-basics',
             contentPath: 'guide/testing/components-basics',
           },
           {
-            label: 'Component testing scenarios',
+            label: 'Cenários de testing de components',
             path: 'guide/testing/components-scenarios',
             contentPath: 'guide/testing/components-scenarios',
           },
           {
-            label: 'Testing services',
+            label: 'Testando services',
             path: 'guide/testing/services',
             contentPath: 'guide/testing/services',
           },
           {
-            label: 'Testing attribute directives',
+            label: 'Testando attribute directives',
             path: 'guide/testing/attribute-directives',
             contentPath: 'guide/testing/attribute-directives',
           },
           {
-            label: 'Testing pipes',
+            label: 'Testando pipes',
             path: 'guide/testing/pipes',
             contentPath: 'guide/testing/pipes',
           },
           {
-            label: 'Testing routing and navigation',
+            label: 'Testando routing e navegação',
             path: 'guide/routing/testing',
             contentPath: 'guide/routing/testing',
             status: 'new',
             isCrossReferenced: true,
           },
           {
-            label: 'Debugging tests',
+            label: 'Depurando testes',
             path: 'guide/testing/debugging',
             contentPath: 'guide/testing/debugging',
           },
           {
-            label: 'Code coverage',
+            label: 'Cobertura de código',
             path: 'guide/testing/code-coverage',
             contentPath: 'guide/testing/code-coverage',
           },
           {
-            label: 'Testing utility APIs',
+            label: 'APIs utilitárias de testing',
             path: 'guide/testing/utility-apis',
             contentPath: 'guide/testing/utility-apis',
           },
           {
-            label: 'Component harnesses overview',
+            label: 'Visão geral de component harnesses',
             path: 'guide/testing/component-harnesses-overview',
             contentPath: 'guide/testing/component-harnesses-overview',
           },
           {
-            label: 'Using component harnesses in tests',
+            label: 'Usando component harnesses em testes',
             path: 'guide/testing/using-component-harnesses',
             contentPath: 'guide/testing/using-component-harnesses',
           },
           {
-            label: 'Creating harnesses for your components',
+            label: 'Criando harnesses para seus components',
             path: 'guide/testing/creating-component-harnesses',
             contentPath: 'guide/testing/creating-component-harnesses',
           },
           {
-            label: 'Adding harness support for additional testing environments',
+            label: 'Adicionando suporte a harness para ambientes de testing adicionais',
             path: 'guide/testing/component-harnesses-testing-environments',
             contentPath: 'guide/testing/component-harnesses-testing-environments',
           },
           {
-            label: 'Migrating from Karma to Vitest',
+            label: 'Migrando de Karma para Vitest',
             path: 'guide/testing/migrating-to-vitest',
             contentPath: 'guide/testing/migrating-to-vitest',
           },
           {
-            label: 'Testing with Karma and Jasmine',
+            label: 'Testing com Karma e Jasmine',
             path: 'guide/testing/karma',
             contentPath: 'guide/testing/karma',
           },
           {
-            label: 'Zone.js Testing Utilities',
+            label: 'Utilitários de testing do Zone.js',
             path: 'guide/testing/zone-js-testing-utilities',
             contentPath: 'guide/testing/zone-js-testing-utilities',
           },
@@ -760,7 +761,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         status: 'new',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/aria/overview',
             contentPath: 'guide/aria/overview',
           },
@@ -827,60 +828,60 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Internationalization',
+        label: 'Internacionalização',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/i18n',
             contentPath: 'guide/i18n/overview',
           },
           {
-            label: 'Add the localize package',
+            label: 'Adicionando o pacote localize',
             path: 'guide/i18n/add-package',
             contentPath: 'guide/i18n/add-package',
           },
           {
-            label: 'Refer to locales by ID',
+            label: 'Referenciando locales por ID',
             path: 'guide/i18n/locale-id',
             contentPath: 'guide/i18n/locale-id',
           },
           {
-            label: 'Format data based on locale',
+            label: 'Formatando dados baseado no locale',
             path: 'guide/i18n/format-data-locale',
             contentPath: 'guide/i18n/format-data-locale',
           },
           {
-            label: 'Prepare component for translation',
+            label: 'Preparando component para tradução',
             path: 'guide/i18n/prepare',
             contentPath: 'guide/i18n/prepare',
           },
           {
-            label: 'Work with translation files',
+            label: 'Trabalhando com arquivos de tradução',
             path: 'guide/i18n/translation-files',
             contentPath: 'guide/i18n/translation-files',
           },
           {
-            label: 'Merge translations into the app',
+            label: 'Mesclando traduções na aplicação',
             path: 'guide/i18n/merge',
             contentPath: 'guide/i18n/merge',
           },
           {
-            label: 'Deploy multiple locales',
+            label: 'Implantando múltiplos locales',
             path: 'guide/i18n/deploy',
             contentPath: 'guide/i18n/deploy',
           },
           {
-            label: 'Import global variants of the locale data',
+            label: 'Importando variantes globais dos dados de locale',
             path: 'guide/i18n/import-global-variants',
             contentPath: 'guide/i18n/import-global-variants',
           },
           {
-            label: 'Manage marked text with custom IDs',
+            label: 'Gerenciando texto marcado com IDs customizados',
             path: 'guide/i18n/manage-marked-text',
             contentPath: 'guide/i18n/manage-marked-text',
           },
           {
-            label: 'Example Angular application',
+            label: 'Exemplo de aplicação Angular',
             path: 'guide/i18n/example',
             contentPath: 'guide/i18n/example',
           },
@@ -890,17 +891,17 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Animations',
         children: [
           {
-            label: 'Enter and Leave animations',
+            label: 'Animações Enter e Leave',
             path: 'guide/animations',
             contentPath: 'guide/animations/enter-and-leave',
           },
           {
-            label: 'Complex Animations with CSS',
+            label: 'Animations complexas com CSS',
             path: 'guide/animations/css',
             contentPath: 'guide/animations/css',
           },
           {
-            label: 'Route transition animations',
+            label: 'Animações de transição de route',
             path: 'guide/routing/route-transition-animations',
             contentPath: 'guide/routing/route-transition-animations',
             isCrossReferenced: true,
@@ -915,15 +916,15 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Build with AI',
+    label: 'Construindo com IA',
     children: [
       {
-        label: 'Get Started',
+        label: 'Primeiros Passos',
         path: 'ai',
         contentPath: 'ai/overview',
       },
       {
-        label: 'LLM prompts and AI IDE setup',
+        label: 'Prompts LLM e configuração de IDE com IA',
         path: 'ai/develop-with-ai',
         contentPath: 'ai/develop-with-ai',
       },
@@ -934,17 +935,17 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         status: 'new',
       },
       {
-        label: 'Angular CLI MCP Server setup',
+        label: 'Configuração do Angular CLI MCP Server',
         path: 'ai/mcp',
         contentPath: 'ai/mcp-server-setup',
       },
       {
-        label: 'Angular AI Tutor',
+        label: 'Tutor de IA do Angular',
         path: 'ai/ai-tutor',
         contentPath: 'ai/ai-tutor',
       },
       {
-        label: 'Design Patterns',
+        label: 'Padrões de Design',
         path: 'ai/design-patterns',
         contentPath: 'ai/design-patterns',
       },
@@ -957,48 +958,48 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Developer Tools',
+    label: 'Ferramentas de Desenvolvimento',
     children: [
       {
         label: 'Angular CLI',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'tools/cli',
             contentPath: 'tools/cli/overview',
           },
           {
-            label: 'Local set-up',
+            label: 'Configuração local',
             path: 'tools/cli/setup-local',
             contentPath: 'tools/cli/setup-local',
           },
           {
-            label: 'Building Angular apps',
+            label: 'Construindo aplicações Angular',
             path: 'tools/cli/build',
             contentPath: 'tools/cli/build',
           },
           {
-            label: 'Serving Angular apps for development',
+            label: 'Servindo aplicações Angular para desenvolvimento',
             path: 'tools/cli/serve',
             contentPath: 'tools/cli/serve',
           },
           {
-            label: 'Deployment',
+            label: 'Implantação',
             path: 'tools/cli/deployment',
             contentPath: 'tools/cli/deployment',
           },
           {
-            label: 'End-to-End Testing',
+            label: 'Testing End-to-End',
             path: 'tools/cli/end-to-end',
             contentPath: 'tools/cli/end-to-end',
           },
           {
-            label: 'Migrating to new build system',
+            label: 'Migrando para o novo sistema de build',
             path: 'tools/cli/build-system-migration',
             contentPath: 'tools/cli/build-system-migration',
           },
           {
-            label: 'Build environments',
+            label: 'Ambientes de build',
             path: 'tools/cli/environments',
             contentPath: 'tools/cli/environments',
           },
@@ -1008,32 +1009,32 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'tools/cli/cli-builder',
           },
           {
-            label: 'Generating code using schematics',
+            label: 'Gerando código usando schematics',
             path: 'tools/cli/schematics',
             contentPath: 'tools/cli/schematics',
           },
           {
-            label: 'Authoring schematics',
+            label: 'Criando schematics',
             path: 'tools/cli/schematics-authoring',
             contentPath: 'tools/cli/schematics-authoring',
           },
           {
-            label: 'Schematics for libraries',
+            label: 'Schematics para libraries',
             path: 'tools/cli/schematics-for-libraries',
             contentPath: 'tools/cli/schematics-for-libraries',
           },
           {
-            label: 'Template type checking',
+            label: 'Verificação de tipo de template',
             path: 'tools/cli/template-typecheck',
             contentPath: 'tools/cli/template-typecheck',
           },
           {
-            label: 'Ahead-of-time (AOT) compilation',
+            label: 'Compilação Ahead-of-time (AOT)',
             path: 'tools/cli/aot-compiler',
             contentPath: 'tools/cli/aot-compiler',
           },
           {
-            label: 'AOT metadata errors',
+            label: 'Erros de metadata AOT',
             path: 'tools/cli/aot-metadata-errors',
             contentPath: 'tools/cli/aot-metadata-errors',
           },
@@ -1043,22 +1044,22 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Libraries',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'tools/libraries',
             contentPath: 'tools/libraries/overview',
           },
           {
-            label: 'Creating Libraries',
+            label: 'Criando Libraries',
             path: 'tools/libraries/creating-libraries',
             contentPath: 'tools/libraries/creating-libraries',
           },
           {
-            label: 'Using Libraries',
+            label: 'Usando Libraries',
             path: 'tools/libraries/using-libraries',
             contentPath: 'tools/libraries/using-libraries',
           },
           {
-            label: 'Angular Package Format',
+            label: 'Formato de Pacote Angular',
             path: 'tools/libraries/angular-package-format',
             contentPath: 'tools/libraries/angular-package-format',
           },
@@ -1068,7 +1069,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'DevTools',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'tools/devtools',
             contentPath: 'tools/devtools/overview',
           },
@@ -1093,7 +1094,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'tools/devtools/signals',
           },
           {
-            label: 'Router Tree',
+            label: 'Árvore do Router',
             path: 'tools/devtools/router',
             contentPath: 'tools/devtools/router',
           },
@@ -1107,25 +1108,25 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Best Practices',
+    label: 'Boas Práticas',
     children: [
       {
-        label: 'Style Guide',
+        label: 'Guia de Estilo',
         path: 'style-guide',
         contentPath: 'best-practices/style-guide',
       },
       {
-        label: 'Security',
+        label: 'Segurança',
         path: 'best-practices/security',
         contentPath: 'guide/security', // Have not refactored due to build issues
       },
       {
-        label: 'Accessibility',
+        label: 'Acessibilidade',
         path: 'best-practices/a11y',
         contentPath: 'best-practices/a11y',
       },
       {
-        label: 'Unhandled errors in Angular',
+        label: 'Erros não tratados no Angular',
         path: 'best-practices/error-handling',
         contentPath: 'best-practices/error-handling',
       },
@@ -1134,38 +1135,38 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         preserveOtherCategoryOrder: true,
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'best-practices/performance',
             contentPath: 'best-practices/performance/overview',
           },
 
           // Loading Performance
           {
-            label: 'Lazy-loaded routes',
+            label: 'Routes com lazy loading',
             path: 'best-practices/performance/lazy-loaded-routes',
             contentPath: 'guide/routing/loading-strategies',
             category: 'Loading Performance',
           },
           {
-            label: 'Deferred loading with @defer',
+            label: 'Carregamento diferido com @defer',
             path: 'best-practices/performance/defer',
             contentPath: 'guide/templates/defer',
             category: 'Loading Performance',
           },
           {
-            label: 'Lazy loading services',
+            label: 'Lazy loading de services',
             path: 'best-practices/performance/lazy-loading-services',
             contentPath: 'guide/di/lazy-loading-services',
             category: 'Loading Performance',
           },
           {
-            label: 'Image optimization',
+            label: 'Otimização de imagens',
             path: 'best-practices/performance/image-optimization',
             contentPath: 'guide/image-optimization',
             category: 'Loading Performance',
           },
           {
-            label: 'Server-side rendering',
+            label: 'Renderização server-side',
             path: 'best-practices/performance/ssr',
             contentPath: 'guide/ssr',
             category: 'Loading Performance',
@@ -1173,7 +1174,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
 
           // Runtime Performance
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'best-practices/runtime-performance',
             contentPath: 'best-practices/runtime-performance/overview',
             category: 'Runtime Performance',
@@ -1185,26 +1186,26 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             category: 'Runtime Performance',
           },
           {
-            label: 'Slow computations',
+            label: 'Computações lentas',
             path: 'best-practices/slow-computations',
             contentPath: 'best-practices/runtime-performance/slow-computations',
             category: 'Runtime Performance',
           },
           {
-            label: 'Skipping component subtrees',
+            label: 'Pulando subárvores de components',
             path: 'best-practices/skipping-subtrees',
             contentPath: 'best-practices/runtime-performance/skipping-subtrees',
             category: 'Runtime Performance',
           },
           {
-            label: 'Zone pollution',
+            label: 'Poluição de zone',
             path: 'best-practices/zone-pollution',
             contentPath: 'best-practices/runtime-performance/zone-pollution',
             category: 'Runtime Performance',
           },
 
           {
-            label: 'Chrome DevTools profiling',
+            label: 'Criando perfil com o Chrome DevTools',
             path: 'best-practices/profiling-with-chrome-devtools',
             contentPath: 'best-practices/runtime-performance/profiling-with-chrome-devtools',
             category: 'Runtime Performance',
@@ -1212,30 +1213,30 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Keeping up-to-date',
+        label: 'Mantendo-se atualizado',
         path: 'update',
         contentPath: 'best-practices/update',
       },
     ],
   },
   {
-    label: 'Developer Events',
+    label: 'Eventos para Desenvolvedores',
     children: [
       {
-        label: 'Angular v22 Release',
+        label: 'Lançamento do Angular v22',
         path: 'events/v22',
         contentPath: 'events/v22',
         status: 'new',
       },
       {
-        label: 'Angular v21 Release',
+        label: 'Lançamento do Angular v21',
         path: 'events/v21',
         contentPath: 'events/v21',
       },
     ],
   },
   {
-    label: 'Extended Ecosystem',
+    label: 'Ecossistema Estendido',
     children: [
       {
         label: 'NgModules',
@@ -1243,50 +1244,50 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'guide/ngmodules/overview',
       },
       {
-        label: 'Legacy Animations',
+        label: 'Animations Legadas',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'guide/legacy-animations',
             contentPath: 'guide/animations/overview',
           },
           {
-            label: 'Transition and Triggers',
+            label: 'Transições e Triggers',
             path: 'guide/legacy-animations/transition-and-triggers',
             contentPath: 'guide/animations/transition-and-triggers',
           },
           {
-            label: 'Complex Sequences',
+            label: 'Sequências Complexas',
             path: 'guide/legacy-animations/complex-sequences',
             contentPath: 'guide/animations/complex-sequences',
           },
           {
-            label: 'Reusable Animations',
+            label: 'Animations Reutilizáveis',
             path: 'guide/legacy-animations/reusable-animations',
             contentPath: 'guide/animations/reusable-animations',
           },
           {
-            label: 'Migrating to Native CSS Animations',
+            label: 'Migrando para Animations CSS Nativas',
             path: 'guide/animations/migration',
             contentPath: 'guide/animations/migration',
           },
         ],
       },
       {
-        label: 'Using RxJS with Angular',
+        label: 'Usando RxJS com Angular',
         children: [
           {
-            label: 'Signals interop',
+            label: 'Interoperabilidade com signals',
             path: 'ecosystem/rxjs-interop',
             contentPath: 'ecosystem/rxjs-interop/signals-interop',
           },
           {
-            label: 'Component output interop',
+            label: 'Interoperabilidade de output de component',
             path: 'ecosystem/rxjs-interop/output-interop',
             contentPath: 'ecosystem/rxjs-interop/output-interop',
           },
           {
-            label: 'Unsubscribing with takeUntilDestroyed',
+            label: 'Cancelando inscrição com takeUntilDestroyed',
             path: 'ecosystem/rxjs-interop/take-until-destroyed',
             contentPath: 'ecosystem/rxjs-interop/take-until-destroyed',
           },
@@ -1296,42 +1297,42 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Service Workers & PWAs',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'ecosystem/service-workers',
             contentPath: 'ecosystem/service-workers/overview',
           },
           {
-            label: 'Getting started',
+            label: 'Primeiros passos',
             path: 'ecosystem/service-workers/getting-started',
             contentPath: 'ecosystem/service-workers/getting-started',
           },
           {
-            label: 'Custom service worker scripts',
+            label: 'Scripts de service worker customizados',
             path: 'ecosystem/service-workers/custom-service-worker-scripts',
             contentPath: 'ecosystem/service-workers/custom-service-worker-scripts',
           },
           {
-            label: 'Configuration file',
+            label: 'Arquivo de configuração',
             path: 'ecosystem/service-workers/config',
             contentPath: 'ecosystem/service-workers/config',
           },
           {
-            label: 'Communicating with the service worker',
+            label: 'Comunicando com o service worker',
             path: 'ecosystem/service-workers/communications',
             contentPath: 'ecosystem/service-workers/communications',
           },
           {
-            label: 'Push notifications',
+            label: 'Notificações push',
             path: 'ecosystem/service-workers/push-notifications',
             contentPath: 'ecosystem/service-workers/push-notifications',
           },
           {
-            label: 'Service worker devops',
+            label: 'DevOps de service worker',
             path: 'ecosystem/service-workers/devops',
             contentPath: 'ecosystem/service-workers/devops',
           },
           {
-            label: 'App shell pattern',
+            label: 'Padrão app shell',
             path: 'ecosystem/service-workers/app-shell',
             contentPath: 'ecosystem/service-workers/app-shell',
           },
@@ -1343,7 +1344,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'ecosystem/web-workers',
       },
       {
-        label: 'Custom build pipeline',
+        label: 'Pipeline de build customizado',
         path: 'ecosystem/custom-build-pipeline',
         contentPath: 'ecosystem/custom-build-pipeline',
       },
@@ -1414,25 +1415,25 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     contentPath: 'reference/roadmap',
   },
   {
-    label: 'Get involved',
+    label: 'Envolva-se',
     path: 'https://github.com/angular/angular/blob/main/CONTRIBUTING.md',
   },
   {
-    label: 'API Reference',
+    label: 'Referência de API',
     preserveOtherCategoryOrder: true,
     children: [
       {
-        label: 'Overview',
+        label: 'Visão Geral',
         path: 'api',
       },
       ...getApiNavigationItems(),
     ],
   },
   {
-    label: 'CLI Reference',
+    label: 'Referência CLI',
     children: [
       {
-        label: 'Overview',
+        label: 'Visão Geral',
         path: 'cli',
         contentPath: 'reference/cli',
       },
@@ -1444,7 +1445,7 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng analytics',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'cli/analytics',
           },
           {
@@ -1473,7 +1474,7 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng cache',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'cli/cache',
           },
           {
@@ -1498,7 +1499,7 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng completion',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'cli/completion',
           },
           {
@@ -1527,7 +1528,7 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng generate',
         children: [
           {
-            label: 'Overview',
+            label: 'Visão Geral',
             path: 'cli/generate',
           },
           {
@@ -1639,10 +1640,10 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Error Encyclopedia',
+    label: 'Enciclopédia de Erros',
     children: [
       {
-        label: 'Overview',
+        label: 'Visão Geral',
         path: 'errors',
         contentPath: 'reference/errors/overview',
       },
@@ -1650,10 +1651,10 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Extended Diagnostics',
+    label: 'Diagnósticos Estendidos',
     children: [
       {
-        label: 'Overview',
+        label: 'Visão Geral',
         path: 'extended-diagnostics',
         contentPath: 'reference/extended-diagnostics/overview',
       },
@@ -1661,49 +1662,49 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Versioning and releases',
+    label: 'Versionamento e lançamentos',
     path: 'reference/releases',
     contentPath: 'reference/releases',
   },
   {
-    label: 'Version compatibility',
+    label: 'Compatibilidade de versões',
     path: 'reference/versions',
     contentPath: 'reference/versions',
   },
   {
-    label: 'Update guide',
+    label: 'Guia de atualização',
     path: 'update-guide',
   },
   {
-    label: 'Configurations',
+    label: 'Configurações',
     children: [
       {
-        label: 'File structure',
+        label: 'Estrutura de arquivos',
         path: 'reference/configs/file-structure',
         contentPath: 'reference/configs/file-structure',
       },
       {
-        label: 'Workspace configuration',
+        label: 'Configuração de workspace',
         path: 'reference/configs/workspace-config',
         contentPath: 'reference/configs/workspace-config',
       },
       {
-        label: 'Angular compiler options',
+        label: 'Opções do compilador Angular',
         path: 'reference/configs/angular-compiler-options',
         contentPath: 'reference/configs/angular-compiler-options',
       },
       {
-        label: 'npm dependencies',
+        label: 'Dependências npm',
         path: 'reference/configs/npm-packages',
         contentPath: 'reference/configs/npm-packages',
       },
     ],
   },
   {
-    label: 'Migrations',
+    label: 'Migrações',
     children: [
       {
-        label: 'Overview',
+        label: 'Visão Geral',
         path: 'reference/migrations',
         contentPath: 'reference/migrations/overview',
       },
@@ -1713,17 +1714,17 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'reference/migrations/standalone',
       },
       {
-        label: 'Control Flow Syntax',
+        label: 'Sintaxe de Control Flow',
         path: 'reference/migrations/control-flow',
         contentPath: 'reference/migrations/control-flow',
       },
       {
-        label: 'inject() Function',
+        label: 'Função inject()',
         path: 'reference/migrations/inject-function',
         contentPath: 'reference/migrations/inject-function',
       },
       {
-        label: 'Lazy-loaded routes',
+        label: 'Routes com lazy loading',
         path: 'reference/migrations/route-lazy-loading',
         contentPath: 'reference/migrations/route-lazy-loading',
       },
@@ -1743,37 +1744,37 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'reference/migrations/signal-queries',
       },
       {
-        label: 'Clean up unused imports',
+        label: 'Limpando imports não utilizados',
         path: 'reference/migrations/cleanup-unused-imports',
         contentPath: 'reference/migrations/cleanup-unused-imports',
       },
       {
-        label: 'Self-closing tags',
+        label: 'Tags auto-fecháveis',
         path: 'reference/migrations/self-closing-tags',
         contentPath: 'reference/migrations/self-closing-tags',
       },
       {
-        label: 'NgClass to Class',
+        label: 'NgClass para Class',
         path: 'reference/migrations/ngclass-to-class',
         contentPath: 'reference/migrations/ngclass-to-class',
       },
       {
-        label: 'NgStyle to Style',
+        label: 'NgStyle para Style',
         path: 'reference/migrations/ngstyle-to-style',
         contentPath: 'reference/migrations/ngstyle-to-style',
       },
       {
-        label: 'Router Testing Module Migration',
+        label: 'Migração do Router Testing Module',
         path: 'reference/migrations/router-testing-module-migration',
         contentPath: 'reference/migrations/router-testing-module-migration',
       },
       {
-        label: 'CommonModule to Standalone',
+        label: 'CommonModule para Standalone',
         path: 'reference/migrations/common-to-standalone',
         contentPath: 'reference/migrations/common-to-standalone',
       },
       {
-        label: 'Injectable to Service',
+        label: 'Injectable para Service',
         path: 'reference/migrations/injectable-to-service',
         contentPath: 'reference/migrations/injectable-to-service',
       },
@@ -1783,12 +1784,12 @@ export const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
 
 export const FOOTER_NAVIGATION_DATA: NavigationItem[] = [
   {
-    label: 'Press Kit',
+    label: 'Kit de Imprensa',
     path: 'press-kit',
     contentPath: 'reference/press-kit',
   },
   {
-    label: 'License',
+    label: 'Licença',
     path: 'license',
     contentPath: 'reference/license',
   },
