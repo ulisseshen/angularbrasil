@@ -1,10 +1,11 @@
-# RxJS interop with Angular signals
+<!-- ia-translate: true -->
+# Interoperabilidade do RxJS com signals do Angular {#rxjs-interop-with-angular-signals}
 
-The `@angular/core/rxjs-interop` package offers APIs that help you integrate RxJS and Angular signals.
+O pacote `@angular/core/rxjs-interop` oferece APIs que ajudam você a integrar o RxJS e os signals do Angular.
 
-## Create a signal from an RxJS Observable with `toSignal`
+## Criar um signal a partir de um Observable do RxJS com `toSignal` {#create-a-signal-from-an-rxjs-observable-with-tosignal}
 
-Use the `toSignal` function to create a signal which tracks the value of an Observable. It behaves similarly to the `async` pipe in templates, but is more flexible and can be used anywhere in an application.
+Use a função `toSignal` para criar um signal que acompanha o valor de um Observable. Ela se comporta de forma semelhante ao pipe `async` nos templates, mas é mais flexível e pode ser usada em qualquer lugar da aplicação.
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -23,43 +24,43 @@ export class Ticker {
 }
 ```
 
-Like the `async` pipe, `toSignal` subscribes to the Observable immediately, which may trigger side effects. The subscription created by `toSignal` automatically unsubscribes from the given Observable when the component or service which calls `toSignal` is destroyed.
+Assim como o pipe `async`, o `toSignal` se inscreve no Observable imediatamente, o que pode disparar efeitos colaterais. A inscrição criada pelo `toSignal` cancela automaticamente a inscrição no Observable quando o component ou service que chama o `toSignal` é destruído.
 
-IMPORTANT: `toSignal` creates a subscription. You should avoid calling it repeatedly for the same Observable, and instead reuse the signal it returns.
+IMPORTANTE: o `toSignal` cria uma inscrição. Evite chamá-lo repetidamente para o mesmo Observable e, em vez disso, reutilize o signal que ele retorna.
 
-### Injection context
+### Contexto de injeção {#injection-context}
 
-`toSignal` by default needs to run in an [injection context](guide/di/dependency-injection-context), such as during construction of a component or service. If an injection context is not available, you can manually specify the `Injector` to use instead.
+Por padrão, o `toSignal` precisa ser executado em um [contexto de injeção](guide/di/dependency-injection-context), como durante a construção de um component ou service. Se um contexto de injeção não estiver disponível, você pode especificar manualmente o `Injector` a ser usado.
 
-### Initial values
+### Valores iniciais {#initial-values}
 
-Observables may not produce a value synchronously on subscription, but signals always require a current value. There are several ways to deal with this "initial" value of `toSignal` signals.
+Observables podem não produzir um valor de forma síncrona na inscrição, mas signals sempre precisam de um valor atual. Existem várias maneiras de lidar com esse valor "inicial" dos signals criados com `toSignal`.
 
-#### The `initialValue` option
+#### A opção `initialValue` {#the-initialvalue-option}
 
-As in the example above, you can specify an `initialValue` option with the value the signal should return before the Observable emits for the first time.
+Como no exemplo acima, você pode especificar a opção `initialValue` com o valor que o signal deve retornar antes de o Observable emitir pela primeira vez.
 
-#### `undefined` initial values
+#### Valores iniciais `undefined` {#undefined-initial-values}
 
-If you don't provide an `initialValue`, the resulting signal will return `undefined` until the Observable emits. This is similar to the `async` pipe's behavior of returning `null`.
+Se você não fornecer um `initialValue`, o signal resultante retornará `undefined` até que o Observable emita. Isso é semelhante ao comportamento do pipe `async`, que retorna `null`.
 
-#### The `requireSync` option
+#### A opção `requireSync` {#the-requiresync-option}
 
-Some Observables are guaranteed to emit synchronously, such as `BehaviorSubject`. In those cases, you can specify the `requireSync: true` option.
+Alguns Observables têm a garantia de emitir de forma síncrona, como o `BehaviorSubject`. Nesses casos, você pode especificar a opção `requireSync: true`.
 
-When `requireSync` is `true`, `toSignal` enforces that the Observable emits synchronously on subscription. This guarantees that the signal always has a value, and no `undefined` type or initial value is required.
+Quando `requireSync` é `true`, o `toSignal` garante que o Observable emita de forma síncrona na inscrição. Isso garante que o signal sempre tenha um valor, e nenhum tipo `undefined` ou valor inicial é necessário.
 
 ### `manualCleanup`
 
-By default, `toSignal` automatically unsubscribes from the Observable when the component or service that creates it is destroyed.
+Por padrão, o `toSignal` cancela automaticamente a inscrição no Observable quando o component ou service que o criou é destruído.
 
-To override this behavior, you can pass the `manualCleanup` option. You can use this setting for Observables that complete themselves naturally.
+Para substituir esse comportamento, você pode passar a opção `manualCleanup`. Você pode usar essa configuração para Observables que se completam naturalmente.
 
-#### Custom equality comparison
+#### Comparação de igualdade personalizada {#custom-equality-comparison}
 
-Some observables may emit values that are **equals** even though they differ by reference or minor detail. The `equal` option lets you define a **custom equal function** to determine when two consecutive values should be considered the same.
+Alguns observables podem emitir valores que são **iguais**, mesmo que difiram por referência ou por detalhes menores. A opção `equal` permite que você defina uma **função de igualdade personalizada** para determinar quando dois valores consecutivos devem ser considerados o mesmo.
 
-When two emitted values are considered equal, the resulting signal **does not update**. This prevents redundant computations, DOM updates, or effects from re-running unnecessarily.
+Quando dois valores emitidos são considerados iguais, o signal resultante **não é atualizado**. Isso evita computações redundantes, atualizações do DOM ou effects sendo executados desnecessariamente.
 
 ```ts
 import {Component} from '@angular/core';
@@ -80,15 +81,15 @@ export class EqualExample {
 }
 ```
 
-### Error and Completion
+### Erro e conclusão {#error-and-completion}
 
-If an Observable used in `toSignal` produces an error, that error is thrown when the signal is read.
+Se um Observable usado no `toSignal` produzir um erro, esse erro será lançado quando o signal for lido.
 
-If an Observable used in `toSignal` completes, the signal continues to return the most recently emitted value before completion.
+Se um Observable usado no `toSignal` for concluído, o signal continuará retornando o valor emitido mais recentemente antes da conclusão.
 
-## Create an RxJS Observable from a signal with `toObservable`
+## Criar um Observable do RxJS a partir de um signal com `toObservable` {#create-an-rxjs-observable-from-a-signal-with-toobservable}
 
-Use the `toObservable` utility to create an `Observable` which tracks the value of a signal. The signal's value is monitored with an `effect` which emits the value to the Observable when it changes.
+Use o utilitário `toObservable` para criar um `Observable` que acompanha o valor de um signal. O valor do signal é monitorado com um `effect`, que emite o valor para o Observable quando ele muda.
 
 ```ts
 import {Component, signal, Signal, inject} from '@angular/core';
@@ -104,17 +105,17 @@ export class SearchResults {
 }
 ```
 
-As the `query` signal changes, the `query$` Observable emits the latest query and triggers a new HTTP request.
+Conforme o signal `query` muda, o Observable `query$` emite a consulta mais recente e dispara uma nova requisição HTTP.
 
-### Injection context {#injection-context-to-observable}
+### Contexto de injeção {#injection-context-to-observable}
 
-`toObservable` by default needs to run in an [injection context](guide/di/dependency-injection-context), such as during construction of a component or service. If an injection context is not available, you can manually specify the `Injector` to use instead.
+Por padrão, o `toObservable` precisa ser executado em um [contexto de injeção](guide/di/dependency-injection-context), como durante a construção de um component ou service. Se um contexto de injeção não estiver disponível, você pode especificar manualmente o `Injector` a ser usado.
 
-### Timing of `toObservable`
+### Timing do `toObservable` {#timing-of-toobservable}
 
-`toObservable` uses an effect to track the value of the signal in a `ReplaySubject`. On subscription, the first value (if available) may be emitted synchronously, and all subsequent values will be asynchronous.
+O `toObservable` usa um effect para acompanhar o valor do signal em um `ReplaySubject`. Na inscrição, o primeiro valor (se disponível) pode ser emitido de forma síncrona, e todos os valores subsequentes serão assíncronos.
 
-Unlike Observables, signals never provide a synchronous notification of changes. Even if you update a signal's value multiple times, `toObservable` will only emit the value after the signal stabilizes.
+Diferentemente dos Observables, os signals nunca fornecem uma notificação síncrona de mudanças. Mesmo que você atualize o valor de um signal várias vezes, o `toObservable` só emitirá o valor depois que o signal estabilizar.
 
 ```ts
 const obs$ = toObservable(mySignal);
@@ -125,11 +126,11 @@ mySignal.set(2);
 mySignal.set(3);
 ```
 
-Here, only the last value (3) will be logged.
+Aqui, apenas o último valor (3) será registrado no log.
 
-## Using `rxResource` for async data
+## Usando `rxResource` para dados assíncronos {#using-rxresource-for-async-data}
 
-Angular's [`resource` function](/guide/signals/resource) gives you a way to incorporate async data into your application's signal-based code. Building on top of this pattern, `rxResource` lets you define a resource where the source of your data is defined in terms of an RxJS `Observable`. Instead of accepting a `loader` function, `rxResource` accepts a `stream` function that returns an RxJS `Observable`.
+A [função `resource` do Angular](/guide/signals/resource) oferece uma forma de incorporar dados assíncronos ao código baseado em signals da aplicação. Partindo desse padrão, o `rxResource` permite definir um resource cuja fonte de dados é definida em termos de um `Observable` do RxJS. Em vez de aceitar uma função `loader`, o `rxResource` aceita uma função `stream`, que retorna um `Observable` do RxJS.
 
 ```typescript
 import {Component, inject, input} from '@angular/core';
@@ -152,8 +153,8 @@ export class UserProfile {
 }
 ```
 
-The `stream` property accepts a factory function for an RxJS `Observable`. This factory function is passed the resource's `params` value and returns an `Observable`. The resource calls this factory function every time the `params` computation produces a new value. See [Resource loaders](/guide/signals/resource#resource-loaders) for more details on the parameters passed to the factory function.
+A propriedade `stream` aceita uma função factory para um `Observable` do RxJS. Essa função factory recebe o valor `params` do resource e retorna um `Observable`. O resource chama essa função factory toda vez que a computação `params` produz um novo valor. Veja [Resource loaders](/guide/signals/resource#resource-loaders) para mais detalhes sobre os parâmetros passados para a função factory.
 
-In all other ways, `rxResource` behaves like and provides the same APIs as `resource` for specifying parameters, reading values, checking loading state, and examining errors.
+Em todos os outros aspectos, o `rxResource` se comporta como o `resource` e fornece as mesmas APIs para especificar parâmetros, ler valores, verificar o estado de carregamento e examinar erros.
 
-The `Observable` returned from `stream` must always emit a value or an error before it completes; see [`NG0991`](/errors/NG0991) for what happens otherwise and how to avoid it.
+O `Observable` retornado por `stream` deve sempre emitir um valor ou um erro antes de se completar; veja [`NG0991`](/errors/NG0991) para saber o que acontece caso contrário e como evitar isso.
