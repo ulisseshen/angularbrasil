@@ -1,297 +1,299 @@
-<docs-decorative-header title="Angular Roadmap" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
-Learn how the Angular team is building momentum on the web.
+<!-- ia-translate: true -->
+
+<docs-decorative-header title="Roadmap do Angular" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
+Saiba como o time do Angular está ganhando momentum na web.
 </docs-decorative-header>
 
-As an open source project, Angular’s daily commits, PRs and momentum is all trackable on GitHub. To increase transparency into how this daily work connects to the framework’s future, our roadmap brings together the team’s current and future planned vision.
+Como projeto open source, os commits diários, PRs e o progresso do Angular podem ser acompanhados no GitHub. Para aumentar a transparência sobre como esse trabalho diário se conecta ao futuro do framework, nosso roadmap reúne a visão atual e futura planejada pelo time.
 
-The following projects are not associated with a particular Angular version. We will release them on completion, and they will be part of a specific version based on our release schedule, following semantic versioning. For example, we release features in the next minor after completion or the next major if they include breaking changes.
+Os projetos a seguir não estão associados a uma versão específica do Angular. Nós os lançaremos quando estiverem concluídos, e eles farão parte de uma versão específica com base no nosso cronograma de lançamentos, seguindo o versionamento semântico. Por exemplo, lançamos funcionalidades na próxima versão minor após a conclusão, ou na próxima major se elas incluírem breaking changes.
 
-Currently, Angular has three goals for the framework:
+Atualmente, o Angular tem três objetivos para o framework:
 
-1. Improve the [AI experience for developers](/ai)
-1. Improve the [Angular developer experience](#improving-the-angular-developer-experience)
-1. Improve the framework’s performance
+1. Melhorar a [experiência de IA para desenvolvedores](/ai)
+1. Melhorar a [experiência do desenvolvedor Angular](#improving-the-angular-developer-experience)
+1. Melhorar a performance do framework
 
-Continue reading to learn how we plan to deliver these objectives with specific project work.
+Continue lendo para saber como planejamos entregar esses objetivos com trabalhos de projetos específicos.
 
-## Explore modern Angular
+## Explore o Angular moderno {#explore-modern-angular}
 
-Start developing with the latest Angular features from our roadmap. This list represents the current status of new features from our roadmap:
+Comece a desenvolver com as funcionalidades mais recentes do Angular do nosso roadmap. Esta lista representa o status atual das novas funcionalidades do nosso roadmap:
 
-### Available to experiment with
+### Disponível para experimentação {#available-to-experiment-with}
 
 - [Web MCP](/ai/webmcp)
 
-### Production ready
+### Pronto para produção {#production-ready}
 
 - [Signal Forms](/guide/forms/signals/overview)
 - [Resource API](/guide/signals/resource)
 - [httpResource](/api/common/http/httpResource)
-- [Zoneless change detection](/guide/zoneless)
+- [Detecção de mudanças sem zone](/guide/zoneless)
 - [Linked Signal API](/guide/signals/linked-signal)
-- [Incremental hydration](/guide/incremental-hydration)
+- [Hidratação incremental](/guide/incremental-hydration)
 - [Effect API](/api/core/effect)
-- [Event replay with SSR](/api/platform-browser/withEventReplay)
-- [Route-level render mode](/guide/ssr)
+- [Event replay com SSR](/api/platform-browser/withEventReplay)
+- [Modo de renderização por rota](/guide/ssr)
 
-## Improving the AI experience for Angular Developers
+## Melhorando a experiência com IA para desenvolvedores Angular {#improving-the-ai-experience-for-angular-developers}
 
-### Bringing the best of AI to Angular
+### Trazendo o melhor da IA para o Angular {#bringing-the-best-of-ai-to-angular}
 
 <docs-card-container>
-  <docs-card title="AI Powered Angular">
-  AI continues to shape the development landscape. It has changed how we develop apps and the types of user experiences that are possible. We plan to best support the developer community in AI-assisted coding and integrating AI in their applications.
+  <docs-card title="Angular potencializado por IA">
+  A IA continua a moldar o cenário de desenvolvimento. Ela mudou a forma como desenvolvemos aplicações e os tipos de experiências de usuário que são possíveis. Pretendemos apoiar da melhor forma a comunidade de desenvolvedores na programação assistida por IA e na integração de IA em suas aplicações.
   </docs-card>
-  <docs-card title="AI Development">
-  The team will continue to develop meaningful integrations with tools like Google AI Studio, Gemini CLI and other agentic tooling such as Agentic IDEs like Antigravity. We plan to launch solutions that stay in line with the rapidly evolving industry. Some examples include agent skills, new MCP features and AI SDKs.
+  <docs-card title="Desenvolvimento com IA">
+  O time continuará desenvolvendo integrações significativas com ferramentas como Google AI Studio, Gemini CLI e outras ferramentas agênticas, como IDEs agênticas como o Antigravity. Pretendemos lançar soluções alinhadas com a indústria em rápida evolução. Alguns exemplos incluem agent skills, novas funcionalidades de MCP e SDKs de IA.
   </docs-card>
-  <docs-card title="Code Generation">
-  [Based on our research](https://blog.angular.dev/beyond-the-horizon-how-angular-is-embracing-ai-for-next-gen-apps-7a7ed706e1a3), code generation for Angular is already high quality with modern LLMs. We will continue our investments in improving code generation for Angular. This means we will regularly evaluate code generation quality using current models and work to improve it through system instructions, documentation, and tactical framework changes.
+  <docs-card title="Geração de código">
+  [Com base em nossa pesquisa](https://blog.angular.dev/beyond-the-horizon-how-angular-is-embracing-ai-for-next-gen-apps-7a7ed706e1a3), a geração de código para Angular já tem alta qualidade com LLMs modernos. Continuaremos investindo em melhorar a geração de código para Angular. Isso significa que avaliaremos regularmente a qualidade da geração de código usando modelos atuais e trabalharemos para melhorá-la por meio de instruções de sistema, documentação e mudanças táticas no framework.
   </docs-card>
-  <docs-card title="AI Powered Experiences">
-  There is a new frontier for Angular developers to explore with new concepts such as Dynamic UI generation. We started with building Angular support for A2UI and are actively searching out more opportunities to support modern application experiences.
+  <docs-card title="Experiências potencializadas por IA">
+  Há uma nova fronteira para desenvolvedores Angular explorarem com novos conceitos, como a geração dinâmica de UI. Começamos construindo suporte do Angular para o A2UI e estamos ativamente buscando mais oportunidades para oferecer experiências de aplicação modernas.
   </docs-card>
 </docs-card-container>
 
-## Improving the Angular developer experience
+## Melhorando a experiência do desenvolvedor Angular {#improving-the-angular-developer-experience}
 
-### Developer velocity
+### Velocidade do desenvolvedor {#developer-velocity}
 
 <docs-card-container>
-  <docs-card title="Compiler">
-    Microsoft has spent the last year porting the TypeScript compiler to Go, with the promise of a 5 - 10x speedup for typical TypeScript compilations. Angular has perhaps one of the deepest integrations with the TypeScript compiler, which will require bigger architectural changes to support new tsgo-based workflows for both the compiler and language service.
+  <docs-card title="Compilador">
+    A Microsoft passou o último ano portando o compilador do TypeScript para Go, com a promessa de uma compilação de TypeScript típica de 5 a 10 vezes mais rápida. O Angular talvez tenha uma das integrações mais profundas com o compilador do TypeScript, o que exigirá mudanças arquiteturais maiores para dar suporte a novos fluxos de trabalho baseados em tsgo, tanto para o compilador quanto para o language service.
 
-We're in the process of prototyping and exploring what this support would look like, and will deliver an Angular compiler that is compatible with tsgo and brings the performance benefits of Microsoft's native port to the Angular ecosystem.
-</docs-card>
+Estamos no processo de prototipar e explorar como seria esse suporte, e entregaremos um compilador do Angular compatível com o tsgo, que traz para o ecossistema Angular os ganhos de performance do port nativo da Microsoft.
+  </docs-card>
 
-  <docs-card title="Enhanced Ecosystem compatibility">
-    Developers are mixing AI generated code with manually generated code, and want to make use of popular libraries and integrate new experiences quickly. Angular wants to integrate well into that ecosystem - developers should be able to use the tools they love and mix and match frameworks according to their requirements.
+  <docs-card title="Compatibilidade ampliada com o ecossistema">
+    Desenvolvedores estão misturando código gerado por IA com código escrito manualmente, e querem usar bibliotecas populares e integrar novas experiências rapidamente. O Angular quer se integrar bem a esse ecossistema: desenvolvedores devem poder usar as ferramentas de que gostam e combinar frameworks conforme seus requisitos.
 
-As part of this project, we'll explore the requirement space of cross framework interop and our build tooling to improve our compatibility.
+Como parte deste projeto, exploraremos o espaço de requisitos de interoperabilidade entre frameworks e nossas ferramentas de build para melhorar a compatibilidade.
 
   </docs-card>
 
   <docs-card title="Components">
-  In Angular v21, we launched Angular Aria in developer preview, providing eight patterns for accessible, headless components. In Angular v22, we promoted Angular Aria to stable, and we plan to introduce new patterns where needed. We want to provide developers with a solid foundation for developing their own components using Angular Aria - we provide the interactions and you bring the style that matches your design systems. Developers will have the choice of developing custom components with Angular Aria, use interaction patterns from the CDK, or use ready-made styled Material Components.
+  No Angular v21, lançamos o Angular Aria em developer preview, oferecendo oito padrões de components acessíveis e headless. No Angular v22, promovemos o Angular Aria para estável, e planejamos introduzir novos padrões quando necessário. Queremos oferecer aos desenvolvedores uma base sólida para criar seus próprios components usando o Angular Aria: nós fornecemos as interações e você traz o estilo que combina com seu design system. Os desenvolvedores poderão criar components personalizados com o Angular Aria, usar padrões de interação do CDK ou usar Material Components prontos e estilizados.
 
-For accessibility, we are continuously evaluating the components and patterns against accessibility standards such as WCAG and are working to fix any issues that arise from this process.
+Para acessibilidade, avaliamos continuamente os components e padrões em relação a padrões de acessibilidade como WCAG e trabalhamos para corrigir quaisquer problemas que surjam desse processo.
+  </docs-card>
+</docs-card-container>
+
+### Melhorar ferramentas {#improve-tooling}
+
+<docs-card-container>
+  <docs-card title="Modernizar ferramentas de testes unitários com ng test">
+  Após o lançamento estável do Vitest no Angular v21, ele agora é nosso test runner principal. Agora estamos focados em tornar estável também nossa ferramenta de migração experimental do Karma para o Vitest, além de investigar novas funcionalidades para refinar e melhorar ainda mais o fluxo de testes do desenvolvedor.
 </docs-card>
 </docs-card-container>
 
-### Improve tooling
-
-<docs-card-container>
-  <docs-card title="Modernize unit testing tooling with ng test">
-  Following the stable release of Vitest in Angular v21, it is now our primary test runner. We are now focused on promoting our experimental Karma to Vitest migration tool to stable as well as investigating new features to further refine and improve the developer testing workflow.
-</docs-card>
-</docs-card-container>
-
-## Completed projects
+## Projetos concluídos {#completed-projects}
 
 <docs-card-container>
 
-  <docs-card title="Signal Forms" href="/guide/forms/signals/overview" link="Completed in 2026">
-  Signal Forms are now stable. This new approach allows developers to manage form state using signals, providing an ergonomic forms creation experience. We promoted Signal Forms to stable and enhanced interoperability with reactive forms - enabling teams to progressively migrate large forms at their own pace.
+  <docs-card title="Signal Forms" href="/guide/forms/signals/overview" link="Concluído em 2026">
+  Os Signal Forms agora são estáveis. Essa nova abordagem permite que desenvolvedores gerenciem o estado de formulários usando signals, oferecendo uma experiência ergonômica para criação de formulários. Promovemos os Signal Forms para estáveis e melhoramos a interoperabilidade com reactive forms, permitindo que times migrem formulários grandes progressivamente, no seu próprio ritmo.
   </docs-card>
 
-  <docs-card title="Reactivity" href="/guide/signals" link="Completed in 2026">
-  We introduced new signal APIs, `resource()` and `httpResource()`, for flexible asynchronous data handling. We promoted these APIs to developer stable.
+  <docs-card title="Reatividade" href="/guide/signals" link="Concluído em 2026">
+  Introduzimos novas APIs de signal, `resource()` e `httpResource()`, para tratamento flexível de dados assíncronos. Promovemos essas APIs para estáveis para desenvolvedores.
   </docs-card>
 
-  <docs-card title="Change Detection" href="/api/core/ChangeDetectionStrategy" link="Completed in 2026">
-  With Zoneless being stable and default, we set the default change detection strategy to `OnPush`, to follow current best practices. We also renamed `ChangeDetectionStrategy.Default` to `ChangeDetectionStrategy.Eager`.
+  <docs-card title="Detecção de mudanças" href="/api/core/ChangeDetectionStrategy" link="Concluído em 2026">
+  Com o Zoneless estável e como padrão, definimos a estratégia padrão de detecção de mudanças como `OnPush`, seguindo as boas práticas atuais. Também renomeamos `ChangeDetectionStrategy.Default` para `ChangeDetectionStrategy.Eager`.
 
-[See the RFC discussion for details](https://github.com/angular/angular/discussions/66779).
-</docs-card>
-
-  <docs-card title="Signal debugging in Angular DevTools" link="Completed in 2026">
-  We've added better tooling for debugging Signals using Angular DevTools. This change includes a new UI for inspecting and debugging signals.
+[Veja a discussão do RFC para mais detalhes](https://github.com/angular/angular/discussions/66779).
   </docs-card>
 
-  <docs-card title="Improve HMR (Hot Module Reload)" href="https://github.com/angular/angular/issues/39367#issuecomment-1439537306" link="Completed in 2025">
-  We're working towards faster edit/refresh cycle by enabling hot module replacement. In Angular v19 we shipped initial support for CSS and template HMR and in v20 we graduated template HMR to stable. We'll continue collecting feedback to make sure we're addressing developers' needs before we mark this project as complete.
+  <docs-card title="Debugging de signals no Angular DevTools" link="Concluído em 2026">
+  Adicionamos ferramentas melhores para depurar signals usando o Angular DevTools. Essa mudança inclui uma nova UI para inspecionar e depurar signals.
+  </docs-card>
+
+  <docs-card title="Melhorar o HMR (Hot Module Reload)" href="https://github.com/angular/angular/issues/39367#issuecomment-1439537306" link="Concluído em 2025">
+  Estamos trabalhando para um ciclo de edição e atualização mais rápido, habilitando o hot module replacement. No Angular v19 lançamos o suporte inicial para HMR de CSS e de template, e na v20 o HMR de template passou para estável. Continuaremos coletando feedback para garantir que estamos atendendo às necessidades dos desenvolvedores antes de marcar este projeto como concluído.
 </docs-card>
 
-<docs-card title="Zoneless Angular"  link="Completed in Q4 2025">
-In v18 we shipped experimental zoneless support in Angular. It enables developers to use the framework without including zone.js in their bundle, which improves performance, debugging experience, and interoperability. As part of the initial release we also introduced zoneless support to the Angular CDK and Angular Material.
+<docs-card title="Angular Zoneless"  link="Concluído no T4 2025">
+Na v18 lançamos o suporte experimental a zoneless no Angular. Ele permite que desenvolvedores usem o framework sem incluir o zone.js no bundle, o que melhora a performance, a experiência de depuração e a interoperabilidade. Como parte do lançamento inicial, também introduzimos suporte a zoneless no Angular CDK e no Angular Material.
 
-In v19 we introduced zoneless support in server-side rendering, addressed some edge cases, and created a schematic to scaffold zoneless projects. We transitioned <a href="https://fonts.google.com/" target="_blank">Google Fonts</a> to zoneless which improved performance, developer experience, and allowed us to identify gaps that we need to address before moving this feature to developer preview.
+Na v19 introduzimos suporte a zoneless em server-side rendering, tratamos alguns casos extremos e criamos um schematic para gerar projetos zoneless. Migramos o <a href="https://fonts.google.com/" target="_blank">Google Fonts</a> para zoneless, o que melhorou a performance e a experiência do desenvolvedor, e nos permitiu identificar lacunas que precisamos resolver antes de mover este recurso para o developer preview.
 
-As of Angular v20.2, Zoneless Angular is now stable and includes improvements in error handling and server-side rendering.
+A partir do Angular v20.2, o Angular Zoneless agora é estável e inclui melhorias no tratamento de erros e no server-side rendering.
 </docs-card>
 
-<docs-card title="Server route configuration" link="Completed in Q2 2025"  >
-We're working towards enabling a more ergonomic route configuration on the server. We want to make it trivial to declare which routes should be server-side rendered, prerendered or client-side rendered.
+<docs-card title="Configuração de rotas no servidor" link="Concluído no T2 2025"  >
+Estamos trabalhando para permitir uma configuração de rotas mais ergonômica no servidor. Queremos tornar trivial declarar quais rotas devem ser renderizadas no servidor, pré-renderizadas ou renderizadas no cliente.
 
-In Angular v19 we shipped developer preview of route-level render mode which allows you to granularly configure which routes you want Angular to prerender, server-side render or client-side render. In Angular v20 we graduated it to stable.
+No Angular v19 lançamos o developer preview do modo de renderização por rota, que permite configurar de forma granular quais rotas você quer que o Angular pré-renderize, renderize no servidor ou renderize no cliente. No Angular v20 esse recurso passou para estável.
 </docs-card>
-<docs-card title="Enable incremental hydration" link="Completed in Q2 2025">
-In v17 we graduated hydration from developer preview and we've been consistently observing 40-50% improvements in LCP. Since then we started prototyping incremental hydration and shared a demo on stage at ng-conf.
+<docs-card title="Habilitar hidratação incremental" link="Concluído no T2 2025">
+Na v17 graduamos a hidratação do developer preview e observamos consistentemente melhorias de 40-50% no LCP. Desde então, começamos a prototipar a hidratação incremental e apresentamos uma demo no palco da ng-conf.
 
-In v19 we shipped the incremental hydration in developer preview mode, powered by `@defer` blocks. In Angular v20 we graduated it to stable!
+Na v19 lançamos a hidratação incremental em developer preview, alimentada por blocos `@defer`. No Angular v20 ela passou para estável!
 </docs-card>
-<docs-card title="Deliver Angular Signals" link="Completed in Q2 2025" href="https://github.com/angular/angular/discussions/49685">
-This project rethinks the Angular reactivity model by introducing Signals as a reactivity primitive. The initial planning resulted in hundreds of discussions, conversations with developers, feedback sessions, user experience studies, and a series of RFCs, which received over 1,000 comments.
+<docs-card title="Entregar Angular Signals" link="Concluído no T2 2025" href="https://github.com/angular/angular/discussions/49685">
+Este projeto repensa o modelo de reatividade do Angular ao introduzir os Signals como uma primitiva de reatividade. O planejamento inicial resultou em centenas de discussões, conversas com desenvolvedores, sessões de feedback, estudos de experiência do usuário e uma série de RFCs, que receberam mais de 1.000 comentários.
 
-In Angular v20 we graduated all the fundamental reactivity primitives to stable including signal, effect, linkedSignal, signal-based queries, and inputs.
+No Angular v20 graduamos para estáveis todas as primitivas fundamentais de reatividade, incluindo signal, effect, linkedSignal, queries baseadas em signal e inputs.
 </docs-card>
-<docs-card title="Support two-dimensional drag-and-drop" link="Completed in Q2 2024" href="https://github.com/angular/components/issues/13372">
-As part of this project, we implemented mixed orientation support for the Angular CDK drag and drop. This is one of the repository's most highly requested features.
+<docs-card title="Suporte a drag-and-drop bidimensional" link="Concluído no T2 2024" href="https://github.com/angular/components/issues/13372">
+Como parte deste projeto, implementamos suporte a orientação mista para o drag and drop do Angular CDK. Esta é uma das funcionalidades mais solicitadas do repositório.
 </docs-card>
-<docs-card title="Event replay with SSR and prerendering" link="Completed in Q4 2024" href="api/platform-browser/withEventReplay">
-In v18 we introduced an event replay functionality when using server-side rendering or prerendering. For this feature we depend on the event dispatch primitive (previously known as jsaction) that is running on Google.com.
+<docs-card title="Event replay com SSR e prerendering" link="Concluído no T4 2024" href="api/platform-browser/withEventReplay">
+Na v18 introduzimos uma funcionalidade de event replay ao usar server-side rendering ou prerendering. Para esse recurso, dependemos da primitiva de dispatch de eventos (anteriormente conhecida como jsaction) que roda no Google.com.
 
-In Angular v19 we graduated event replay to stable and enabled it by default for all new projects.
+No Angular v19 graduamos o event replay para estável e o habilitamos por padrão em todos os novos projetos.
 </docs-card>
-<docs-card title="Integrate Angular Language Service with Schematics" link="Completed in Q4 2024">
-To make it easier for developers to use modern Angular APIs, we enabled integration between the Angular language service and schematics which allows you to refactor your app with a single click.
+<docs-card title="Integrar o Angular Language Service com schematics" link="Concluído no T4 2024">
+Para facilitar o uso das APIs modernas do Angular pelos desenvolvedores, habilitamos a integração entre o Angular language service e os schematics, o que permite refatorar sua aplicação com um único clique.
 </docs-card>
-<docs-card title="Streamline standalone imports with Language Service" link="Completed in Q4 2024">
-As part of this initiative, the language service automatically imports components and pipes in standalone and NgModule-based apps. Additionally, we've added a template diagnostic to highlight unused imports in standalone components, which should help make application bundles smaller.
+<docs-card title="Simplificar imports standalone com o Language Service" link="Concluído no T4 2024">
+Como parte dessa iniciativa, o language service importa automaticamente components e pipes em aplicações standalone e baseadas em NgModules. Além disso, adicionamos um diagnóstico de template para destacar imports não utilizados em components standalone, o que deve ajudar a deixar os bundles das aplicações menores.
 </docs-card>
-<docs-card title="Local template variables" link="Completed in Q3 2024">
-We've released the support for local template variables in Angular, see [`@let`](/api/core/@let) for additional information.
+<docs-card title="Variáveis de template locais" link="Concluído no T3 2024">
+Lançamos o suporte a variáveis de template locais no Angular, veja [`@let`](/api/core/@let) para mais informações.
 </docs-card>
-<docs-card title="Expand the customizability of Angular Material" link="Completed in Q2 2024" href="https://material.angular.dev/guide/theming">
-To provide better customization of our Angular Material components and enable Material 3 capabilities, we'll be collaborating with Google's Material Design team on defining token-based theming APIs.
+<docs-card title="Ampliar a customização do Angular Material" link="Concluído no T2 2024" href="https://material.angular.dev/guide/theming">
+Para oferecer melhor customização dos components do Angular Material e habilitar os recursos do Material 3, vamos colaborar com o time de Material Design do Google na definição de APIs de theming baseadas em tokens.
 
-In v17.2 we shared experimental support for Angular Material 3 and in v18 we graduated it to stable.
+Na v17.2 compartilhamos o suporte experimental ao Angular Material 3, e na v18 o graduamos para estável.
 </docs-card>
-<docs-card title="Introduce deferred loading" link="Completed in Q2 2024" href="guide/templates/defer">
-In v17 we shipped deferrable views in developer preview, which provide an ergonomic API for deferred code loading. In v18 we enabled deferrable views for library developers and graduated the API to stable.
+<docs-card title="Introduzir carregamento adiado" link="Concluído no T2 2024" href="guide/templates/defer">
+Na v17 lançamos as deferrable views em developer preview, que oferecem uma API ergonômica para carregamento adiado de código. Na v18 habilitamos as deferrable views para desenvolvedores de bibliotecas e graduamos a API para estável.
 </docs-card>
-<docs-card title="iframe support in Angular DevTools" link="Completed in Q2 2024">
-We enabled debugging and profiling of Angular apps embedded within an iframe on the page.
+<docs-card title="Suporte a iframe no Angular DevTools" link="Concluído no T2 2024">
+Habilitamos a depuração e o profiling de aplicações Angular incorporadas dentro de um iframe na página.
 </docs-card>
-<docs-card title="Automation for transition of existing hybrid rendering projects to esbuild and vite" link="Completed in Q2 2024" href="tools/cli/build-system-migration">
-In v17 we shipped a vite and esbuild-based application builder and enabled it for new projects by default. It improves build time for projects using hybrid rendering with up to 87%. As part of v18 we shipped schematics and a guide that migrate existing projects using hybrid rendering to the new build pipeline.
+<docs-card title="Automação para transição de projetos existentes com renderização híbrida para esbuild e vite" link="Concluído no T2 2024" href="tools/cli/build-system-migration">
+Na v17 lançamos um application builder baseado em vite e esbuild e o habilitamos por padrão para novos projetos. Ele melhora o tempo de build de projetos que usam renderização híbrida em até 87%. Como parte da v18, lançamos schematics e um guia que migram projetos existentes com renderização híbrida para o novo pipeline de build.
 </docs-card>
-<docs-card title="Make Angular.dev the official home for Angular developers" link="Completed in Q2 2024" href="https://goo.gle/angular-dot-dev">
-Angular.dev is the new site, domain and home for Angular development. The new site contains updated documentation, tutorials and guidance that will help developers build with Angular’s latest features.
+<docs-card title="Tornar o Angular.dev o lar oficial para desenvolvedores Angular" link="Concluído no T2 2024" href="https://goo.gle/angular-dot-dev">
+O Angular.dev é o novo site, domínio e lar do desenvolvimento Angular. O novo site contém documentação, tutoriais e orientações atualizados, que ajudarão os desenvolvedores a construir com as funcionalidades mais recentes do Angular.
 </docs-card>
-<docs-card title="Introduce built-in control flow" link="Completed in Q2 2024" href="guide/templates/control-flow">
-In v17 we shipped a developer preview version of a new control flow. It brings significant performance improvements and better ergonomics for template authoring. We also provided a migration of existing `*ngIf`, `*ngFor`, and `*ngSwitch` which you can run to move your project to the new implementation. As of v18 the built-in control flow is now stable.
+<docs-card title="Introduzir o controle de fluxo integrado" link="Concluído no T2 2024" href="guide/templates/control-flow">
+Na v17 lançamos uma versão developer preview de um novo controle de fluxo. Ele traz melhorias significativas de performance e melhor ergonomia para a escrita de templates. Também fornecemos uma migração dos `*ngIf`, `*ngFor` e `*ngSwitch` existentes, que você pode executar para mover seu projeto para a nova implementação. A partir da v18, o controle de fluxo integrado agora é estável.
 </docs-card>
-<docs-card title="Modernize getting started tutorial" link="Completed in Q4 2023">
-Over the past two quarters, we developed a new [video](https://www.youtube.com/watch?v=xAT0lHYhHMY&list=PL1w1q3fL4pmj9k1FrJ3Pe91EPub2_h4jF) and [textual](/tutorials/learn-angular) tutorial based on standalone components.
+<docs-card title="Modernizar o tutorial de introdução" link="Concluído no T4 2023">
+Nos últimos dois trimestres, desenvolvemos um novo [vídeo](https://www.youtube.com/watch?v=xAT0lHYhHMY&list=PL1w1q3fL4pmj9k1FrJ3Pe91EPub2_h4jF) e um tutorial [textual](/tutorials/learn-angular) baseados em components standalone.
 </docs-card>
-<docs-card title="Investigate modern bundlers" link="Completed in Q4 2023" href="guide/hydration">
-In Angular v16, we released a developer preview of an esbuild-based builder with support for `ng build` and `ng serve`. The `ng serve` development server uses Vite and a multi-file compilation by esbuild and the Angular compiler. In v17 we graduated the build tooling from developer preview and enabled it by default for new projects.
+<docs-card title="Investigar bundlers modernos" link="Concluído no T4 2023" href="guide/hydration">
+No Angular v16, lançamos um developer preview de um builder baseado em esbuild com suporte a `ng build` e `ng serve`. O servidor de desenvolvimento `ng serve` usa Vite e uma compilação multiarquivo feita pelo esbuild e pelo compilador do Angular. Na v17 graduamos as ferramentas de build para fora do developer preview e as habilitamos por padrão para novos projetos.
 </docs-card>
-<docs-card title="Introduce dependency injection debugging APIs" link="Completed in Q4 2023" href="tools/devtools">
-To improve the debugging utilities of Angular and Angular DevTools, we'll work on APIs that provide access to the dependency injection runtime. As part of the project, we'll expose debugging methods that allow us to explore the injector hierarchy and the dependencies across their associated providers. As of v17, we shipped a feature that enables us to plug into the dependency injection life-cycle. We also launched a visualization of the injector tree and inspection of the providers declared inside each individual node,
+<docs-card title="Introduzir APIs de debugging para injeção de dependência" link="Concluído no T4 2023" href="tools/devtools">
+Para melhorar os utilitários de debugging do Angular e do Angular DevTools, trabalharemos em APIs que dão acesso ao runtime de injeção de dependência. Como parte do projeto, expomos métodos de debugging que permitem explorar a hierarquia de injetores e as dependências entre seus providers associados. A partir da v17, lançamos um recurso que nos permite nos conectar ao ciclo de vida da injeção de dependência. Também lançamos uma visualização da árvore de injetores e a inspeção dos providers declarados em cada nó individual.
 </docs-card>
-<docs-card title="Improve documentation and schematics for standalone components" link="Completed in Q4 2023" href="essentials/components">
-We released a developer preview of the `ng new --standalone` schematics collection, allowing you to create apps free of NgModules. In v17 we switched the new application authoring format to standalone APIs and changed the documentation to reflect the recommendation. Additionally, we shipped schematics which support updating existing applications to standalone components, directives, and pipes. Even though NgModules will stick around for foreseeable future, we recommend you to explore the benefits of the new APIs to improve developer experience and benefit from the new features we build for them.
+<docs-card title="Melhorar a documentação e os schematics para components standalone" link="Concluído no T4 2023" href="essentials/components">
+Lançamos um developer preview da coleção de schematics `ng new --standalone`, que permite criar aplicações sem NgModules. Na v17, mudamos o formato de escrita de novas aplicações para as APIs standalone e alteramos a documentação para refletir essa recomendação. Além disso, lançamos schematics que oferecem suporte à atualização de aplicações existentes para components, directives e pipes standalone. Embora os NgModules vão continuar por um futuro previsível, recomendamos que você explore os benefícios das novas APIs para melhorar a experiência do desenvolvedor e aproveitar as novas funcionalidades que construímos para elas.
 </docs-card>
-<docs-card title="Explore hydration and server-side rendering improvements" link="Completed in Q4 2023">
-In v16, we released a developer preview of non-destructive full hydration, see the [hydration guide](guide/hydration) and the [blog post](https://blog.angular.dev/whats-next-for-server-side-rendering-in-angular-2a6f27662b67) for additional information. We're already seeing significant improvements to Core Web Vitals, including [LCP](https://web.dev/lcp) and [CLS](https://web.dev/cls). In lab tests, we consistently observed 45% better LCP of a real-world app.
+<docs-card title="Explorar melhorias de hidratação e server-side rendering" link="Concluído no T4 2023">
+Na v16, lançamos um developer preview de hidratação completa não destrutiva; veja o [guia de hidratação](guide/hydration) e o [post do blog](https://blog.angular.dev/whats-next-for-server-side-rendering-in-angular-2a6f27662b67) para mais informações. Já estamos vendo melhorias significativas nos Core Web Vitals, incluindo [LCP](https://web.dev/lcp) e [CLS](https://web.dev/cls). Em testes de laboratório, observamos consistentemente 45% de melhoria no LCP de uma aplicação real.
 
-In v17 we launched hydration outside developer preview and did a series of improvements in the server-side rendering story, including: route discovery at runtime for SSG, up to 87% faster build times for hybrid rendered applications, prompt that enables hybrid rendering for new projects.
+Na v17 lançamos a hidratação fora do developer preview e fizemos uma série de melhorias na história de server-side rendering, incluindo: descoberta de rotas em runtime para SSG, tempos de build até 87% mais rápidos para aplicações com renderização híbrida e um prompt que habilita a renderização híbrida para novos projetos.
 </docs-card>
-<docs-card title="Non-destructive full app hydration" link="Completed in Q1 2023" href="guide/hydration">
-In v16, we released a developer preview of non-destructive full hydration, which allows Angular to reuse existing DOM nodes on a server-side rendered page, instead of re-creating an app from scratch. See additional information in the hydration guide.
+<docs-card title="Hidratação completa de aplicações não destrutiva" link="Concluído no T1 2023" href="guide/hydration">
+Na v16, lançamos um developer preview de hidratação completa não destrutiva, que permite ao Angular reutilizar nós DOM existentes em uma página renderizada no servidor, em vez de recriar a aplicação do zero. Veja mais informações no guia de hidratação.
 </docs-card>
-<docs-card title="Improvements in the image directive" link="Completed in Q1 2023" href="guide/image-optimization">
-We released the Angular image directive as stable in v15. We introduced a new fill mode feature that enables images to fit within their parent container rather than having explicit dimensions. Over the past two months, the Chrome Aurora team backported the directive to v12 and newer.
+<docs-card title="Melhorias na image directive" link="Concluído no T1 2023" href="guide/image-optimization">
+Lançamos a image directive do Angular como estável na v15. Introduzimos um novo modo fill que permite que as imagens se ajustem dentro do seu contêiner pai, em vez de ter dimensões explícitas. Nos últimos dois meses, o time Chrome Aurora fez o backport da directive para a v12 e versões mais recentes.
 </docs-card>
-<docs-card title="Documentation refactoring" link="Completed in Q1 2023" href="https://angular.io">
-Ensure all existing documentation fits into a consistent set of content types. Update excessive use of tutorial-style documentation into independent topics. We want to ensure the content outside the main tutorials is self-sufficient without being tightly coupled to a series of guides. In Q2 2022, we refactored the template content and dependency injection. In Q1 2023, we improved the HTTP guides, and with this, we're putting the documentation refactoring project on hold.
+<docs-card title="Refatoração da documentação" link="Concluído no T1 2023" href="https://angular.io">
+Garantir que toda a documentação existente se encaixe em um conjunto consistente de tipos de conteúdo. Atualizar o uso excessivo de documentação no estilo tutorial para tópicos independentes. Queremos garantir que o conteúdo fora dos tutoriais principais seja autossuficiente, sem estar fortemente acoplado a uma série de guias. No T2 2022, refatoramos o conteúdo de templates e de injeção de dependência. No T1 2023, melhoramos os guias de HTTP e, com isso, colocamos o projeto de refatoração da documentação em espera.
 </docs-card>
-<docs-card title="Improve image performance" link="Completed in Q4 2022" href="guide/image-optimization">
-The Aurora and the Angular teams are working on the implementation of an image directive that aims to improve Core Web Vitals. We shipped a stable version of the image directive in v15.
+<docs-card title="Melhorar a performance de imagens" link="Concluído no T4 2022" href="guide/image-optimization">
+Os times Aurora e Angular estão trabalhando na implementação de uma image directive que visa melhorar os Core Web Vitals. Lançamos uma versão estável da image directive na v15.
 </docs-card>
-<docs-card title="Modern CSS" link="Completed in Q4 2022" href="https://blog.angular.dev/modern-css-in-angular-layouts-4a259dca9127">
-The Web ecosystem evolves constantly and we want to reflect the latest modern standards in Angular. In this project we aim to provide guidelines on using modern CSS features in Angular to ensure developers follow best practices for layout, styling, etc. We shared official guidelines for layout and as part of the initiative stopped publishing flex layout.
+<docs-card title="CSS moderno" link="Concluído no T4 2022" href="https://blog.angular.dev/modern-css-in-angular-layouts-4a259dca9127">
+O ecossistema web evolui constantemente, e queremos refletir os padrões modernos mais recentes no Angular. Neste projeto, buscamos fornecer diretrizes sobre o uso de funcionalidades modernas de CSS no Angular, para garantir que os desenvolvedores sigam as boas práticas de layout, estilização etc. Compartilhamos diretrizes oficiais para layout e, como parte da iniciativa, deixamos de publicar o flex layout.
 </docs-card>
-<docs-card title="Support adding directives to host elements" link="Completed in Q4 2022" href="guide/directives/directive-composition-api">
-A long-standing feature request is to add the ability to add directives to host elements. The feature lets developers augment their own components with additional behaviors without using inheritance. In v15 we shipped our directive composition API, which enables enhancing host elements with directives.
+<docs-card title="Suporte a adicionar directives a elementos host" link="Concluído no T4 2022" href="guide/directives/directive-composition-api">
+Um pedido de funcionalidade antigo é a possibilidade de adicionar directives a elementos host. O recurso permite que desenvolvedores ampliem seus próprios components com comportamentos adicionais sem usar herança. Na v15 lançamos nossa API de composição de directives, que permite aprimorar elementos host com directives.
 </docs-card>
-<docs-card title="Better stack traces" link="Completed in Q4 2022" href="https://developer.chrome.com/blog/devtools-better-angular-debugging/">
-The Angular and the Chrome DevTools are working together to enable more readable stack traces for error messages. In v15 we released improved relevant and linked stack traces. As a lower priority initiative, we'll be exploring how to make the stack traces friendlier by providing more accurate call frame names for templates.
+<docs-card title="Stack traces melhores" link="Concluído no T4 2022" href="https://developer.chrome.com/blog/devtools-better-angular-debugging/">
+O Angular e o Chrome DevTools estão trabalhando juntos para habilitar stack traces mais legíveis para mensagens de erro. Na v15 lançamos stack traces melhorados, relevantes e com links. Como iniciativa de menor prioridade, vamos explorar como tornar os stack traces mais amigáveis, fornecendo nomes de call frames mais precisos para templates.
 </docs-card>
-<docs-card title="Enhanced Angular Material components by integrating MDC Web" link="Completed in Q4 2022" href="https://material.angular.dev/guide/mdc-migration">
-MDC Web is a library created by the Google Material Design team that provides reusable primitives for building Material Design components. The Angular team is incorporating these primitives into Angular Material. Using MDC Web aligns Angular Material more closely with the Material Design specification, expands accessibility, improves component quality, and improves the velocity of our team.
+<docs-card title="Components do Angular Material aprimorados com a integração do MDC Web" link="Concluído no T4 2022" href="https://material.angular.dev/guide/mdc-migration">
+O MDC Web é uma biblioteca criada pelo time de Material Design do Google que fornece primitivas reutilizáveis para construir components Material Design. O time do Angular está incorporando essas primitivas ao Angular Material. Usar o MDC Web alinha mais de perto o Angular Material com a especificação Material Design, amplia a acessibilidade, melhora a qualidade dos components e aumenta a velocidade do nosso time.
 </docs-card>
-<docs-card title="Implement APIs for optional NgModules" link="Completed in Q4 2022" href="https://blog.angular.dev/angular-v15-is-now-available-df7be7f2f4c8">
-In the process of making Angular simpler, we are working on introducing APIs that allow developers to initialize apps, instantiate components, and use the router without NgModules. Angular v14 introduces developer preview of the APIs for standalone components, directives, and pipes. In the next few quarters we'll collect feedback from developers and finalize the project making the APIs stable. As the next step we will work on improving use cases such as TestBed, Angular elements, etc.
+<docs-card title="Implementar APIs para NgModules opcionais" link="Concluído no T4 2022" href="https://blog.angular.dev/angular-v15-is-now-available-df7be7f2f4c8">
+No processo de tornar o Angular mais simples, estamos trabalhando na introdução de APIs que permitem aos desenvolvedores inicializar aplicações, instanciar components e usar o router sem NgModules. O Angular v14 introduziu o developer preview das APIs para components, directives e pipes standalone. Nos próximos trimestres, coletaremos feedback dos desenvolvedores e finalizaremos o projeto, tornando as APIs estáveis. Como próximo passo, trabalharemos em melhorar casos de uso como TestBed, Angular elements etc.
 </docs-card>
-<docs-card title="Allow binding to protected fields in templates" link="Completed in Q2 2022" href="guide/templates/binding">
-To improve the encapsulation of Angular components we enabled binding to protected members of the component instance. This way you'll no longer have to expose a field or a method as public to use it inside your templates.
+<docs-card title="Permitir binding a campos protegidos em templates" link="Concluído no T2 2022" href="guide/templates/binding">
+Para melhorar o encapsulamento dos components do Angular, habilitamos o binding a membros protegidos da instância do component. Assim, você não precisará mais expor um campo ou método como público para usá-lo dentro dos seus templates.
 </docs-card>
-<docs-card title="Publish guides on advanced concepts" link="Completed in Q2 2022" href="https://angular.io/guide/change-detection">
-Develop and publish an in-depth guide on change detection. Develop content for performance profiling of Angular apps. Cover how change detection interacts with Zone.js and explain when it gets triggered, how to profile its duration, as well as common practices for performance optimization.
+<docs-card title="Publicar guias sobre conceitos avançados" link="Concluído no T2 2022" href="https://angular.io/guide/change-detection">
+Desenvolver e publicar um guia aprofundado sobre detecção de mudanças. Desenvolver conteúdo para profiling de performance de aplicações Angular. Abordar como a detecção de mudanças interage com o Zone.js e explicar quando ela é acionada, como fazer o profiling de sua duração, bem como práticas comuns para otimização de performance.
 </docs-card>
-<docs-card title="Rollout strict typings for @angular/forms" link="Completed in Q2 2022" href="guide/forms/typed-forms">
-In Q4 2021 we designed a solution for introducing strict typings for forms and in Q1 2022 we concluded the corresponding request for comments. Currently, we are implementing a rollout strategy with an automated migration step that will enable the improvements for existing projects. We are first testing the solution with more than 2,500 projects at Google to ensure a smooth migration path for the external community.
+<docs-card title="Lançar tipagens estritas para @angular/forms" link="Concluído no T2 2022" href="guide/forms/typed-forms">
+No T4 de 2021, projetamos uma solução para introduzir tipagens estritas para forms e, no T1 de 2022, concluímos a solicitação de comentários correspondente. Atualmente, estamos implementando uma estratégia de lançamento com uma etapa de migração automatizada que habilitará as melhorias para projetos existentes. Estamos testando a solução primeiro com mais de 2.500 projetos no Google, para garantir um caminho de migração suave para a comunidade externa.
 </docs-card>
-<docs-card title="Remove legacy View Engine" link="Completed in Q1 2022" href="https://blog.angular.dev/angular-v15-is-now-available-df7be7f2f4c8">
-After the transition of all our internal tooling to Ivy is completed, we will remove the legacy View Engine for reduced Angular conceptual overhead, smaller package size, lower maintenance cost, and lower codebase complexity.
+<docs-card title="Remover o View Engine legado" link="Concluído no T1 2022" href="https://blog.angular.dev/angular-v15-is-now-available-df7be7f2f4c8">
+Após a conclusão da transição de todas as nossas ferramentas internas para o Ivy, removeremos o View Engine legado, para reduzir a complexidade conceitual do Angular, diminuir o tamanho do pacote, reduzir o custo de manutenção e a complexidade da base de código.
 </docs-card>
-<docs-card title="Simplified Angular mental model with optional NgModules" link="Completed in Q1 2022" href="https://blog.angular.dev/angular-v15-is-now-available-df7be7f2f4c8">
-To simplify the Angular mental model and learning journey, we will be working on making NgModules optional. This work lets developers develop standalone components and implement an alternative API for declaring the compilation scope of the component. We kicked this project off with high-level design discussions that we captured in an RFC.
+<docs-card title="Modelo mental simplificado do Angular com NgModules opcionais" link="Concluído no T1 2022" href="https://blog.angular.dev/angular-v15-is-now-available-df7be7f2f4c8">
+Para simplificar o modelo mental do Angular e a jornada de aprendizado, vamos trabalhar para tornar os NgModules opcionais. Esse trabalho permite que desenvolvedores criem components standalone e implementem uma API alternativa para declarar o escopo de compilação do component. Iniciamos o projeto com discussões de design de alto nível, que registramos em um RFC.
 </docs-card>
-<docs-card title="Design strict typing for @angular/forms" link="Completed in Q1 2022" href="guide/forms/typed-forms">
-We will work on finding a way to implement stricter type checking for reactive forms with minimal backward incompatible implications. This way, we let developers catch more issues during development time, enable better text editor and IDE support, and improve the type checking for reactive forms.
+<docs-card title="Projetar tipagem estrita para @angular/forms" link="Concluído no T1 2022" href="guide/forms/typed-forms">
+Vamos encontrar uma forma de implementar uma verificação de tipos mais estrita para reactive forms, com implicações mínimas de incompatibilidade retroativa. Dessa forma, permitimos que desenvolvedores identifiquem mais problemas durante o desenvolvimento, habilitamos melhor suporte de editores de texto e IDEs e melhoramos a verificação de tipos para reactive forms.
 </docs-card>
-<docs-card title="Improve integration of Angular DevTools with framework" link="Completed in Q1 2022" href="tools/devtools">
-To improve the integration of Angular DevTools with the framework, we are working on moving the codebase to the angular/angular monorepository. This includes transitioning Angular DevTools to Bazel and integrating it into the existing processes and CI pipeline.
+<docs-card title="Melhorar a integração do Angular DevTools com o framework" link="Concluído no T1 2022" href="tools/devtools">
+Para melhorar a integração do Angular DevTools com o framework, estamos trabalhando para mover a base de código para o monorepo angular/angular. Isso inclui fazer a transição do Angular DevTools para o Bazel e integrá-lo aos processos existentes e ao pipeline de CI.
 </docs-card>
-<docs-card title="Launch advanced compiler diagnostics" link="Completed in Q1 2022" href="extended-diagnostics">
-Extend the diagnostics of the Angular compiler outside type checking. Introduce other correctness and conformance checks to further guarantee correctness and best practices.
+<docs-card title="Lançar diagnósticos avançados do compilador" link="Concluído no T1 2022" href="reference/extended-diagnostics">
+Estender os diagnósticos do compilador Angular para além da verificação de tipos. Introduzir outras verificações de correção e conformidade para garantir ainda mais a correção e as boas práticas.
 </docs-card>
-<docs-card title="Update our e2e testing strategy" link="Completed in Q3 2021" href="guide/testing">
-To ensure we provide a future-proof e2e testing strategy, we want to evaluate the state of Protractor, community innovations, e2e best practices, and explore novel opportunities. As first steps of the effort, we shared an RFC and worked with partners to ensure smooth integration between the Angular CLI and state-of-the-art tooling for e2e testing. As the next step, we need to finalize the recommendations and compile a list of resources for the transition.
+<docs-card title="Atualizar nossa estratégia de testes e2e" link="Concluído no T3 2021" href="guide/testing">
+Para garantir uma estratégia de testes e2e preparada para o futuro, queremos avaliar o estado do Protractor, as inovações da comunidade, as boas práticas de e2e e explorar novas oportunidades. Como primeiros passos do esforço, compartilhamos um RFC e trabalhamos com parceiros para garantir uma integração suave entre o Angular CLI e as ferramentas mais avançadas de testes e2e. Como próximo passo, precisamos finalizar as recomendações e compilar uma lista de recursos para a transição.
 </docs-card>
-<docs-card title="Angular libraries use Ivy" link="Completed in Q3 2021" href="tools/libraries">
-Earlier in 2020, we shared an RFC for Ivy library distribution. After invaluable feedback from the community, we developed a design of the project. We are now investing in the development of Ivy library distribution, including an update of the library package format to use Ivy compilation, unblock the deprecation of the View Engine library format, and ngcc.
+<docs-card title="Bibliotecas Angular usando Ivy" link="Concluído no T3 2021" href="tools/libraries">
+No início de 2020, compartilhamos um RFC para a distribuição de bibliotecas Ivy. Após feedback valioso da comunidade, desenvolvemos um design para o projeto. Agora estamos investindo no desenvolvimento da distribuição de bibliotecas Ivy, incluindo uma atualização do formato de pacote de bibliotecas para usar a compilação Ivy, desbloquear a depreciação do formato de bibliotecas View Engine e o ngcc.
 </docs-card>
-<docs-card title="Improve test times and debugging with automatic test environment tear down" link="Completed in Q3 2021" href="guide/testing">
-To improve test time and create better isolation across tests, we want to change TestBed to automatically clean up and tear down the test environment after each test run.
+<docs-card title="Melhorar os tempos de teste e a depuração com a desmontagem automática do ambiente de teste" link="Concluído no T3 2021" href="guide/testing">
+Para melhorar o tempo de teste e criar um melhor isolamento entre os testes, queremos alterar o TestBed para limpar e desmontar automaticamente o ambiente de teste após cada execução de teste.
 </docs-card>
-<docs-card title="Deprecate and remove IE11 support" link="Completed in Q3 2021" href="https://github.com/angular/angular/issues/41840">
-Internet Explorer 11 (IE11) has been preventing Angular from taking advantage of some of the modern features of the Web platform. As part of this project we are going to deprecate and remove IE11 support to open the path for modern features that evergreen browsers provide. We ran an RFC to collect feedback from the community and decide on next steps to move forward.
+<docs-card title="Depreciar e remover o suporte ao IE11" link="Concluído no T3 2021" href="https://github.com/angular/angular/issues/41840">
+O Internet Explorer 11 (IE11) tem impedido o Angular de aproveitar algumas das funcionalidades modernas da plataforma web. Como parte deste projeto, vamos depreciar e remover o suporte ao IE11 para abrir caminho para as funcionalidades modernas que os navegadores evergreen oferecem. Executamos um RFC para coletar feedback da comunidade e decidir os próximos passos.
 </docs-card>
-<docs-card title="Leverage ES2017+ as the default output language" link="Completed in Q3 2021" href="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html">
-Supporting modern browsers lets us take advantage of the more compact, expressive, and performant new syntax of JavaScript. As part of this project we will investigate what the blockers are to moving forward with this effort, and take the steps to enable it.
+<docs-card title="Usar ES2017+ como linguagem de saída padrão" link="Concluído no T3 2021" href="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html">
+Suportar navegadores modernos nos permite aproveitar a sintaxe mais compacta, expressiva e performática do JavaScript. Como parte deste projeto, investigaremos quais são os bloqueios para avançar nesse esforço e tomaremos as medidas para habilitá-lo.
 </docs-card>
-<docs-card title="Accelerated debugging and performance profiling with Angular DevTools" link="Completed in Q2 2021" href="tools/devtools">
-We are working on development tooling for Angular that provides utilities for debugging and performance profiling. This project aims to help developers understand the component structure and the change detection in an Angular app.
+<docs-card title="Debugging acelerado e profiling de performance com o Angular DevTools" link="Concluído no T2 2021" href="tools/devtools">
+Estamos trabalhando em ferramentas de desenvolvimento para o Angular que oferecem utilitários para depuração e profiling de performance. Este projeto visa ajudar os desenvolvedores a entender a estrutura dos components e a detecção de mudanças em uma aplicação Angular.
 </docs-card>
-<docs-card title="Streamline releases with consolidated Angular versioning & branching" link="Completed in Q2 2021" href="reference/releases">
-We want to consolidate release management tooling between the multiple GitHub repositories for Angular (angular/angular, angular/angular-cli, and angular/components). This effort lets us reuse infrastructure, unify and simplify processes, and improve the reliability of our release process.
+<docs-card title="Simplificar os lançamentos com versionamento e branching consolidados do Angular" link="Concluído no T2 2021" href="reference/releases">
+Queremos consolidar as ferramentas de gerenciamento de lançamentos entre os múltiplos repositórios GitHub do Angular (angular/angular, angular/angular-cli e angular/components). Esse esforço nos permite reutilizar infraestrutura, unificar e simplificar processos e melhorar a confiabilidade do nosso processo de lançamento.
 </docs-card>
-<docs-card title="Higher developer consistency with commit message standardization" link="Completed in Q2 2021" href="https://github.com/angular/angular">
-We want to unify commit message requirements and conformance across Angular repositories (angular/angular, angular/components, and angular/angular-cli) to bring consistency to our development process and reuse infrastructure tooling.
+<docs-card title="Maior consistência entre desenvolvedores com padronização de mensagens de commit" link="Concluído no T2 2021" href="https://github.com/angular/angular">
+Queremos unificar os requisitos e a conformidade das mensagens de commit entre os repositórios do Angular (angular/angular, angular/components e angular/angular-cli), para trazer consistência ao nosso processo de desenvolvimento e reutilizar as ferramentas de infraestrutura.
 </docs-card>
-<docs-card title="Transition the Angular language service to Ivy" link="Completed in Q2 2021" href="tools/language-service">
-The goal of this project is to improve the experience and remove legacy dependency by transitioning the language service to Ivy. Today the language service still uses the View Engine compiler and type checking, even for Ivy apps. We want to use the Ivy template parser and improved type checking for the Angular Language service to match app behavior. This migration is also a step towards unblocking the removal of View Engine, which will simplify Angular, reduce the npm package size, and improve the maintainability of the framework.
+<docs-card title="Fazer a transição do Angular language service para o Ivy" link="Concluído no T2 2021" href="tools/language-service">
+O objetivo deste projeto é melhorar a experiência e remover uma dependência legada, fazendo a transição do language service para o Ivy. Hoje, o language service ainda usa o compilador e a verificação de tipos do View Engine, mesmo para aplicações Ivy. Queremos usar o parser de templates do Ivy e a verificação de tipos aprimorada no Angular Language Service, para corresponder ao comportamento da aplicação. Essa migração também é um passo para desbloquear a remoção do View Engine, o que simplificará o Angular, reduzirá o tamanho do pacote npm e melhorará a manutenibilidade do framework.
 </docs-card>
-<docs-card title="Increased security with native Trusted Types in Angular" link="Completed in Q2 2021" href="best-practices/security">
-In collaboration with the Google security team, we are adding support for the new Trusted Types API. This web platform API helps developers build more secure web apps.
+<docs-card title="Mais segurança com Trusted Types nativos no Angular" link="Concluído no T2 2021" href="best-practices/security">
+Em colaboração com o time de segurança do Google, estamos adicionando suporte à nova API Trusted Types. Essa API da plataforma web ajuda os desenvolvedores a construir aplicações web mais seguras.
 </docs-card>
-<docs-card title="Optimized build speed and bundle sizes with Angular CLI webpack 5" link="Completed in Q2 2021" href="tools/cli/build">
-As part of the v11 release, we introduced an opt-in preview of webpack 5 in the Angular CLI. To ensure stability, we will continue iterating on the implementation to enable build speed and bundle size improvements.
+<docs-card title="Velocidade de build e tamanhos de bundle otimizados com o webpack 5 no Angular CLI" link="Concluído no T2 2021" href="tools/cli/build">
+Como parte do lançamento da v11, introduzimos uma prévia opt-in do webpack 5 no Angular CLI. Para garantir a estabilidade, continuaremos iterando na implementação para habilitar melhorias na velocidade de build e no tamanho dos bundles.
 </docs-card>
-<docs-card title="Faster apps by inlining critical styles in Universal apps" link="Completed in Q1 2021" href="guide/ssr">
-Loading external stylesheets is a blocking operation, which means that the browser cannot start rendering your app until it loads all the referenced CSS. Having render-blocking resources in the header of a page can significantly impact its load performance, for example, its first contentful paint. To make apps faster, we have been collaborating with the Google Chrome team on inlining critical CSS and loading the rest of the styles asynchronously.
+<docs-card title="Aplicações mais rápidas com inlining de estilos críticos em aplicações Universal" link="Concluído no T1 2021" href="guide/ssr">
+Carregar folhas de estilo externas é uma operação bloqueante, o que significa que o navegador não pode começar a renderizar sua aplicação até carregar todo o CSS referenciado. Ter recursos que bloqueiam a renderização no cabeçalho de uma página pode impactar significativamente seu desempenho de carregamento, por exemplo, o seu first contentful paint. Para tornar as aplicações mais rápidas, temos colaborado com o time do Google Chrome no inlining de CSS crítico e no carregamento assíncrono do restante dos estilos.
 </docs-card>
-<docs-card title="Improve debugging with better Angular error messages" link="Completed in Q1 2021" href="errors">
-Error messages often bring limited actionable information to help developers resolve them. We have been working on making error messages more discoverable by adding associated codes, developing guides, and other materials to ensure a smoother debugging experience.
+<docs-card title="Melhorar a depuração com mensagens de erro melhores do Angular" link="Concluído no T1 2021" href="errors">
+As mensagens de erro frequentemente trazem informações limitadas e acionáveis para ajudar os desenvolvedores a resolvê-las. Temos trabalhado para tornar as mensagens de erro mais fáceis de encontrar, adicionando códigos associados, desenvolvendo guias e outros materiais para garantir uma experiência de depuração mais suave.
 </docs-card>
-<docs-card title="Improved developer onboarding with refreshed introductory documentation" link="Completed in Q1 2021" href="tutorials">
-We will redefine the user learning journeys and refresh the introductory documentation. We will clearly state the benefits of Angular, how to explore its capabilities and provide guidance so developers can become proficient with the framework in as little time as possible.
+<docs-card title="Onboarding de desenvolvedores melhorado com documentação introdutória atualizada" link="Concluído no T1 2021" href="tutorials">
+Vamos redefinir as jornadas de aprendizado dos usuários e atualizar a documentação introdutória. Vamos declarar claramente os benefícios do Angular, como explorar suas capacidades e fornecer orientações para que os desenvolvedores se tornem proficientes no framework no menor tempo possível.
 </docs-card>
-<docs-card title="Expand component harnesses best practices" link="Completed in Q1 2021" href="https://material.angular.dev/guide/using-component-harnesses">
-Angular CDK introduced the concept of component test harnesses to Angular in version 9. Test harnesses let component authors create supported APIs for testing component interactions. We are continuing to improve this harness infrastructure and clarifying the best practices around using harnesses. We are also working to drive more harness adoption inside of Google.
+<docs-card title="Expandir as boas práticas de component harnesses" link="Concluído no T1 2021" href="https://material.angular.dev/guide/using-component-harnesses">
+O Angular CDK introduziu o conceito de component test harnesses no Angular na versão 9. Os test harnesses permitem que autores de components criem APIs suportadas para testar interações com components. Continuamos a melhorar essa infraestrutura de harnesses e a esclarecer as boas práticas para usá-los. Também estamos trabalhando para impulsionar mais adoção de harnesses dentro do Google.
 </docs-card>
-<docs-card title="Author a guide for content projection" link="Completed in Q2 2021" href="https://angular.io/docs">
-Content projection is a core Angular concept that does not have the presence it deserves in the documentation. As part of this project we want to identify the core use cases and concepts for content projection and document them.
+<docs-card title="Escrever um guia para content projection" link="Concluído no T2 2021" href="https://angular.io/docs">
+A content projection é um conceito central do Angular que não tem a presença que merece na documentação. Como parte deste projeto, queremos identificar os principais casos de uso e conceitos de content projection e documentá-los.
 </docs-card>
-<docs-card title="Migrate to ESLint" link="Completed in Q4 2020" href="tools/cli">
-With the deprecation of TSLint we will be moving to ESLint. As part of the process, we will work on ensuring backward compatibility with our current recommended TSLint configuration, implement a migration strategy for existing Angular apps and introduce new tooling to the Angular CLI toolchain.
+<docs-card title="Migrar para o ESLint" link="Concluído no T4 2020" href="tools/cli">
+Com a depreciação do TSLint, vamos migrar para o ESLint. Como parte do processo, trabalharemos para garantir a compatibilidade retroativa com nossa configuração recomendada atual do TSLint, implementar uma estratégia de migração para aplicações Angular existentes e introduzir novas ferramentas no toolchain do Angular CLI.
 </docs-card>
-<docs-card title="Operation Bye Bye Backlog (also known as Operation Byelog)" link="Completed in Q4 2020" href="https://github.com/angular/angular/issues">
-We are actively investing up to 50% of our engineering capacity on triaging issues and PRs until we have a clear understanding of broader community needs. After that, we will commit up to 20% of our engineering capacity to keep up with new submissions promptly.
+<docs-card title="Operation Bye Bye Backlog (também conhecida como Operation Byelog)" link="Concluído no T4 2020" href="https://github.com/angular/angular/issues">
+Estamos investindo ativamente até 50% da nossa capacidade de engenharia na triagem de issues e PRs, até termos uma compreensão clara das necessidades mais amplas da comunidade. Depois disso, vamos comprometer até 20% da nossa capacidade de engenharia para acompanhar prontamente as novas submissões.
 </docs-card>
 </docs-card-container>
