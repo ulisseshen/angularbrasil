@@ -1,35 +1,36 @@
-# Migration to lazy-loaded routes
+<!-- ia-translate: true -->
+# Migração para rotas com lazy-loading {#migration-to-lazy-loaded-routes}
 
-This schematic helps developers to convert eagerly loaded component routes to lazy loaded routes. This allows the build process to split the production bundle into smaller chunks, to avoid a big JS bundle that includes all routes, which negatively affects initial page load of an application.
+Este schematic ajuda desenvolvedores a converter rotas de components carregadas de forma eager para rotas com lazy loading. Isso permite que o processo de build divida o bundle de produção em chunks menores, evitando um grande bundle JS que inclui todas as rotas, o que afeta negativamente o carregamento inicial da página de uma aplicação.
 
-Run the schematic using the following command:
+Execute o schematic usando o seguinte comando:
 
 ```shell
 ng generate @angular/core:route-lazy-loading
 ```
 
-### `path` config option
+### Opção de configuração `path` {#path-config-option}
 
-By default, migration will go over the entire application. If you want to apply this migration to a subset of the files, you can pass the path argument as shown below:
+Por padrão, a migração percorrerá toda a aplicação. Se você quiser aplicar esta migração a um subconjunto dos arquivos, pode passar o argumento path como mostrado abaixo:
 
 ```shell
 ng generate @angular/core:route-lazy-loading --path src/app/sub-component
 ```
 
-The value of the path parameter is a relative path within the project.
+O valor do parâmetro path é um caminho relativo dentro do projeto.
 
-### How does it work?
+### Como funciona? {#how-does-it-work}
 
-The schematic will attempt to find all the places where the application routes as defined:
+O schematic tentará encontrar todos os lugares onde as rotas da aplicação são definidas:
 
-- `RouterModule.forRoot` and `RouterModule.forChild`
+- `RouterModule.forRoot` e `RouterModule.forChild`
 - `Router.resetConfig`
 - `provideRouter`
-- variables of type `Routes` or `Route[]` (e.g. `const routes: Routes = [{...}]`)
+- variáveis do tipo `Routes` ou `Route[]` (por exemplo, `const routes: Routes = [{...}]`)
 
-The migration will check all the components in the routes, check if they are standalone and eagerly loaded, and if so, it will convert them to lazy loaded routes.
+A migração verificará todos os components nas rotas, checará se eles são standalone e carregados de forma eager e, se forem, os converterá para rotas lazy loaded.
 
-#### Before
+#### Antes {#before}
 
 ```typescript {header: "app.module.ts"}
 import {NgModule} from '@angular/core';
@@ -41,7 +42,7 @@ import {Home} from './home';
     RouterModule.forRoot([
       {
         path: 'home',
-        // Home is standalone and eagerly loaded
+        // Home é standalone e carregado de forma eager
         component: Home,
       },
     ]),
@@ -50,7 +51,7 @@ import {Home} from './home';
 export class AppModule {}
 ```
 
-#### After
+#### Depois {#after}
 
 ```typescript {header: "app.module.ts"}
 @NgModule({
@@ -58,7 +59,7 @@ export class AppModule {}
     RouterModule.forRoot([
       {
         path: 'home',
-        // ↓ Home is now lazy loaded
+        // ↓ Home agora é lazy loaded
         loadComponent: () => import('./home').then((m) => m.Home),
       },
     ]),
@@ -67,4 +68,4 @@ export class AppModule {}
 export class AppModule {}
 ```
 
-This migration will also collect information about all the components declared in NgModules and output the list of routes that use them (including corresponding location of the file). Consider making those components standalone and run this migration again. You can use an existing migration ([see](reference/migrations/standalone)) to convert those components to standalone.
+Esta migração também coletará informações sobre todos os components declarados em NgModules e exibirá a lista de rotas que os utilizam (incluindo a localização correspondente do arquivo). Considere tornar esses components standalone e executar esta migração novamente. Você pode usar uma migração existente ([veja](reference/migrations/standalone)) para converter esses components em standalone.

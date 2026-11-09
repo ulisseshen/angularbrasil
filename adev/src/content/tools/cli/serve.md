@@ -1,19 +1,21 @@
-# Serving Angular apps for development
+<!-- ia-translate: true -->
+# Servindo aplicações Angular para desenvolvimento {#serving-angular-apps-for-development}
 
-You can serve your Angular CLI application with the `ng serve` command.
-This will compile your application, skip unnecessary optimizations, start a devserver, and automatically rebuild and live reload any subsequent changes.
-You can stop the server by pressing `Ctrl+C`.
+Você pode servir sua aplicação Angular CLI com o comando `ng serve`.
+Isso compila sua aplicação, pula otimizações desnecessárias, inicia um devserver e, automaticamente, reconstrói e recarrega a página (live reload) a cada alteração subsequente.
+Você pode parar o servidor pressionando `Ctrl+C`.
 
-`ng serve` only executes the builder for the `serve` target in the default project as specified in `angular.json`. While any builder can be used here, the most common (and default) builder is `@angular/build:dev-server`.
+`ng serve` executa apenas o builder do target `serve` no projeto padrão, conforme especificado em `angular.json`. Embora qualquer builder possa ser usado aqui, o mais comum (e padrão) é `@angular/build:dev-server`.
 
-You can determine which builder is being used for a particular project by looking up the `serve` target for that project.
+Você pode determinar qual builder está sendo usado para um projeto específico consultando o target `serve` desse projeto.
 
 ```json
+
 {
   "projects": {
     "my-app": {
       "architect": {
-        // `ng serve` invokes the Architect target named `serve`.
+        // `ng serve` invoca o target Architect chamado `serve`.
         "serve": {
           "builder": "@angular/build:dev-server"
           // ...
@@ -24,15 +26,16 @@ You can determine which builder is being used for a particular project by lookin
     }
   }
 }
+
 ```
 
-## Proxying to a backend server
+## Proxying para um servidor backend {#proxying-to-a-backend-server}
 
-Use [proxying support](https://vite.dev/config/server-options#server-proxy) to divert certain URLs to a backend server, by passing a file to the `--proxy-config` build option.
-For example, to divert all calls for `http://localhost:4200/api` to a server running on `http://localhost:3000/api`, take the following steps.
+Use o [suporte a proxy](https://vite.dev/config/server-options#server-proxy) para desviar certas URLs para um servidor backend, passando um arquivo para a opção de build `--proxy-config`.
+Por exemplo, para desviar todas as chamadas para `http://localhost:4200/api` para um servidor executando em `http://localhost:3000/api`, siga os passos a seguir.
 
-1. Create a file `proxy.conf.json` in your project's `src/` folder.
-1. Add the following content to the new proxy file:
+1. Crie um arquivo `proxy.conf.json` na pasta `src/` do seu projeto.
+1. Adicione o seguinte conteúdo ao novo arquivo de proxy:
 
 ```json
 {
@@ -43,7 +46,7 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 }
 ```
 
-1. In the CLI configuration file, `angular.json`, add the `proxyConfig` option to the `serve` target:
+1. No arquivo de configuração do CLI, `angular.json`, adicione a opção `proxyConfig` ao target `serve`:
 
 ```json
 {
@@ -62,12 +65,13 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 }
 ```
 
-1. To run the development server with this proxy configuration, call `ng serve`.
+1. Para executar o servidor de desenvolvimento com esta configuração de proxy, chame `ng serve`.
 
-NOTE: To apply changes made to your proxy configuration file, you must restart the `ng serve` process.
+NOTE: Para aplicar alterações feitas no seu arquivo de configuração de proxy, você deve reiniciar o processo `ng serve`.
 
-### Path matching behavior
+### Comportamento de correspondência de caminhos {#path-matching-behavior}
 
-- `/api` matches `/api` and any path that starts with it, such as `/api/users/123` or `/api-docs`.
-- `/api/*` matches `/api/users`, but not `/api` or `/api/users/123`.
-- `/api/**` matches `/api`, `/api/users`, and `/api/users/123`, but not `/api-docs`.
+- `/api` corresponde a `/api` e a qualquer caminho que comece com ele, como `/api/users/123` ou `/api-docs`.
+- `/api/*` corresponde a `/api/users`, mas não a `/api` nem a `/api/users/123`.
+- `/api/**` corresponde a `/api`, `/api/users` e `/api/users/123`, mas não a `/api-docs`.
+</content>

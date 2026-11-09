@@ -1,22 +1,23 @@
-# Connect your form to the template
+<!-- ia-translate: true -->
+# Conecte seu formulário ao template {#connect-your-form-to-the-template}
 
-Now, you need to connect your form to the template using the `[formField]` directive. This creates two-way data binding between your form model and the input elements.
+Agora, você precisa conectar seu formulário ao template usando a diretiva `[formField]`. Isso cria um data binding bidirecional entre o modelo do seu formulário e os elementos de input.
 
-In this lesson, you'll learn how to:
+Nesta lição, você vai aprender como:
 
-- Import the `FormField` directive
-- Use the `[formField]` directive to bind form fields to inputs
-- Connect text inputs and checkboxes to your form
-- Display form field values in the template
+- Importar a diretiva `FormField`
+- Usar a diretiva `[formField]` para vincular campos do formulário aos inputs
+- Conectar inputs de texto e checkboxes ao seu formulário
+- Exibir os valores dos campos do formulário no template
 
-Let's wire up the template!
+Vamos conectar o template!
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import the FormField directive">
-Import the `FormField` directive from `@angular/forms/signals` and add it to your component's imports array:
+<docs-step title="Importe a diretiva FormField">
+Importe a diretiva `FormField` de `@angular/forms/signals` e adicione-a ao array `imports` do seu component:
 
 ```ts
 import { form, FormField } from '@angular/forms/signals';
@@ -31,18 +32,18 @@ import { form, FormField } from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Bind the email field">
-In your template, add the `[formField]` directive to the email input:
+<docs-step title="Vincule o campo de e-mail">
+No seu template, adicione a diretiva `[formField]` ao input de e-mail:
 
 ```html
 <input type="email" [formField]="loginForm.email" />
 ```
 
-The `loginForm.email` expression accesses the email field from your form.
+A expressão `loginForm.email` acessa o campo de e-mail do seu formulário.
 </docs-step>
 
-<docs-step title="Bind the password field">
-Add the `[formField]` directive to the password input:
+<docs-step title="Vincule o campo de senha">
+Adicione a diretiva `[formField]` ao input de senha:
 
 ```html
 <input type="password" [formField]="loginForm.password" />
@@ -50,8 +51,8 @@ Add the `[formField]` directive to the password input:
 
 </docs-step>
 
-<docs-step title="Bind the checkbox field">
-Add the `[formField]` directive to the checkbox input:
+<docs-step title="Vincule o campo de checkbox">
+Adicione a diretiva `[formField]` ao input do checkbox:
 
 ```html
 <input type="checkbox" [formField]="loginForm.rememberMe" />
@@ -59,20 +60,20 @@ Add the `[formField]` directive to the checkbox input:
 
 </docs-step>
 
-<docs-step title="Display the form values">
-Below the form, there's a debug section to show current form values. Display each field value using `.value()`:
+<docs-step title="Exiba os valores do formulário">
+Abaixo do formulário, há uma seção de debug para mostrar os valores atuais do formulário. Exiba o valor de cada campo usando `.value()`:
 
 ```angular-html
 <p>Email: {{ loginForm.email().value() }}</p>
-<p>Password: {{ loginForm.password().value() ? '••••••••' : '(empty)' }}</p>
-<p>Remember me: {{ loginForm.rememberMe().value() ? 'Yes' : 'No' }}</p>
+<p>Senha: {{ loginForm.password().value() ? '••••••••' : '(vazio)' }}</p>
+<p>Lembrar de mim: {{ loginForm.rememberMe().value() ? 'Sim' : 'Não' }}</p>
 ```
 
-Form field values are signals, so the displayed values update automatically as you type.
+Os valores dos campos do formulário são signals, então os valores exibidos são atualizados automaticamente conforme você digita.
 </docs-step>
 
 </docs-workflow>
 
-Great work! You've connected your form to the template and displayed the form values. The `[formField]` directive handles two-way data binding automatically - as you type, the `loginModel` signal updates, and the displayed values update immediately.
+Ótimo trabalho! Você conectou seu formulário ao template e exibiu os valores do formulário. A diretiva `[formField]` cuida do two-way data binding automaticamente: conforme você digita, o signal `loginModel` é atualizado e os valores exibidos mudam imediatamente.
 
-Next, you'll learn [how to add validation to your form](/tutorials/signal-forms/3-add-validation)!
+Em seguida, você vai aprender [como adicionar validação ao seu formulário](/tutorials/signal-forms/3-add-validation)!

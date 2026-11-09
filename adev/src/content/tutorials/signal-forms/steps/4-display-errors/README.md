@@ -1,26 +1,27 @@
-# Display validation errors
+<!-- ia-translate: true -->
+# Exiba erros de validação {#display-validation-errors}
 
-Now that you're able to validate the form, it's important to show validation errors to users.
+Agora que você consegue validar o formulário, é importante mostrar os erros de validação aos usuários.
 
-In this activity, you'll learn how to:
+Nesta atividade, você vai aprender como:
 
-- Access field state with validation signals
-- Use `@if` to conditionally display errors
-- Loop through errors with `@for`
-- Show errors only after user interaction
+- Acessar o estado do campo com os signals de validação
+- Usar `@if` para exibir erros condicionalmente
+- Percorrer os erros com `@for`
+- Mostrar os erros somente após a interação do usuário
 
-Let's display validation feedback!
+Vamos exibir o feedback de validação!
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add error display for email field">
-Below the email input, add conditional error display. This will only show errors when the field is both invalid and touched:
+<docs-step title="Adicione a exibição de erros do campo de e-mail">
+Abaixo do input de e-mail, adicione a exibição condicional de erros. Os erros só serão mostrados quando o campo estiver inválido e tiver sido tocado:
 
 ```angular-html
 <label>
-  Email
+  E-mail
   <input type="email" [formField]="loginForm.email" />
 </label>
 @if (loginForm.email().invalid() && loginForm.email().touched()) {
@@ -32,15 +33,15 @@ Below the email input, add conditional error display. This will only show errors
 }
 ```
 
-The `loginForm.email()` call accesses the field's state signal. The `invalid()` method returns `true` when validation fails, `touched()` returns `true` after the user has interacted with the field, and `errors()` provides an array of validation errors with their custom messages.
+A chamada `loginForm.email()` acessa o signal de estado do campo. O método `invalid()` retorna `true` quando a validação falha, `touched()` retorna `true` depois que o usuário interagiu com o campo, e `errors()` fornece um array de erros de validação com as mensagens personalizadas.
 </docs-step>
 
-<docs-step title="Add error display for password field">
-Below the password input, add the same pattern for password errors:
+<docs-step title="Adicione a exibição de erros do campo de senha">
+Abaixo do input de senha, adicione o mesmo padrão para os erros de senha:
 
 ```angular-html
 <label>
-  Password
+  Senha
   <input type="password" [formField]="loginForm.password" />
 </label>
 @if (loginForm.password().invalid() && loginForm.password().touched()) {
@@ -56,6 +57,6 @@ Below the password input, add the same pattern for password errors:
 
 </docs-workflow>
 
-Excellent! You've added error display to your form. The errors appear only after users interact with a field, providing helpful feedback without being intrusive.
+Excelente! Você adicionou a exibição de erros ao seu formulário. Os erros aparecem somente depois que os usuários interagem com um campo, oferecendo feedback útil sem ser intrusivo.
 
-Next, you'll learn [how to handle form submission](/tutorials/signal-forms/5-add-submission)!
+Em seguida, você vai aprender [como lidar com o envio do formulário](/tutorials/signal-forms/5-add-submission)!

@@ -1,34 +1,35 @@
-# Congratulations!
+<!-- ia-translate: true -->
+# Parabéns! {#congratulations}
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">
-  <p class="docs-tutorial-mascot__bubble">You've done it! You completed the Signal Forms tutorial and built a login form from scratch.</p>
+  <p class="docs-tutorial-mascot__bubble">Você conseguiu! Você concluiu o tutorial de Signal Forms e criou um formulário de login do zero.</p>
 </div>
 
-## What you learned
+## O que você aprendeu {#what-you-learned}
 
-Throughout this tutorial, you learned the fundamentals of Angular Signal Forms:
+Ao longo deste tutorial, você aprendeu os fundamentos dos Signal Forms do Angular:
 
-1. **Form Models** - Creating type-safe form data with signals and the `form()` function
-2. **Field Binding** - Using the `[formField]` directive for two-way data binding and displaying the field with `value()`
-3. **Validation** - Applying built-in validators (such as `required()`, `email()`) with custom messages
-4. **Error Display** - Showing validation errors conditionally based on field state
-5. **Form Submission** - Handling form submission with the `submit()` function
+1. **Modelos de formulário** - Criar dados de formulário com tipagem segura usando signals e a função `form()`
+2. **Vínculo de campos** - Usar a diretiva `[formField]` para o data binding bidirecional e exibir o campo com `value()`
+3. **Validação** - Aplicar validators nativos (como `required()` e `email()`) com mensagens personalizadas
+4. **Exibição de erros** - Mostrar erros de validação condicionalmente com base no estado do campo
+5. **Envio do formulário** - Tratar o envio do formulário com a função `submit()`
 
-## Next steps
+## Próximos passos {#next-steps}
 
-Ready to learn more? Here are recommended next steps:
+Pronto para aprender mais? Estes são os próximos passos recomendados:
 
-### Explore the documentation
+### Explore a documentação {#explore-the-documentation}
 
-- **[Signal Forms Overview](guide/forms/signals/overview)** - Introduction to Signal Forms and when to use them
-- **[Form Models Guide](guide/forms/signals/models)** - Deep dive into form models and data management
-- **[Validation Guide](guide/forms/signals/validation)** - Comprehensive validation reference
-- **[Field State Management Guide](guide/forms/signals/field-state-management)** - Advanced state patterns
-- **[Custom Controls Guide](guide/forms/signals/custom-controls)** - Building reusable form components
+- **[Visão geral de Signal Forms](guide/forms/signals/overview)** - Introdução aos Signal Forms e quando usá-los
+- **[Guia de modelos de formulário](guide/forms/signals/models)** - Análise detalhada dos modelos de formulário e do gerenciamento de dados
+- **[Guia de validação](guide/forms/signals/validation)** - Referência completa de validação
+- **[Guia de gerenciamento de estado de campos](guide/forms/signals/field-state-management)** - Padrões avançados de estado
+- **[Guia de controles personalizados](guide/forms/signals/custom-controls)** - Como criar componentes de formulário reutilizáveis
 
-## Keep learning
+## Continue aprendendo {#keep-learning}
 
-Check the [official documentation](guide/forms/signals/overview) for the complete Signal Forms API.
+Consulte a [documentação oficial](guide/forms/signals/overview) para a API completa de Signal Forms.
 
-Happy coding!
+Bons estudos e bom código!

@@ -1,21 +1,22 @@
-# Add validation to your form
+<!-- ia-translate: true -->
+# Adicione validação ao seu formulário {#add-validation-to-your-form}
 
-Adding validation to your form is critical to ensure users enter valid data. Signal Forms uses validators in a schema function that you pass to the `form()` function.
+Adicionar validação ao seu formulário é essencial para garantir que os usuários insiram dados válidos. Signal Forms usa validators em uma schema function que você passa para a função `form()`.
 
-In this activity, you'll learn how to:
+Nesta atividade, você vai aprender como:
 
-- Import built-in validators
-- Define a schema function for your form
-- Apply validators to specific fields with custom error messages
+- Importar os validators nativos
+- Definir uma schema function para o seu formulário
+- Aplicar validators a campos específicos com mensagens de erro personalizadas
 
-Let's add validation!
+Vamos adicionar validação!
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import the validators">
-Import the `required` and `email` validators from `@angular/forms/signals`:
+<docs-step title="Importe os validators">
+Importe os validators `required` e `email` de `@angular/forms/signals`:
 
 ```ts
 import {form, FormField, required, email} from '@angular/forms/signals';
@@ -23,38 +24,38 @@ import {form, FormField, required, email} from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Add a schema function to your form">
-Update your `form()` call to include a schema function as the second parameter. The schema function receives a `fieldPath` parameter that lets you access each field:
+<docs-step title="Adicione uma schema function ao seu formulário">
+Atualize a chamada de `form()` para incluir uma schema function como segundo parâmetro. A schema function recebe um parâmetro `fieldPath` que permite acessar cada campo:
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
-  // Validators will go here
+  // Os validators vão aqui
 });
 ```
 
 </docs-step>
 
-<docs-step title="Add validation to the email field">
-Inside the schema function, add validation for the email field. Use both `required()` and `email()` validators:
+<docs-step title="Adicione validação ao campo de e-mail">
+Dentro da schema function, adicione a validação do campo de e-mail. Use os validators `required()` e `email()`:
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
-  required(fieldPath.email, {message: 'Email is required'});
-  email(fieldPath.email, {message: 'Enter a valid email address'});
+  required(fieldPath.email, {message: 'O e-mail é obrigatório'});
+  email(fieldPath.email, {message: 'Insira um endereço de e-mail válido'});
 });
 ```
 
-The `message` option provides custom error messages for users.
+A opção `message` fornece mensagens de erro personalizadas para os usuários.
 </docs-step>
 
-<docs-step title="Add validation to the password field">
-Add validation for the password field using the `required()` validator:
+<docs-step title="Adicione validação ao campo de senha">
+Adicione a validação do campo de senha usando o validator `required()`:
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
-  required(fieldPath.email, {message: 'Email is required'});
-  email(fieldPath.email, {message: 'Enter a valid email address'});
-  required(fieldPath.password, {message: 'Password is required'});
+  required(fieldPath.email, {message: 'O e-mail é obrigatório'});
+  email(fieldPath.email, {message: 'Insira um endereço de e-mail válido'});
+  required(fieldPath.password, {message: 'A senha é obrigatória'});
 });
 ```
 
@@ -62,6 +63,6 @@ loginForm = form(this.loginModel, (fieldPath) => {
 
 </docs-workflow>
 
-Perfect! You've added validation to your form. The validators run automatically as users interact with the form. When validation fails, the field's state will reflect the errors.
+Perfeito! Você adicionou validação ao seu formulário. Os validators são executados automaticamente conforme os usuários interagem com o formulário. Quando a validação falha, o estado do campo reflete os erros.
 
-Next, you'll learn [how to display validation errors in the template](/tutorials/signal-forms/4-display-errors)!
+Em seguida, você vai aprender [como exibir erros de validação no template](/tutorials/signal-forms/4-display-errors)!

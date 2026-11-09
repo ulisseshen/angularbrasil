@@ -1,18 +1,19 @@
-# Learn Angular signals
+<!-- ia-translate: true -->
+# Aprenda Angular signals {#learn-angular-signals}
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">
-  <p class="docs-tutorial-mascot__bubble">Welcome! Let's explore signals.</p>
+  <p class="docs-tutorial-mascot__bubble">Bem-vindo! Vamos explorar os signals.</p>
 </div>
 
-This interactive tutorial will teach you the fundamentals of Angular signals and how to use them to build reactive applications.
+Este tutorial interativo ensinará os fundamentos de Angular signals e como usá-los para construir aplicações reativas.
 
-## How to use this tutorial
+## Como usar este tutorial {#how-to-use-this-tutorial}
 
-This tutorial assumes you understand Angular's core concepts. If you're new to Angular, read our [essentials guide](/essentials).
+Este tutorial pressupõe que você entende os conceitos centrais do Angular. Se você é novo no Angular, leia nosso [guia de fundamentos](/essentials).
 
-Each step represents a concept in Angular signals. You can do one, or all of them.
+Cada etapa representa um conceito em Angular signals. Você pode fazer uma ou todas elas.
 
-If you get stuck, click "Reveal answer" at the top.
+Se você ficar preso, clique em "Reveal answer" no topo.
 
-Alright, let's [get started](/tutorials/signals/1-creating-your-first-signal)!
+Certo, vamos [começar](/tutorials/signals/1-creating-your-first-signal)!
