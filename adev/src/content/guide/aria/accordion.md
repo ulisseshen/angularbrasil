@@ -1,13 +1,14 @@
+<!-- ia-translate: true -->
 # Accordion
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/" title="Accordion ARIA pattern"/>
-  <docs-pill href="/api?query=accordion#angular_aria_accordion" title="Accordion API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/" title="Padrão ARIA de accordion"/>
+  <docs-pill href="/api?query=accordion#angular_aria_accordion" title="Referência da API de Accordion"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-An accordion organizes related content into expandable and collapsible sections, reducing page scrolling and helping users focus on relevant information. Each section has a trigger button and a content panel. Clicking a trigger toggles the visibility of its associated panel.
+Um accordion organiza conteúdos relacionados em seções expansíveis e recolhíveis, reduzindo a rolagem da página e ajudando o usuário a focar nas informações relevantes. Cada seção tem um botão de gatilho (trigger) e um painel de conteúdo. Ao clicar em um gatilho, a visibilidade do painel associado é alternada.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.ts"/>
@@ -15,42 +16,42 @@ An accordion organizes related content into expandable and collapsible sections,
   <docs-code header="CSS" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso {#usage}
 
-Accordions work well for organizing content into logical groups where users typically need to view one section at a time.
+Accordions funcionam bem para organizar conteúdos em grupos lógicos, nos quais o usuário normalmente precisa ver uma seção por vez.
 
-**Use accordions when:**
+**Use accordions quando:**
 
-- Displaying FAQs with multiple questions and answers
-- Organizing long forms into manageable sections
-- Reducing scrolling on content-heavy pages
-- Progressively disclosing related information
+- Estiver exibindo FAQs com várias perguntas e respostas
+- Estiver organizando formulários longos em seções gerenciáveis
+- Quiser reduzir a rolagem em páginas com muito conteúdo
+- Estiver revelando progressivamente informações relacionadas
 
-**Avoid accordions when:**
+**Evite accordions quando:**
 
-- Building navigation menus (use the [Menu](guide/aria/menu) component instead)
-- Creating tabbed interfaces (use the [Tabs](guide/aria/tabs) component instead)
-- Showing a single collapsible section (use a disclosure pattern instead)
-- Users need to see multiple sections simultaneously (consider a different layout)
+- Estiver construindo menus de navegação (use o component [Menu](guide/aria/menu) no lugar)
+- Estiver criando interfaces com abas (use o component [Tabs](guide/aria/tabs) no lugar)
+- Precisar mostrar uma única seção recolhível (use um padrão de disclosure no lugar)
+- Os usuários precisarem ver várias seções ao mesmo tempo (considere um layout diferente)
 
-## Features
+## Recursos {#features}
 
-- **Expansion modes** - Control whether one or multiple panels can be open at the same time
-- **Keyboard navigation** - Navigate between triggers using arrow keys, Home, and End
-- **Lazy rendering** - Content is only created when a panel expands, improving initial load performance
-- **Disabled states** - Disable the entire group or individual triggers
-- **Focus management** - Control whether disabled items can receive keyboard focus
-- **Programmatic control** - Expand, collapse, or toggle panels from your component code
-- **RTL support** - Automatic support for right-to-left languages
+- **Modos de expansão** - Controle se um ou vários painéis podem ficar abertos ao mesmo tempo
+- **Navegação por teclado** - Navegue entre os gatilhos usando as teclas de seta, Home e End
+- **Renderização preguiçosa (lazy)** - O conteúdo só é criado quando um painel é expandido, melhorando o desempenho do carregamento inicial
+- **Estados desabilitados** - Desabilite o grupo inteiro ou gatilhos individuais
+- **Gerenciamento de foco** - Controle se os itens desabilitados podem receber o foco do teclado
+- **Controle programático** - Expanda, recolha ou alterne painéis a partir do código do seu component
+- **Suporte a RTL** - Suporte automático para idiomas da direita para a esquerda
 
-## Examples
+## Exemplos {#examples}
 
-### Single expansion mode
+### Modo de expansão única {#single-expansion-mode}
 
-Set `[multiExpandable]="false"` to allow only one panel to be open at a time. Opening a new panel automatically closes any previously open panel.
+Defina `[multiExpandable]="false"` para permitir que apenas um painel fique aberto por vez. Ao abrir um novo painel, qualquer painel aberto anteriormente é fechado automaticamente.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.ts">
       <docs-code header="TS" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.ts"/>
       <docs-code header="HTML" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.html"/>
@@ -73,14 +74,14 @@ Set `[multiExpandable]="false"` to allow only one panel to be open at a time. Op
   </docs-tab>
 </docs-tab-group>
 
-This mode works well for FAQs or situations where you want users to focus on one answer at a time.
+Este modo funciona bem para FAQs ou em situações nas quais você quer que o usuário foque em uma resposta por vez.
 
-### Multiple expansion mode
+### Modo de expansão múltipla {#multiple-expansion-mode}
 
-Set `[multiExpandable]="true"` to allow multiple panels to be open simultaneously. Users can expand as many panels as needed without closing others.
+Defina `[multiExpandable]="true"` para permitir que vários painéis fiquem abertos simultaneamente. Os usuários podem expandir quantos painéis forem necessários sem fechar os outros.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/accordion/src/multi-expansion/basic/app/app.ts">
       <docs-code header="TS" path="adev/src/content/examples/aria/accordion/src/multi-expansion/basic/app/app.ts"/>
       <docs-code header="HTML" path="adev/src/content/examples/aria/accordion/src/multi-expansion/basic/app/app.html"/>
@@ -103,16 +104,16 @@ Set `[multiExpandable]="true"` to allow multiple panels to be open simultaneousl
   </docs-tab>
 </docs-tab-group>
 
-This mode is useful for form sections or when users need to compare content across multiple panels.
+Este modo é útil para seções de formulários ou quando os usuários precisam comparar conteúdos em vários painéis.
 
-NOTE: The `multiExpandable` input defaults to `true`. Set it to `false` explicitly if you want single expansion behavior.
+NOTE: O input `multiExpandable` tem `true` como padrão. Defina-o explicitamente como `false` se quiser o comportamento de expansão única.
 
-### Disabled accordion items
+### Itens de accordion desabilitados {#disabled-accordion-items}
 
-Disable specific triggers using the `disabled` input. Control how disabled items behave during keyboard navigation using the `softDisabled` input on the accordion group.
+Desabilite gatilhos específicos usando o input `disabled`. Controle como os itens desabilitados se comportam durante a navegação por teclado usando o input `softDisabled` no grupo do accordion.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/accordion/src/disabled-focusable/basic/app/app.ts">
       <docs-code header="TS" path="adev/src/content/examples/aria/accordion/src/disabled-focusable/basic/app/app.ts"/>
       <docs-code header="HTML" path="adev/src/content/examples/aria/accordion/src/disabled-focusable/basic/app/app.html"/>
@@ -135,11 +136,11 @@ Disable specific triggers using the `disabled` input. Control how disabled items
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` (the default), disabled items can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled items are skipped entirely during keyboard navigation.
+Quando `[softDisabled]="true"` (o padrão), os itens desabilitados podem receber o foco, mas não podem ser ativados. Quando `[softDisabled]="false"`, os itens desabilitados são totalmente ignorados durante a navegação por teclado.
 
-### Lazy content rendering
+### Renderização preguiçosa de conteúdo {#lazy-content-rendering}
 
-Use the `ngAccordionContent` directive on an `ng-template` to defer rendering content until the panel expands. This improves performance for accordions with heavy content like images, charts, or complex components.
+Use a diretiva `ngAccordionContent` em um `ng-template` para adiar a renderização do conteúdo até que o painel seja expandido. Isso melhora o desempenho de accordions com conteúdos pesados, como imagens, gráficos ou components complexos.
 
 ```angular-html
 <div ngAccordionGroup>
@@ -147,7 +148,7 @@ Use the `ngAccordionContent` directive on an `ng-template` to defer rendering co
     <button ngAccordionTrigger [panel]="panel1">Trigger Text</button>
     <div ngAccordionPanel #panel1="ngAccordionPanel">
       <ng-template ngAccordionContent>
-        <!-- This content only renders when the panel opens -->
+        <!-- Este conteúdo só é renderizado quando o painel abre -->
         <img src="large-image.jpg" alt="Description" />
         <app-expensive-component />
       </ng-template>
@@ -156,19 +157,19 @@ Use the `ngAccordionContent` directive on an `ng-template` to defer rendering co
 </div>
 ```
 
-By default, content is removed from the DOM when the panel collapses. Set `[preserveContent]="true"` to keep it, for example when the panel contains a video that shouldn't reset on collapse.
+Por padrão, o conteúdo é removido do DOM quando o painel é recolhido. Defina `[preserveContent]="true"` para mantê-lo, por exemplo, quando o painel contém um vídeo que não deve reiniciar ao ser recolhido.
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing accordion components.
-Here is an example of how to use the harnesses in a component test:
+O Angular Aria fornece harnesses de component para testar components de accordion.
+Veja um exemplo de como usar os harnesses em um teste de component:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {AccordionGroupHarness} from '@angular/aria/accordion/testing';
-import {MyAccordionComponent} from './my-accordion'; // Your component
+import {MyAccordionComponent} from './my-accordion'; // Seu component
 
 describe('MyAccordionComponent', () => {
   let fixture: ComponentFixture<MyAccordionComponent>;
@@ -185,31 +186,31 @@ describe('MyAccordionComponent', () => {
   });
 
   it('should allow expanding panels', async () => {
-    // Load the accordion group harness
+    // Carrega o harness do grupo de accordion
     const group = await loader.getHarness(AccordionGroupHarness);
 
-    // Get all individual accordions (items) in the group
+    // Obtém todos os accordions individuais (itens) do grupo
     const accordions = await group.getAccordions();
     expect(accordions.length).toBe(3);
 
-    // Verify initial state (first expanded, others collapsed)
+    // Verifica o estado inicial (o primeiro expandido, os outros recolhidos)
     expect(await accordions[0].isExpanded()).toBe(true);
     expect(await accordions[1].isExpanded()).toBe(false);
 
-    // Expand the second panel
+    // Expande o segundo painel
     await accordions[1].expand();
 
-    // Verify updated state
+    // Verifica o estado atualizado
     expect(await accordions[1].isExpanded()).toBe(true);
-    // If multiExpandable is false, the first one should now be collapsed
+    // Se multiExpandable for false, o primeiro agora deve estar recolhido
     expect(await accordions[0].isExpanded()).toBe(false);
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`AccordionGroup`](/api/aria/accordion/AccordionGroup)
 - [`AccordionTrigger`](/api/aria/accordion/AccordionTrigger)

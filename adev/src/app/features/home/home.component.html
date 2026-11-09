@@ -1,34 +1,35 @@
+<!-- ia-translate: true -->
 <main class="adev-home" #home>
   <section class="logo-section">
     <div class="pattern"></div>
     <div class="content">
       <div class="adev-banner-container">
         <a href="events/v22" class="adev-banner" target="_blank">
-          <h1 tabindex="-1">Angular v22 is here!</h1>
-          <p class="adev-banner-cta">⚡ Explore what's new</p>
+          <h1 tabindex="-1">O Angular v22 chegou!</h1>
+          <p class="adev-banner-cta">⚡ Explore o que há de novo</p>
         </a>
 
         <div class="search-field">
-          <docs-text-field placeholder="Search" (click)="openSearch()" />
+          <docs-text-field placeholder="Buscar" (click)="openSearch()" />
         </div>
       </div>
 
       @if (!uwu()) {
         <div class="title">
-          <h2>Productivity<br />Meets scalability</h2>
-          <h3>The framework for building scalable web apps with confidence</h3>
+          <h2>Produtividade<br />encontra escalabilidade</h2>
+          <h3>O framework para construir aplicações web escaláveis com confiança</h3>
         </div>
       } @else {
         <!-- UwU logo -->
         <div class="uwu">
-          <img src="assets/images/uwu.png" alt="Angular logo" />
+          <img src="assets/images/uwu.png" alt="Logo do Angular" />
         </div>
       }
 
       <div class="learn-angular">
         <a href="#learn-more" class="adev-cta">
-          <button class="docs-primary-btn" [attr.text]="'Get Started'" aria-label="Get Started">
-            Get Started
+          <button class="docs-primary-btn" [attr.text]="'Começar'" aria-label="Começar">
+            Começar
           </button>
         </a>
         <div class="adev-arrow"></div>
@@ -37,13 +38,13 @@
   </section>
 
   <section class="features-section" #featuresSection>
-    <h2 id="features">Features that actually <br />help you solve problems</h2>
+    <h2 id="features">Recursos que realmente <br />ajudam você a resolver problemas</h2>
 
     <div ngTabs class="material-tabs">
       <div ngTabList selectionMode="follow" [(selectedTab)]="selectedFeatureTab">
         <div class="tab-background"></div>
         <div ngTab [value]="FEATURE_TAB.signals">Signals</div>
-        <div ngTab [value]="FEATURE_TAB.controlFlow">Control Flow</div>
+        <div ngTab [value]="FEATURE_TAB.controlFlow">Controle de fluxo</div>
         <div ngTab [value]="FEATURE_TAB.deferrableViews">Deferrable Views</div>
         <div ngTab [value]="FEATURE_TAB.hydration">Hydration</div>
       </div>
@@ -85,7 +86,7 @@
   </section>
 
   <section class="selling-points">
-    <h2>Enabling you to build<br />smarter and faster</h2>
+    <h2>Permitindo que você construa<br />com mais inteligência e rapidez</h2>
     <div class="cards">
       <a class="card" routerLink="/ai/develop-with-ai">
         <div class="icon-wrapper">
@@ -93,8 +94,8 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>AI-forward</strong> resources and integrations to supercharge your development
-            with AI
+            <strong>Focado em IA</strong> recursos e integrações para turbinar seu desenvolvimento
+            com IA
           </h3>
         </div>
       </a>
@@ -105,8 +106,8 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>Opinionated & versatile,</strong> organized yet modular thanks to Angular
-            components and dependency injection
+            <strong>Opinativo e versátil,</strong> organizado e modular graças aos components Angular
+            e à injeção de dependência
           </h3>
         </div>
       </a>
@@ -117,8 +118,8 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>Reactive</strong> and fast state updates with fine-grained reactivity based on
-            Angular Signals
+            <strong>Reativo</strong> e atualizações de estado rápidas com reatividade refinada
+            baseada em Angular Signals
           </h3>
         </div>
       </a>
@@ -129,8 +130,8 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>Fully featured</strong> platform where everything works together with Angular's
-            first-party modules for forms, routing, and more
+            <strong>Completamente equipado</strong> plataforma onde tudo funciona em conjunto com os
+            módulos de primeira linha do Angular para formulários, routing e muito mais
           </h3>
         </div>
       </a>
@@ -141,18 +142,18 @@
     <div class="wrapper">
       <div class="pattern"></div>
       <div class="content">
-        <h2>Where performance matters</h2>
+        <h2>Quando a performance importa</h2>
         <h3>
-          Trusted by millions to build fast, reliable applications that scale with the size of your
-          team
+          Confiado por milhões para construir aplicações rápidas e confiáveis que escalam com o
+          tamanho do seu time
         </h3>
         <button
           class="docs-primary-btn"
-          [attr.text]="'Get started'"
+          [attr.text]="'Começar'"
           routerLink="/guide/performance"
         >
           <!-- TODO: LINK -->
-          Get started
+          Começar
         </button>
       </div>
     </div>
@@ -160,7 +161,7 @@
 
   <section class="explore-section" id="learn-more">
     <div class="title">
-      <h2>Want to learn more about Angular?</h2>
+      <h2>Quer aprender mais sobre Angular?</h2>
       <div class="pattern"></div>
     </div>
 
@@ -169,11 +170,11 @@
       <a routerLink="/tutorials/learn-angular" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">New to Angular?</span>
-            Try our completely in browser tutorial lessons designed to give you hands on experience
-            with Angular.
+            <span class="emphasis">Novo no Angular?</span>
+            Experimente nossas lições de tutorial completamente no navegador, projetadas para dar a
+            você experiência prática com Angular.
           </p>
-          <span class="fake-button">Start coding <docs-icon>arrow_forward</docs-icon></span>
+          <span class="fake-button">Começar a programar <docs-icon>arrow_forward</docs-icon></span>
           <div class="editor-background"></div>
         </div>
       </a>
@@ -182,9 +183,9 @@
       <a routerLink="/ai" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">Are you an LLM or curious about AI in Angular?</span>
-            Head over to our AI section to find prompts, strategies, best practices, examples, and
-            more.
+            <span class="emphasis">Você é um LLM ou tem curiosidade sobre IA no Angular?</span>
+            Visite nossa seção de IA para encontrar prompts, estratégias, boas práticas, exemplos e
+            muito mais.
           </p>
           <span class="fake-button">Angular + AI <docs-icon>arrow_forward</docs-icon></span>
           <div class="angular-mcp-container">
@@ -204,8 +205,8 @@
       <a routerLink="/overview" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">Why Angular?</span>
-            Learn about Angular, its benefits, and if it's right for you.
+            <span class="emphasis">Por que Angular?</span>
+            Aprenda sobre o Angular, seus benefícios e se ele é adequado para você.
           </p>
           <div class="logo-background"></div>
         </div>
@@ -215,11 +216,11 @@
       <a routerLink="/essentials" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">More of a reader?</span>
-            Our essentials guides are designed to help you understand Angular fundamentals in the
-            time it would take to finish a cup of coffee (or a tea).
+            <span class="emphasis">Prefere ler?</span>
+            Nossos guias essenciais são projetados para ajudar você a entender os fundamentos do
+            Angular no tempo que levaria para terminar uma xícara de café (ou chá).
           </p>
-          <span class="fake-button">Angular concepts <docs-icon>arrow_forward</docs-icon></span>
+          <span class="fake-button">Conceitos do Angular <docs-icon>arrow_forward</docs-icon></span>
         </div>
       </a>
     </div>
@@ -228,14 +229,14 @@
   <section class="learn-more-bottom-section" id="bottom">
     <div class="pattern"></div>
     <div class="content">
-      <h2>Want to learn more about Angular?</h2>
+      <h2>Quer aprender mais sobre Angular?</h2>
       <button
         class="docs-primary-btn"
-        [attr.text]="'Learn more'"
-        aria-label="Learn more"
+        [attr.text]="'Saiba mais'"
+        aria-label="Saiba mais"
         routerLink="/overview"
       >
-        Learn more
+        Saiba mais
       </button>
     </div>
   </section>

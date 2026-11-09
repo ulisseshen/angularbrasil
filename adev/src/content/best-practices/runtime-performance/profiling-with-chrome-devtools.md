@@ -1,111 +1,112 @@
-# Profiling with the Chrome DevTools
+<!-- ia-translate: true -->
+# Profiling com o Chrome DevTools {#profiling-with-the-chrome-devtools}
 
-Angular integrates with the [Chrome DevTools extensibility API](https://developer.chrome.com/docs/devtools/performance/extension) to present framework-specific data and insights directly in the [Chrome DevTools performance panel](https://developer.chrome.com/docs/devtools/performance/overview).
+O Angular se integra à [API de extensibilidade do Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/extension) para apresentar dados e insights específicos do framework diretamente no [painel de performance do Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/overview).
 
-With the integration enabled, you can [record a performance profile](https://developer.chrome.com/docs/devtools/performance#record) containing two sets of data:
+Com a integração habilitada, você pode [gravar um perfil de performance](https://developer.chrome.com/docs/devtools/performance#record) contendo dois conjuntos de dados:
 
-- Standard performance entries based on Chrome's understanding of your code executing in a browser, and
-- Angular-specific entries contributed by the framework's runtime.
+- Entradas de performance padrão, baseadas no entendimento do Chrome sobre o seu código sendo executado em um navegador, e
+- Entradas específicas do Angular, contribuídas pelo runtime do framework.
 
-Both sets of data are presented together on the same tab, but on separate tracks:
+Ambos os conjuntos de dados são apresentados juntos na mesma aba, mas em trilhas separadas:
 
 <img alt="Angular custom track in Chrome DevTools profiler" src="assets/images/best-practices/runtime-performance/angular-perf-in-chrome.png">
 
-Angular-specific data are expressed in terms of framework concepts (components, change detection, lifecycle hooks, etc.) alongside lower-level function and method calls captured by a browser. These two data sets are correlated, and you can switch between the different views and level of details.
+Os dados específicos do Angular são expressos em termos de conceitos do framework (components, change detection, lifecycle hooks, etc.) ao lado de chamadas de função e método de nível mais baixo capturadas pelo navegador. Esses dois conjuntos de dados são correlacionados, e você pode alternar entre as diferentes visualizações e níveis de detalhe.
 
-You can use the Angular track to better understand how your code runs in the browser, including:
+Você pode usar a trilha Angular para entender melhor como seu código é executado no navegador, incluindo:
 
-- Determining whether a given code block is part of the Angular application, or whether it belongs to another script running on the same page.
-- Identifying performance bottlenecks and attribute those to specific components or services.
-- Gaining deeper insight into Angular's inner working with a visual breakdown of each change detection cycle.
+- Determinar se um determinado bloco de código faz parte da aplicação Angular ou se pertence a outro script executando na mesma página.
+- Identificar gargalos de performance e atribuí-los a components ou services específicos.
+- Obter uma visão mais profunda do funcionamento interno do Angular, com uma divisão visual de cada ciclo de change detection.
 
-## Recording a profile
+## Gravando um perfil {#recording-a-profile}
 
-### Enable integration
+### Habilitar integração {#enable-integration}
 
-You can enable Angular profiling in one of two ways:
+Você pode habilitar o profiling do Angular de duas maneiras:
 
-1. Run [`ng.enableProfiling()`](api/core/enableProfiling) in Chrome's console panel, or
-1. Include a call to [`enableProfiling()`](api/core/enableProfiling) in your application startup code (imported from `@angular/core`).
+1. Execute `ng.enableProfiling()` no painel de console do Chrome, ou
+1. Inclua uma chamada para `enableProfiling()` no código de inicialização da sua aplicação (importado de `@angular/core`).
 
-NOTE: Angular profiling works exclusively in development mode.
+NOTE: O profiling do Angular funciona exclusivamente em modo de desenvolvimento.
 
-Here is an example of how you can enable the integration in the application bootstrap to capture all possible events:
+Aqui está um exemplo de como habilitar a integração no bootstrap da aplicação para capturar todos os eventos possíveis:
 
 ```ts
 import {enableProfiling} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {MyApp} from './my-app';
 
-// Turn on profiling *before* bootstrapping your application
-// in order to capture all of the code run on start-up.
+// Ative o profiling *antes* de fazer o bootstrap da sua aplicação
+// para capturar todo o código executado na inicialização.
 enableProfiling();
 bootstrapApplication(MyApp);
 ```
 
-### Record a profile
+### Gravar um perfil {#record-a-profile}
 
-Use the **Record** button in the Chrome DevTools performance panel:
+Use o botão **Record** no painel de performance do Chrome DevTools:
 
 <img alt="Recording a profile" src="assets/images/best-practices/runtime-performance/recording-profile-in-chrome.png">
 
-See the [Chrome DevTools documentation](https://developer.chrome.com/docs/devtools/performance#record) for more details on recording profiles.
+Veja a [documentação do Chrome DevTools](https://developer.chrome.com/docs/devtools/performance#record) para mais detalhes sobre a gravação de perfis.
 
-## Open a component in Angular DevTools
+## Abrir um component no Angular DevTools {#open-a-component-in-angular-devtools}
 
-After recording a profile, select a component event in the **Angular** track.
-The **Summary** tab can include a **Component** link that uses the `angular-devtools://component/...` URL scheme.
+Depois de gravar um perfil, selecione um evento de component na trilha **Angular**.
+A aba **Summary** pode incluir um link **Component** que usa o esquema de URL `angular-devtools://component/...`.
 
 <img alt="Chrome DevTools Performance panel showing an Angular custom track with a selected _MainComponent event. The Summary tab displays a Component link that uses the angular-devtools://component URL scheme." src="assets/images/best-practices/runtime-performance/chrome-performance-deep-link.png">
 
-Click the link to open Angular DevTools and select the matching component in the **Components** tab.
-This helps you move from a browser-level profile to the component state and metadata for a selected event.
+Clique no link para abrir o Angular DevTools e selecione o component correspondente na aba **Components**.
+Isso ajuda você a passar de um perfil em nível do navegador para o estado e os metadados do component do evento selecionado.
 
-NOTE: Opening component links requires Angular DevTools for Chrome and Chrome's experimental `chrome://flags/#enable-devtools-deep-link-via-extensibility-api` flag.
+NOTE: Abrir links de component exige o Angular DevTools para Chrome e a flag experimental do Chrome `chrome://flags/#enable-devtools-deep-link-via-extensibility-api`.
 
-## Interpreting a recorded profile
+## Interpretando um perfil gravado {#interpreting-a-recorded-profile}
 
-You can use the "Angular" custom track to quickly identify and diagnose performance issues. The following sections describe some common profiling scenarios.
+Você pode usar a trilha personalizada "Angular" para identificar e diagnosticar rapidamente problemas de performance. As seções a seguir descrevem alguns cenários comuns de profiling.
 
-### Differentiating between your Angular application and other tasks on the same page
+### Diferenciando entre sua aplicação Angular e outras tarefas na mesma página {#differentiating-between-your-angular-application-and-other-tasks-on-the-same-page}
 
-As Angular and Chrome data are presented on the separate but correlated tracks, you can see when Angular's application code is executed as opposed to some other browser processing (typically layout and paint) or other scripts running on the same page (in this case the custom Angular track does not have any data):
+Como os dados do Angular e do Chrome são apresentados em trilhas separadas, mas correlacionadas, você pode ver quando o código da aplicação Angular é executado, em oposição a outro processamento do navegador (tipicamente layout e paint) ou a outros scripts executando na mesma página (neste caso, a trilha personalizada do Angular não terá nenhum dado):
 
 <img alt="Profile data: Angular vs. 3rd party scripts execution" src="assets/images/best-practices/runtime-performance/profile-angular-vs-3rd-party.png">
 
-This allows you to determine whether further investigations should focus on the Angular application code or on other parts of your codebase or dependencies.
+Isso permite determinar se investigações adicionais devem focar no código da aplicação Angular ou em outras partes da sua base de código ou dependências.
 
-### Color-coding
+### Codificação por cores {#color-coding}
 
-Angular uses colors in the flame chart graph to distinguish tasks types:
+O Angular usa cores no flame chart para distinguir tipos de tarefas:
 
-- 🟦 Blue represents TypeScript code written by the application developer (for example: services, component constructors and lifecycle hooks, etc.).
-- 🟪 Purple represents templates code written by the application developer and transformed by the Angular compiler.
-- 🟩 Green represents entry points to the application code and identifies _reasons_ for executing code.
+- 🟦 Azul representa código TypeScript escrito pelo desenvolvedor da aplicação (por exemplo: services, construtores de components e lifecycle hooks, etc.).
+- 🟪 Roxo representa código de templates escrito pelo desenvolvedor da aplicação e transformado pelo compilador Angular.
+- 🟩 Verde representa pontos de entrada para o código da aplicação e identifica _razões_ para executar código.
 
-The following examples illustrate the described color-coding in various, real-life recordings.
+Os exemplos a seguir ilustram a codificação por cores descrita em gravações reais de diversos cenários.
 
-#### Example: Application bootstrapping
+#### Exemplo: Bootstrap da aplicação {#example-application-bootstrapping}
 
-The application bootstrap process usually consists of:
+O processo de bootstrap da aplicação geralmente consiste em:
 
-- Triggers marked in blue, such as the call to the `bootstrapApplication`, instantiation of the root component, and initial change detection
-- Various DI services instantiated during bootstrap, marked in green.
+- Gatilhos marcados em azul, como a chamada para `bootstrapApplication`, a instanciação do component raiz e o change detection inicial
+- Vários services de DI instanciados durante o bootstrap, marcados em verde.
 
 <img alt="Profile data: bootstrap application" src="assets/images/best-practices/runtime-performance/profile-bootstrap-application.png">
 
-#### Example: Component execution
+#### Exemplo: Execução de component {#example-component-execution}
 
-One component processing is typically represented as an entry point (blue) followed by its template execution (purple). A template might, in turn, trigger instantiation of directives and execution of lifecycle hooks (green):
+O processamento de um component é tipicamente representado como um ponto de entrada (azul) seguido pela execução do seu template (roxo). Um template pode, por sua vez, desencadear a instanciação de directives e a execução de lifecycle hooks (verde):
 
 <img alt="Profile data: component processing" src="assets/images/best-practices/runtime-performance/profile-component-processing.png">
 
-#### Example: Change detection
+#### Exemplo: Detecção de mudanças {#example-change-detection}
 
-A change detection cycle usually consists of one or more data synchronization passes (blue), where each pass traverses a subset of components.
+Um ciclo de change detection geralmente consiste em uma ou mais passagens de sincronização de dados (azul), em que cada passagem percorre um subconjunto de components.
 
 <img alt="Profile data: change detection" src="assets/images/best-practices/runtime-performance/profile-change-detection.png">
 
-With this data visualization, it is possible to immediately identify components that were involved in the change detection and which were skipped (typically the `OnPush` components that were not marked dirty).
+Com essa visualização de dados, é possível identificar imediatamente os components que foram envolvidos no change detection e os que foram pulados (tipicamente os components `OnPush` que não foram marcados como dirty).
 
-Additionally, you can inspect the number of synchronization passes for one change detection. Having more than one synchronization pass suggest that state is updated during change detection. You should avoid this, as it slows down page updates and can even result in infinite loops in the worst cases.
+Além disso, você pode inspecionar o número de passagens de sincronização de um mesmo change detection. Ter mais de uma passagem de sincronização sugere que o estado é atualizado durante o change detection. Você deve evitar isso, pois torna as atualizações de página mais lentas e, nos piores casos, pode até resultar em loops infinitos.

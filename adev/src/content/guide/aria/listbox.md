@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Listbox
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox pattern"/>
-  <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Listbox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Padrão ARIA de listbox"/>
+  <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Referência da API de Listbox"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-A directive that displays a list of options for users to select from, supporting keyboard navigation, single or multiple selection, and screen reader support.
+Uma directive que exibe uma lista de opções para o usuário selecionar, com suporte a navegação por teclado, seleção única ou múltipla e suporte a leitores de tela.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/basic/app/app.html"/>
@@ -35,50 +36,50 @@ A directive that displays a list of options for users to select from, supporting
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso {#usage}
 
-Listbox is a foundational directive used by the [Select](guide/aria/select), [Multiselect](guide/aria/multiselect), and [Autocomplete](guide/aria/autocomplete) patterns. For most dropdown needs, use those documented patterns instead.
+Listbox é uma directive fundamental usada pelos padrões [Select](guide/aria/select), [Multiselect](guide/aria/multiselect) e [Autocomplete](guide/aria/autocomplete). Para a maioria das necessidades de dropdown, use esses padrões documentados.
 
-Consider using listbox directly when:
+Considere usar o listbox diretamente quando:
 
-- **Building custom selection components** - Creating specialized interfaces with specific behavior
-- **Visible selection lists** - Displaying selectable items directly on the page (not in dropdowns)
-- **Custom integration patterns** - Integrating with unique popup or layout requirements
+- **Estiver construindo components de seleção personalizados** - Criando interfaces especializadas com comportamento específico
+- **Precisar de listas de seleção visíveis** - Exibindo itens selecionáveis diretamente na página (e não em dropdowns)
+- **Precisar de padrões de integração personalizados** - Integrando com requisitos únicos de popup ou layout
 
-Avoid listbox when:
+Evite listbox quando:
 
-- **Navigation menus are needed** - Use the [Menu](guide/aria/menu) directive for actions and commands
+- **Forem necessários menus de navegação** - Use a directive [Menu](guide/aria/menu) para ações e comandos
 
-## Features
+## Recursos {#features}
 
-Angular's listbox provides a fully accessible list implementation with:
+O listbox do Angular fornece uma implementação de lista totalmente acessível, com:
 
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter or Space
-- **Screen Reader Support** - Built-in ARIA attributes including role="listbox"
-- **Single or Multiple Selection** - `multi` attribute controls selection mode
-- **Horizontal or Vertical** - `orientation` attribute for layout direction
-- **Type-ahead Search** - Type characters to jump to matching options
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **Navegação por teclado** - Navegue pelas opções com as setas e selecione com Enter ou Space
+- **Suporte a leitores de tela** - Atributos ARIA integrados, incluindo role="listbox"
+- **Seleção única ou múltipla** - O atributo `multi` controla o modo de seleção
+- **Horizontal ou vertical** - O atributo `orientation` define a direção do layout
+- **Busca por digitação (type-ahead)** - Digite caracteres para pular para as opções correspondentes
+- **Reatividade baseada em signals** - Gerenciamento de estado reativo usando signals do Angular
 
-## Examples
+## Exemplos {#examples}
 
-### Basic listbox
+### Listbox básico {#basic-listbox}
 
-Applications sometimes need selectable lists visible directly on the page rather than hidden in a dropdown. A standalone listbox provides keyboard navigation and selection for these visible list interfaces.
+Às vezes, as aplicações precisam de listas selecionáveis visíveis diretamente na página, em vez de ocultas em um dropdown. Um listbox independente oferece navegação por teclado e seleção para essas interfaces de lista visíveis.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/basic/app/app.html" />
 </docs-code-multifile>
 
-The `value` model signal provides two-way binding to the selected items. With `selectionMode="explicit"`, users press Space or Enter to select options. For dropdown patterns that combine listbox with combobox and overlay positioning, see the [Select](guide/aria/select) pattern.
+O signal model `value` fornece vinculação bidirecional aos itens selecionados. Com `selectionMode="explicit"`, os usuários pressionam Space ou Enter para selecionar opções. Para padrões de dropdown que combinam listbox com combobox e posicionamento de overlay, veja o padrão [Select](guide/aria/select).
 
-### Horizontal listbox
+### Listbox horizontal {#horizontal-listbox}
 
-Lists sometimes work better horizontally, such as toolbar-like interfaces or tab-style selections. The `orientation` attribute changes both the layout and keyboard navigation direction.
+Listas às vezes funcionam melhor na horizontal, como em interfaces semelhantes a toolbars ou seleções no estilo de abas. O atributo `orientation` altera tanto o layout quanto a direção da navegação por teclado.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/horizontal/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/horizontal/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/horizontal/app/app.html"/>
@@ -103,46 +104,46 @@ Lists sometimes work better horizontally, such as toolbar-like interfaces or tab
   </docs-tab>
 </docs-tab-group>
 
-With `orientation="horizontal"`, left and right arrow keys navigate between options instead of up and down. The listbox automatically handles right-to-left (RTL) languages by reversing navigation direction.
+Com `orientation="horizontal"`, as setas para a esquerda e para a direita navegam entre as opções, em vez das setas para cima e para baixo. O listbox lida automaticamente com idiomas da direita para a esquerda (RTL), invertendo a direção da navegação.
 
-### Selection modes
+### Modos de seleção {#selection-modes}
 
-Listbox supports two selection modes that control when items become selected.
+O listbox oferece dois modos de seleção, que controlam quando os itens são selecionados.
 
-The `'follow'` mode automatically selects the focused item, providing faster interaction when selection changes frequently. The `'explicit'` mode requires Space or Enter to confirm selection, preventing accidental changes while navigating. Dropdown patterns typically use `'follow'` mode for single selection.
+O modo `'follow'` seleciona automaticamente o item focado, oferecendo uma interação mais rápida quando a seleção muda com frequência. O modo `'explicit'` exige Space ou Enter para confirmar a seleção, evitando mudanças acidentais durante a navegação. Padrões de dropdown normalmente usam o modo `'follow'` para seleção única.
 
-#### Explicit
+#### Explícito {#explicit}
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/modes/app/explicit/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/modes/app/explicit/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/explicit/app.html" />
 </docs-code-multifile>
 
-#### Follow
+#### Follow {#follow}
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.html" />
 </docs-code-multifile>
 
-| Mode         | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `'follow'`   | Automatically selects the focused item, providing faster interaction when selection changes frequently |
-| `'explicit'` | Requires Space or Enter to confirm selection, preventing accidental changes while navigating           |
+| Modo         | Descrição                                                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `'follow'`   | Seleciona automaticamente o item focado, oferecendo uma interação mais rápida quando a seleção muda com frequência         |
+| `'explicit'` | Exige Space ou Enter para confirmar a seleção, evitando mudanças acidentais durante a navegação                             |
 
-TIP: Dropdown patterns typically use `'follow'` mode for single selection.
+DICA: Padrões de dropdown normalmente usam o modo `'follow'` para seleção única.
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing listbox components.
-Here is an example of how to use the harnesses in a component test:
+O Angular Aria fornece harnesses de component para testar components de listbox.
+Veja um exemplo de como usar os harnesses em um teste de component:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {ListboxHarness} from '@angular/aria/listbox/testing';
-import {MyListboxComponent} from './my-listbox'; // Your component
+import {MyListboxComponent} from './my-listbox'; // Seu component
 
 describe('MyListboxComponent', () => {
   let fixture: ComponentFixture<MyListboxComponent>;
@@ -161,39 +162,39 @@ describe('MyListboxComponent', () => {
   it('should allow selecting options', async () => {
     const listbox = await loader.getHarness(ListboxHarness);
 
-    // Verify listbox properties
+    // Verifica as propriedades do listbox
     expect(await listbox.isMulti()).toBe(true);
 
-    // Get all options
+    // Obtém todas as opções
     const options = await listbox.getOptions();
     expect(options.length).toBe(2);
 
-    // Click an option
+    // Clica em uma opção
     await options[0].click();
 
-    // Verify option is selected
+    // Verifica se a opção está selecionada
     expect(await options[0].isSelected()).toBe(true);
 
-    // Filter options by text
+    // Filtra as opções pelo texto
     const bananaOption = await listbox.getOptions({text: 'Banana'});
     expect(bananaOption.length).toBe(1);
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`Listbox`](/api/aria/listbox/Listbox)
 - [`Option`](/api/aria/listbox/Option)
 
-### Related patterns
+### Padrões relacionados {#related-patterns}
 
-Listbox is used by these documented dropdown patterns:
+O listbox é usado por estes padrões documentados de dropdown:
 
-- [Select](guide/aria/select) - Single-selection dropdown pattern using readonly combobox + listbox
-- [Multiselect](guide/aria/multiselect) - Multiple-selection dropdown pattern using readonly combobox + listbox with `multi`
-- [Autocomplete](guide/aria/autocomplete) - Filterable dropdown pattern using combobox + listbox
+- [Select](guide/aria/select) - Padrão de dropdown de seleção única, usando combobox somente leitura + listbox
+- [Multiselect](guide/aria/multiselect) - Padrão de dropdown de seleção múltipla, usando combobox somente leitura + listbox com `multi`
+- [Autocomplete](guide/aria/autocomplete) - Padrão de dropdown filtrável, usando combobox + listbox
 
-For complete dropdown patterns with trigger, popup, and overlay positioning, see those pattern guides instead of using listbox alone.
+Para padrões completos de dropdown com trigger, popup e posicionamento de overlay, veja esses guias de padrão em vez de usar o listbox sozinho.

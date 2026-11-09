@@ -1,3 +1,4 @@
+// ia-translate: true
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.

@@ -1,16 +1,17 @@
+<!-- ia-translate: true -->
 # Menubar
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/menubar/" title="Menubar ARIA pattern"/>
-  <docs-pill href="/api/aria/menu/MenuBar" title="Menubar API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/menubar/" title="Padrão ARIA de menubar"/>
+  <docs-pill href="/api/aria/menu/MenuBar" title="Referência da API da Menubar"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-The menubar is a horizontal navigation bar that provides persistent access to application menus. Menubars organize commands into logical categories like File, Edit, and View, helping users discover and execute application features through keyboard or mouse interaction.
+A menubar é uma barra de navegação horizontal que oferece acesso permanente aos menus da aplicação. Menubars organizam comandos em categorias lógicas como Arquivo, Editar e Exibir, ajudando os usuários a descobrir e executar recursos da aplicação por meio de interação com o teclado ou o mouse.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/app/app.html"/>
@@ -35,44 +36,44 @@ The menubar is a horizontal navigation bar that provides persistent access to ap
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso {#usage}
 
-Menubars work well for organizing application commands into persistent, discoverable navigation.
+Menubars funcionam bem para organizar comandos da aplicação em uma navegação persistente e fácil de descobrir.
 
-**Use menubars when:**
+**Use menubars quando:**
 
-- Building application command bars (such as File, Edit, View, Insert, Format)
-- Creating persistent navigation that stays visible across the interface
-- Organizing commands into logical top-level categories
-- Need horizontal menu navigation with keyboard support
-- Building desktop-style application interfaces
+- Construir barras de comandos da aplicação (como Arquivo, Editar, Exibir, Inserir, Formatar)
+- Criar uma navegação persistente que permaneça visível em toda a interface
+- Organizar comandos em categorias lógicas de nível superior
+- Precisar de navegação por menu horizontal com suporte ao teclado
+- Construir interfaces de aplicação no estilo desktop
 
-**Avoid menubars when:**
+**Evite menubars quando:**
 
-- Building dropdown menus for individual actions (use [Menu with trigger](guide/aria/menu) instead)
-- Creating context menus (use [Menu](guide/aria/menu) guide pattern)
-- Simple standalone action lists (use [Menu](guide/aria/menu) instead)
-- Mobile interfaces where horizontal space is limited
-- Navigation belongs in a sidebar or header navigation pattern
+- Construir menus suspensos para ações individuais (use [Menu com trigger](guide/aria/menu) no lugar)
+- Criar menus de contexto (use o padrão do guia [Menu](guide/aria/menu))
+- Exibir listas simples de ações standalone (use [Menu](guide/aria/menu) no lugar)
+- Criar interfaces mobile, onde o espaço horizontal é limitado
+- A navegação pertencer a um padrão de navegação em sidebar ou em header
 
-## Features
+## Recursos {#features}
 
-- **Horizontal navigation** - Left/Right arrow keys move between top-level categories
-- **Persistent visibility** - Always visible, not modal or dismissable
-- **Hover-to-open** - Submenus open on hover after first keyboard or click interaction
-- **Nested submenus** - Support multiple levels of menu depth
-- **Keyboard navigation** - Arrow keys, Enter/Space, Escape, and typeahead search
-- **Disabled states** - Disable entire menubar or individual items
-- **RTL support** - Automatic right-to-left language navigation
+- **Navegação horizontal** - As teclas de seta para a esquerda e para a direita movem entre as categorias de nível superior
+- **Visibilidade persistente** - Sempre visível, não é modal nem pode ser dispensada
+- **Abertura ao passar o mouse** - Submenus abrem ao passar o mouse após a primeira interação pelo teclado ou clique
+- **Submenus aninhados** - Suporte a múltiplos níveis de profundidade de menu
+- **Navegação pelo teclado** - Teclas de seta, Enter/Espaço, Escape e busca por digitação (typeahead)
+- **Estados desabilitados** - Desabilite a menubar inteira ou itens individuais
+- **Suporte a RTL** - Navegação automática em idiomas da direita para a esquerda
 
-## Examples
+## Exemplos {#examples}
 
-### Basic menubar
+### Menubar básica {#basic-menubar}
 
-A menubar provides persistent access to application commands organized into top-level categories. Users navigate between categories with Left/Right arrows and open menus with Enter or Down arrow.
+Uma menubar oferece acesso persistente aos comandos da aplicação organizados em categorias de nível superior. Os usuários navegam entre as categorias com as setas para a esquerda e para a direita e abrem os menus com Enter ou a seta para baixo.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/app/app.html"/>
@@ -97,14 +98,14 @@ A menubar provides persistent access to application commands organized into top-
   </docs-tab>
 </docs-tab-group>
 
-Press Right arrow to move between File, Edit, and View. Press Enter or Down arrow to open a menu and navigate submenu items with Up/Down arrows.
+Pressione a seta para a direita para mover entre Arquivo, Editar e Exibir. Pressione Enter ou a seta para baixo para abrir um menu e navegar pelos itens do submenu com as setas para cima e para baixo.
 
-### Disabled menubar items
+### Itens desabilitados da menubar {#disabled-menubar-items}
 
-Disable specific menu items or the entire menubar to prevent interaction. Control whether disabled items can receive keyboard focus with the `softDisabled` input.
+Desabilite itens específicos do menu ou a menubar inteira para impedir a interação. Controle se os itens desabilitados podem receber foco do teclado com a entrada `softDisabled`.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/disabled/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/disabled/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/disabled/app/app.html"/>
@@ -129,14 +130,14 @@ Disable specific menu items or the entire menubar to prevent interaction. Contro
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the menubar, disabled items can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
+Quando `[softDisabled]="true"` na menubar, itens desabilitados podem receber foco, mas não podem ser ativados. Quando `[softDisabled]="false"`, itens desabilitados são ignorados durante a navegação pelo teclado.
 
-### RTL support
+### Suporte a RTL {#rtl-support}
 
-Menubars automatically adapt to right-to-left (RTL) languages. Arrow key navigation reverses direction, and submenus position on the left side.
+Menubars se adaptam automaticamente a idiomas da direita para a esquerda (RTL). A navegação pelas teclas de seta inverte a direção, e os submenus são posicionados do lado esquerdo.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/rtl/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/rtl/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/rtl/app/app.html"/>
@@ -161,19 +162,19 @@ Menubars automatically adapt to right-to-left (RTL) languages. Arrow key navigat
   </docs-tab>
 </docs-tab-group>
 
-The `dir="rtl"` attribute enables RTL mode. Left arrow moves right, Right arrow moves left, maintaining natural navigation for RTL language users.
+O atributo `dir="rtl"` habilita o modo RTL. A seta para a esquerda move para a direita, e a seta para a direita move para a esquerda, mantendo a navegação natural para usuários de idiomas RTL.
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing menubar components.
-Here is an example of how to use the harnesses in a component test:
+A Angular Aria oferece harnesses de componente para testar componentes de menubar.
+Veja a seguir um exemplo de como usar os harnesses em um teste de componente:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {MenuHarness} from '@angular/aria/menu/testing';
-import {MyMenubarComponent} from './my-menubar'; // Your component
+import {MyMenubarComponent} from './my-menubar'; // Seu componente
 
 describe('MyMenubarComponent', () => {
   let fixture: ComponentFixture<MyMenubarComponent>;
@@ -190,20 +191,20 @@ describe('MyMenubarComponent', () => {
   });
 
   it('should interact with menubar items', async () => {
-    // Load the menubar harness (which is a MenuHarness with selector '[ngMenuBar]')
+    // Carrega o harness da menubar (que é um MenuHarness com seletor '[ngMenuBar]')
     const menubar = await loader.getHarness(MenuHarness.with({selector: '[ngMenuBar]'}));
 
-    // Menubars are persistent and always "open"
+    // Menubars são persistentes e sempre "abertas"
     expect(await menubar.isOpen()).toBe(true);
     expect(await menubar.isMenuBar()).toBe(true);
 
-    // Get top-level items
+    // Obtém os itens de nível superior
     const items = await menubar.getItems();
     expect(items.length).toBe(2);
     expect(await items[0].getText()).toBe('File');
     expect(await items[1].getText()).toBe('Edit');
 
-    // Click an item to open its dropdown menu
+    // Clica em um item para abrir o seu menu suspenso
     await items[0].click();
 
     const fileMenu = await items[0].getSubmenu();
@@ -213,9 +214,9 @@ describe('MyMenubarComponent', () => {
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`MenuBar`](/api/aria/menu/MenuBar)
 - [`MenuItem`](/api/aria/menu/MenuItem)

@@ -1,11 +1,12 @@
+<!-- ia-translate: true -->
 # Multiselect
 
-## Overview
+## Visão geral {#overview}
 
-The multiselect pattern combines a read-only combobox trigger with a multi-select listbox popup to create highly accessible multiple-selection dropdowns with keyboard navigation and screen reader support.
+O padrão multiselect combina um trigger de combobox somente leitura com um popup de listbox de múltipla seleção para criar dropdowns de seleção múltipla altamente acessíveis, com navegação por teclado e suporte a leitores de tela.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.html"/>
@@ -30,44 +31,44 @@ The multiselect pattern combines a read-only combobox trigger with a multi-selec
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso {#usage}
 
-The multiselect pattern works best when users need to choose multiple related items from a familiar set of options.
+O padrão multiselect funciona melhor quando os usuários precisam escolher múltiplos itens relacionados de um conjunto familiar de opções.
 
-Consider using this pattern when:
+Considere usar este padrão quando:
 
-- **Users need multiple selections** - Tags, categories, filters, or labels where multiple choices apply
-- **The option list is fixed** (fewer than 20 items) - Users can scan options without search
-- **Filtering content** - Multiple criteria can be active simultaneously
-- **Assigning attributes** - Labels, permissions, or features where multiple values make sense
-- **Related choices** - Options that logically work together (such as selecting multiple team members)
+- **Os usuários precisam de múltiplas seleções** - Tags, categorias, filtros ou rótulos em que várias escolhas se aplicam
+- **A lista de opções é fixa** (menos de 20 itens) - Os usuários podem escanear as opções sem usar busca
+- **Filtrar conteúdo** - Múltiplos critérios podem estar ativos ao mesmo tempo
+- **Atribuir atributos** - Rótulos, permissões ou recursos em que múltiplos valores fazem sentido
+- **Escolhas relacionadas** - Opções que funcionam logicamente em conjunto (como selecionar vários membros de uma equipe)
 
-Avoid this pattern when:
+Evite este padrão quando:
 
-- **Only single selection is needed** - Use the [Select pattern](guide/aria/select) for simpler single-choice dropdowns
-- **The list has more than 20 items with search needed** - Use the [Autocomplete pattern](guide/aria/autocomplete) with multiselect capability
-- **Most or all options will be selected** - A checklist pattern provides better visibility
-- **Choices are independent binary options** - Individual checkboxes communicate the choices more clearly
+- **Apenas seleção única é necessária** - Use o [padrão Select](guide/aria/select) para dropdowns de escolha única mais simples
+- **A lista tem mais de 20 itens e é necessária busca** - Use o [padrão Autocomplete](guide/aria/autocomplete) com capacidade de multisseleção
+- **A maioria ou todas as opções serão selecionadas** - Um padrão de checklist oferece melhor visibilidade
+- **As escolhas são opções binárias independentes** - Caixas de seleção individuais comunicam as escolhas com mais clareza
 
-## Features
+## Recursos {#features}
 
-The multiselect pattern combines [Combobox](guide/aria/combobox) and [Listbox](guide/aria/listbox) directives to provide a fully accessible dropdown with:
+O padrão multiselect combina as directives [Combobox](guide/aria/combobox) e [Listbox](guide/aria/listbox) para fornecer um dropdown totalmente acessível com:
 
-- **Keyboard Navigation** - Navigate options with arrow keys, toggle with Space, close with Escape
-- **Screen Reader Support** - Built-in ARIA attributes including aria-multiselectable
-- **Selection Count Display** - Shows compact "Item + 2 more" pattern for multiple selections
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Smart Positioning** - CDK Overlay handles viewport edges and scrolling
-- **Persistent Selection** - Selected options remain visible with checkmarks after selection
+- **Navegação por teclado** - Navegue pelas opções com as setas, alterne com Espaço e feche com Escape
+- **Suporte a leitores de tela** - Atributos ARIA integrados, incluindo aria-multiselectable
+- **Exibição da contagem de seleção** - Mostra um padrão compacto "Item + 2 mais" para múltiplas seleções
+- **Reatividade baseada em signals** - Gerenciamento de estado reativo usando signals do Angular
+- **Posicionamento inteligente** - O CDK Overlay lida com as bordas da viewport e com a rolagem
+- **Seleção persistente** - As opções selecionadas permanecem visíveis com marcas de seleção após a escolha
 
-## Examples
+## Exemplos {#examples}
 
-### Basic multiselect
+### Multiselect básico {#basic-multiselect}
 
-Users need to select multiple items from a list of options. A readonly combobox paired with a multi-enabled listbox provides familiar multiselect functionality with full accessibility support.
+Os usuários precisam selecionar múltiplos itens de uma lista de opções. Um combobox somente leitura pareado com um listbox habilitado para múltipla seleção oferece uma funcionalidade de multisseleção familiar, com suporte completo de acessibilidade.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/basic/app/app.html"/>
@@ -92,14 +93,14 @@ Users need to select multiple items from a list of options. A readonly combobox 
   </docs-tab>
 </docs-tab-group>
 
-The `multi` attribute on `ngListbox` enables multiple selection. Press Space to toggle options, and the popup remains open for additional selections. The display shows the first selected item plus a count of remaining selections.
+O atributo `multi` em `ngListbox` habilita a múltipla seleção. Pressione Espaço para alternar as opções, e o popup permanece aberto para seleções adicionais. A exibição mostra o primeiro item selecionado seguido de uma contagem das seleções restantes.
 
-### Multiselect with custom display
+### Multiselect com exibição personalizada {#multiselect-with-custom-display}
 
-Options often need visual indicators like icons or colors to help users identify choices. Custom templates within options allow rich formatting while the display value shows a compact summary.
+As opções frequentemente precisam de indicadores visuais, como ícones ou cores, para ajudar os usuários a identificar as escolhas. Templates personalizados dentro das opções permitem uma formatação rica, enquanto o valor de exibição mostra um resumo compacto.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/icons/app/app.html"/>
@@ -124,14 +125,14 @@ Options often need visual indicators like icons or colors to help users identify
   </docs-tab>
 </docs-tab-group>
 
-Each option displays an icon alongside its label. The display value updates to show the first selection's icon and text, followed by a count of additional selections. Selected options show a checkmark for clear visual feedback.
+Cada opção exibe um ícone ao lado do seu rótulo. O valor de exibição é atualizado para mostrar o ícone e o texto da primeira seleção, seguidos de uma contagem das seleções adicionais. As opções selecionadas mostram uma marca de seleção para um feedback visual claro.
 
-### Controlled selection
+### Seleção controlada {#controlled-selection}
 
-Forms sometimes need to limit the number of selections or validate user choices. Programmatic control over selection enables these constraints while maintaining accessibility.
+Os formulários às vezes precisam limitar o número de seleções ou validar as escolhas do usuário. O controle programático sobre a seleção possibilita essas restrições e mantém a acessibilidade.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/multiselect/src/limited/app/app.ts">
       <docs-code header="app.ts" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.ts"/>
       <docs-code header="app.html" path="adev/src/content/examples/aria/multiselect/src/limited/app/app.html"/>
@@ -156,12 +157,12 @@ Forms sometimes need to limit the number of selections or validate user choices.
   </docs-tab>
 </docs-tab-group>
 
-This example limits selections to two items. When the limit is reached, unselected options are disabled to prevent further selections, and the combobox display updates to reflect the choices.
+Este exemplo limita as seleções a dois itens. Quando o limite é atingido, as opções não selecionadas são desabilitadas para impedir novas seleções, e o display do combobox é atualizado para refletir as escolhas.
 
-## Testing
+## Testes {#testing}
 
-The multiselect pattern can be tested using a combination of `ComboboxHarness` and `ListboxHarness` from `@angular/aria/combobox/testing` and `@angular/aria/listbox/testing`.
-Here is an example of how to use the harnesses to test a multiselect component:
+O padrão multiselect pode ser testado com uma combinação de `ComboboxHarness` e `ListboxHarness`, de `@angular/aria/combobox/testing` e `@angular/aria/listbox/testing`.
+Veja a seguir um exemplo de como usar os harnesses para testar um componente multiselect:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -169,7 +170,7 @@ import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {ComboboxHarness} from '@angular/aria/combobox/testing';
 import {ListboxHarness} from '@angular/aria/listbox/testing';
-import {MyMultiselectComponent} from './my-multiselect'; // Your component
+import {MyMultiselectComponent} from './my-multiselect'; // Seu componente
 
 describe('MyMultiselectComponent', () => {
   let fixture: ComponentFixture<MyMultiselectComponent>;
@@ -188,35 +189,35 @@ describe('MyMultiselectComponent', () => {
   it('should allow selecting multiple options', async () => {
     const select = await loader.getHarness(ComboboxHarness);
 
-    // Open the dropdown
+    // Abre o dropdown
     await select.open();
 
-    // Get the listbox harness from the popup
+    // Obtém o harness do listbox a partir do popup
     const listbox = await select.getPopupWidget(ListboxHarness);
     expect(await listbox.isMulti()).toBe(true);
 
     const options = await listbox.getOptions();
 
-    // Select first and second options
+    // Seleciona a primeira e a segunda opções
     await options[0].click();
     await options[1].click();
 
-    // Verify both options are selected
+    // Verifica se as duas opções estão selecionadas
     expect(await options[0].isSelected()).toBe(true);
     expect(await options[1].isSelected()).toBe(true);
 
-    // Close the dropdown
+    // Fecha o dropdown
     await select.close();
 
-    // Verify value is updated (e.g., comma separated list or count)
+    // Verifica se o valor foi atualizado (por exemplo, lista separada por vírgulas ou contagem)
     expect(await (await select.host()).text()).toContain('Option 1, Option 2');
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`Combobox`](/api/aria/combobox/Combobox)
 - [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)

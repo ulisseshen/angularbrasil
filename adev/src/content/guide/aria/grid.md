@@ -1,13 +1,14 @@
+<!-- ia-translate: true -->
 # Grid
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/grid/" title="Grid ARIA pattern"/>
-  <docs-pill href="/api?query=grid#angular_aria_grid" title="Grid API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/grid/" title="Padrão ARIA de grid"/>
+  <docs-pill href="/api?query=grid#angular_aria_grid" title="Referência da API de Grid"/>
 </docs-pill-row>
 
-## Overview
+## Visão geral {#overview}
 
-A grid enables users to navigate two-dimensional data or interactive elements using directional arrow keys, Home, End, and Page Up/Down. Grids work for data tables, calendars, spreadsheets, and layout patterns that group related interactive elements.
+Um grid permite que os usuários naveguem por dados bidimensionais ou elementos interativos usando as teclas de seta direcionais, Home, End e Page Up/Down. Grids funcionam para tabelas de dados, calendários, planilhas e padrões de layout que agrupam elementos interativos relacionados.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.ts"/>
@@ -15,43 +16,43 @@ A grid enables users to navigate two-dimensional data or interactive elements us
   <docs-code header="CSS" path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso {#usage}
 
-Grids work well for data or interactive elements organized in rows and columns where users need keyboard navigation in multiple directions.
+Grids funcionam bem para dados ou elementos interativos organizados em linhas e colunas, nos quais os usuários precisam de navegação por teclado em múltiplas direções.
 
-**Use grids when:**
+**Use grids quando:**
 
-- Building interactive data tables with editable or selectable cells
-- Creating calendars or date pickers
-- Implementing spreadsheet-like interfaces
-- Grouping interactive elements (buttons, checkboxes) to reduce tab stops on a page
-- Building interfaces requiring two-dimensional keyboard navigation
+- Estiver construindo tabelas de dados interativas com células editáveis ou selecionáveis
+- Estiver criando calendários ou seletores de data
+- Estiver implementando interfaces semelhantes a planilhas
+- Estiver agrupando elementos interativos (botões, caixas de seleção) para reduzir as paradas do tab em uma página
+- Estiver construindo interfaces que exigem navegação por teclado bidimensional
 
-**Avoid grids when:**
+**Evite grids quando:**
 
-- Displaying simple read-only tables (use semantic HTML `<table>` instead)
-- Showing single-column lists (use [Listbox](guide/aria/listbox) instead)
-- Displaying hierarchical data (use [Tree](guide/aria/tree) instead)
-- Building forms without tabular layout (use standard form controls)
+- Estiver exibindo tabelas simples somente leitura (use o `<table>` HTML semântico no lugar)
+- Estiver mostrando listas de coluna única (use [Listbox](guide/aria/listbox) no lugar)
+- Estiver exibindo dados hierárquicos (use [Tree](guide/aria/tree) no lugar)
+- Estiver construindo formulários sem layout tabular (use os controles de formulário padrão)
 
-## Features
+## Recursos {#features}
 
-- **Two-dimensional navigation** - Arrow keys move between cells in all directions
-- **Focus modes** - Choose between roving tabindex or activedescendant focus strategies
-- **Selection support** - Optional cell selection with single or multi-select modes
-- **Wrapping behavior** - Configure how navigation wraps at grid edges (continuous, loop, or nowrap)
-- **Range selection** - Select multiple cells with modifier keys or dragging
-- **Disabled states** - Disable the entire grid or individual cells
-- **RTL support** - Automatic right-to-left language navigation
+- **Navegação bidimensional** - As teclas de seta movem entre as células em todas as direções
+- **Modos de foco** - Escolha entre as estratégias de foco roving tabindex ou activedescendant
+- **Suporte a seleção** - Seleção de células opcional, com modos de seleção única ou múltipla
+- **Comportamento de quebra** - Configure como a navegação se comporta nas bordas do grid (contínua, em loop ou sem quebra)
+- **Seleção por intervalo** - Selecione várias células com teclas modificadoras ou arrastando
+- **Estados desabilitados** - Desabilite o grid inteiro ou células individuais
+- **Suporte a RTL** - Navegação automática para idiomas da direita para a esquerda
 
-## Examples
+## Exemplos {#examples}
 
-### Data table grid
+### Grid de tabela de dados {#data-table-grid}
 
-Use a grid for interactive tables where users need to navigate between cells using arrow keys. This example shows a basic data table with keyboard navigation.
+Use um grid para tabelas interativas nas quais os usuários precisam navegar entre as células com as teclas de seta. Este exemplo mostra uma tabela de dados básica com navegação por teclado.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/grid/src/table/basic/app/app.ts">
       <docs-code header="TS" path="adev/src/content/examples/aria/grid/src/table/basic/app/app.ts"/>
       <docs-code header="HTML" path="adev/src/content/examples/aria/grid/src/table/basic/app/app.html"/>
@@ -67,14 +68,14 @@ Use a grid for interactive tables where users need to navigate between cells usi
   </docs-tab>
 </docs-tab-group>
 
-Apply the `ngGrid` directive to the table element, `ngGridRow` to each row, and `ngGridCell` to each cell.
+Aplique a diretiva `ngGrid` ao elemento da tabela, `ngGridRow` a cada linha e `ngGridCell` a cada célula.
 
-### Calendar grid
+### Grid de calendário {#calendar-grid}
 
-Calendars are a common use case for grids. This example shows a month view where users navigate dates using arrow keys.
+Calendários são um caso de uso comum para grids. Este exemplo mostra uma visualização mensal em que os usuários navegam pelas datas usando as teclas de seta.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/grid/src/calendar/basic/app/app.ts">
       <docs-code header="TS" path="adev/src/content/examples/aria/grid/src/calendar/basic/app/app.ts"/>
       <docs-code header="HTML" path="adev/src/content/examples/aria/grid/src/calendar/basic/app/app.html"/>
@@ -97,14 +98,14 @@ Calendars are a common use case for grids. This example shows a month view where
   </docs-tab>
 </docs-tab-group>
 
-Users can activate a date by pressing Enter or Space when focused on a cell.
+Os usuários podem ativar uma data pressionando Enter ou Space quando a célula estiver focada.
 
-### Layout grid
+### Grid de layout {#layout-grid}
 
-Use a layout grid to group interactive elements and reduce tab stops. This example shows a grid of pill buttons.
+Use um grid de layout para agrupar elementos interativos e reduzir as paradas do tab. Este exemplo mostra um grid de botões em formato de pílula.
 
 <docs-tab-group>
-  <docs-tab label="Basic">
+  <docs-tab label="Básico">
     <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/grid/src/pill-list/basic/app/app.ts">
       <docs-code header="TS" path="adev/src/content/examples/aria/grid/src/pill-list/basic/app/app.ts"/>
       <docs-code header="HTML" path="adev/src/content/examples/aria/grid/src/pill-list/basic/app/app.html"/>
@@ -127,11 +128,11 @@ Use a layout grid to group interactive elements and reduce tab stops. This examp
   </docs-tab>
 </docs-tab-group>
 
-Instead of tabbing through each button, users navigate with arrow keys and only one button receives tab focus.
+Em vez de percorrer cada botão com o tab, os usuários navegam com as teclas de seta e apenas um botão recebe o foco do tab.
 
-### Selection and focus modes
+### Modos de seleção e de foco {#selection-and-focus-modes}
 
-Enable selection with `[enableSelection]="true"` and configure how focus and selection interact.
+Habilite a seleção com `[enableSelection]="true"` e configure como o foco e a seleção interagem.
 
 ```angular-html
 <table
@@ -148,27 +149,27 @@ Enable selection with `[enableSelection]="true"` and configure how focus and sel
 </table>
 ```
 
-**Selection modes:**
+**Modos de seleção:**
 
-- `follow`: Focused cell is automatically selected
-- `explicit`: Users select cells with Space or click
+- `follow`: a célula focada é selecionada automaticamente
+- `explicit`: os usuários selecionam as células com Space ou clique
 
-**Focus modes:**
+**Modos de foco:**
 
-- `roving`: Focus moves to cells using `tabindex` (better for simple grids)
-- `activedescendant`: Focus stays on grid container, `aria-activedescendant` indicates active cell (better for virtual scrolling)
+- `roving`: o foco se move entre as células usando `tabindex` (melhor para grids simples)
+- `activedescendant`: o foco permanece no container do grid, e `aria-activedescendant` indica a célula ativa (melhor para rolagem virtual)
 
-## Testing
+## Testes {#testing}
 
-Angular Aria provides component harnesses for testing grid components.
-Here is an example of how to use the harnesses in a component test:
+O Angular Aria fornece harnesses de componente para testar componentes de grid.
+Veja um exemplo de como usar os harnesses em um teste de component:
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {GridHarness} from '@angular/aria/grid/testing';
-import {MyGridComponent} from './my-grid'; // Your component
+import {MyGridComponent} from './my-grid'; // Seu component
 
 describe('MyGridComponent', () => {
   let fixture: ComponentFixture<MyGridComponent>;
@@ -187,32 +188,32 @@ describe('MyGridComponent', () => {
   it('should read cell values and focus cells', async () => {
     const grid = await loader.getHarness(GridHarness);
 
-    // Get all cells text in a 2D array organized by rows
+    // Obtém o texto de todas as células em um array 2D organizado por linhas
     const cellTexts = await grid.getCellTextByIndex();
     expect(cellTexts).toEqual([
       ['Cell 1.1', 'Cell 1.2'],
       ['Cell 2.1', 'Cell 2.2'],
     ]);
 
-    // Get a specific cell by text
+    // Obtém uma célula específica pelo texto
     const cells = await grid.getCells({text: 'Cell 1.1'});
     expect(cells.length).toBe(1);
     const cell = cells[0];
 
-    // Verify cell state
+    // Verifica o estado da célula
     expect(await cell.isSelected()).toBe(true);
     expect(await cell.isActive()).toBe(true);
 
-    // Focus the cell
+    // Foca a célula
     await cell.focus();
     expect(await cell.isFocused()).toBe(true);
   });
 });
 ```
 
-## API reference
+## Referência da API {#api-reference}
 
-For detailed API documentation, inspect the following API references:
+Para a documentação detalhada da API, consulte as seguintes referências:
 
 - [`Grid`](/api/aria/grid/Grid)
 - [`GridRow`](/api/aria/grid/GridRow)

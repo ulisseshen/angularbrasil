@@ -1,25 +1,26 @@
-# Skipping component subtrees
+<!-- ia-translate: true -->
+# Pulando subárvores de components {#skipping-component-subtrees}
 
-JavaScript, by default, uses mutable data structures that you can reference from multiple different components. Angular runs change detection over your entire component tree to make sure that the most up-to-date state of your data structures is reflected in the DOM.
+Por padrão, o JavaScript usa estruturas de dados mutáveis que você pode referenciar a partir de vários components diferentes. O Angular executa change detection em toda a sua árvore de components para garantir que o estado mais atualizado das suas estruturas de dados seja refletido no DOM.
 
-Change detection is sufficiently fast for most applications. However, when an application has an especially large component tree, running change detection across the whole application can cause performance issues. You can address this by configuring change detection to only run on a subset of the component tree.
+A change detection é rápida o suficiente para a maioria das aplicações. No entanto, quando uma aplicação tem uma árvore de components especialmente grande, executar change detection em toda a aplicação pode causar problemas de performance. Você pode resolver isso configurando a change detection para rodar apenas em um subconjunto da árvore de components.
 
-## Using `OnPush`
+## Usando `OnPush` {#using-onpush}
 
-OnPush is the default change detection strategy in Angular (since v22). It instructs Angular to run change detection for a component subtree **only** when:
+OnPush é a estratégia de change detection padrão no Angular (desde a v22). Ela instrui o Angular a executar change detection para uma subárvore de components **apenas** quando:
 
-- The root component of the subtree receives new inputs as the result of a template binding. Angular compares the current and past value of the input with `Object.is`.
-- Angular handles an event _(for example using event binding, output binding, or `@HostListener` )_ in the subtree's root component or any of its children whether they are using OnPush change detection or not.
+- O component raiz da subárvore recebe novos inputs como resultado de um template binding. O Angular compara o valor atual e o valor anterior do input com `Object.is`.
+- O Angular trata um evento _(por exemplo, usando event binding, output binding ou `@HostListener`)_ no component raiz da subárvore ou em qualquer um de seus filhos, estejam eles usando change detection OnPush ou não.
 
-## Common change detection scenarios
+## Cenários comuns de change detection {#common-change-detection-scenarios}
 
-This section examines several common change detection scenarios to illustrate Angular's behavior.
+Esta seção examina alguns cenários comuns de change detection para ilustrar o comportamento do Angular.
 
-### An event is handled by a component with `Eager` change detection
+### Um evento é tratado por um component com `Eager` change detection {#an-event-is-handled-by-a-component-with-eager-change-detection}
 
-If Angular handles an event within a component with the `Eager` strategy, the framework executes change detection on the entire component tree. Angular will skip descendant component subtrees with roots using `OnPush`, which have not received new inputs.
+Se o Angular tratar um evento dentro de um component com a estratégia `Eager`, o framework executa change detection em toda a árvore de components. O Angular pulará as subárvores de components descendentes com raízes usando OnPush que não receberam novos inputs.
 
-As an example, if we set the change detection strategy of `MainComponent` to `OnPush` and the user interacts with a component outside the subtree with root `MainComponent`, Angular will check all the pink components from the diagram below (`AppComponent`, `HeaderComponent`, `SearchComponent`, `ButtonComponent`) unless `MainComponent` receives new inputs:
+Como exemplo, se definirmos a estratégia de change detection do `MainComponent` como OnPush e o usuário interagir com um component fora da subárvore com raiz `MainComponent`, o Angular verificará todos os components rosa do diagrama abaixo (`AppComponent`, `HeaderComponent`, `SearchComponent`, `ButtonComponent`), a menos que o `MainComponent` receba novos inputs:
 
 ```mermaid
 graph TD;
@@ -38,11 +39,11 @@ class search checkedNode
 class event eventNode
 ```
 
-## An event is handled by a component with OnPush
+## Um evento é tratado por um component com OnPush {#an-event-is-handled-by-a-component-with-onpush}
 
-If Angular handles an event within a component with OnPush strategy, the framework will execute change detection within the entire component tree. Angular will ignore component subtrees with roots using OnPush, which have not received new inputs and are outside the component which handled the event.
+Se o Angular tratar um evento dentro de um component com estratégia OnPush, o framework executará change detection em toda a árvore de components. O Angular ignorará as subárvores de components com raízes usando OnPush que não receberam novos inputs e que estão fora do component que tratou o evento.
 
-As an example, if Angular handles an event within `MainComponent`, the framework will run change detection in the entire component tree. Angular will ignore the subtree with root `LoginComponent` because it has `OnPush` and the event happened outside of its scope.
+Como exemplo, se o Angular tratar um evento dentro do `MainComponent`, o framework executará change detection em toda a árvore de components. O Angular ignorará a subárvore com raiz `LoginComponent`, porque ela tem OnPush e o evento aconteceu fora do seu escopo.
 
 ```mermaid
 graph TD;
@@ -63,11 +64,11 @@ class details checkedNode
 class event eventNode
 ```
 
-## An event is handled by a descendant of a component with OnPush
+## Um evento é tratado por um descendente de um component com OnPush {#an-event-is-handled-by-a-descendant-of-a-component-with-onpush}
 
-If Angular handles an event in a component with OnPush, the framework will execute change detection in the entire component tree, including the component’s ancestors.
+Se o Angular tratar um evento em um component com OnPush, o framework executará change detection em toda a árvore de components, incluindo os ancestrais do component.
 
-As an example, in the diagram below, Angular handles an event in `LoginComponent` which uses OnPush. Angular will invoke change detection in the entire component subtree including `MainComponent` (`LoginComponent`’s parent), even though `MainComponent` has `OnPush` as well. Angular checks `MainComponent` as well because `LoginComponent` is part of its view.
+Como exemplo, no diagrama abaixo, o Angular trata um evento no `LoginComponent`, que usa OnPush. O Angular invocará change detection em toda a subárvore de components, incluindo o `MainComponent` (pai do `LoginComponent`), mesmo que o `MainComponent` também tenha OnPush. O Angular verifica o `MainComponent` também porque o `LoginComponent` faz parte da sua view.
 
 ```mermaid
 graph TD;
@@ -89,11 +90,11 @@ class details checkedNode
 class event eventNode
 ```
 
-## New inputs to component with OnPush
+## Novos inputs para component com OnPush {#new-inputs-to-component-with-onpush}
 
-Angular will run change detection within a child component with `OnPush` when setting an input property as result of a template binding.
+O Angular executará change detection dentro de um component filho com OnPush ao definir uma propriedade de input como resultado de um template binding.
 
-For example, in the diagram below, `AppComponent` passes a new input to `MainComponent`, which has `OnPush`. Angular will run change detection in `MainComponent` but will not run change detection in `LoginComponent`, which also has `OnPush`, unless it receives new inputs as well.
+Por exemplo, no diagrama abaixo, o `AppComponent` passa um novo input para o `MainComponent`, que tem OnPush. O Angular executará change detection no `MainComponent`, mas não executará change detection no `LoginComponent`, que também tem OnPush, a menos que ele também receba novos inputs.
 
 ```mermaid
 graph TD;
@@ -114,7 +115,7 @@ class details checkedNode
 class event eventNode
 ```
 
-## Edge cases
+## Casos extremos {#edge-cases}
 
-- **Modifying input properties in TypeScript code**. When you use an API like `@ViewChild` or `@ContentChild` to get a reference to a component in TypeScript and manually modify an `@Input` property, Angular will not automatically run change detection for OnPush components. If you need Angular to run change detection, you can inject `ChangeDetectorRef` in your component and call `changeDetectorRef.markForCheck()` to tell Angular to schedule a change detection.
-- **Modifying object references**. In case an input receives a mutable object as value and you modify the object but preserve the reference, Angular will not invoke change detection. That’s the expected behavior because the previous and the current value of the input point to the same reference.
+- **Modificando propriedades de input em código TypeScript**. Quando você usa uma API como `@ViewChild` ou `@ContentChild` para obter uma referência a um component em TypeScript e modifica manualmente uma propriedade `@Input`, o Angular não executará change detection automaticamente para components OnPush. Se você precisar que o Angular execute change detection, pode injetar `ChangeDetectorRef` no seu component e chamar `changeDetectorRef.markForCheck()` para dizer ao Angular que agende uma change detection.
+- **Modificando referências de objetos**. Caso um input receba um objeto mutável como valor e você modifique o objeto mas preserve a referência, o Angular não invocará change detection. Esse é o comportamento esperado, porque o valor anterior e o valor atual do input apontam para a mesma referência.

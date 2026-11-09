@@ -103,6 +103,6 @@ Inscreva-se em `SwUpdate#unrecoverable` para ser notificado e lidar com esses er
 Você também pode se interessar pelo seguinte:
 
 <docs-pill-row>
-  <docs-pill href="ecosystem/service-workers/push-notifications" title="Push notifications"/>
-  <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
+  <docs-pill href="ecosystem/service-workers/push-notifications" title="Notificações push"/>
+  <docs-pill href="ecosystem/service-workers/devops" title="Devops do service worker"/>
 </docs-pill-row>

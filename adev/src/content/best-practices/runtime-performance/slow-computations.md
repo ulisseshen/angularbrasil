@@ -1,26 +1,27 @@
-# Slow computations
+<!-- ia-translate: true -->
+# Computações lentas {#slow-computations}
 
-On every change detection cycle, Angular synchronously:
+A cada ciclo de change detection, o Angular, de forma síncrona:
 
-- Evaluates all template expressions in all components, unless specified otherwise, based on that each component's detection strategy
-- Executes the `ngDoCheck`, `ngAfterContentChecked`, `ngAfterViewChecked`, and `ngOnChanges` lifecycle hooks.
-  A single slow computation within a template or a lifecycle hook can slow down the entire change detection process because Angular runs the computations sequentially.
+- Avalia todas as expressões de template em todos os components, a menos que especificado de outra forma, com base na estratégia de detecção de cada component
+- Executa os lifecycle hooks `ngDoCheck`, `ngAfterContentChecked`, `ngAfterViewChecked` e `ngOnChanges`.
+  Uma única computação lenta dentro de um template ou de um lifecycle hook pode desacelerar todo o processo de change detection, porque o Angular executa as computações sequencialmente.
 
-## Identifying slow computations
+## Identificando computações lentas {#identifying-slow-computations}
 
-You can identify heavy computations with Angular DevTools’ profiler. In the performance timeline, click a bar to preview a particular change detection cycle. This displays a bar chart, which shows how long the framework spent in change detection for each component. When you click a component, you can preview how long Angular spent evaluating its template and lifecycle hooks.
+Você pode identificar computações pesadas com o profiler do Angular DevTools. Na timeline de performance, clique em uma barra para visualizar um ciclo de change detection específico. Isso exibe um gráfico de barras que mostra quanto tempo o framework gastou em change detection para cada component. Ao clicar em um component, você pode visualizar quanto tempo o Angular gastou avaliando o template e os lifecycle hooks dele.
 
 <img alt="Angular DevTools profiler preview showing slow computation" src="assets/images/best-practices/runtime-performance/slow-computations.png">
 
-For example, in the preceding screenshot, the second recorded change detection cycle is selected. Angular spent over 573 ms on this cycle, with the most time spent in the `EmployeeListComponent`. In the details panel, you can see that Angular spent over 297 ms evaluating the template of the `EmployeeListComponent`.
+Por exemplo, na captura de tela anterior, o segundo ciclo de change detection gravado está selecionado. O Angular gastou mais de 573 ms nesse ciclo, com a maior parte do tempo no `EmployeeListComponent`. No painel de detalhes, você pode ver que o Angular gastou mais de 297 ms avaliando o template do `EmployeeListComponent`.
 
-## Optimizing slow computations
+## Otimizando computações lentas {#optimizing-slow-computations}
 
-Here are several techniques to remove slow computations:
+Aqui estão várias técnicas para remover computações lentas:
 
-- **Optimizing the underlying algorithm**. This is the recommended approach. If you can speed up the algorithm that is causing the problem, you can speed up the entire change detection mechanism.
-- **Caching using pure pipes**. You can move the heavy computation to a pure [pipe](guide/templates/pipes). Angular reevaluates a pure pipe only if it detects that its inputs have changed, compared to the previous time Angular called it.
-- **Using memoization**. [Memoization](https://en.wikipedia.org/wiki/Memoization) is a similar technique to pure pipes, with the difference that pure pipes preserve only the last result from the computation where memoization could store multiple results.
-- **Avoid repaints/reflows in lifecycle hooks**. Certain [operations](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/) cause the browser to either synchronously recalculate the layout of the page or re-render it. Since reflows and repaints are generally slow, you want to avoid performing them in every change detection cycle.
+- **Otimizando o algoritmo subjacente**. Esta é a abordagem recomendada. Se você conseguir acelerar o algoritmo que está causando o problema, poderá acelerar todo o mecanismo de change detection.
+- **Fazendo cache com pure pipes**. Você pode mover a computação pesada para um [pipe](guide/templates/pipes) puro. O Angular reavalia um pure pipe somente se detectar que seus inputs mudaram em relação à última vez em que o Angular o chamou.
+- **Usando memoization**. [Memoization](https://en.wikipedia.org/wiki/Memoization) é uma técnica semelhante aos pure pipes, com a diferença de que pure pipes preservam apenas o último resultado da computação, enquanto a memoization pode armazenar múltiplos resultados.
+- **Evite repaints/reflows em lifecycle hooks**. Certas [operações](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/) fazem com que o navegador recalcule sincronamente o layout da página ou a renderize novamente. Como reflows e repaints geralmente são lentos, você deve evitar executá-los a cada ciclo de change detection.
 
-Pure pipes and memoization have different trade-offs. Pure pipes are an Angular built-in concept compared to memoization, which is a general software engineering practice for caching function results. The memory overhead of memoization could be significant if you invoke the heavy computation frequently with different arguments.
+Pure pipes e memoization têm trade-offs diferentes. Pure pipes são um conceito integrado ao Angular, enquanto a memoization é uma prática geral de engenharia de software para fazer cache de resultados de funções. A sobrecarga de memória da memoization pode ser significativa se você invocar a computação pesada com frequência e com argumentos diferentes.

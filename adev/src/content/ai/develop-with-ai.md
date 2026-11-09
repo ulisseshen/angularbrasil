@@ -1,26 +1,27 @@
-# LLM prompts and AI IDE setup
+<!-- ia-translate: true -->
+# Prompts de LLM e configuração de IDE com IA {#llm-prompts-and-ai-ide-setup}
 
-Generating code with large language models (LLMs) is a rapidly growing area of interest for developers. While LLMs are often capable of generating working code it can be a challenge to generate code for consistently evolving frameworks like Angular.
+Gerar código com modelos de linguagem grandes (LLMs) é uma área de interesse em rápido crescimento para desenvolvedores. Embora os LLMs frequentemente sejam capazes de gerar código funcional, pode ser um desafio gerar código para frameworks em constante evolução como o Angular.
 
-Advanced instructions and prompting are an emerging standard for supporting modern code generation with domain specific details. This section contains curated content and resources to support more accurate code generation for Angular and LLMs.
+Instruções avançadas e prompting são um padrão emergente para dar suporte à geração de código moderna com detalhes específicos de domínio. Esta seção reúne conteúdo e recursos selecionados para apoiar uma geração de código mais precisa para Angular e LLMs.
 
-## Custom Prompts and System Instructions
+## Prompts customizados e instruções de sistema {#custom-prompts-and-system-instructions}
 
-Improve your experience generating code with LLMs by using one of the following custom, domain specific files.
+Melhore sua experiência gerando código com LLMs usando um dos seguintes arquivos customizados e específicos de domínio.
 
-NOTE: These files will be updated on a regular basis staying up to date with Angular's conventions.
+NOTE: Esses arquivos serão atualizados regularmente, acompanhando as convenções do Angular.
 
-Here is a set of instructions to help LLMs generate correct code that follows Angular best practices. This file can be included as system instructions to your AI tooling or included along with your prompt as context.
+Aqui está um conjunto de instruções para ajudar os LLMs a gerar código correto que segue as boas práticas do Angular. Este arquivo pode ser incluído como instruções de sistema nas suas ferramentas de IA ou incluído junto com o seu prompt como contexto.
 
 <docs-code language="md" path="packages/core/resources/best-practices.md" class="compact"/>
 
-<a download href="/assets/context/best-practices.md" target="_blank">Click here to download the best-practices.md file.</a>
+<a download href="/assets/context/best-practices.md" target="_blank">Clique aqui para baixar o arquivo best-practices.md.</a>
 
-## Rules Files
+## Arquivos de regras {#rules-files}
 
-Several tools, such as <a href="https://antigravity.google?utm_source=adev&utm_medium=website&utm_campaign=BUILD_WITH_AI_ANGULAR&utm_term=angular_devrel&utm_content=build_with_ai_angular_antigravity" target="_blank">Antigravity</a> have rules files useful for providing critical context to LLMs.
+Várias ferramentas, como o <a href="https://antigravity.google?utm_source=adev&utm_medium=website&utm_campaign=BUILD_WITH_AI_ANGULAR&utm_term=angular_devrel&utm_content=build_with_ai_angular_antigravity" target="_blank">Antigravity</a>, possuem arquivos de regras úteis para fornecer contexto crítico aos LLMs.
 
-| Environment/IDE      | Rules File                                                                                                             | Installation Instructions                                                                                                                                       |
+| Ambiente/IDE         | Arquivo de regras                                                                                                      | Instruções de instalação                                                                                                                                        |
 | :------------------- | :--------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Antigravity          | <a download href="/assets/context/GEMINI.md" target="_blank">GEMINI.md</a>                                             | <a href="https://antigravity.google/docs/rules-workflows" target="_blank">Configure `GEMINI.md`</a>                                                             |
 | Copilot powered IDEs | <a download="copilot-instructions.md" href="/assets/context/guidelines.md" target="_blank">copilot-instructions.md</a> | <a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions" target="_blank">Configure `.github/copilot-instructions.md`</a> |
@@ -29,17 +30,17 @@ Several tools, such as <a href="https://antigravity.google?utm_source=adev&utm_m
 | VS Code              | <a download=".instructions.md" href="/assets/context/guidelines.md" target="_blank">.instructions.md</a>               | <a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions" target="_blank">Configure `.instructions.md`</a>                |
 | Windsurf             | <a download href="/assets/context/guidelines.md" target="_blank">guidelines.md</a>                                     | <a href="https://docs.windsurf.com/windsurf/cascade/memories#rules" target="_blank">Configure `guidelines.md`</a>                                               |
 
-## Angular CLI MCP Server setup
+## Configuração do Angular CLI MCP Server {#angular-cli-mcp-server-setup}
 
-The Angular CLI includes an experimental [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) that allows AI assistants in your development environment to interact with the Angular CLI.
+O Angular CLI inclui um [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) experimental que permite que assistentes de IA no seu ambiente de desenvolvimento interajam com o Angular CLI.
 
-[**Learn how to set up the Angular CLI MCP Server**](/ai/mcp)
+[**Aprenda a configurar o Angular CLI MCP Server**](/ai/mcp)
 
-## Providing Context with `llms.txt`
+## Fornecendo contexto com `llms.txt` {#providing-context-with-llms-txt}
 
-`llms.txt` is a proposed standard for websites designed to help LLMs better understand and process their content. The Angular team has developed two versions of this file to help LLMs and tools that use LLMs for code generation to create better modern Angular code.
+`llms.txt` é um padrão proposto para sites, projetado para ajudar os LLMs a entender e processar melhor o seu conteúdo. A equipe do Angular desenvolveu duas versões deste arquivo para ajudar os LLMs e as ferramentas que usam LLMs para geração de código a criar código Angular moderno de forma melhor.
 
-- <a href="/llms.txt" target="_blank">llms.txt</a> - an index file providing links to key files and resources.
-- <a href="/assets/context/llms-full.txt" target="_blank">llms-full.txt</a> - a more robust compiled set of resources describing how Angular works and how to build Angular applications.
+- <a href="/llms.txt" target="_blank">llms.txt</a> - um arquivo de índice com links para os arquivos e recursos-chave.
+- <a href="/assets/context/llms-full.txt" target="_blank">llms-full.txt</a> - um conjunto compilado e mais completo de recursos que descreve como o Angular funciona e como construir aplicações Angular.
 
-Be sure to check out the [overview page](/ai) for more information on how to integrate AI into your Angular applications.
+Confira a [página de visão geral](/ai) para mais informações sobre como integrar IA às suas aplicações Angular.
