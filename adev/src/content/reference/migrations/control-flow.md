@@ -11,24 +11,24 @@ Execute o schematic usando o seguinte comando:
 ng generate @angular/core:control-flow
 ```
 
-## Configuration options
+## Opções de configuração {#configuration-options}
 
-The migration supports a few options for fine tuning the migration to your specific needs.
+A migração oferece algumas opções para ajustar a migração às suas necessidades específicas.
 
-### `--path`
+### `--path` {#path}
 
-By default, the migration will update your whole Angular CLI workspace.
-You can limit the migration to a specific sub-directory using this option.
+Por padrão, a migração atualizará todo o seu workspace do Angular CLI.
+Você pode limitar a migração a um subdiretório específico usando esta opção.
 
-### `--format`
+### `--format` {#format}
 
-By default, the migration reformats the templates it touches.
-Disable this option to keep your existing template formatting.
+Por padrão, a migração reformata os templates que ela altera.
+Desative esta opção para manter a formatação existente dos seus templates.
 
-## Breaking changes
+## Mudanças que quebram compatibilidade {#breaking-changes}
 
-### `@for` view reuse
+### Reutilização de view em `@for` {#for-view-reuse}
 
-If a property used in the `track` expression of a `@for` block changes but the object reference remains the same (in-place modification), Angular updates the view's bindings (including component inputs) instead of destroying and recreating the element.
+Se uma propriedade usada na expressão `track` de um bloco `@for` mudar, mas a referência do objeto permanecer a mesma (modificação in-place), o Angular atualiza os bindings da view (incluindo inputs de components) em vez de destruir e recriar o elemento.
 
-This differs from `*ngFor`, which would execute a remount (destroy and recreate) of the element in a similar scenario if the `trackBy` function returned a different value.
+Isso difere de `*ngFor`, que executaria uma remontagem (destruir e recriar) do elemento em um cenário semelhante se a função `trackBy` retornasse um valor diferente.

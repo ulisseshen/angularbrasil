@@ -1,6 +1,6 @@
 <!-- ia-translate: true -->
 
-# Compatibilidade de versão
+# Compatibilidade de versão {#version-compatibility}
 
 As tabelas a seguir descrevem as versões de Node.js, TypeScript e RxJS que cada versão do
 Angular requer.
