@@ -94,7 +94,7 @@ A URL final será 'https://my.base.url/image.png'
 <img ngSrc="image.png" height="600" width="800" />
 ```
 
-Image loaders são mais do que apenas conveniência: eles permitem que você use todas as capacidades do `NgOptimizedImage`. Saiba mais sobre essas otimizações e sobre os loaders integrados para CDNs populares [aqui](/guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage).
+Image loaders são mais do que apenas conveniência: eles permitem que você use todas as capacidades do `NgOptimizedImage`. Saiba mais sobre essas otimizações e sobre os loaders integrados para CDNs populares [aqui](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage).
 
 </docs-step>
 
@@ -102,4 +102,4 @@ Image loaders são mais do que apenas conveniência: eles permitem que você use
 
 Ao adicionar esta directive ao seu fluxo de trabalho, suas imagens agora são carregadas seguindo as melhores práticas, com a ajuda do Angular 🎉
 
-Se quiser aprender mais, confira a [documentação do `NgOptimizedImage`](/guide/image-optimization). Continue com o ótimo trabalho e vamos aprender sobre routing a seguir.
+Se quiser aprender mais, confira a [documentação do `NgOptimizedImage`](guide/image-optimization). Continue com o ótimo trabalho e vamos aprender sobre routing a seguir.
